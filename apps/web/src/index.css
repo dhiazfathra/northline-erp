@@ -179,6 +179,8 @@ input::placeholder, textarea::placeholder { color: rgba(var(--fg), 0.5); }
 @keyframes rfBar { from { width: 0; } to { width: 100%; } }
 @keyframes tdot { 0%, 60%, 100% { transform: translateY(0) scale(0.75); opacity: 0.4; } 30% { transform: translateY(-6px) scale(1.15); opacity: 1; } }
 @keyframes shim { from { background-position: 100% 0; } to { background-position: -200% 0; } }
+@keyframes scan { 0% { top: -60px; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+@keyframes prog { 0% { width: 0; } 55% { width: 72%; } 100% { width: 100%; } }
 @keyframes rowin { from { opacity: 0; transform: translateY(6px); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
 
 @utility glass-card {
