@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { fixedAssetFormSchema, type AssetFile, type FixedAsset, type FixedAssetForm } from '@northline/schemas/fixed-assets'
+import { accounts as fixtureAccounts } from '@northline/schemas/fixtures'
 import { useQuery } from '@tanstack/react-query'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
-import { accounts, assetTotal, categories, codeTypes, departments, expenditures, fixedAssetQuery, locations, methods, useDeleteFixedAsset, useSaveFixedAsset } from '@/api/fixed-assets'
+import { accounts, assetJournals, assetTotal, categories, codeTypes, departments, expenditures, fixedAssetQuery, locations, methods, useDeleteFixedAsset, useSaveFixedAsset } from '@/api/fixed-assets'
 import { Dropdown } from '@/components/dropdown'
 import {
   AlertDialog,
@@ -44,6 +45,9 @@ const faT = {
   gen: { id: 'Umum', en: 'General' },
   exp: { id: 'Pengeluaran', en: 'Expenses' },
   oth: { id: 'Lain-lain', en: 'Other' },
+  his: { id: 'Riwayat', en: 'History' },
+  hisNone: { id: 'Belum ada jurnal untuk aset ini', en: 'No journals for this asset yet' },
+  disposed: { id: 'Dilepas', en: 'Disposed' },
   intan: { id: 'Aset Tak Berwujud', en: 'Intangible Asset' },
   yes: { id: 'Ya', en: 'Yes' },
   method: { id: 'Metode Penyusutan', en: 'Depreciation Method' },
@@ -142,7 +146,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
   const save = useSaveFixedAsset()
   const del = useDeleteFixedAsset()
   const [editing, setEditing] = useState(!asset)
-  const [sec, setSec] = useState<'gen' | 'exp' | 'oth'>('gen')
+  const [sec, setSec] = useState<'gen' | 'exp' | 'oth' | 'his'>('gen')
   const [attOpen, setAttOpen] = useState(false)
   const [dragging, setDragging] = useState(false)
   const [confirmDel, setConfirmDel] = useState(false)
@@ -169,7 +173,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
   const ratio = v.method === methods[2] || !lifeMonths ? 0 : (1200 / lifeMonths) * (v.method === methods[1] ? 2 : 1)
   // straight-line accumulated depreciation up to the last posted run
   const ran = asset?.lastDep && lifeMonths ? Math.max(0, (new Date(asset.lastDep).getFullYear() - new Date(v.use).getFullYear()) * 12 + new Date(asset.lastDep).getMonth() - new Date(v.use).getMonth() + 1) : 0
-  const book = Math.max(v.salvage, total - (v.method === methods[2] ? 0 : ((total - v.salvage) * Math.min(ran, lifeMonths)) / (lifeMonths || 1)))
+  const book = asset?.status === 'disposed' ? 0 : Math.max(v.salvage, total - (v.method === methods[2] ? 0 : ((total - v.salvage) * Math.min(ran, lifeMonths)) / (lifeMonths || 1)))
 
   const onSave = handleSubmit(
     async (data) => {
@@ -211,7 +215,9 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
     { k: 'gen' as const, n: faT.gen, ic: 'ph-light ph-info', err: errGen },
     { k: 'exp' as const, n: faT.exp, ic: 'ph-light ph-receipt', err: !!e.expenses },
     { k: 'oth' as const, n: faT.oth, ic: 'ph-light ph-dots-three-circle', err: !!e.location },
+    ...(asset ? [{ k: 'his' as const, n: faT.his, ic: 'ph-light ph-clock-counter-clockwise', err: false }] : []),
   ]
+  const history = asset ? assetJournals(asset.code) : []
   const inBg = ro ? 'bg-[rgba(var(--fg),.03)]' : 'bg-[rgba(var(--fg),.06)]'
   const inp = cn('w-full rounded-[14px] border border-[rgba(var(--fg),.18)] px-[14px] py-[11px] text-[13px] text-(--ink) outline-none', inBg)
   const accOpts = (type: string) => accounts.filter((a) => a.type === type).map((a) => ({ v: a.code, n: a.name, c: a.code, t: a.type }))
@@ -496,6 +502,31 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                   <Check checked={v.tax} ro={ro} label={t(faT.yes)} onChange={(c) => setValue('tax', c, { shouldDirty: true })} />
                 </div>
               </div>
+            </div>
+          )}
+
+          {sec === 'his' && (
+            <div className="flex animate-[fade_.2s] flex-col gap-3">
+              {history.map((j) => (
+                <div key={j.jv} className="overflow-hidden rounded-[16px] border border-[rgba(var(--fg),.12)]">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[rgba(var(--fg),.1)] px-4 py-[11px] text-[13px]">
+                    <span>
+                      <span className="tabular-nums">{j.jv}</span> · {j.description}
+                    </span>
+                    <span className="text-[11px] tabular-nums opacity-60">{j.date}</span>
+                  </div>
+                  {j.lines.map((l, i) => (
+                    <div key={i} className="grid grid-cols-[1fr_120px_120px] gap-3 px-4 py-2 text-[12.5px]">
+                      <span className="truncate">
+                        <span className="tabular-nums opacity-60">{l.account}</span> {fixtureAccounts.find((a) => a.code === l.account)?.name}
+                      </span>
+                      <span className="text-right tabular-nums">{l.debit ? fmtIdr(l.debit) : ''}</span>
+                      <span className="text-right tabular-nums">{l.credit ? fmtIdr(l.credit) : ''}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              {!history.length && <div className="px-4 py-7 text-center text-[13px] opacity-50">{t(faT.hisNone)}</div>}
             </div>
           )}
 

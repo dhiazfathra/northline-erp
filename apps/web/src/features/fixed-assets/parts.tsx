@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 
-export const fmtIdr = (n: number) => n.toLocaleString('id-ID', { maximumFractionDigits: 0 })
+export const fmtIdr = (n: number) => Math.round(n).toLocaleString('en-US')
 export const parseNum = (s: string) => Number(s.replace(/\D/g, '')) || 0
 /** ISO yyyy-mm-dd → dd/mm/yyyy */
 export const fmtDate = (iso: string) => (iso ? iso.split('-').reverse().join('/') : '')

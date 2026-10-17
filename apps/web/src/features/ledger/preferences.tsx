@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react'
 import { defaultAccountsQuery, featuresQuery, useSaveFeatures } from '@/api/ledger'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
-import { Confirm, ConfirmAction, ConfirmCancel, Frame, btnInk, btnOutline, fmt } from './ui'
+import { idr as fmt } from '@northline/schemas/fixtures'
+import { Confirm, ConfirmAction, ConfirmCancel, Frame, btnInk, btnOutline } from './ui'
 
 const tabs = [
   { id: 'fitur', n: { id: 'Fitur', en: 'Features' } },
@@ -28,6 +29,7 @@ export function Preferences() {
   const [draft, setDraft] = useState<Feature[] | null>(null)
   const [paid, setPaid] = useState<Feature | null>(null)
   const [off, setOff] = useState<Feature | null>(null)
+  const [oneWay, setOneWay] = useState<Feature | null>(null)
   const list = draft ?? data ?? []
   const changed = !!draft && JSON.stringify(draft) !== JSON.stringify(data)
   const cost = list.reduce((s, f) => s + (f.on && f.price ? f.price : 0), 0)
@@ -36,11 +38,15 @@ export function Preferences() {
 
   const set = (id: string, on: boolean) => setDraft(list.map((f) => (f.id === id ? { ...f, on } : f)))
   const toggle = (f: Feature) => {
-    if (f.lockedNote) return
+    if (locked(f)) return
+    if (!f.on && f.oneWay) return setOneWay(f)
     if (!f.on && f.price) return setPaid(f)
     if (f.on && f.hasData) return setOff(f)
     set(f.id, !f.on)
   }
+  // one-way features stay on once enabled
+  const locked = (f: Feature) => !!f.lockedNote || (!!f.oneWay && f.on && !!data?.find((x) => x.id === f.id)?.on)
+  const lockNote = (f: Feature) => f.lockedNote ?? (locked(f) ? t({ id: 'Tidak dapat dinonaktifkan setelah aktif', en: 'Cannot be turned off once enabled' }) : '')
   const groups = [...new Set(list.map((f) => f.group))]
 
   return (
@@ -65,11 +71,11 @@ export function Preferences() {
                 {list
                   .filter((f) => f.group === g)
                   .map((f) => (
-                    <div key={f.id} className={cn('flex items-center gap-3 py-[9px]', f.lockedNote && 'opacity-55')}>
+                    <div key={f.id} className={cn('flex items-center gap-3 py-[9px]', locked(f) && 'opacity-55')}>
                       <Switch.Root
                         checked={f.on}
                         onCheckedChange={() => toggle(f)}
-                        disabled={!!f.lockedNote}
+                        disabled={locked(f)}
                         aria-label={f.name}
                         className="relative h-[22px] w-[38px] flex-none cursor-pointer rounded-[11px] border border-[rgba(var(--fg),.3)] bg-[rgba(var(--fg),.1)] p-0 disabled:cursor-not-allowed data-[state=checked]:bg-(--ink)"
                       >
@@ -87,10 +93,10 @@ export function Preferences() {
                                 : t({ id: 'Nonaktif', en: 'Off' })}
                           </span>
                         </span>
-                        {f.lockedNote && (
+                        {locked(f) && (
                           <span className="flex items-center gap-1 text-[11.5px] opacity-80">
                             <i className="ph-light ph-lock-simple" />
-                            {f.lockedNote}
+                            {lockNote(f)}
                           </span>
                         )}
                       </div>
@@ -157,6 +163,26 @@ export function Preferences() {
           t({
             id: `Mengaktifkan ${paid.name} menambah biaya langganan Rp ${fmt(paid.price ?? 0)} per bulan mulai periode tagihan berikutnya.`,
             en: `Turning on ${paid.name} adds Rp ${fmt(paid.price ?? 0)} per month from the next billing period.`,
+          })}
+      </Confirm>
+      <Confirm
+        open={!!oneWay}
+        onOpenChange={(o) => !o && setOneWay(null)}
+        icon={<i className="ph-light ph-warning text-[20px] text-[#f59e0b]" />}
+        title={t({ id: 'Perhatian', en: 'Warning' })}
+        actions={
+          <>
+            <ConfirmCancel className={btnOutline}>{t({ id: 'Batal', en: 'Cancel' })}</ConfirmCancel>
+            <ConfirmAction className={btnInk} onClick={() => oneWay && set(oneWay.id, true)}>
+              {t({ id: 'Ya, aktifkan', en: 'Yes, enable' })}
+            </ConfirmAction>
+          </>
+        }
+      >
+        {oneWay &&
+          t({
+            id: `Fitur ${oneWay.name} tidak dapat dinonaktifkan kembali setelah disimpan. Lanjutkan?`,
+            en: `${oneWay.name} cannot be turned off again once saved. Continue?`,
           })}
       </Confirm>
       <Confirm

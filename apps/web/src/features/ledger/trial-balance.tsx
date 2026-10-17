@@ -4,14 +4,15 @@ import { useQuery } from '@tanstack/react-query'
 import { Dialog, RadioGroup } from 'radix-ui'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { trialBalanceQuery } from '@/api/ledger'
+import { idr } from '@northline/schemas/fixtures'
+import { TB_FROM, TB_TO, trialBalanceQuery } from '@/api/ledger'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
-import { Frame, Seg, fmt, overlayCls, panelCls } from './ui'
+import { Frame, Seg, overlayCls, panelCls } from './ui'
 
 const grid = 'grid grid-cols-[80px_minmax(160px,1.6fr)_repeat(6,minmax(0,1fr))] gap-2.5'
 const num = 'text-right whitespace-nowrap tabular-nums'
-const cell = (n: number) => (n ? fmt(n) : '0')
+const cell = (n: number) => (n ? idr(n) : '0')
 
 /** [opening D, opening C, mutation D, mutation C, ending D, ending C] */
 function values(a: TbAccount) {
@@ -27,7 +28,7 @@ export function TrialBalance() {
   const rows = (data ?? []).map((a) => ({ a, v: values(a) }))
   const tot = [0, 1, 2, 3, 4, 5].map((i) => rows.reduce((s, r) => s + r.v[i], 0))
   const ok = !isPending && tot[0] === tot[1] && tot[2] === tot[3] && tot[4] === tot[5]
-  const groups = [t({ id: 'Saldo Awal', en: 'Opening' }), t({ id: 'Mutasi', en: 'Movement' }), t({ id: 'Saldo Akhir', en: 'Ending' })]
+  const groups = [t({ id: 'Saldo Awal', en: 'Opening' }), t({ id: 'Perubahan', en: 'Changes' }), t({ id: 'Saldo Akhir', en: 'Ending' })]
 
   return (
     <Frame>
@@ -37,7 +38,7 @@ export function TrialBalance() {
             <div className="text-[11px] tracking-[.5px] uppercase opacity-70">{t({ id: 'Buku Besar', en: 'General Ledger' })}</div>
             <div className="mt-1 text-[22px]">{t({ id: 'Neraca Percobaan', en: 'Trial Balance' })}</div>
           </div>
-          <span className="rounded-[18px] border border-[rgba(var(--fg),.2)] px-3.5 py-2 text-xs">01/10/2026 – 17/10/2026</span>
+          <span className="rounded-[18px] border border-[rgba(var(--fg),.2)] px-3.5 py-2 text-xs">{TB_FROM} – {TB_TO}</span>
         </div>
         <div className="overflow-x-auto">
           <div className="min-w-[900px] text-[12.5px]">

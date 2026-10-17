@@ -7,20 +7,21 @@ import { monthEndRunsQuery, useRunMonthEnd } from '@/api/ledger'
 import { Dropdown } from '@/components/dropdown'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
-import { Confirm, ConfirmAction, Frame, Seg, btnInk, btnOutline, fmt } from './ui'
+import { idr as fmt } from '@northline/schemas/fixtures'
+import { Confirm, ConfirmAction, Frame, Seg, btnInk, btnOutline } from './ui'
 
 const months = {
   id: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
   en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 }
 const years = ['2026', '2025']
-// USD position held in 1-1250 at the book rate; revaluation books the difference.
-const usdBalance = 12_500
-const bookRate = 15_850
+// S5 left USD 100 in 1103 Bank USD at 15,500 (1,550,000); revaluation books the difference.
+const usdBalance = 100
+const bookRate = 15_500
 const cardCls = 'glass-card'
 const jrGrid = 'grid grid-cols-[100px_minmax(0,1.4fr)_minmax(0,1.4fr)_100px_100px] gap-2'
 
-const parseRate = (s: string) => Number(s.replace(/\./g, '').replace(',', '.'))
+const parseRate = (s: string) => Number(s.replace(/,/g, ''))
 
 export function MonthEnd() {
   const t = useT()
@@ -42,11 +43,11 @@ export function MonthEnd() {
 
   const doRun = () =>
     run.mutate(
-      { name: `Proses Akhir Bulan ${periodId}`, date: '17/10/2026', note: `Revaluasi kurs US Dollar ${fmt(r)}` },
+      { name: `Proses Akhir Bulan ${periodId}`, date: '17/10/2026', note: `JV.2026.10.00024 · Revaluasi kurs US Dollar ${fmt(r)}` },
       {
         onSuccess: () => {
           setEarly(false)
-          showToast(t({ id: `Proses akhir bulan ${period} tersimpan`, en: `Month-end for ${period} saved` }))
+          showToast(t({ id: `Proses akhir bulan ${period} tersimpan · JV.2026.10.00024`, en: `Month-end for ${period} saved · JV.2026.10.00024` }))
           setTab('list')
         },
       },
@@ -63,12 +64,12 @@ export function MonthEnd() {
   const jr =
     diff >= 0
       ? [
-          { c: '1-1250', n: 'Bank BCA USD', d: diff, cr: 0 },
-          { c: '7-2000', n: t({ id: 'Laba Selisih Kurs', en: 'Exchange Gain' }), d: 0, cr: diff },
+          { c: '1103', n: 'Bank USD', d: diff, cr: 0 },
+          { c: '720102', n: 'Laba Selisih Kurs Terealisasi', d: 0, cr: diff },
         ]
       : [
-          { c: '7-2100', n: t({ id: 'Rugi Selisih Kurs', en: 'Exchange Loss' }), d: -diff, cr: 0 },
-          { c: '1-1250', n: 'Bank BCA USD', d: 0, cr: -diff },
+          { c: '720102', n: 'Laba Selisih Kurs Terealisasi', d: -diff, cr: 0 },
+          { c: '1103', n: 'Bank USD', d: 0, cr: -diff },
         ]
 
   return (

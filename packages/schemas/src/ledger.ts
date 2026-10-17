@@ -53,6 +53,8 @@ export const featureSchema = z.object({
   lockedNote: z.string().optional(),
   /** Turning it off deletes related settings; asks for confirmation. */
   hasData: z.boolean().optional(),
+  /** Cannot be turned off once enabled; enabling warns first. */
+  oneWay: z.boolean().optional(),
 })
 export type Feature = z.infer<typeof featureSchema>
 
