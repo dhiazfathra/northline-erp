@@ -1,28 +1,18 @@
 import type { Account, AccountInput } from '@northline/schemas/accounts'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { accounts as fixtureAccounts, journals, naturalBalance, parseDate } from '@northline/schemas/fixtures'
 import { mock } from './mock'
 
 const base = { note: '', bank: '', accNo: '', accName: '', opening: 0, openDate: '2026-01-01', allUsers: true, users: [] as string[] }
-const a = (id: string, code: string, name: string, type: string, balance: number, parentId: string | null = null, extra: Partial<Account> = {}): Account => ({
-  ...base, id, code, name, type, balance, parentId, ...extra,
-})
+let accounts: Account[] = fixtureAccounts.map((x) => ({ ...base, id: x.code, code: x.code, name: x.name, type: x.type, parentId: x.parent ?? null, balance: naturalBalance(x.code), contra: x.contra }))
 
-let accounts: Account[] = [
-  a('1100', '1-1000', 'Kas & Setara Kas', 'Kas & Bank', 186_450_000),
-  a('1101', '1-1001', 'Kas Kecil', 'Kas & Bank', 4_250_000, '1100'),
-  a('1102', '1-1002', 'Bank BCA', 'Kas & Bank', 132_700_000, '1100', { bank: 'BCA', accNo: '5410 2288 19', accName: 'PT Harbor Nusantara' }),
-  a('1103', '1-1003', 'Bank Mandiri', 'Kas & Bank', 49_500_000, '1100', { bank: 'Mandiri', accNo: '122 000 4471 902', accName: 'PT Harbor Nusantara' }),
-  a('1200', '1-2000', 'Piutang Usaha', 'Piutang Usaha', 98_320_000),
-  a('1300', '1-3000', 'Persediaan Barang Dagang', 'Persediaan', 241_875_000),
-  a('1500', '1-5000', 'Aset Tetap', 'Aset Tetap', 412_000_000),
-  a('1501', '1-5001', 'Kendaraan', 'Aset Tetap', 285_000_000, '1500'),
-  a('1502', '1-5002', 'Peralatan Kantor', 'Aset Tetap', 127_000_000, '1500'),
-  a('2100', '2-1000', 'Utang Usaha', 'Utang Usaha', -76_540_000),
-  a('3100', '3-1000', 'Modal Disetor', 'Ekuitas', -750_000_000),
-  a('4100', '4-1000', 'Pendapatan Penjualan', 'Pendapatan', -1_245_600_000),
-  a('6100', '6-1000', 'Beban Gaji', 'Beban', 312_450_000),
-  a('6200', '6-2000', 'Beban Sewa', 'Beban', 84_000_000),
-]
+/** Journal lines posted to an account or any of its descendants, oldest first. */
+export function accountLines(code: string) {
+  const own = (c: string): boolean => !!c && (c === code || own(fixtureAccounts.find((x) => x.code === c)?.parent ?? ''))
+  return journals
+    .flatMap((j) => j.lines.filter((l) => own(l.account)).map((l) => ({ ...l, jv: j.jv, no: j.no, date: j.date, description: j.description })))
+    .sort((x, y) => parseDate(x.date) - parseDate(y.date))
+}
 
 export const accountUsers = ['Dhiaz Fathra', 'Arif Santoso', 'Rina Wulandari', 'Budi Hartono']
 export const bankOptions = ['BCA', 'Mandiri', 'BNI', 'BRI', 'CIMB Niaga']

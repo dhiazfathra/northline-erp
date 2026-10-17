@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { accountInputSchema, accountTypes, type Account, type AccountInput } from '@northline/schemas/accounts'
-import { accountUsers, bankOptions, toTree, useAccounts, useDeleteAccount, useSaveAccount } from '@/api/accounts'
+import { accountLines, accountUsers, bankOptions, toTree, useAccounts, useDeleteAccount, useSaveAccount } from '@/api/accounts'
 import { Dropdown } from '@/components/dropdown'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useShell, useT } from '@/lib/shell'
@@ -16,6 +16,7 @@ const T = {
   parent: { id: 'Akun Induk', en: 'Parent Account' }, code: { id: 'Kode Perkiraan', en: 'Account Code' }, name: { id: 'Nama', en: 'Name' },
   hint: { id: 'Nama akan tampil di laporan keuangan', en: 'Shown on financial statements' }, cur: { id: 'Mata Uang', en: 'Currency' }, note: { id: 'Catatan', en: 'Notes' },
   voucher: { id: 'Nama di Voucher', en: 'Voucher Name' }, nowBal: { id: 'Saldo Saat Ini', en: 'Current Balance' }, bal: { id: 'Saldo', en: 'Balance' },
+  lines: { id: 'Rincian Jurnal', en: 'Journal Lines' }, noLines: { id: 'Belum ada transaksi', en: 'No transactions yet' }, debit: { id: 'Debit', en: 'Debit' }, credit: { id: 'Kredit', en: 'Credit' },
   nowNote: { id: 'Saldo dihitung dari seluruh transaksi yang telah diposting per 17/10/2026.', en: 'Balance is computed from all posted transactions as of 17/10/2026.' },
   bankInfo: { id: 'Informasi Bank', en: 'Bank Info' }, bank: { id: 'Bank', en: 'Bank' }, accNo: { id: 'No. Rekening', en: 'Account No.' }, accName: { id: 'Atas Nama', en: 'Account Holder' },
   openT: { id: 'Saldo Awal', en: 'Opening Balance' }, amt: { id: 'Jumlah', en: 'Amount' }, asOf: { id: 'Per Tanggal', en: 'As of' },
@@ -146,11 +147,23 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                   <div className="flex flex-col gap-[10px] rounded-[18px] bg-[rgba(var(--fg),.06)] px-[18px] py-[16px]">
                     <div className="flex items-center justify-between gap-[12px]">
                       <span className="flex items-center gap-[8px] text-[12px] opacity-70"><i className="ph-light ph-wallet text-[16px]" />{t(T.bal)}</span>
-                      <span className={`text-[24px] font-extralight tabular-nums ${acc.balance < 0 ? 'text-[#ef4444]' : ''}`}>Rp {fmtIdr(acc.balance, lang)}</span>
+                      <span className={`text-[24px] font-extralight tabular-nums ${acc.balance < 0 ? 'text-[#ef4444]' : ''}`}>Rp {acc.contra && acc.balance ? '-' : ''}{fmtIdr(acc.balance)}</span>
                     </div>
                     <div className="flex gap-[8px] border-t border-[rgba(var(--fg),.1)] pt-[10px] text-[11px] opacity-60">
                       <i className="ph-light ph-info text-[14px]" /><span className="text-pretty">{t(T.nowNote)}</span>
                     </div>
+                  </div>
+                  <div className="border-b border-[rgba(var(--fg),.12)] py-[10px] text-[16px]">{t(T.lines)}</div>
+                  <div className="flex flex-col text-[12px]">
+                    {accountLines(acc.code).map((l, i) => (
+                      <div key={i} className="grid grid-cols-[1fr_auto_auto] gap-x-[12px] border-b border-[rgba(var(--fg),.07)] py-[8px]">
+                        <span className="min-w-0 truncate tabular-nums">{l.jv}{l.no !== l.jv && <span className="opacity-55"> · {l.no}</span>}</span>
+                        <span className="w-[96px] text-right tabular-nums">{l.debit ? fmtIdr(l.debit) : ''}</span>
+                        <span className="w-[96px] text-right tabular-nums">{l.credit ? fmtIdr(l.credit) : ''}</span>
+                        <span className="col-span-3 truncate text-[11px] opacity-55">{l.date} · {l.description}</span>
+                      </div>
+                    ))}
+                    {!accountLines(acc.code).length && <div className="py-[12px] text-center opacity-55">{t(T.noLines)}</div>}
                   </div>
                 </>
               )}
@@ -173,7 +186,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
             <Field label={t(T.amt)}>
               <span className="field flex items-center overflow-hidden">
                 <span className="px-[12px] text-[12px] opacity-55">Rp</span>
-                <input inputMode="numeric" value={v.opening ? fmtIdr(v.opening, lang) : ''}
+                <input inputMode="numeric" value={v.opening ? fmtIdr(v.opening) : ''}
                   onChange={(e) => setValue('opening', Number(e.target.value.replace(/\D/g, '')) || 0, { shouldDirty: true })}
                   className="min-w-0 flex-1 border-none bg-transparent py-[11px] pr-[14px] text-right text-[13px] tabular-nums text-[var(--ink)] outline-none" />
               </span>

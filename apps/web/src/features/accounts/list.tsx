@@ -10,11 +10,12 @@ import { AccountsFrame, fmtIdr } from './header'
 const grid = 'grid grid-cols-[1fr_2.4fr_1.2fr_1.1fr] gap-[12px] px-[22px]'
 
 export function AccountsList() {
-  const { L, lang, refreshing } = useShell()
+  const { L, refreshing } = useShell()
   const t = useT()
   const nav = useNavigate()
   const { data, isPending } = useAccounts()
   const [q, setQ] = useState('')
+  const [draft, setDraft] = useState('')
   const [type, setType] = useState('')
   const typeLbl = t({ id: 'Tipe', en: 'Type' })
   const rows = toTree(data ?? []).filter(
@@ -23,7 +24,7 @@ export function AccountsList() {
   return (
     <AccountsFrame>
       <div className="mb-[14px] flex flex-wrap items-center gap-[8px]">
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t({ id: 'Ketik dan [Enter]', en: 'Type and [Enter]' })}
+        <input value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && setQ(draft)} placeholder={t({ id: 'Ketik dan [Enter]', en: 'Type and [Enter]' })}
           className="min-w-0 max-w-[320px] flex-[1_1_220px] rounded-[18px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-[14px] py-[9px] text-[12px] text-[var(--ink)] outline-none" />
         <div className="w-[170px] flex-none">
           <Dropdown value={type} options={[...accountTypes]} onSelect={setType} placeholder={`${typeLbl}: ${t({ id: 'Semua', en: 'All' })}`}
@@ -51,7 +52,7 @@ export function AccountsList() {
                 <span style={pad} className={`tabular-nums ${wt}`}>{r.code}</span>
                 <span style={pad} className={`truncate ${wt}`}>{r.name}</span>
                 <span className="opacity-75">{r.type}</span>
-                <span className={`text-right tabular-nums ${r.balance < 0 ? 'text-[#ef4444]' : ''}`}>{fmtIdr(r.balance, lang)}</span>
+                <span className={`text-right tabular-nums ${r.balance < 0 ? 'text-[#ef4444]' : ''}`}>{r.contra && r.balance ? '-' : ''}{fmtIdr(r.balance)}</span>
               </div>
             )
           })}

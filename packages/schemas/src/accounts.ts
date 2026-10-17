@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
-export const accountTypes = ['Kas & Bank', 'Piutang Usaha', 'Persediaan', 'Aset Tetap', 'Utang Usaha', 'Ekuitas', 'Pendapatan', 'Beban'] as const
+import { accounts } from './fixtures'
+
+export const accountTypes: string[] = [...new Set(accounts.map((a) => a.type))]
 
 export const accountInputSchema = z
   .object({
@@ -21,4 +23,4 @@ export const accountInputSchema = z
   .refine((v) => !v.isSub || v.parentId, { path: ['parentId'] })
 export type AccountInput = z.infer<typeof accountInputSchema>
 
-export type Account = Omit<AccountInput, 'isSub' | 'parentId'> & { id: string; parentId: string | null; balance: number }
+export type Account = Omit<AccountInput, 'isSub' | 'parentId'> & { id: string; parentId: string | null; balance: number; contra?: boolean }

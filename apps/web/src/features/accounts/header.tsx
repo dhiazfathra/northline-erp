@@ -1,8 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import { idr } from '@northline/schemas/fixtures'
 import { useShell, useT } from '@/lib/shell'
 
-export const fmtIdr = (n: number, lang: string) => (n < 0 ? '-' : '') + Math.abs(n).toLocaleString(lang === 'id' ? 'id-ID' : 'en-US')
+export const fmtIdr = (n: number) => idr(n)
 
 const list = { id: 'Daftar', en: 'List' }
 
