@@ -38,3 +38,6 @@ next-env.d.ts
 # agentic
 .serena
 .tokensave
+
+node_modules
+dist
