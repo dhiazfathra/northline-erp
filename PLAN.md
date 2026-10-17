@@ -18,43 +18,59 @@ replace them.
 
 ## App shell (every screen)
 
-- [ ] Theme tokens: dark/light mode (`--fg`, `--ink`, `--paper`, `--card`, background gradient), Outfit font, Phosphor icons, glass scrollbars, keyframes
-- [ ] Header: Northline logo (3×3 dots), ledger label, current workspace link, mode toggle, ID/EN toggle, "All modules" button, avatar + profile menu (switch workspace, sign out)
-- [ ] Browser-style tab bar: open tabs (dot, label, dirty "● edit", close, middle-click close), "+" opens mega menu, refresh button (spinner + loader + row fade), tab-count menu (open tabs list, close others, close all)
-- [ ] Mega menu overlay (all modules, grouped)
-- [ ] Global search overlay (search modules/pages, no-match state)
-- [ ] Toast
-- [ ] Responsive: mobile / tablet / desktop breakpoints (`isMobile`, `notMobile`, `isDesktop`)
+- [x] Theme tokens: dark/light mode (`--fg`, `--ink`, `--paper`, `--card`, background gradient), Outfit font, Phosphor icons, glass scrollbars, keyframes
+- [x] Header: Northline logo (3×3 dots), ledger label, current workspace link, mode toggle, ID/EN toggle, "All modules" button, avatar + profile menu (switch workspace, sign out)
+- [x] Browser-style tab bar: open tabs (dot, label, dirty "● edit", close, middle-click close), "+" opens mega menu, refresh button (spinner + loader + row fade), tab-count menu (open tabs list, close others, close all)
+- [x] Mega menu overlay (all modules, grouped)
+- [x] Global search overlay (search modules/pages, no-match state)
+- [x] Toast
+- [x] Responsive: mobile / tablet / desktop breakpoints (`isMobile`, `notMobile`, `isDesktop`)
 
 ## Screens (one route each)
 
-- [ ] `/` Overview: quick-action chips, "+" new, KPI cards with dot-matrix charts + delta badge + pager, gradient review cards, module groups with search + "view all"
-- [ ] `/modules/$moduleId` Module list: filter chips, new button, table (desktop) / list (mobile), status pills
-- [ ] `/docs/$docType` Transaction document: sub-tabs (list + open forms, closable), filter chips, search input, table/list; "new" form (party, date, auto number toggle, item detail grid, add/remove items, empty state, subtotal/discount/total, save/cancel)
-- [ ] `/ledger/trial-balance` Neraca Percobaan: grouped debit/credit columns, totals, balanced indicator
-- [ ] `/cash-bank/reconciliation` Rekonsiliasi Bank: bank dropdown, date range, refresh, hint state, book entries with present/confirm, statement panel, matched list, empty state
-- [ ] `/ledger/month-end` Proses Akhir Bulan: tabs (new/list), month/year dropdowns, exchange rate input, early-close confirm, generated journal preview, save; history list
-- [ ] `/settings/preferences` Preferensi: vertical tabs, feature switches with locked notes + cost, default accounts grid, other-tab placeholder, save
-- [ ] `/asset-modules` Asset module list, `/asset-modules/new` form, `/asset-modules/by-location` report
-- [ ] `/ai/history` AI chat history: search, list, continue/delete, empty state
-- [ ] `/fixed-assets` Fixed asset list; `/fixed-assets/new`, `/fixed-assets/$assetId` form (general / expense / other sections, read-only vs edit, auto vs manual depreciation, attachments, process menu, more menu)
-- [ ] `/accounts` Chart of accounts list (tree, empty); `/accounts/new`, `/accounts/$accountId` form (general, sub-accounts, opening balance, users sections; bank fields)
-- [ ] `/reports` Report list: category sidebar, search, report cards
-- [ ] `/reports/$reportId` Report view: toolbar (back, zoom in/out, export, AI), paper preview with loading, parameters dialog, edit layout dialog (tabs), AI analysis panel (chat, history, feedback)
-- [ ] `/workspaces` Switch tenant: current, list/grid, search, invites (accept/decline), empty
-- [ ] `/workspaces/new` Create tenant form (name, alias, type, industry, employees, logo)
-- [ ] `/auth` Sign in (fields, password toggle, strength meter)
+- [x] `/` Overview: quick-action chips, "+" new, KPI cards with dot-matrix charts + delta badge + pager, gradient review cards, module groups with search + "view all"
+- [x] `/modules/$moduleId` Module list: filter chips, new button, table (desktop) / list (mobile), status pills
+- [x] `/docs/$docType` Transaction document: sub-tabs (list + open forms, closable), filter chips, search input, table/list; "new" form (party, date, auto number toggle, item detail grid, add/remove items, empty state, subtotal/discount/total, save/cancel)
+- [x] `/ledger/trial-balance` Neraca Percobaan: grouped debit/credit columns, totals, balanced indicator
+- [x] `/cash-bank/reconciliation` Rekonsiliasi Bank: bank dropdown, date range, refresh, hint state, book entries with present/confirm, statement panel, matched list, empty state
+- [x] `/ledger/month-end` Proses Akhir Bulan: tabs (new/list), month/year dropdowns, exchange rate input, early-close confirm, generated journal preview, save; history list
+- [x] `/settings/preferences` Preferensi: vertical tabs, feature switches with locked notes + cost, default accounts grid, other-tab placeholder, save
+- [x] `/asset-modules` Asset module list, `/asset-modules/new` form, `/asset-modules/by-location` report
+- [x] `/ai/history` AI chat history: search, list, continue/delete, empty state
+- [x] `/fixed-assets` Fixed asset list; `/fixed-assets/new`, `/fixed-assets/$assetId` form (general / expense / other sections, read-only vs edit, auto vs manual depreciation, attachments, process menu, more menu)
+- [x] `/accounts` Chart of accounts list (tree, empty); `/accounts/new`, `/accounts/$accountId` form (general, sub-accounts, opening balance, users sections; bank fields)
+- [x] `/reports` Report list: category sidebar, search, report cards
+- [x] `/reports/$reportId` Report view: toolbar (back, zoom in/out, export, AI), paper preview with loading, parameters dialog, edit layout dialog (tabs), AI analysis panel (chat, history, feedback)
+- [x] `/workspaces` Switch tenant: current, list/grid, search, invites (accept/decline), empty
+- [x] `/workspaces/new` Create tenant form (name, alias, type, industry, employees, logo)
+- [x] `/auth` Sign in (fields, password toggle, strength meter)
 
 ## Dialogs & flows
 
-- [ ] Drawer (record detail)
-- [ ] Generic modal (new transaction: counterparty, amount, due)
-- [ ] Confirm dialogs: unsaved changes (close without saving), delete ("Ya, hapus"), process error, journal detail, activate
-- [ ] Forms validated with Zod schemas from `@northline/schemas`
+- [x] Drawer (record detail)
+- [x] Generic modal (new transaction: counterparty, amount, due)
+- [x] Confirm dialogs: unsaved changes (close without saving), delete ("Ya, hapus"), process error, journal detail, activate
+- [x] Forms validated with Zod schemas from `@northline/schemas`
 
 ## Verification
 
-- [ ] `pnpm typecheck`, `pnpm lint`, `pnpm build` clean
-- [ ] Every route opened and screenshotted in a browser, compared with the design
-- [ ] Every flow clicked through
-- [ ] Everything pushed to `main`
+- [x] `pnpm typecheck`, `pnpm lint`, `pnpm build` clean
+- [x] Every route opened and screenshotted in a browser, compared with the design
+- [x] Every flow clicked through
+- [x] Everything pushed to `main`
+
+## Verification log (2026-10-18)
+
+- `pnpm typecheck`, `pnpm lint`, `pnpm build`: clean.
+- 20 routes screenshotted at 1440 and 390 (dark) plus 5 in light mode: no console errors.
+- Scripted click-through (Playwright), 12/12 pass: mega menu → page + tab, ⌘K search, ID/EN toggle,
+  doc form add item + dirty tab + save, dirty-tab close confirm, trial-balance journal dialog +
+  required error, overview new-transaction modal → toast, report params → view → AI panel,
+  workspace switch, fixed-asset validation, account row → form, AI-history delete confirm.
+
+## Known deviations (script missing from the design file)
+
+- Mock data, ID/EN copy and responsive values (column ratios, font sizes, card heights) are inferred.
+- Auth screen past the password field is inferred; no strength meter on sign-in.
+- Asset-module date field is a plain input; fixed-asset Edit lives in the "more" menu.
+- Behaviour-less template elements stay inert (overview lower tabs, doc row click, default-account fields).
