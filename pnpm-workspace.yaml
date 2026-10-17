@@ -1,3 +1,6 @@
 packages:
   - apps/*
   - packages/*
+permissions:
+  '@tanstack/router-plugin':
+    skills: true
