@@ -26,7 +26,7 @@ export function Header() {
   const navigate = useNavigate()
   const ws = useCurrentWorkspace()
   return (
-    <div className={cn('relative z-20 flex flex-none items-center justify-between gap-3', isMobile ? 'px-4 pt-4 pb-3' : 'px-8 pt-5 pb-4')}>
+    <div className={cn('relative z-20 flex flex-none items-center justify-between', isMobile ? 'gap-2 px-4 pt-4 pb-3' : 'gap-3 px-8 pt-5 pb-4')}>
       <Link to="/" className="flex cursor-pointer items-center gap-3.5">
         <span className="grid grid-cols-[repeat(3,3px)] gap-[3px]">
           {Array.from({ length: 9 }, (_, i) => (
@@ -41,14 +41,14 @@ export function Header() {
           </>
         )}
       </Link>
-      <div className={cn('flex items-center text-xs', isMobile ? 'gap-2' : 'gap-3.5')}>
+      <div className={cn('flex min-w-0 items-center', isMobile ? 'gap-1.5 text-[11px]' : 'gap-3.5 text-xs')}>
         {isDesktop && ws.data && (
           <Link to="/workspaces" className="cursor-pointer whitespace-nowrap opacity-45 hover:opacity-90">
             {ws.data.name}
           </Link>
         )}
-        <Segmented value={mode} onChange={setMode} pad="px-[11px]" options={[{ v: 'dark', n: lang === 'id' ? 'Gelap' : 'Dark' }, { v: 'light', n: lang === 'id' ? 'Terang' : 'Light' }]} />
-        <Segmented value={lang} onChange={setLang} pad="px-[9px]" options={[{ v: 'id', n: 'ID' }, { v: 'en', n: 'EN' }]} />
+        <Segmented value={mode} onChange={setMode} pad={isMobile ? 'px-2' : 'px-[11px]'} options={[{ v: 'dark', n: lang === 'id' ? 'Gelap' : 'Dark' }, { v: 'light', n: lang === 'id' ? 'Terang' : 'Light' }]} />
+        <Segmented value={lang} onChange={setLang} pad={isMobile ? 'px-1.5' : 'px-[9px]'} options={[{ v: 'id', n: 'ID' }, { v: 'en', n: 'EN' }]} />
         <button
           type="button"
           onClick={() => setMegaOpen(!megaOpen)}

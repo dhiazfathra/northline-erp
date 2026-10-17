@@ -15,8 +15,9 @@ export function useTabMeta() {
     if (path === OVERVIEW) return { label: lang === 'id' ? 'Ringkasan' : 'Overview', mod: 'Northline', dot: '#22c55e' }
     const hit = navFor(path)
     if (!hit) return { label: path, mod: '', dot: 'rgba(var(--fg),.5)' }
-    const isForm = /\/(new|[^/]*\d[^/]*)$/.test(path) && path !== hit.sub.to
-    const label = t(hit.sub.label) + (isForm ? (path.endsWith('/new') ? (lang === 'id' ? ' · Baru' : ' · New') : ` · ${path.split('/').pop()}`) : '')
+    const slug = path.slice(hit.sub.to!.length + 1)
+    const detail = !slug ? '' : slug === 'new' ? (lang === 'id' ? 'Baru' : 'New') : decodeURIComponent(slug).replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase())
+    const label = detail ? `${t(hit.sub.label)} · ${detail}` : t(hit.sub.label)
     return { label, mod: t(hit.mod.name), dot: kindColor[hit.sub.kind] }
   }
 }
