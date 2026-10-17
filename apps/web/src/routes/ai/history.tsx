@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { AiHistory } from '@/features/ai/ai-history'
 
-export const Route = createFileRoute('/ai/history')({ component: () => <div className="p-8">TODO /ai/history</div> })
+export const Route = createFileRoute('/ai/history')({ component: AiHistory })
