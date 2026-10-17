@@ -8,7 +8,7 @@ const workspaces: Workspace[] = [
   { id: 'lumen', name: 'CV Lumen Abadi', alias: 'Lumen', type: 'Manufaktur', role: 'Akuntan', lastOpened: '30/09/2026', color: '#38bdf8' },
   { id: 'tidal', name: 'Tidal Logistics', alias: 'Tidal', type: 'Jasa', role: 'Viewer', lastOpened: '02/09/2026', color: '#f59e0b' },
 ]
-const invites: Invite[] = [{ id: 'inv-1', workspace: 'PT Sinar Pesisir', invitedBy: 'Arif Santoso' }]
+const invites: Invite[] = [{ id: 'inv-1', workspace: 'PT Sinar Pesisir', invitedBy: 'Arif Santoso', role: 'Akuntan' }]
 let currentId = 'harbor'
 
 export const workspacesQuery = queryOptions({ queryKey: ['workspaces'], queryFn: () => mock(workspaces) })
@@ -38,7 +38,7 @@ export function useRespondInvite() {
       const i = invites.findIndex((x) => x.id === id)
       const [inv] = invites.splice(i, 1)
       if (accept && inv)
-        workspaces.push({ id: inv.id, name: inv.workspace, alias: inv.workspace, type: 'Dagang', role: 'Anggota', lastOpened: '—', color: '#22c55e' })
+        workspaces.push({ id: inv.id, name: inv.workspace, alias: inv.workspace, type: 'Dagang', role: inv.role, lastOpened: '—', color: '#22c55e' })
       return mock(null, 200)
     },
     onSuccess: () => qc.invalidateQueries(),
@@ -49,7 +49,7 @@ export function useCreateWorkspace() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (input: CreateWorkspaceInput) => {
-      const ws: Workspace = { id: `ws-${workspaces.length + 1}`, name: input.name, alias: input.alias || input.name, type: input.type, role: 'Pemilik', lastOpened: '17/10/2026', color: '#ec4899' }
+      const ws: Workspace = { id: `ws-${workspaces.length + 1}`, name: input.name, alias: input.alias, type: input.type, role: 'Pemilik', lastOpened: '17/10/2026', color: '#ec4899' }
       workspaces.push(ws)
       currentId = ws.id
       return mock(ws, 500)

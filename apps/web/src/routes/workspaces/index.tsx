@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { WorkspaceSwitcher } from '@/features/workspaces/switcher'
 
-export const Route = createFileRoute('/workspaces/')({ component: () => <div className="p-8">TODO /workspaces/</div> })
+export const Route = createFileRoute('/workspaces/')({ component: () => <WorkspaceSwitcher /> })
