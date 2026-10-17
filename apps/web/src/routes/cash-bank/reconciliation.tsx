@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Reconciliation } from '@/features/ledger/reconciliation'
 
-export const Route = createFileRoute('/cash-bank/reconciliation')({ component: () => <div className="p-8">TODO /cash-bank/reconciliation</div> })
+export const Route = createFileRoute('/cash-bank/reconciliation')({ component: Reconciliation })

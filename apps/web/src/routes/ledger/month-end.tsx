@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { MonthEnd } from '@/features/ledger/month-end'
 
-export const Route = createFileRoute('/ledger/month-end')({ component: () => <div className="p-8">TODO /ledger/month-end</div> })
+export const Route = createFileRoute('/ledger/month-end')({ component: MonthEnd })
