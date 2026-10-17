@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import "./shadcn-tailwind.css";
 @import "@fontsource/outfit/200.css";
 @import "@fontsource/outfit/300.css";
 @import "@fontsource/outfit/400.css";
