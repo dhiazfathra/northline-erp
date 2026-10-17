@@ -214,49 +214,64 @@ export function OverviewScreen() {
                       <div className="text-[15px]">{t(g.title)}</div>
                       <div className="mt-[4px] text-[10.5px] opacity-50">{t(g.sub)}</div>
                     </div>
-                    <button
-                      type="button"
-                      className="flex-none cursor-pointer whitespace-nowrap rounded-[16px] bg-[rgba(var(--fg),.1)] px-[14px] py-[8px] text-[11.5px] hover:bg-[rgba(var(--fg),.2)]"
-                      onClick={() => go(g.to)}
-                    >
-                      {L.viewAll}
-                    </button>
+                    {g.to && (
+                      <button
+                        type="button"
+                        className="flex-none cursor-pointer whitespace-nowrap rounded-[16px] bg-[rgba(var(--fg),.1)] px-[14px] py-[8px] text-[11.5px] hover:bg-[rgba(var(--fg),.2)]"
+                        onClick={() => g.to && go(g.to)}
+                      >
+                        {L.viewAll}
+                      </button>
+                    )}
                   </div>
                   <div className={cn('no-scrollbar mt-[10px] grid gap-[8px]', isMobile ? 'grid-cols-[repeat(3,minmax(140px,1fr))] overflow-x-auto' : 'grid-cols-3')}>
-                    {g.tiles.map((tl) => (
-                      <button
-                        key={tl.to}
-                        type="button"
-                        className={cn(
-                          'glass-card box-border flex cursor-pointer flex-col justify-between rounded-[20px] border-[rgba(var(--fg),.1)] p-[16px] text-left shadow-[inset_0_1px_0_rgba(var(--fg),.12)] transition-[background,height] duration-300 hover:bg-[rgba(var(--fg),.09)]',
-                          compact ? 'h-[96px]' : 'h-[150px]',
-                        )}
-                        onClick={() => go(tl.to)}
-                      >
-                        <div className="flex w-full items-start justify-between">
-                          <span className="max-w-[90px] text-[12px] leading-[1.25]">{t(tl.label)}</span>
-                          <span className="flex size-[30px] flex-none items-center justify-center rounded-full bg-[rgba(var(--fg),.07)]">
-                            <Arrow size={12} />
-                          </span>
+                    {g.tiles.map((tl) =>
+                      tl.off ? (
+                        <div
+                          key={tl.label.en}
+                          aria-disabled="true"
+                          title={t(tl.off)}
+                          className={cn('box-border flex cursor-not-allowed flex-col justify-between rounded-[20px] border border-dashed border-[rgba(var(--fg),.3)] p-[16px] opacity-55', compact ? 'h-[96px]' : 'h-[150px]')}
+                        >
+                          <div className="flex w-full items-start justify-between">
+                            <span className="max-w-[90px] text-[12px] leading-[1.25]">{t(tl.label)}</span>
+                            <i className="ph-light ph-lock-simple text-[16px]" />
+                          </div>
+                          <span className="text-[10.5px] leading-[1.3]">{t(tl.off)}</span>
                         </div>
-                        <div className="flex w-full items-end justify-between">
-                          <div className="flex items-start gap-[3px]">
-                            <span className={cn('font-extralight leading-[.9]', compact ? 'text-[24px]' : 'text-[34px]')}>{tl.v}</span>
-                            <span className="text-[9px]" style={{ color: tl.up ? '#22c55e' : '#f87171' }}>
-                              {tl.d}
+                      ) : (
+                        <button
+                          key={tl.label.en}
+                          type="button"
+                          className={cn(
+                            'glass-card box-border flex cursor-pointer flex-col justify-between rounded-[20px] border-[rgba(var(--fg),.1)] p-[16px] text-left shadow-[inset_0_1px_0_rgba(var(--fg),.12)] transition-[background,height] duration-300 hover:bg-[rgba(var(--fg),.09)]',
+                            compact ? 'h-[96px]' : 'h-[150px]',
+                          )}
+                          onClick={() => tl.to && go(tl.to)}
+                        >
+                          <div className="flex w-full items-start justify-between">
+                            <span className="max-w-[90px] text-[12px] leading-[1.25]">{t(tl.label)}</span>
+                            <span className="flex size-[30px] flex-none items-center justify-center rounded-full bg-[rgba(var(--fg),.07)]">
+                              <Arrow size={12} />
                             </span>
                           </div>
-                          <div className="flex flex-col items-end gap-[8px]">
-                            <span className="text-[9px] opacity-45">{period}</span>
-                            <div className="flex h-[16px] items-end gap-[2px]">
-                              {tl.bars.map((h, i) => (
-                                <span key={i} className="w-[1.5px]" style={{ height: h, background: i === tl.bars.length - 1 ? '#ec4899' : 'rgba(var(--fg),.35)' }} />
-                              ))}
+                          <div className="flex w-full items-end justify-between">
+                            <div className="flex items-start gap-[3px]">
+                              <span className={cn('font-extralight leading-[.9]', compact ? 'text-[24px]' : 'text-[34px]')}>{tl.v}</span>
+                              <span className="text-[9px] opacity-50">{tl.d}</span>
+                            </div>
+                            <div className="flex flex-col items-end gap-[8px]">
+                              <span className="text-[9px] opacity-45">{period}</span>
+                              <div className="flex h-[16px] items-end gap-[2px]">
+                                {tl.bars.map((h, i) => (
+                                  <span key={i} className="w-[1.5px]" style={{ height: h, background: i === tl.bars.length - 1 ? '#ec4899' : 'rgba(var(--fg),.35)' }} />
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </button>
-                    ))}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
               ))

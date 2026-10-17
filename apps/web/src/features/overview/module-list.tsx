@@ -28,6 +28,7 @@ const initials = (s: string) =>
     .map((w) => w[0])
     .join('')
     .toUpperCase()
+const balHead: Record<string, { id: string; en: string }> = { items: { id: 'Sisa Stok', en: 'Stock on hand' }, taxes: { id: 'Tarif', en: 'Rate' } }
 const COLS = 'grid-cols-[2fr_1.4fr_1fr_1fr_40px]'
 
 export function ModuleList({ moduleId }: { moduleId: string }) {
@@ -48,7 +49,7 @@ export function ModuleList({ moduleId }: { moduleId: string }) {
       lines: [
         { a: { id: 'Kode', en: 'Code' }, b: r.id },
         { a: { id: 'Kontak', en: 'Contact' }, b: r.contact },
-        { a: { id: 'Saldo', en: 'Balance' }, b: `${r.bal} IDR` },
+        { a: balHead[moduleId] ?? { id: 'Saldo', en: 'Balance' }, b: r.bal },
         { a: { id: 'Status', en: 'Status' }, b: t(status[r.status].name) },
       ],
       cta: { id: 'Buka detail', en: 'Open details' },
@@ -77,7 +78,7 @@ export function ModuleList({ moduleId }: { moduleId: string }) {
           <div className={cn('grid border-b border-[rgba(var(--fg),.12)] px-[22px] py-[14px] text-[11px] opacity-55', COLS)}>
             <span>{L.name}</span>
             <span>{L.contact}</span>
-            <span>{L.balance}</span>
+            <span>{balHead[moduleId] ? t(balHead[moduleId]) : L.balance}</span>
             <span>{L.status}</span>
             <span />
           </div>

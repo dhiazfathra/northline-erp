@@ -26,8 +26,16 @@ export type Kpi = z.infer<typeof kpiSchema>
 export const reviewCardSchema = z.object({ id: z.string(), title: t, text: t, bg: z.string(), record: drawerRecordSchema })
 export type ReviewCard = z.infer<typeof reviewCardSchema>
 
-export const tileSchema = z.object({ label: t, v: z.string(), d: z.string(), up: z.boolean(), bars: z.array(z.number()), to: z.string() })
-export const moduleGroupSchema = z.object({ title: t, sub: t, to: z.string(), tiles: z.array(tileSchema) })
+export const tileSchema = z.object({
+  label: t,
+  v: z.string(),
+  d: z.string(),
+  bars: z.array(z.number()),
+  to: z.string().optional(),
+  /** Locked tile: names the Preferensi switch that enables it. */
+  off: t.optional(),
+})
+export const moduleGroupSchema = z.object({ title: t, sub: t, to: z.string().optional(), tiles: z.array(tileSchema) })
 export type ModuleGroup = z.infer<typeof moduleGroupSchema>
 
 export const overviewSchema = z.object({
