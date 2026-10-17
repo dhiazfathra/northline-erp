@@ -74,3 +74,24 @@ replace them.
 - Auth screen past the password field is inferred; no strength meter on sign-in.
 - Asset-module date field is a plain input; fixed-asset Edit lives in the "more" menu.
 - Behaviour-less template elements stay inert (overview lower tabs, doc row click, default-account fields).
+
+## Phase 2 · Flow Boards + Changes Board alignment
+
+Spec transcribed in `docs/design-boards.md`; data from one fixture ledger, `packages/schemas/src/fixtures.ts`.
+
+- [x] S0–S8 fixture ledger with tests against board figures (P&L -6,870,000; Neraca 17,284,050 = 954,050 + 16,330,000; kas akhir 14,514,050; TB 35,304,050 / S0+S1+S3 19,444,050)
+- [x] Launcher: 10 rail modules, Manufaktur replaces Aset Tetap module; locked tiles follow Preferensi switches
+- [x] Dashboard KPIs from fixtures (7,255,000 · 1,400,000 · 5,755,000 · 750,000), deltas "—"
+- [x] Master data (Pelanggan, Pemasok, Barang & Jasa, Pajak) seeded from fixtures
+- [x] Akun Perkiraan: roll-ups, contra "-", bank panel only for Kas & Bank, journal lines per account
+- [x] Jurnal Umum: action rail, Selisih + blocking message, one side per line, Detail Akun editor, Ctrl+S, auto-number
+- [x] Faktur Penjualan (PPN footer, Info lainnya, Uang Muka panel), Faktur Pembelian, Penerimaan/Pembayaran (PPh 23, open invoices), Retur Pembelian (Ambil)
+- [x] Lists: newest first, source tags, search on Enter, row count, 20-row paging + infinite scroll
+- [x] Feedback: problem dialog "<Label> harus diisi", delete confirm + paid-invoice refusal, toasts
+- [x] Neraca Percobaan (Saldo Awal / Perubahan / Saldo Akhir), Rekonsiliasi Bank, Proses Akhir Bulan (JV.2026.10.00024), Preferensi (one-way warning)
+- [x] Reports: 16 groups, empty/no-results states, Laba/Rugi, Neraca, Arus Kas from fixtures, drill-down to journal lines
+- [x] S7 fixed asset Laptop Uji with its journal history
+
+Verification (2026-10-18): typecheck, lint, build, 4 fixture tests clean; 18/18 scripted flows pass with no page errors; reworked screens checked at 390 and in light mode.
+
+Known deviations: customer/vendor balances show "—" (fixture journals carry no party); Barang B remaining stock copied from the board; FX loss posts to 720102 (no loss account in fixtures); seeded documents' item lines are hand-written; cash flow assumes asset disposal had no proceeds.
