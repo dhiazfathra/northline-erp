@@ -32,7 +32,8 @@ export const tileSchema = z.object({
   d: z.string(),
   bars: z.array(z.number()),
   to: z.string().optional(),
-  /** Locked tile: names the Preferensi switch that enables it. */
+  /** Preferensi feature id gating the tile, and the note shown while it is off. */
+  feature: z.string().optional(),
   off: t.optional(),
 })
 export const moduleGroupSchema = z.object({ title: t, sub: t, to: z.string().optional(), tiles: z.array(tileSchema) })

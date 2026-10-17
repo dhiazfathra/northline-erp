@@ -2,7 +2,8 @@ import { useNavigate } from '@tanstack/react-router'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import { useEffect, useState } from 'react'
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { kindColor, kindLabel, modules, type NavSub } from '@/lib/nav'
+import { useEnabledFeatures } from '@/lib/features'
+import { isLocked, kindColor, kindLabel, modules, notDesigned, type NavSub } from '@/lib/nav'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 
@@ -12,8 +13,10 @@ export function MegaMenu() {
   const navigate = useNavigate()
   const [modId, setModId] = useState(modules[0].id)
   const mod = modules.find((m) => m.id === modId) ?? modules[0]
+  const enabled = useEnabledFeatures()
   const go = (s: NavSub) => {
-    if (!s.to) return showToast(t(s.offNote!))
+    if (isLocked(s, enabled)) return showToast(t(s.offNote!))
+    if (!s.to) return showToast(t(notDesigned))
     setMegaOpen(false)
     navigate({ to: s.to })
   }
@@ -73,7 +76,7 @@ export function MegaMenu() {
             </div>
             <div className={cn('mt-5 grid gap-3', isMobile ? 'grid-cols-2' : 'grid-cols-[repeat(auto-fill,minmax(190px,1fr))]')}>
               {mod.subs.map((s) => {
-                const off = !s.to
+                const off = isLocked(s, enabled)
                 return (
                   <div
                     key={t(s.label)}

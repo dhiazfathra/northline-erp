@@ -3,6 +3,8 @@ import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useOverview } from '@/api/overview'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEnabledFeatures } from '@/lib/features'
+import { notDesigned } from '@/lib/nav'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { RecordDrawer } from './drawer'
@@ -67,7 +69,8 @@ function KpiCard({ k, onOpen }: { k: Kpi; onOpen: () => void }) {
 }
 
 export function OverviewScreen() {
-  const { L, lang, isMobile, isDesktop, setSearchOpen } = useShell()
+  const { L, lang, isMobile, isDesktop, setSearchOpen, showToast } = useShell()
+  const enabled = useEnabledFeatures()
   const t = useT()
   const navigate = useNavigate()
   const [month, setMonth] = useState(9) // Okt 2026
@@ -226,7 +229,7 @@ export function OverviewScreen() {
                   </div>
                   <div className={cn('no-scrollbar mt-[10px] grid gap-[8px]', isMobile ? 'grid-cols-[repeat(3,minmax(140px,1fr))] overflow-x-auto' : 'grid-cols-3')}>
                     {g.tiles.map((tl) =>
-                      tl.off ? (
+                      tl.off && tl.feature && !enabled.has(tl.feature) ? (
                         <div
                           key={tl.label.en}
                           aria-disabled="true"
@@ -247,7 +250,7 @@ export function OverviewScreen() {
                             'glass-card box-border flex cursor-pointer flex-col justify-between rounded-[20px] border-[rgba(var(--fg),.1)] p-[16px] text-left shadow-[inset_0_1px_0_rgba(var(--fg),.12)] transition-[background,height] duration-300 hover:bg-[rgba(var(--fg),.09)]',
                             compact ? 'h-[96px]' : 'h-[150px]',
                           )}
-                          onClick={() => tl.to && go(tl.to)}
+                          onClick={() => (tl.to ? go(tl.to) : showToast(t(notDesigned)))}
                         >
                           <div className="flex w-full items-start justify-between">
                             <span className="max-w-[90px] text-[12px] leading-[1.25]">{t(tl.label)}</span>

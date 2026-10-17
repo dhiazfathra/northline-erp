@@ -8,7 +8,8 @@ export interface NavSub {
   kind: SubKind
   icon: string
   to?: string
-  /** Locked entries show a lock + note instead of navigating. */
+  /** Preferensi feature id; the entry is locked (lock + note) while that switch is off. */
+  feature?: string
   offNote?: T
 }
 
@@ -60,8 +61,8 @@ export const modules: NavModule[] = [
       { label: { id: 'Aset Tetap', en: 'Fixed Assets' }, kind: 'data', icon: 'ph-light ph-armchair', to: '/fixed-assets' },
       { label: { id: 'Pengeluaran Aset', en: 'Asset Expenditure' }, kind: 'tx', icon: 'ph-light ph-wrench', to: '/asset-modules' },
       { label: { id: 'Aset per Lokasi', en: 'Assets by Location' }, kind: 'report', icon: 'ph-light ph-map-pin', to: '/asset-modules/by-location' },
-      { label: { id: 'Mata Uang', en: 'Currencies' }, kind: 'data', icon: 'ph-light ph-currency-circle-dollar', offNote: locked('Multi Mata Uang') },
-      { label: { id: 'Anggaran', en: 'Budget' }, kind: 'data', icon: 'ph-light ph-chart-pie-slice', offNote: locked('Anggaran') },
+      { label: { id: 'Mata Uang', en: 'Currencies' }, kind: 'data', icon: 'ph-light ph-currency-circle-dollar', feature: 'fx', offNote: locked('Multi Mata Uang') },
+      { label: { id: 'Anggaran', en: 'Budget' }, kind: 'data', icon: 'ph-light ph-chart-pie-slice', feature: 'budget', offNote: locked('Anggaran') },
     ],
   },
   {
@@ -113,8 +114,8 @@ export const modules: NavModule[] = [
     name: { id: 'Manufaktur', en: 'Manufacturing' },
     icon: 'ph-light ph-factory',
     subs: [
-      { label: { id: 'Formula Produk', en: 'Bill of Materials' }, kind: 'data', icon: 'ph-light ph-flask', offNote: locked('Manufaktur') },
-      { label: { id: 'Perintah Kerja', en: 'Work Order' }, kind: 'tx', icon: 'ph-light ph-hammer', offNote: locked('Manufaktur') },
+      { label: { id: 'Formula Produk', en: 'Bill of Materials' }, kind: 'data', icon: 'ph-light ph-flask', feature: 'mfg', offNote: locked('Manufaktur') },
+      { label: { id: 'Perintah Kerja', en: 'Work Order' }, kind: 'tx', icon: 'ph-light ph-hammer', feature: 'mfg', offNote: locked('Manufaktur') },
     ],
   },
   {
@@ -123,7 +124,7 @@ export const modules: NavModule[] = [
     icon: 'ph-light ph-percent',
     subs: [
       { label: { id: 'Pajak', en: 'Tax Codes' }, kind: 'data', icon: 'ph-light ph-percent', to: '/modules/taxes' },
-      { label: { id: 'e-Faktur', en: 'e-Invoice' }, kind: 'tx', icon: 'ph-light ph-file-text', offNote: locked('e-Faktur') },
+      { label: { id: 'e-Faktur', en: 'e-Invoice' }, kind: 'tx', icon: 'ph-light ph-file-text', feature: 'efaktur', offNote: locked('e-Faktur') },
     ],
   },
   {
@@ -142,6 +143,11 @@ export const modules: NavModule[] = [
     subs: [{ label: { id: 'Preferensi', en: 'Preferences' }, kind: 'setting', icon: 'ph-light ph-sliders-horizontal', to: '/settings/preferences' }],
   },
 ]
+
+export const notDesigned: T = { id: 'Layar ini belum tersedia di desain', en: 'This screen is not designed yet' }
+
+/** Locked while its Preferensi switch is off. */
+export const isLocked = (s: NavSub, enabled: Set<string>) => !!s.feature && !enabled.has(s.feature)
 
 /** Lookup for tab labels: longest matching nav path wins. */
 export function navFor(path: string): { sub: NavSub; mod: NavModule } | undefined {

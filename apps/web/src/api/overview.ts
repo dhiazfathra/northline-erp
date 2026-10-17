@@ -1,4 +1,4 @@
-import { customers, idr, items, journals, profitAndLoss, taxes, vendors } from '@northline/schemas/fixtures'
+import { accounts, customers, idr, items, journals, profitAndLoss, taxes, vendors } from '@northline/schemas/fixtures'
 import type { DrawerRecord, ListRow, NewTxInput, Overview } from '@northline/schemas/overview'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { kindLabel, modules } from '@/lib/nav'
@@ -31,6 +31,9 @@ const masterCount: Record<string, number> = {
   '/modules/vendors': vendors.length,
   '/modules/items': items.length,
   '/modules/taxes': taxes.length,
+  '/accounts': accounts.length,
+  '/docs/journal': journals.length,
+  '/fixed-assets': 1,
 }
 // Tile value = fixture documents for that menu (distinct source numbers), master-data record count, or "—".
 const docCount = (label: string) => new Set(journals.filter((j) => j.source === label).map((j) => j.no)).size
@@ -82,7 +85,7 @@ const overview: Overview = {
       to: m.subs.find((s) => s.to)?.to,
       tiles: m.subs.map((s, si) => {
         const n = s.to ? (masterCount[s.to] ?? docCount(s.label.id)) : 0
-        return { label: s.label, v: s.offNote ? '—' : n ? String(n) : '—', d: NO_DELTA, bars: bars(mi * 7 + si), to: s.to, off: s.offNote }
+        return { label: s.label, v: n ? String(n) : '0', d: n ? NO_DELTA : '', bars: bars(mi * 7 + si), to: s.to, feature: s.feature, off: s.offNote }
       }),
     }
   }),
