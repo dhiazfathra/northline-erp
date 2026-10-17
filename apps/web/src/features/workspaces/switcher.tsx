@@ -11,7 +11,7 @@ const curBadge = 'flex flex-none items-center gap-[5px] rounded-xl bg-(--ink) px
 
 /** Tenant picker. `creating` hides the create button while the create modal sits on top. */
 export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) {
-  const { L, isMobile, showToast } = useShell()
+  const { L, isMobile, isDesktop, showToast } = useShell()
   const t = useT()
   const navigate = useNavigate()
   const { data: rows = [] } = useQuery(workspacesQuery)
@@ -37,7 +37,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
   return (
     <div className="flex min-h-0 flex-1 animate-[fade_.25s] flex-col overflow-y-auto">
       <BareHeader onSignOut={() => navigate({ to: '/auth' })} />
-      <div className={cn('box-border flex flex-1 justify-center', isMobile ? 'px-4 pt-2 pb-8' : 'px-8 pt-6 pb-14')}>
+      <div className={cn('box-border flex flex-1 justify-center', isDesktop ? 'px-10 pt-3 pb-12' : isMobile ? 'px-4 pt-3 pb-7' : 'px-6 pt-5 pb-9')}>
         <div className="flex w-full max-w-[620px] animate-[pop_.25s_ease-out] flex-col">
           <button
             type="button"
@@ -124,8 +124,8 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
                       onClick={() => pick(w.id)}
                       style={{ opacity: op(w.id) }}
                       className={cn(
-                        'flex min-w-0 cursor-pointer flex-col gap-3.5 rounded-[22px] border p-4 text-left transition-[background,opacity] duration-150 hover:bg-[rgba(var(--fg),.12)]',
-                        isCur ? 'border-[rgba(var(--fg),.3)] bg-[rgba(var(--fg),.1)]' : 'border-[rgba(var(--fg),.1)] bg-[rgba(var(--fg),.04)]',
+                        'flex min-w-0 cursor-pointer flex-col gap-3.5 rounded-[22px] border p-4 text-left transition-[background,opacity] duration-200 hover:bg-[rgba(var(--fg),.12)]',
+                        isCur ? 'border-[rgba(var(--fg),.28)] bg-[rgba(var(--fg),.12)]' : 'border-[rgba(var(--fg),.1)] bg-[rgba(var(--fg),.05)]',
                       )}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -136,7 +136,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
                             {L.wsCurrent}
                           </span>
                         ) : (
-                          <i className="ph-light ph-arrow-right flex-none text-xs whitespace-nowrap opacity-60" />
+                          <span className="flex-none text-xs whitespace-nowrap opacity-60">›</span>
                         )}
                       </div>
                       <div className="min-w-0">
@@ -163,7 +163,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
                       style={{ opacity: op(w.id) }}
                       className={cn(
                         'flex cursor-pointer items-center gap-3.5 rounded-[20px] border px-3.5 py-3 text-left transition-[background,opacity] duration-150 hover:bg-[rgba(var(--fg),.1)]',
-                        isCur ? 'border-[rgba(var(--fg),.2)] bg-[rgba(var(--fg),.08)]' : 'border-transparent bg-transparent',
+                        isCur ? 'border-[rgba(var(--fg),.22)] bg-[rgba(var(--fg),.1)]' : 'border-transparent bg-transparent',
                       )}
                     >
                       <Monogram name={w.name} color={w.color} size={42} />
@@ -180,7 +180,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
                           {L.wsCurrent}
                         </span>
                       ) : (
-                        <i className="ph-light ph-arrow-right min-w-5 flex-none text-right text-xs opacity-60" />
+                        <span className="min-w-5 flex-none text-right text-xs opacity-60">›</span>
                       )}
                     </button>
                   )

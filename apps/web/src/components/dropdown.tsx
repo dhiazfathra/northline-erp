@@ -55,9 +55,7 @@ export function Dropdown({
               ×
             </span>
           )}
-          <svg width="8" height="5" viewBox="0 0 8 5" className="flex-none">
-            <path d="M1 1l3 3 3-3" style={{ stroke: 'var(--ink)' }} fill="none" />
-          </svg>
+          <i className="ph-light ph-caret-down flex-none text-xs opacity-60 transition-transform duration-200" style={{ transform: open ? 'rotate(180deg)' : 'none' }} />
         </button>
       </PopoverTrigger>
       <PopoverContent align="start" className="glass-pop w-(--radix-popover-trigger-width) min-w-[200px] rounded-2xl p-1.5 text-(--ink)">

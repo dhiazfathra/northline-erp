@@ -9,7 +9,7 @@ export const negC = '#f87171'
 
 export function Logo() {
   return (
-    <span className="flex items-center gap-3">
+    <span className="flex items-center gap-3.5">
       <span className="grid grid-cols-[repeat(3,3px)] gap-[3px]">
         {Array.from({ length: 9 }, (_, i) => (
           <span key={i} className="size-[3px] rounded-full bg-(--ink)" />
@@ -33,9 +33,9 @@ function Seg<T extends string>({ value, options, onChange, pad }: { value: T; op
 }
 
 export function BareHeader({ onSignOut }: { onSignOut?: () => void }) {
-  const { L, mode, setMode, lang, setLang, isMobile } = useShell()
+  const { L, mode, setMode, lang, setLang, isMobile, isDesktop } = useShell()
   return (
-    <div className={cn('flex flex-none items-center justify-between gap-3', isMobile ? 'px-4 pt-4 pb-3' : 'px-8 pt-5 pb-4')}>
+    <div className={cn('flex flex-none items-center justify-between gap-3', isDesktop ? 'px-10 pt-[26px]' : isMobile ? 'px-4 pt-3.5' : 'px-6 pt-5')}>
       <div className="flex items-center gap-3.5">
         <Logo />
         {!isMobile && (
@@ -45,9 +45,9 @@ export function BareHeader({ onSignOut }: { onSignOut?: () => void }) {
           </>
         )}
       </div>
-      <div className={cn('flex items-center text-xs', isMobile ? 'gap-2' : 'gap-3.5')}>
+      <div className={cn('flex items-center text-xs', isDesktop ? 'gap-[22px]' : isMobile ? 'gap-2' : 'gap-4')}>
         <Seg value={mode} onChange={setMode} pad="px-[11px]" options={[{ v: 'dark', n: lang === 'id' ? 'Gelap' : 'Dark' }, { v: 'light', n: lang === 'id' ? 'Terang' : 'Light' }]} />
-        <Seg value={lang} onChange={setLang} pad="px-[9px]" options={[{ v: 'id', n: 'ID' }, { v: 'en', n: 'EN' }]} />
+        <Seg value={lang} onChange={setLang} pad="px-[9px]" options={[{ v: 'en', n: 'EN' }, { v: 'id', n: 'ID' }]} />
         {onSignOut && (
           <button type="button" onClick={onSignOut} className="cursor-pointer whitespace-nowrap opacity-75 hover:opacity-100">
             {L.signOut}
@@ -65,10 +65,10 @@ const footLinks = [
 ]
 
 export function BareFooter() {
-  const { isMobile, showToast } = useShell()
+  const { isMobile, isDesktop, showToast } = useShell()
   const t = useT()
   return (
-    <div className={cn('flex flex-none justify-between gap-3 text-[11px] opacity-50', isMobile ? 'px-4 pt-4 pb-5' : 'px-8 pt-4 pb-6')}>
+    <div className={cn('flex flex-none justify-between gap-3 text-[11px] opacity-50', isDesktop ? 'px-10 pb-[26px]' : isMobile ? 'px-4 pb-4' : 'px-6 pb-[22px]')}>
       <span>© 2026 Northline</span>
       <span className="flex gap-4">
         {footLinks.map((l) => (

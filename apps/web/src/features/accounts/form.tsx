@@ -42,9 +42,7 @@ function Field({ label, req, children }: { label: string; req?: boolean; childre
 function Check({ on, onClick, children, className = '' }: { on: boolean; onClick: () => void; children: ReactNode; className?: string }) {
   return (
     <button type="button" role="checkbox" aria-checked={on} onClick={onClick} className={`flex w-max cursor-pointer items-center gap-[8px] text-[12.5px] ${className}`}>
-      <span className={`flex size-[16px] items-center justify-center rounded-[5px] border border-[rgba(var(--fg),.4)] text-[11px] ${on ? 'bg-[var(--ink)] text-[var(--paper)]' : ''}`}>
-        {on && <i className="ph-light ph-check" />}
-      </span>
+      <span className={`size-[16px] flex-none rounded-[5px] border border-[rgba(var(--fg),.4)] ${on ? 'bg-[var(--ink)]' : ''}`} />
       {children}
     </button>
   )
@@ -111,7 +109,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
             className={`cursor-pointer rounded-[16px] border border-[rgba(var(--fg),.16)] px-[14px] py-[8px] text-[12px] ${cur === s ? 'bg-[var(--ink)] text-[var(--paper)]' : ''}`}>{t(T[s])}</button>
         ))}
       </div>
-      <div className={`glass-card ${isMobile ? 'p-[18px]' : 'p-[28px]'}`}>
+      <div className={`glass-card ${isMobile ? 'px-[16px] py-[18px]' : 'px-[24px] py-[22px]'}`}>
         {cur === 'gen' && (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[28px] max-[400px]:grid-cols-1">
             <div className={sec}>
@@ -156,7 +154,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                   <div className="border-b border-[rgba(var(--fg),.12)] py-[10px] text-[16px]">{t(T.lines)}</div>
                   <div className="flex flex-col text-[12px]">
                     {accountLines(acc.code).map((l, i) => (
-                      <div key={i} className="grid grid-cols-[1fr_auto_auto] gap-x-[12px] border-b border-[rgba(var(--fg),.07)] py-[8px]">
+                      <div key={i} data-rf-row="1" className="grid grid-cols-[1fr_auto_auto] gap-x-[12px] border-b border-[rgba(var(--fg),.07)] py-[8px]">
                         <span className="min-w-0 truncate tabular-nums">{l.jv}{l.no !== l.jv && <span className="opacity-55"> · {l.no}</span>}</span>
                         <span className="w-[96px] text-right tabular-nums">{l.debit ? fmtIdr(l.debit) : ''}</span>
                         <span className="w-[96px] text-right tabular-nums">{l.credit ? fmtIdr(l.credit) : ''}</span>
@@ -212,7 +210,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
           <div className="flex flex-col gap-[4px]">
             <div className="grid grid-cols-[2fr_1fr] gap-[12px] rounded-[12px] bg-[rgba(var(--fg),.1)] px-[14px] py-[12px] text-[13px]"><span>{v.name}</span><span className="tabular-nums">{v.code}</span></div>
             {kids.map((k) => (
-              <div key={k.id} onClick={() => nav({ to: '/accounts/$accountId', params: { accountId: k.id } })}
+              <div key={k.id} data-rf-row="1" onClick={() => nav({ to: '/accounts/$accountId', params: { accountId: k.id } })}
                 className="grid cursor-pointer grid-cols-[2fr_1fr] gap-[12px] rounded-[12px] bg-[rgba(var(--fg),.05)] px-[14px] py-[12px] text-[13px] hover:bg-[rgba(var(--fg),.1)]">
                 <span className="pl-[18px]">{k.name}</span><span className="tabular-nums">{k.code}</span>
               </div>

@@ -39,7 +39,7 @@ const rowKind: Record<ReportRow['k'], CSSProperties> = {
   sub: { minHeight: 28, borderTop: '1px solid #d4d4d8' },
   tot: { minHeight: 32, marginTop: 6, background: '#f4f4f5', borderRadius: 6 },
 }
-const skel: CSSProperties = { color: 'transparent', backgroundImage: 'linear-gradient(90deg,#f4f4f5 25%,#e4e4e7 50%,#f4f4f5 75%)', backgroundSize: '300% 100%', animation: 'shim 1.4s infinite', borderRadius: 4, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }
+const skel: CSSProperties = { color: 'transparent', backgroundImage: 'linear-gradient(90deg,#f1f1f4 0%,#e0e0e8 18%,#f1f1f4 36%)', backgroundSize: '300% 100%', animation: 'shim 1.4s linear infinite', borderRadius: 4, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }
 const placeholder: ReportRow[] = Array.from({ length: 14 }, (_, i) => (i % 5 ? { k: 'acc', t: 'Memuat akun laporan', cur: 12_450_000 } : { k: 'grp', t: 'Memuat grup' }))
 const MM = 3.78
 
@@ -95,11 +95,11 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
   const sep = <span className="mx-1 h-[18px] w-px bg-[rgba(var(--fg),.18)]" />
 
   return (
-    <div data-screen-label="Report view" className="flex min-h-0 flex-1 animate-[fade_.25s] flex-col gap-3.5 px-4 pt-[18px] pb-6 md:px-8">
+    <div data-screen-label="Report view" className="flex min-h-0 flex-1 animate-[fade_.25s] flex-col gap-3.5 pt-[18px] pb-6" style={{ paddingInline: isDesktop ? 40 : isMobile ? 16 : 24 }}>
       <div className="flex flex-none flex-wrap items-end justify-between gap-x-4 gap-y-3">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-[.5px] opacity-60">{cat ? t(cat.name) : ''}</div>
-          <h1 className={cn('mt-1 tracking-[-.3px]', isMobile ? 'text-[24px]' : 'text-[30px]')}>{name}</h1>
+          <h1 className={cn('mt-1 tracking-[-.3px]', isDesktop ? 'text-[30px]' : isMobile ? 'text-[24px]' : 'text-[28px]')}>{name}</h1>
           <div className="mt-1.5 flex items-center gap-1.5 text-[11.5px] opacity-60">
             <i className="ph-light ph-magnifying-glass-plus text-[14px]" />
             {t(tx.hint)}
@@ -109,7 +109,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
           <Link to="/reports" title={L.rpBack} aria-label={L.rpBack} className={tbtn}>
             <i className="ph-light ph-arrow-left text-[18px]" />
           </Link>
-          <button type="button" title={t(tx.refresh)} aria-label={t(tx.refresh)} className={tbtn} onClick={() => rowsQ.refetch()}>
+          <button type="button" title={t(tx.refresh)} aria-label={t(tx.refresh)} className={cn(tbtn, loading && 'bg-[rgba(var(--fg),.14)]')} onClick={() => rowsQ.refetch()}>
             <i className="ph-light ph-arrows-clockwise text-[18px]" style={{ animation: loading ? 'spin 1s linear infinite' : undefined }} />
           </button>
           <button type="button" title={t(tx.layout)} aria-label={t(tx.layout)} className={cn(tbtn, md && 'bg-[rgba(var(--fg),.14)]')} onClick={() => setMd(true)}>
@@ -143,7 +143,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
             <i className="ph-light ph-magnifying-glass-plus text-[18px]" />
           </button>
           {sep}
-          <button type="button" title={L.rpTbAi} aria-pressed={ai} className={cn('flex h-[34px] cursor-pointer items-center gap-1.5 rounded-[17px] px-3 text-[12px] hover:bg-[rgba(var(--fg),.14)]', ai && 'bg-[rgba(var(--fg),.14)]')} onClick={() => setAi(!ai)}>
+          <button type="button" title={L.rpTbAi} aria-pressed={ai} className={cn('flex h-[34px] cursor-pointer items-center gap-1.5 rounded-[17px] px-3 text-[12px] hover:bg-[rgba(var(--fg),.14)]', ai && 'bg-[rgba(var(--fg),.16)]')} onClick={() => setAi(!ai)}>
             <i className="ph-light ph-sparkle text-[17px]" />
             AI
           </button>
@@ -203,18 +203,18 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
             <div className="relative mt-1.5 flex flex-col">
               {loading && (
                 <div className="pointer-events-none absolute inset-0 animate-[fade_.2s] overflow-hidden">
-                  <div className="absolute inset-x-0 h-[60px] border-b-[1.5px] border-[#8b5cf6] bg-[linear-gradient(180deg,rgba(99,102,241,0),rgba(99,102,241,.07)_75%,rgba(236,72,153,.12))] shadow-[0_6px_16px_-6px_rgba(236,72,153,.7)]" style={{ animation: 'scan 1.6s cubic-bezier(.45,0,.55,1) infinite' }} />
+                  <div className="absolute inset-x-0 top-[-60px] h-[60px] border-b-[1.5px] border-[#8b5cf6] bg-[linear-gradient(180deg,rgba(99,102,241,0),rgba(99,102,241,.07)_75%,rgba(236,72,153,.12))] shadow-[0_6px_16px_-6px_rgba(236,72,153,.7)]" style={{ animation: 'scan 1.6s cubic-bezier(.45,0,.55,1) infinite' }} />
                 </div>
               )}
-              <div className="flex flex-col transition-opacity duration-200" style={{ opacity: loading && rowsQ.data ? 0.5 : 1 }}>
+              <div className="flex flex-col">
                 {rows.map((r, i) => {
-                  const sk = rowsQ.data ? undefined : skel
+                  const sk = loading ? skel : undefined
                   const font = fs(r.k)
                   return (
                     <div
                       key={`${i}-${r.t}`}
                       className="grid items-center gap-x-3.5"
-                      style={{ gridTemplateColumns: grid, ...rowKind[r.k], ...font, textAlign: undefined, animation: rowsQ.data ? `rowin .35s ${Math.min(i, 24) * 0.02}s both` : undefined }}
+                      style={{ gridTemplateColumns: grid, ...rowKind[r.k], ...font, textAlign: undefined, animation: loading ? undefined : `rowin .5s cubic-bezier(.2,.7,.2,1) ${Math.min(i, 28) * 24}ms both` }}
                     >
                       {pre.map((c) => (
                         <span key={c.id} className="py-1 pl-2 whitespace-nowrap tabular-nums text-[#52525b]">
@@ -225,7 +225,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
                         <span style={sk}>{r.t}</span>
                       </span>
                       {num.map((c) =>
-                        r.k === 'acc' && r.code && rowsQ.data ? (
+                        r.k === 'acc' && r.code && !loading ? (
                           <button
                             key={c.id}
                             type="button"

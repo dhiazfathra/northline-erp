@@ -26,9 +26,9 @@ export function AccountsList() {
       <div className="mb-[14px] flex flex-wrap items-center gap-[8px]">
         <input value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && setQ(draft)} placeholder={t({ id: 'Ketik dan [Enter]', en: 'Type and [Enter]' })}
           className="min-w-0 max-w-[320px] flex-[1_1_220px] rounded-[18px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-[14px] py-[9px] text-[12px] text-[var(--ink)] outline-none" />
-        <div className="w-[170px] flex-none">
+        <div className="flex-none">
           <Dropdown value={type} options={[...accountTypes]} onSelect={setType} placeholder={`${typeLbl}: ${t({ id: 'Semua', en: 'All' })}`}
-            className="h-[36px] rounded-[18px] px-[12px] text-[12px]" />
+            className="h-auto rounded-[18px] px-[12px] py-[9px] text-[12px]" />
         </div>
         <span className="text-[11px] opacity-55">{data ? `${rows.length} ${t({ id: 'akun', en: 'accounts' })}` : ''}</span>
         <button type="button" onClick={() => nav({ to: '/accounts/new' })}
@@ -44,8 +44,8 @@ export function AccountsList() {
             <div key={i} className={`${grid} border-b border-[rgba(var(--fg),.07)] py-[14px]`}>{[0, 1, 2, 3].map((j) => <Skeleton key={j} className="h-[14px]" />)}</div>
           ))}
           {rows.map((r) => {
-            const pad = { paddingLeft: r.depth * 18 }
-            const wt = r.depth ? 'font-normal' : 'font-medium'
+            const pad = { paddingLeft: r.depth * 22 }
+            const wt = r.depth ? 'font-light' : 'font-normal'
             return (
               <div key={r.id} data-rf-row="1" onClick={() => nav({ to: '/accounts/$accountId', params: { accountId: r.id } })}
                 className={`${grid} cursor-pointer items-center border-b border-[rgba(var(--fg),.07)] py-[11px] text-[13px] transition-opacity duration-[.25s] hover:bg-[rgba(var(--fg),.08)] ${refreshing ? 'opacity-35' : ''}`}>

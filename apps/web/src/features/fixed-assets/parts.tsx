@@ -22,7 +22,7 @@ export function DocHeader({ label, current, onClose, children }: { label: string
   const { isMobile } = useShell()
   const seg = 'flex items-center gap-2 rounded-[16px] px-[14px] py-2 text-[12px] cursor-pointer'
   return (
-    <div className={cn('flex-none animate-[fade_.25s] pt-5 pb-8', isMobile ? 'px-4' : 'px-8')}>
+    <div className={cn('flex-none animate-[fade_.25s] pt-5 pb-8', isMobile ? 'px-4' : 'px-10')}>
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-[14px]">
         <div>
           <div className="text-[11px] tracking-[.5px] uppercase opacity-60">{t(tx.mod)}</div>

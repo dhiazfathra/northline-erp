@@ -1,8 +1,8 @@
 import type { QueryClient } from '@tanstack/react-query'
 import { Outlet, createRootRouteWithContext, useLocation } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Header } from '@/components/shell/header'
-import { MegaMenu, RefreshLoader, SearchDialog, Toast } from '@/components/shell/overlays'
+import { MegaMenu, RefreshLoader, SearchDialog, Toast, useRefreshPhase } from '@/components/shell/overlays'
 import { TabBar } from '@/components/shell/tab-bar'
 import { ShellProvider, useShell } from '@/lib/shell'
 
@@ -19,7 +19,9 @@ const bare = (p: string) => p.startsWith('/auth') || p.startsWith('/workspaces')
 
 function Root() {
   const { pathname } = useLocation()
-  const { openTab, refreshing } = useShell()
+  const { openTab } = useShell()
+  const scroll = useRef<HTMLDivElement>(null)
+  const rf = useRefreshPhase(scroll)
   useEffect(() => {
     if (pathname !== '/' && !bare(pathname)) openTab(pathname)
   }, [pathname, openTab])
@@ -31,9 +33,14 @@ function Root() {
       ) : (
         <>
           <Header />
-          <TabBar />
-          <RefreshLoader />
-          <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto transition-opacity duration-[.45s]" style={{ opacity: refreshing ? 0.55 : 1 }}>
+          <TabBar rfPhase={rf.phase} />
+          <RefreshLoader rf={rf} />
+          <div
+            ref={scroll}
+            data-rf={rf.phase === 'in' ? 'in' : undefined}
+            className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto transition-opacity duration-[.45s] [&[data-rf=in]_[data-rf-row]]:opacity-0"
+            style={{ opacity: rf.phase === 'in' && !rf.bars.length ? 0.35 : 1 }}
+          >
             <Outlet />
           </div>
           <MegaMenu />

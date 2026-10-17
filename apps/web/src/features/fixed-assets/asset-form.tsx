@@ -212,9 +212,9 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
 
   const errGen = !!(e.name || e.code || e.buy || e.use || e.method || e.category || e.assetAccount || e.accumAccount || e.expenseAccount || e.qty || e.years || e.months)
   const secs = [
-    { k: 'gen' as const, n: faT.gen, ic: 'ph-light ph-info', err: errGen },
-    { k: 'exp' as const, n: faT.exp, ic: 'ph-light ph-receipt', err: !!e.expenses },
-    { k: 'oth' as const, n: faT.oth, ic: 'ph-light ph-dots-three-circle', err: !!e.location },
+    { k: 'gen' as const, n: faT.gen, ic: 'ph-light ph-file-text', err: errGen },
+    { k: 'exp' as const, n: faT.exp, ic: 'ph-light ph-coins', err: !!e.expenses },
+    { k: 'oth' as const, n: faT.oth, ic: 'ph-light ph-info', err: !!e.location },
     ...(asset ? [{ k: 'his' as const, n: faT.his, ic: 'ph-light ph-clock-counter-clockwise', err: false }] : []),
   ]
   const history = asset ? assetJournals(asset.code) : []
@@ -240,7 +240,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
 
   return (
     <DocHeader label={t(tx.title)} current={asset ? asset.code : t(faT.newTitle)} onClose={close}>
-      <form onSubmit={onSave} className={cn('glass-card relative', isMobile ? 'p-[18px]' : 'p-7')}>
+      <form onSubmit={onSave} className={cn('glass-card relative', isMobile ? 'px-4 py-[18px]' : 'px-6 py-[22px]')}>
         <div className="flex flex-wrap items-start gap-4">
           <div className="grid min-w-0 flex-[1_1_520px] grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-[14px]">
             <Field label={t(faT.name)} req className="col-span-full">
@@ -256,7 +256,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                     title={t(faT.auto)}
                     checked={v.autoCode}
                     onCheckedChange={(c) => setValue('autoCode', c, { shouldDirty: true })}
-                    className="h-5 w-9 flex-none border-0 data-checked:bg-[#ec4899] data-unchecked:bg-[rgba(var(--fg),.25)] dark:data-unchecked:bg-[rgba(var(--fg),.25)] [&>span]:size-4 [&>span]:bg-(--paper) dark:[&>span]:bg-(--paper) [&>span]:data-checked:translate-x-[18px] [&>span]:data-unchecked:translate-x-0.5"
+                    className="h-5 w-9 flex-none border-0 transition-[background] duration-150 data-checked:bg-(--ink) data-unchecked:bg-[rgba(var(--fg),.2)] dark:data-checked:bg-(--ink) dark:data-unchecked:bg-[rgba(var(--fg),.2)] [&>span]:size-4 [&>span]:bg-(--paper) dark:[&>span]:bg-(--paper) [&>span]:data-checked:translate-x-[18px] [&>span]:data-unchecked:translate-x-0.5"
                   />
                   {v.autoCode ? (
                     <Dropdown value={v.codeType} options={codeTypes} noClear onSelect={(x) => setValue('codeType', x, { shouldDirty: true })} invalid={!!e.code} className="min-w-0 flex-1" />
@@ -516,7 +516,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                     <span className="text-[11px] tabular-nums opacity-60">{j.date}</span>
                   </div>
                   {j.lines.map((l, i) => (
-                    <div key={i} className="grid grid-cols-[1fr_120px_120px] gap-3 px-4 py-2 text-[12.5px]">
+                    <div key={i} data-rf-row="1" className="grid grid-cols-[1fr_120px_120px] gap-3 px-4 py-2 text-[12.5px]">
                       <span className="truncate">
                         <span className="tabular-nums opacity-60">{l.account}</span> {fixtureAccounts.find((a) => a.code === l.account)?.name}
                       </span>
@@ -561,7 +561,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                     {v.expenses.map((x, i) => {
                       const patch = (p: Partial<typeof x>) => setValue('expenses', v.expenses.map((y, j) => (j === i ? { ...y, ...p } : y)), { shouldDirty: true })
                       return (
-                        <div key={x.code} className="grid min-h-[52px] animate-[fade_.2s] grid-cols-[1fr_1.6fr_1fr_1fr_32px] items-center gap-3 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]">
+                        <div key={x.code} data-rf-row="1" className="grid min-h-[52px] animate-[fade_.2s] grid-cols-[1fr_1.6fr_1fr_1fr_32px] items-center gap-3 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]">
                           <span className="tabular-nums">{x.code}</span>
                           <span>{x.desc}</span>
                           {editing ? (

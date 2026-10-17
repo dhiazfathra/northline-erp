@@ -20,7 +20,7 @@ export function AssetsByLocation() {
   const dd = 'h-9 rounded-[18px] px-3 py-[9px] text-[12px]'
 
   return (
-    <DocFrame mod={t(S.mod)} label={t(S.byLoc)} subs={[{ name: t(S.byLoc), to: '/asset-modules/by-location', active: true }]}>
+    <DocFrame mod={t(S.mod)} label={t(S.byLoc)} subs={[]}>
       <div className="mb-[14px] flex flex-wrap items-center gap-2">
         <span className="w-[110px] flex-none">
           <Dropdown value={kind} options={['Cabang']} onSelect={(v) => setKind(v || 'Cabang')} noClear className={dd} />

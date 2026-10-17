@@ -67,6 +67,7 @@ export function AssetList() {
             {rows.map((r) => (
               <div
                 key={r.id}
+                data-rf-row="1"
                 onClick={() => nav({ to: '/fixed-assets/$assetId', params: { assetId: r.id } })}
                 style={{ opacity: refreshing ? 0.35 : 1 }}
                 className={`${cols} cursor-pointer items-center border-b border-[rgba(var(--fg),.07)] px-[22px] py-3 text-[13px] transition-opacity duration-[.25s] hover:bg-[rgba(var(--fg),.08)]`}

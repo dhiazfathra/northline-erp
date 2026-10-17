@@ -57,7 +57,7 @@ export function ModuleList({ moduleId }: { moduleId: string }) {
   const rowStyle = { opacity: refreshing ? 0.35 : 1 }
 
   return (
-    <div className={cn('flex-none animate-[fade_.25s] pt-[24px] pb-[32px]', isMobile ? 'px-[16px]' : 'px-[32px]')}>
+    <div className={cn('flex-none animate-[fade_.25s] pt-[24px] pb-[32px]', isMobile ? 'px-[16px]' : 'px-[40px]')}>
       <div className="mb-[18px] flex flex-wrap items-center gap-[10px]">
         {filters.map((f) => (
           <button

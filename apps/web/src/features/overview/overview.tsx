@@ -22,6 +22,10 @@ const months = {
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 }
 const PER_PAGE = 2
+// reference "rb" glow over glass card: first card glows top-right, second bottom-left
+const rb = (at: string) =>
+  `radial-gradient(60% 70% at ${at},rgba(236,72,153,.42) 0%,rgba(139,92,246,.3) 30%,rgba(59,130,246,.18) 50%,transparent 72%),radial-gradient(40% 50% at ${at},rgba(250,170,90,.22) 0%,transparent 70%),var(--card)`
+const cardGlow = [rb('100% 0%'), rb('0% 100%')]
 
 const Arrow = ({ size = 9 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 9 9">
@@ -45,8 +49,8 @@ function KpiCard({ k, onOpen }: { k: Kpi; onOpen: () => void }) {
           <Arrow />
         </button>
       </div>
-      <div className="mt-[38px] flex items-start gap-[4px]">
-        <span className={cn('leading-none tracking-[-1.5px]', isMobile ? 'text-[24px]' : 'text-[44px]')}>{k.value}</span>
+      <div className="mt-[34px] flex items-start gap-[4px]">
+        <span className={cn('leading-none tracking-[-1.5px]', isMobile ? 'text-[24px]' : 'text-[46px]')}>{k.value}</span>
         <span className="mt-[6px] text-[11px] opacity-75">IDR</span>
       </div>
       <div className="relative mt-[44px] flex h-[56px] items-end gap-[4px] overflow-hidden pt-[22px]">
@@ -82,13 +86,13 @@ export function OverviewScreen() {
   const [drawer, setDrawer] = useState<DrawerRecord | null>(null)
   const [modal, setModal] = useState(false)
   const go = (to: string) => void navigate({ to })
-  const px = isMobile ? 'px-[16px]' : 'px-[32px]'
+  const px = isMobile ? 'px-[16px]' : 'px-[40px]'
   const pages = data ? Math.ceil(data.kpis.length / PER_PAGE) : 1
   const kpis = data?.kpis.slice(kpiPage * PER_PAGE, kpiPage * PER_PAGE + PER_PAGE)
 
   return (
     <>
-      <div className={cn('grid flex-none animate-[fade_.25s]', px, isDesktop ? 'grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] gap-[48px]' : 'grid-cols-1 gap-[8px]')}>
+      <div className={cn('grid flex-none animate-[fade_.25s]', px, isDesktop ? 'grid-cols-[600px_minmax(0,1fr)] gap-[40px]' : 'grid-cols-1 gap-[8px]')}>
         <div className="min-w-0">
           <div className={cn('no-scrollbar mt-[20px] flex items-center gap-[8px]', isMobile ? 'flex-nowrap overflow-x-auto' : 'flex-wrap')}>
             {actions.map((a) => (
@@ -132,22 +136,22 @@ export function OverviewScreen() {
             <span className="h-px flex-1 bg-[rgba(var(--fg),.2)]" />
           </div>
         </div>
-        <div className={cn('mt-[20px] grid gap-[16px]', isDesktop ? 'auto-rows-[minmax(0,1fr)] grid-cols-2' : isMobile ? 'auto-rows-[200px] grid-cols-1' : 'auto-rows-[220px] grid-cols-2')}>
+        <div className={cn('grid gap-[16px]', isDesktop ? 'mt-[20px] auto-rows-[420px] grid-cols-2' : isMobile ? 'auto-rows-[200px] grid-cols-1' : 'mt-[4px] auto-rows-[260px] grid-cols-2')}>
           {data
-            ? data.cards.map((c) => (
+            ? data.cards.map((c, i) => (
                 <button
                   key={c.id}
                   type="button"
                   className="relative cursor-pointer overflow-hidden rounded-[30px] border border-[rgba(var(--fg),.25)] text-left shadow-[0_30px_60px_rgba(0,0,0,.18)] transition-transform duration-250 hover:-translate-y-[4px]"
                   onClick={() => setDrawer(c.record)}
                 >
-                  <div className="absolute inset-[-40px] blur-[30px]" style={{ background: c.bg }} />
-                  <div className={cn('relative box-border flex h-full flex-col justify-between', isMobile ? 'p-[20px]' : 'p-[24px]')}>
+                  <div className="absolute inset-[-40px] blur-[30px]" style={{ background: cardGlow[i % 2] }} />
+                  <div className={cn('relative box-border flex h-full flex-col justify-between', isMobile ? 'px-[22px] pt-[22px] pb-[26px]' : isDesktop ? 'px-[30px] pt-[28px] pb-[40px]' : 'px-[26px] pt-[24px] pb-[30px]')}>
                     <div className="flex justify-between">
                       <span className="text-[14px]">{t(c.title)}</span>
                       <span className="rounded-[12px] bg-[rgba(var(--fg),.18)] px-[10px] py-[6px] text-[11px]">{L.review}</span>
                     </div>
-                    <span className={cn('leading-[1.12] text-pretty', isMobile ? 'text-[22px]' : 'text-[26px]')}>{t(c.text)}</span>
+                    <span className={cn('leading-[1.12] text-pretty', isMobile ? 'text-[23px]' : isDesktop ? 'text-[30px]' : 'text-[26px]')}>{t(c.text)}</span>
                   </div>
                 </button>
               ))
@@ -155,7 +159,7 @@ export function OverviewScreen() {
         </div>
       </div>
 
-      <div className={cn('box-border flex-none pt-[26px]', px, isMobile ? 'mt-[12px] pb-[32px]' : 'mt-[28px] pb-[40px]')}>
+      <div className={cn('box-border flex-none pt-[26px]', px, isMobile ? 'mt-[40px] pb-[32px]' : isDesktop ? 'mt-auto pb-[48px]' : 'mt-[40px] pb-[32px]')}>
         <div className="flex flex-wrap items-center gap-[8px]">
           {data?.lowTabs.map((l, i) => (
             <button
@@ -171,7 +175,7 @@ export function OverviewScreen() {
           <span
             className={cn(
               'box-border flex min-w-[150px] items-center justify-between whitespace-nowrap rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[10px] text-[12px]',
-              isMobile ? 'flex-1' : 'ml-auto w-[190px] flex-none',
+              isMobile ? 'flex-1' : isDesktop ? 'ml-[300px] w-[200px] flex-none' : 'ml-auto w-[200px] flex-none',
             )}
           >
             <button type="button" className="cursor-pointer" onClick={() => setMonth((m) => Math.max(0, m - 1))}>
@@ -186,7 +190,7 @@ export function OverviewScreen() {
             type="button"
             className={cn(
               'box-border flex cursor-pointer items-center justify-between whitespace-nowrap rounded-[20px] bg-[rgba(var(--fg),.1)] px-[16px] py-[10px] text-[11.5px] hover:bg-[rgba(var(--fg),.18)]',
-              isMobile ? 'flex-1' : 'w-[200px] flex-none',
+              isMobile ? 'flex-1' : isDesktop ? 'ml-auto w-[200px] flex-none' : 'w-[200px] flex-none',
             )}
             onClick={() => setSearchOpen(true)}
           >
@@ -234,7 +238,7 @@ export function OverviewScreen() {
                           key={tl.label.en}
                           aria-disabled="true"
                           title={t(tl.off)}
-                          className={cn('box-border flex cursor-not-allowed flex-col justify-between rounded-[20px] border border-dashed border-[rgba(var(--fg),.3)] p-[16px] opacity-55', compact ? 'h-[96px]' : 'h-[150px]')}
+                          className={cn('box-border flex cursor-not-allowed flex-col justify-between rounded-[20px] border border-dashed border-[rgba(var(--fg),.3)] p-[16px] opacity-55', compact ? 'h-[120px]' : 'h-[178px]')}
                         >
                           <div className="flex w-full items-start justify-between">
                             <span className="max-w-[90px] text-[12px] leading-[1.25]">{t(tl.label)}</span>
@@ -248,7 +252,7 @@ export function OverviewScreen() {
                           type="button"
                           className={cn(
                             'glass-card box-border flex cursor-pointer flex-col justify-between rounded-[20px] border-[rgba(var(--fg),.1)] p-[16px] text-left shadow-[inset_0_1px_0_rgba(var(--fg),.12)] transition-[background,height] duration-300 hover:bg-[rgba(var(--fg),.09)]',
-                            compact ? 'h-[96px]' : 'h-[150px]',
+                            compact ? 'h-[120px]' : 'h-[178px]',
                           )}
                           onClick={() => (tl.to ? go(tl.to) : showToast(t(notDesigned)))}
                         >
@@ -260,14 +264,14 @@ export function OverviewScreen() {
                           </div>
                           <div className="flex w-full items-end justify-between">
                             <div className="flex items-start gap-[3px]">
-                              <span className={cn('font-extralight leading-[.9]', compact ? 'text-[24px]' : 'text-[34px]')}>{tl.v}</span>
-                              <span className="text-[9px] opacity-50">{tl.d}</span>
+                              <span className={cn('font-extralight leading-[.9]', compact ? 'text-[24px]' : isMobile ? 'text-[38px]' : 'text-[46px]')}>{tl.v}</span>
+                              <span className="text-[9px]" style={{ color: tl.d.startsWith('-') ? '#ef4444' : '#22c55e' }}>{tl.d}</span>
                             </div>
                             <div className="flex flex-col items-end gap-[8px]">
                               <span className="text-[9px] opacity-45">{period}</span>
                               <div className="flex h-[16px] items-end gap-[2px]">
                                 {tl.bars.map((h, i) => (
-                                  <span key={i} className="w-[1.5px]" style={{ height: h, background: i === tl.bars.length - 1 ? '#ec4899' : 'rgba(var(--fg),.35)' }} />
+                                  <span key={i} className="w-[1.5px]" style={{ height: h, background: i === tl.bars.length - 1 ? '#22c55e' : 'rgba(var(--fg),.55)' }} />
                                 ))}
                               </div>
                             </div>

@@ -20,7 +20,7 @@ export interface FormProps<V extends DocValues> {
 }
 
 export const lbl = 'flex flex-col gap-1.5 text-[11px]'
-export const fieldCls = 'field h-[43px] px-3.5'
+export const fieldCls = 'field h-[41px] px-3.5'
 export const cellInput = 'w-full min-w-0 rounded-[10px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-2 py-1.5 text-[13px] text-(--ink) tabular-nums outline-none'
 export const req = <span className="text-[#ec4899]">*</span>
 
@@ -34,7 +34,7 @@ export const toNum = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0
 export function FormFrame({ rail, children }: { rail: ReactNode; children: ReactNode }) {
   const { isMobile } = useShell()
   return (
-    <div className={cn('glass-card flex gap-5', isMobile ? 'flex-col-reverse p-4' : 'p-6')}>
+    <div className={cn('glass-card flex gap-4', isMobile ? 'flex-col-reverse p-4' : 'p-6')}>
       <div className="min-w-0 flex-1">{children}</div>
       {rail}
     </div>
@@ -42,7 +42,7 @@ export function FormFrame({ rail, children }: { rail: ReactNode; children: React
 }
 
 const railBtn =
-  'flex size-11 cursor-pointer flex-col items-center justify-center rounded-2xl bg-[rgba(var(--fg),.08)] text-[18px] text-(--ink) hover:bg-[rgba(var(--fg),.16)] disabled:cursor-not-allowed disabled:opacity-40'
+  'flex size-11 cursor-pointer flex-col items-center justify-center rounded-full bg-transparent text-[18px] text-(--ink) hover:bg-[rgba(var(--fg),.1)] disabled:cursor-not-allowed disabled:opacity-40'
 
 /** Right action rail: Simpan (Ctrl+S, enabled once dirty), Cetak, Lampiran, Hapus, Lainnya. */
 export function Rail({ dirty, saving, onSave, onDelete, onClose }: { dirty: boolean; saving: boolean; onSave: () => void; onDelete: () => void; onClose: () => void }) {
@@ -81,7 +81,7 @@ export function Rail({ dirty, saving, onSave, onDelete, onClose }: { dirty: bool
     </button>
   )
   return (
-    <div className={cn('flex flex-none gap-2', isMobile ? 'flex-row justify-end' : 'flex-col')}>
+    <div role="toolbar" className={cn('flex flex-none gap-2 self-start rounded-3xl border border-[rgba(var(--fg),.12)] bg-[rgba(var(--fg),.06)] p-1.5', isMobile ? 'flex-row self-end' : 'ml-auto flex-col')}>
       {btn('ph-light ph-floppy-disk', t({ id: 'Simpan [Ctrl + S]', en: 'Save [Ctrl + S]' }), onSave, { disabled: !can, primary: true })}
       {btn('ph-light ph-printer', t({ id: 'Cetak', en: 'Print' }), () => window.print())}
       {btn('ph-light ph-paperclip', t({ id: 'Lampiran', en: 'Attachments' }), () => document.getElementById(fileId)?.click(), { badge: files })}

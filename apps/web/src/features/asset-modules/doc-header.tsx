@@ -13,12 +13,14 @@ export interface DocSub {
 export function DocFrame({ mod, label, subs, children }: { mod: string; label: string; subs: DocSub[]; children: ReactNode }) {
   const { isMobile } = useShell()
   return (
-    <div className="flex-none animate-[fade_.25s] pt-5 pb-8" style={{ paddingInline: isMobile ? 16 : 32 }}>
+    <div className="flex-none animate-[fade_.25s] pt-5 pb-8" style={{ paddingInline: isMobile ? 16 : 40 }}>
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-[14px]">
         <div>
           <div className="text-[11px] tracking-[.5px] uppercase opacity-60">{mod}</div>
-          <h1 className="mt-1 font-normal tracking-[-.3px]" style={{ fontSize: isMobile ? 22 : 28 }}>{label}</h1>
+          <h1 className="mt-1 font-normal tracking-[-.3px]" style={{ fontSize: isMobile ? 24 : 30 }}>{label}</h1>
         </div>
+        {/* report views have no sub-tabs (design's docSubs: []) */}
+        {subs.length > 0 && (
         <nav className="flex gap-1 rounded-[20px] bg-[rgba(var(--fg),.08)] p-1">
           {subs.map((s) => (
             <Link
@@ -44,6 +46,7 @@ export function DocFrame({ mod, label, subs, children }: { mod: string; label: s
             </Link>
           ))}
         </nav>
+        )}
       </div>
       {children}
     </div>

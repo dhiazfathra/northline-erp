@@ -89,9 +89,9 @@ export function AssetList() {
                 <span className="truncate">{r.branch}</span>
                 <span className="text-right tabular-nums">{r.qty}</span>
                 <span className="text-right tabular-nums">{idr(r.total)}</span>
-                <span>
+                <span className="flex flex-col">
                   <span
-                    className={`inline-flex items-center gap-[5px] rounded-xl border px-[10px] py-[3px] text-[11.5px] ${r.status === 'Draf' ? 'border-[rgba(var(--fg),.25)] bg-[rgba(var(--fg),.06)]' : 'border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.12)]'}`}
+                    className={`inline-flex self-start items-center gap-[5px] rounded-xl border px-[10px] py-[3px] text-[11.5px] ${r.status === 'Draf' ? 'border-[rgba(var(--fg),.25)] bg-[rgba(var(--fg),.06)]' : 'border-[rgba(34,197,94,.45)] bg-[rgba(34,197,94,.12)]'}`}
                   >
                     <i className={r.status === 'Draf' ? 'ph-light ph-pencil-simple' : 'ph-light ph-check-circle'} aria-hidden="true" />
                     {r.status}

@@ -53,7 +53,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
       <form onSubmit={submit}>
         <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[1fr_1fr_2fr]')}>
           <label className={lbl}>
-            <span className="opacity-85">
+            <span className="opacity-75">
               {L.date} {req}
             </span>
             <input {...register('date')} className={fieldCls} />
@@ -63,8 +63,8 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
             name="autoNo"
             render={({ field }) => (
               <label className={lbl}>
-                <span className="opacity-85">{L.docNo}</span>
-                <span className="field flex h-[43px] items-center gap-2 px-3.5">
+                <span className="opacity-75">{L.docNo}</span>
+                <span className="field flex h-[41px] items-center gap-2 px-3.5">
                   <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
@@ -72,7 +72,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
             )}
           />
           <label className={lbl}>
-            <span className="opacity-85">{L.notes}</span>
+            <span className="opacity-75">{L.notes}</span>
             <input {...register('description')} className={fieldCls} />
           </label>
         </div>
@@ -119,7 +119,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
               )
               return (
                 <div
-                  key={f.id}
+                  key={f.id} data-rf-row
                   role="button"
                   tabIndex={0}
                   onClick={() => setEdit({ i, line: l })}

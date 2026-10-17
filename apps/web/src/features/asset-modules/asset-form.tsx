@@ -166,7 +166,7 @@ export function AssetForm() {
               <span />
             </div>
             {fields.map((f, i) => (
-              <div key={f.id} className="grid grid-cols-[1.2fr_2fr_.7fr_2fr_28px] items-center gap-2.5 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]">
+              <div key={f.id} data-rf-row="1" className="grid grid-cols-[1.2fr_2fr_.7fr_2fr_28px] items-center gap-2.5 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]">
                 <span className="tabular-nums">{f.code}</span>
                 <span>{f.name}</span>
                 <input {...register(`lines.${i}.qty`)} inputMode="numeric" aria-label="Kuantitas" className={`${cellIn} text-right`} />

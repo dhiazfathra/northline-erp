@@ -43,8 +43,8 @@ export function ReportList() {
   return (
     <div
       data-screen-label="Report list"
-      className="grid flex-none animate-[fade_.25s] items-start gap-4 px-4 pt-5 pb-8 md:px-8"
-      style={{ gridTemplateColumns: isMobile ? 'minmax(0,1fr)' : '240px minmax(0,1fr)' }}
+      className="grid flex-none animate-[fade_.25s] items-start gap-4 pt-5 pb-8"
+      style={{ gridTemplateColumns: isDesktop ? '240px minmax(0,1fr)' : isMobile ? 'minmax(0,1fr)' : '200px minmax(0,1fr)', paddingInline: isDesktop ? 40 : isMobile ? 16 : 24 }}
     >
       {!isMobile && (
         <nav className="glass-card sticky top-0 flex flex-col gap-0.5 p-2.5">
@@ -54,7 +54,7 @@ export function ReportList() {
               key={x.id}
               type="button"
               onClick={() => setCat(x.id)}
-              className={cn('flex cursor-pointer items-center gap-2.5 rounded-[12px] px-3 py-[9px] text-left text-[13px] transition-[background] duration-150 hover:bg-[rgba(var(--fg),.1)]', cat === x.id && 'bg-[rgba(var(--fg),.12)]')}
+              className={cn('flex cursor-pointer items-center gap-2.5 rounded-[12px] px-3 py-[9px] text-left text-[13px] transition-[background] duration-150 hover:bg-[rgba(var(--fg),.1)]', cat === x.id && !ql && 'bg-[rgba(var(--fg),.14)]')}
             >
               <i className={cn(x.icon, 'text-[17px] opacity-85')} />
               <span className="min-w-0 flex-1 truncate">{t(x.name)}</span>
@@ -82,7 +82,7 @@ export function ReportList() {
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3.5">
           <div className="min-w-0">
             <div className="text-[11px] uppercase tracking-[.5px] opacity-60">{t(tx.kicker)}</div>
-            <h1 className={cn('mt-1 flex items-center gap-3 tracking-[-.3px]', isMobile ? 'text-[24px]' : 'text-[30px]')}>
+            <h1 className={cn('mt-1 flex items-center gap-3 tracking-[-.3px]', isDesktop ? 'text-[30px]' : isMobile ? 'text-[24px]' : 'text-[28px]')}>
               <i className={cn(c.icon, 'text-[1em] opacity-85')} />
               {t(c.name)}
             </h1>
@@ -109,7 +109,7 @@ export function ReportList() {
               key={x.id}
               type="button"
               onClick={() => setType(x.id)}
-              className={cn('flex cursor-pointer items-center gap-2 rounded-[18px] px-3.5 py-2 text-[12px] transition-[background] duration-150', type === x.id ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.08)]')}
+              className={cn('flex cursor-pointer items-center gap-2 rounded-[18px] px-3.5 py-2 text-[12px] transition-[background] duration-150', type === x.id ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.1)]')}
             >
               {x.c && <span className="size-[7px] rounded-full" style={{ background: x.c }} />}
               {t(x.name)}
@@ -118,7 +118,7 @@ export function ReportList() {
           ))}
         </div>
         <div className="glass-card overflow-hidden">
-          <div className="grid gap-0.5 p-2" style={{ gridTemplateColumns: isDesktop ? 'repeat(2,minmax(0,1fr))' : 'minmax(0,1fr)' }}>
+          <div className="grid gap-0.5 p-2" style={{ gridTemplateColumns: isMobile ? 'minmax(0,1fr)' : 'repeat(auto-fill,minmax(300px,1fr))' }}>
             {isPending &&
               Array.from({ length: 8 }, (_, i) => (
                 <div key={i} className="flex gap-3.5 p-3.5">
@@ -143,7 +143,7 @@ export function ReportList() {
                   className="flex animate-[fade_.2s] cursor-pointer items-start gap-3.5 rounded-[16px] p-3.5 transition-[background,opacity] duration-[.15s,.25s] hover:bg-[rgba(var(--fg),.08)]"
                   style={{ opacity: refreshing ? 0.35 : 1 }}
                 >
-                  <span className="flex size-10 flex-none items-center justify-center rounded-[13px]" style={{ background: `${ty.c}26`, color: ty.c }}>
+                  <span className="flex size-10 flex-none items-center justify-center rounded-[13px]" style={{ background: `${ty.c}29`, color: ty.c }}>
                     <i className={cn(r.icon, 'text-[20px]')} />
                   </span>
                   <div className="min-w-0 flex-1 pt-px">
@@ -164,7 +164,7 @@ export function ReportList() {
                       e.stopPropagation()
                       star.mutate(r.id)
                     }}
-                    className={cn('flex size-[30px] flex-none cursor-pointer items-center justify-center rounded-full transition-opacity duration-150 hover:bg-[rgba(var(--fg),.12)] hover:opacity-100', r.starred ? 'text-[#f59e0b] opacity-100' : 'opacity-40')}
+                    className={cn('flex size-[30px] flex-none cursor-pointer items-center justify-center rounded-full transition-opacity duration-150 hover:bg-[rgba(var(--fg),.12)] hover:opacity-100', r.starred ? 'text-[#eab308] opacity-100' : 'opacity-35')}
                   >
                     <i className={cn(r.starred ? 'ph-fill' : 'ph-light', 'ph-star text-[16px]')} />
                   </button>

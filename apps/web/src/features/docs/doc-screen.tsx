@@ -25,10 +25,10 @@ export function partyLabel(t: DocType): T {
   return { id: 'Kontak', en: 'Contact' }
 }
 
-const statusL: Record<DocStatus, T & { icon: string; bg: string }> = {
-  unpaid: { id: 'Belum Lunas', en: 'Unpaid', icon: 'ph-light ph-clock', bg: 'rgba(245,158,11,.22)' },
-  partial: { id: 'Terbayar Sebagian', en: 'Partly Paid', icon: 'ph-light ph-circle-half', bg: 'rgba(56,189,248,.22)' },
-  paid: { id: 'Lunas', en: 'Paid', icon: 'ph-light ph-check-circle', bg: 'rgba(34,197,94,.22)' },
+const statusL: Record<DocStatus, T & { icon: string; rgb: string }> = {
+  unpaid: { id: 'Belum Lunas', en: 'Unpaid', icon: 'ph-light ph-circle-dashed', rgb: '245,158,11' },
+  partial: { id: 'Terbayar Sebagian', en: 'Partly Paid', icon: 'ph-light ph-circle-half', rgb: '56,189,248' },
+  paid: { id: 'Lunas', en: 'Paid', icon: 'ph-light ph-check-circle', rgb: '34,197,94' },
 }
 
 function blank(type: DocType): DocValues {
@@ -215,7 +215,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
   }, [more, shown])
 
   const rowOp = { opacity: refreshing ? 0.35 : 1 }
-  const grid = 'grid grid-cols-[1.4fr_1fr_1.6fr_1.4fr_1.1fr_1fr] gap-2'
+  const grid = 'grid grid-cols-[minmax(0,1.3fr)_minmax(0,.9fr)_minmax(0,1.6fr)_minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)] gap-3'
   const badge = (r: DocRow) => {
     if (isJournal)
       return r.source !== 'Jurnal Umum' ? (
@@ -227,7 +227,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
     if (!r.status) return null
     const s = statusL[r.status]
     return (
-      <span className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1 text-[11px] whitespace-nowrap" style={{ background: s.bg }}>
+      <span className="inline-flex items-center gap-[5px] self-start rounded-xl border px-2.5 py-[3px] text-[11.5px] whitespace-nowrap" style={{ borderColor: `rgba(${s.rgb},.7)`, background: `rgba(${s.rgb},.12)` }}>
         <i className={s.icon} aria-hidden="true" />
         {t(s)}
       </span>
@@ -245,7 +245,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
                 type="button"
                 onClick={() => setStatus(s)}
                 aria-pressed={status === s}
-                className={cn('flex-none cursor-pointer rounded-[18px] px-3.5 py-2 text-xs whitespace-nowrap', status === s ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.1)] hover:bg-[rgba(var(--fg),.18)]')}
+                className={cn('flex-none cursor-pointer rounded-[18px] border px-3.5 py-2 text-xs leading-[1.25] whitespace-nowrap transition-[border-color,background] duration-150', status === s ? 'border-transparent bg-(--ink) text-(--paper)' : 'border-[rgba(var(--fg),.18)] hover:bg-[rgba(var(--fg),.08)]')}
               >
                 {s ? t(statusL[s]) : t({ id: 'Semua', en: 'All' })}
               </button>
@@ -265,9 +265,9 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
           }}
           placeholder={t({ id: 'Ketik dan [Enter]', en: 'Type and [Enter]' })}
           aria-label={L.search}
-          className={cn('box-border min-w-0 rounded-[18px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-3.5 py-[9px] text-xs text-(--ink) outline-none', isMobile ? 'flex-1' : 'ml-auto w-[240px] flex-none')}
+          className={cn('box-border min-w-0 rounded-[18px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-3.5 py-[9px] text-xs text-(--ink) outline-none', isMobile ? 'flex-1' : 'max-w-[360px] flex-[1_1_220px]')}
         />
-        <button type="button" onClick={onNew} className="flex-none cursor-pointer rounded-[18px] bg-(--ink) px-4 py-[9px] text-xs font-normal text-(--paper)">
+        <button type="button" onClick={onNew} className="ml-auto flex-none cursor-pointer rounded-[18px] bg-(--ink) px-4 py-[9px] text-xs font-normal text-(--paper)">
           + {L.newEntry}
         </button>
       </div>
@@ -302,6 +302,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
           return isMobile ? (
             <button
               key={r.id}
+              data-rf-row
               type="button"
               onClick={() => onOpen(r)}
               style={rowOp}
@@ -321,15 +322,16 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
           ) : (
             <button
               key={r.id}
+              data-rf-row
               type="button"
               onClick={() => onOpen(r)}
               style={rowOp}
               className={cn(grid, 'w-full cursor-pointer items-center border-b border-[rgba(var(--fg),.07)] px-[22px] py-3 text-left text-[13px] transition-opacity duration-[.25s] hover:bg-[rgba(var(--fg),.08)]')}
             >
-              <span className="tabular-nums">{no}</span>
-              <span className="opacity-75">{r.date}</span>
+              <span className="truncate tabular-nums">{no}</span>
+              <span className="tabular-nums">{r.date}</span>
               <span className="truncate">{isJournal ? r.description : r.party}</span>
-              <span className="truncate opacity-50">{isJournal ? (r.no !== r.jv ? r.no : '') : r.description}</span>
+              <span className="truncate">{isJournal ? (r.no !== r.jv ? r.no : '') : r.description}</span>
               <span>{badge(r)}</span>
               <span className="text-right tabular-nums">{idr(r.total)}</span>
             </button>

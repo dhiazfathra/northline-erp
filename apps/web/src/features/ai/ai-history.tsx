@@ -55,7 +55,7 @@ export function AiHistory() {
   const cur = data?.find((c) => c.id === selId) ?? (isMobile ? undefined : data?.[0])
   const showList = !isMobile || !cur
   const showChat = !isMobile || !!cur
-  const h = isMobile ? 'calc(100dvh - 210px)' : 'calc(100dvh - 250px)'
+  const h = isMobile ? 'calc(100dvh - 210px)' : 'min(640px,calc(100vh - 230px))'
 
   return (
     <DocFrame
@@ -63,9 +63,9 @@ export function AiHistory() {
       label={t({ id: 'Riwayat AI', en: 'AI History' })}
       subs={[{ name: t({ id: 'Riwayat AI', en: 'AI History' }), to: '/ai/history', active: true }]}
     >
-      <div data-screen-label="AI chat history" className="grid animate-[fade_.2s] items-stretch gap-4" style={{ gridTemplateColumns: isMobile ? '1fr' : '340px minmax(0,1fr)' }}>
+      <div data-screen-label="AI chat history" className="grid animate-[fade_.2s] items-stretch gap-4" style={{ gridTemplateColumns: isMobile ? 'minmax(0,1fr)' : 'minmax(240px,320px) minmax(0,1fr)' }}>
         {showList && (
-          <div className={`${card} flex flex-col gap-3 p-[14px]`} style={{ height: h, minHeight: 420 }}>
+          <div className={`${card} flex flex-col gap-3 p-[14px]`} style={{ height: h }}>
             <div className="flex h-[38px] flex-none items-center gap-2 rounded-[14px] border border-[rgba(var(--fg),.14)] bg-[rgba(var(--fg),.06)] px-3">
               <i className="ph-light ph-magnifying-glass text-[14px] opacity-60" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={L.aiHxSearch} aria-label={L.aiHxSearch} className="min-w-0 flex-1 border-none bg-transparent p-0 text-[12.5px] text-inherit outline-none" />
@@ -101,7 +101,7 @@ export function AiHistory() {
           </div>
         )}
         {showChat && (
-          <div className={`${card} flex flex-col overflow-hidden`} style={{ height: h, minHeight: 420 }}>
+          <div className={`${card} flex flex-col overflow-hidden`} style={{ height: h }}>
             {cur ? (
               <>
                 <div className="flex flex-none flex-wrap items-start justify-between gap-3 border-b border-[rgba(var(--fg),.1)] px-5 pt-4 pb-[14px]">

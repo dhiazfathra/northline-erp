@@ -72,6 +72,7 @@ export function TrialBalance() {
             {rows.map(({ a, v }) => (
               <button
                 key={a.code}
+                data-rf-row="1"
                 type="button"
                 onClick={() => setSel(a)}
                 style={{ opacity: refreshing ? 0.35 : 1 }}

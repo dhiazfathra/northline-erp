@@ -48,9 +48,9 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
   return (
     <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(200px,1fr))]')}>
+        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
           <label className={lbl}>
-            <span className="opacity-85">
+            <span className="opacity-75">
               {partyLabel} {req}
             </span>
             <Controller
@@ -65,17 +65,17 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
                     field.onChange(p)
                     replace(p ? openInvoices(type, p, record?.id) : [])
                   }}
-                  className="h-[43px]"
+                  className="h-[41px]"
                 />
               )}
             />
           </label>
           <label className={lbl}>
-            <span className="opacity-85">Bank {req}</span>
-            <Controller control={control} name="bank" render={({ field }) => <Dropdown noClear value={field.value} options={banks} onSelect={field.onChange} className="h-[43px]" />} />
+            <span className="opacity-75">Bank {req}</span>
+            <Controller control={control} name="bank" render={({ field }) => <Dropdown noClear value={field.value} options={banks} onSelect={field.onChange} className="h-[41px]" />} />
           </label>
           <label className={lbl}>
-            <span className="opacity-85">
+            <span className="opacity-75">
               {L.date} {req}
             </span>
             <input {...register('date')} className={fieldCls} />
@@ -85,8 +85,8 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             name="autoNo"
             render={({ field }) => (
               <label className={lbl}>
-                <span className="opacity-85">{L.docNo}</span>
-                <span className="field flex h-[43px] items-center gap-2 px-3.5">
+                <span className="opacity-75">{L.docNo}</span>
+                <span className="field flex h-[41px] items-center gap-2 px-3.5">
                   <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
@@ -94,8 +94,8 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             )}
           />
           <label className={lbl}>
-            <span className="opacity-85">Nilai Pembayaran {req}</span>
-            <Controller control={control} name="amount" render={({ field }) => <NumCell value={field.value} onChange={field.onChange} label="Nilai Pembayaran" className="h-[43px] rounded-[14px]" />} />
+            <span className="opacity-75">Nilai Pembayaran {req}</span>
+            <Controller control={control} name="amount" render={({ field }) => <NumCell value={field.value} onChange={field.onChange} label="Nilai Pembayaran" className="h-[41px] rounded-[14px]" />} />
           </label>
         </div>
 
@@ -117,7 +117,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
               {fields.map((f, i) => {
                 const l = v.lines[i] ?? f
                 return (
-                  <div key={f.id} className={cn('grid animate-[fade_.2s] items-center gap-2 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]', cols)}>
+                  <div key={f.id} data-rf-row className={cn('grid animate-[fade_.2s] items-center gap-2 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]', cols)}>
                     <span className="tabular-nums">{l.invoice}</span>
                     <span className="opacity-75">{l.date}</span>
                     <span className="text-right tabular-nums">{idr(l.total)}</span>

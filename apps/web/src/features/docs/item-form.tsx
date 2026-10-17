@@ -96,10 +96,10 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   return (
     <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(200px,1fr))]')}>
+        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
           {hasParty && (
             <label className={lbl}>
-              <span className="opacity-85">
+              <span className="opacity-75">
                 {partyLabel} {req}
               </span>
               <Controller
@@ -115,7 +115,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                       setValue('invoice', '')
                     }}
                     placeholder={t({ id: `Cari ${partyLabel.toLowerCase()}…`, en: `Search ${partyLabel.toLowerCase()}…` })}
-                    className="h-[43px]"
+                    className="h-[41px]"
                   />
                 )}
               />
@@ -123,7 +123,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
           )}
           {isReturn && (
             <label className={lbl}>
-              <span className="opacity-85">
+              <span className="opacity-75">
                 {t({ id: 'Faktur', en: 'Invoice' })} {req}
               </span>
               <span className="flex gap-2">
@@ -136,7 +136,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                       disabled={!v.party}
                       options={v.party ? invoicesFor(v.party, isPurchase ? 'Faktur Pembelian' : 'Faktur Penjualan') : []}
                       onSelect={field.onChange}
-                      className="h-[43px]"
+                      className="h-[41px]"
                     />
                   )}
                 />
@@ -147,7 +147,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
             </label>
           )}
           <label className={lbl}>
-            <span className="opacity-85">
+            <span className="opacity-75">
               {L.date} {req}
             </span>
             <input {...register('date')} className={fieldCls} />
@@ -157,8 +157,8 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
             name="autoNo"
             render={({ field }) => (
               <label className={lbl}>
-                <span className="opacity-85">{L.docNo}</span>
-                <span className="field flex h-[43px] items-center gap-2 px-3.5">
+                <span className="opacity-75">{L.docNo}</span>
+                <span className="field flex h-[41px] items-center gap-2 px-3.5">
                   <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
@@ -167,7 +167,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
           />
           {type === 'purchase-invoice' && (
             <label className={lbl}>
-              <span className="opacity-85">No Faktur # {req}</span>
+              <span className="opacity-75">No Faktur # {req}</span>
               <input {...register('supplierNo')} className={fieldCls} />
             </label>
           )}
@@ -217,7 +217,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                 </button>
               )
               return isMobile ? (
-                <div key={f.id} className="flex animate-[fade_.2s] flex-col gap-2 border-b border-[rgba(var(--fg),.07)] px-3.5 py-3 text-[13px]">
+                <div key={f.id} data-rf-row className="flex animate-[fade_.2s] flex-col gap-2 border-b border-[rgba(var(--fg),.07)] px-3.5 py-3 text-[13px]">
                   <div className="flex items-center gap-2">
                     <span className="min-w-0 flex-1 truncate">
                       {it.name} <span className="text-[11px] opacity-60">{it.code}</span>
@@ -232,7 +232,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                   </div>
                 </div>
               ) : (
-                <div key={f.id} className={cn('grid animate-[fade_.2s] items-center gap-2 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]', cols)}>
+                <div key={f.id} data-rf-row className={cn('grid animate-[fade_.2s] items-center gap-2 border-b border-[rgba(var(--fg),.07)] px-4 py-2 text-[13px]', cols)}>
                   <span className="truncate">{it.name}</span>
                   <span className="opacity-65">{it.code}</span>
                   {qty}
@@ -257,18 +257,18 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
             {info && (
               <div className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] items-end gap-3.5">
                 <label className={lbl}>
-                  <span className="opacity-85">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
-                  <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[43px] rounded-[14px]" />} />
+                  <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
+                  <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
                 </label>
                 <label className={lbl}>
-                  <span className="opacity-85">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
-                  <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[43px]" />} />
+                  <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
+                  <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
                 </label>
                 <label className={lbl}>
-                  <span className="opacity-85">No. PO</span>
+                  <span className="opacity-75">No. PO</span>
                   <input {...register('poNo')} className={fieldCls} />
                 </label>
-                <div className="flex h-[43px] flex-col justify-center gap-1.5">
+                <div className="flex h-[41px] flex-col justify-center gap-1.5">
                   <Controller control={control} name="taxable" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Kena Pajak', en: 'Taxable' })} />} />
                   <Controller
                     control={control}
@@ -293,7 +293,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                     const dv = recordValues(d.no) as ItemDocInput | undefined
                     const dt = dv && itemTotals(dv)
                     return (
-                      <div key={d.no} className="flex flex-wrap items-center justify-between gap-2 text-[13px]">
+                      <div key={d.no} data-rf-row className="flex flex-wrap items-center justify-between gap-2 text-[13px]">
                         <Check
                           checked={field.value.includes(d.no)}
                           onChange={(on) => field.onChange(on ? [...field.value, d.no] : field.value.filter((x) => x !== d.no))}

@@ -15,7 +15,7 @@ export interface FontStyle { ff: string; sz: number; b: boolean; i: boolean; u: 
 const f = (sz: number, c = '#18181b', b = false, ta: FontStyle['ta'] = 'left'): FontStyle => ({ ff: 'Outfit', sz, b, i: false, u: false, c, ta, wrap: false })
 export const fontDefaults: Record<FontKey, FontStyle> = {
   co: f(13, '#18181b', true),
-  ti: f(30),
+  ti: f(28, '#18181b', true),
   fil: f(12),
   col: f(9.5, '#71717a'),
   sec: f(11, '#4338ca', true),
@@ -70,7 +70,7 @@ export const layoutDefault: Layout = {
   text: { ti: '', sys: 'Northline ERP', add: '' },
   cols: null,
   flt: [],
-  page: { size: 'A4', ori: 'p', flex: false, mar: { t: 15, b: 15, l: 16, r: 16 } },
+  page: { size: 'A4', ori: 'p', flex: false, mar: { t: 14, b: 8, l: 15, r: 15 } },
   fonts: fontDefaults,
   num: { df: 'dd/mm/yyyy', dec: 'en', neg: 'minus', red: true, dp: 0 },
   rows: null,

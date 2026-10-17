@@ -74,7 +74,7 @@ export function Reconciliation() {
                   <span className="pl-3">Status</span>
                 </div>
                 {b.entries.map((e) => (
-                  <div key={e.id} style={{ opacity: refreshing ? 0.35 : 1 }} className={cn(grid, 'min-h-[52px] border-b border-[rgba(var(--fg),.07)] py-2 transition-opacity duration-[.25s]')}>
+                  <div key={e.id} data-rf-row="1" style={{ opacity: refreshing ? 0.35 : 1 }} className={cn(grid, 'min-h-[52px] border-b border-[rgba(var(--fg),.07)] py-2 transition-opacity duration-[.25s]')}>
                     <span className="tabular-nums">{e.date}</span>
                     <span className="truncate tabular-nums">{e.no}</span>
                     <span className="min-w-0">

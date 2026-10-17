@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { kindColor, navFor } from '@/lib/nav'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
+import type { RefreshPhase } from './overlays'
 
 const OVERVIEW = '/'
 
@@ -12,7 +13,7 @@ export function useTabMeta() {
   const t = useT()
   const { lang } = useShell()
   return (path: string) => {
-    if (path === OVERVIEW) return { label: lang === 'id' ? 'Ringkasan' : 'Overview', mod: 'Northline', dot: '#22c55e' }
+    if (path === OVERVIEW) return { label: lang === 'id' ? 'Ringkasan' : 'Overview', mod: 'Northline', dot: 'var(--ink)' }
     const hit = navFor(path)
     if (!hit) return { label: path, mod: '', dot: 'rgba(var(--fg),.5)' }
     const slug = path.slice(hit.sub.to!.length + 1)
@@ -22,8 +23,8 @@ export function useTabMeta() {
   }
 }
 
-export function TabBar() {
-  const { L, tabs, removeTab, setTabs, dirty, isMobile, refresh, refreshing, lang, setMegaOpen } = useShell()
+export function TabBar({ rfPhase }: { rfPhase: RefreshPhase }) {
+  const { L, tabs, removeTab, setTabs, dirty, isMobile, isDesktop, refresh, lang, setMegaOpen } = useShell()
   const loc = useLocation()
   const navigate = useNavigate()
   const meta = useTabMeta()
@@ -39,7 +40,7 @@ export function TabBar() {
   const close = (path: string) => (dirty.has(path) ? setConfirm(path) : doClose(path))
 
   return (
-    <div className={cn('relative z-15 flex-none', isMobile ? 'px-4' : 'px-8')}>
+    <div className={cn('relative z-15 flex-none', isDesktop ? 'px-10 pt-[26px]' : isMobile ? 'px-4 pt-3' : 'px-6 pt-[18px]')}>
       <div className="flex h-10 items-end gap-1 border-b border-[rgba(var(--fg),.2)]">
         <div className={cn('no-scrollbar flex min-w-0 flex-1 items-end gap-1 overflow-y-hidden', isMobile ? 'overflow-x-auto' : 'overflow-x-hidden')}>
           {all.map((p) => {
@@ -52,10 +53,10 @@ export function TabBar() {
                 onClick={() => navigate({ to: p })}
                 onAuxClick={(e) => e.button === 1 && p !== OVERVIEW && close(p)}
                 className={cn(
-                  'mb-[-1px] flex h-[38px] min-w-24 flex-[0_1_210px] cursor-pointer animate-[pop_.18s_ease-out] items-center gap-[9px] rounded-t-[14px] border border-b-0 pr-2 pl-3.5 text-[12.5px] backdrop-blur-[24px] backdrop-saturate-200 transition-[background,opacity] hover:opacity-100',
+                  'mb-[-1px] flex h-[38px] min-w-24 flex-[0_1_210px] cursor-pointer animate-[pop_.18s_ease-out] items-center gap-[9px] rounded-t-[14px] border border-b-0 pr-2 pl-3.5 text-[12.5px] backdrop-blur-[24px] backdrop-brightness-110 backdrop-saturate-200 transition-[background,opacity] duration-150 hover:opacity-100',
                   on
-                    ? 'border-[rgba(255,255,255,.28)] bg-[rgba(var(--fg),.14)] opacity-100 shadow-[inset_0_1px_0_rgba(255,255,255,.45)]'
-                    : 'border-transparent bg-[rgba(var(--fg),.04)] opacity-65',
+                    ? 'border-[rgba(255,255,255,.4)] opacity-100 shadow-[inset_0_1px_0_rgba(255,255,255,.7),inset_0_-1px_0_rgba(255,255,255,.15),inset_0_0_18px_rgba(255,255,255,.12),0_6px_18px_rgba(0,0,0,.22)] [background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(255,255,255,.08)_50%,rgba(255,255,255,.16))]'
+                    : 'border-[rgba(255,255,255,.1)] bg-[rgba(var(--fg),.04)] opacity-70 shadow-[inset_0_1px_0_rgba(255,255,255,.14)]',
                 )}
               >
                 <span className="size-1.5 flex-none rounded-full" style={{ background: m.dot }} />
@@ -83,7 +84,7 @@ export function TabBar() {
             type="button"
             title={L.openPage}
             onClick={() => setMegaOpen(true)}
-            className="glass-btn mb-1 ml-1 flex size-[30px] flex-none cursor-pointer items-center justify-center rounded-full text-[17px] hover:bg-[rgba(255,255,255,.22)]"
+            className="glass-btn mb-1 ml-1 flex transition-[background] duration-150 size-[30px] flex-none cursor-pointer items-center justify-center rounded-full text-[17px] hover:bg-[rgba(255,255,255,.22)]"
           >
             +
           </button>
@@ -94,18 +95,21 @@ export function TabBar() {
           title={lang === 'id' ? 'Muat ulang halaman' : 'Refresh page'}
           className="glass-btn mb-[5px] flex size-[30px] flex-none cursor-pointer items-center justify-center rounded-full text-[15px] transition-[background] hover:bg-[rgba(255,255,255,.22)]"
         >
-          <i className="ph-light ph-arrows-clockwise block" style={{ animation: refreshing ? 'spin .8s linear infinite' : undefined, color: refreshing ? '#ec4899' : undefined }} />
+          <i
+            className={cn('ph-light block', rfPhase === 'done' ? 'ph-check text-[#a3e635]' : 'ph-arrow-clockwise')}
+            style={{ animation: rfPhase === 'in' || rfPhase === 'out' ? 'spin .8s linear infinite' : undefined }}
+          />
         </button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button type="button" className="glass-btn mb-[5px] flex flex-none cursor-pointer items-center gap-2 rounded-[14px] px-3 py-1.5 text-xs data-[state=open]:bg-[rgba(var(--fg),.16)]">
+            <button type="button" className="glass-btn mb-[5px] flex flex-none cursor-pointer items-center gap-2 rounded-[14px] bg-[rgba(var(--fg),.08)] px-3 py-1.5 text-xs data-[state=open]:bg-[rgba(var(--fg),.18)]">
               {all.length}
               <svg width="8" height="5" viewBox="0 0 8 5">
                 <path d="M1 1l3 3 3-3" style={{ stroke: 'var(--ink)' }} fill="none" />
               </svg>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={6} className="glass-pop w-[260px] rounded-[22px] p-2 text-(--ink)">
+          <DropdownMenuContent align="end" sideOffset={3} className="glass-pop w-[260px] ring-0 rounded-[22px] p-2 text-(--ink)">
             <DropdownMenuLabel className="px-2.5 pt-1.5 pb-2 text-[10.5px] font-normal tracking-[.5px] uppercase opacity-50">{L.openTabs}</DropdownMenuLabel>
             {all.map((p) => {
               const m = meta(p)

@@ -42,8 +42,8 @@ export function SignIn() {
       <div
         className={cn(
           'box-border grid flex-1 items-center gap-20',
-          isDesktop ? 'grid-cols-[1fr_auto] justify-items-start px-8 py-10' : 'grid-cols-1 justify-items-center',
-          isMobile ? 'px-4 py-6' : !isDesktop && 'px-8 py-10',
+          isDesktop ? 'grid-cols-[minmax(0,1fr)_440px] justify-items-stretch px-10 py-6' : 'grid-cols-1 justify-items-center',
+          isMobile ? 'px-4 py-5' : !isDesktop && 'px-6 py-8',
         )}
       >
         {isDesktop && (
@@ -56,9 +56,9 @@ export function SignIn() {
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          className={cn('m-0 box-border flex max-w-full animate-[pop_.25s_ease-out] flex-col rounded-[32px]', heavyGlass, isMobile ? 'w-full p-6' : 'w-[440px] p-9')}
+          className={cn('m-0 box-border flex max-w-full animate-[pop_.25s_ease-out] flex-col rounded-[32px]', heavyGlass, isMobile ? 'w-full px-5 py-6' : 'w-[440px] px-[34px] pt-[34px] pb-[30px]')}
         >
-          <div className={cn('leading-[1.1] tracking-[-.5px]', isMobile ? 'text-[26px]' : 'text-[30px]')}>{isDesktop ? t(tx.title) : L.heroTitle}</div>
+          <div className={cn('leading-[1.1] tracking-[-.5px]', isMobile ? 'text-[28px]' : 'text-[34px]')}>{isDesktop ? t(tx.title) : L.heroTitle}</div>
           <div className="mt-2 text-[13px] leading-[1.45] text-pretty opacity-65">{isDesktop ? t(tx.sub) : L.heroSub}</div>
           <div className="mt-[26px] grid grid-cols-1 gap-3.5">
             {fields.map((f) => (
@@ -100,7 +100,7 @@ export function SignIn() {
               </label>
             ))}
           </div>
-          <button type="submit" disabled={isSubmitting} className="mt-6 h-12 cursor-pointer rounded-[18px] bg-(--ink) text-sm font-normal text-(--paper)">
+          <button type="submit" disabled={isSubmitting} className="mt-[22px] w-full cursor-pointer rounded-[22px] bg-(--ink) p-3.5 text-sm font-normal text-(--paper) transition-opacity duration-150 disabled:opacity-60">
             {t(tx.btn)}
           </button>
         </form>

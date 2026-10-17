@@ -178,7 +178,7 @@ export function MonthEnd() {
                     <span className="text-right">{t({ id: 'Kredit', en: 'Credit' })}</span>
                   </div>
                   {jr.map((j) => (
-                    <div key={j.c} className={cn(jrGrid, 'text-[12.5px]')}>
+                    <div key={j.c} data-rf-row="1" className={cn(jrGrid, 'text-[12.5px]')}>
                       <span>{j.c}</span>
                       <span>{j.n}</span>
                       <span className="opacity-85">USD {fmt(usdBalance)} @ {fmt(r)}</span>
@@ -205,7 +205,7 @@ export function MonthEnd() {
               <span>{t({ id: 'Catatan', en: 'Note' })}</span>
             </div>
             {runs.data?.map((x) => (
-              <div key={x.name + x.date} className="grid grid-cols-[1fr_.8fr_2fr] gap-3 border-b border-[rgba(var(--fg),.07)] px-[22px] py-3 text-[13px]">
+              <div key={x.name + x.date} data-rf-row="1" className="grid grid-cols-[1fr_.8fr_2fr] gap-3 border-b border-[rgba(var(--fg),.07)] px-[22px] py-3 text-[13px]">
                 <span>{x.name}</span>
                 <span className="tabular-nums">{x.date}</span>
                 <span>{x.note}</span>
