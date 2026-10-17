@@ -131,7 +131,7 @@ export const journals: Journal[] = [
   // S8 · returns
   { jv: 'JV.2026.10.00022', no: 'PRT.2026.10.00001', date: '16/10/2026', source: 'Retur Pembelian', scenario: 'S8', description: 'Retur Barang B 1 @ 150.000 atas PI.2026.10.00002', lines: [dr('210101', 150_000), cr('110401', 150_000)] },
   { jv: 'JV.2026.10.00023', no: 'SI.2026.10.00006', date: '16/10/2026', source: 'Faktur Penjualan', scenario: 'S8', description: 'Barang B 1 @ 200.000', lines: [dr('110301', 200_000), cr('400001', 200_000), dr('510101', 150_000), cr('110401', 150_000)] },
-  { jv: 'JV.2026.10.00024', no: 'SRT.2026.10.00001', date: '17/10/2026', source: 'Retur Penjualan', scenario: 'S8', description: 'Retur SI.2026.10.00006 (barang rusak, tidak masuk stok)', lines: [dr('400005', 200_000), cr('110301', 200_000)] },
+  { jv: 'JV.2026.10.00014', no: 'SRT.2026.10.00001', date: '17/10/2026', source: 'Retur Penjualan', scenario: 'S8', description: 'Retur SI.2026.10.00006 (barang rusak, tidak masuk stok)', lines: [dr('400005', 200_000), cr('110301', 200_000)] },
 ]
 
 // ---- derivations ----
@@ -205,3 +205,29 @@ export function trialBalanceTotals(bal = balances()) {
 }
 
 export const idr = (n: number) => (n < 0 ? '-' : '') + Math.abs(n).toLocaleString('en-US')
+
+// ---- master data (seed.yaml, prefix stripped; IDs are a design proposal) ----
+
+export const customers = [
+  { id: 'C.00001', name: 'PT Pelanggan Uji', npwp: '01.234.567.8-901.000', currency: 'IDR', terms: 'Net 30' },
+  { id: 'C.00002', name: 'CV Jasa Mandiri', npwp: '02.345.678.9-012.000', currency: 'IDR', terms: 'Net 14' },
+  { id: 'C.00003', name: 'Global Trade Ltd', npwp: '', currency: 'USD', terms: 'Net 30' },
+]
+
+export const vendors = [
+  { id: 'V.00001', name: 'PT Konsultan Uji', npwp: '', currency: 'IDR', terms: 'Net 30', pph23: true },
+  { id: 'V.00002', name: 'PT Pemasok Barang', npwp: '03.456.789.0-123.000', currency: 'IDR', terms: 'Net 30', pph23: false },
+  { id: 'V.00003', name: 'CV Alat Kantor', npwp: '04.567.890.1-234.000', currency: 'IDR', terms: 'COD', pph23: false },
+]
+
+export const items = [
+  { code: 'BRG-A', name: 'Barang A', kind: 'Persediaan' as const, unit: 'PCS', sellPrice: 200_000, buyPrice: 120_000 },
+  { code: 'BRG-B', name: 'Barang B', kind: 'Persediaan' as const, unit: 'PCS', sellPrice: 200_000, buyPrice: 150_000 },
+  { code: 'JSA-01', name: 'Jasa', kind: 'Jasa' as const, unit: 'JAM', sellPrice: 1_000_000, buyPrice: 0 },
+  { code: 'JSA-KNS', name: 'Jasa Konsultan', kind: 'Jasa' as const, unit: 'JAM', sellPrice: 0, buyPrice: 1_000_000 },
+]
+
+export const taxes = [
+  { code: 'PPN', name: 'PPN 11%', rate: 11, salesAccount: '210201', purchaseAccount: '110501' },
+  { code: 'PPH23', name: 'PPh 23 (tanpa NPWP)', rate: 4, salesAccount: '', purchaseAccount: '210301' },
+]

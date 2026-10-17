@@ -33,30 +33,35 @@ export const kindLabel: Record<SubKind, T> = {
   setting: { id: 'Pengaturan', en: 'Settings' },
 }
 
-const locked: T = { id: 'Aktifkan fitur ini di Preferensi', en: 'Turn this feature on in Preferences' }
+const locked = (feature: string): T => ({ id: `Aktifkan "${feature}" di Preferensi`, en: `Turn on "${feature}" in Preferences` })
 
+// The 10 rail modules (00-navigation-map.md): Manufaktur replaces the Aset Tetap module; Aset Tetap,
+// Mata Uang and Anggaran tiles sit under Buku Besar (placement is a design proposal).
 export const modules: NavModule[] = [
   {
-    id: 'sales',
-    name: { id: 'Penjualan', en: 'Sales' },
-    icon: 'ph-light ph-shopping-bag',
+    id: 'company',
+    name: { id: 'Perusahaan', en: 'Company' },
+    icon: 'ph-light ph-briefcase',
     subs: [
-      { label: { id: 'Penawaran Penjualan', en: 'Sales Quotation' }, kind: 'tx', icon: 'ph-light ph-note-pencil', to: '/docs/sales-quotation' },
-      { label: { id: 'Pesanan Penjualan', en: 'Sales Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/sales-order' },
-      { label: { id: 'Faktur Penjualan', en: 'Sales Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/sales-invoice' },
-      { label: { id: 'Penerimaan Penjualan', en: 'Sales Receipt' }, kind: 'tx', icon: 'ph-light ph-hand-coins', to: '/docs/sales-receipt' },
       { label: { id: 'Pelanggan', en: 'Customers' }, kind: 'data', icon: 'ph-light ph-users', to: '/modules/customers' },
+      { label: { id: 'Pemasok', en: 'Vendors' }, kind: 'data', icon: 'ph-light ph-truck', to: '/modules/vendors' },
+      { label: { id: 'Ganti Perusahaan', en: 'Switch Company' }, kind: 'setting', icon: 'ph-light ph-swap', to: '/workspaces' },
     ],
   },
   {
-    id: 'purchase',
-    name: { id: 'Pembelian', en: 'Purchases' },
-    icon: 'ph-light ph-shopping-cart',
+    id: 'ledger',
+    name: { id: 'Buku Besar', en: 'General Ledger' },
+    icon: 'ph-light ph-book-open',
     subs: [
-      { label: { id: 'Pesanan Pembelian', en: 'Purchase Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/purchase-order' },
-      { label: { id: 'Faktur Pembelian', en: 'Purchase Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/purchase-invoice' },
-      { label: { id: 'Pembayaran Pembelian', en: 'Purchase Payment' }, kind: 'tx', icon: 'ph-light ph-money', to: '/docs/purchase-payment' },
-      { label: { id: 'Pemasok', en: 'Vendors' }, kind: 'data', icon: 'ph-light ph-truck', to: '/modules/vendors' },
+      { label: { id: 'Akun Perkiraan', en: 'Chart of Accounts' }, kind: 'data', icon: 'ph-light ph-tree-structure', to: '/accounts' },
+      { label: { id: 'Jurnal Umum', en: 'Journal Voucher' }, kind: 'tx', icon: 'ph-light ph-notebook', to: '/docs/journal' },
+      { label: { id: 'Proses Akhir Bulan', en: 'Month-end Close' }, kind: 'tx', icon: 'ph-light ph-calendar-check', to: '/ledger/month-end' },
+      { label: { id: 'Neraca Percobaan', en: 'Trial Balance' }, kind: 'report', icon: 'ph-light ph-scales', to: '/ledger/trial-balance' },
+      { label: { id: 'Aset Tetap', en: 'Fixed Assets' }, kind: 'data', icon: 'ph-light ph-armchair', to: '/fixed-assets' },
+      { label: { id: 'Pengeluaran Aset', en: 'Asset Expenditure' }, kind: 'tx', icon: 'ph-light ph-wrench', to: '/asset-modules' },
+      { label: { id: 'Aset per Lokasi', en: 'Assets by Location' }, kind: 'report', icon: 'ph-light ph-map-pin', to: '/asset-modules/by-location' },
+      { label: { id: 'Mata Uang', en: 'Currencies' }, kind: 'data', icon: 'ph-light ph-currency-circle-dollar', offNote: locked('Multi Mata Uang') },
+      { label: { id: 'Anggaran', en: 'Budget' }, kind: 'data', icon: 'ph-light ph-chart-pie-slice', offNote: locked('Anggaran') },
     ],
   },
   {
@@ -70,14 +75,27 @@ export const modules: NavModule[] = [
     ],
   },
   {
-    id: 'ledger',
-    name: { id: 'Buku Besar', en: 'General Ledger' },
-    icon: 'ph-light ph-book-open',
+    id: 'sales',
+    name: { id: 'Penjualan', en: 'Sales' },
+    icon: 'ph-light ph-shopping-bag',
     subs: [
-      { label: { id: 'Akun Perkiraan', en: 'Chart of Accounts' }, kind: 'data', icon: 'ph-light ph-tree-structure', to: '/accounts' },
-      { label: { id: 'Jurnal Umum', en: 'Journal Voucher' }, kind: 'tx', icon: 'ph-light ph-notebook', to: '/docs/journal' },
-      { label: { id: 'Neraca Percobaan', en: 'Trial Balance' }, kind: 'report', icon: 'ph-light ph-scales', to: '/ledger/trial-balance' },
-      { label: { id: 'Proses Akhir Bulan', en: 'Month-end Close' }, kind: 'tx', icon: 'ph-light ph-calendar-check', to: '/ledger/month-end' },
+      { label: { id: 'Penawaran Penjualan', en: 'Sales Quotation' }, kind: 'tx', icon: 'ph-light ph-note-pencil', to: '/docs/sales-quotation' },
+      { label: { id: 'Pesanan Penjualan', en: 'Sales Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/sales-order' },
+      { label: { id: 'Uang Muka Penjualan', en: 'Sales Down Payment' }, kind: 'tx', icon: 'ph-light ph-coins', to: '/docs/sales-down-payment' },
+      { label: { id: 'Faktur Penjualan', en: 'Sales Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/sales-invoice' },
+      { label: { id: 'Penerimaan Penjualan', en: 'Sales Receipt' }, kind: 'tx', icon: 'ph-light ph-hand-coins', to: '/docs/sales-receipt' },
+      { label: { id: 'Retur Penjualan', en: 'Sales Return' }, kind: 'tx', icon: 'ph-light ph-arrow-u-up-left', to: '/docs/sales-return' },
+    ],
+  },
+  {
+    id: 'purchase',
+    name: { id: 'Pembelian', en: 'Purchases' },
+    icon: 'ph-light ph-shopping-cart',
+    subs: [
+      { label: { id: 'Pesanan Pembelian', en: 'Purchase Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/purchase-order' },
+      { label: { id: 'Faktur Pembelian', en: 'Purchase Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/purchase-invoice' },
+      { label: { id: 'Pembayaran Pembelian', en: 'Purchase Payment' }, kind: 'tx', icon: 'ph-light ph-money', to: '/docs/purchase-payment' },
+      { label: { id: 'Retur Pembelian', en: 'Purchase Return' }, kind: 'tx', icon: 'ph-light ph-arrow-u-up-left', to: '/docs/purchase-return' },
     ],
   },
   {
@@ -87,17 +105,25 @@ export const modules: NavModule[] = [
     subs: [
       { label: { id: 'Barang & Jasa', en: 'Items & Services' }, kind: 'data', icon: 'ph-light ph-cube', to: '/modules/items' },
       { label: { id: 'Gudang', en: 'Warehouses' }, kind: 'data', icon: 'ph-light ph-warehouse', to: '/modules/warehouses' },
-      { label: { id: 'Penyesuaian Persediaan', en: 'Stock Adjustment' }, kind: 'tx', icon: 'ph-light ph-sliders', to: '/docs/stock-adjustment' },
+      { label: { id: 'Penyesuaian Persediaan', en: 'Inventory Adjustment' }, kind: 'tx', icon: 'ph-light ph-sliders', to: '/docs/stock-adjustment' },
     ],
   },
   {
-    id: 'assets',
-    name: { id: 'Aset Tetap', en: 'Fixed Assets' },
-    icon: 'ph-light ph-buildings',
+    id: 'manufacturing',
+    name: { id: 'Manufaktur', en: 'Manufacturing' },
+    icon: 'ph-light ph-factory',
     subs: [
-      { label: { id: 'Aset Tetap', en: 'Fixed Assets' }, kind: 'data', icon: 'ph-light ph-armchair', to: '/fixed-assets' },
-      { label: { id: 'Pengeluaran Aset', en: 'Asset Expenditure' }, kind: 'tx', icon: 'ph-light ph-wrench', to: '/asset-modules' },
-      { label: { id: 'Aset per Lokasi', en: 'Assets by Location' }, kind: 'report', icon: 'ph-light ph-map-pin', to: '/asset-modules/by-location' },
+      { label: { id: 'Formula Produk', en: 'Bill of Materials' }, kind: 'data', icon: 'ph-light ph-flask', offNote: locked('Manufaktur') },
+      { label: { id: 'Perintah Kerja', en: 'Work Order' }, kind: 'tx', icon: 'ph-light ph-hammer', offNote: locked('Manufaktur') },
+    ],
+  },
+  {
+    id: 'tax',
+    name: { id: 'Perpajakan', en: 'Tax' },
+    icon: 'ph-light ph-percent',
+    subs: [
+      { label: { id: 'Pajak', en: 'Tax Codes' }, kind: 'data', icon: 'ph-light ph-percent', to: '/modules/taxes' },
+      { label: { id: 'e-Faktur', en: 'e-Invoice' }, kind: 'tx', icon: 'ph-light ph-file-text', offNote: locked('e-Faktur') },
     ],
   },
   {
@@ -110,22 +136,10 @@ export const modules: NavModule[] = [
     ],
   },
   {
-    id: 'tax',
-    name: { id: 'Perpajakan', en: 'Tax' },
-    icon: 'ph-light ph-percent',
-    subs: [
-      { label: { id: 'e-Faktur', en: 'e-Invoice' }, kind: 'tx', icon: 'ph-light ph-file-text', offNote: locked },
-      { label: { id: 'e-Bupot', en: 'e-Withholding' }, kind: 'tx', icon: 'ph-light ph-stamp', offNote: locked },
-    ],
-  },
-  {
-    id: 'company',
-    name: { id: 'Perusahaan', en: 'Company' },
-    icon: 'ph-light ph-briefcase',
-    subs: [
-      { label: { id: 'Preferensi', en: 'Preferences' }, kind: 'setting', icon: 'ph-light ph-gear-six', to: '/settings/preferences' },
-      { label: { id: 'Ganti Perusahaan', en: 'Switch Company' }, kind: 'setting', icon: 'ph-light ph-swap', to: '/workspaces' },
-    ],
+    id: 'settings',
+    name: { id: 'Pengaturan', en: 'Settings' },
+    icon: 'ph-light ph-gear-six',
+    subs: [{ label: { id: 'Preferensi', en: 'Preferences' }, kind: 'setting', icon: 'ph-light ph-sliders-horizontal', to: '/settings/preferences' }],
   },
 ]
 
