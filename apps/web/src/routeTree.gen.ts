@@ -10,33 +10,310 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AccountsIndexRouteImport } from './routes/accounts/index'
+import { Route as AccountsAccountIdRouteImport } from './routes/accounts/$accountId'
+import { Route as AccountsNewRouteImport } from './routes/accounts/new'
+import { Route as AiHistoryRouteImport } from './routes/ai/history'
+import { Route as AssetModulesIndexRouteImport } from './routes/asset-modules/index'
+import { Route as AssetModulesByLocationRouteImport } from './routes/asset-modules/by-location'
+import { Route as AssetModulesNewRouteImport } from './routes/asset-modules/new'
+import { Route as CashBankReconciliationRouteImport } from './routes/cash-bank/reconciliation'
+import { Route as DocsDocTypeRouteImport } from './routes/docs/$docType'
+import { Route as FixedAssetsIndexRouteImport } from './routes/fixed-assets/index'
+import { Route as FixedAssetsAssetIdRouteImport } from './routes/fixed-assets/$assetId'
+import { Route as FixedAssetsNewRouteImport } from './routes/fixed-assets/new'
+import { Route as LedgerMonthEndRouteImport } from './routes/ledger/month-end'
+import { Route as LedgerTrialBalanceRouteImport } from './routes/ledger/trial-balance'
+import { Route as ModulesModuleIdRouteImport } from './routes/modules/$moduleId'
+import { Route as ReportsIndexRouteImport } from './routes/reports/index'
+import { Route as ReportsReportIdRouteImport } from './routes/reports/$reportId'
+import { Route as SettingsPreferencesRouteImport } from './routes/settings/preferences'
+import { Route as WorkspacesIndexRouteImport } from './routes/workspaces/index'
+import { Route as WorkspacesNewRouteImport } from './routes/workspaces/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsIndexRoute = AccountsIndexRouteImport.update({
+  id: '/accounts/',
+  path: '/accounts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsAccountIdRoute = AccountsAccountIdRouteImport.update({
+  id: '/accounts/$accountId',
+  path: '/accounts/$accountId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountsNewRoute = AccountsNewRouteImport.update({
+  id: '/accounts/new',
+  path: '/accounts/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiHistoryRoute = AiHistoryRouteImport.update({
+  id: '/ai/history',
+  path: '/ai/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetModulesIndexRoute = AssetModulesIndexRouteImport.update({
+  id: '/asset-modules/',
+  path: '/asset-modules/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetModulesByLocationRoute = AssetModulesByLocationRouteImport.update({
+  id: '/asset-modules/by-location',
+  path: '/asset-modules/by-location',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetModulesNewRoute = AssetModulesNewRouteImport.update({
+  id: '/asset-modules/new',
+  path: '/asset-modules/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CashBankReconciliationRoute = CashBankReconciliationRouteImport.update({
+  id: '/cash-bank/reconciliation',
+  path: '/cash-bank/reconciliation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsDocTypeRoute = DocsDocTypeRouteImport.update({
+  id: '/docs/$docType',
+  path: '/docs/$docType',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FixedAssetsIndexRoute = FixedAssetsIndexRouteImport.update({
+  id: '/fixed-assets/',
+  path: '/fixed-assets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FixedAssetsAssetIdRoute = FixedAssetsAssetIdRouteImport.update({
+  id: '/fixed-assets/$assetId',
+  path: '/fixed-assets/$assetId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FixedAssetsNewRoute = FixedAssetsNewRouteImport.update({
+  id: '/fixed-assets/new',
+  path: '/fixed-assets/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LedgerMonthEndRoute = LedgerMonthEndRouteImport.update({
+  id: '/ledger/month-end',
+  path: '/ledger/month-end',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LedgerTrialBalanceRoute = LedgerTrialBalanceRouteImport.update({
+  id: '/ledger/trial-balance',
+  path: '/ledger/trial-balance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulesModuleIdRoute = ModulesModuleIdRouteImport.update({
+  id: '/modules/$moduleId',
+  path: '/modules/$moduleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsIndexRoute = ReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsReportIdRoute = ReportsReportIdRouteImport.update({
+  id: '/reports/$reportId',
+  path: '/reports/$reportId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsPreferencesRoute = SettingsPreferencesRouteImport.update({
+  id: '/settings/preferences',
+  path: '/settings/preferences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspacesIndexRoute = WorkspacesIndexRouteImport.update({
+  id: '/workspaces/',
+  path: '/workspaces/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspacesNewRoute = WorkspacesNewRouteImport.update({
+  id: '/workspaces/new',
+  path: '/workspaces/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/accounts/$accountId': typeof AccountsAccountIdRoute
+  '/accounts/new': typeof AccountsNewRoute
+  '/ai/history': typeof AiHistoryRoute
+  '/asset-modules/by-location': typeof AssetModulesByLocationRoute
+  '/asset-modules/new': typeof AssetModulesNewRoute
+  '/cash-bank/reconciliation': typeof CashBankReconciliationRoute
+  '/docs/$docType': typeof DocsDocTypeRoute
+  '/fixed-assets/$assetId': typeof FixedAssetsAssetIdRoute
+  '/fixed-assets/new': typeof FixedAssetsNewRoute
+  '/ledger/month-end': typeof LedgerMonthEndRoute
+  '/ledger/trial-balance': typeof LedgerTrialBalanceRoute
+  '/modules/$moduleId': typeof ModulesModuleIdRoute
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/settings/preferences': typeof SettingsPreferencesRoute
+  '/workspaces/new': typeof WorkspacesNewRoute
+  '/accounts/': typeof AccountsIndexRoute
+  '/asset-modules/': typeof AssetModulesIndexRoute
+  '/fixed-assets/': typeof FixedAssetsIndexRoute
+  '/reports/': typeof ReportsIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/accounts/$accountId': typeof AccountsAccountIdRoute
+  '/accounts/new': typeof AccountsNewRoute
+  '/ai/history': typeof AiHistoryRoute
+  '/asset-modules/by-location': typeof AssetModulesByLocationRoute
+  '/asset-modules/new': typeof AssetModulesNewRoute
+  '/cash-bank/reconciliation': typeof CashBankReconciliationRoute
+  '/docs/$docType': typeof DocsDocTypeRoute
+  '/fixed-assets/$assetId': typeof FixedAssetsAssetIdRoute
+  '/fixed-assets/new': typeof FixedAssetsNewRoute
+  '/ledger/month-end': typeof LedgerMonthEndRoute
+  '/ledger/trial-balance': typeof LedgerTrialBalanceRoute
+  '/modules/$moduleId': typeof ModulesModuleIdRoute
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/settings/preferences': typeof SettingsPreferencesRoute
+  '/workspaces/new': typeof WorkspacesNewRoute
+  '/accounts': typeof AccountsIndexRoute
+  '/asset-modules': typeof AssetModulesIndexRoute
+  '/fixed-assets': typeof FixedAssetsIndexRoute
+  '/reports': typeof ReportsIndexRoute
+  '/workspaces': typeof WorkspacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/accounts/$accountId': typeof AccountsAccountIdRoute
+  '/accounts/new': typeof AccountsNewRoute
+  '/ai/history': typeof AiHistoryRoute
+  '/asset-modules/by-location': typeof AssetModulesByLocationRoute
+  '/asset-modules/new': typeof AssetModulesNewRoute
+  '/cash-bank/reconciliation': typeof CashBankReconciliationRoute
+  '/docs/$docType': typeof DocsDocTypeRoute
+  '/fixed-assets/$assetId': typeof FixedAssetsAssetIdRoute
+  '/fixed-assets/new': typeof FixedAssetsNewRoute
+  '/ledger/month-end': typeof LedgerMonthEndRoute
+  '/ledger/trial-balance': typeof LedgerTrialBalanceRoute
+  '/modules/$moduleId': typeof ModulesModuleIdRoute
+  '/reports/$reportId': typeof ReportsReportIdRoute
+  '/settings/preferences': typeof SettingsPreferencesRoute
+  '/workspaces/new': typeof WorkspacesNewRoute
+  '/accounts/': typeof AccountsIndexRoute
+  '/asset-modules/': typeof AssetModulesIndexRoute
+  '/fixed-assets/': typeof FixedAssetsIndexRoute
+  '/reports/': typeof ReportsIndexRoute
+  '/workspaces/': typeof WorkspacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/accounts/$accountId'
+    | '/accounts/new'
+    | '/ai/history'
+    | '/asset-modules/by-location'
+    | '/asset-modules/new'
+    | '/cash-bank/reconciliation'
+    | '/docs/$docType'
+    | '/fixed-assets/$assetId'
+    | '/fixed-assets/new'
+    | '/ledger/month-end'
+    | '/ledger/trial-balance'
+    | '/modules/$moduleId'
+    | '/reports/$reportId'
+    | '/settings/preferences'
+    | '/workspaces/new'
+    | '/accounts/'
+    | '/asset-modules/'
+    | '/fixed-assets/'
+    | '/reports/'
+    | '/workspaces/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/accounts/$accountId'
+    | '/accounts/new'
+    | '/ai/history'
+    | '/asset-modules/by-location'
+    | '/asset-modules/new'
+    | '/cash-bank/reconciliation'
+    | '/docs/$docType'
+    | '/fixed-assets/$assetId'
+    | '/fixed-assets/new'
+    | '/ledger/month-end'
+    | '/ledger/trial-balance'
+    | '/modules/$moduleId'
+    | '/reports/$reportId'
+    | '/settings/preferences'
+    | '/workspaces/new'
+    | '/accounts'
+    | '/asset-modules'
+    | '/fixed-assets'
+    | '/reports'
+    | '/workspaces'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/accounts/$accountId'
+    | '/accounts/new'
+    | '/ai/history'
+    | '/asset-modules/by-location'
+    | '/asset-modules/new'
+    | '/cash-bank/reconciliation'
+    | '/docs/$docType'
+    | '/fixed-assets/$assetId'
+    | '/fixed-assets/new'
+    | '/ledger/month-end'
+    | '/ledger/trial-balance'
+    | '/modules/$moduleId'
+    | '/reports/$reportId'
+    | '/settings/preferences'
+    | '/workspaces/new'
+    | '/accounts/'
+    | '/asset-modules/'
+    | '/fixed-assets/'
+    | '/reports/'
+    | '/workspaces/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  AccountsAccountIdRoute: typeof AccountsAccountIdRoute
+  AccountsNewRoute: typeof AccountsNewRoute
+  AiHistoryRoute: typeof AiHistoryRoute
+  AssetModulesByLocationRoute: typeof AssetModulesByLocationRoute
+  AssetModulesNewRoute: typeof AssetModulesNewRoute
+  CashBankReconciliationRoute: typeof CashBankReconciliationRoute
+  DocsDocTypeRoute: typeof DocsDocTypeRoute
+  FixedAssetsAssetIdRoute: typeof FixedAssetsAssetIdRoute
+  FixedAssetsNewRoute: typeof FixedAssetsNewRoute
+  LedgerMonthEndRoute: typeof LedgerMonthEndRoute
+  LedgerTrialBalanceRoute: typeof LedgerTrialBalanceRoute
+  ModulesModuleIdRoute: typeof ModulesModuleIdRoute
+  ReportsReportIdRoute: typeof ReportsReportIdRoute
+  SettingsPreferencesRoute: typeof SettingsPreferencesRoute
+  WorkspacesNewRoute: typeof WorkspacesNewRoute
+  AccountsIndexRoute: typeof AccountsIndexRoute
+  AssetModulesIndexRoute: typeof AssetModulesIndexRoute
+  FixedAssetsIndexRoute: typeof FixedAssetsIndexRoute
+  ReportsIndexRoute: typeof ReportsIndexRoute
+  WorkspacesIndexRoute: typeof WorkspacesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +325,179 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/': {
+      id: '/accounts/'
+      path: '/accounts'
+      fullPath: '/accounts/'
+      preLoaderRoute: typeof AccountsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/$accountId': {
+      id: '/accounts/$accountId'
+      path: '/accounts/$accountId'
+      fullPath: '/accounts/$accountId'
+      preLoaderRoute: typeof AccountsAccountIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accounts/new': {
+      id: '/accounts/new'
+      path: '/accounts/new'
+      fullPath: '/accounts/new'
+      preLoaderRoute: typeof AccountsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai/history': {
+      id: '/ai/history'
+      path: '/ai/history'
+      fullPath: '/ai/history'
+      preLoaderRoute: typeof AiHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asset-modules/': {
+      id: '/asset-modules/'
+      path: '/asset-modules'
+      fullPath: '/asset-modules/'
+      preLoaderRoute: typeof AssetModulesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asset-modules/by-location': {
+      id: '/asset-modules/by-location'
+      path: '/asset-modules/by-location'
+      fullPath: '/asset-modules/by-location'
+      preLoaderRoute: typeof AssetModulesByLocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/asset-modules/new': {
+      id: '/asset-modules/new'
+      path: '/asset-modules/new'
+      fullPath: '/asset-modules/new'
+      preLoaderRoute: typeof AssetModulesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cash-bank/reconciliation': {
+      id: '/cash-bank/reconciliation'
+      path: '/cash-bank/reconciliation'
+      fullPath: '/cash-bank/reconciliation'
+      preLoaderRoute: typeof CashBankReconciliationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/$docType': {
+      id: '/docs/$docType'
+      path: '/docs/$docType'
+      fullPath: '/docs/$docType'
+      preLoaderRoute: typeof DocsDocTypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fixed-assets/': {
+      id: '/fixed-assets/'
+      path: '/fixed-assets'
+      fullPath: '/fixed-assets/'
+      preLoaderRoute: typeof FixedAssetsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fixed-assets/$assetId': {
+      id: '/fixed-assets/$assetId'
+      path: '/fixed-assets/$assetId'
+      fullPath: '/fixed-assets/$assetId'
+      preLoaderRoute: typeof FixedAssetsAssetIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fixed-assets/new': {
+      id: '/fixed-assets/new'
+      path: '/fixed-assets/new'
+      fullPath: '/fixed-assets/new'
+      preLoaderRoute: typeof FixedAssetsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ledger/month-end': {
+      id: '/ledger/month-end'
+      path: '/ledger/month-end'
+      fullPath: '/ledger/month-end'
+      preLoaderRoute: typeof LedgerMonthEndRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ledger/trial-balance': {
+      id: '/ledger/trial-balance'
+      path: '/ledger/trial-balance'
+      fullPath: '/ledger/trial-balance'
+      preLoaderRoute: typeof LedgerTrialBalanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modules/$moduleId': {
+      id: '/modules/$moduleId'
+      path: '/modules/$moduleId'
+      fullPath: '/modules/$moduleId'
+      preLoaderRoute: typeof ModulesModuleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/': {
+      id: '/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/$reportId': {
+      id: '/reports/$reportId'
+      path: '/reports/$reportId'
+      fullPath: '/reports/$reportId'
+      preLoaderRoute: typeof ReportsReportIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/preferences': {
+      id: '/settings/preferences'
+      path: '/settings/preferences'
+      fullPath: '/settings/preferences'
+      preLoaderRoute: typeof SettingsPreferencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workspaces/': {
+      id: '/workspaces/'
+      path: '/workspaces'
+      fullPath: '/workspaces/'
+      preLoaderRoute: typeof WorkspacesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workspaces/new': {
+      id: '/workspaces/new'
+      path: '/workspaces/new'
+      fullPath: '/workspaces/new'
+      preLoaderRoute: typeof WorkspacesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  AccountsAccountIdRoute: AccountsAccountIdRoute,
+  AccountsNewRoute: AccountsNewRoute,
+  AiHistoryRoute: AiHistoryRoute,
+  AssetModulesByLocationRoute: AssetModulesByLocationRoute,
+  AssetModulesNewRoute: AssetModulesNewRoute,
+  CashBankReconciliationRoute: CashBankReconciliationRoute,
+  DocsDocTypeRoute: DocsDocTypeRoute,
+  FixedAssetsAssetIdRoute: FixedAssetsAssetIdRoute,
+  FixedAssetsNewRoute: FixedAssetsNewRoute,
+  LedgerMonthEndRoute: LedgerMonthEndRoute,
+  LedgerTrialBalanceRoute: LedgerTrialBalanceRoute,
+  ModulesModuleIdRoute: ModulesModuleIdRoute,
+  ReportsReportIdRoute: ReportsReportIdRoute,
+  SettingsPreferencesRoute: SettingsPreferencesRoute,
+  WorkspacesNewRoute: WorkspacesNewRoute,
+  AccountsIndexRoute: AccountsIndexRoute,
+  AssetModulesIndexRoute: AssetModulesIndexRoute,
+  FixedAssetsIndexRoute: FixedAssetsIndexRoute,
+  ReportsIndexRoute: ReportsIndexRoute,
+  WorkspacesIndexRoute: WorkspacesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
