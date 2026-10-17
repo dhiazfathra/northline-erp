@@ -10,6 +10,8 @@ export const reportSchema = z.object({
   /** 'point' = single as-of date (balance sheet), 'range' = from/to. */
   dates: z.enum(['point', 'range']),
   starred: z.boolean(),
+  /** Reports that live on their own screen (e.g. Neraca Percobaan). */
+  href: z.string().optional(),
 })
 export type Report = z.infer<typeof reportSchema>
 

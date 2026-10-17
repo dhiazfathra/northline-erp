@@ -29,7 +29,7 @@ const opts = [
   { v: 'ind', t: { id: 'Indentasi akun anak', en: 'Indent child accounts' } },
 ]
 const colOpts: ColId[] = ['prev', 'diff', 'pct']
-const defaults: ReportParams = { from: '2026-10-01', to: '2026-10-17', branch: ['Pusat'], cur: ['IDR'], opts: ['total', 'ind'], cols: [] }
+const defaults: ReportParams = { from: '2026-01-01', to: '2026-10-17', branch: ['Pusat'], cur: ['IDR'], opts: ['total', 'ind'], cols: [] }
 
 export function ParamsDialog({ report, onClose }: { report: Report | null; onClose: () => void }) {
   const { L, isMobile } = useShell()

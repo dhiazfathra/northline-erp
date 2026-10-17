@@ -1,5 +1,6 @@
 import type { Report } from '@northline/schemas/reports'
 import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { reportCats, reportsQuery, reportTypes, useStarReport } from '@/api/reports'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -12,8 +13,7 @@ const tx = {
   star: { id: 'Tandai favorit', en: 'Add to favourites' },
   unstar: { id: 'Hapus dari favorit', en: 'Remove from favourites' },
   emptyQ: { id: 'Tidak ada laporan yang cocok dengan pencarian Anda.', en: 'No reports match your search.' },
-  emptyFav: { id: 'Belum ada laporan favorit. Klik ikon bintang untuk menandai laporan.', en: 'No favourites yet. Click the star icon to pin a report.' },
-  empty: { id: 'Tidak ada laporan di kategori ini.', en: 'No reports in this category.' },
+  empty: { id: 'Belum ada laporan di kategori ini', en: 'No reports in this category yet' },
   clear: { id: 'Hapus pencarian', en: 'Clear search' },
 }
 
@@ -22,20 +22,23 @@ export function ReportList() {
   const t = useT()
   const { data, isPending } = useQuery(reportsQuery)
   const star = useStarReport()
-  const [cat, setCat] = useState('all')
+  const nav = useNavigate()
+  const [cat, setCat] = useState('fin')
   const [type, setType] = useState('all')
   const [q, setQ] = useState('')
   const [open, setOpen] = useState<Report | null>(null)
 
   const reps = data ?? []
-  const inCat = (r: Report, c: string) => c === 'all' || (c === 'fav' ? r.starred : r.cat === c)
+  const inCat = (r: Report, c: string) => (c === 'memorize' ? r.starred : r.cat === c)
   const ql = q.trim().toLowerCase()
   const matchQ = (r: Report) => !ql || `${t(r.name)} ${t(r.desc)}`.toLowerCase().includes(ql)
-  const base = reps.filter((r) => inCat(r, cat) && matchQ(r))
+  // a search spans every group
+  const base = reps.filter((r) => (ql || inCat(r, cat)) && matchQ(r))
+  const choose = (r: Report) => (r.href ? nav({ to: r.href }) : setOpen(r))
   const items = base.filter((r) => type === 'all' || r.type === type)
   const c = reportCats.find((x) => x.id === cat)!
   const catName = (id: string) => reportCats.find((x) => x.id === id)!
-  const showCat = cat === 'all' || cat === 'fav' || !!ql
+  const showCat = cat === 'memorize' || !!ql
 
   return (
     <div
@@ -135,8 +138,8 @@ export function ReportList() {
                   data-rf-row="1"
                   role="button"
                   tabIndex={0}
-                  onClick={() => setOpen(r)}
-                  onKeyDown={(e) => e.key === 'Enter' && setOpen(r)}
+                  onClick={() => choose(r)}
+                  onKeyDown={(e) => e.key === 'Enter' && choose(r)}
                   className="flex animate-[fade_.2s] cursor-pointer items-start gap-3.5 rounded-[16px] p-3.5 transition-[background,opacity] duration-[.15s,.25s] hover:bg-[rgba(var(--fg),.08)]"
                   style={{ opacity: refreshing ? 0.35 : 1 }}
                 >
@@ -170,8 +173,8 @@ export function ReportList() {
             })}
             {!isPending && !items.length && (
               <div className="col-span-full flex flex-col items-center gap-3 px-5 py-14 text-center">
-                <i className={cn(ql ? 'ph-light ph-magnifying-glass' : cat === 'fav' ? 'ph-light ph-star' : 'ph-light ph-files', 'text-[28px] opacity-45')} />
-                <span className="max-w-[320px] text-[13px] leading-[1.45] text-pretty opacity-60">{t(ql ? tx.emptyQ : cat === 'fav' ? tx.emptyFav : tx.empty)}</span>
+                <i className={cn(ql ? 'ph-light ph-magnifying-glass' : c.icon, 'text-[28px] opacity-45')} />
+                <span className="max-w-[320px] text-[13px] leading-[1.45] text-pretty opacity-60">{t(ql ? tx.emptyQ : tx.empty)}</span>
                 {ql && (
                   <button type="button" onClick={() => setQ('')} className="cursor-pointer rounded-[16px] border border-[rgba(var(--fg),.3)] bg-transparent px-3.5 py-2 text-[12px] text-(--ink)">
                     {t(tx.clear)}

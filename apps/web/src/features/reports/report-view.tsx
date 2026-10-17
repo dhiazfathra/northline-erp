@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { AiPanel } from './ai-panel'
+import { DrillDialog } from './drill-dialog'
 import { LayoutDialog } from './layout-dialog'
 import { applyFilters, colDefs, fmtDate, fmtNum, fontCss, paperMm, type ColId, type Layout } from './model'
 
@@ -48,10 +49,11 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
   const nav = useNavigate()
   const reps = useQuery(reportsQuery).data
   const rep = reps?.find((r) => r.id === id)
-  const rowsQ = useQuery(reportRowsQuery(id, JSON.stringify(search)))
+  const rowsQ = useQuery(reportRowsQuery(id, search))
   const layout = useQuery(reportLayoutQuery(id)).data
   const [zoom, setZoom] = useState(isMobile ? 0.45 : 1)
   const [md, setMd] = useState(false)
+  const [drill, setDrill] = useState<ReportRow | null>(null)
   const ai = search.ai === 1
   const setAi = (on: boolean) => nav({ to: '.', search: (s) => ({ ...s, ai: on ? 1 : undefined }), replace: true })
 
@@ -223,12 +225,12 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
                         <span style={sk}>{r.t}</span>
                       </span>
                       {num.map((c) =>
-                        r.k === 'acc' && rowsQ.data ? (
+                        r.k === 'acc' && r.code && rowsQ.data ? (
                           <button
                             key={c.id}
                             type="button"
                             title={`${t(tx.drill)} ${r.t}`}
-                            onClick={() => showToast(`${t(tx.drill)} ${r.t}`)}
+                            onClick={() => setDrill(r)}
                             className="cursor-zoom-in rounded-[6px] px-2 py-1 text-right whitespace-nowrap tabular-nums transition-[background,color] duration-[.12s] hover:bg-[#eef2ff] hover:!text-[#4338ca]"
                             style={{ color: isNeg(r, c.id) ? '#dc2626' : undefined }}
                           >
@@ -259,6 +261,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
         </div>
         {ai && rep && <AiPanel report={name} onClose={() => setAi(false)} />}
       </div>
+      {drill && <DrillDialog code={drill.code!} name={drill.t} search={search} onClose={() => setDrill(null)} />}
       {md && <LayoutDialog open onClose={() => setMd(false)} id={id} name={name} layout={layout} cols={cols} rows={rowsQ.data ?? []} />}
     </div>
   )

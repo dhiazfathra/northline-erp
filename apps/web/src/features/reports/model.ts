@@ -72,7 +72,7 @@ export const layoutDefault: Layout = {
   flt: [],
   page: { size: 'A4', ori: 'p', flex: false, mar: { t: 15, b: 15, l: 16, r: 16 } },
   fonts: fontDefaults,
-  num: { df: 'dd/mm/yyyy', dec: 'id', neg: 'minus', red: true, dp: 0 },
+  num: { df: 'dd/mm/yyyy', dec: 'en', neg: 'minus', red: true, dp: 0 },
   rows: null,
 }
 
