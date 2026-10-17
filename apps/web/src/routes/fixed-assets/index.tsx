@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { AssetList } from '@/features/fixed-assets/asset-list'
 
-export const Route = createFileRoute('/fixed-assets/')({ component: () => <div className="p-8">TODO /fixed-assets/</div> })
+export const Route = createFileRoute('/fixed-assets/')({ component: AssetList })

@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { AssetForm } from '@/features/fixed-assets/asset-form'
 
-export const Route = createFileRoute('/fixed-assets/new')({ component: () => <div className="p-8">TODO /fixed-assets/new</div> })
+export const Route = createFileRoute('/fixed-assets/new')({ component: () => <AssetForm /> })
