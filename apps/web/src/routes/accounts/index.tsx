@@ -1,3 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { AccountsList } from '@/features/accounts/list'
 
-export const Route = createFileRoute('/accounts/')({ component: () => <div className="p-8">TODO /accounts/</div> })
+export const Route = createFileRoute('/accounts/')({ component: AccountsList })
