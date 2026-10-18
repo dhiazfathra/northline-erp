@@ -58,3 +58,8 @@ test('sales item views Nov 2035: Penjualan is the DPP (after line and invoice di
   const fns = { ViewSalesItemByWarehouseReport: R.salesItemByWarehouse, ViewSalesItemByBranchReport: R.salesItemByBranch, ViewSalesByBrandReport: R.salesByBrand }
   for (const [id, fn] of Object.entries(fns)) for (const w of (fx as any)[id].filter((w: any) => w.from === W.from)) expect(fn(d, w.from, w.to)).toEqual(w.rows)
 })
+
+test('CustomerLimitReport: customers with a limit, saldo per currency, sisa = limit - saldo', async () => {
+  const R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries')
+  expect(R.customerLimit(await Q.loadSales(f.db), await Q.loadCreditLimits(f.db), t19.reports.CustomerLimitReport.currencies)).toEqual(t19.reports.CustomerLimitReport.rows)
+})

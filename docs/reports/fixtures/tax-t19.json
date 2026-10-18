@@ -61,7 +61,8 @@
    "name": "NL-T19 Pelanggan PKP",
    "arAccount": "110301",
    "taxDocumentCode": "CTAS_INVOICE",
-   "taxType": "CTAS_KEPADA_SELAIN_PEMUNGUT_PPN"
+   "taxType": "CTAS_KEPADA_SELAIN_PEMUNGUT_PPN",
+   "creditLimit": 1000000
   }
  ],
  "items": [
@@ -155,7 +156,8 @@
   "SI.2035.11.00001 was saved untaxed (item had no default tax) and deleted; Accurate does not reuse the number.",
   "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788.",
   "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors.",
-  "I1 got its No. Faktur Pajak by re-saving the invoice; its document code stays Digunggung (customer default). Customer NL-T19-C1 is PKP (NPWP, document code Faktur Pajak), so I3 is CoreTax - Faktur Pajak. SPT Masa lists only show invoices reported in a saved SPT."
+  "I1 got its No. Faktur Pajak by re-saving the invoice; its document code stays Digunggung (customer default). Customer NL-T19-C1 is PKP (NPWP, document code Faktur Pajak), so I3 is CoreTax - Faktur Pajak. SPT Masa lists only show invoices reported in a saved SPT.",
+  "NL-T19-C1 got Limit Piutang 1.000.000 (customerLimitAmount) after the invoices; CustomerLimitReport has no date parameter."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -706,6 +708,47 @@
     [
      "Total dari PPN Lebih/Kurang Bayar",
      "566.638"
+    ]
+   ]
+  },
+  "CustomerLimitReport": {
+   "param": {
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "currencies": [
+    "IDR",
+    "USD"
+   ],
+   "rows": [
+    [
+     "Limit Piutang Pelanggan"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang"
+    ],
+    [
+     "Nama",
+     "Saldo (Mata Uang)",
+     "Pesanan",
+     "Giro Mundur",
+     "Limit Piutang",
+     "Sisa Limit"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "NL-T19 Pelanggan PKP",
+     "IDR 444.000, USD 0",
+     "0",
+     "0",
+     "1.000.000",
+     "556.000"
     ]
    ]
   }

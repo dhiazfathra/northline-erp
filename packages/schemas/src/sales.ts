@@ -6,7 +6,7 @@ import { amountToCents, isoDate } from './ledger-es'
 const code = z.string().trim().min(1).max(60)
 
 /** taxDocumentCode: DIGUNGGUNG (retail, default) or CTAS_INVOICE (Faktur Pajak); taxType e.g. CTAS_KEPADA_SELAIN_PEMUNGUT_PPN. */
-export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code, taxDocumentCode: z.string().optional(), taxType: z.string().optional() })
+export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code, taxDocumentCode: z.string().optional(), taxType: z.string().optional(), /** Limit Piutang */ creditLimit: amountToCents.optional() })
 export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional(),
   /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional() })
 

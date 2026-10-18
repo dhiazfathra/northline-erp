@@ -264,3 +264,6 @@ export async function loadItemList(db: Db) {
     .map(r => ({ item: r.item_no as string, date: r.date as string, quantity: Number(r.quantity), warehouse: (r.warehouse as string) ?? undefined }))
   return { items, moves }
 }
+
+export const loadCreditLimits = async (db: Db) =>
+  new Map((await db.execute(sql`SELECT no, credit_limit FROM customers WHERE credit_limit IS NOT NULL`)).map(r => [r.no as string, Number(r.credit_limit)]))

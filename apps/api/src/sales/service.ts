@@ -8,8 +8,8 @@ import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
   const c = customerInput.parse(input)
-  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type`)
+  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit`)
 }
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
