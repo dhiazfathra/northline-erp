@@ -186,7 +186,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByVendorReport.md) |
 | Pembelian per Barang | `PurchaseByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByItemReport.md) |
 | Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByExpenseReport.md) |
-| Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | [spec](PurchaseDownPaymentByVendorReport.md) |
+| Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | [verified](PurchaseDownPaymentByVendorReport.md) |
 | Histori Proses Pembelian | `PurchaseFlowHistoryReport` | report | FROMTO | — | [verified](PurchaseFlowHistoryReport.md) |
 | Rincian Pembelian per Pemasok | `PurchaseByVendorDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseByVendorDetailReport.md) |
 | Rincian Pembelian per Barang | `PurchaseByItemDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseByItemDetailReport.md) |
@@ -201,7 +201,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Faktur Pembelian | `PurchaseInvoiceDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDetailReport.md) |
 | Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnListReport.md) |
 | Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnDetailReport.md) |
-| Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceDownPaymentDetailReport.md) |
+| Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDownPaymentDetailReport.md) |
 | Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [spec](TransferOrderListReport.md) |
 | Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [spec](VendorPriceHistoryReport.md) |
 

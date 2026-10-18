@@ -7,3 +7,5 @@ Same layout and rules as [Buku Besar Pembantu Piutang](ARLedgerReport.md) with p
 Source journals: purchase invoice Dr item expense account (merged per account, listed first) / Cr vendor payable; payment Dr payable / Cr bank.
 
 Returns (verified with `returns-t6.json`): the `Retur` column holds purchase returns in range.
+
+Down payments (verified with `purchase-dp-t8.json`): same rule as Piutang, DP in Faktur and in Uang Muka.

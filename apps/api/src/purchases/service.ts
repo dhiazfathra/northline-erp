@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { purchaseInvoiceInput, purchasePaymentInput, vendorInput, type PurchaseInvoiceInput, type PurchasePaymentInput } from '@northline/schemas/sales'
+import { purchaseDownPaymentInput, purchaseInvoiceInput, purchasePaymentInput, vendorInput, type PurchaseDownPaymentInput, type PurchaseInvoiceInput, type PurchasePaymentInput } from '@northline/schemas/sales'
 import type { z } from 'zod'
 import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
@@ -38,17 +38,29 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     })
     const total = lines.reduce((s, l) => s + l.total, 0)
     const number = inv.number ?? await nextNumber(tx, `PI.${period(inv.date)}`)
+    const dps: { dp: string; amount: number; account: string }[] = []
+    for (const u of inv.downPayments) {
+      const [dp] = await tx.execute(sql`SELECT i.vendor_no, i.dp_account, i.total - COALESCE((SELECT SUM(amount) FROM purchase_dp_usages WHERE dp_number = i.number), 0) AS left
+        FROM purchase_invoices i WHERE i.number = ${u.invoice} AND i.kind = 'DP' FOR UPDATE`)
+      if (!dp || dp.vendor_no !== inv.vendor) throw new DomainError(`Uang muka ${u.invoice} tidak ditemukan untuk pemasok ini`)
+      if (u.amount > Number(dp.left)) throw new DomainError(`Uang muka ${u.invoice} tidak cukup`)
+      dps.push({ dp: u.invoice, amount: u.amount, account: dp.dp_account as string })
+    }
+    const dpUsed = dps.reduce((s, d) => s + d.amount, 0)
+    if (dpUsed > total) throw new DomainError('Uang muka melebihi total faktur')
     const journalId = crypto.randomUUID()
     // Accurate prints the expense debits first, then the payable credit.
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${inv.idempotencyKey}:journal`, journalId, number, sourceType: 'PI', date: inv.date, description: inv.description,
       lines: [
         ...merge(lines.map(l => ({ account: l.account, amount: l.total }))).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
-        { account: vendor.ap_account as string, side: 'CREDIT', amount: rupiah(total) },
+        ...(total - dpUsed ? [{ account: vendor.ap_account as string, side: 'CREDIT' as const, amount: rupiah(total - dpUsed) }] : []),
+        ...merge(dps).map(d => ({ account: d.account, side: 'CREDIT' as const, amount: rupiah(d.amount) })),
       ],
     })
     await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id)
       VALUES (${number}, ${inv.vendor}, ${inv.bill}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId})`)
+    for (const d of dps) await tx.execute(sql`INSERT INTO purchase_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     for (const l of lines.filter(l => stockItems.has(l.item)))
       await addMove(tx, { item: l.item, date: inv.date, docType: 'PI', docNumber: number, description: inv.description, quantity: l.qty, value: l.total })
     for (const l of lines)
@@ -89,6 +101,27 @@ export async function createPurchasePayment(db: Db, input: PurchasePaymentInput)
       await tx.execute(sql`INSERT INTO purchase_payment_lines (payment_number, invoice_number, amount) VALUES (${number}, ${p.invoice}, ${p.amount})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${pp.idempotencyKey}, 'CreatePurchasePayment', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+export async function createPurchaseDownPayment(db: Db, input: PurchaseDownPaymentInput) {
+  const dp = purchaseDownPaymentInput.parse(input)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${dp.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const [vendor] = await tx.execute(sql`SELECT ap_account FROM vendors WHERE no = ${dp.vendor}`)
+    if (!vendor) throw new DomainError(`Pemasok ${dp.vendor} tidak ditemukan`)
+    const number = dp.number ?? await nextNumber(tx, `PI.${period(dp.date)}`)
+    const journalId = crypto.randomUUID()
+    await handleTx(tx, {
+      type: 'PostJournal', idempotencyKey: `${dp.idempotencyKey}:journal`, journalId, number, sourceType: 'PDP', date: dp.date, description: dp.description,
+      lines: [{ account: dp.dpAccount, side: 'DEBIT', amount: rupiah(dp.amount) }, { account: vendor.ap_account as string, side: 'CREDIT', amount: rupiah(dp.amount) }],
+    })
+    await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id, kind, dp_account)
+      VALUES (${number}, ${dp.vendor}, ${dp.bill}, ${dp.date}, ${dp.date}, ${dp.description}, ${dp.amount}, ${journalId}, 'DP', ${dp.dpAccount})`)
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreatePurchaseDownPayment', ${JSON.stringify(result)}::jsonb)`)
     return result
   })
 }

@@ -60,6 +60,7 @@ export interface Labels {
     sales: string;
     historyValue: string;
     ret: string;
+    dp: string;
 }
 export declare const AR: Labels;
 export declare const AP: Labels;

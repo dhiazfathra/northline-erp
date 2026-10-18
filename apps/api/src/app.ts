@@ -15,7 +15,7 @@ import { createFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
-import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
+import { createPurchaseDownPayment, createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
 import { createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
 import { queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
@@ -77,8 +77,9 @@ export function createApp(db: Db) {
     })
     .post('/purchases/vendors', async c => { await upsertVendor(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/purchases/invoices', async c => c.json(await createPurchaseInvoice(db, await c.req.json()), 201))
+    .post('/purchases/down-payments', async c => c.json(await createPurchaseDownPayment(db, await c.req.json()), 201))
     .post('/purchases/payments', async c => c.json(await createPurchasePayment(db, await c.req.json()), 201))
-    .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month}', async c => {
+    .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month|down-payments|down-payment-usage}', async c => {
       const d = await loadPurchases(db), q = c.req.query(), r = c.req.param('report')
       const asOfReports = { outstanding: P.outstandingPurchases, aging: P.agingPayable, 'outstanding-per-vendor': P.outstandingPerVendor, 'aging-detail': P.agingPayableDetail } as const
       if (r in asOfReports) return c.json(asOfReports[r as keyof typeof asOfReports](d, balanceSheetQuery.parse(q).asOf))
@@ -86,7 +87,8 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(q)
       const fn = { 'invoice-list': R.salesInvoiceList, 'payment-list': R.salesReceiptList, 'ap-ledger': R.arLedger, 'ap-history': R.arHistory, 'vendor-statement': R.customerStatement,
         'ap-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'by-vendor': P.purchaseByVendor,
-        'by-item': P.purchaseByItem, 'by-item-detail': P.purchaseByItemDetail, 'by-vendor-detail': P.purchaseByVendorDetail, 'payment-detail': P.purchasePaymentDetail, 'invoice-detail': P.purchaseInvoiceDetail }[r]!
+        'by-item': P.purchaseByItem, 'by-item-detail': P.purchaseByItemDetail, 'by-vendor-detail': P.purchaseByVendorDetail, 'payment-detail': P.purchasePaymentDetail, 'invoice-detail': P.purchaseInvoiceDetail,
+        'down-payments': R.downPaymentsByCustomer, 'down-payment-usage': R.downPaymentUsage }[r]!
       return c.json(fn(d, from, to))
     })
     .get('/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice|profitability-by-customer}', async c => {

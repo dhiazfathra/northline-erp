@@ -1,24 +1,7 @@
 # Penggunaan Uang Muka Pembelian (`PurchaseInvoiceDownPaymentDetailReport`)
 
-Group: Pembelian. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseInvoiceDownPaymentDetailReport.json`](captures/PurchaseInvoiceDownPaymentDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-dp-t8.json`](fixtures/purchase-dp-t8.json) (DP PI.2034.05.00001 300.000, paid, used in PI.2034.05.00002). ERP: shared down-payment functions in `receivables.ts` with payable labels, `createPurchaseDownPayment`; test: `apps/api/test/purchase-dp.test.ts`.
 
-## Parameters
+Same layout as [Penggunaan Uang Muka Penjualan](SalesInvoiceDownPaymentDetailReport.md); Tipe Transaksi `Faktur Pembelian`.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | Uang Muka | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Postings: DP Dr Uang Muka Pembelian / Cr Hutang; invoice using it Dr expense (full) / Cr Hutang (net) / Cr Uang Muka Pembelian (used).

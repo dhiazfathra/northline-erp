@@ -135,8 +135,10 @@ export async function loadPurchases(db: Db): Promise<import('./receivables').Sal
   const customers = new Map((await db.execute(sql`SELECT no, name FROM vendors`)).map(r => [r.no as string, r.name as string]))
   const pl = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, l.quantity, l.unit_price, l.total
     FROM purchase_invoice_lines l JOIN items i ON i.no = l.item_no ORDER BY l.invoice_number, l.seq`)
-  const invoices = (await db.execute(sql`SELECT number, vendor_no, bill_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM purchase_invoices`))
-    .map(r => ({ number: r.number as string, customer: r.vendor_no as string, bill: r.bill_number as string, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
+  const pu = await db.execute(sql`SELECT invoice_number, dp_number, amount FROM purchase_dp_usages`)
+  const invoices = (await db.execute(sql`SELECT number, vendor_no, kind, bill_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM purchase_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.vendor_no as string, bill: r.bill_number as string, kind: (r.kind === 'DP' ? 'DP' : 'SI') as 'SI' | 'DP',
+      dpUses: pu.filter(u => u.invoice_number === r.number).map(u => ({ dp: u.dp_number as string, amount: Number(u.amount) })), date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
       lines: pl.filter(l => l.invoice_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.item_name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) })) }))
   const lines = await db.execute(sql`SELECT payment_number, invoice_number, amount FROM purchase_payment_lines`)
   const receipts = (await db.execute(sql`SELECT p.number, p.vendor_no, a.name AS bank_name, to_char(p.date,'YYYY-MM-DD') AS date, p.description, p.amount FROM purchase_payments p JOIN accounts a ON a.no = p.bank_no`))

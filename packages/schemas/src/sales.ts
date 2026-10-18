@@ -48,6 +48,7 @@ export const purchaseInvoiceInput = z.object({
   dueDate: isoDate.optional(),
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
+  downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
 })
 export type PurchaseInvoiceInput = z.input<typeof purchaseInvoiceInput>
 export const purchasePaymentInput = z.object({
@@ -84,3 +85,10 @@ export const salesDownPaymentInput = z.object({
   dpAccount: code,
 })
 export type SalesDownPaymentInput = z.input<typeof salesDownPaymentInput>
+
+/** Uang Muka Pembelian: a purchase invoice of kind DP, Dr down-payment asset / Cr payable. */
+export const purchaseDownPaymentInput = z.object({
+  idempotencyKey: z.string().min(8), number: code.optional(), vendor: code, bill: code, date: isoDate,
+  description: z.string().default(''), amount: amountToCents, dpAccount: code,
+})
+export type PurchaseDownPaymentInput = z.input<typeof purchaseDownPaymentInput>

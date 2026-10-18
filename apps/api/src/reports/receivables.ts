@@ -11,9 +11,9 @@ export interface Return { number: string; customer: string; invoice: string; dat
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; returns?: Return[]; labels?: Labels }
 
 /** Words that differ between the receivable (Piutang) and payable (Utang) versions of the same report. */
-export interface Labels { party: string; partyName: string; balance: string; invoice: string; payment: string; docNo: string; sales: string; historyValue: string; ret: string }
-export const AR: Labels = { party: 'Pelanggan', partyName: 'Nama Pelanggan', balance: 'Piutang', invoice: 'Faktur Penjualan', payment: 'Penerimaan Penjualan', docNo: 'Nomor #', sales: 'Penjualan', historyValue: 'Nilai', ret: 'Retur Penjualan' }
-export const AP: Labels = { party: 'Pemasok', partyName: 'Nama Pemasok', balance: 'Utang', invoice: 'Faktur Pembelian', payment: 'Pembayaran Pembelian', docNo: 'No Form #', sales: 'Pembelian', historyValue: 'Utang', ret: 'Retur Pembelian' }
+export interface Labels { party: string; partyName: string; balance: string; invoice: string; payment: string; docNo: string; sales: string; historyValue: string; ret: string; dp: string }
+export const AR: Labels = { party: 'Pelanggan', partyName: 'Nama Pelanggan', balance: 'Piutang', invoice: 'Faktur Penjualan', payment: 'Penerimaan Penjualan', docNo: 'Nomor #', sales: 'Penjualan', historyValue: 'Nilai', ret: 'Retur Penjualan', dp: 'Uang Muka Penjualan' }
+export const AP: Labels = { party: 'Pemasok', partyName: 'Nama Pemasok', balance: 'Utang', invoice: 'Faktur Pembelian', payment: 'Pembayaran Pembelian', docNo: 'No Form #', sales: 'Pembelian', historyValue: 'Utang', ret: 'Retur Pembelian', dp: 'Uang Muka Pembelian' }
 const L = (d: SalesData) => d.labels ?? AR
 
 const CURRENCY = 'Indonesian Rupiah'
@@ -28,7 +28,7 @@ function movements(d: SalesData, customer: string) {
     // A DP invoice shows +total and −total (the down-payment entry); an invoice using DP shows its net and the DP used.
     ...d.invoices.filter(i => i.customer === customer).flatMap(i => {
       const m = (amount: number) => ({ number: i.number, date: i.date, description: i.description, amount })
-      if (i.kind === 'DP') return [m(i.total), m(-i.total)]
+      if (i.kind === 'DP') return d.labels ? [m(-i.total), m(i.total)] : [m(i.total), m(-i.total)]
       const used = dpUsed(i)
       return used ? [m(i.total - used), m(used)] : [m(i.total)]
     }),
@@ -176,7 +176,7 @@ export function arLedgerDetail(d: SalesData, from: string, to: string): string[]
       })],
       [L(d).payment, d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
       [L(d).ret, (d.returns ?? []).filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.total }))],
-      ['Uang Muka Penjualan', d.invoices.filter(i => i.customer === c && i.kind === 'DP' && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: -i.total }))],
+      [L(d).dp, d.invoices.filter(i => i.customer === c && i.kind === 'DP' && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: -i.total }))],
     ]
     for (const [label, docs] of groups) {
       if (!docs.length) continue
@@ -454,6 +454,6 @@ export function downPaymentUsage(d: SalesData, from: string, to: string): string
     const uses = dpUsedBy(d, dp.number, to), used = uses.reduce((s, u) => s + u.amount, 0)
     return [['Nomor #', ':', dp.number, 'Uang Muka', ':', formatIdr(dp.total)], ['Tanggal', ':', fmtDate(dp.date), 'Terpakai/Retur (per Tgl)', ':', formatIdr(used)],
       ['Sisa Uang Muka (per Tgl)', ':', formatIdr(dp.total - used)], ['Nomor Transaksi', 'Tgl Transaksi', 'Tipe Transaksi', 'Pakai Uang Muka (per Tgl)'],
-      ...uses.map(u => [u.i.number, fmtDate(u.i.date), 'Faktur Penjualan', formatIdr(u.amount)]), [formatIdr(used)]]
+      ...uses.map(u => [u.i.number, fmtDate(u.i.date), L(d).invoice, formatIdr(u.amount)]), [formatIdr(used)]]
   })
 }

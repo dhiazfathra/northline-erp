@@ -5,3 +5,5 @@ Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (s
 Same layout and rules as [Histori Piutang](ARHistoryReport.md) with payable wording: Pemasok / Nama Pemasok, Utang, Faktur Pembelian, Pembayaran Pembelian. The value column is headed `Utang` (the receivable version says `Nilai`).
 
 Source journals: purchase invoice Dr item expense account (merged per account, listed first) / Cr vendor payable; payment Dr payable / Cr bank.
+
+Down payments (verified with `purchase-dp-t8.json`): the DP pair prints **−, +** (the receivable version prints +, −); an invoice using a DP prints net then DP used.
