@@ -21,3 +21,30 @@ export declare function purchasePaymentDetail(d: SalesData, from: string, to: st
 export declare function payablePerMonth(d: SalesData, year: number): string[][];
 /** Rincian Faktur Pembelian */
 export declare function purchaseInvoiceDetail(d: SalesData, from: string, to: string): string[][];
+export interface OrderDoc {
+    number: string;
+    vendor: string;
+    date: string;
+    total: number;
+    lines: {
+        item: string;
+        itemName: string;
+        unit: string;
+        qty: number;
+        price: number;
+        total: number;
+    }[];
+}
+export interface OrderData {
+    vendors: Map<string, string>;
+    orders: OrderDoc[];
+    receipts: OrderDoc[];
+}
+export declare const orderList: (d: OrderData, f: string, t: string) => string[][];
+export declare const orderDetail: (d: OrderData, f: string, t: string) => string[][];
+/** Pesanan Pembelian per Barang. shortcut: "Kts Terproses" is 0 (orders are not linked to receipts yet; matches the unlinked sandbox case). */
+export declare function orderByItem(d: OrderData, f: string, t: string): string[][];
+export declare function orderByVendor(d: OrderData, f: string, t: string): string[][];
+/** Daftar Penerimaan Barang; the "Pengiriman" (shipment) column prints nothing when unset. */
+export declare const receiveList: (d: OrderData, f: string, t: string) => string[][];
+export declare const receiveDetail: (d: OrderData, f: string, t: string) => string[][];

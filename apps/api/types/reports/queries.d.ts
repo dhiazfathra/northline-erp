@@ -56,3 +56,4 @@ export declare function queryFinanceChart(db: Db, chart: 'net-worth' | 'liquidit
         'Total Biaya': string[];
     };
 }>;
+export declare function loadOrders(db: Db): Promise<import('./payables').OrderData>;

@@ -1,0 +1,961 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. Window Jun 2034. The order, receipt and invoice were saved without Accurate linking them (Kts Terproses 0, three separate flow rows): this captures the unlinked case.",
+ "documents": [
+  {
+   "kind": "PurchaseOrder",
+   "number": "PO.2034.06.00001",
+   "vendor": "NL-T3-V1",
+   "date": "2034-06-02",
+   "description": "NL-T9-PO1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5,
+     "price": 15000
+    }
+   ]
+  },
+  {
+   "kind": "ReceiveItem",
+   "number": "RI.2034.06.00001",
+   "vendor": "NL-T3-V1",
+   "receiveNumber": "NL-T9-RI1",
+   "date": "2034-06-06",
+   "description": "NL-T9-RI1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T9-P5",
+   "number": "PI.2034.06.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T9-P5",
+   "date": "2034-06-10",
+   "description": "NL-T9-P5",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5,
+     "price": 15000
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "PurchaseByExpenseReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Biaya"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "PurchaseByItemDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Kuantitas",
+     "Satuan",
+     "Pembelian"
+    ],
+    [
+     "NL-T4 Barang A"
+    ],
+    [
+     "PI.2034.06.00001",
+     "10 Jun 2034",
+     "NL-T9-P5",
+     "5",
+     "PCS",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseByItemReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kts (Unit#1)",
+     "Pembelian"
+    ],
+    [
+     "NL-T4 Barang A",
+     "5",
+     "75.000"
+    ],
+    [
+     "Total Nama Barang",
+     "5",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseByVendorDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pembelian per Pemasok"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Pembelian (prime)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2034.06.00001",
+     "10 Jun 2034",
+     "NL-T9-P5",
+     "75.000"
+    ],
+    [
+     "75.000"
+    ],
+    [
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseByVendorReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Pemasok"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pemasok",
+     "Pembelian (prime)"
+    ],
+    [
+     "Indonesian Rupiah",
+     "NL-T3 Pemasok A",
+     "75.000"
+    ],
+    [
+     "Total Pemasok",
+     "75.000"
+    ],
+    [
+     "Total Mata Uang",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseDownPaymentByVendorReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Uang Muka Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Total",
+     "Terpakai/Retur (per Tgl)",
+     "Sisa Uang Muka (per Tgl)",
+     "No Pesanan #"
+    ]
+   ]
+  },
+  "PurchaseFlowHistoryReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034"
+   },
+   "rows": [
+    [
+     "Histori Proses Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Permintaan Barang",
+     "Pesanan Pembelian",
+     "Penerimaan Barang",
+     "Uang Muka Pembelian",
+     "Faktur Pembelian",
+     "Retur Pembelian",
+     "Pembayaran Pembelian"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "PI.2034.06.00001",
+     "-",
+     "-"
+    ],
+    [
+     "-",
+     "-",
+     "RI.2034.06.00001",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "-",
+     "PO.2034.06.00001",
+     "-",
+     "-",
+     "-",
+     "-",
+     "-"
+    ]
+   ]
+  },
+  "PurchaseInvoiceDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "PI.2034.06.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jun 2034",
+     "Sub Total",
+     ":",
+     "75.000"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":",
+     "75.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "5",
+     "15.000",
+     "75.000"
+    ],
+    [
+     "5",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseInvoiceDownPaymentDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penggunaan Uang Muka Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Uang Muka",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Terpakai/Retur (per Tgl)",
+     ":"
+    ],
+    [
+     "Sisa Uang Muka (per Tgl)",
+     ":"
+    ],
+    [
+     "Nomor Transaksi",
+     "Tgl Transaksi",
+     "Tipe Transaksi",
+     "Pakai Uang Muka (per Tgl)"
+    ]
+   ]
+  },
+  "PurchaseInvoiceListReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ],
+    [
+     "PI.2034.06.00001",
+     "10 Jun 2034",
+     "NL-T3 Pemasok A",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseOrderByItemReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Barang (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status Pesanan Pembelian, Ditutup, Ditutup manual"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Kts (Unit#1)",
+     "Kts Terproses",
+     "Total Harga"
+    ],
+    [
+     "NL-T4 Barang A",
+     "5",
+     "0",
+     "75.000"
+    ],
+    [
+     "Total Nama Barang Barang & Jasa",
+     "5",
+     "0",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseOrderByVendorReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Pemasok (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status"
+    ],
+    [
+     "Pemasok",
+     "Total"
+    ],
+    [
+     "NL-T3 Pemasok A",
+     "75.000"
+    ],
+    [
+     "Total Pemasok",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseOrderDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pesanan Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "PO.2034.06.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "02 Jun 2034",
+     "Sub Total",
+     ":",
+     "75.000"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":",
+     "75.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "5",
+     "15.000",
+     "75.000"
+    ],
+    [
+     "5",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseOrderListReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pesanan Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ],
+    [
+     "PO.2034.06.00001",
+     "02 Jun 2034",
+     "NL-T3 Pemasok A",
+     "75.000"
+    ]
+   ]
+  },
+  "PurchaseReturnByItemReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Retur Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "PurchaseReturnDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Retur Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Mata Uang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Sub Total",
+     ":"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "Total",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ]
+   ]
+  },
+  "PurchaseReturnListReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Retur Pembelian"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ]
+   ]
+  },
+  "ReceiveItemDetailReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penerimaan Barang"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "RI.2034.06.00001",
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "06 Jun 2034"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "5",
+     "PCS"
+    ],
+    [
+     "5"
+    ]
+   ]
+  },
+  "ReceiveItemListReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Penerimaan Barang"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Pengiriman"
+    ],
+    [
+     "RI.2034.06.00001",
+     "06 Jun 2034",
+     "NL-T3 Pemasok A"
+    ]
+   ]
+  },
+  "TransferOrderListReport": {
+   "param": {
+    "startDate": "01/06/2034",
+    "endDate": "30/06/2034",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Perintah Pembayaran"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Bank",
+     "Metode Bayar",
+     "Status",
+     "Faktur Dibayar"
+    ]
+   ]
+  },
+  "VendorPriceHistoryReport": {
+   "param": {
+    "asOfDate": "30/06/2034",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Perubahan Harga Beli Per Barang"
+    ],
+    [
+     "Per Tgl. 30 Jun 2034"
+    ],
+    [
+     "Mulai Berlaku",
+     "Tanggal Berakhir",
+     "Pemasok",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Jun 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "06 Jun 2034"
+    ],
+    [
+     "Penerimaan Barang",
+     "RI.2034.06.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T9-RI1",
+     "0",
+     "0"
+    ],
+    [
+     "Penerimaan Barang",
+     "RI.2034.06.00001",
+     "210203",
+     "Hutang Pembelian Belum Ditagih",
+     "NL-T9-RI1",
+     "0",
+     "0"
+    ],
+    [
+     "10 Jun 2034"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2034.06.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T9-P5",
+     "75.000",
+     "0"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2034.06.00001",
+     "210101",
+     "Hutang Usaha IDR",
+     "NL-T9-P5",
+     "0",
+     "75.000"
+    ]
+   ]
+  }
+ }
+}

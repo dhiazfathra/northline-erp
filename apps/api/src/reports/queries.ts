@@ -204,3 +204,13 @@ export async function queryFinanceChart(db: Db, chart: 'net-worth' | 'liquidity'
       return { revenue: v('Jumlah Pendapatan') + v('Jumlah Pendapatan Non Operasional'), expense: v('Jumlah Beban Pokok Penjualan') + v('Jumlah Beban Operasional') + v('Jumlah Beban Non Operasional') } }))
   return { labels: ms.map(m => m.label), series }
 }
+
+export async function loadOrders(db: Db): Promise<import('./payables').OrderData> {
+  const vendors = new Map((await db.execute(sql`SELECT no, name FROM vendors`)).map(r => [r.no as string, r.name as string]))
+  const ol = await db.execute(sql`SELECT l.order_number AS doc, l.item_no, i.name, i.unit, l.quantity, l.unit_price, l.total FROM purchase_order_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
+  const rl = await db.execute(sql`SELECT l.receive_number AS doc, l.item_no, i.name, i.unit, l.quantity, 0 AS unit_price, 0 AS total FROM receive_item_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
+  const lines = (rows: typeof ol, n: string) => rows.filter(l => l.doc === n).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) }))
+  const orders = (await db.execute(sql`SELECT number, vendor_no, to_char(date,'YYYY-MM-DD') AS date, total FROM purchase_orders`)).map(r => ({ number: r.number as string, vendor: r.vendor_no as string, date: r.date as string, total: Number(r.total), lines: lines(ol, r.number as string) }))
+  const receipts = (await db.execute(sql`SELECT number, vendor_no, to_char(date,'YYYY-MM-DD') AS date FROM receive_items`)).map(r => ({ number: r.number as string, vendor: r.vendor_no as string, date: r.date as string, total: 0, lines: lines(rl, r.number as string) }))
+  return { vendors, orders, receipts }
+}

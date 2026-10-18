@@ -1,24 +1,7 @@
 # Rincian Pesanan Pembelian (`PurchaseOrderDetailReport`)
 
-Group: Pembelian. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseOrderDetailReport.json`](captures/PurchaseOrderDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-order-t9.json`](fixtures/purchase-order-t9.json) (PO.2034.06.00001, RI.2034.06.00001, PI.2034.06.00001, **unlinked** in Accurate). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/purchase-orders.test.ts`.
 
-## Parameters
+Block per order, same field layout as [Rincian Faktur Pembelian](PurchaseInvoiceDetailReport.md).
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | Mata Uang | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Unverified: linked order → receipt → invoice (processed quantities, shared flow rows).

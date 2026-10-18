@@ -131,3 +131,38 @@ export function purchaseInvoiceDetail(d: SalesData, from: string, to: string): s
     [qty((i.lines ?? []).reduce((s, l) => s + l.qty, 0)), formatIdr(i.total)],
   ])
 }
+
+// ---- purchase orders and goods receipts ----
+export interface OrderDoc { number: string; vendor: string; date: string; total: number; lines: { item: string; itemName: string; unit: string; qty: number; price: number; total: number }[] }
+export interface OrderData { vendors: Map<string, string>; orders: OrderDoc[]; receipts: OrderDoc[] }
+const byDateNo2 = (a: OrderDoc, b: OrderDoc) => (a.date + a.number < b.date + b.number ? -1 : 1)
+const inR = (x: { date: string }, f: string, t: string) => x.date >= f && x.date <= t
+
+export const orderList = (d: OrderData, f: string, t: string) =>
+  [['Nomor #', 'Tanggal', 'Pemasok', 'Total'], ...d.orders.filter(o => inR(o, f, t)).sort(byDateNo2).map(o => [o.number, fmtDate(o.date), d.vendors.get(o.vendor)!, formatIdr(o.total)])]
+
+export const orderDetail = (d: OrderData, f: string, t: string) => d.orders.filter(o => inR(o, f, t)).sort(byDateNo2).flatMap(o => [
+  ['Nomor #', ':', o.number, 'Mata Uang', ':', CURRENCY], ['Tanggal', ':', fmtDate(o.date), 'Sub Total', ':', formatIdr(o.total)],
+  ['Pemasok', ':', d.vendors.get(o.vendor)!, 'Total Biaya', ':', '0'], ['Nama Biaya', ':', 'Total', ':', formatIdr(o.total)],
+  ['Kode #', 'Nama Barang', 'Kuantitas', '@Harga', 'Total Harga'], ...o.lines.map(l => [l.item, l.itemName, qty(l.qty), formatIdr(l.price), formatIdr(l.total)]),
+  [qty(o.lines.reduce((s, l) => s + l.qty, 0)), formatIdr(o.total)]])
+
+/** Pesanan Pembelian per Barang. shortcut: "Kts Terproses" is 0 (orders are not linked to receipts yet; matches the unlinked sandbox case). */
+export function orderByItem(d: OrderData, f: string, t: string) {
+  const ls = d.orders.filter(o => inR(o, f, t)).flatMap(o => o.lines), items = [...new Set(ls.map(l => l.item))]
+  const row = (xs: typeof ls) => [qty(xs.reduce((s, l) => s + l.qty, 0)), '0', formatIdr(xs.reduce((s, l) => s + l.total, 0))]
+  return [['Nama Barang Barang & Jasa', 'Kts (Unit#1)', 'Kts Terproses', 'Total Harga'], ...items.map(i => { const xs = ls.filter(l => l.item === i); return [xs[0]!.itemName, ...row(xs)] }), ['Total Nama Barang Barang & Jasa', ...row(ls)]]
+}
+
+export function orderByVendor(d: OrderData, f: string, t: string) {
+  const os = d.orders.filter(o => inR(o, f, t)), vs = [...new Set(os.map(o => o.vendor))].sort((a, b) => (d.vendors.get(a)! < d.vendors.get(b)! ? -1 : 1))
+  return [['Pemasok', 'Total'], ...vs.map(v => [d.vendors.get(v)!, formatIdr(os.filter(o => o.vendor === v).reduce((s, o) => s + o.total, 0))]), ['Total Pemasok', formatIdr(os.reduce((s, o) => s + o.total, 0))]]
+}
+
+/** Daftar Penerimaan Barang; the "Pengiriman" (shipment) column prints nothing when unset. */
+export const receiveList = (d: OrderData, f: string, t: string) =>
+  [['Nomor #', 'Tanggal', 'Pemasok', 'Pengiriman'], ...d.receipts.filter(r => inR(r, f, t)).sort(byDateNo2).map(r => [r.number, fmtDate(r.date), d.vendors.get(r.vendor)!])]
+
+export const receiveDetail = (d: OrderData, f: string, t: string) => d.receipts.filter(r => inR(r, f, t)).sort(byDateNo2).flatMap(r => [
+  ['Nomor #', ':', r.number, 'Pemasok', ':', d.vendors.get(r.vendor)!], ['Tanggal', ':', fmtDate(r.date)], ['Kode #', 'Nama Barang', 'Kuantitas', 'Satuan'],
+  ...r.lines.map(l => [l.item, l.itemName, qty(l.qty), l.unit]), [qty(r.lines.reduce((s, l) => s + l.qty, 0))]])

@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { purchaseDownPaymentInput, purchaseInvoiceInput, purchasePaymentInput, vendorInput, type PurchaseDownPaymentInput, type PurchaseInvoiceInput, type PurchasePaymentInput } from '@northline/schemas/sales'
-import type { z } from 'zod'
+import { z } from 'zod'
 import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
@@ -123,5 +123,32 @@ export async function createPurchaseDownPayment(db: Db, input: PurchaseDownPayme
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreatePurchaseDownPayment', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+const orderInput = z.object({ number: z.string().optional(), vendor: z.string(), date: z.string(), description: z.string().default(''),
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive(), price: z.number().nonnegative().optional() })).min(1) })
+
+/** Pesanan Pembelian: no journal. */
+export async function createPurchaseOrder(db: Db, input: z.input<typeof orderInput>) {
+  const o = orderInput.parse(input)
+  return db.transaction(async tx => {
+    const number = o.number ?? await nextNumber(tx, `PO.${period(o.date)}`)
+    const ls = o.lines.map(l => ({ ...l, price: Math.round((l.price ?? 0) * 100), total: Math.round(l.qty * (l.price ?? 0) * 100) }))
+    await tx.execute(sql`INSERT INTO purchase_orders (number, vendor_no, date, description, total) VALUES (${number}, ${o.vendor}, ${o.date}, ${o.description}, ${ls.reduce((s, l) => s + l.total, 0)})`)
+    for (const [i, l] of ls.entries()) await tx.execute(sql`INSERT INTO purchase_order_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.price}, ${l.total})`)
+    return { number }
+  })
+}
+
+/** Penerimaan Barang: quantities only; stock value arrives with the purchase invoice.
+ *  shortcut: receipt does not move stock here; stock moves on the invoice (matches the unlinked sandbox case), link receipts to invoices when GRNI is modelled. */
+export async function createReceiveItem(db: Db, input: z.input<typeof orderInput> & { receiveNumber: string }) {
+  const o = orderInput.parse(input)
+  return db.transaction(async tx => {
+    const number = o.number ?? await nextNumber(tx, `RI.${period(o.date)}`)
+    await tx.execute(sql`INSERT INTO receive_items (number, vendor_no, date, receive_number, description) VALUES (${number}, ${o.vendor}, ${o.date}, ${input.receiveNumber}, ${o.description})`)
+    for (const [i, l] of o.lines.entries()) await tx.execute(sql`INSERT INTO receive_item_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
+    return { number }
   })
 }

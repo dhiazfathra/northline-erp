@@ -1,24 +1,7 @@
 # Rincian Penerimaan Barang (`ReceiveItemDetailReport`)
 
-Group: Pembelian. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ReceiveItemDetailReport.json`](captures/ReceiveItemDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-order-t9.json`](fixtures/purchase-order-t9.json) (PO.2034.06.00001, RI.2034.06.00001, PI.2034.06.00001, **unlinked** in Accurate). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/purchase-orders.test.ts`.
 
-## Parameters
+Block per receipt: `Nomor # : <no>  Pemasok : <name>`, `Tanggal : <date>`, header `Kode #` | `Nama Barang` | `Kuantitas` | `Satuan`, lines, quantity total. Accurate posts the receipt journal with zero amounts (Persediaan / Hutang Pembelian Belum Ditagih) when no price is set; the ERP posts none.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | Pemasok | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Unverified: linked order → receipt → invoice (processed quantities, shared flow rows).

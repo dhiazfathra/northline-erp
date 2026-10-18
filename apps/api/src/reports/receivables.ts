@@ -334,7 +334,8 @@ export function partyList(d: SalesData, asOf: string, createdAt?: Map<string, st
 }
 
 /** Histori Proses Penjualan / Pembelian: one row per invoice in range with the payment documents that settle it ("-" when none). */
-export function flowHistory(d: SalesData, from: string, to: string, sales: boolean): string[][] {
+/** `extra`: unlinked purchase receipts and orders, printed after the invoices (receipts, then orders) in their own stage column. */
+export function flowHistory(d: SalesData, from: string, to: string, sales: boolean, extra: { receipts: string[]; orders: string[] } = { receipts: [], orders: [] }): string[][] {
   const head = sales
     ? ['Penawaran Penjualan', 'Pesanan Penjualan', 'Pengiriman Pesanan', 'Uang Muka Penjualan', 'Faktur Penjualan', 'Retur Penjualan', 'Penerimaan Penjualan', 'Tukar Faktur']
     : ['Permintaan Barang', 'Pesanan Pembelian', 'Penerimaan Barang', 'Uang Muka Pembelian', 'Faktur Pembelian', 'Retur Pembelian', 'Pembayaran Pembelian']
@@ -342,7 +343,8 @@ export function flowHistory(d: SalesData, from: string, to: string, sales: boole
     const pays = d.receipts.filter(r => r.payments.some(p => p.invoice === i.number)).sort((a, b) => (a.date < b.date ? -1 : 1))
     return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', '-', '-', '-', i.number, '-', p, '-'] : ['-', '-', '-', '-', i.number, '-', p])
   })
-  return [head, ...rows]
+  const dash = (k: number, n: string) => head.map((_, i) => (i === k ? n : '-'))
+  return [head, ...rows, ...extra.receipts.map(n => dash(2, n)), ...extra.orders.map(n => dash(1, n))]
 }
 
 /** Barang Paling Laku: per item, number of invoices containing it, quantity and value. */

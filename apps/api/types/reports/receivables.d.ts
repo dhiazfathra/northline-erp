@@ -132,7 +132,11 @@ export declare function salesInvoiceDetail(d: SalesData, from: string, to: strin
  *  The customer list also prints the creation timestamp (`createdAt`, formatted `dd Mon yyyy HH:mm:ss`). */
 export declare function partyList(d: SalesData, asOf: string, createdAt?: Map<string, string>): string[][];
 /** Histori Proses Penjualan / Pembelian: one row per invoice in range with the payment documents that settle it ("-" when none). */
-export declare function flowHistory(d: SalesData, from: string, to: string, sales: boolean): string[][];
+/** `extra`: unlinked purchase receipts and orders, printed after the invoices (receipts, then orders) in their own stage column. */
+export declare function flowHistory(d: SalesData, from: string, to: string, sales: boolean, extra?: {
+    receipts: string[];
+    orders: string[];
+}): string[][];
 /** Barang Paling Laku: per item, number of invoices containing it, quantity and value. */
 export declare function sellingItemFrequency(d: SalesData, from: string, to: string): string[][];
 /** Profitabilitas per Faktur: sales − cost of goods (0 for services) − extra costs. */
