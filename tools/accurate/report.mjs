@@ -2,7 +2,7 @@
 import { openSandbox, assertSandbox, log, red } from './acc.mjs';
 import { writeFileSync } from 'node:fs';
 
-export async function runReport(app, planId, param) {
+export async function runReport(app, planId, param, { keepEmpty = false } = {}) {
   await assertSandbox(app);
   if (!(await app.evaluate(() => acc.isModuleOpened?.('accurate__report__report')))) { await app.evaluate(() => acc.openModule('accurate__report__report')); await app.waitForTimeout(4000); await assertSandbox(app); }
   return app.evaluate(async ({ planId, param }) => {
@@ -27,10 +27,10 @@ export async function runReport(app, planId, param) {
   }, { planId, param }).then(async (r) => {
     if (r.error || !r.cacheId) return { error: { first: r.first, poll: r.meta } };
     const html = await (await app.request.get(r.host + '/accurate/report/report-output-html.do?' + new URLSearchParams({ _dsi: r.dsi, _usi: r.usi, cacheId: r.cacheId, reportView: 'report' }))).text();
-    const rows = await app.evaluate((html) => {
+    const rows = await app.evaluate(({ html, keepEmpty }) => {
       const doc = new DOMParser().parseFromString(html, 'text/html');
-      return [...doc.querySelectorAll('tr')].filter((tr) => !tr.querySelector('tr')).map((tr) => [...tr.querySelectorAll('td,th')].map((c) => c.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean)).filter((r) => r.length);
-    }, html);
+      return [...doc.querySelectorAll('tr')].filter((tr) => !tr.querySelector('tr')).map((tr) => [...tr.querySelectorAll('td,th')].map((c) => c.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean)).filter((r) => keepEmpty || r.length); // keepEmpty: blank spacer rows matter for two-column layouts
+    }, { html, keepEmpty });
     // Secrets (e.g. the login shown in 'Direkonsiliasi Oleh') never leave the runner: scrubbed before any caller sees rows.
     return { meta: 'ok', rows: rows.map((r) => r.map(red)) };
   });

@@ -38,3 +38,15 @@ test('Neraca (Perbandingan Periode) 31 Des 2030 vs 28 Feb 2031', async () => {
   const rows = F.compareColumns(bs(a), bs(b), o).map(F.formatMulti).filter(r => /^NL-T1|^Laba Tahun/.test(r[0]!))
   expect(rows).toEqual(fs.BalanceSheetComparePeriodReport.rows.filter(r => /^NL-T1|^Laba Tahun/.test(r[0]!)))
 })
+
+test('Neraca (Induk Skontro) 28 Feb 2031: two-column zip of the standard Neraca', async () => {
+  const sk = (fs as any).BalanceSheetParentScontroReport
+  // the transform reproduces Accurate's Skontro from Accurate's own standard Neraca (demo accounts included)
+  expect(F.skontro(sk.standardRows)).toEqual(sk.rows)
+  // and the ERP's NL-T1 / Laba cells land in the same label-value pairs
+  const { accounts, balances, settings } = await load()
+  // a label followed by an amount cell is one pair (one-cell headings shift the right column, so scan instead of slicing)
+  const pairs = (rows: string[][]) => rows.flatMap(r => r.flatMap((c, i) => (/^(NL-T1|Laba Tahun)/.test(c) ? [`${c}|${r[i + 1]}`] : []))).sort()
+  const erp = F.balanceSheet(accounts, balances, settings, sk.asOf, o).map(F.formatLine)
+  expect(pairs(F.skontro(erp))).toEqual(pairs(sk.rows))
+})

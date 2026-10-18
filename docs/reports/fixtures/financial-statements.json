@@ -898,5 +898,487 @@
     "-108,33 %"
    ]
   ]
+ },
+ "BalanceSheetParentScontroReport": {
+  "asOf": "2031-02-28",
+  "note": "Captured with blank rows kept (runReport keepEmpty) and page chrome stripped. standardRows = Neraca (Standar) for the same date and params (no blank rows); rows = Neraca (Induk Skontro). Sandbox demo accounts included.",
+  "param": {
+   "asOfDate": "28/02/2031",
+   "selectedCurrency": [
+    {
+     "id": 50,
+     "code": "IDR",
+     "name": "Indonesian Rupiah",
+     "symbol": "Rp"
+    }
+   ],
+   "showTotal": false,
+   "showParentAccount": true,
+   "showChildAccount": true,
+   "showZeroBalance": false,
+   "showParentAccountBalance": true
+  },
+  "standardRows": [
+   [
+    "ASET"
+   ],
+   [
+    "ASET LANCAR"
+   ],
+   [
+    "Kas dan Setara Kas"
+   ],
+   [
+    "Kas & Bank",
+    "-25.335.714"
+   ],
+   [
+    "Kas Kecil",
+    "-25.335.714"
+   ],
+   [
+    "NL-T1 Kas",
+    "-1.250.000,5"
+   ],
+   [
+    "ZZ-R01-Bank Uji",
+    "12.464.050"
+   ],
+   [
+    "ZZ-R01-Kas Kecil Uji",
+    "500.000"
+   ],
+   [
+    "ZZ-R01-Bank USD Uji",
+    "1.600.000"
+   ],
+   [
+    "ZZ-R02-Bank Uji",
+    "11.500.000"
+   ],
+   [
+    "ZZ-R02-Kas Kecil Uji",
+    "500.000"
+   ],
+   [
+    "ZZ-R03-Bank Uji",
+    "964.050"
+   ],
+   [
+    "ZZ-R03-Bank USD Uji 2",
+    "1.600.000"
+   ],
+   [
+    "Jumlah Kas dan Setara Kas",
+    "2.542.385,5"
+   ],
+   [
+    "Piutang Usaha"
+   ],
+   [
+    "Piutang Usaha",
+    "5.020.000"
+   ],
+   [
+    "Piutang Usaha IDR",
+    "5.020.000"
+   ],
+   [
+    "Jumlah Piutang Usaha",
+    "5.020.000"
+   ],
+   [
+    "Persediaan"
+   ],
+   [
+    "Persediaan",
+    "218.093.904"
+   ],
+   [
+    "Persediaan Barang Jadi",
+    "193.379.750"
+   ],
+   [
+    "Persediaan Dalam Proses",
+    "22.826.154"
+   ],
+   [
+    "Persediaan NG Goods",
+    "1.888.000"
+   ],
+   [
+    "Jumlah Persediaan",
+    "218.093.904"
+   ],
+   [
+    "Aset Lancar Lainnya"
+   ],
+   [
+    "Aset Lancar Lainnya",
+    "220.000"
+   ],
+   [
+    "PPN Masukan",
+    "220.000"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "15.000.000"
+   ],
+   [
+    "Jumlah Aset Lancar Lainnya",
+    "15.220.000"
+   ],
+   [
+    "Jumlah Aset Lancar",
+    "240.876.289,5"
+   ],
+   [
+    "ASET TIDAK LANCAR"
+   ],
+   [
+    "Nilai Histori"
+   ],
+   [
+    "Jumlah Nilai Histori",
+    "0"
+   ],
+   [
+    "Akumulasi Penyusutan"
+   ],
+   [
+    "Jumlah Akumulasi Penyusutan",
+    "0"
+   ],
+   [
+    "Jumlah Aset Tidak Lancar",
+    "0"
+   ],
+   [
+    "Aset Lainnya"
+   ],
+   [
+    "Jumlah Aset Lainnya",
+    "0"
+   ],
+   [
+    "JUMLAH ASET",
+    "240.876.289,5"
+   ],
+   [
+    "LIABILITAS DAN EKUITAS"
+   ],
+   [
+    "LIABILITAS"
+   ],
+   [
+    "LIABILITAS JANGKA PENDEK"
+   ],
+   [
+    "Utang Usaha"
+   ],
+   [
+    "Hutang Usaha",
+    "99.346.500"
+   ],
+   [
+    "Hutang Usaha IDR",
+    "99.346.500"
+   ],
+   [
+    "Jumlah Utang",
+    "99.346.500"
+   ],
+   [
+    "Kewajiban Jangka Pendek Lainnya"
+   ],
+   [
+    "Kewajiban Jangka Pendek Lainnya",
+    "2.872.386"
+   ],
+   [
+    "PPN Keluaran",
+    "628.100"
+   ],
+   [
+    "PPh 23 Pembelian",
+    "80.000"
+   ],
+   [
+    "Hutang PPh 21",
+    "2.164.286"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "1.000.000"
+   ],
+   [
+    "Jumlah Kewajiban Jangka Pendek Lainnya",
+    "3.872.386"
+   ],
+   [
+    "Jumlah Kewajiban Jangka Pendek",
+    "103.218.886"
+   ],
+   [
+    "LIABILITAS JANGKA PANJANG"
+   ],
+   [
+    "Jumlah Kewajiban Jangka Panjang",
+    "0"
+   ],
+   [
+    "Jumlah Kewajiban",
+    "103.218.886"
+   ],
+   [
+    "EKUITAS"
+   ],
+   [
+    "Modal",
+    "71.907.404"
+   ],
+   [
+    "Equitas Saldo Awal",
+    "102.910.000"
+   ],
+   [
+    "Laba Ditahan",
+    "-31.002.596"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000"
+   ],
+   [
+    "ZZ-R01-Modal Uji",
+    "22.000.000"
+   ],
+   [
+    "ZZ-R02-Modal Uji",
+    "10.000.000"
+   ],
+   [
+    "ZZ-R03-Modal Aset Uji",
+    "24.000.000"
+   ],
+   [
+    "Laba Tahun Ini",
+    "-250.000,5"
+   ],
+   [
+    "Jumlah Ekuitas",
+    "137.657.403,5"
+   ],
+   [
+    "JUMLAH LIABILITAS DAN EKUITAS",
+    "240.876.289,5"
+   ]
+  ],
+  "rows": [
+   [
+    "ASET",
+    "LIABILITAS DAN EKUITAS"
+   ],
+   [
+    "ASET LANCAR",
+    "LIABILITAS"
+   ],
+   [
+    "Kas dan Setara Kas",
+    "LIABILITAS JANGKA PENDEK"
+   ],
+   [
+    "Kas & Bank",
+    "-25.335.714",
+    "Utang Usaha"
+   ],
+   [
+    "Kas Kecil",
+    "-25.335.714",
+    "Hutang Usaha",
+    "99.346.500"
+   ],
+   [
+    "NL-T1 Kas",
+    "-1.250.000,5",
+    "Hutang Usaha IDR",
+    "99.346.500"
+   ],
+   [
+    "ZZ-R01-Bank Uji",
+    "12.464.050",
+    "Jumlah Utang",
+    "99.346.500"
+   ],
+   [
+    "ZZ-R01-Kas Kecil Uji",
+    "500.000"
+   ],
+   [
+    "ZZ-R01-Bank USD Uji",
+    "1.600.000",
+    "Kewajiban Jangka Pendek Lainnya"
+   ],
+   [
+    "ZZ-R02-Bank Uji",
+    "11.500.000",
+    "Kewajiban Jangka Pendek Lainnya",
+    "2.872.386"
+   ],
+   [
+    "ZZ-R02-Kas Kecil Uji",
+    "500.000",
+    "PPN Keluaran",
+    "628.100"
+   ],
+   [
+    "ZZ-R03-Bank Uji",
+    "964.050",
+    "PPh 23 Pembelian",
+    "80.000"
+   ],
+   [
+    "ZZ-R03-Bank USD Uji 2",
+    "1.600.000",
+    "Hutang PPh 21",
+    "2.164.286"
+   ],
+   [
+    "Jumlah Kas dan Setara Kas",
+    "2.542.385,5",
+    "NL-T1 Utang Lain",
+    "1.000.000"
+   ],
+   [
+    "Jumlah Kewajiban Jangka Pendek Lainnya",
+    "3.872.386"
+   ],
+   [
+    "Piutang Usaha",
+    "Jumlah Kewajiban Jangka Pendek",
+    "103.218.886"
+   ],
+   [
+    "Piutang Usaha",
+    "5.020.000"
+   ],
+   [
+    "Piutang Usaha IDR",
+    "5.020.000",
+    "LIABILITAS JANGKA PANJANG"
+   ],
+   [
+    "Jumlah Piutang Usaha",
+    "5.020.000",
+    "Jumlah Kewajiban Jangka Panjang",
+    "0"
+   ],
+   [
+    "Jumlah Kewajiban",
+    "103.218.886"
+   ],
+   [
+    "Persediaan"
+   ],
+   [
+    "Persediaan",
+    "218.093.904",
+    "EKUITAS"
+   ],
+   [
+    "Persediaan Barang Jadi",
+    "193.379.750",
+    "Modal",
+    "71.907.404"
+   ],
+   [
+    "Persediaan Dalam Proses",
+    "22.826.154",
+    "Equitas Saldo Awal",
+    "102.910.000"
+   ],
+   [
+    "Persediaan NG Goods",
+    "1.888.000",
+    "Laba Ditahan",
+    "-31.002.596"
+   ],
+   [
+    "Jumlah Persediaan",
+    "218.093.904",
+    "NL-T1 Modal",
+    "10.000.000"
+   ],
+   [
+    "ZZ-R01-Modal Uji",
+    "22.000.000"
+   ],
+   [
+    "Aset Lancar Lainnya",
+    "ZZ-R02-Modal Uji",
+    "10.000.000"
+   ],
+   [
+    "Aset Lancar Lainnya",
+    "220.000",
+    "ZZ-R03-Modal Aset Uji",
+    "24.000.000"
+   ],
+   [
+    "PPN Masukan",
+    "220.000",
+    "Laba Tahun Ini",
+    "-250.000,5"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "15.000.000",
+    "Jumlah Ekuitas",
+    "137.657.403,5"
+   ],
+   [
+    "Jumlah Aset Lancar Lainnya",
+    "15.220.000",
+    "JUMLAH LIABILITAS DAN EKUITAS",
+    "240.876.289,5"
+   ],
+   [
+    "Jumlah Aset Lancar",
+    "240.876.289,5"
+   ],
+   [
+    "ASET TIDAK LANCAR"
+   ],
+   [
+    "Nilai Histori"
+   ],
+   [
+    "Jumlah Nilai Histori",
+    "0"
+   ],
+   [
+    "Akumulasi Penyusutan"
+   ],
+   [
+    "Jumlah Akumulasi Penyusutan",
+    "0"
+   ],
+   [
+    "Jumlah Aset Tidak Lancar",
+    "0"
+   ],
+   [
+    "Aset Lainnya"
+   ],
+   [
+    "Jumlah Aset Lainnya",
+    "0"
+   ],
+   [
+    "JUMLAH ASET",
+    "240.876.289,5"
+   ]
+  ]
  }
 }

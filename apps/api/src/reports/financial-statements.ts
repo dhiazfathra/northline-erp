@@ -174,3 +174,16 @@ export const quarters = (y: number) => [[1, 3], [4, 6], [7, 9], [10, 12]].map(([
 /** Neraca (Perbandingan Periode) column headers use English month abbreviations, unlike every other date in Accurate's reports. */
 const EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 export const perDateEn = (iso: string) => `Per ${Number(iso.slice(8))} ${EN[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
+
+/**
+ * Neraca (Induk Skontro): the standard Neraca rows in two columns, ASET on the left and LIABILITAS DAN EKUITAS on the
+ * right, zipped row by row. Each side keeps Accurate's blank spacer rows (after a "Jumlah ..." row unless the next row is
+ * another "Jumlah ..."), which decide the pairing; rows blank on both sides drop out (docs/reports/BalanceSheetParentScontroReport.md).
+ */
+export function skontro(standardRows: string[][]): string[][] {
+  const isTotal = (r?: string[]) => !!r && /^jumlah /i.test(r[0] ?? '')
+  const spaced = (rows: string[][]) => rows.flatMap((r, i) => (isTotal(r) && !isTotal(rows[i + 1]) ? [r, []] : [r]))
+  const split = standardRows.findIndex(r => r[0] === 'LIABILITAS DAN EKUITAS')
+  const left = spaced(standardRows.slice(standardRows.findIndex(r => r[0] === 'ASET'), split)), right = spaced(standardRows.slice(split))
+  return Array.from({ length: Math.max(left.length, right.length) }, (_, i) => [...(left[i] ?? []), ...(right[i] ?? [])]).filter(r => r.length)
+}
