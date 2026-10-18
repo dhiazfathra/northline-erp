@@ -70,7 +70,10 @@ export const purchaseInvoiceInput = z.object({
   date: isoDate,
   dueDate: isoDate.optional(),
   description: z.string().default(''),
-  lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
+  lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents,
+    /** Unique serial numbers received (item with serial numbers), one unit each. */ serials: z.array(z.string().min(1)).default([]) })).min(1),
+  /** Receiving warehouse (serial-number stock is per warehouse). */
+  warehouse: z.string().default('Utama'),
   /** PPN Masukan from each line's item default tax (ADR-0009). */
   taxable: z.boolean().default(false),
   downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),

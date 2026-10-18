@@ -1,0 +1,428 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. Preferensi featureSerialNumber switched on. T33: item NL-T33-SN (unique serial numbers) bought on PI.2036.11.00001 (1 Nov 2036, 2 x 50.000) into NL-Gudang B with serials NL-SN-001 and NL-SN-002. A sale from Utama was rejected (serial not in that warehouse).",
+ "item": {
+  "no": "NL-T33-SN",
+  "name": "NL-T33 Barang Serial",
+  "type": "SERVICE",
+  "unit": "PCS",
+  "salesAccount": "400001",
+  "expenseAccount": "600020"
+ },
+ "invoice": {
+  "number": "PI.2036.11.00001",
+  "vendor": "NL-T3-V1",
+  "bill": "NL-T33-P1",
+  "date": "2036-11-01",
+  "description": "NL-T33-P1",
+  "warehouse": "NL-Gudang B",
+  "lines": [
+   {
+    "item": "NL-T33-SN",
+    "qty": 2,
+    "price": 50000,
+    "serials": [
+     "NL-SN-001",
+     "NL-SN-002"
+    ]
+   }
+  ]
+ },
+ "SerialNumberAgingDetailReport": [
+  {
+   "asOf": "2036-11-30",
+   "warehouse": "NL-Gudang B",
+   "param": {
+    "asOfDate": "30/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 100
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Nomor Seri/Batch"
+    ],
+    [
+     "Per Tgl. 30 Nov 2036"
+    ],
+    [
+     "No Seri/Produksi No Seri",
+     "Tgl Transaksi Rincian Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "NL-T33 Barang Serial"
+    ],
+    [
+     "NL-SN-001"
+    ],
+    [
+     "NL-SN-001",
+     "01 Nov 2036",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-SN-002"
+    ],
+    [
+     "NL-SN-002",
+     "01 Nov 2036",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2037-01-15",
+   "warehouse": "NL-Gudang B",
+   "param": {
+    "asOfDate": "15/01/2037",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 100
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Nomor Seri/Batch"
+    ],
+    [
+     "Per Tgl. 15 Jan 2037"
+    ],
+    [
+     "No Seri/Produksi No Seri",
+     "Tgl Transaksi Rincian Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "NL-T33 Barang Serial"
+    ],
+    [
+     "NL-SN-001"
+    ],
+    [
+     "NL-SN-001",
+     "01 Nov 2036",
+     "0",
+     "0",
+     "1",
+     "0",
+     "0"
+    ],
+    [
+     "NL-SN-002"
+    ],
+    [
+     "NL-SN-002",
+     "01 Nov 2036",
+     "0",
+     "0",
+     "1",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2036-10-31",
+   "warehouse": "NL-Gudang B",
+   "param": {
+    "asOfDate": "31/10/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 100
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Nomor Seri/Batch"
+    ],
+    [
+     "Per Tgl. 31 Okt 2036"
+    ],
+    [
+     "No Seri/Produksi No Seri",
+     "Tgl Transaksi Rincian Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ]
+   ]
+  },
+  {
+   "asOf": "2036-11-30",
+   "warehouse": "Utama",
+   "param": {
+    "asOfDate": "30/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Nomor Seri/Batch"
+    ],
+    [
+     "Per Tgl. 30 Nov 2036"
+    ],
+    [
+     "No Seri/Produksi No Seri",
+     "Tgl Transaksi Rincian Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ]
+   ]
+  }
+ ],
+ "ReceivedDeliveredSerialNumberReport": [
+  {
+   "from": "2036-11-01",
+   "to": "2036-11-30",
+   "param": {
+    "startDate": "01/11/2036",
+    "endDate": "30/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Mutasi Nomor Seri/Produksi"
+    ],
+    [
+     "Dari 01 Nov 2036 s/d 30 Nov 2036"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T33-SN"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T33 Barang Serial"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor Seri/Produksi",
+     "Kuantitas"
+    ],
+    [
+     "Terima Barang"
+    ],
+    [
+     "01 Nov 2036",
+     "Faktur Pembelian",
+     "NL-SN-001",
+     "1"
+    ],
+    [
+     "01 Nov 2036",
+     "Faktur Pembelian",
+     "NL-SN-002",
+     "1"
+    ],
+    [
+     "2"
+    ]
+   ]
+  },
+  {
+   "from": "2036-11-15",
+   "to": "2036-11-30",
+   "param": {
+    "startDate": "15/11/2036",
+    "endDate": "30/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Mutasi Nomor Seri/Produksi"
+    ],
+    [
+     "Dari 15 Nov 2036 s/d 30 Nov 2036"
+    ],
+    [
+     "Kode Barang",
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor Seri/Produksi",
+     "Kuantitas"
+    ]
+   ]
+  }
+ ],
+ "RemainingAgeSerialNumberDetailReport": [
+  {
+   "asOf": "2036-11-30",
+   "param": {
+    "asOfDate": "30/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Sisa Umur Per Nomor Produksi"
+    ],
+    [
+     "Per Tgl. 30 Nov 2036"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T33-SN"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T33 Barang Serial"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "NL-SN-001",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-SN-002",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2036-11-10",
+   "param": {
+    "asOfDate": "10/11/2036",
+    "selectedItem": [
+     {
+      "id": 403
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Sisa Umur Per Nomor Produksi"
+    ],
+    [
+     "Per Tgl. 10 Nov 2036"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T33-SN"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T33 Barang Serial"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "NL-SN-001",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-SN-002",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  }
+ ]
+}

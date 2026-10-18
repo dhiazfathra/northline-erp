@@ -78,6 +78,10 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     if (inv.taxable) await tx.execute(sql`UPDATE purchase_invoices SET document_code = ${vendor.tax_document_code as string}, tax_type = ${vendor.tax_type as string} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO purchase_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
+    for (const l of lines) {
+      if (l.serials.length && l.serials.length !== l.qty) throw new DomainError(`Jumlah nomor seri ${l.item} harus sama dengan kuantitas`)
+      for (const sn of l.serials) await tx.execute(sql`INSERT INTO serial_numbers (item_no, serial, date, doc_type, doc_number, quantity, warehouse) VALUES (${l.item}, ${sn}, ${inv.date}, 'PI', ${number}, 1, ${inv.warehouse})`)
+    }
     for (const [i, e] of inv.expenses.entries())
       await tx.execute(sql`INSERT INTO purchase_invoice_expenses (invoice_number, seq, account_no, name, amount) VALUES (${number}, ${i + 1}, ${e.account}, ${e.name}, ${e.amount})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO purchase_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)

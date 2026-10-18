@@ -24,6 +24,7 @@ p.detailItem = spec.lines.map((l, i) => {
   const d = { ...line0, _status: 'insert', seq: i + 1, itemId: l.itemId, itemUnitId: l.unitId, detailName: l.name, quantity: String(l.qty), unitPrice: String(l.price),
     itemDiscPercent: l.discPct ?? '', itemCashDiscount: '0', useTax1: l.useTax1 ?? spec.taxable };
   for (const k of ['id', 'optLock', K.parent, 'itemHistoryId', 'totalPrice', 'salesAmount', 'salesAmountBase', 'dppAmount', 'grossAmount', 'tax1Amount', 'availableQuantity', 'availableTotalPrice', 'availableUnitPrice', 'availableItemCashDiscount', 'lastItemCashDiscount', 'lastItemDiscPercent', 'quantityDefault', 'availableItemUnitId', 'availableItemUnitName', 'detailSerialNumber']) delete d[k];
+  if (l.serials) d.detailSerialNumber = l.serials.map(sn => ({ _status: 'insert', ...sn }));
   if (KIND === 'pi') { const amt = l.qty * l.price; Object.assign(d, { useTax3: !!l.tax3Id, tax3Id: l.tax3Id ?? null, purchaseAmount: amt, purchaseAmountBase: amt, itemCost: amt, totalPrice: amt }); }
   return d;
 });

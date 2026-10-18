@@ -78,3 +78,14 @@ test('ItemGroupDetailReport: group items with components (T32) and the empty sta
   for (const i of t32.items) await upsertItem(f.db, i as any)
   expect(itemGroupDetail(await Q.loadItemGroups(f.db))).toEqual(body(t32.ItemGroupDetailReport.rows))
 })
+
+test('serial-number reports: Mutasi, Umur, Sisa Umur (T33)', async () => {
+  const t33 = (await import('../../../docs/reports/fixtures/serial-t33.json')).default
+  const SN = await import('../src/reports/serial-numbers')
+  await upsertItem(f.db, t33.item as any)
+  await createPurchaseInvoice(f.db, { idempotencyKey: 't33-pi-0001', ...t33.invoice })
+  const ms = await (await import('../src/reports/queries')).loadSerialMoves(f.db), it = t33.item.no
+  for (const c of t33.ReceivedDeliveredSerialNumberReport) expect(SN.receivedDeliveredSerials(ms, it, c.from, c.to)).toEqual(body(c.rows))
+  for (const c of t33.SerialNumberAgingDetailReport) expect(SN.serialAging(ms, it, c.warehouse, c.asOf)).toEqual(body(c.rows))
+  for (const c of t33.RemainingAgeSerialNumberDetailReport) expect(SN.remainingAgeSerials(ms, it, c.asOf)).toEqual(body(c.rows))
+})

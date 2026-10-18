@@ -324,3 +324,8 @@ export async function loadItemGroups(db: Db) {
     .map(g => ({ no: g.no as string, name: g.name as string, unit: g.unit as string,
       components: cs.filter(c => c.group_no === g.no).map(c => ({ no: c.no as string, name: c.name as string, qty: Number(c.quantity), unit: c.unit as string })) }))
 }
+
+export async function loadSerialMoves(db: Db): Promise<import('./serial-numbers').SerialMove[]> {
+  return (await db.execute(sql`SELECT s.item_no, i.name, s.serial, to_char(s.date,'YYYY-MM-DD') AS date, s.doc_type, s.quantity, s.warehouse FROM serial_numbers s JOIN items i ON i.no = s.item_no`))
+    .map(r => ({ item: r.item_no as string, itemName: r.name as string, serial: r.serial as string, date: r.date as string, docType: r.doc_type as string, quantity: Number(r.quantity), warehouse: r.warehouse as string }))
+}
