@@ -4,6 +4,8 @@ import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import { sql } from 'drizzle-orm'
 import { Hono, type Context } from 'hono'
+import { bodyLimit } from 'hono/body-limit'
+import { secureHeaders } from 'hono/secure-headers'
 import { z, ZodError } from 'zod'
 import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-es'
 import type { Db } from './db'
@@ -41,6 +43,7 @@ export function createApp(db: Db) {
       console.error(err)
       return c.json({ error: 'internal' }, 500)
     })
+    .use('*', bodyLimit({ maxSize: 1024 * 1024, onError: c => c.json({ error: 'payload too large' }, 413) }))
     .route('/auth', authRoutes(db))
     .use('*', requireSession(db))
     // every change made by this request is logged with its user and client IP (ADR-0019)
@@ -229,7 +232,7 @@ export function createApp(db: Db) {
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
-  return new Hono().route('/api', api).get('*', serveSpa)
+  return new Hono().use('*', secureHeaders()).route('/api', api).get('*', serveSpa)
 }
 
 export type AppType = ReturnType<typeof createApp>

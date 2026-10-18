@@ -31,7 +31,9 @@ export async function loadActivity(db: Db, from: string, to: string): Promise<Ac
   const rows = await db.execute(sql`SELECT a.id, a.logged_at, a.action, a.entity, a.reference, to_char(a.doc_date, 'YYYY-MM-DD') AS doc_date,
       COALESCE(u.name, u.email, '') AS user_name, COALESCE(u.email, '') AS email, COALESCE(a.client_ip, '') AS ip
     FROM activity_log a LEFT JOIN users u ON u.id = a.user_id
-    WHERE (a.logged_at AT TIME ZONE 'Asia/Jakarta')::date BETWEEN ${from}::date AND ${to}::date`)
+        -- a range on logged_at itself so activity_log_newest serves the filter
+    WHERE a.logged_at >= ${from}::date::timestamp AT TIME ZONE 'Asia/Jakarta'
+      AND a.logged_at < (${to}::date + 1)::timestamp AT TIME ZONE 'Asia/Jakarta'`)
   return rows.map(r => ({ id: Number(r.id), loggedAt: new Date(r.logged_at as string).toISOString(), action: r.action as ActivityRow['action'], entity: r.entity as Entity,
     reference: r.reference as string, docDate: (r.doc_date as string | null) ?? null, user: r.user_name as string, email: r.email as string, ip: r.ip as string }))
 }

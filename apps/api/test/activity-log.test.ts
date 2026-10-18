@@ -76,3 +76,12 @@ test('rejected saves log nothing; the log is append-only', async () => {
   expect(await fails(f.db.execute(sql`UPDATE activity_log SET reference = 'x'`))).toBe(true)
   expect(await fails(f.db.execute(sql`DELETE FROM activity_log`))).toBe(true)
 })
+
+test('login locks after repeated failures; responses carry security headers', async () => {
+  const app = createApp(f.db), login = (password: string) => app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'lock@example.test', password }) })
+  await createUser(f.db, 'lock@example.test', 'rahasia-123')
+  for (let i = 0; i < 10; i++) expect((await login('salah-123')).status).toBe(401)
+  const r = await login('rahasia-123')
+  expect(r.status).toBe(429)
+  expect(r.headers.get('x-content-type-options')).toBe('nosniff')
+})

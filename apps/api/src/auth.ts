@@ -37,15 +37,27 @@ export async function createUser(db: Db, email: string, password: string) {
   await db.execute(sql`INSERT INTO users (email, password_hash) VALUES (${email.toLowerCase()}, ${await hashPassword(password)})`)
 }
 
+// Failed logins per email; shortcut: in-memory per instance, move to a table if Workers instances multiply.
+const FAIL_MAX = 10, FAIL_WINDOW_MS = 15 * 60_000
+const failures = new Map<string, { n: number; until: number }>()
+const locked = (email: string) => { const f = failures.get(email); return !!f && f.until > Date.now() && f.n >= FAIL_MAX }
+const fail = (email: string) => {
+  const f = failures.get(email), now = Date.now()
+  failures.set(email, f && f.until > now ? { n: f.n + 1, until: f.until } : { n: 1, until: now + FAIL_WINDOW_MS })
+}
+
 export type AuthEnv = { Variables: { userId: number } }
 
 export function authRoutes(db: Db) {
   return new Hono<AuthEnv>()
     .post('/login', async c => {
-      const { email, password } = signInSchema.parse(await c.req.json())
-      const [u] = await db.execute(sql`SELECT id, password_hash FROM users WHERE email = ${email.toLowerCase()}`)
+      const { email: raw, password } = signInSchema.parse(await c.req.json()), email = raw.toLowerCase()
+      if (locked(email)) return c.json({ error: 'Terlalu banyak percobaan, coba lagi nanti' }, 429)
+      const [u] = await db.execute(sql`SELECT id, password_hash FROM users WHERE email = ${email}`)
       const ok = await verifyPassword(password, (u?.password_hash as string) ?? DUMMY).catch(() => false)
-      if (!u || !ok) return c.json({ error: 'Email atau kata sandi salah' }, 401)
+      if (!u || !ok) { fail(email); return c.json({ error: 'Email atau kata sandi salah' }, 401) }
+      failures.delete(email)
+      await db.execute(sql`DELETE FROM sessions WHERE expires_at < now()`)
       const id = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString('base64url')
       await db.execute(sql`INSERT INTO sessions (id_hash, user_id, expires_at) VALUES (${await hash(id)}, ${u.id}, now() + ${`${TTL_DAYS} days`}::interval)`)
       setCookie(c, COOKIE, id, { httpOnly: true, sameSite: 'Strict', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: TTL_DAYS * 86400 })
