@@ -101,10 +101,10 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Piutang | `ARHistoryReport` | report | FROMTO | selectedBranch= | [verified](ARHistoryReport.md) |
 | Rata-rata Pembayaran Pelanggan | `OwingCollectionPerCustomerReport` | report | FROMTO | selectedBranch= | [verified](OwingCollectionPerCustomerReport.md) |
 | Rincian Umur Piutang | `AgingReceivableDetailReport` | report | ASOF | selectedBranch= | [verified](AgingReceivableDetailReport.md) |
-| Grafik Umur Piutang | `AgingReceivableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingReceivableChartReport.md) |
+| Grafik Umur Piutang | `AgingReceivableChartReport` | chart | ASOF | selectedBranch= | [verified](AgingReceivableChartReport.md) |
 | Rincian Buku Besar Pembantu Piutang | `ARLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [verified](ARLedgerDetailReport.md) |
 | Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | [verified](CustomerStatementReport.md) |
-| Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [spec](OwingCollectionGraphReport.md) |
+| Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [verified](OwingCollectionGraphReport.md) |
 | Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoicePaidReport.md) |
 | Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePphPaidReport.md) |
 | Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [spec](CustomerExistingCreditListReport.md) |
@@ -170,7 +170,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Utang | `APHistoryReport` | report | FROMTO | selectedBranch= | [verified](APHistoryReport.md) |
 | Rincian Umur Utang | `AgingPayableDetailReport` | report | ASOF | selectedBranch= | [verified](AgingPayableDetailReport.md) |
 | Rincian Buku Besar Pembantu Utang | `APLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [verified](APLedgerDetailReport.md) |
-| Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingPayableChartReport.md) |
+| Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [verified](AgingPayableChartReport.md) |
 | Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [verified](VendorStatementReport.md) |
 | Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoicePaidReport.md) |
 | Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePphPaidReport.md) |

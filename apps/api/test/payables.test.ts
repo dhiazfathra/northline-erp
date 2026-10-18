@@ -87,3 +87,8 @@ test('VendorListReport (NL-T3 rows) and PurchaseFlowHistoryReport', async () => 
   expect(R.partyList(d, AS_OF)).toEqual(rep('VendorListReport').filter(r => /^(ID |Umum$|NL-T3)/.test(r[0]!)))
   expect(R.flowHistory(d, W.from, W.to, false)).toEqual(rep('PurchaseFlowHistoryReport'))
 })
+
+test('Grafik Umur Utang (series transcribed from Accurate PNG)', async () => {
+  const ch = (await import('../../../docs/reports/fixtures/charts.json')).default
+  expect(R.agingChart(await loadPurchases(f.db), AS_OF) as string[][]).toEqual(ch.AgingPayableChartReport.bars.filter(b => b[0] !== '&gt; 120'))
+})

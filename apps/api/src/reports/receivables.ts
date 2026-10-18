@@ -403,3 +403,20 @@ export const customerShareChart = (d: SalesData, from: string, to: string) =>
 /** Porsi Penjualan per Barang */
 export const itemShareChart = (d: SalesData, from: string, to: string) =>
   shareLegend([...group(linesIn(d, from, to), l => l.item).values()].map(xs => [xs[0]!.itemName, tv(xs)]))
+
+/** Grafik Umur Piutang/Utang: one bar per non-empty age bucket (open balance at asOf). */
+export function agingChart(d: SalesData, asOf: string): [string, string][] {
+  const all = [...d.customers.keys()].flatMap(c => openInvoices(d, asOf, c))
+  return spread(all).map((v, i) => [BUCKETS[i]!, v] as const).filter(([, v]) => v).map(([b, v]) => [b, formatIdr(v)])
+}
+
+/** Grafik Rata-rata Pembayaran Pelanggan: per month in range, average days from invoice date to each receipt dated that month
+ *  (partial payments count); months without receipts show 0. */
+export function collectionDaysChart(d: SalesData, from: string, to: string): [string, string][] {
+  const out: [string, string][] = []
+  for (let m = from.slice(0, 7); m <= to.slice(0, 7); m = new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5)), 1)).toISOString().slice(0, 7)) {
+    const ds = d.receipts.filter(r => r.date.startsWith(m)).flatMap(r => r.payments.map(p => days(d.invoices.find(i => i.number === p.invoice)!.date, r.date)))
+    out.push([`${MON_SHORT[Number(m.slice(5)) - 1]} ${m.slice(0, 4)}`, String(ds.length ? Math.round(ds.reduce((s, x) => s + x, 0) / ds.length) : 0)])
+  }
+  return out
+}

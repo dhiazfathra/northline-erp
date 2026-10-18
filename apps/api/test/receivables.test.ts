@@ -97,3 +97,11 @@ test('SalesFlowHistoryReport, SellingItemFrequencyReport, ProfitabilityBySalesIn
   expect(R.sellingItemFrequency(d, W.from, W.to)).toEqual(rep('SellingItemFrequencyReport'))
   expect(R.profitabilityByInvoice(d, W.from, W.to)).toEqual(rep('ProfitabilityBySalesInvoiceReport'))
 })
+
+test('Grafik Umur Piutang and Rata-rata Pembayaran (series transcribed from Accurate PNGs)', async () => {
+  const ch = (await import('../../../docs/reports/fixtures/charts.json')).default
+  const d = await loadSales(f.db)
+  // the "> 120" bar is the sandbox's own 2026 receivables, absent from the fixture ledger
+  expect(R.agingChart(d, '2033-07-15') as string[][]).toEqual(ch.AgingReceivableChartReport.bars.filter(b => b[0] !== '&gt; 120'))
+  expect(R.collectionDaysChart(d, '2033-04-01', '2033-06-30') as string[][]).toEqual(ch.OwingCollectionGraphReport.bars)
+})

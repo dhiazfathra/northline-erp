@@ -1,19 +1,5 @@
 # Grafik Rata-rata Pembayaran Pelanggan (`OwingCollectionGraphReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/OwingCollectionGraphReport.json`](captures/OwingCollectionGraphReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Chart report (PNG only). Verified by transcribing the labels of [`captures/charts/OwingCollectionGraphReport.png`](captures/charts/OwingCollectionGraphReport.png) into [`fixtures/charts.json`](fixtures/charts.json).
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
-
-## Layout
-
-View: `chart`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+One bar per month in range (x `Bulan`, y `Bayar (Hari)`): average days from invoice date to each receipt dated that month, **partial payments included** (May: R1 paid I1 after 35 days; June: R2 after 56), months without receipts 0. Unlike the [table version](OwingCollectionPerCustomerReport.md), which counts only fully settled invoices. ERP: `collectionDaysChart`.

@@ -1,22 +1,5 @@
 # Grafik Umur Piutang (`AgingReceivableChartReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AgingReceivableChartReport.json`](captures/AgingReceivableChartReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Chart report (PNG only). Verified by transcribing the labels of [`captures/charts/AgingReceivableChartReport.png`](captures/charts/AgingReceivableChartReport.png) into [`fixtures/charts.json`](fixtures/charts.json).
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `chart`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`. One bar per **non-empty** age bucket (x `Grup Umur`, y `Piutang`) of all open receivables, buckets as [Umur Piutang](AgingReceivableReport.md). The > 120 bar (5.020.000) is the sandbox's own 2026 data; the test checks the fixture buckets. ERP: `agingChart`; test `receivables.test.ts`.

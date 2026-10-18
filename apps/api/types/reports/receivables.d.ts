@@ -140,3 +140,8 @@ export declare function monthlySalesChart(d: SalesData, from: string, to: string
 export declare const customerShareChart: (d: SalesData, from: string, to: string) => string[];
 /** Porsi Penjualan per Barang */
 export declare const itemShareChart: (d: SalesData, from: string, to: string) => string[];
+/** Grafik Umur Piutang/Utang: one bar per non-empty age bucket (open balance at asOf). */
+export declare function agingChart(d: SalesData, asOf: string): [string, string][];
+/** Grafik Rata-rata Pembayaran Pelanggan: per month in range, average days from invoice date to each receipt dated that month
+ *  (partial payments count); months without receipts show 0. */
+export declare function collectionDaysChart(d: SalesData, from: string, to: string): [string, string][];

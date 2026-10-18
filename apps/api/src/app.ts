@@ -138,6 +138,11 @@ export function createApp(db: Db) {
       const d = c.req.param('side') === 'sales' ? await loadSales(db) : await loadPurchases(db), { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ list: R.returnList, detail: R.returnDetail, 'by-item': R.returnByItem }[c.req.param('report') as 'list' | 'detail' | 'by-item'](d, from, to))
     })
+    .get('/reports/charts/:chart{ar-aging|ap-aging}', async c => {
+      const d = c.req.param('chart') === 'ar-aging' ? await loadSales(db) : await loadPurchases(db)
+      return c.json(R.agingChart(d, balanceSheetQuery.parse(c.req.query()).asOf))
+    })
+    .get('/reports/charts/collection-days', async c => { const { from, to } = trialBalanceQuery.parse(c.req.query()); return c.json(R.collectionDaysChart(await loadSales(db), from, to)) })
     .get('/reports/charts/:chart{monthly-sales|customer-share|item-share}', async c => {
       const d = await loadSales(db), { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ 'monthly-sales': R.monthlySalesChart, 'customer-share': R.customerShareChart, 'item-share': R.itemShareChart }[c.req.param('chart') as 'monthly-sales'](d, from, to))

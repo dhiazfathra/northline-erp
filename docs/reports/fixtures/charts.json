@@ -35,5 +35,74 @@
   "legend": [
    "NL-T4 Barang A - 307.000 (100%)"
   ]
+ },
+ "AgingReceivableChartReport": {
+  "asOf": "2033-07-15",
+  "image": "captures/charts/AgingReceivableChartReport.png",
+  "bars": [
+   [
+    "31 - 60",
+    "800.000"
+   ],
+   [
+    "91 - 120",
+    "500.000"
+   ],
+   [
+    "&gt; 120",
+    "5.020.000"
+   ]
+  ],
+  "note": "> 120 = sandbox 2026 receivables of other customers (5.020.000, see AgingReceivableReport); the NL-T2 fixture contributes the other two bars",
+  "axes": {
+   "x": "Grup Umur",
+   "y": "Piutang"
+  }
+ },
+ "AgingPayableChartReport": {
+  "asOf": "2033-09-15",
+  "image": "captures/charts/AgingPayableChartReport.png",
+  "bars": [
+   [
+    "1 - 30",
+    "300.000"
+   ],
+   [
+    "61 - 90",
+    "200.000"
+   ],
+   [
+    "&gt; 120",
+    "99.346.500"
+   ]
+  ],
+  "note": "> 120 = sandbox payables of other vendors",
+  "axes": {
+   "x": "Grup Umur",
+   "y": "Utang"
+  }
+ },
+ "OwingCollectionGraphReport": {
+  "from": "2033-04-01",
+  "to": "2033-06-30",
+  "image": "captures/charts/OwingCollectionGraphReport.png",
+  "bars": [
+   [
+    "Apr 2033",
+    "0"
+   ],
+   [
+    "Mei 2033",
+    "35"
+   ],
+   [
+    "Jun 2033",
+    "56"
+   ]
+  ],
+  "axes": {
+   "x": "Bulan",
+   "y": "Bayar (Hari)"
+  }
  }
 }
