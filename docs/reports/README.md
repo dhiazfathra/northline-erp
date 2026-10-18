@@ -215,8 +215,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Umur Persediaan | `InventoryAgingReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingReport.md) |
 | Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingByWarehouseReport.md) |
 | Rincian Nilai Persediaan | `InventoryValuationDetailReport` | report | FROMTO | selectedItem= | [verified](InventoryValuationDetailReport.md) |
-| Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | [spec](InventoryAnalysisDetailReport.md) |
-| Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](InventoryAgingDetailReport.md) |
+| Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | [verified](InventoryAnalysisDetailReport.md) |
+| Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [verified](InventoryAgingDetailReport.md) |
 | Kartu Stok Persediaan | `InventoryStockCardReport` | report | FROMTO | selectedItem= | [verified](InventoryStockCardReport.md) |
 | Permintaan per Barang (Belum Proses) | `PurchaseRequisitionByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseRequisitionByItemReport.md) |
 | Daftar Permintaan Barang | `PurchaseRequisitionListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseRequisitionListReport.md) |

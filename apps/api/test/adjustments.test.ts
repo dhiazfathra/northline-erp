@@ -8,7 +8,7 @@ import t10 from '../../../docs/reports/fixtures/adjustment-t10.json'
 import { createItemAdjustment } from '../src/inventory/adjustment'
 import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
-import { createPurchaseInvoice, createReceiveItem, upsertVendor } from '../src/purchases/service'
+import { createPurchaseInvoice, createPurchaseOrder, createReceiveItem, upsertVendor } from '../src/purchases/service'
 import * as I from '../src/reports/inventory'
 import { loadAdjustments, loadInventory, queryGeneralLedger } from '../src/reports/queries'
 import { createPurchaseReturn, createSalesReturn } from '../src/returns/service'
@@ -27,7 +27,8 @@ beforeAll(async () => {
   for (const d of t4.documents as any[]) d.kind === 'PurchaseInvoice'
     ? await createPurchaseInvoice(f.db, { idempotencyKey: `a-${d.ref}`, ...d }) : await createSalesInvoice(f.db, { idempotencyKey: `a-${d.ref}`, ...d })
   for (const d of t6.documents as any[]) d.kind === 'SalesReturn' ? await createSalesReturn(f.db, { idempotencyKey: `a-${d.ref}`, ...d }) : await createPurchaseReturn(f.db, { idempotencyKey: `a-${d.ref}`, ...d })
-  const [, ri, pi] = t9.documents as any[]
+  const [po, ri, pi] = t9.documents as any[]
+  await createPurchaseOrder(f.db, po) // stays open: Accurate never linked the receipt/invoice to it (Dipesan in Ketersediaan Stok)
   await createReceiveItem(f.db, ri)
   await createPurchaseInvoice(f.db, { idempotencyKey: 'a-t9-pi-0001', ...pi })
   for (const d of t10.documents as any[]) await createItemAdjustment(f.db, { idempotencyKey: `a-${d.number}`, ...d })
@@ -118,10 +119,22 @@ test('AnalysisInventoryValuationReport over the T4..T15 chain (stock-movement.js
   for (const c of fx.AnalysisInventoryValuationReport) expect(I.analysisValuation(d, c.from, c.to).filter(keep)).toEqual(c.rows.filter(keep))
 })
 
-test('InventoryAnalysisReport (Jual/Minggu = net sold / (floor(days since first sale / 7) + 1))', async () => {
+test('InventoryAnalysisReport (Jual/Minggu over the last 3 months of invoices; Dipesan = open POs)', async () => {
   const fx = (await import('../../../docs/reports/fixtures/stock-movement.json')).default as any, Q = await import('../src/reports/queries')
   const { items, moves } = await Q.loadItemList(f.db), stock = new Set(items.filter(i => i.type === 'INVENTORY').map(i => i.no))
   const names = new Set(items.filter(i => stock.has(i.no)).map(i => i.name))
   const keep = (r: string[], i: number) => i < 4 || (r.length === 1 && r[0] === 'Umum') || (r.length > 1 && names.has(r[0]!))
-  for (const c of fx.InventoryAnalysisReport) expect(I.inventoryAnalysis(items, moves, c.asOf)).toEqual(c.rows.filter(keep))
+  const d = await Q.loadSales(f.db), o = await Q.loadOrders(f.db)
+  const sales = [...d.invoices.filter(i => i.kind !== 'DP').flatMap(i => (i.lines ?? []).map(l => ({ item: l.item, date: i.date, qty: l.qty }))),
+    ...(d.returns ?? []).flatMap(r => r.lines.map(l => ({ item: l.item, date: r.date, qty: -l.qty })))]
+  const onOrder = o.orders.flatMap(po => po.lines.map(l => ({ item: l.item, date: po.date, qty: l.qty })))
+  for (const c of fx.InventoryAnalysisReport) expect(I.inventoryAnalysis(items, moves, sales, onOrder, c.asOf)).toEqual(c.rows.filter(keep))
+})
+
+test('InventoryAgingDetailReport and InventoryAnalysisDetailReport for NL-T4-B1 (FIFO layers by age; open purchase orders)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/stock-movement.json')).default as any, Q = await import('../src/reports/queries')
+  const d = await Q.loadInventory(f.db), o = await Q.loadOrders(f.db)
+  for (const c of fx.InventoryAgingDetailReport) expect(I.inventoryAgingDetail(d, c.item, c.warehouse, c.asOf)).toEqual(c.rows)
+  const orders = o.orders.flatMap(po => po.lines.map(l => ({ number: po.number, date: po.date, vendorName: o.vendors.get(po.vendor)!, qty: l.qty, item: l.item })))
+  for (const c of fx.InventoryAnalysisDetailReport) expect(I.inventoryAnalysisDetail(d, orders, c.item, c.asOf)).toEqual(c.rows)
 })

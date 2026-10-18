@@ -5444,7 +5444,2468 @@
      "0"
     ]
    ]
+  },
+  {
+   "asOf": "2034-01-15",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 15 Jan 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "11",
+     "0",
+     "0",
+     "11",
+     "0,93"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-03-01",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 01 Mar 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "11",
+     "0",
+     "0",
+     "11",
+     "0"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-03",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 03 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "22",
+     "5",
+     "0",
+     "22",
+     "0"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-06",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 06 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "18",
+     "5",
+     "0",
+     "18",
+     "0"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-08",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 08 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "18",
+     "5",
+     "0",
+     "18",
+     "4"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-31",
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "18",
+     "5",
+     "0",
+     "18",
+     "1"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
   }
  ],
- "InventoryAnalysisNote": "Lists every sandbox stock item in category blocks: compare the header rows, the Umum heading and NL rows. Jual/Minggu over the T4/T6 sales: 3 (15 Nov 2033), 2,14, 1,44, 1,3, 1,08 (31 Dec)."
+ "InventoryAnalysisNote": "Lists every sandbox stock item in category blocks: compare header, Umum heading and NL rows. 11 dates Nov 2033 - Okt 2034 pin the Jual/Minggu window (last 3 months, invoices only) and Dipesan (open PO.2034.06.00001).",
+ "InventoryAgingDetailReport": [
+  {
+   "asOf": "2033-11-30",
+   "item": "NL-T4-B1",
+   "warehouse": "Utama",
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1",
+     "Satuan",
+     ":",
+     "PCS"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A",
+     "Stok",
+     ":",
+     "10"
+    ],
+    [
+     "No Referensi",
+     "Tanggal",
+     "Tipe Transaksi",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "5",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "5",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "10",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2033-12-31",
+   "item": "NL-T4-B1",
+   "warehouse": "Utama",
+   "param": {
+    "asOfDate": "31/12/2033",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 31 Des 2033"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1",
+     "Satuan",
+     ":",
+     "PCS"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A",
+     "Stok",
+     ":",
+     "11"
+    ],
+    [
+     "No Referensi",
+     "Tanggal",
+     "Tipe Transaksi",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "0",
+     "4",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "0",
+     "5",
+     "0",
+     "0"
+    ],
+    [
+     "SRT.2033.12.00001",
+     "05 Des 2033",
+     "Retur Penjualan",
+     "2",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "2",
+     "0",
+     "9",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-07-31",
+   "item": "NL-T4-B1",
+   "warehouse": "Utama",
+   "param": {
+    "asOfDate": "31/07/2034",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ],
+    "selectedWarehouse": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 31 Jul 2034"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1",
+     "Satuan",
+     ":",
+     "PCS"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A",
+     "Stok",
+     ":",
+     "22"
+    ],
+    [
+     "No Referensi",
+     "Tanggal",
+     "Tipe Transaksi",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "Faktur Pembelian",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5"
+    ],
+    [
+     "SRT.2033.12.00001",
+     "05 Des 2033",
+     "Retur Penjualan",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2"
+    ],
+    [
+     "RI.2034.06.00001",
+     "06 Jun 2034",
+     "Penerimaan Barang",
+     "0",
+     "5",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2034.06.00001",
+     "10 Jun 2034",
+     "Faktur Pembelian",
+     "0",
+     "5",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "IA.2034.07.00001",
+     "05 Jul 2034",
+     "Penyesuaian Persediaan",
+     "3",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "3",
+     "10",
+     "0",
+     "0",
+     "9"
+    ]
+   ]
+  }
+ ],
+ "InventoryAnalysisDetailReport": [
+  {
+   "asOf": "2033-11-30",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Dipesan"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Dijual"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Stok dapat dijual"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Stok Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     "No Referensi",
+     "Tgl Estimasi",
+     "Nama Referensi",
+     "Dipesan",
+     "Dijual"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-03",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "03/10/2034",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 03 Okt 2034"
+    ],
+    [
+     "Dipesan"
+    ],
+    [
+     ":",
+     "5"
+    ],
+    [
+     "Dijual"
+    ],
+    [
+     ":",
+     "0"
+    ],
+    [
+     "Stok dapat dijual"
+    ],
+    [
+     ":",
+     "22"
+    ],
+    [
+     "Stok Gudang"
+    ],
+    [
+     ":",
+     "22"
+    ],
+    [
+     "No Referensi",
+     "Tgl Estimasi",
+     "Nama Referensi",
+     "Dipesan",
+     "Dijual"
+    ],
+    [
+     "PO.2034.06.00001",
+     "02 Jun 2034",
+     "NL-T3 Pemasok A",
+     "5",
+     "0"
+    ],
+    [
+     "5",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-06",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "06/10/2034",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 06 Okt 2034"
+    ],
+    [
+     "Dipesan"
+    ],
+    [
+     ":",
+     "5"
+    ],
+    [
+     "Dijual"
+    ],
+    [
+     ":",
+     "0"
+    ],
+    [
+     "Stok dapat dijual"
+    ],
+    [
+     ":",
+     "18"
+    ],
+    [
+     "Stok Gudang"
+    ],
+    [
+     ":",
+     "18"
+    ],
+    [
+     "No Referensi",
+     "Tgl Estimasi",
+     "Nama Referensi",
+     "Dipesan",
+     "Dijual"
+    ],
+    [
+     "PO.2034.06.00001",
+     "02 Jun 2034",
+     "NL-T3 Pemasok A",
+     "5",
+     "0"
+    ],
+    [
+     "5",
+     "0"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-10-08",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "08/10/2034",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 08 Okt 2034"
+    ],
+    [
+     "Dipesan"
+    ],
+    [
+     ":",
+     "5"
+    ],
+    [
+     "Dijual"
+    ],
+    [
+     ":",
+     "0"
+    ],
+    [
+     "Stok dapat dijual"
+    ],
+    [
+     ":",
+     "18"
+    ],
+    [
+     "Stok Gudang"
+    ],
+    [
+     ":",
+     "18"
+    ],
+    [
+     "No Referensi",
+     "Tgl Estimasi",
+     "Nama Referensi",
+     "Dipesan",
+     "Dijual"
+    ],
+    [
+     "PO.2034.06.00001",
+     "02 Jun 2034",
+     "NL-T3 Pemasok A",
+     "5",
+     "0"
+    ],
+    [
+     "5",
+     "0"
+    ]
+   ]
+  }
+ ],
+ "DetailParamsNote": "selectedItem / selectedWarehouse are arrays of {id}: NL-T4-B1 = 350, Utama = 50. With selectedItem [] the aging report prints only its title."
 }

@@ -256,25 +256,74 @@ export function analysisValuation(d: InventoryData, from: string, to: string): s
 
 /**
  * Ketersediaan Stok Penjualan (docs/reports/InventoryAnalysisReport.md): stock items in category blocks (creation order,
- * as Daftar Barang), Stok Gudang = all warehouses as of the date. Jual/Minggu = net sold (sales - sales returns, up to
- * the date) / weeks, weeks = floor(days since the item's first sale / 7) + 1; two decimals, trailing zeros dropped.
+ * as Daftar Barang). Stok Gudang = all warehouses as of the date; Dipesan = quantity on open purchase orders dated by
+ * then; Stok dapat dijual = Stok Gudang (Accurate does not add or subtract the orders).
+ * Jual/Minggu: sales invoices less sales returns dated in the last 3 calendar months (asOf minus 3 months, inclusive),
+ * divided by weeks = floor(days from the first invoice in that window to asOf / 7) + 1; 0 without an invoice in the
+ * window. Delivery orders do not count; a delivered invoice counts on its own date. Two decimals, zeros dropped.
  */
-// shortcut: Dipesan (open sales orders) and Dijual (sold, not delivered) print 0 in every capture; not modelled yet.
-export function inventoryAnalysis(items: { no: string; name: string; type: string; unit: string }[], moves: { item: string; date: string; quantity: number; docType?: string }[], asOf: string): string[][] {
+// shortcut: Dijual (sold, not delivered) is 0 in every capture; purchase orders are never processed in the fixtures, so open = ordered.
+export interface ItemSale { item: string; date: string; qty: number }
+export function inventoryAnalysis(items: { no: string; name: string; type: string; unit: string }[], moves: { item: string; date: string; quantity: number }[], sales: ItemSale[], onOrder: { item: string; date: string; qty: number }[], asOf: string): string[][] {
   const rows: string[][] = [['Ketersediaan Stok Penjualan'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]'],
     ['Nama Barang', 'Satuan', 'Stok Gudang', 'Dipesan', 'Dijual', 'Stok dapat dijual', 'Jual/Minggu']]
+  const [y, m, d] = asOf.split('-').map(Number) as [number, number, number]
+  const start = new Date(Date.UTC(y, m - 1 - 3, d)).toISOString().slice(0, 10)
+  const f = (n: number) => formatIdr(Math.round(n * 100))
   const stock = items.filter(i => i.type === 'INVENTORY')
   if (stock.length) rows.push(['Umum'])
   for (const i of stock) {
-    const ms = moves.filter(m => m.item === i.no && m.date <= asOf)
-    const qty = ms.reduce((s, m) => s + m.quantity, 0)
-    const sales = ms.filter(m => m.docType === 'SI' || m.docType === 'DO' || m.docType === 'SRT')
-    const first = sales.filter(m => m.docType !== 'SRT').map(m => m.date).sort()[0]
-    const sold = -sales.reduce((s, m) => s + m.quantity, 0)
+    const qty = moves.filter(x => x.item === i.no && x.date <= asOf).reduce((s, x) => s + x.quantity, 0)
+    const ordered = onOrder.filter(x => x.item === i.no && x.date <= asOf).reduce((s, x) => s + x.qty, 0)
+    const win = sales.filter(x => x.item === i.no && x.date >= start && x.date <= asOf)
+    const first = win.filter(x => x.qty > 0).map(x => x.date).sort()[0]
     const weeks = first ? Math.floor((Date.parse(asOf) - Date.parse(first)) / 86_400_000 / 7) + 1 : 0
-    const perWeek = weeks ? String(Math.round(sold / weeks * 100) / 100).replace('.', ',') : '0'
-    const f = (n: number) => formatIdr(Math.round(n * 100))
-    rows.push([i.name, i.unit, f(qty), '0', '0', f(qty), perWeek])
+    const perWeek = weeks ? String(Math.round(win.reduce((s, x) => s + x.qty, 0) / weeks * 100) / 100).replace('.', ',') : '0'
+    rows.push([i.name, i.unit, f(qty), f(ordered), '0', f(qty), perWeek])
   }
   return rows
+}
+
+/**
+ * Rincian Umur Persediaan (docs/reports/InventoryAgingDetailReport.md): one item in one warehouse. Every incoming move
+ * (purchase, receipt, sales return, adjustment in) opens a FIFO layer; outgoing moves consume the oldest layers. Remaining
+ * layers are aged at the as-of date: 1 - 30, 31 - 60, 61 - 90, 91 - 120, > 120 days; last row = bucket totals.
+ */
+export function inventoryAgingDetail(d: InventoryData, item: string, warehouse: string, asOf: string): string[][] {
+  const it = d.items.find(i => i.no === item)!
+  const layers: { m: StockMove; left: number }[] = []
+  const ms = d.moves.filter(m => m.item === item && wh(m) === warehouse && m.date <= asOf).sort((a, b) => a.date.localeCompare(b.date))
+  for (const m of ms) {
+    if (m.quantity > 0) { layers.push({ m, left: m.quantity }); continue }
+    let out = -m.quantity
+    for (const l of layers) { const take = Math.min(l.left, out); l.left -= take; out -= take; if (!out) break }
+  }
+  const q = (n: number) => formatIdr(Math.round(n * 100))
+  const bucket = (date: string) => { const days = (Date.parse(asOf) - Date.parse(date)) / 86_400_000; return days <= 30 ? 0 : days <= 60 ? 1 : days <= 90 ? 2 : days <= 120 ? 3 : 4 }
+  const open = layers.filter(l => l.left > 0), totals = [0, 0, 0, 0, 0]
+  const rows: string[][] = [['Rincian Umur Persediaan'], [`Per Tgl. ${fmtHeaderDate(asOf)}`],
+    ['Kode Barang', ':', it.no, 'Satuan', ':', it.unit], ['Nama Barang', ':', it.name, 'Stok', ':', q(open.reduce((s, l) => s + l.left, 0))],
+    ['No Referensi', 'Tanggal', 'Tipe Transaksi', '1 - 30', '31 - 60', '61 - 90', '91 - 120', '> 120']]
+  for (const l of open) {
+    const b = [0, 0, 0, 0, 0]; b[bucket(l.m.date)] = l.left; b.forEach((v, i) => (totals[i]! += v))
+    rows.push([l.m.docNumber, fmtDate(l.m.date), DOC_LABEL[l.m.docType] ?? l.m.docType, ...b.map(q)])
+  }
+  rows.push(totals.map(q))
+  return rows
+}
+
+/**
+ * Rincian Ketersediaan Stok Penjualan (docs/reports/InventoryAnalysisDetailReport.md): one item; Dipesan = its open
+ * purchase-order lines dated by the as-of date (Tgl Estimasi = order date, Nama Referensi = vendor). With no open
+ * line Accurate prints the labels with empty values.
+ */
+export function inventoryAnalysisDetail(d: InventoryData, orders: { number: string; date: string; vendorName: string; qty: number; item: string }[], item: string, asOf: string): string[][] {
+  const lines = orders.filter(o => o.item === item && o.date <= asOf).sort((a, b) => a.date.localeCompare(b.date))
+  const q = (n: number) => formatIdr(Math.round(n * 100))
+  const stock = d.moves.filter(m => m.item === item && m.date <= asOf).reduce((s, m) => s + m.quantity, 0)
+  const ordered = lines.reduce((s, l) => s + l.qty, 0), v = (x: string) => (lines.length ? [':', x] : [':'])
+  return [['Rincian Ketersediaan Stok Penjualan'], [`Per Tgl. ${fmtHeaderDate(asOf)}`],
+    ['Dipesan'], v(q(ordered)), ['Dijual'], v('0'), ['Stok dapat dijual'], v(q(stock)), ['Stok Gudang'], v(q(stock)),
+    ['No Referensi', 'Tgl Estimasi', 'Nama Referensi', 'Dipesan', 'Dijual'],
+    ...lines.map(l => [l.number, fmtDate(l.date), l.vendorName, q(l.qty), '0']), ...(lines.length ? [[q(ordered), '0']] : [])]
 }
