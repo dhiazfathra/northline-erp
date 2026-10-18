@@ -1,0 +1,5005 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. Window Oct–Nov 2033 (as-of 30 Nov 2033). Costing method in the sandbox: FIFO. Item lists include all sandbox items; compare NL-T4 rows.",
+ "accounts": [
+  {
+   "no": "110401",
+   "name": "Persediaan Barang Jadi",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "510101",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-T4-B1",
+   "name": "NL-T4 Barang A",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T4-P1",
+   "number": "PI.2033.10.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T4-P1",
+   "date": "2033-10-03",
+   "description": "NL-T4-P1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 10,
+     "price": 10000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T4-P2",
+   "number": "PI.2033.10.00002",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T4-P2",
+   "date": "2033-10-10",
+   "description": "NL-T4-P2",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 10,
+     "price": 13000
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T4-S1",
+   "number": "SI.2033.10.00001",
+   "customer": "NL-T2-C1",
+   "date": "2033-10-15",
+   "description": "NL-T4-S1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "name": "NL-T4 Barang A",
+     "qty": 8,
+     "price": 20000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T4-P3",
+   "number": "PI.2033.10.00003",
+   "vendor": "NL-T3-V2",
+   "bill": "NL-T4-P3",
+   "date": "2033-10-20",
+   "description": "NL-T4-P3",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5,
+     "price": 14600
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T4-S2",
+   "number": "SI.2033.11.00001",
+   "customer": "NL-T2-C2",
+   "date": "2033-11-05",
+   "description": "NL-T4-S2",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "name": "NL-T4 Barang A",
+     "qty": 7,
+     "price": 21000
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "AnalysisInventoryValuationReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Analisa Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Saldo Awal",
+     "Penjualan",
+     "Pembelian",
+     "Produksi",
+     "Penyesuaian",
+     "Lainnya",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Actuator",
+     "175",
+     "12.250.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "175",
+     "12.250.000"
+    ],
+    [
+     "Adjuster",
+     "5",
+     "100.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "100.000"
+    ],
+    [
+     "Basecoat",
+     "2",
+     "30.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2",
+     "30.000"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "70",
+     "2.450.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "70",
+     "2.450.000"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "55",
+     "3.575.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55",
+     "3.575.000"
+    ],
+    [
+     "Bulb Umber",
+     "75",
+     "750.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "75",
+     "750.000"
+    ],
+    [
+     "Cat",
+     "177",
+     "10.755.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "177",
+     "10.755.000"
+    ],
+    [
+     "Cover",
+     "195",
+     "390.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195",
+     "390.000"
+    ],
+    [
+     "Grommet",
+     "195",
+     "9.750.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195",
+     "9.750.000"
+    ],
+    [
+     "Hard Coating",
+     "422",
+     "20.410.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "422",
+     "20.410.000"
+    ],
+    [
+     "Harness",
+     "55",
+     "30.250",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55",
+     "30.250"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "100",
+     "37.760.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "95",
+     "35.872.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "95",
+     "35.872.000"
+    ],
+    [
+     "NG Goods",
+     "5",
+     "1.888.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "1.888.000"
+    ],
+    [
+     "NL-T4 Barang A",
+     "0",
+     "0",
+     "-15",
+     "-165.000",
+     "25",
+     "303.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "10",
+     "138.000"
+    ],
+    [
+     "Pivot",
+     "185",
+     "92.500",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "185",
+     "92.500"
+    ],
+    [
+     "Polybutylene",
+     "50",
+     "250.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "250.000"
+    ],
+    [
+     "Polycarbonat",
+     "50",
+     "400.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "400.000"
+    ],
+    [
+     "Polypropylene",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "100",
+     "37.760.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "50",
+     "18.880.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "18.880.000"
+    ],
+    [
+     "Screw",
+     "425",
+     "85.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "425",
+     "85.000"
+    ],
+    [
+     "Socket",
+     "245",
+     "1.225.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "245",
+     "1.225.000"
+    ],
+    [
+     "Spring",
+     "265",
+     "265.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "265",
+     "265.000"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "1",
+     "150.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1",
+     "150.000"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "1",
+     "150.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1",
+     "150.000"
+    ],
+    [
+     "Total Nama Barang",
+     "2.998",
+     "195.267.750",
+     "-15",
+     "-165.000",
+     "25",
+     "303.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "3.008",
+     "195.405.750"
+    ]
+   ]
+  },
+  "AnnualSalesChartReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Grafik Penjualan Bulanan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "CogsMonitoringReport": {
+   "param": {
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Monitoring HPP"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Harga Jual",
+     "Satuan Jual",
+     "Harga Beli",
+     "Satuan Beli",
+     "HPP (%)"
+    ]
+   ]
+  },
+  "DeliveryOrderDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Pelanggan",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ]
+   ]
+  },
+  "DeliveryOrderHistorySummaryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Status Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Status",
+     "No Faktur #",
+     "Tgl Faktur",
+     "Total Faktur"
+    ]
+   ]
+  },
+  "DeliveryOrderListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Pengiriman"
+    ]
+   ]
+  },
+  "GeneralSalesTargetReport": {
+   "param": {
+    "asOfYear": 2033,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan per Bulan"
+    ],
+    [
+     "per 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "Penganalisa",
+     ":"
+    ],
+    [
+     "Tahun",
+     ":"
+    ],
+    [
+     "Bulan",
+     "Nilai Target",
+     "Nilai Riil",
+     "Pencapaian (%)"
+    ]
+   ]
+  },
+  "InventoryAdjustmentDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyesuaian Stok Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Keterangan",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ]
+   ]
+  },
+  "InventoryAgingByWarehouseReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedWarehouse": [],
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Persediaan per Gudang"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Nama Gudang",
+     "Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "Actuator",
+     "Utama",
+     "175",
+     "0",
+     "0",
+     "0",
+     "0",
+     "175"
+    ],
+    [
+     "Adjuster",
+     "Utama",
+     "5",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5"
+    ],
+    [
+     "Basecoat",
+     "Utama",
+     "2",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "Utama",
+     "70",
+     "0",
+     "0",
+     "0",
+     "0",
+     "70"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "Utama",
+     "55",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55"
+    ],
+    [
+     "Bulb Umber",
+     "Utama",
+     "75",
+     "0",
+     "0",
+     "0",
+     "0",
+     "75"
+    ],
+    [
+     "Cat",
+     "Utama",
+     "177",
+     "0",
+     "0",
+     "0",
+     "0",
+     "177"
+    ],
+    [
+     "Cover",
+     "Utama",
+     "195",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195"
+    ],
+    [
+     "Grommet",
+     "Utama",
+     "195",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195"
+    ],
+    [
+     "Hard Coating",
+     "Utama",
+     "422",
+     "0",
+     "0",
+     "0",
+     "0",
+     "422"
+    ],
+    [
+     "Harness",
+     "Utama",
+     "55",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "Utama",
+     "100",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "Utama",
+     "95",
+     "0",
+     "0",
+     "0",
+     "0",
+     "95"
+    ],
+    [
+     "NG Goods",
+     "Utama",
+     "5",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5"
+    ],
+    [
+     "NL-T4 Barang A",
+     "Utama",
+     "10",
+     "0",
+     "10",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pivot",
+     "Utama",
+     "185",
+     "0",
+     "0",
+     "0",
+     "0",
+     "185"
+    ],
+    [
+     "Polybutylene",
+     "Utama",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Polycarbonat",
+     "Utama",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Polypropylene",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "Utama",
+     "100",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "Utama",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Umur Persediaan per Gudang"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Nama Gudang",
+     "Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "Screw",
+     "Utama",
+     "425",
+     "0",
+     "0",
+     "0",
+     "0",
+     "425"
+    ],
+    [
+     "Socket",
+     "Utama",
+     "245",
+     "0",
+     "0",
+     "0",
+     "0",
+     "245"
+    ],
+    [
+     "Spring",
+     "Utama",
+     "265",
+     "0",
+     "0",
+     "0",
+     "0",
+     "265"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "Utama",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "Utama",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1"
+    ],
+    [
+     "Total Nama Barang",
+     "3.008",
+     "0",
+     "10",
+     "0",
+     "0",
+     "2.998"
+    ]
+   ]
+  },
+  "InventoryAgingDetailReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": [],
+    "selectedWarehouse": []
+   },
+   "rows": [
+    [
+     "Rincian Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "Satuan",
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "Stok",
+     ":"
+    ],
+    [
+     "No Referensi",
+     "Tanggal",
+     "Tipe Transaksi",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ]
+   ]
+  },
+  "InventoryAgingReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedWarehouse": [],
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "Actuator",
+     "175",
+     "0",
+     "0",
+     "0",
+     "0",
+     "175"
+    ],
+    [
+     "Adjuster",
+     "5",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5"
+    ],
+    [
+     "Basecoat",
+     "2",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "70",
+     "0",
+     "0",
+     "0",
+     "0",
+     "70"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "55",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55"
+    ],
+    [
+     "Bulb Umber",
+     "75",
+     "0",
+     "0",
+     "0",
+     "0",
+     "75"
+    ],
+    [
+     "Cat",
+     "177",
+     "0",
+     "0",
+     "0",
+     "0",
+     "177"
+    ],
+    [
+     "Cover",
+     "195",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195"
+    ],
+    [
+     "Grommet",
+     "195",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195"
+    ],
+    [
+     "Hard Coating",
+     "422",
+     "0",
+     "0",
+     "0",
+     "0",
+     "422"
+    ],
+    [
+     "Harness",
+     "55",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "100",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "95",
+     "0",
+     "0",
+     "0",
+     "0",
+     "95"
+    ],
+    [
+     "NG Goods",
+     "5",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5"
+    ],
+    [
+     "NL-T4 Barang A",
+     "10",
+     "0",
+     "10",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pivot",
+     "185",
+     "0",
+     "0",
+     "0",
+     "0",
+     "185"
+    ],
+    [
+     "Polybutylene",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Polycarbonat",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Polypropylene",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "100",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "50",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50"
+    ],
+    [
+     "Umur Persediaan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "Screw",
+     "425",
+     "0",
+     "0",
+     "0",
+     "0",
+     "425"
+    ],
+    [
+     "Socket",
+     "245",
+     "0",
+     "0",
+     "0",
+     "0",
+     "245"
+    ],
+    [
+     "Spring",
+     "265",
+     "0",
+     "0",
+     "0",
+     "0",
+     "265"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1"
+    ],
+    [
+     "Total Nama Barang",
+     "3.008",
+     "0",
+     "10",
+     "0",
+     "0",
+     "2.998"
+    ]
+   ]
+  },
+  "InventoryAnalysisDetailReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Rincian Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Kode Barang",
+     ":"
+    ],
+    [
+     "Dipesan"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":"
+    ],
+    [
+     "Dijual"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Satuan",
+     ":"
+    ],
+    [
+     "Stok dapat dijual"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Stok Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     "No Referensi",
+     "Tgl Estimasi",
+     "Nama Referensi",
+     "Dipesan",
+     "Dijual"
+    ]
+   ]
+  },
+  "InventoryAnalysisReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "Polypropylene",
+     "KG",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Polycarbonat",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Screw",
+     "PCS",
+     "425",
+     "0",
+     "0",
+     "425",
+     "0"
+    ],
+    [
+     "Socket",
+     "PCS",
+     "245",
+     "0",
+     "0",
+     "245",
+     "0"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "PCS",
+     "70",
+     "0",
+     "0",
+     "70",
+     "0"
+    ],
+    [
+     "Actuator",
+     "PCS",
+     "175",
+     "0",
+     "0",
+     "175",
+     "0"
+    ],
+    [
+     "Harness",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Bulb Umber",
+     "PCS",
+     "75",
+     "0",
+     "0",
+     "75",
+     "0"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "PCS",
+     "55",
+     "0",
+     "0",
+     "55",
+     "0"
+    ],
+    [
+     "Pivot",
+     "PCS",
+     "185",
+     "0",
+     "0",
+     "185",
+     "0"
+    ],
+    [
+     "Grommet",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Adjuster",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Cover",
+     "PCS",
+     "195",
+     "0",
+     "0",
+     "195",
+     "0"
+    ],
+    [
+     "Polybutylene",
+     "KG",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Cat",
+     "Liter",
+     "177",
+     "0",
+     "0",
+     "177",
+     "0"
+    ],
+    [
+     "Hard Coating",
+     "Liter",
+     "422",
+     "0",
+     "0",
+     "422",
+     "0"
+    ],
+    [
+     "Basecoat",
+     "Liter",
+     "2",
+     "0",
+     "0",
+     "2",
+     "0"
+    ],
+    [
+     "Spring",
+     "PCS",
+     "265",
+     "0",
+     "0",
+     "265",
+     "0"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "PCS",
+     "95",
+     "0",
+     "0",
+     "95",
+     "0"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "NG Goods",
+     "PCS",
+     "5",
+     "0",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "Ketersediaan Stok Penjualan"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Stok Gudang",
+     "Dipesan",
+     "Dijual",
+     "Stok dapat dijual",
+     "Jual/Minggu"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "PCS",
+     "100",
+     "0",
+     "0",
+     "100",
+     "0"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "PCS",
+     "50",
+     "0",
+     "0",
+     "50",
+     "0"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "PCS",
+     "1",
+     "0",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "10",
+     "0",
+     "0",
+     "10",
+     "2,14"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "PCS",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  "InventoryStockCardReport": {
+   "param": {
+    "selectedItem": "NL-T4-B1"
+   },
+   "rows": [
+    [
+     "Kartu Stok Persediaan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor #",
+     "Deskripsi",
+     "Kts Masuk",
+     "Kts Keluar",
+     "Kts Akhir",
+     "Gudang"
+    ],
+    [
+     "30 Sep 2033",
+     "Saldo Awal",
+     "Saldo Awal 30 Sep 2033",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "03 Okt 2033",
+     "Faktur Pembelian",
+     "PI.2033.10.00001",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "10",
+     "Utama"
+    ],
+    [
+     "10 Okt 2033",
+     "Faktur Pembelian",
+     "PI.2033.10.00002",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "20",
+     "Utama"
+    ],
+    [
+     "15 Okt 2033",
+     "Faktur Penjualan",
+     "SI.2033.10.00001",
+     "Penjualan ke NL-T2 Pelanggan A",
+     "0",
+     "8",
+     "12",
+     "Utama"
+    ],
+    [
+     "20 Okt 2033",
+     "Faktur Pembelian",
+     "PI.2033.10.00003",
+     "Pembelian dari NL-T3 Pemasok B",
+     "5",
+     "0",
+     "17",
+     "Utama"
+    ],
+    [
+     "05 Nov 2033",
+     "Faktur Penjualan",
+     "SI.2033.11.00001",
+     "Penjualan ke NL-T2 Pelanggan B",
+     "0",
+     "7",
+     "10",
+     "Utama"
+    ],
+    [
+     "25",
+     "15"
+    ]
+   ]
+  },
+  "InventoryValuationDetailDownloadReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033"
+   },
+   "rows": []
+  },
+  "InventoryValuationDetailReport": {
+   "param": {
+    "selectedItem": "NL-T4-B1"
+   },
+   "rows": [
+    [
+     "Rincian Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "30 Sep 2033",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.10.00001",
+     "03 Okt 2033",
+     "10",
+     "100.000",
+     "0",
+     "0",
+     "10",
+     "100.000"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "10",
+     "130.000",
+     "0",
+     "0",
+     "20",
+     "230.000"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "0",
+     "0",
+     "8",
+     "80.000",
+     "12",
+     "150.000"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "5",
+     "73.000",
+     "0",
+     "0",
+     "17",
+     "223.000"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "0",
+     "0",
+     "7",
+     "85.000",
+     "10",
+     "138.000"
+    ],
+    [
+     "25",
+     "303.000",
+     "15",
+     "165.000"
+    ]
+   ]
+  },
+  "InventoryValuationReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Actuator",
+     "100012",
+     "175",
+     "12.250.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "175",
+     "12.250.000"
+    ],
+    [
+     "Adjuster",
+     "100020",
+     "5",
+     "100.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "100.000"
+    ],
+    [
+     "Basecoat",
+     "100026",
+     "2",
+     "30.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2",
+     "30.000"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "100015",
+     "70",
+     "2.450.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "70",
+     "2.450.000"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "100017",
+     "55",
+     "3.575.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55",
+     "3.575.000"
+    ],
+    [
+     "Bulb Umber",
+     "100016",
+     "75",
+     "750.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "75",
+     "750.000"
+    ],
+    [
+     "Cat",
+     "100024",
+     "177",
+     "10.755.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "177",
+     "10.755.000"
+    ],
+    [
+     "Cover",
+     "100013",
+     "195",
+     "390.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195",
+     "390.000"
+    ],
+    [
+     "Grommet",
+     "100019",
+     "195",
+     "9.750.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "195",
+     "9.750.000"
+    ],
+    [
+     "Hard Coating",
+     "100025",
+     "422",
+     "20.410.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "422",
+     "20.410.000"
+    ],
+    [
+     "Harness",
+     "100010",
+     "55",
+     "30.250",
+     "0",
+     "0",
+     "0",
+     "0",
+     "55",
+     "30.250"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "100001",
+     "100",
+     "37.760.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "100002",
+     "95",
+     "35.872.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "95",
+     "35.872.000"
+    ],
+    [
+     "NG Goods",
+     "100006",
+     "5",
+     "1.888.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "1.888.000"
+    ],
+    [
+     "NL-T4 Barang A",
+     "NL-T4-B1",
+     "0",
+     "0",
+     "25",
+     "303.000",
+     "15",
+     "165.000",
+     "10",
+     "138.000"
+    ],
+    [
+     "Pivot",
+     "100018",
+     "185",
+     "92.500",
+     "0",
+     "0",
+     "0",
+     "0",
+     "185",
+     "92.500"
+    ],
+    [
+     "Polybutylene",
+     "100009",
+     "50",
+     "250.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "250.000"
+    ],
+    [
+     "Polycarbonat",
+     "100008",
+     "50",
+     "400.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "400.000"
+    ],
+    [
+     "Polypropylene",
+     "100007",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "100003",
+     "100",
+     "37.760.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "100004",
+     "50",
+     "18.880.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "18.880.000"
+    ],
+    [
+     "Screw",
+     "100011",
+     "425",
+     "85.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "425",
+     "85.000"
+    ],
+    [
+     "Socket",
+     "100014",
+     "245",
+     "1.225.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "245",
+     "1.225.000"
+    ],
+    [
+     "Spring",
+     "100027",
+     "265",
+     "265.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "265",
+     "265.000"
+    ],
+    [
+     "Visor Yamaha Aerox",
+     "100005",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "100028",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "100030",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "100029",
+     "1",
+     "150.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1",
+     "150.000"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "100032",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
+     "100033",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "100035",
+     "1",
+     "150.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1",
+     "150.000"
+    ],
+    [
+     "Total Nama Barang",
+     "2.998",
+     "195.267.750",
+     "25",
+     "303.000",
+     "15",
+     "165.000",
+     "3.008",
+     "195.405.750"
+    ]
+   ]
+  },
+  "ItemCategorySalesTargetReport": {
+   "param": {
+    "asOfYear": 2033,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan per Kategori"
+    ],
+    [
+     "per 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "S/d Tanggal",
+     ":"
+    ],
+    [
+     "Dari Tanggal",
+     ":",
+     "Penganalisa",
+     ":"
+    ],
+    [
+     "Nama Kategori Barang",
+     "Nilai Target",
+     "Nilai Riil",
+     "Pencapaian (%)"
+    ]
+   ]
+  },
+  "ItemGroupDetailReport": {
+   "param": {
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Barang Grup"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang Grup Barang",
+     ":",
+     "Satuan",
+     ":"
+    ],
+    [
+     "Nama Barang Grup Barang",
+     ":"
+    ],
+    [
+     "Kode Barang Barang & Jasa",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ]
+   ]
+  },
+  "ItemListReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Barang dan Jasa"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Jenis Barang",
+     "Def. Hrg. Jual Satuan #1",
+     "Kts (Semua Gdng)"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "100021",
+     "Biaya Kemasan (Subkon)",
+     "Biaya Produksi",
+     "0",
+     "0"
+    ],
+    [
+     "100023",
+     "Baiya Produksi Lainnya",
+     "Biaya Produksi",
+     "0",
+     "0"
+    ],
+    [
+     "100007",
+     "Polypropylene",
+     "Persediaan",
+     "0",
+     "0"
+    ],
+    [
+     "100008",
+     "Polycarbonat",
+     "Persediaan",
+     "0",
+     "50"
+    ],
+    [
+     "100011",
+     "Screw",
+     "Persediaan",
+     "0",
+     "425"
+    ],
+    [
+     "100014",
+     "Socket",
+     "Persediaan",
+     "0",
+     "245"
+    ],
+    [
+     "100015",
+     "Bulb Halogen (H4)",
+     "Persediaan",
+     "0",
+     "70"
+    ],
+    [
+     "100012",
+     "Actuator",
+     "Persediaan",
+     "0",
+     "175"
+    ],
+    [
+     "100022",
+     "Biaya Pekerja Produksi",
+     "Biaya Produksi",
+     "0",
+     "0"
+    ],
+    [
+     "100010",
+     "Harness",
+     "Persediaan",
+     "0",
+     "55"
+    ],
+    [
+     "100016",
+     "Bulb Umber",
+     "Persediaan",
+     "0",
+     "75"
+    ],
+    [
+     "100017",
+     "Bulb Senja (T10)",
+     "Persediaan",
+     "0",
+     "55"
+    ],
+    [
+     "100018",
+     "Pivot",
+     "Persediaan",
+     "0",
+     "185"
+    ],
+    [
+     "100019",
+     "Grommet",
+     "Persediaan",
+     "0",
+     "195"
+    ],
+    [
+     "100020",
+     "Adjuster",
+     "Persediaan",
+     "0",
+     "5"
+    ],
+    [
+     "100013",
+     "Cover",
+     "Persediaan",
+     "0",
+     "195"
+    ],
+    [
+     "100009",
+     "Polybutylene",
+     "Persediaan",
+     "0",
+     "50"
+    ],
+    [
+     "100024",
+     "Cat",
+     "Persediaan",
+     "0",
+     "177"
+    ],
+    [
+     "100025",
+     "Hard Coating",
+     "Persediaan",
+     "0",
+     "422"
+    ],
+    [
+     "100026",
+     "Basecoat",
+     "Persediaan",
+     "0",
+     "2"
+    ],
+    [
+     "100027",
+     "Spring",
+     "Persediaan",
+     "0",
+     "265"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "100001",
+     "Head Lamp Daihatsu Xenia",
+     "Persediaan",
+     "0",
+     "100"
+    ],
+    [
+     "100002",
+     "Head Lamp Honda Brio",
+     "Persediaan",
+     "0",
+     "95"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "100006",
+     "NG Goods",
+     "Persediaan",
+     "0",
+     "5"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "100003",
+     "Rear Lamp Daihatsu Xenia",
+     "Persediaan",
+     "0",
+     "100"
+    ],
+    [
+     "100004",
+     "Rear Lamp Honda Brio",
+     "Persediaan",
+     "0",
+     "50"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "100029",
+     "ZZ-R01-Barang B",
+     "Persediaan",
+     "200.000",
+     "1"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "Jasa",
+     "0",
+     "0"
+    ],
+    [
+     "100030",
+     "ZZ-R01-Barang A",
+     "Persediaan",
+     "200.000",
+     "0"
+    ],
+    [
+     "100031",
+     "ZZ-R01-Jasa Konsultasi",
+     "Jasa",
+     "1.000.000",
+     "0"
+    ],
+    [
+     "100032",
+     "ZZ-R03-Barang A",
+     "Persediaan",
+     "200.000",
+     "0"
+    ],
+    [
+     "100033",
+     "ZZ-R03-Barang B",
+     "Persediaan",
+     "200.000",
+     "0"
+    ],
+    [
+     "100034",
+     "ZZ-R03-Jasa Konsultasi",
+     "Jasa",
+     "1.000.000",
+     "0"
+    ],
+    [
+     "100035",
+     "ZZ-R03-Barang B2",
+     "Persediaan",
+     "200.000",
+     "1"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "Persediaan",
+     "0",
+     "10"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "100005",
+     "Visor Yamaha Aerox",
+     "Persediaan",
+     "0",
+     "0"
+    ],
+    [
+     "Daftar Barang dan Jasa"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Jenis Barang",
+     "Def. Hrg. Jual Satuan #1",
+     "Kts (Semua Gdng)"
+    ],
+    [
+     "100028",
+     "Visor Yamaha NMAX",
+     "Persediaan",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  "ItemMutationByWarehouseReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Mutasi per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Kode Barang Barang & Jasa",
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ]
+   ]
+  },
+  "ItemSalesTargetReport": {
+   "param": {
+    "asOfYear": 2033,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan Barang"
+    ],
+    [
+     "per 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "S/d Tanggal",
+     ":"
+    ],
+    [
+     "Dari Tanggal",
+     ":",
+     "Penganalisa",
+     ":"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Kuantitas",
+     "Nilai Target",
+     "Kts Riil",
+     "Nilai Riil",
+     "Pencapaian Kts (%)",
+     "Pencapaian (%)"
+    ]
+   ]
+  },
+  "ItemTransferListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033"
+   },
+   "rows": [
+    [
+     "Ringkasan Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Tanggal",
+     "No. Pemindahan #",
+     "Proses",
+     "Gudang",
+     "Gudang Tujuan/Dari"
+    ]
+   ]
+  },
+  "PhysicalInventoryCountSheetReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedWarehouse": null,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "error": "{\"\":[\"Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.\\n\\nKode Referensi:\\nersen-336189-96dc1052783cc9e1cf99935ef4671f6f\"]}",
+   "rows": []
+  },
+  "ProfitabilityByCustomerReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Profitabilitas per Pelanggan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pelanggan",
+     "Penjualan",
+     "BPP",
+     "Biaya Tambahan",
+     "Biaya Penerimaan",
+     "Laba setelah Biaya"
+    ],
+    [
+     "NL-T2 Pelanggan A",
+     "160.000",
+     "80.000",
+     "0",
+     "0",
+     "80.000"
+    ],
+    [
+     "NL-T2 Pelanggan B",
+     "147.000",
+     "85.000",
+     "0",
+     "0",
+     "62.000"
+    ],
+    [
+     "Total Pelanggan",
+     "307.000",
+     "165.000",
+     "0",
+     "0",
+     "142.000"
+    ]
+   ]
+  },
+  "ProfitabilityByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Profitabilitas per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Penjualan",
+     "BPP",
+     "Biaya Tambahan",
+     "Biaya Penerimaan",
+     "Laba setelah Biaya"
+    ],
+    [
+     "NL-T4 Barang A",
+     "307.000",
+     "165.000",
+     "0",
+     "0",
+     "142.000"
+    ],
+    [
+     "Total Nama Barang",
+     "307.000",
+     "165.000",
+     "0",
+     "0",
+     "142.000"
+    ]
+   ]
+  },
+  "ProfitabilityBySalesInvoiceReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Profitabilitas per Faktur"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Penjualan",
+     "BPP",
+     "Biaya Tambahan",
+     "Biaya Penerimaan",
+     "Laba setelah Biaya"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "NL-T2 Pelanggan A",
+     "160.000",
+     "80.000",
+     "0",
+     "0",
+     "80.000"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "NL-T2 Pelanggan B",
+     "147.000",
+     "85.000",
+     "0",
+     "0",
+     "62.000"
+    ]
+   ]
+  },
+  "PurchaseRequisitionByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Permintaan per Barang (Belum Proses)"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status Permintaan Barang"
+    ]
+   ]
+  },
+  "PurchaseRequisitionDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Permintaan Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas"
+    ]
+   ]
+  },
+  "PurchaseRequisitionListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Permintaan Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Status",
+     "Keterangan"
+    ]
+   ]
+  },
+  "PurchaseRequisitionOrderStatusReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Status Pesanan Permintaan Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Keterangan",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas (Unit)",
+     "Kts Dipesan (Unit)",
+     "Persentase PO (Kts)",
+     "Tot Hrg Estimasi",
+     "Total Harga Pesanan",
+     "Persentase PO (Harga)"
+    ]
+   ]
+  },
+  "QuantityItemByWarehouseReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedWarehouse": []
+   },
+   "rows": [
+    [
+     "Kuantitas Barang per Gudang"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "ReceivedDeliveredSerialNumberReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Mutasi Nomor Seri/Produksi"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Kode Barang",
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor Seri/Produksi",
+     "Kuantitas"
+    ]
+   ]
+  },
+  "RemainingAgeSerialNumberDetailReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Sisa Umur Per Nomor Produksi"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Kode Barang",
+     ":"
+    ],
+    [
+     "Nama Barang",
+     ":"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ]
+   ]
+  },
+  "SalesDownPaymentByCustomerReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Uang Muka Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Total",
+     "Terpakai/Retur (per Tgl)",
+     "Sisa Uang Muka (per Tgl)",
+     "No Pesanan #"
+    ]
+   ]
+  },
+  "SalesFlowHistoryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033"
+   },
+   "rows": [
+    [
+     "Histori Proses Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Penawaran Penjualan",
+     "Pesanan Penjualan",
+     "Pengiriman Pesanan",
+     "Uang Muka Penjualan",
+     "Faktur Penjualan",
+     "Retur Penjualan",
+     "Penerimaan Penjualan",
+     "Tukar Faktur"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "SI.2033.10.00001",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "SI.2033.11.00001",
+     "-",
+     "-",
+     "-"
+    ]
+   ]
+  },
+  "SalesInvoiceChartReport": {
+   "param": {
+    "startDate": "01/01/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Grafik Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "SalesInvoiceDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Faktur Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SI.2033.10.00001",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Okt 2033",
+     "Sub Total",
+     ":",
+     "160.000"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-T2 Pelanggan A",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Total",
+     ":",
+     "160.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "8",
+     "20.000",
+     "160.000"
+    ],
+    [
+     "8",
+     "160.000"
+    ],
+    [
+     "Rincian Faktur Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SI.2033.11.00001",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Nov 2033",
+     "Sub Total",
+     ":",
+     "147.000"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-T2 Pelanggan B",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Total",
+     ":",
+     "147.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "7",
+     "21.000",
+     "147.000"
+    ],
+    [
+     "7",
+     "147.000"
+    ]
+   ]
+  },
+  "SalesInvoiceDownPaymentDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penggunaan Uang Muka Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Uang Muka",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Terpakai/Retur (per Tgl)",
+     ":"
+    ],
+    [
+     "Sisa Uang Muka (per Tgl)",
+     ":"
+    ],
+    [
+     "Nomor Transaksi",
+     "Tgl Transaksi",
+     "Tipe Transaksi",
+     "Pakai Uang Muka (per Tgl)"
+    ]
+   ]
+  },
+  "SalesInvoiceListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Faktur Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "NL-T2 Pelanggan A",
+     "160.000"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "NL-T2 Pelanggan B",
+     "147.000"
+    ]
+   ]
+  },
+  "SalesInvoicePaidInstallmentListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033"
+   },
+   "rows": [
+    [
+     "Pembayaran Cicilan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Pelanggan",
+     "No Faktur #",
+     "Tanggal Cicilan",
+     "Nama Cicilan",
+     "Jumlah",
+     "Bayar",
+     "Tanggal Bayar"
+    ]
+   ]
+  },
+  "SalesInvoiceUnpaidInstallmentListReport": {
+   "param": {
+    "asOfDate": "30/11/2033"
+   },
+   "rows": [
+    [
+     "Cicilan Belum Terbayar"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "Pelanggan",
+     "No Faktur #",
+     "Tanggal Cicilan",
+     "Nama Cicilan",
+     "Jumlah",
+     "Bayar",
+     "Tanggal Bayar"
+    ]
+   ]
+  },
+  "SalesReturnByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Retur Penjualan per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "SalesReturnDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Retur Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Mata Uang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Sub Total",
+     ":"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "Total",
+     ":"
+    ],
+    [
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ]
+   ]
+  },
+  "SalesReturnListReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Retur Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total"
+    ]
+   ]
+  },
+  "SellingDiscountAdjustmentDetailPerCategoryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyesuaian Diskon Jual per Kategori"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "SellingDiscountAdjustmentDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyesuaian Diskon Jual"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Kategori Penjualan",
+     ":"
+    ],
+    [
+     "Mulai Berlaku",
+     ":",
+     "Berlaku di Cabang",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Diskon (%)",
+     "Diskon Lama (%)"
+    ]
+   ]
+  },
+  "SellingItemFrequencyReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Barang Paling Laku"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Frekuensi (x Terjual)",
+     "Kuantitas",
+     "Nilai Total"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "2",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "SellingPriceAdjustmentDetailPerCategoryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyesuaian Harga Jual per Kategori"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "SellingPriceAdjustmentDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyesuaian Harga Jual"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Kategori Penjualan",
+     ":"
+    ],
+    [
+     "Mulai Berlaku",
+     ":",
+     "Berlaku di Cabang",
+     ":"
+    ],
+    [
+     "Tanggal Berakhir",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Harga Baru",
+     "Harga Lama",
+     "Harga Minimum"
+    ]
+   ]
+  },
+  "SellingPriceAdjustmentHistoryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perubahan Harga Jual Per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mulai Berlaku",
+     "Kategori Penjualan",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ]
+   ]
+  },
+  "SerialNumberAgingDetailReport": {
+   "param": {
+    "asOfDate": "30/11/2033",
+    "selectedItem": [],
+    "selectedWarehouse": []
+   },
+   "rows": [
+    [
+     "Umur Nomor Seri/Batch"
+    ],
+    [
+     "Per Tgl. 30 Nov 2033"
+    ],
+    [
+     "No Seri/Produksi No Seri",
+     "Tgl Transaksi Rincian Stok",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ]
+   ]
+  },
+  "StockMovementByWarehouseReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedWarehouse": null
+   },
+   "error": "{\"\":[\"ERROR: invalid input syntax for type bigint: \\\"null\\\"\\n  Position: 311\"]}",
+   "rows": []
+  },
+  "TopSalesCustomerChartReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Porsi Penjualan per Pelanggan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "TopSalesItemChartReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Porsi Penjualan per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "ViewSalesByBranchReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan per Cabang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Penjualan"
+    ],
+    [
+     "Kantor Pusat",
+     "307.000"
+    ],
+    [
+     "Total Cabang",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesByBrandReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesByCustomerDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penjualan per Pelanggan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Penjualan (Prime)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T2 Pelanggan A"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "Faktur Penjualan",
+     "NL-T4-S1",
+     "160.000"
+    ],
+    [
+     "160.000"
+    ],
+    [
+     "NL-T2 Pelanggan B"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "Faktur Penjualan",
+     "NL-T4-S2",
+     "147.000"
+    ],
+    [
+     "147.000"
+    ],
+    [
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesByCustomerReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan per Pelanggan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pelanggan",
+     "Penjualan"
+    ],
+    [
+     "NL-T2 Pelanggan A",
+     "160.000"
+    ],
+    [
+     "NL-T2 Pelanggan B",
+     "147.000"
+    ],
+    [
+     "Total Pelanggan",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesByItemDetailReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penjualan per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Kuantitas",
+     "Satuan",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "NL-T4-S1",
+     "8",
+     "PCS",
+     "160.000"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "NL-T4-S2",
+     "7",
+     "PCS",
+     "147.000"
+    ],
+    [
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Nama Barang",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesCustomerByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan Pelanggan per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pelanggan",
+     "Nama Barang",
+     "Satuan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T2 Pelanggan A",
+     "NL-T4 Barang A",
+     "PCS",
+     "8",
+     "160.000"
+    ],
+    [
+     "Total Nama Barang",
+     "8",
+     "160.000"
+    ],
+    [
+     "NL-T2 Pelanggan B",
+     "NL-T4 Barang A",
+     "PCS",
+     "7",
+     "147.000"
+    ],
+    [
+     "Total Nama Barang",
+     "7",
+     "147.000"
+    ],
+    [
+     "Total Pelanggan",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesItemByBranchReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "15",
+     "307.000",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Barang & Jasa",
+     "15",
+     "307.000",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesItemByCustomerReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan Barang per Pelanggan"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Pelanggan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "NL-T2 Pelanggan A",
+     "8",
+     "160.000"
+    ],
+    [
+     "NL-T2 Pelanggan B",
+     "7",
+     "147.000"
+    ],
+    [
+     "Total Pelanggan",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Nama Barang",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "ViewSalesItemByWarehouseReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Gudang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "Utama",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Gudang",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Nama Barang",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  "WarehouseMutationByItemReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedWarehouse": []
+   },
+   "rows": [
+    [
+     "Mutasi per Gudang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Gudang",
+     ":",
+     "Alamat",
+     ":"
+    ],
+    [
+     "Deskripsi",
+     ":"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ]
+   ]
+  },
+  "WarehouseMutationSummaryReport": {
+   "param": {
+    "startDate": "01/10/2033",
+    "endDate": "30/11/2033",
+    "selectedWarehouse": []
+   },
+   "rows": [
+    [
+     "Ringkasan Mutasi Gudang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "03 Okt 2033"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T4-P1",
+     "100.000",
+     "0"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00001",
+     "210101",
+     "Hutang Usaha IDR",
+     "NL-T4-P1",
+     "0",
+     "100.000"
+    ],
+    [
+     "10 Okt 2033"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00002",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T4-P2",
+     "130.000",
+     "0"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00002",
+     "210101",
+     "Hutang Usaha IDR",
+     "NL-T4-P2",
+     "0",
+     "130.000"
+    ],
+    [
+     "15 Okt 2033"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.10.00001",
+     "110301",
+     "Piutang Usaha IDR",
+     "NL-T4-S1",
+     "160.000",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.10.00001",
+     "400001",
+     "Penjualan",
+     "NL-T4-S1",
+     "0",
+     "160.000"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.10.00001",
+     "510101",
+     "Beban Pokok Penjualan",
+     "NL-T4-S1",
+     "80.000",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.10.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T4-S1",
+     "0",
+     "80.000"
+    ],
+    [
+     "20 Okt 2033"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00003",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T4-P3",
+     "73.000",
+     "0"
+    ],
+    [
+     "Faktur Pembelian",
+     "PI.2033.10.00003",
+     "210101",
+     "Hutang Usaha IDR",
+     "NL-T4-P3",
+     "0",
+     "73.000"
+    ],
+    [
+     "05 Nov 2033"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.11.00001",
+     "110301",
+     "Piutang Usaha IDR",
+     "NL-T4-S2",
+     "147.000",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.11.00001",
+     "400001",
+     "Penjualan",
+     "NL-T4-S2",
+     "0",
+     "147.000"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.11.00001",
+     "510101",
+     "Beban Pokok Penjualan",
+     "NL-T4-S2",
+     "85.000",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2033.11.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T4-S2",
+     "0",
+     "85.000"
+    ]
+   ]
+  }
+ }
+}

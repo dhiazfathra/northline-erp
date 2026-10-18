@@ -31,3 +31,4 @@ export declare function queryCashAccountList(db: Db, asOf: string): Promise<stri
 export declare function loadSales(db: Db): Promise<import('./receivables').SalesData>;
 /** Purchases in the shape the shared receivable/payable report functions use (parties = vendors, AP labels). */
 export declare function loadPurchases(db: Db): Promise<import('./receivables').SalesData>;
+export declare function loadInventory(db: Db): Promise<import('./inventory').InventoryData>;

@@ -7,3 +7,4 @@
 | [0003](0003-report-calculation-rules-from-accurate.md) | Report calculations follow Accurate's observed rules | Accepted |
 | [0004](0004-account-aggregate.md) | Chart of accounts through an event-sourced Account aggregate | Accepted |
 | [0005](0005-sales-documents-post-through-the-ledger.md) | Sales documents are plain tables that post through the ledger | Accepted |
+| [0006](0006-fifo-inventory-costing.md) | FIFO inventory costing from stock movements | Accepted |

@@ -5,6 +5,7 @@ import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
+import { addMove } from '../inventory/fifo'
 
 // Mirror of sales/service.ts (ADR-0005); see fixtures/purchase-t3.json for the journals Accurate posts.
 
@@ -25,11 +26,14 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     if (!vendor) throw new DomainError(`Pemasok ${inv.vendor} tidak ditemukan`)
     const [dup] = await tx.execute(sql`SELECT 1 FROM purchase_invoices WHERE vendor_no = ${inv.vendor} AND bill_number = ${inv.bill}`)
     if (dup) throw new DomainError(`No Faktur "${inv.bill}" sudah ada untuk pemasok ${inv.vendor}`)
-    const items = new Map((await tx.execute(sql`SELECT no, expense_account FROM items`)).map(r => [r.no as string, r.expense_account as string | null]))
+    // stock items debit their inventory account; services/non-stock their expense account
+    const items = new Map((await tx.execute(sql`SELECT no, type, CASE WHEN type = 'INVENTORY' THEN inventory_account ELSE expense_account END AS account FROM items`))
+      .map(r => [r.no as string, r.account as string | null]))
+    const stockItems = new Set((await tx.execute(sql`SELECT no FROM items WHERE type = 'INVENTORY'`)).map(r => r.no as string))
     const lines = inv.lines.map((l, i) => {
       const acc = items.get(l.item)
       if (acc === undefined) throw new DomainError(`Barang ${l.item} tidak ditemukan`)
-      if (!acc) throw new DomainError(`Barang ${l.item} belum punya akun beban`)
+      if (!acc) throw new DomainError(`Barang ${l.item} belum punya akun beban/persediaan`)
       return { ...l, seq: i + 1, account: acc, total: Math.round(l.qty * l.price) }
     })
     const total = lines.reduce((s, l) => s + l.total, 0)
@@ -45,6 +49,8 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     })
     await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id)
       VALUES (${number}, ${inv.vendor}, ${inv.bill}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId})`)
+    for (const l of lines.filter(l => stockItems.has(l.item)))
+      await addMove(tx, { item: l.item, date: inv.date, docType: 'PI', docNumber: number, description: inv.description, quantity: l.qty, value: l.total })
     for (const l of lines)
       await tx.execute(sql`INSERT INTO purchase_invoice_lines (invoice_number, seq, item_no, quantity, unit_price, total) VALUES (${number}, ${l.seq}, ${l.item}, ${l.qty}, ${l.price}, ${l.total})`)
     const result = { number }

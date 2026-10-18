@@ -1,26 +1,5 @@
 # Umur Persediaan (`InventoryAgingReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/InventoryAgingReport.json`](captures/InventoryAgingReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/inventory-t4.json`](fixtures/inventory-t4.json) (3 purchases, 2 sales of NL-T4-B1, Oct–Nov 2033). ERP: `apps/api/src/reports/inventory.ts`, costing `src/inventory/fifo.ts` (ADR-0006); test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedWarehouse":[],"selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedWarehouse` | WAREHOUSE_MULTI_WITH_ALL_WAREHOUSE | [] | Gudang |
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-Selection: `ITEM_CATEGORY_ALL`.
-
-## Layout
-
-View: `crosstab`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nama Barang | Stok | 1 - 30 | 31 - 60 | 61 - 90 | 91 - 120 | &gt; 120`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`, `selectedWarehouse`, `selectedBranch`. Columns `Nama Barang` | `Stok` | `1 - 30` | `31 - 60` | `61 - 90` | `91 - 120` | `> 120`: remaining **FIFO layers** bucketed by days since their purchase (fixture: 5 left from 10 Oct and 5 from 20 Oct → 10 in 31–60 at 30 Nov).

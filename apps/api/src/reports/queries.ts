@@ -142,3 +142,16 @@ export async function loadPurchases(db: Db): Promise<import('./receivables').Sal
       payments: lines.filter(l => l.payment_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
   return { customers, invoices, receipts, labels: AP }
 }
+
+export async function loadInventory(db: Db): Promise<import('./inventory').InventoryData> {
+  const items = (await db.execute(sql`SELECT no, name, unit FROM items WHERE type = 'INVENTORY'`)).map(r => ({ no: r.no as string, name: r.name as string, unit: r.unit as string }))
+  const moves = (await db.execute(sql`
+    SELECT m.item_no, to_char(m.date,'YYYY-MM-DD') AS date, m.doc_type, m.doc_number, m.quantity, m.value,
+           COALESCE(v.name, c.name, '') AS party
+    FROM stock_moves m
+    LEFT JOIN purchase_invoices pi ON m.doc_type = 'PI' AND pi.number = m.doc_number LEFT JOIN vendors v ON v.no = pi.vendor_no
+    LEFT JOIN sales_invoices si ON m.doc_type = 'SI' AND si.number = m.doc_number LEFT JOIN customers c ON c.no = si.customer_no
+    ORDER BY m.date, m.id`))
+    .map(r => ({ item: r.item_no as string, date: r.date as string, docType: r.doc_type as string, docNumber: r.doc_number as string, party: r.party as string, quantity: Number(r.quantity), value: Number(r.value) }))
+  return { items, moves }
+}

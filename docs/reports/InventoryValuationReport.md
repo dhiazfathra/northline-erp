@@ -1,25 +1,5 @@
 # Nilai Persediaan (`InventoryValuationReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/InventoryValuationReport.json`](captures/InventoryValuationReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/inventory-t4.json`](fixtures/inventory-t4.json) (3 purchases, 2 sales of NL-T4-B1, Oct–Nov 2033). ERP: `apps/api/src/reports/inventory.ts`, costing `src/inventory/fifo.ts` (ADR-0006); test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-Selection: `ITEM_CATEGORY_ALL`.
-
-## Layout
-
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nama Barang | Kode Barang | Saldo Awal | Masuk | Keluar | Saldo Akhir`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `startDate`, `endDate`, `selectedBranch`. Two header rows: `Nama Barang` | `Kode Barang` | `Saldo Awal` | `Masuk` | `Keluar` | `Saldo Akhir`, then quantity/value pairs. One row per stock item by name (zero rows included), opening before `startDate`, ins and outs at FIFO cost, closing; `Total Nama Barang`. Fixture NL-T4-B1: 0 | 0 | 25 | 303.000 | 15 | 165.000 | 10 | 138.000.

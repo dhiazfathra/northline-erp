@@ -9,11 +9,12 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
+import * as I from './reports/inventory'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
 import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -98,6 +99,17 @@ export function createApp(db: Db) {
       if (r === 'purchase-flow') return c.json(R.flowHistory(await loadPurchases(db), from, to, false))
       const d = await loadSales(db)
       return c.json(r === 'sales-flow' ? R.flowHistory(d, from, to, true) : r === 'selling-frequency' ? R.sellingItemFrequency(d, from, to) : R.profitabilityByInvoice(d, from, to))
+    })
+    .get('/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item}', async c => {
+      const d = await loadInventory(db), q = c.req.query(), r = c.req.param('report')
+      if (r === 'aging') return c.json(I.inventoryAging(d, balanceSheetQuery.parse(q).asOf))
+      const { from, to } = trialBalanceQuery.parse(q), items = c.req.queries('item') ?? []
+      if (r === 'valuation') return c.json(I.inventoryValuation(d, from, to))
+      if (r === 'stock-card') return c.json(I.stockCard(d, items, from, to))
+      if (r === 'valuation-detail') return c.json(I.valuationDetail(d, items, from, to))
+      const sales = (await db.execute(sql`SELECT l.item_no, to_char(i.date,'YYYY-MM-DD') AS date, l.total FROM sales_invoice_lines l JOIN sales_invoices i ON i.number = l.invoice_number`))
+        .map(x => ({ item: x.item_no as string, date: x.date as string, total: Number(x.total) }))
+      return c.json(I.profitabilityByItem(d, sales, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
