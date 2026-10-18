@@ -2,7 +2,7 @@
 
 Group: Pusat Laba & Biaya. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/AnalysisProfitLossDepartmentReport.json`](captures/retail/AnalysisProfitLossDepartmentReport.json).
 
-Status: blocked: requires Department. Fixture: [`fixtures/retail/AnalysisProfitLossDepartmentReport.json`](fixtures/retail/AnalysisProfitLossDepartmentReport.json) (Retail Demo).
+Status: verified (Retail Demo, ADR-0022). Fixture: [`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json); test `apps/api/test/dimensions.test.ts`.
 
 ## Purpose
 
@@ -21,27 +21,19 @@ Params used for the capture (default over all history unless stated): `{"startDa
 
 ## Row grouping
 
-One row per department (`Accounting`, `Head Office`, `Opersional`), then a row `[Tanpa Departement]` for postings without department (preceded by a blank spacer row), then `Total Nama Departemen`. Branch filter line `Cabang : [Semua Cabang]`.
-
-Title lines: `Analisa Laba/Rugi Departemen`, `Dari 01 Jan 2000 s/d 31 Des 2040`, `Cabang : [Semua Cabang]`; footer lines `ACCURATE Accounting System Report`, `Tercetak pada <d MMMM yyyy - HH:mm>`, `Halaman <n> dari <total>` on every page.
+Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1 (P.00001), Jurnal Umum J1–J7 (JV.2041.02.00001 … JV.2041.09.00001) over branches JAKARTA and SURABAYA, with one line in a project, lines in each department and lines with no department (J5, every cash line). Params of the capture: `{"startDate": "01/01/2041", "endDate": "31/12/2041", "selectedBranch": [{"name": "[Semua Cabang]", "id": null}]}`.
 
 ## Calculation rules
 
-- Laba/Rugi = Pendapatan - BPP - Beban, per row:
-- Accounting: 2,899,700,000 - 2,564,051,317.67 - 26,551,500 = 309,097,182.33 vs 309,097,182.33 (checked)
-- Head Office: 124,596,000 - 62,988,614.79 - 97,686,666.67 = -36,079,281.46 vs -36,079,281.45 (within 0.01 rounding)
-- Opersional: 1,040,477,757.9 - 592,928,115.64 - 570,769,346.67 = -123,219,704.41 vs -123,219,704.41 (checked)
-- [Tanpa Departement]: 6,857,394,191.39 - 3,834,977,988.99 - 8,336,056.9 = 3,014,080,145.5 vs 3,014,080,145.5 (checked)
-- Net checked on the total row: 10,922,167,949.29 - 7,054,946,037.09 - 703,343,570.23 = 3,163,878,341.97 vs 3,163,878,341.97 (checked).
-- Cross-report ([ProfitLossByBranchReport](ProfitLossByBranchReport.md), same all-history range): Pendapatan 10,922,167,949.29 = Jumlah Pendapatan 10,875,821,103.29 + Jumlah Pendapatan Non Operasional 46,346,846 (checked), i.e. non-operating income is inside `Pendapatan`.
-- Beban 703,343,570.23 = Jumlah Beban Operasional 991,093,141.68 + net non-operating expense -287,749,571.45 (checked), i.e. non-operating expense (including negative selisih kurs) is inside `Beban`.
-- BPP total 7,054,946,037.09 = branch report Jumlah Beban Pokok Penjualan Total (checked).
-- Auto-check `Total Nama Departemen` row (4 data rows): Pendapatan: checked 4 rows sum 10,922,167,949.29 vs total 10,922,167,949.29; BPP: checked 4 rows sum 7,054,946,037.09 vs total 7,054,946,037.09; Beban: within 0.01 rounding of 4 rows sum 703,343,570.24 vs total 703,343,570.23; Laba/Rugi: checked 4 rows sum 3,163,878,341.97 vs total 3,163,878,341.97.
+- One row per department with profit-and-loss activity in the range, ordered by name; departments without activity are not printed.
+- Then `[Tanpa Departement]` for lines with no department (only when there are any), then `Total Nama Departemen` over all lines. Accurate prints blank spacer rows around the last two; the capture drops empty rows.
+- Pendapatan = revenue + other income (credit − debit); BPP = COGS; Beban = operating + non-operating expense (debit − credit); Laba/Rugi = Pendapatan − BPP − Beban.
+- 2041: NL-RA-D1 Pendapatan 6,300,000 = J1 6,000,000 + J6 other income 300,000; `[Tanpa Departement]` Beban 400,000 = J5.
 
 ## Verified / unverified
 
-- Verified: row arithmetic and cross-report totals against the branch P&L over the same all-history range.
-- Unverified: per-department postings (department attribution by journal line not traced); sort order of departments; single-branch filter.
+- Verified: zero diff on every body row against the 2041 capture ([`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json), test `apps/api/test/dimensions.test.ts`); page furniture (title lines, footer, repeated header) is stripped before comparing.
+- Unverified: branch filter other than `[Semua Cabang]`, data classification filters, foreign-currency accounts.
 
 ## Retail Demo variation
 

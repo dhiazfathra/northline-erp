@@ -23,4 +23,5 @@
 | [0019](0019-activity-log.md) | Log Aktifitas (activity log) is in scope, written with every change | Accepted |
 | [0020](0020-scalar-api-reference.md) | Scalar API reference generated from the live route table | Accepted |
 | [0021](0021-retail-report-module-dependencies.md) | Module dependencies surfaced by Retail Demo reports; proposed build order | Accepted |
+| [0022](0022-branch-department-project-dimensions.md) | Branch on journal, department and project on journal line | Accepted |
 | [0024](0024-batch-serials-transfers-warehouses.md) | Batch serials with expiry, transfer lines and receipts, warehouse master, vendor price end date | Accepted |

@@ -2,7 +2,7 @@
 
 Group: Pusat Laba & Biaya. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/ProfitLossByDepartmentReport.json`](captures/retail/ProfitLossByDepartmentReport.json).
 
-Status: blocked: requires Department (spec partial: layout not captured).
+Status: verified (Retail Demo, ADR-0022). Fixture: [`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json); test `apps/api/test/dimensions.test.ts`.
 
 ## Purpose
 
@@ -28,22 +28,27 @@ Date kind `FROMTO`: `startDate`, `endDate` (dd/MM/yyyy).
 
 Params used for the capture (default over all history unless stated): `{"startDate":"01/01/2000","endDate":"31/12/2040","selectedDepartment":[],"showTotal":false,"showParentAccount":true,"showChildAccount":true,"showZeroBalance":false,"showParentAccountBalance":true}`
 
+Accepted wire shape (found 2026-10-19 from `init-report-input.do` defaults and the server's own errors): `selectedDepartment` is a list of `{id, name}`; `selectedProject` and `selectedDataClassification1..10` must be lists (`[]`), not the `true` the form defaults to: a boolean fails with `class java.lang.Boolean cannot be cast to class java.util.List`.
+
 ## Columns
 
-Not captured (see Status). Expected columns: `Deskripsi` plus one amount column per selected department and a `Total` column, by analogy with [ProfitLossByBranchReport](ProfitLossByBranchReport.md).
+`Deskripsi` | one column per selected department | `Total`
 
 ## Row grouping
 
-Layout was not captured. Server rejected every API param shape tried for `ProfitLossByDepartmentReport`: capture run with `selectedDepartment=[]` returned `Departemen harus diisi` (department required); a drill-down re-run with `selectedDepartment=[{id:101,name:"Head Office"}]` over 01/01/2016-31/12/2017 returned the generic server error `Upsss... Telah terjadi permasalahan` (internal error, 1 run).  Retail Demo has 3 departments (Accounting id 105, Head Office 101, Opersional 103) and zero projects. Expected layout by analogy: [Laba/Rugi Cabang](ProfitLossByBranchReport.md) with department columns instead of branch columns; headline `Departemen : [...]`.
+Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1 (P.00001), Jurnal Umum J1–J7 (JV.2041.02.00001 … JV.2041.09.00001) over branches JAKARTA and SURABAYA, with one line in a project, lines in each department and lines with no department (J5, every cash line). Params of the capture: `{"selectedDataClassification10": [], "endDate": "31/12/2041", "showChildAccount": true, "selectedDataClassification1": [], "selectedDataClassification2": [], "showParentAccountBalance": true, "showTotal": false, "selectedDataClassification5": [], "selectedDataClassification6": [], "selectedDepartment": [{"id": 101850, "name": "NL-RA-D1"}, {"id": 101900, "name": "NL-RA-D2"}], "selectedProject": [], "selectedDataClassification3": [], "selectedDataClassification4": [], "selectedDataClassification9": [], "showZeroBalance": false, "showParentAccount": true, "startDate": "01/01/2041", "selectedDataClassification7": [], "selectedBranch": [{"name": "[Semua Cabang]", "id": null}], "selectedDataClassification8": []}`.
 
 ## Calculation rules
 
-- Unverified. Retail Demo cross-check available from [AnalysisProfitLossDepartmentReport](AnalysisProfitLossDepartmentReport.md): per-department Pendapatan/BPP/Beban/Laba-Rugi totals (Accounting 309,097,182.33, Head Office -36,079,281.45, Opersional -123,219,704.41, no department 3,014,080,145.5) are what this report's bottom lines should reproduce.
+- Each amount column is the standard Laba/Rugi ([ProfitLossStandardReport](ProfitLossStandardReport.md)) computed over only the journal lines of that column, with zero rows kept so the columns align; an account row hides only when it is zero in every column (`showZeroBalance=false`). Headings and `Jumlah ...` rows always print.
+- Retail Demo ends with two rows `LABA BERSIH (Sebelum Pajak)` and `LABA BERSIH (Setelah Pajak)`, both equal to the net profit (no income-tax line is modelled).
+- Numbers print en-US (`1,650,000.5`), negatives with a leading `-`.
+- A column takes the lines tagged with that department; lines with no department appear in no column, so Total is the sum over the selected departments only (2041 Total LABA BERSIH 9,799,999.5 vs the all-lines 9,399,999.5 of Laba/Rugi Cabang: J5's 400,000 has no department).
 
 ## Verified / unverified
 
-- Verified: only that the server rejects the API params used.
-- Unverified: entire layout; the validation text 'Departemen harus diisi' shows `selectedDepartment` must be a non-empty selection (empty list = rejected), but the accepted wire shape was not found.
+- Verified: zero diff on every body row against the 2041 capture ([`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json), test `apps/api/test/dimensions.test.ts`); page furniture (title lines, footer, repeated header) is stripped before comparing.
+- Unverified: branch filter other than `[Semua Cabang]`, data classification filters, foreign-currency accounts.
 
 ## Retail Demo variation
 

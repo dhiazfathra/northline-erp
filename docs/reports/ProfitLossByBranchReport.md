@@ -2,7 +2,7 @@
 
 Group: Keuangan. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/ProfitLossByBranchReport.json`](captures/retail/ProfitLossByBranchReport.json).
 
-Status: blocked: requires Branch dimension on Journal. Fixture: [`fixtures/retail/ProfitLossByBranchReport.json`](fixtures/retail/ProfitLossByBranchReport.json) (Retail Demo).
+Status: verified (Retail Demo, ADR-0022). Fixture: [`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json); test `apps/api/test/dimensions.test.ts`.
 
 ## Purpose
 
@@ -18,28 +18,24 @@ Params used for the capture (default over all history unless stated): `{"startDa
 
 ## Columns
 
-`Deskripsi` | `JAKARTA` | `SURABAYA` | `Total`
+`Deskripsi` | one column per branch (by name) | `Total`
 
 ## Row grouping
 
-Same sections as the single-column Laba/Rugi (`PENDAPATAN` ... `LABA BERSIH`), one amount column per branch plus a final `Total` column. Header: `Deskripsi | JAKARTA | SURABAYA | Total`. Parent accounts (e.g. `Penjualan`) are followed by their children, `showParentAccountBalance=true` makes the parent row include its children. Retail Demo has branches JAKARTA and SURABAYA; `selectedBranch=[]` (all) produces both. `LABA BERSIH` is printed twice (before and after tax; no tax account is used).
-
-Title lines: `Laba/Rugi Cabang`, `Dari 01 Jan 2000 s/d 31 Des 2040`, `Cabang : [Semua Cabang]`; footer lines `ACCURATE Accounting System Report`, `Tercetak pada <d MMMM yyyy - HH:mm>`, `Halaman <n> dari <total>` on every page.
+Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1 (P.00001), Jurnal Umum J1–J7 (JV.2041.02.00001 … JV.2041.09.00001) over branches JAKARTA and SURABAYA, with one line in a project, lines in each department and lines with no department (J5, every cash line). Params of the capture: `{"startDate": "01/01/2041", "endDate": "31/12/2041", "selectedBranch": [{"name": "[Semua Cabang]", "id": null}], "showTotal": false, "showParentAccount": true, "showChildAccount": true, "showZeroBalance": false, "showParentAccountBalance": true}`.
 
 ## Calculation rules
 
-- Total = JAKARTA + SURABAYA on every row: checked: 55 of 55 numeric 4-cell rows satisfy Total = JAKARTA + SURABAYA exactly.
-- Parent includes children: `Penjualan` 10,904,843,757.9 = Handphone 10,680,403,757.9 + Assesoris 221,190,000 + Pendapatan Jasa 3,250,000 (checked).
-- `Jumlah Pendapatan` 10,875,821,103.29 = Penjualan + Retur Penjualan 10,904,843,757.9 + (-29,022,654.61) = 10,875,821,103.29 (checked).
-- `LABA KOTOR` Total 3,820,875,066.2 = Jumlah Pendapatan 10,875,821,103.29 - Jumlah Beban Pokok Penjualan 7,054,946,037.09 (checked).
-- `LABA BERSIH (Sebelum Pajak)` Total 3,163,878,341.97 = LABA KOTOR 3,820,875,066.2 - Jumlah Beban Operasional 991,093,141.68 + Jumlah Pendapatan dan Beban Non Operasional 334,096,417.45 (checked); per column: JAKARTA 3,370,913,801.44 + SURABAYA -207,035,459.47 = 3,163,878,341.97 (checked).
-- Cross-report: `LABA BERSIH` Total 3,163,878,341.97 equals `Total Nama Departemen` Laba/Rugi in [AnalysisProfitLossDepartmentReport](AnalysisProfitLossDepartmentReport.md) (checked) and the Jumlah Beban Pokok Penjualan Total 7,054,946,037.09 equals its BPP total (checked).
-- Foreign-currency accounts (rows tagged `SGD`/`USD` in the non-operating expense block, selisih kurs) are reported in IDR; the rows exist for both branches.
+- Each amount column is the standard Laba/Rugi ([ProfitLossStandardReport](ProfitLossStandardReport.md)) computed over only the journal lines of that column, with zero rows kept so the columns align; an account row hides only when it is zero in every column (`showZeroBalance=false`). Headings and `Jumlah ...` rows always print.
+- Retail Demo ends with two rows `LABA BERSIH (Sebelum Pajak)` and `LABA BERSIH (Setelah Pajak)`, both equal to the net profit (no income-tax line is modelled).
+- Numbers print en-US (`1,650,000.5`), negatives with a leading `-`.
+- A column takes the lines of journals whose header branch is that branch; a journal without a branch belongs to the default branch (JAKARTA in Retail Demo).
+- Total = sum of the branch columns on every row (2041: Beban Alat Tulis Kantor 1,650,000.5 = J3 1,250,000.5 + J5 400,000, all JAKARTA).
 
 ## Verified / unverified
 
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: per-branch split of postings beyond Jakarta/Surabaya totals; selecting a single branch; showTotal=true; row ordering rules; the capture lost some account labels in rows after page breaks (cells dropped), so account names for those rows are not recorded.
+- Verified: zero diff on every body row against the 2041 capture ([`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json), test `apps/api/test/dimensions.test.ts`); page furniture (title lines, footer, repeated header) is stripped before comparing.
+- Unverified: branch filter other than `[Semua Cabang]`, data classification filters, foreign-currency accounts.
 
 ## Retail Demo variation
 
