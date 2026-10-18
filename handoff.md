@@ -36,3 +36,13 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 - Fixture tests replay earlier fixtures in order (FIFO/opening balances depend on it); see `apps/api/test/fixture-db.ts` and per-test `beforeAll`.
 - Accurate quirks recorded per report doc (e.g. "Agt" in row dates vs "Agu" in headers, English months in "Saldo per" labels, Umur in Tukar Faktur vs today).
 - User's own uncommitted WIP in `pnpm-workspace.yaml`, `apps/web/package.json`: do not commit.
+
+## Sandbox preferences (read 2026-10-18)
+
+| Preference | Value | Note |
+|---|---|---|
+| `featureSerialNumber` | false | Must be enabled before the serial-number reports can be seeded |
+| `featureVendorPrice` | false | Vendor price documents save anyway |
+| `featureMultiCurrency` | true | Realized gain/loss default account id 61, unrealized id 62 |
+| `featureBranch` | false | |
+| `featureCostingMethod` | FIFO | |

@@ -29,7 +29,11 @@ The report has no date parameter. It stayed empty (header row only) for branch U
 
 So neither vendor prices nor selling price adjustments make an item appear.
 
-A new stock item NL-T30-B1 (id 400) was created with the item master's own prices: `unitPrice` 25.000, `vendorPrice` 15.000, preferred vendor NL-T3-V1. The report was still empty, including after a purchase of 4 units dated 1 Oct 2026 (PI.2026.10.00007, deleted after the check). The trigger is still unknown; a sales invoice is the next thing to try.
+A new stock item NL-T30-B1 (id 400) was created with the item master's own prices: `unitPrice` 25.000, `vendorPrice` 15.000, preferred vendor NL-T3-V1. The report was still empty, including after a purchase of 4 units dated 1 Oct 2026 (PI.2026.10.00007, deleted after the check). The report's data source is `hpp.*`, with columns `hpp.unitPrice`, `hpp.purchaseCost`, `hpp.purchaseCostBefore` and `hpp.unitPurchaseBefore`. It looks like a log of purchase-cost changes, not a live item list. Two more attempts left it empty:
+- Turning on Preferensi `featureVendorPrice` and saving a vendor price for NL-T30-B1 dated 1 Oct 2026.
+- Item-category parameters (`selectedItemCategory`, `selectedCategory`).
+
+Both temporary documents were deleted and the preference was switched back off. The trigger is still unknown.
 
 ## Open work
 
