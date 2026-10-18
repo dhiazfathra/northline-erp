@@ -38,3 +38,10 @@ export declare function compareColumns(base: StatementLine[], cmp: StatementLine
 export declare const formatMulti: (l: MultiLine & {
     pct?: (number | null)[];
 }) => string[];
+/** Kuartal columns of a calendar year (fiscal quarters unverified). */
+export declare const quarters: (y: number) => {
+    from: string;
+    to: string;
+    label: string;
+}[];
+export declare const perDateEn: (iso: string) => string;

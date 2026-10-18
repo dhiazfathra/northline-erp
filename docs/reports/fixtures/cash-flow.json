@@ -1,0 +1,186 @@
+{
+ "source": "Accurate Online v1.0.1#4970, sandbox, captured 2026-10-18; journals J1..J6 of trial-balance.json",
+ "params": {
+  "periodStartMonth": 12,
+  "periodStartYear": 2030,
+  "periodEndMonth": 2,
+  "periodEndYear": 2031,
+  "selectedBranch": "[Semua Cabang]"
+ },
+ "offsets": {
+  "note": "sandbox cash outside the fixture, included in the Kas & Setara Kas awal/akhir rows",
+  "cash": 3792386
+ },
+ "CashFlowIndirectReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Nilai"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Laba/Rugi",
+    "2.749.999,5"
+   ],
+   [
+    "Tambah Akumulasi Penyusutan",
+    "0"
+   ],
+   [
+    "Tambah Utang Usaha",
+    "0"
+   ],
+   [
+    "Tambah Liabilitas Jangka Pendek",
+    "1.000.000"
+   ],
+   [
+    "Kurang Piutang Usaha",
+    "0"
+   ],
+   [
+    "Kurang Persediaan",
+    "0"
+   ],
+   [
+    "Kurang Aset Lancar Lainnya",
+    "-15.000.000"
+   ],
+   [
+    "Total Aktifitas Operasi",
+    "-11.250.000,5"
+   ],
+   [
+    "Investasi"
+   ],
+   [
+    "Kurang Aset Tetap",
+    "0"
+   ],
+   [
+    "Kurang Aset Lainnya",
+    "0"
+   ],
+   [
+    "Total Investasi",
+    "0"
+   ],
+   [
+    "Pendanaan"
+   ],
+   [
+    "Tambah Liabilitas Jangka Panjang",
+    "0"
+   ],
+   [
+    "Tambah Modal",
+    "10.000.000"
+   ],
+   [
+    "Total Pendanaan",
+    "10.000.000"
+   ],
+   [
+    "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+    "-1.250.000,5"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "2.542.385,5"
+   ]
+  ]
+ },
+ "CashFlowDirectReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Nilai"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Kas dari Penjualan",
+    "0"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "5.000.000"
+   ],
+   [
+    "Kas untuk Pembelian",
+    "0"
+   ],
+   [
+    "NL-T1 Beban",
+    "-1.250.000,5"
+   ],
+   [
+    "Laba(Rugi) Operasi sebelum berubah di Operasi Aset dan Liabilitas",
+    "3.749.999,5"
+   ],
+   [
+    "Berkurang(Bertambah) pada Operasi Aset"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "-15.000.000"
+   ],
+   [
+    "Total Berkurang(Bertambah) pada Operasi Aset",
+    "-15.000.000"
+   ],
+   [
+    "Berkurang(Bertambah) pada Operasi Liabilitas"
+   ],
+   [
+    "Total Berkurang(Bertambah) pada Operasi Liabilitas",
+    "0"
+   ],
+   [
+    "Total Kas bersih (dipakai)/ dihasilkan oleh Aktivitas Operasi",
+    "-11.250.000,5"
+   ],
+   [
+    "Aktifitas Investasi"
+   ],
+   [
+    "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Investasi",
+    "0"
+   ],
+   [
+    "Aktifitas Pendanaan"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000"
+   ],
+   [
+    "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Pendanaan",
+    "10.000.000"
+   ],
+   [
+    "Kas bersih dihasilkan oleh / (dipakai) di Period ini",
+    "-1.250.000,5"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "2.542.385,5"
+   ]
+  ]
+ }
+}

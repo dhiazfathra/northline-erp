@@ -8,7 +8,7 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryBalanceSheet, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type GlReport } from './reports/queries'
+import { queryBalanceSheet, queryCashFlow, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -38,6 +38,8 @@ export function createApp(db: Db) {
       c.json(await queryGeneralLedger(db, c.req.param('report') as GlReport, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/retained-earnings', async c => c.json(await queryRetainedEarnings(db, z.coerce.number().int().min(1900).max(9999).parse(c.req.query('year')))))
     .get('/reports/owner-equity-change', async c => c.json(await queryOwnerEquityChange(db, trialBalanceQuery.parse(c.req.query()))))
+    .get('/reports/cash-flow/:method{direct|indirect}', async c =>
+      c.json(await queryCashFlow(db, c.req.param('method') as 'direct' | 'indirect', trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().route('/api', api).get('*', serveSpa)

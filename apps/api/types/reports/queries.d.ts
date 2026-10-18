@@ -1,5 +1,6 @@
 import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/ledger-es';
 import type { Db } from '../db';
+import { type Journal } from './general-ledger';
 export declare function queryTrialBalance(db: Db, q: TrialBalanceQuery): Promise<{
     no: string;
     name: string;
@@ -14,7 +15,9 @@ export declare function queryTrialBalance(db: Db, q: TrialBalanceQuery): Promise
 }[]>;
 export declare function queryProfitLoss(db: Db, q: TrialBalanceQuery): Promise<import("./financial-statements").StatementLine[]>;
 export declare function queryBalanceSheet(db: Db, q: BalanceSheetQuery): Promise<import("./financial-statements").StatementLine[]>;
+export declare function loadJournals(db: Db, from: string, to: string): Promise<Journal[]>;
 export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail' | 'account-journal-detail' | 'account-list';
 export declare function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryRetainedEarnings(db: Db, year: number): Promise<string[][]>;
 export declare function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery): Promise<string[][]>;
+export declare function queryCashFlow(db: Db, method: 'direct' | 'indirect', q: TrialBalanceQuery): Promise<string[][]>;

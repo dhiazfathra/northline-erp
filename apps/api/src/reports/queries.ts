@@ -4,6 +4,7 @@ import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, profitLoss } from './financial-statements'
 import { ownerEquityChange, retainedEarnings } from './equity'
+import { cashFlowDirect, cashFlowIndirect } from './cash-flow'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
@@ -33,7 +34,7 @@ export async function queryBalanceSheet(db: Db, q: BalanceSheetQuery) {
   return balanceSheet(accounts, balances, settings, q.asOf, q)
 }
 
-async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]> {
+export async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]> {
   const rows = await db.execute(sql`
     SELECT j.journal_id, j.number, to_char(j.date, 'YYYY-MM-DD') AS date, j.description, l.account_no, l.debit, l.credit, l.memo
     FROM journals j JOIN journal_lines l USING (journal_id)
@@ -70,4 +71,9 @@ export async function queryRetainedEarnings(db: Db, year: number) {
 export async function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery) {
   const { accounts, balances, settings } = await loadLedger(db, q.to)
   return ownerEquityChange(accounts, balances, settings, q.from, q.to)
+}
+
+export async function queryCashFlow(db: Db, method: 'direct' | 'indirect', q: TrialBalanceQuery) {
+  const { accounts, balances } = await loadLedger(db, q.to)
+  return method === 'indirect' ? cashFlowIndirect(accounts, balances, q.from, q.to) : cashFlowDirect(accounts, balances, await loadJournals(db, q.from, q.to), q.from, q.to)
 }
