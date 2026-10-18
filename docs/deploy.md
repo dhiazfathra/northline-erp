@@ -1,6 +1,6 @@
 # Deploy: Cloudflare Workers + Neon
 
-Design and trade-offs: [ADR-0017](decisions/0017-cloudflare-workers-and-neon-free-tier.md).
+Design and trade-offs: [ADR-0017](decisions/0017-cloudflare-workers-and-neon-free-tier.md). Risks: [risks.md](risks.md).
 
 | Piece | Where |
 |---|---|
