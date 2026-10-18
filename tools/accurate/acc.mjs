@@ -17,7 +17,8 @@ export const red = (s) => SECRETS.reduce((t, x) => t.split(x).join('[REDACTED]')
 export const log = (...a) => console.log(red(a.map((x) => (typeof x === 'string' ? x : JSON.stringify(x))).join(' ')));
 
 const DIR = new URL('.', import.meta.url).pathname;
-const STATE = DIR + 'state.json';
+// One session file per sandbox: a saved session reopens its own Data Usaha and blocks switching.
+const STATE = DIR + (process.env.ACC_DB === 'retail' ? 'state-retail.json' : 'state.json');
 
 export async function open({ headless = true } = {}) {
   const browser = await chromium.launch({ headless });
