@@ -10,6 +10,8 @@ Design and trade-offs: [ADR-0017](decisions/0017-cloudflare-workers-and-neon-fre
 
 ## Local is the default
 
+Why: [ADR-0018](decisions/0018-local-default-on-demand-production.md).
+
 `.env` `DATABASE_URL` points at local Docker Postgres (`pnpm dev:db`, `pnpm seed`, `pnpm dev:api`). Neon URLs live in
 `NEON_DATABASE_URL` / `NEON_DATABASE_URL_UNPOOLED` and nothing reads them except the deploy script. There is no CI or
 git-triggered deploy: production changes only when someone runs `pnpm deploy:prod`.

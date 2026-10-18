@@ -19,3 +19,4 @@
 | [0015](0015-bank-integration-reports-out-of-scope.md) | Bank-integration reports stay at spec | Accepted |
 | [0016](0016-cogs-monitoring-out-of-scope.md) | Monitoring HPP stays at spec | Accepted |
 | [0017](0017-cloudflare-workers-and-neon-free-tier.md) | Production on Cloudflare Workers + Neon, sized for both free tiers | Accepted |
+| [0018](0018-local-default-on-demand-production.md) | Local Postgres is the default; production deploys only on demand | Accepted |
