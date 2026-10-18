@@ -60,3 +60,12 @@ test('Pencatatan Beban: journal, ExpenseAccrualSummaryReport and ExpenseAccrualD
   for (const c of t26.ExpenseAccrualSummaryReport) expect(expenseAccrualSummary(all, c.from, c.to)).toEqual(c.rows)
   for (const c of t26.ExpenseAccrualDetailReport) expect(expenseAccrualDetail(all, c.from, c.to)).toEqual(c.rows)
 })
+
+test('VendorPriceHistoryReport: Harga Lama = previous price of the same vendor (T27)', async () => {
+  const t27 = (await import('../../../docs/reports/fixtures/vendor-price-t27.json')).default
+  const { createVendorPrice } = await import('../src/purchases/service')
+  const { vendorPriceHistory } = await import('../src/reports/payables')
+  for (const p of t27.prices) await createVendorPrice(f.db, p)
+  const ps = await (await import('../src/reports/queries')).loadVendorPrices(f.db)
+  for (const c of t27.VendorPriceHistoryReport) expect(vendorPriceHistory(ps, [c.item], c.asOf)).toEqual(c.rows)
+})

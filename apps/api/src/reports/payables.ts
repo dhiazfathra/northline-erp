@@ -196,3 +196,21 @@ export function purchaseByExpense(expenses: { date: string; account: string; acc
   const rows = [...by].sort(([a], [b]) => a.localeCompare(b)).map(([, x]) => [x.name, formatIdr(x.amount)])
   return rows.length ? [['Nama Akun', 'Jumlah'], ...rows, ['Total Nama Akun', formatIdr([...by.values()].reduce((s, x) => s + x.amount, 0))]] : []
 }
+
+/**
+ * Perubahan Harga Beli Per Barang (docs/reports/VendorPriceHistoryReport.md): per item, its vendor price changes dated by
+ * the as-of date, oldest first. Harga Lama = the same vendor's previous price for the item (0 for the first);
+ * Tanggal Berakhir is empty (no end date set), so the cell is dropped.
+ */
+// shortcut: IDR only, end-effective dates not modelled.
+export function vendorPriceHistory(prices: { number: string; vendorName: string; date: string; item: string; itemName: string; unit: string; price: number }[], items: string[], asOf: string): string[][] {
+  const rows: string[][] = [['Mulai Berlaku', 'Tanggal Berakhir', 'Pemasok', 'Mata Uang', 'Harga Lama', 'Harga Baru', 'Satuan']]
+  for (const item of items) {
+    const ps = prices.filter(p => p.item === item && p.date <= asOf).sort((a, b) => a.date.localeCompare(b.date) || a.number.localeCompare(b.number))
+    if (!ps.length) continue
+    rows.push([ps[0]!.itemName])
+    const last = new Map<string, number>()
+    for (const p of ps) { rows.push([fmtDate(p.date), p.vendorName, 'IDR', formatIdr(last.get(p.vendorName) ?? 0), formatIdr(p.price), p.unit]); last.set(p.vendorName, p.price) }
+  }
+  return rows
+}

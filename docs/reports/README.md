@@ -203,7 +203,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnDetailReport.md) |
 | Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDownPaymentDetailReport.md) |
 | Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [spec](TransferOrderListReport.md) |
-| Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [spec](VendorPriceHistoryReport.md) |
+| Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [verified](VendorPriceHistoryReport.md) |
 
 ## Persediaan (INVENTORY)
 

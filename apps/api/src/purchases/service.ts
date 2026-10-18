@@ -211,3 +211,12 @@ export async function reportSptMasa(db: Db, from: string, to: string) {
     return { id: Number(spt!.id) }
   })
 }
+
+/** Harga Pemasok (VPA.yyyy.mm.nnnnn): a vendor's purchase price per item from the date on; no journal. */
+export async function createVendorPrice(db: Db, v: { number?: string; vendor: string; date: string; lines: { item: string; price: number }[] }) {
+  return db.transaction(async tx => {
+    const number = v.number ?? await nextNumber(tx, `VPA.${period(v.date)}`)
+    for (const l of v.lines) await tx.execute(sql`INSERT INTO vendor_prices VALUES (${number}, ${v.vendor}, ${v.date}, ${l.item}, ${Math.round(l.price * 100)})`)
+    return { number }
+  })
+}

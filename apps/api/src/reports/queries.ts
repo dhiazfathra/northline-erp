@@ -304,3 +304,9 @@ export async function loadExpenseAccruals(db: Db): Promise<import('./expense-acc
     .map(r => ({ number: r.number as string, date: r.date as string, dueDate: r.due as string, total: Number(r.total),
       lines: ls.filter(l => l.accrual_number === r.number).map(l => ({ account: l.account_no as string, accountName: l.name as string, amount: Number(l.amount) })) }))
 }
+
+export async function loadVendorPrices(db: Db) {
+  return (await db.execute(sql`SELECT p.number, v.name AS vendor, to_char(p.date,'YYYY-MM-DD') AS date, p.item_no, i.name AS item, i.unit, p.price
+    FROM vendor_prices p JOIN vendors v ON v.no = p.vendor_no JOIN items i ON i.no = p.item_no`))
+    .map(r => ({ number: r.number as string, vendorName: r.vendor as string, date: r.date as string, item: r.item_no as string, itemName: r.item as string, unit: r.unit as string, price: Number(r.price) }))
+}

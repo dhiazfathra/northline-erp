@@ -1,0 +1,128 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T27: two Harga Pemasok documents for NL-T3-V1 / NL-T4-B1 (15.000 from 1 Jul 2036, 18.000 from 20 Jul 2036). Two earlier zero-price attempts were deleted and do not show.",
+ "prices": [
+  {
+   "number": "VPA.2036.07.00003",
+   "vendor": "NL-T3-V1",
+   "date": "2036-07-01",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "price": 15000
+    }
+   ]
+  },
+  {
+   "number": "VPA.2036.07.00004",
+   "vendor": "NL-T3-V1",
+   "date": "2036-07-20",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "price": 18000
+    }
+   ]
+  }
+ ],
+ "VendorPriceHistoryReport": [
+  {
+   "asOf": "2036-06-30",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "30/06/2036",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Mulai Berlaku",
+     "Tanggal Berakhir",
+     "Pemasok",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ]
+   ]
+  },
+  {
+   "asOf": "2036-07-10",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "10/07/2036",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Mulai Berlaku",
+     "Tanggal Berakhir",
+     "Pemasok",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ],
+    [
+     "NL-T4 Barang A"
+    ],
+    [
+     "01 Jul 2036",
+     "NL-T3 Pemasok A",
+     "IDR",
+     "0",
+     "15.000",
+     "PCS"
+    ]
+   ]
+  },
+  {
+   "asOf": "2036-07-31",
+   "item": "NL-T4-B1",
+   "param": {
+    "asOfDate": "31/07/2036",
+    "selectedItem": [
+     {
+      "id": 350
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Mulai Berlaku",
+     "Tanggal Berakhir",
+     "Pemasok",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ],
+    [
+     "NL-T4 Barang A"
+    ],
+    [
+     "01 Jul 2036",
+     "NL-T3 Pemasok A",
+     "IDR",
+     "0",
+     "15.000",
+     "PCS"
+    ],
+    [
+     "20 Jul 2036",
+     "NL-T3 Pemasok A",
+     "IDR",
+     "15.000",
+     "18.000",
+     "PCS"
+    ]
+   ]
+  }
+ ]
+}
