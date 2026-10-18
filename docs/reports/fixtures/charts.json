@@ -235,5 +235,25 @@
    ]
   }
  },
- "financeChartsNote": "Net worth, liquidity, ROA and ROE use whole-company balances; the test feeds the statement totals Accurate prints (fixtures/financial-ratios.json) and checks the series. Revenue vs expense is fixture-only and is computed from the ERP ledger."
+ "financeChartsNote": "Net worth, liquidity, ROA and ROE use whole-company balances; the test feeds the statement totals Accurate prints (fixtures/financial-ratios.json) and checks the series. Revenue vs expense is fixture-only and is computed from the ERP ledger.",
+ "SalesInvoiceChartReport": {
+  "from": "2033-10-01",
+  "to": "2033-12-31",
+  "param": {
+   "startDate": "01/10/2033",
+   "endDate": "31/12/2033",
+   "selectedBranch": [
+    {
+     "name": "[Semua Cabang]",
+     "id": null
+    }
+   ]
+  },
+  "image": "captures/charts/SalesInvoiceChartReport-t4.png",
+  "xPoints": [
+   "2033-10-01",
+   "2033-11-01"
+  ],
+  "note": "Unlabeled line; points read at 1-Oct and 1-Nov, y about 160.000 and 147.000 (gridlines every 1.000). Backing labeled series: AnnualSalesChartReport bars (ADR-0011). December has a return but no invoice: no point."
+ }
 }

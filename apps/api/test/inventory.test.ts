@@ -82,6 +82,10 @@ test('sales charts (series transcribed from Accurate PNGs)', async () => {
   const R = await import('../src/reports/receivables'), { loadSales } = await import('../src/reports/queries')
   const d = await loadSales(f.db)
   expect(R.monthlySalesChart(d, W.from, W.to) as string[][]).toEqual(ch.AnnualSalesChartReport.bars)
+  // Grafik Penjualan (ADR-0011): points on Accurate's x-axis dates, values = the labeled monthly bars above
+  const sc = (ch as any).SalesInvoiceChartReport, pts = R.salesInvoiceChartPoints(d, sc.from, sc.to)
+  expect(pts.map(p => p.date)).toEqual(sc.xPoints)
+  expect(pts.map(p => p.value)).toEqual(ch.AnnualSalesChartReport.bars.map(b => Number(b[1]!.replace(/\./g, '')) * 100))
   expect(R.customerShareChart(d, W.from, W.to)).toEqual(ch.TopSalesCustomerChartReport.legend)
   expect(R.itemShareChart(d, W.from, W.to)).toEqual(ch.TopSalesItemChartReport.legend)
 })

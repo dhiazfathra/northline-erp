@@ -142,7 +142,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderHistorySummaryReport.md) |
 | Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceListReport.md) |
 | Rincian Faktur Penjualan | `SalesInvoiceDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDetailReport.md) |
-| Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [spec](SalesInvoiceChartReport.md) |
+| Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [verified](SalesInvoiceChartReport.md) |
 | Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnListReport.md) |
 | Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnDetailReport.md) |
 | Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDownPaymentDetailReport.md) |

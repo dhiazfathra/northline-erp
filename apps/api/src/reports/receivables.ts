@@ -406,6 +406,16 @@ export function monthlySalesChart(d: SalesData, from: string, to: string): [stri
   return [...m].sort().map(([k, v]) => [`${MON_SHORT[Number(k.slice(5)) - 1]} ${k.slice(0, 4)}`, formatIdr(v)])
 }
 
+/**
+ * Grafik Penjualan (unlabeled line chart, ADR-0011): one point per month with invoices, plotted on the month's first day,
+ * value = that month's sales, the series monthlySalesChart verifies against the labeled Grafik Penjualan Bulanan.
+ */
+export function salesInvoiceChartPoints(d: SalesData, from: string, to: string) {
+  const m = new Map<string, number>()
+  for (const i of d.invoices.filter(i => inRange(i, from, to))) m.set(i.date.slice(0, 7), (m.get(i.date.slice(0, 7)) ?? 0) + i.total)
+  return [...m].sort().map(([k, v]) => ({ date: `${k}-01`, value: v }))
+}
+
 /** Pie legend lines "<name> - <amount> (<pct>%)", largest first, whole-number percentages. */
 function shareLegend(xs: [string, number][]) {
   const total = xs.reduce((s, [, v]) => s + v, 0)

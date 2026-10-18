@@ -1,22 +1,17 @@
 # Grafik Penjualan (`SalesInvoiceChartReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/SalesInvoiceChartReport.json`](captures/SalesInvoiceChartReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. **Status: verified via backing table** (ADR-0011). Fixture: [`fixtures/charts.json`](fixtures/charts.json) (`SalesInvoiceChartReport`),
+image [`captures/charts/SalesInvoiceChartReport-t4.png`](captures/charts/SalesInvoiceChartReport-t4.png).
+ERP: `apps/api/src/reports/receivables.ts` (`salesInvoiceChartPoints`); test: `apps/api/test/inventory.test.ts` ("sales charts").
+Backing labeled series: Grafik Penjualan Bulanan (`AnnualSalesChartReport`, `monthlySalesChart`).
 
 ## Parameters
 
-Date parameter kind: `YEARTODATE`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
+`YEARTODATE` with explicit range: `{"startDate":"01/10/2033","endDate":"31/12/2033","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
+The PNG comes from `runReport(app, id, param, { view: 'xls' })` (xlsx embedding `xl/media/*.png`).
 
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
+## Layout and rules
 
-
-## Layout
-
-View: `chart`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+An unlabeled line chart with a daily x-axis ("2-Oct" ... "1-Nov") and amounts on y. One point per month that has sales
+invoices, plotted on the month's **first day**; value = that month's invoice totals: 160.000 (1 Oct 2033), 147.000
+(1 Nov 2033), the same as the labeled monthly bars. December 2033 has only a sales return and no invoice, so no point.
