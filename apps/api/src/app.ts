@@ -71,12 +71,15 @@ export function createApp(db: Db) {
     .post('/purchases/vendors', async c => { await upsertVendor(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/purchases/invoices', async c => c.json(await createPurchaseInvoice(db, await c.req.json()), 201))
     .post('/purchases/payments', async c => c.json(await createPurchasePayment(db, await c.req.json()), 201))
-    .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging}', async c => {
+    .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month}', async c => {
       const d = await loadPurchases(db), q = c.req.query(), r = c.req.param('report')
-      if (r === 'outstanding' || r === 'aging') { const asOf = balanceSheetQuery.parse(q).asOf; return c.json(r === 'aging' ? P.agingPayable(d, asOf) : P.outstandingPurchases(d, asOf)) }
+      const asOfReports = { outstanding: P.outstandingPurchases, aging: P.agingPayable, 'outstanding-per-vendor': P.outstandingPerVendor, 'aging-detail': P.agingPayableDetail } as const
+      if (r in asOfReports) return c.json(asOfReports[r as keyof typeof asOfReports](d, balanceSheetQuery.parse(q).asOf))
+      if (r === 'per-month') return c.json(P.payablePerMonth(d, z.coerce.number().int().parse(q.year)))
       const { from, to } = trialBalanceQuery.parse(q)
       const fn = { 'invoice-list': R.salesInvoiceList, 'payment-list': R.salesReceiptList, 'ap-ledger': R.arLedger, 'ap-history': R.arHistory, 'vendor-statement': R.customerStatement,
-        'ap-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'by-vendor': P.purchaseByVendor }[r]!
+        'ap-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'by-vendor': P.purchaseByVendor,
+        'by-item': P.purchaseByItem, 'by-item-detail': P.purchaseByItemDetail, 'by-vendor-detail': P.purchaseByVendorDetail, 'payment-detail': P.purchasePaymentDetail, 'invoice-detail': P.purchaseInvoiceDetail }[r]!
       return c.json(fn(d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))

@@ -1,24 +1,5 @@
 # Pembelian per Barang (`PurchaseByItemReport`)
 
-Group: Pembelian. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseByItemReport.json`](captures/PurchaseByItemReport.json), run with default parameters over the sandbox demo data.
+Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-t3.json`](fixtures/purchase-t3.json). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/payables.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nama Barang | Kts (Unit#1) | Pembelian`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Nama Barang` | `Kts (Unit#1)` | `Pembelian`: quantity in the first unit, one row per item purchased in range, `Total Nama Barang`. Item master names.

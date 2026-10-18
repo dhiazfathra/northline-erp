@@ -4,7 +4,7 @@ import { formatIdr } from './trial-balance'
 // Piutang / Penjualan reports over the sales tables; rules in docs/reports/<planId>.md (fixture: fixtures/sales-t2.json).
 
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
-export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[] }
+export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; labels?: Labels }
 

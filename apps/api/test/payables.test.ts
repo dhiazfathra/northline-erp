@@ -40,6 +40,11 @@ const full: [string, (d: R.SalesData) => string[][]][] = [
   ['APLedgerDetailReport', d => R.arLedgerDetail(d, W.from, W.to)],
   ['PurchaseInvoicePaidReport', d => R.salesInvoicePaid(d, W.from, W.to)],
   ['PurchaseByVendorReport', d => P.purchaseByVendor(d, W.from, W.to)],
+  ['PurchaseByItemReport', d => P.purchaseByItem(d, W.from, W.to)],
+  ['PurchaseByItemDetailReport', d => P.purchaseByItemDetail(d, W.from, W.to)],
+  ['PurchaseByVendorDetailReport', d => P.purchaseByVendorDetail(d, W.from, W.to)],
+  ['PurchasePaymentListDetailReport', d => P.purchasePaymentDetail(d, W.from, W.to)],
+  ['PurchaseInvoiceDetailReport', d => P.purchaseInvoiceDetail(d, W.from, W.to)],
 ]
 for (const [p, fn] of full) test(`${p} Jul–Aug 2033`, async () => expect(fn(await loadPurchases(f.db))).toEqual(rep(p)))
 
@@ -63,4 +68,16 @@ test('purchase journals print as Faktur Pembelian / Pembayaran Pembelian, expens
 
 test('duplicate vendor bill number is rejected', async () => {
   await expect(createPurchaseInvoice(f.db, { idempotencyKey: 't3-dup-bill', vendor: 'NL-T3-V1', bill: 'NL-T3-P1', date: '2033-09-01', lines: [{ item: 'NL-T2-S1', qty: 1, price: 1 }] })).rejects.toThrow('sudah ada')
+})
+
+test('OutstandingPurchaseInvoicePerVendorReport (header + NL-T3 row)', async () => {
+  expect(P.outstandingPerVendor(await loadPurchases(f.db), AS_OF).slice(0, 2)).toEqual(rep('OutstandingPurchaseInvoicePerVendorReport').slice(0, 2))
+})
+
+test('AgingPayableDetailReport (NL-T3 block)', async () => {
+  expect(P.agingPayableDetail(await loadPurchases(f.db), AS_OF)).toEqual(rep('AgingPayableDetailReport').slice(0, 6))
+})
+
+test('VendorPayablePerMonthReport per 2033', async () => {
+  expect(P.payablePerMonth(await loadPurchases(f.db), 2033)).toEqual(rep('VendorPayablePerMonthReport').filter(r => r[0] !== 'per 2033'))
 })

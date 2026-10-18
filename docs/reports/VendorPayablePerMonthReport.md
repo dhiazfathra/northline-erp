@@ -1,21 +1,5 @@
 # Utang per Bulan (`VendorPayablePerMonthReport`)
 
-Group: Utang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/VendorPayablePerMonthReport.json`](captures/VendorPayablePerMonthReport.json), run with default parameters over the sandbox demo data.
+Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-t3.json`](fixtures/purchase-t3.json). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/payables.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOFYEAR`; request param used: `{"asOfYear":2026}`.
-
-
-
-## Layout
-
-View: `report`. Header lines: "per 2026".
-
-
-First table row (columns): `Nama Pemasok | Saldo Awal | Januari | Februari | Maret | April | Mei | Juni | Juli | Agustus | September | Oktober | November | Desember | Saldo Akhir`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfYear`. Columns `Nama Pemasok` | `Saldo Awal` | Januari … Desember | `Saldo Akhir`; currency line. Vendors with a movement in the year only (sandbox vendors with old balances but no movement are absent). Months = invoices − payments; Saldo Akhir = awal + months. Last row: column totals.

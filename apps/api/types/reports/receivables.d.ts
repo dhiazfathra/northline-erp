@@ -13,7 +13,8 @@ export interface Invoice {
     dueDate: string;
     description: string;
     total: number;
-    lines?: InvoiceLine[];
+    lines?: InvoiceLine[]; /** vendor's own number (purchases) */
+    bill?: string;
 }
 export interface Receipt {
     number: string;
@@ -68,7 +69,8 @@ export declare function openInvoices(d: SalesData, asOf: string, customer: strin
     dueDate: string;
     description: string;
     total: number;
-    lines?: InvoiceLine[];
+    lines?: InvoiceLine[]; /** vendor's own number (purchases) */
+    bill?: string;
     owing: number;
     age: number;
 }[];

@@ -5,3 +5,19 @@ export declare function outstandingPurchases(d: SalesData, asOf: string): string
 export declare function agingPayable(d: SalesData, asOf: string): string[][];
 /** Pembelian per Pemasok */
 export declare function purchaseByVendor(d: SalesData, from: string, to: string): string[][];
+/** Faktur Belum Lunas per Pemasok */
+export declare function outstandingPerVendor(d: SalesData, asOf: string): string[][];
+/** Rincian Umur Utang: the per-vendor subtotal prints the owing and the first five buckets (no "> 120" cell). */
+export declare function agingPayableDetail(d: SalesData, asOf: string): string[][];
+/** Pembelian per Barang */
+export declare function purchaseByItem(d: SalesData, from: string, to: string): string[][];
+/** Rincian Pembelian per Barang: no subtotal rows. */
+export declare function purchaseByItemDetail(d: SalesData, from: string, to: string): string[][];
+/** Rincian Pembelian per Pemasok */
+export declare function purchaseByVendorDetail(d: SalesData, from: string, to: string): string[][];
+/** Rincian Pembayaran Pembelian: per payment; invoices are identified by the vendor's bill number; method "Tunai". */
+export declare function purchasePaymentDetail(d: SalesData, from: string, to: string): string[][];
+/** Utang per Bulan: opening before the year, net change per month (invoices − payments), closing; totals row. */
+export declare function payablePerMonth(d: SalesData, year: number): string[][];
+/** Rincian Faktur Pembelian */
+export declare function purchaseInvoiceDetail(d: SalesData, from: string, to: string): string[][];

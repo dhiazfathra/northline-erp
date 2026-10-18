@@ -1,24 +1,5 @@
 # Faktur Belum Lunas per Pemasok (`OutstandingPurchaseInvoicePerVendorReport`)
 
-Group: Utang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/OutstandingPurchaseInvoicePerVendorReport.json`](captures/OutstandingPurchaseInvoicePerVendorReport.json), run with default parameters over the sandbox demo data.
+Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-t3.json`](fixtures/purchase-t3.json). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/payables.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `crosstab`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Mata Uang | Pemasok | Total | Utang | Utang Pajak`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`. Columns `Mata Uang` | `Pemasok` | `Total` | `Utang` | `Utang Pajak`: one row per vendor with open invoices (currency on the first row), `Total Pemasok`, `Total Mata Uang`.
