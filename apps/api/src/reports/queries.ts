@@ -3,6 +3,7 @@ import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/le
 import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, profitLoss } from './financial-statements'
+import { ownerEquityChange, retainedEarnings } from './equity'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
@@ -59,4 +60,14 @@ export async function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalan
     case 'detail': return glDetail(accounts, balances, settings, journals, q.from, q.to)
     case 'account-journal-detail': return journalDetailList(accounts, balances, settings, journals, q.from, q.to)
   }
+}
+
+export async function queryRetainedEarnings(db: Db, year: number) {
+  const { accounts, balances, settings } = await loadLedger(db, `${year}-12-31`)
+  return retainedEarnings(accounts, balances, settings, year)
+}
+
+export async function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery) {
+  const { accounts, balances, settings } = await loadLedger(db, q.to)
+  return ownerEquityChange(accounts, balances, settings, q.from, q.to)
 }

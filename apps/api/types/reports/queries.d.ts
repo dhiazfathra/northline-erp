@@ -16,3 +16,5 @@ export declare function queryProfitLoss(db: Db, q: TrialBalanceQuery): Promise<i
 export declare function queryBalanceSheet(db: Db, q: BalanceSheetQuery): Promise<import("./financial-statements").StatementLine[]>;
 export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail' | 'account-journal-detail' | 'account-list';
 export declare function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]>;
+export declare function queryRetainedEarnings(db: Db, year: number): Promise<string[][]>;
+export declare function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery): Promise<string[][]>;

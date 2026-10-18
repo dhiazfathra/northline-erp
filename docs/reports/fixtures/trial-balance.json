@@ -164,6 +164,63 @@
      "memo": "NL-T1-J6"
     }
    ]
+  },
+  {
+   "ref": "NL-T1-J7",
+   "date": "2032-03-10",
+   "description": "NL-T1 tambahan modal",
+   "lines": [
+    {
+     "account": "NL-T1-1101",
+     "side": "DEBIT",
+     "amount": 4000000,
+     "memo": "NL-T1-J7"
+    },
+    {
+     "account": "NL-T1-3001",
+     "side": "CREDIT",
+     "amount": 4000000,
+     "memo": "NL-T1-J7"
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J8",
+   "date": "2032-03-20",
+   "description": "NL-T1 penarikan modal",
+   "lines": [
+    {
+     "account": "NL-T1-3001",
+     "side": "DEBIT",
+     "amount": 500000,
+     "memo": "NL-T1-J8"
+    },
+    {
+     "account": "NL-T1-1101",
+     "side": "CREDIT",
+     "amount": 500000,
+     "memo": "NL-T1-J8"
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J9",
+   "date": "2032-03-25",
+   "description": "NL-T1 pendapatan 2032",
+   "lines": [
+    {
+     "account": "NL-T1-1101",
+     "side": "DEBIT",
+     "amount": 750000,
+     "memo": "NL-T1-J9"
+    },
+    {
+     "account": "NL-T1-4001",
+     "side": "CREDIT",
+     "amount": 750000,
+     "memo": "NL-T1-J9"
+    }
+   ]
   }
  ],
  "retainedEarningsDelta": {

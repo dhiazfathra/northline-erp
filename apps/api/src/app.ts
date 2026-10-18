@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { ZodError } from 'zod'
+import { z, ZodError } from 'zod'
 import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-es'
 import type { Db } from './db'
 import { authRoutes, requireSession, type AuthEnv } from './auth'
@@ -8,7 +8,7 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryBalanceSheet, queryGeneralLedger, queryProfitLoss, queryTrialBalance, type GlReport } from './reports/queries'
+import { queryBalanceSheet, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -36,6 +36,8 @@ export function createApp(db: Db) {
     .get('/reports/profit-loss', async c => c.json(await queryProfitLoss(db, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/general-ledger/:report{journal-list|all-journals|history|summary|detail|account-journal-detail|account-list}', async c =>
       c.json(await queryGeneralLedger(db, c.req.param('report') as GlReport, trialBalanceQuery.parse(c.req.query()))))
+    .get('/reports/retained-earnings', async c => c.json(await queryRetainedEarnings(db, z.coerce.number().int().min(1900).max(9999).parse(c.req.query('year')))))
+    .get('/reports/owner-equity-change', async c => c.json(await queryOwnerEquityChange(db, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().route('/api', api).get('*', serveSpa)

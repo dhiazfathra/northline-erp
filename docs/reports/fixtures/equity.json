@@ -1,0 +1,247 @@
+{
+ "source": "Accurate Online v1.0.1#4970, sandbox, captured 2026-10-18; journals J1..J9 in trial-balance.json",
+ "offsets": {
+  "note": "sandbox balances unrelated to the fixture, subtracted from Accurate values that include them",
+  "retainedEarningsNatural": -34002596,
+  "otherEquityNatural": 124907404,
+  "otherEquityNote": "total equity outside the fixture (137.907.404 at 2030-12-31 minus fixture 13.000.000), retained earnings included"
+ },
+ "RetainedEarningReport": {
+  "y2031": {
+   "asOfYear": 2031,
+   "rows": [
+    [
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Laba ditahan tahun 2030",
+     "-31.002.596"
+    ],
+    [
+     "Laba Bersih Tahun ini"
+    ],
+    [
+     "Januari",
+     "-1.250.000,5"
+    ],
+    [
+     "Februari",
+     "1.000.000"
+    ],
+    [
+     "Maret",
+     "0"
+    ],
+    [
+     "April",
+     "0"
+    ],
+    [
+     "Mei",
+     "0"
+    ],
+    [
+     "Juni",
+     "0"
+    ],
+    [
+     "Juli",
+     "0"
+    ],
+    [
+     "Agustus",
+     "0"
+    ],
+    [
+     "September",
+     "0"
+    ],
+    [
+     "Oktober",
+     "0"
+    ],
+    [
+     "November",
+     "0"
+    ],
+    [
+     "Desember",
+     "0"
+    ],
+    [
+     "Total Laba Bersih Tahun ini",
+     "-250.000,5"
+    ],
+    [
+     "Perubahan Saldo Transaksi pada Akun Laba Ditahan Tahun 2031",
+     "0"
+    ],
+    [
+     "Peningkatan/Penurunan Laba Ditahan Tahun 2031",
+     "-250.000,5"
+    ],
+    [
+     "Laba ditahan tahun 2031",
+     "-31.252.596,5"
+    ]
+   ]
+  },
+  "y2032": {
+   "asOfYear": 2032,
+   "rows": [
+    [
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Laba ditahan tahun 2031",
+     "-31.252.596,5"
+    ],
+    [
+     "Laba Bersih Tahun ini"
+    ],
+    [
+     "Januari",
+     "0"
+    ],
+    [
+     "Februari",
+     "0"
+    ],
+    [
+     "Maret",
+     "750.000"
+    ],
+    [
+     "April",
+     "0"
+    ],
+    [
+     "Mei",
+     "0"
+    ],
+    [
+     "Juni",
+     "0"
+    ],
+    [
+     "Juli",
+     "0"
+    ],
+    [
+     "Agustus",
+     "0"
+    ],
+    [
+     "September",
+     "0"
+    ],
+    [
+     "Oktober",
+     "0"
+    ],
+    [
+     "November",
+     "0"
+    ],
+    [
+     "Desember",
+     "0"
+    ],
+    [
+     "Total Laba Bersih Tahun ini",
+     "750.000"
+    ],
+    [
+     "Perubahan Saldo Transaksi pada Akun Laba Ditahan Tahun 2032",
+     "0"
+    ],
+    [
+     "Peningkatan/Penurunan Laba Ditahan Tahun 2032",
+     "750.000"
+    ],
+    [
+     "Laba ditahan tahun 2032",
+     "-30.502.596,5"
+    ]
+   ]
+  }
+ },
+ "OwnerEquityChangedReport": {
+  "janfeb31": {
+   "from": "2031-01-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Ekuitas pemilik awal periode",
+     "137.907.404"
+    ],
+    [
+     "Penambahan Ekuitas Pemilik"
+    ],
+    [
+     "Pendapatan Bersih",
+     "-250.000,5"
+    ],
+    [
+     "Investasi Kurun Periode",
+     "0"
+    ],
+    [
+     "Penarikan",
+     "0"
+    ],
+    [
+     "Total Penambahan Ekuitas Pemilik",
+     "-250.000,5"
+    ],
+    [
+     "Ekuitas Pemilik Akhir Periode",
+     "137.657.403,5"
+    ]
+   ]
+  },
+  "mar32": {
+   "from": "2032-03-01",
+   "to": "2032-03-31",
+   "rows": [
+    [
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Ekuitas pemilik awal periode",
+     "137.657.403,5"
+    ],
+    [
+     "Penambahan Ekuitas Pemilik"
+    ],
+    [
+     "Pendapatan Bersih",
+     "750.000"
+    ],
+    [
+     "Investasi Kurun Periode",
+     "4.000.000"
+    ],
+    [
+     "Penarikan",
+     "500.000"
+    ],
+    [
+     "Total Penambahan Ekuitas Pemilik",
+     "4.250.000"
+    ],
+    [
+     "Ekuitas Pemilik Akhir Periode",
+     "141.907.403,5"
+    ]
+   ]
+  }
+ }
+}
