@@ -42,7 +42,7 @@ export type ModuleGroup = z.infer<typeof moduleGroupSchema>
 export const overviewSchema = z.object({
   kpis: z.array(kpiSchema),
   cards: z.array(reviewCardSchema),
-  lowTabs: z.array(z.object({ name: t, count: z.number() })),
+  lowTabs: z.array(z.object({ name: t, count: z.number().optional() })),
   groups: z.array(moduleGroupSchema),
 })
 export type Overview = z.infer<typeof overviewSchema>

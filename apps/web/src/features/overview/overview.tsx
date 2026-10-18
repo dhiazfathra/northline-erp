@@ -10,17 +10,20 @@ import { cn } from '@/lib/utils'
 import { RecordDrawer } from './drawer'
 import { NewTxModal } from './new-tx-modal'
 
+// Reference quick actions: it renders these untranslated in ID too; Permintaan pembelian has no screen, so it opens the generic Item Requests list.
 const actions = [
-  { name: { id: 'Faktur Penjualan', en: 'Sales Invoice' }, to: '/docs/sales-invoice' },
-  { name: { id: 'Penerimaan', en: 'Receipt' }, to: '/docs/cash-receipt' },
-  { name: { id: 'Pembayaran', en: 'Payment' }, to: '/docs/cash-payment' },
-  { name: { id: 'Faktur Pembelian', en: 'Purchase Invoice' }, to: '/docs/purchase-invoice' },
-  { name: { id: 'Jurnal Umum', en: 'Journal' }, to: '/docs/journal' },
+  { name: { id: 'Quote', en: 'Quote' }, to: '/docs/sales-quotation' },
+  { name: { id: 'Order', en: 'Order' }, to: '/docs/sales-order' },
+  { name: { id: 'Invoice', en: 'Invoice' }, to: '/docs/sales-invoice' },
+  { name: { id: 'Purchase request', en: 'Purchase request' }, to: '/modules/item-requests' },
+  { name: { id: 'Purchase order', en: 'Purchase order' }, to: '/docs/purchase-order' },
 ]
-const months = {
-  id: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-}
+const periods = [
+  { id: 'Hari ini', en: 'Today' },
+  { id: '7 hari terakhir', en: 'Past 7 days' },
+  { id: '30 hari terakhir', en: 'Past 30 days' },
+  { id: 'Kuartal ini', en: 'This quarter' },
+]
 const PER_PAGE = 2
 // reference "rb" glow over glass card: first card glows top-right, second bottom-left
 const rb = (at: string) =>
@@ -77,9 +80,9 @@ export function OverviewScreen() {
   const enabled = useEnabledFeatures()
   const t = useT()
   const navigate = useNavigate()
-  const [month, setMonth] = useState(9) // Okt 2026
-  const period = `${months[lang][month]} 2026`
-  const { data } = useOverview(`2026-${month + 1}`)
+  const [per, setPer] = useState(1) // reference default: Past 7 days
+  const period = periods[per][lang]
+  const { data } = useOverview(periods[per].en)
   const [kpiPage, setKpiPage] = useState(0)
   const [lowTab, setLowTab] = useState(0)
   const [compact, setCompact] = useState(false)
@@ -169,9 +172,12 @@ export function OverviewScreen() {
               key={l.name.en}
               type="button"
               className={cn('flex flex-none cursor-pointer gap-[6px] whitespace-nowrap rounded-[20px] px-[16px] py-[10px] text-[12px]', i === lowTab ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.08)]')}
-              onClick={() => setLowTab(i)}
+              onClick={() => {
+                setLowTab(i)
+                if (l.count === undefined) showToast(t({ id: 'Asisten sedang menyusun ringkasan…', en: 'Assistant is drafting a summary…' }))
+              }}
             >
-              <b className="font-semibold">{l.count}</b>
+              {l.count !== undefined && <b className="font-semibold">{l.count}</b>}
               {t(l.name)}
             </button>
           ))}
@@ -181,11 +187,11 @@ export function OverviewScreen() {
               isMobile ? 'flex-1' : isDesktop ? 'ml-[300px] w-[200px] flex-none' : 'ml-auto w-[200px] flex-none',
             )}
           >
-            <button type="button" className="cursor-pointer" onClick={() => setMonth((m) => Math.max(0, m - 1))}>
+            <button type="button" className="cursor-pointer" onClick={() => setPer((p) => (p + 3) % 4)}>
               ‹
             </button>
             {period}
-            <button type="button" className="cursor-pointer" onClick={() => setMonth((m) => Math.min(11, m + 1))}>
+            <button type="button" className="cursor-pointer" onClick={() => setPer((p) => (p + 1) % 4)}>
               ›
             </button>
           </span>

@@ -1,7 +1,6 @@
 import { customers, idr, items, journals, profitAndLoss, taxes, vendors } from '@northline/schemas/fixtures'
 import type { DrawerRecord, ListRow, NewTxInput, Overview } from '@northline/schemas/overview'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { modules } from '@/lib/nav'
 import { mock } from './mock'
 
 // Dashboard scope per design board: scenarios S0+S1+S3.
@@ -30,15 +29,15 @@ const si2 = journals.find((j) => j.no === 'SI.2026.10.00002')!
 
 const overview: Overview = {
   kpis: [
-    { label: { id: 'Pendapatan', en: 'Revenue' }, value: idr(pl.revenue), delta: NO_DELTA, cols: cols(1), to: '/reports' },
-    { label: { id: 'Piutang jatuh tempo', en: 'Receivables due' }, value: idr(receivable), delta: NO_DELTA, cols: cols(2), to: '/docs/sales-invoice' },
-    { label: { id: 'Laba Kotor', en: 'Gross profit' }, value: idr(pl.grossProfit), delta: NO_DELTA, cols: cols(3), to: '/reports' },
-    { label: { id: 'Utang', en: 'Payables' }, value: idr(payable), delta: NO_DELTA, cols: cols(4), to: '/docs/purchase-invoice' },
+    { label: { id: 'Pendapatan bulan ini', en: 'Revenue this month' }, value: idr(pl.revenue), delta: NO_DELTA, cols: cols(1), to: '/reports' },
+    { label: { id: 'Piutang jatuh tempo', en: 'Overdue receivables' }, value: idr(receivable), delta: NO_DELTA, cols: cols(2), to: '/docs/sales-invoice' },
+    { label: { id: 'Margin kotor', en: 'Gross margin' }, value: idr(pl.grossProfit), delta: NO_DELTA, cols: cols(3), to: '/reports' },
+    { label: { id: 'Utang berjalan', en: 'Open payables' }, value: idr(payable), delta: NO_DELTA, cols: cols(4), to: '/docs/purchase-invoice' },
   ],
   cards: [
     {
       id: 'si2',
-      title: { id: 'Faktur belum lunas', en: 'Unpaid invoice' },
+      title: { id: 'Sinyal', en: 'Signals' },
       text: { id: `${si2.no} senilai ${idr(1_400_000)} belum lunas`, en: `${si2.no} for ${idr(1_400_000)} is unpaid` },
       bg: 'radial-gradient(60% 70% at 20% 20%,#ec4899,transparent 70%),radial-gradient(60% 70% at 90% 80%,#a855f7,transparent 70%),#3b0764',
       record: rec(['Faktur Penjualan', 'Sales Invoice'], si2.no, idr(1_400_000), ['Belum lunas', 'Unpaid'], [
@@ -50,7 +49,7 @@ const overview: Overview = {
     },
     {
       id: 'recon',
-      title: { id: 'Rekonsiliasi bank', en: 'Bank reconciliation' },
+      title: { id: 'Daftar pantau', en: 'Watchlist' },
       text: { id: 'Rekonsiliasi Bank Uji Oktober 2026 belum dilakukan', en: 'Bank Uji reconciliation for October 2026 is pending' },
       bg: 'radial-gradient(60% 70% at 80% 20%,#38bdf8,transparent 70%),radial-gradient(60% 70% at 10% 90%,#f59e0b,transparent 70%),#0c4a6e',
       record: rec(['Kas & Bank', 'Cash & Bank'], '1101 · Bank Uji', idr(bal.get('1101') ?? 0), ['Saldo buku · rekonsiliasi tertunda', 'Book balance · reconciliation pending'], [
@@ -62,8 +61,9 @@ const overview: Overview = {
     },
   ],
   lowTabs: [
-    { name: { id: 'Modul', en: 'Modules' }, count: modules.length },
-    { name: { id: 'Perlu ditinjau', en: 'Needs review' }, count: 2 },
+    // No task store in the app yet: reference demo count.
+    { name: { id: 'Tugas', en: 'Tasks' }, count: 36 },
+    { name: { id: 'Asisten', en: 'Assistant' } },
   ],
   // Reference overview groups (Selling / Buying / Payments) with its tile values.
   groups: (
