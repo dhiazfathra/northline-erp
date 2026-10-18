@@ -2,7 +2,7 @@
 
 Group: Pekerjaan Pesanan. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/JobCostingByMonthReport.json`](captures/retail/JobCostingByMonthReport.json).
 
-Status: blocked: requires Job Costing (out of scope, ADR-0010). Fixture: [`fixtures/retail/JobCostingByMonthReport.json`](fixtures/retail/JobCostingByMonthReport.json) (Retail Demo).
+Status: **verified** (zero diff on the Retail Demo 2047 seed, full year and January only; ADR-0026). Fixture: [`fixtures/retail/jobcosting-rg.json`](fixtures/retail/jobcosting-rg.json). ERP: `jobCostingByMonth` in `apps/api/src/reports/job-costing.ts`; test: `apps/api/test/job-costing.test.ts`.
 
 ## Purpose
 
@@ -32,6 +32,13 @@ Title lines: `Bahan dan Biaya Pekerjaan per Bulan`, `Dari 01 Jan 2000 s/d 31 Des
 - Month totals equal the debit to `Persediaan Dalam Proses` in [JobCostingJournalDetailReport](JobCostingJournalDetailReport.md): Dec 6,486,947.11, Jan 635,720,816.89 (checked).
 
 ## Verified / unverified
+
+NL-RG seed (2047, fixture above):
+- Expense lines of a job order count as rows of their own, named by the expense name (`NL-RG Ongkos Kerja`), quantity 1 each (checked: 2 jobs give Kuantitas 2, 22,500).
+- Rows sort by name; rows are dated by the job order date (materials are issued on the job order).
+- Month columns run oldest first on the NL-RG seed (`Jan 2047`, `Feb 2047`); the demo capture prints `Jan 2017` before `Des 2016`. Why the demo order differs is unverified; the ERP prints oldest first.
+
+Demo capture:
 
 - Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
 - Unverified: months with no data (omitted or zero), costs of non-inventory expense items (none in data).

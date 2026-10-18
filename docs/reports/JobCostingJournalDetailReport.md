@@ -2,7 +2,7 @@
 
 Group: Pekerjaan Pesanan. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/JobCostingJournalDetailReport.json`](captures/retail/JobCostingJournalDetailReport.json).
 
-Status: blocked: requires Job Costing (out of scope, ADR-0010). Fixture: [`fixtures/retail/JobCostingJournalDetailReport.json`](fixtures/retail/JobCostingJournalDetailReport.json) (Retail Demo).
+Status: **verified** (zero diff on the NL-RG job orders of the Retail Demo 2047 seed; the report has no parameter and also prints the demo job orders, compared per ADR-0013; ADR-0026). Fixture: [`fixtures/retail/jobcosting-rg.json`](fixtures/retail/jobcosting-rg.json). ERP: `jobCostingJournalDetail` in `apps/api/src/reports/job-costing.ts`; test: `apps/api/test/job-costing.test.ts`.
 
 ## Purpose
 
@@ -30,6 +30,13 @@ Title lines: `Rincian Jurnal Pekerjaan Pesanan`, `Tanggal : 07 Des 2016 Keterang
 - Only the material-issue journal is shown here; the finished-goods journal (`Penyelesaian Pesanan`) is not in this report (unverified).
 
 ## Verified / unverified
+
+NL-RG seed (2047, fixture above):
+- Journal: debit WIP (115.000-98) with the job total, credit one line per inventory account (materials merged), then the expense accounts (checked: 115.000-01 40,000, 511.000-04 15,000).
+- The `Keterangan` cell repeats the job order description on every line (empty in the demo, so omitted there).
+- A block split by a page break repeats `Tanggal`, `Nomor #` and the column header, not the `Pekerjaan Pesanan` sub-heading; the test joins it back.
+
+Demo capture:
 
 - Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
 - Unverified: journals for completion, labor/overhead.

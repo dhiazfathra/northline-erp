@@ -272,6 +272,10 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [out of scope](JobOrderListReport.md) |
 | Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [out of scope](RollOverListReport.md) |
 | Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [out of scope](MaterialAdjustmentListReport.md) |
+| Bahan dan Biaya Pekerjaan per Bulan | `JobCostingByMonthReport` | crosstab | FROMTO | selectedBranch=[Semua Cabang] | [verified](JobCostingByMonthReport.md) |
+| Histori Pekerjaan Pesanan | `JobCostingHistoryDetailReport` | report | FROMTO | selectedBranch=[Semua Cabang] | [verified](JobCostingHistoryDetailReport.md) |
+| Penyelesaian Barang/Biaya per Bulan | `FinishedJobCostByMonth` | crosstab | FROMTO | selectedBranch=[Semua Cabang] | [verified](FinishedJobCostByMonth.md) |
+| Rincian Jurnal Pekerjaan Pesanan | `JobCostingJournalDetailReport` | report | NONE | — | [verified](JobCostingJournalDetailReport.md) |
 
 ## Manufaktur (FABRICATION)
 
