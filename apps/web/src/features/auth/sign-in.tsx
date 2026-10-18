@@ -1,4 +1,5 @@
 import { signInSchema, type SignInInput } from '@northline/schemas/auth'
+import { api } from '@/api/client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -19,6 +20,7 @@ const tx = {
   badEmail: { id: 'Masukkan email yang valid', en: 'Enter a valid email' },
   badPw: { id: 'Minimal 8 karakter', en: 'At least 8 characters' },
   btn: { id: 'Masuk', en: 'Sign in' },
+  failed: { id: 'Email atau kata sandi salah', en: 'Wrong email or password' },
 }
 
 export function SignIn() {
@@ -28,8 +30,12 @@ export function SignIn() {
   const [showPw, setShowPw] = useState(false)
   const { register, handleSubmit, formState } = useForm<SignInInput>({ resolver: zodResolver(signInSchema), defaultValues: { email: '', password: '' } })
   const { errors, isSubmitting } = formState
-  // shortcut: no auth backend yet; any valid credentials go straight to the tenant picker.
-  const onSubmit = () => navigate({ to: '/workspaces' })
+  // The API sets an httpOnly SameSite=Strict session cookie; nothing auth-related is readable from JS.
+  const onSubmit = async (v: SignInInput) => {
+    const res = await api.auth.login.$post({ json: v })
+    if (!res.ok) return showToast(t(tx.failed))
+    navigate({ to: '/workspaces' })
+  }
 
   const fields = [
     { k: 'email' as const, label: t(tx.email), type: 'email', ph: 'nama@perusahaan.co.id', ac: 'email', err: errors.email && t(tx.badEmail) },

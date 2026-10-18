@@ -1,0 +1,39 @@
+import { type MiddlewareHandler } from 'hono';
+import type { Db } from './db';
+export declare function createUser(db: Db, email: string, password: string): Promise<void>;
+export type AuthEnv = {
+    Variables: {
+        userId: number;
+    };
+};
+export declare function authRoutes(db: Db): import("hono/hono-base").HonoBase<AuthEnv, {
+    "/login": {
+        $post: {
+            output: {
+                error: string;
+            };
+            outputFormat: "json";
+            status: 401;
+            input: {};
+        } | {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+} & {
+    "/logout": {
+        $post: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}, "/", "/logout">;
+export declare const requireSession: (db: Db) => MiddlewareHandler<AuthEnv>;

@@ -1,0 +1,18 @@
+import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/ledger-es';
+import type { Db } from '../db';
+export declare function queryTrialBalance(db: Db, q: TrialBalanceQuery): Promise<{
+    no: string;
+    name: string;
+    depth: number;
+    isParent: boolean;
+    openingDebit: number;
+    openingCredit: number;
+    debit: number;
+    credit: number;
+    closingDebit: number;
+    closingCredit: number;
+}[]>;
+export declare function queryProfitLoss(db: Db, q: TrialBalanceQuery): Promise<import("./financial-statements").StatementLine[]>;
+export declare function queryBalanceSheet(db: Db, q: BalanceSheetQuery): Promise<import("./financial-statements").StatementLine[]>;
+export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail' | 'account-journal-detail' | 'account-list';
+export declare function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]>;

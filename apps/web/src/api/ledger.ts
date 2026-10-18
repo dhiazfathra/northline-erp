@@ -1,33 +1,25 @@
 import type { Bank, DefaultAccount, Feature, MonthEndRun, TbAccount } from '@northline/schemas/ledger'
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
-import { accounts, balances, journals, leafAccounts, parseDate } from '@northline/schemas/fixtures'
+import { accounts, balances, journals } from '@northline/schemas/fixtures'
+import { api } from './client'
 import { mock } from './mock'
 
 export const TB_FROM = '01/09/2026'
 export const TB_TO = '17/10/2026'
 
-// Leaf accounts over the period; opening = everything before TB_FROM.
-function trialBalance(): TbAccount[] {
-  const from = parseDate(TB_FROM)
-  const to = parseDate(TB_TO)
-  const before = balances('01/01/2000', '31/08/2026')
-  return leafAccounts.map((a) => {
-    let debit = 0
-    let credit = 0
-    for (const j of journals) {
-      const t = parseDate(j.date)
-      if (t < from || t > to) continue
-      for (const l of j.lines)
-        if (l.account === a.code) {
-          debit += l.debit
-          credit += l.credit
-        }
-    }
-    return { code: a.code, name: a.name, opening: before.get(a.code) ?? 0, debit, credit }
-  })
-}
+const iso = (d: string) => d.split('/').reverse().join('-')
 
-export const trialBalanceQuery = queryOptions({ queryKey: ['ledger', 'trial-balance'], queryFn: () => mock(trialBalance()) })
+// Leaf rows from the ledger API (cents → rupiah); opening keeps its sign, positive = debit.
+export const trialBalanceQuery = queryOptions({
+  queryKey: ['ledger', 'trial-balance', TB_FROM, TB_TO],
+  queryFn: async (): Promise<TbAccount[]> => {
+    const res = await api.reports['trial-balance'].$get({ query: { from: iso(TB_FROM), to: iso(TB_TO), showParentAccount: 'false' } })
+    if (!res.ok) throw new Error(`Neraca Percobaan gagal dimuat (${res.status})`)
+    return (await res.json()).map((r) => ({
+      code: r.no, name: r.name, opening: (r.openingDebit - r.openingCredit) / 100, debit: r.debit / 100, credit: r.credit / 100,
+    }))
+  },
+})
 
 // Reconciliation pairs each journal line on a Kas & Bank leaf with the bank statement.
 const banks: Bank[] = ['1101', '1102', '1103'].map((code) => {

@@ -6,5 +6,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [tanstackRouter({ target: 'react', autoCodeSplitting: true }), react(), tailwindcss()],
+  // dev: the API (apps/api, --role=all) serves /api; production serves both from one binary
+  server: { proxy: { '/api': 'http://localhost:3000' } },
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
 })

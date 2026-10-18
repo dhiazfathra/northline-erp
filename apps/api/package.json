@@ -6,9 +6,10 @@
     "dev": "bun --watch src/main.ts --role=all",
     "start": "bun src/main.ts",
     "test": "bun test",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.types.json",
     "build": "pnpm --filter web build && bun scripts/embed-spa.ts && bun build src/main.ts --compile --outfile dist/northline-api && git checkout src/spa.generated.ts",
-    "create-user": "bun src/main.ts create-user"
+    "create-user": "bun src/main.ts create-user",
+    "types": "tsc -p tsconfig.types.json"
   },
   "dependencies": {
     "@northline/schemas": "workspace:*",
