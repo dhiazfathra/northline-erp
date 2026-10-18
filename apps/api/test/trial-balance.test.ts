@@ -176,3 +176,48 @@ test('GlAccountListReport (Daftar Akun Perkiraan) feb', async () => {
   // Sandbox Laba Ditahan carries unrelated history (34.002.596 D); ours only the fixture's closed-year income.
   expect(rows.filter(r => /^NL-T1|^300002$/.test(r[0]!))).toEqual(e.rows.map(r => (r[0] === '300002' ? ['300002', 'Laba Ditahan', 'Modal', '3.000.000'] : r)))
 })
+
+describe('Keuangan multi-column variants match Accurate', async () => {
+  const fs = (await import('../../../docs/reports/fixtures/financial-statements.json')).default
+  const F = await import('../src/reports/financial-statements')
+  const { sql: q } = await import('drizzle-orm')
+  const o = { showZeroBalance: false, showParentAccount: true }
+  const load = async () => {
+    const accounts = (await db.execute(q`SELECT no, name, type, parent_no FROM accounts`)).map(r => ({ no: r.no as string, name: r.name as string, type: r.type as any, parentNo: (r.parent_no as string) ?? null }))
+    // only the six fixture journals (later tests post more from March 2031 on)
+    const balances = (await db.execute(q`SELECT account_no, to_char(date,'YYYY-MM-DD') AS date, debit, credit FROM account_daily_balances WHERE date <= '2031-02-28'`))
+      .map(r => ({ account: r.account_no as string, date: r.date as string, debit: Number(r.debit), credit: Number(r.credit) }))
+    return { accounts, balances, settings: { retainedEarningsAccount: RE, fiscalYearStartMonth: 1 } }
+  }
+
+  test('Laba/Rugi (Multi Periode) Des 2030 – Feb 2031', async () => {
+    const { accounts, balances } = await load()
+    const ms = F.months(2030, 12, 2031, 2)
+    const head = ['Deskripsi', ...ms.map(m => `${m.label} (IDR)`), 'Total (IDR)']
+    expect([head, ...F.profitLossColumns(accounts, balances, ms, o).map(F.formatMulti)]).toEqual(fs.ProfitLossMultiPeriodReport.rows)
+  })
+
+  test('Laba/Rugi (Multi Year) per 2031: three fiscal years', async () => {
+    const { accounts, balances } = await load()
+    const ys = [2029, 2030, 2031].map(y => ({ from: `${y}-01-01`, to: `${y}-12-31` }))
+    const head = ['Deskripsi', '2029 (IDR)', '2030 (IDR)', '2031 (IDR)', 'Total (IDR)']
+    expect([head, ...F.profitLossColumns(accounts, balances, ys, o).map(F.formatMulti)]).toEqual(fs.ProfitLossMultiYearReport.rows)
+  })
+
+  test('Laba/Rugi (Perbandingan Periode) Jan vs Feb 2031', async () => {
+    const { accounts, balances } = await load()
+    const p = (from: string, to: string) => F.profitLoss(accounts, balances, from, to, { ...o, showZeroBalance: true })
+    const head = ['Deskripsi', F.periodLabel('2031-01-01', '2031-01-31'), F.periodLabel('2031-02-01', '2031-02-28'), 'Variance', '% Var.']
+    expect([head, ...F.compareColumns(p('2031-01-01', '2031-01-31'), p('2031-02-01', '2031-02-28'), o).map(F.formatMulti)]).toEqual(fs.ProfitLossComparePeriodReport.rows)
+  })
+
+  test('Neraca (Multi Periode) month ends Des 2030 – Feb 2031', async () => {
+    const { accounts, balances, settings } = await load()
+    const ends = F.months(2030, 12, 2031, 2).map(m => m.to)
+    expect(['Deskripsi', ...ends.map(d => `${Number(d.slice(8))} ${F.MONTHS[Number(d.slice(5, 7)) - 1]} ${d.slice(0, 4)} (IDR)`)]).toEqual(fs.BalanceSheetMultiPeriodReport.header)
+    const rows = F.balanceSheetColumns(accounts, balances, settings, ends, o).map(F.formatMulti).filter(r => /^NL-T1|^Laba /.test(r[0]!))
+    // Laba Ditahan: sandbox carries 34.002.596 D of unrelated history
+    const exp = fs.BalanceSheetMultiPeriodReport.rows.map(r => r[0] === 'Laba Ditahan' ? ['Laba Ditahan', '0', '3.000.000', '3.000.000'] : r)
+    expect(rows).toEqual(exp)
+  })
+})

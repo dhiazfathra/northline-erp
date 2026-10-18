@@ -283,5 +283,391 @@
     ]
    ]
   }
+ },
+ "ProfitLossMultiPeriodReport": {
+  "params": {
+   "periodStartMonth": 12,
+   "periodStartYear": 2030,
+   "periodEndMonth": 2,
+   "periodEndYear": 2031
+  },
+  "rows": [
+   [
+    "Deskripsi",
+    "Des 2030 (IDR)",
+    "Jan 2031 (IDR)",
+    "Feb 2031 (IDR)",
+    "Total (IDR)"
+   ],
+   [
+    "PENDAPATAN"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "3.000.000",
+    "0",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "Jumlah Pendapatan",
+    "3.000.000",
+    "0",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "BEBAN POKOK PENJUALAN"
+   ],
+   [
+    "Jumlah Beban Pokok Penjualan",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA KOTOR",
+    "3.000.000",
+    "0",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "BEBAN OPERASIONAL"
+   ],
+   [
+    "NL-T1 Beban",
+    "0",
+    "1.250.000,5",
+    "1.000.000",
+    "2.250.000,5"
+   ],
+   [
+    "Jumlah Beban Operasional",
+    "0",
+    "1.250.000,5",
+    "1.000.000",
+    "2.250.000,5"
+   ],
+   [
+    "PENDAPATAN OPERASIONAL",
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000",
+    "2.749.999,5"
+   ],
+   [
+    "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+   ],
+   [
+    "Pendapatan Non Operasional"
+   ],
+   [
+    "Jumlah Pendapatan Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Beban Non Operasional"
+   ],
+   [
+    "Jumlah Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Jumlah Pendapatan dan Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA BERSIH",
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000",
+    "2.749.999,5"
+   ]
+  ]
+ },
+ "ProfitLossComparePeriodReport": {
+  "params": {
+   "startDate": "2031-01-01",
+   "endDate": "2031-01-31",
+   "startDateCompare": "2031-02-01",
+   "endDateCompare": "2031-02-28"
+  },
+  "rows": [
+   [
+    "Deskripsi",
+    "1 - 31 Jan 2031",
+    "1 - 28 Feb 2031",
+    "Variance",
+    "% Var."
+   ],
+   [
+    "PENDAPATAN"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "0",
+    "2.000.000",
+    "2.000.000",
+    "100 %"
+   ],
+   [
+    "Jumlah Pendapatan",
+    "0",
+    "2.000.000",
+    "2.000.000",
+    "100 %"
+   ],
+   [
+    "BEBAN POKOK PENJUALAN"
+   ],
+   [
+    "Jumlah Beban Pokok Penjualan",
+    "0",
+    "0",
+    "0",
+    "0 %"
+   ],
+   [
+    "LABA KOTOR",
+    "0",
+    "2.000.000",
+    "2.000.000",
+    "100 %"
+   ],
+   [
+    "BEBAN OPERASIONAL"
+   ],
+   [
+    "NL-T1 Beban",
+    "1.250.000,5",
+    "1.000.000",
+    "-250.000,5",
+    "-20 %"
+   ],
+   [
+    "Jumlah Beban Operasional",
+    "1.250.000,5",
+    "1.000.000",
+    "-250.000,5",
+    "-20 %"
+   ],
+   [
+    "PENDAPATAN OPERASIONAL",
+    "-1.250.000,5",
+    "1.000.000",
+    "2.250.000,5",
+    "180 %"
+   ],
+   [
+    "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+   ],
+   [
+    "Pendapatan Non Operasional"
+   ],
+   [
+    "Jumlah Pendapatan Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0 %"
+   ],
+   [
+    "Beban Non Operasional"
+   ],
+   [
+    "Jumlah Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0 %"
+   ],
+   [
+    "Jumlah Pendapatan dan Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0 %"
+   ],
+   [
+    "LABA BERSIH",
+    "-1.250.000,5",
+    "1.000.000",
+    "2.250.000,5",
+    "180 %"
+   ]
+  ]
+ },
+ "ProfitLossMultiYearReport": {
+  "params": {
+   "asOfYear": 2031
+  },
+  "rows": [
+   [
+    "Deskripsi",
+    "2029 (IDR)",
+    "2030 (IDR)",
+    "2031 (IDR)",
+    "Total (IDR)"
+   ],
+   [
+    "PENDAPATAN"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "0",
+    "3.000.000",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "Jumlah Pendapatan",
+    "0",
+    "3.000.000",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "BEBAN POKOK PENJUALAN"
+   ],
+   [
+    "Jumlah Beban Pokok Penjualan",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA KOTOR",
+    "0",
+    "3.000.000",
+    "2.000.000",
+    "5.000.000"
+   ],
+   [
+    "BEBAN OPERASIONAL"
+   ],
+   [
+    "NL-T1 Beban",
+    "0",
+    "0",
+    "2.250.000,5",
+    "2.250.000,5"
+   ],
+   [
+    "Jumlah Beban Operasional",
+    "0",
+    "0",
+    "2.250.000,5",
+    "2.250.000,5"
+   ],
+   [
+    "PENDAPATAN OPERASIONAL",
+    "0",
+    "3.000.000",
+    "-250.000,5",
+    "2.749.999,5"
+   ],
+   [
+    "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+   ],
+   [
+    "Pendapatan Non Operasional"
+   ],
+   [
+    "Jumlah Pendapatan Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Beban Non Operasional"
+   ],
+   [
+    "Jumlah Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Jumlah Pendapatan dan Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA BERSIH",
+    "0",
+    "3.000.000",
+    "-250.000,5",
+    "2.749.999,5"
+   ]
+  ]
+ },
+ "BalanceSheetMultiPeriodReport": {
+  "params": {
+   "periodStartMonth": 12,
+   "periodStartYear": 2030,
+   "periodEndMonth": 2,
+   "periodEndYear": 2031
+  },
+  "note": "compare header, NL-T1 rows and Laba rows (sandbox has other balances)",
+  "header": [
+   "Deskripsi",
+   "31 Des 2030 (IDR)",
+   "31 Jan 2031 (IDR)",
+   "28 Feb 2031 (IDR)"
+  ],
+  "rows": [
+   [
+    "NL-T1 Kas",
+    "13.000.000",
+    "11.749.999,5",
+    "-1.250.000,5"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "0",
+    "0",
+    "15.000.000"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "0",
+    "0",
+    "1.000.000"
+   ],
+   [
+    "Laba Ditahan",
+    "-34.002.596",
+    "-31.002.596",
+    "-31.002.596"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000",
+    "10.000.000",
+    "10.000.000"
+   ],
+   [
+    "Laba Tahun Ini",
+    "3.000.000",
+    "-1.250.000,5",
+    "-250.000,5"
+   ]
+  ]
  }
 }

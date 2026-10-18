@@ -2,6 +2,8 @@ import { fiscalYearStart, formatIdr, PROFIT_LOSS_TYPES, type AccountType, type D
 
 // Laba/Rugi (Standar) and Neraca (Standar); rules in docs/reports/ProfitLossStandardReport.md and BalanceSheetStandardReport.md.
 
+export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+
 export interface StatementLine { label: string; amount?: number; kind: 'heading' | 'account' | 'total' }
 export interface StatementOptions { showZeroBalance: boolean; showParentAccount: boolean }
 
@@ -110,7 +112,6 @@ export function balanceSheet(accounts: TbAccount[], balances: DailyBalance[], se
 
 export const formatLine = (l: StatementLine): string[] => (l.amount === undefined ? [l.label] : [l.label, formatIdr(l.amount)])
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 /** Column header: `1 - 28 Feb 2031`, `1 Jan - 28 Feb 2031`, `1 Des 2030 - 31 Jan 2031`. */
 export function periodLabel(from: string, to: string): string {
   const [fy, fm, fd] = from.split('-').map(Number) as [number, number, number]
@@ -120,3 +121,47 @@ export function periodLabel(from: string, to: string): string {
   if (fm !== tm) return `${fd} ${MONTHS[fm - 1]} - ${end}`
   return `${fd} - ${end}`
 }
+
+// ---- multi-column variants: the single-period statement per column, merged line by line ----
+
+export interface MultiLine { label: string; kind: StatementLine['kind']; amounts: number[] }
+
+/** Builds each column with zero rows kept (so lines align), then hides account rows that are zero in every column. */
+export function mergeColumns(columns: StatementLine[][], o: StatementOptions, total = false): MultiLine[] {
+  const out = columns[0]!.map((l, i) => {
+    const amounts = l.amount === undefined ? [] : columns.map(c => c[i]!.amount!)
+    return { label: l.label, kind: l.kind, amounts: total && amounts.length ? [...amounts, amounts.reduce((a, b) => a + b, 0)] : amounts }
+  })
+  return out.filter(l => l.kind !== 'account' || o.showZeroBalance || l.amounts.some(a => a !== 0) || l.label === 'Laba Tahun Ini')
+}
+
+const monthEnd = (y: number, m: number) => new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10)
+const iso = (y: number, m: number, d = 1) => `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+
+export function months(startYear: number, startMonth: number, endYear: number, endMonth: number) {
+  const out: { from: string; to: string; label: string }[] = []
+  for (let y = startYear, m = startMonth; y < endYear || (y === endYear && m <= endMonth); m === 12 ? (y++, (m = 1)) : m++)
+    out.push({ from: iso(y, m), to: monthEnd(y, m), label: `${MONTHS[m - 1]} ${y}` })
+  return out
+}
+
+export function profitLossColumns(accounts: TbAccount[], balances: DailyBalance[], periods: { from: string; to: string }[], o: StatementOptions) {
+  return mergeColumns(periods.map(p => profitLoss(accounts, balances, p.from, p.to, { ...o, showZeroBalance: true })), o, true)
+}
+
+export function balanceSheetColumns(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, dates: string[], o: StatementOptions) {
+  return mergeColumns(dates.map(d => balanceSheet(accounts, balances, settings, d, { ...o, showZeroBalance: true })), o)
+}
+
+/** Perbandingan Periode: base, compare, variance (compare − base) and % of |base| (100 % when base is 0 and variance is not). */
+export function compareColumns(base: StatementLine[], cmp: StatementLine[], o: StatementOptions): (MultiLine & { pct: (number | null)[] })[] {
+  return mergeColumns([base, cmp], o).map(l => {
+    if (!l.amounts.length) return { ...l, pct: [] }
+    const [a, b] = l.amounts as [number, number]
+    const v = b - a
+    return { ...l, amounts: [a, b, v], pct: [a === 0 ? (v === 0 ? 0 : 100) : Math.round((v / Math.abs(a)) * 100)] }
+  })
+}
+
+export const formatMulti = (l: MultiLine & { pct?: (number | null)[] }): string[] =>
+  [l.label, ...l.amounts.map(formatIdr), ...(l.pct ?? []).map(p => `${p} %`)]
