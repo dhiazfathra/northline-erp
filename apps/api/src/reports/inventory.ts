@@ -9,9 +9,9 @@ export interface StockItem { no: string; name: string; unit: string }
 export interface InventoryData { items: StockItem[]; moves: StockMove[] }
 
 const WAREHOUSE = 'Utama' // single default warehouse
-const DOC_LABEL: Record<string, string> = { PI: 'Faktur Pembelian', SI: 'Faktur Penjualan', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian' }
+const DOC_LABEL: Record<string, string> = { PI: 'Faktur Pembelian', SI: 'Faktur Penjualan', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian', IA: 'Penyesuaian Persediaan', RI: 'Penerimaan Barang' }
 /** Generated movement description ("Pembelian dari <vendor>", "Retur ke <vendor>", …). */
-const DESC: Record<string, string> = { PI: 'Pembelian dari', SI: 'Penjualan ke', SRT: 'Retur dari', PRT: 'Retur ke' }
+const DESC: Record<string, string> = { PI: 'Pembelian dari', SI: 'Penjualan ke', SRT: 'Retur dari', PRT: 'Retur ke', RI: 'Penerimaan dari' }
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const qty = (q: number) => formatIdr(Math.round(q * 100))
 const days = (from: string, to: string) => Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000)
@@ -47,7 +47,7 @@ export function stockCard(d: InventoryData, itemNos: string[], from: string, to:
       [prev, 'Saldo Awal', `Saldo Awal ${prev}`, qty(bal), '0', qty(bal)])
     for (const m of within) {
       bal += m.quantity
-      const desc = `${DESC[m.docType]} ${m.party}`
+      const desc = m.docType === 'IA' ? `Penyesuaian ${m.docNumber}` : `${DESC[m.docType]} ${m.party}`
       out.push([fmtDate(m.date), DOC_LABEL[m.docType]!, m.docNumber, desc, qty(Math.max(m.quantity, 0)), qty(Math.max(-m.quantity, 0)), qty(bal), WAREHOUSE])
     }
     // like the opening row, the totals count the opening balance as an inflow
@@ -151,4 +151,11 @@ export function quantityByWarehouse(d: InventoryData, asOf: string): string[][] 
 export function inventoryAgingByWarehouse(d: InventoryData, asOf: string): string[][] {
   const [head, ...rows] = inventoryAging(d, asOf)
   return [[head![0]!, 'Nama Gudang', ...head!.slice(1)], ...rows.map(r => [r[0]!, WAREHOUSE, ...r.slice(1)])]
+}
+
+/** Penyesuaian Stok Barang: one block per adjustment (title lines repeat). */
+export function adjustmentDetail(adjs: { number: string; date: string; description: string; lines: { item: string; name: string; unit: string; qty: number }[] }[], from: string, to: string): string[][] {
+  return adjs.filter(a => a.date >= from && a.date <= to).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(a => [
+    ['Nomor #', ':', a.number, 'Keterangan', ':', a.description], ['Tanggal', ':', fmtDate(a.date)], ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan'],
+    ...a.lines.map(l => [l.item, l.name, qty(l.qty), l.unit])])
 }

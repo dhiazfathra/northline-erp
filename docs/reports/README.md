@@ -223,7 +223,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Permintaan Barang | `PurchaseRequisitionDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionDetailReport.md) |
 | Status Pesanan Permintaan Barang | `PurchaseRequisitionOrderStatusReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionOrderStatusReport.md) |
 | Barang Grup | `ItemGroupDetailReport` | report | NONE | selectedBranch= | [spec](ItemGroupDetailReport.md) |
-| Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](InventoryAdjustmentDetailReport.md) |
+| Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](InventoryAdjustmentDetailReport.md) |
 | Daftar Barang dan Jasa | `ItemListReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](ItemListReport.md) |
 | Umur Nomor Seri/Batch | `SerialNumberAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](SerialNumberAgingDetailReport.md) |
 | Analisa Nilai Persediaan | `AnalysisInventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](AnalysisInventoryValuationReport.md) |

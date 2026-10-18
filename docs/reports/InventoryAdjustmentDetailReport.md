@@ -1,24 +1,13 @@
 # Penyesuaian Stok Barang (`InventoryAdjustmentDetailReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/InventoryAdjustmentDetailReport.json`](captures/InventoryAdjustmentDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture:
+[`fixtures/adjustment-t10.json`](fixtures/adjustment-t10.json) (IA.2034.07.00001 +3 @ 16.000, IA.2034.07.00002 −2).
+ERP: `adjustmentDetail` in `apps/api/src/reports/inventory.ts`, `src/inventory/adjustment.ts`; test: `apps/api/test/adjustments.test.ts`.
 
-## Parameters
+Params: `startDate`, `endDate`, branch. One block per adjustment (title lines repeat): `Nomor # : <no>  Keterangan : <description>`,
+`Tanggal : <date>`, header `Kode Barang` | `Nama Barang` | `Kuantitas` | `Satuan`, one row per line (quantity unsigned).
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
+Postings (journal type "Penyesuaian Persediaan"): increase Dr Persediaan / Cr adjustment account at the given unit cost;
+decrease Dr adjustment account / Cr Persediaan at FIFO cost (2 × 13.000). Stock card rows read `Penyesuaian <number>`.
 
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | IA.2026.10.00001 | Keterangan | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Also found: an **unlinked** goods receipt adds its quantity to stock at zero value (opening 21 units with 229.200).

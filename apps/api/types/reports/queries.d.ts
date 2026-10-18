@@ -57,3 +57,14 @@ export declare function queryFinanceChart(db: Db, chart: 'net-worth' | 'liquidit
     };
 }>;
 export declare function loadOrders(db: Db): Promise<import('./payables').OrderData>;
+export declare function loadAdjustments(db: Db): Promise<{
+    number: string;
+    date: string;
+    description: string;
+    lines: {
+        item: string;
+        name: string;
+        unit: string;
+        qty: number;
+    }[];
+}[]>;

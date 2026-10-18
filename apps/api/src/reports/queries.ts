@@ -214,3 +214,9 @@ export async function loadOrders(db: Db): Promise<import('./payables').OrderData
   const receipts = (await db.execute(sql`SELECT number, vendor_no, to_char(date,'YYYY-MM-DD') AS date FROM receive_items`)).map(r => ({ number: r.number as string, vendor: r.vendor_no as string, date: r.date as string, total: 0, lines: lines(rl, r.number as string) }))
   return { vendors, orders, receipts }
 }
+
+export async function loadAdjustments(db: Db) {
+  const ls = await db.execute(sql`SELECT l.adjustment_number, l.item_no, i.name, i.unit, l.quantity FROM item_adjustment_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
+  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, description FROM item_adjustments`)).map(r => ({ number: r.number as string, date: r.date as string, description: r.description as string,
+    lines: ls.filter(l => l.adjustment_number === r.number).map(l => ({ item: l.item_no as string, name: l.name as string, unit: l.unit as string, qty: Number(l.quantity) })) }))
+}

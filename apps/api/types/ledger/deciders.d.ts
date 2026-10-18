@@ -6,7 +6,7 @@ type PostCmd = {
     type: 'Post';
     journalId: string;
     number?: string;
-    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP';
+    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA';
     date: string;
     description: string;
     lines: JournalLine[];

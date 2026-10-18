@@ -1,0 +1,310 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. Builds on inventory-t4, returns-t6 and purchase-order-t9 (the unlinked receipt counts 5 units at zero value, so NL-T4-B1 opens July 2034 at 21 units / 229.200). Window Jul 2034.",
+ "accounts": [
+  {
+   "no": "300001",
+   "name": "Equitas Saldo Awal",
+   "type": "EQUITY"
+  }
+ ],
+ "documents": [
+  {
+   "number": "IA.2034.07.00001",
+   "date": "2034-07-05",
+   "description": "NL-T10-IA1",
+   "account": "300001",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "direction": "IN",
+     "qty": 3,
+     "unitCost": 16000
+    }
+   ]
+  },
+  {
+   "number": "IA.2034.07.00002",
+   "date": "2034-07-20",
+   "description": "NL-T10-IA2",
+   "account": "300001",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "direction": "OUT",
+     "qty": 2
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "05 Jul 2034"
+    ],
+    [
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T10-IA1",
+     "48.000",
+     "0"
+    ],
+    [
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00001",
+     "300001",
+     "Equitas Saldo Awal",
+     "NL-T10-IA1",
+     "0",
+     "48.000"
+    ],
+    [
+     "20 Jul 2034"
+    ],
+    [
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00002",
+     "300001",
+     "Equitas Saldo Awal",
+     "NL-T10-IA2",
+     "26.000",
+     "0"
+    ],
+    [
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00002",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T10-IA2",
+     "0",
+     "26.000"
+    ]
+   ]
+  },
+  "InventoryStockCardReport": {
+   "rows": [
+    [
+     "Kartu Stok Persediaan"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor #",
+     "Deskripsi",
+     "Kts Masuk",
+     "Kts Keluar",
+     "Kts Akhir",
+     "Gudang"
+    ],
+    [
+     "30 Jun 2034",
+     "Saldo Awal",
+     "Saldo Awal 30 Jun 2034",
+     "21",
+     "0",
+     "21"
+    ],
+    [
+     "05 Jul 2034",
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00001",
+     "Penyesuaian IA.2034.07.00001",
+     "3",
+     "0",
+     "24",
+     "Utama"
+    ],
+    [
+     "20 Jul 2034",
+     "Penyesuaian Persediaan",
+     "IA.2034.07.00002",
+     "Penyesuaian IA.2034.07.00002",
+     "0",
+     "2",
+     "22",
+     "Utama"
+    ],
+    [
+     "24",
+     "2"
+    ]
+   ]
+  },
+  "InventoryValuationDetailReport": {
+   "rows": [
+    [
+     "Rincian Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "30 Jun 2034",
+     "21",
+     "229.200",
+     "0",
+     "0",
+     "21",
+     "229.200"
+    ],
+    [
+     "IA.2034.07.00001",
+     "05 Jul 2034",
+     "3",
+     "48.000",
+     "0",
+     "0",
+     "24",
+     "277.200"
+    ],
+    [
+     "IA.2034.07.00002",
+     "20 Jul 2034",
+     "0",
+     "0",
+     "2",
+     "26.000",
+     "22",
+     "251.200"
+    ],
+    [
+     "24",
+     "277.200",
+     "2",
+     "26.000"
+    ]
+   ]
+  },
+  "InventoryAdjustmentDetailReport": {
+   "rows": [
+    [
+     "Penyesuaian Stok Barang"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "IA.2034.07.00001",
+     "Keterangan",
+     ":",
+     "NL-T10-IA1"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Jul 2034"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "3",
+     "PCS"
+    ],
+    [
+     "Penyesuaian Stok Barang"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "IA.2034.07.00002",
+     "Keterangan",
+     ":",
+     "NL-T10-IA2"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Jul 2034"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "2",
+     "PCS"
+    ]
+   ]
+  }
+ }
+}

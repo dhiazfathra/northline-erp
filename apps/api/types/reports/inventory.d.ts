@@ -40,3 +40,15 @@ export declare function warehouseMutationSummary(d: InventoryData, from: string,
 export declare function quantityByWarehouse(d: InventoryData, asOf: string): string[][];
 /** Umur Persediaan per Gudang: as Umur Persediaan with the warehouse name column. */
 export declare function inventoryAgingByWarehouse(d: InventoryData, asOf: string): string[][];
+/** Penyesuaian Stok Barang: one block per adjustment (title lines repeat). */
+export declare function adjustmentDetail(adjs: {
+    number: string;
+    date: string;
+    description: string;
+    lines: {
+        item: string;
+        name: string;
+        unit: string;
+        qty: number;
+    }[];
+}[], from: string, to: string): string[][];

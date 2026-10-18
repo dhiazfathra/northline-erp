@@ -148,7 +148,12 @@ export async function createReceiveItem(db: Db, input: z.input<typeof orderInput
   return db.transaction(async tx => {
     const number = o.number ?? await nextNumber(tx, `RI.${period(o.date)}`)
     await tx.execute(sql`INSERT INTO receive_items (number, vendor_no, date, receive_number, description) VALUES (${number}, ${o.vendor}, ${o.date}, ${input.receiveNumber}, ${o.description})`)
-    for (const [i, l] of o.lines.entries()) await tx.execute(sql`INSERT INTO receive_item_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
+    for (const [i, l] of o.lines.entries()) {
+      await tx.execute(sql`INSERT INTO receive_item_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
+      // Unlinked receipt: Accurate adds the quantity at zero value (fixtures/adjustment-t10.json opens at 21 units).
+      const [st] = await tx.execute(sql`SELECT 1 FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
+      if (st) await addMove(tx, { item: l.item, date: o.date, docType: 'RI', docNumber: number, description: o.description, quantity: l.qty, value: 0 })
+    }
     return { number }
   })
 }
