@@ -13,7 +13,7 @@ export function AccountsFrame({ record, children }: { record?: string; children:
   const t = useT()
   const tab = (active: boolean) => `flex items-center gap-2 rounded-[16px] px-[14px] py-[8px] text-[12px] cursor-pointer ${active ? 'bg-[var(--ink)] text-[var(--paper)]' : ''}`
   return (
-    <div className={`flex-none animate-[fade_.25s] pt-[20px] pb-[32px] ${isMobile ? 'px-[16px]' : 'px-[40px]'}`}>
+    <div className={`flex-none animate-[fade_.25s] pt-[20px] pb-[32px] ${isMobile ? 'px-[16px]' : 'px-[40px] max-[1099px]:px-[24px]'}`}>
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-[14px]">
         <div>
           <div className="text-[11px] uppercase tracking-[.5px] opacity-60">{t({ id: 'Buku Besar', en: 'General Ledger' })}</div>

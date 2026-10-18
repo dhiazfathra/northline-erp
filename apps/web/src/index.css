@@ -165,7 +165,7 @@
     radial-gradient(26% 30% at 55% 55%, rgba(168,85,247,0.064), transparent 70%),
     radial-gradient(rgba(20,20,24,.12) 1px, transparent 1.2px) 0 0/28px 28px, #f3f3f2;
 }
-body { margin: 0; background: #141415; font-family: Outfit, sans-serif; }
+body { margin: 0; background: #141415; font-family: Outfit, sans-serif; font-weight: 300; }
 input::placeholder, textarea::placeholder { color: rgba(var(--fg), 0.5); }
 @layer base { a { color: inherit; text-decoration: none; } }
 ::-webkit-scrollbar-thumb:horizontal:hover { background: linear-gradient(90deg, #ec4899, #a855f7) padding-box; }

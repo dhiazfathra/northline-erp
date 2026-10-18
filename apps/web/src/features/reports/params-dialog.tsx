@@ -178,7 +178,7 @@ function ChipPick({ label, ph, err, options, value, onChange }: { label: string;
             <i className="ph-light ph-magnifying-glass ml-auto px-1.5 text-[15px] opacity-60" />
           </div>
         </PopoverTrigger>
-        <PopoverContent align="start" className="glass-pop w-(--radix-popover-trigger-width) rounded-[16px] p-1.5 text-(--ink)">
+        <PopoverContent align="start" className="glass-pop font-light w-(--radix-popover-trigger-width) rounded-[16px] p-1.5 text-(--ink)">
           {options.map((o) => (
             <div
               key={o}

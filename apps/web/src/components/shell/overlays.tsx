@@ -28,7 +28,7 @@ export function MegaMenu() {
         <DialogPrimitive.Content
           aria-describedby={undefined}
           className={cn(
-            'fixed z-31 grid animate-[pop_.2s_ease-out] overflow-hidden rounded-[28px] border border-[rgba(255,255,255,.28)] text-(--ink) shadow-[inset_0_1px_0_rgba(255,255,255,.45),inset_0_-1px_0_rgba(255,255,255,.08),inset_0_0_30px_rgba(255,255,255,.06),0_30px_70px_rgba(0,0,0,.4)] backdrop-blur-[30px] backdrop-brightness-[1.12] backdrop-saturate-[2.6] outline-none',
+            'fixed z-31 grid font-light animate-[pop_.2s_ease-out] overflow-hidden rounded-[28px] border border-[rgba(255,255,255,.28)] text-(--ink) shadow-[inset_0_1px_0_rgba(255,255,255,.45),inset_0_-1px_0_rgba(255,255,255,.08),inset_0_0_30px_rgba(255,255,255,.06),0_30px_70px_rgba(0,0,0,.4)] backdrop-blur-[30px] backdrop-brightness-[1.12] backdrop-saturate-[2.6] outline-none',
             '[background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.04)_45%,rgba(255,255,255,.09)),var(--mega-panel)]',
             isMobile ? 'top-[62px] right-2.5 left-2.5 h-[calc(100dvh-72px)] grid-rows-[auto_minmax(0,1fr)]' : 'max-h-[calc(100dvh-100px)]',
             isDesktop ? 'top-[76px] right-10 left-10 grid-cols-[300px_minmax(0,1fr)]' : !isMobile && 'top-[70px] right-6 left-6 grid-cols-[260px_minmax(0,1fr)]',
@@ -138,7 +138,7 @@ export function SearchDialog() {
           className={cn('fixed left-1/2 z-61 w-[min(560px,calc(100%-24px))] -translate-x-1/2 animate-[pop_.2s_ease-out] outline-none', isDesktop ? 'top-[140px]' : isMobile ? 'top-16' : 'top-[120px]')}
         >
           <DialogPrimitive.Title className="sr-only">{L.search}</DialogPrimitive.Title>
-          <Command className="overflow-hidden rounded-3xl border border-[rgba(var(--fg),.16)] bg-(--panel) p-0 text-(--ink)">
+          <Command className="overflow-hidden rounded-3xl font-light border border-[rgba(var(--fg),.16)] bg-(--panel) p-0 text-(--ink)">
             <CommandPrimitive.Input placeholder={L.searchPh} className="box-border w-full border-0 border-b border-[rgba(var(--fg),.12)] bg-transparent px-[22px] py-5 text-base text-(--ink) outline-none placeholder:text-[rgba(var(--fg),.5)]" />
             <CommandList className="max-h-[320px] p-2">
               <CommandEmpty className="p-3.5 text-[13px] opacity-60">{L.noMatch}</CommandEmpty>
@@ -150,7 +150,7 @@ export function SearchDialog() {
                     setSearchOpen(false)
                     navigate({ to: s.to! })
                   }}
-                  className="rounded-xl px-3.5 py-3 text-[13px] text-(--ink) data-[selected=true]:bg-[rgba(var(--fg),.1)] data-[selected=true]:text-(--ink)"
+                  className="rounded-xl px-3.5 py-3 text-[13px] [&>svg]:hidden text-(--ink) data-[selected=true]:bg-[rgba(var(--fg),.1)] data-[selected=true]:text-(--ink)"
                 >
                   <span>{t(s.label)}</span>
                   <span className="ml-auto text-[11px] opacity-50">{t(m.name)}</span>

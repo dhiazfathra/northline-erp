@@ -30,7 +30,7 @@ export function RecordDrawer({ record, onClose }: { record: DrawerRecord | null;
               <span className="text-[11px] uppercase tracking-[.5px] opacity-55">{t(record.kind)}</span>
               <P.Close className="flex size-[32px] cursor-pointer items-center justify-center rounded-full bg-[rgba(var(--fg),.1)]">×</P.Close>
             </div>
-            <P.Title className={cn('mt-[18px] font-normal leading-[1.1]', isMobile ? 'text-[24px]' : 'text-[30px]')}>{record.title}</P.Title>
+            <P.Title className={cn('mt-[18px] font-normal', isMobile ? 'text-[24px]/[1.1]' : 'text-[30px]/[1.1]')}>{record.title}</P.Title>
             <div className={cn('mt-[20px] font-extralight tracking-[-1px]', isMobile ? 'text-[34px]' : 'text-[44px]')}>{record.value}</div>
             <div className="mt-[4px] text-[12px] opacity-60">{t(record.note)}</div>
             <div className="mt-[28px] flex flex-col">

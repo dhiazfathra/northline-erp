@@ -34,7 +34,7 @@ const Arrow = ({ size = 9 }: { size?: number }) => (
 )
 
 function KpiCard({ k, onOpen }: { k: Kpi; onOpen: () => void }) {
-  const { L, isMobile } = useShell()
+  const { L, isMobile, isDesktop } = useShell()
   const t = useT()
   return (
     <div className="min-w-0">
@@ -49,8 +49,8 @@ function KpiCard({ k, onOpen }: { k: Kpi; onOpen: () => void }) {
           <Arrow />
         </button>
       </div>
-      <div className="mt-[34px] flex items-start gap-[4px]">
-        <span className={cn('leading-none tracking-[-1.5px]', isMobile ? 'text-[24px]' : 'text-[46px]')}>{k.value}</span>
+      <div className="mt-[38px] flex items-start gap-[4px]">
+        <span className={cn('tracking-[-1.5px]', isMobile ? 'text-[36px]/none' : isDesktop ? 'text-[46px]/none' : 'text-[44px]/none')}>{k.value}</span>
         <span className="mt-[6px] text-[11px] opacity-75">IDR</span>
       </div>
       <div className="relative mt-[44px] flex h-[56px] items-end gap-[4px] overflow-hidden pt-[22px]">
@@ -86,7 +86,7 @@ export function OverviewScreen() {
   const [drawer, setDrawer] = useState<DrawerRecord | null>(null)
   const [modal, setModal] = useState(false)
   const go = (to: string) => void navigate({ to })
-  const px = isMobile ? 'px-[16px]' : 'px-[40px]'
+  const px = isMobile ? 'px-[16px]' : isDesktop ? 'px-[40px]' : 'px-[24px]'
   const pages = data ? Math.ceil(data.kpis.length / PER_PAGE) : 1
   const kpis = data?.kpis.slice(kpiPage * PER_PAGE, kpiPage * PER_PAGE + PER_PAGE)
 
@@ -94,7 +94,9 @@ export function OverviewScreen() {
     <>
       <div className={cn('grid flex-none animate-[fade_.25s]', px, isDesktop ? 'grid-cols-[600px_minmax(0,1fr)] gap-[40px]' : 'grid-cols-1 gap-[8px]')}>
         <div className="min-w-0">
-          <div className={cn('no-scrollbar mt-[20px] flex items-center gap-[8px]', isMobile ? 'flex-nowrap overflow-x-auto' : 'flex-wrap')}>
+          <div className="mt-[20px] flex items-center gap-[8px]">
+            {/* one scrolling row: long (ID) labels must not wrap and push the KPI block down */}
+            <div className="no-scrollbar flex min-w-0 flex-1 flex-nowrap items-center gap-[8px] overflow-x-auto">
             {actions.map((a) => (
               <button
                 key={a.to}
@@ -106,6 +108,7 @@ export function OverviewScreen() {
                 {t(a.name)}
               </button>
             ))}
+            </div>
             <button
               type="button"
               aria-label={t({ id: 'Transaksi baru', en: 'New transaction' })}
@@ -115,7 +118,7 @@ export function OverviewScreen() {
               +
             </button>
           </div>
-          <div className={cn('grid grid-cols-2', isMobile ? 'mt-[28px] gap-[20px]' : 'mt-[40px] gap-[40px]')}>
+          <div className={cn('grid', isMobile ? 'mt-[26px] grid-cols-1 gap-[36px]' : cn('grid-cols-2 gap-[40px]', isDesktop ? 'mt-[34px]' : 'mt-[30px]'))}>
             {kpis
               ? kpis.map((k) => <KpiCard key={k.label.en} k={k} onOpen={() => go(k.to)} />)
               : [0, 1].map((i) => <Skeleton key={i} className="h-[270px] rounded-[20px] bg-[rgba(var(--fg),.07)]" />)}
@@ -151,7 +154,7 @@ export function OverviewScreen() {
                       <span className="text-[14px]">{t(c.title)}</span>
                       <span className="rounded-[12px] bg-[rgba(var(--fg),.18)] px-[10px] py-[6px] text-[11px]">{L.review}</span>
                     </div>
-                    <span className={cn('leading-[1.12] text-pretty', isMobile ? 'text-[23px]' : isDesktop ? 'text-[30px]' : 'text-[26px]')}>{t(c.text)}</span>
+                    <span className={cn('text-pretty', isMobile ? 'text-[23px]/[1.12]' : isDesktop ? 'text-[30px]/[1.12]' : 'text-[26px]/[1.12]')}>{t(c.text)}</span>
                   </div>
                 </button>
               ))
@@ -264,7 +267,7 @@ export function OverviewScreen() {
                           </div>
                           <div className="flex w-full items-end justify-between">
                             <div className="flex items-start gap-[3px]">
-                              <span className={cn('font-extralight leading-[.9]', compact ? 'text-[24px]' : isMobile ? 'text-[38px]' : 'text-[46px]')}>{tl.v}</span>
+                              <span className={cn('font-extralight', compact ? 'text-[24px]/[.9]' : isMobile ? 'text-[38px]/[.9]' : 'text-[46px]/[.9]')}>{tl.v}</span>
                               <span className="text-[9px]" style={{ color: tl.d.startsWith('-') ? '#ef4444' : '#22c55e' }}>{tl.d}</span>
                             </div>
                             <div className="flex flex-col items-end gap-[8px]">

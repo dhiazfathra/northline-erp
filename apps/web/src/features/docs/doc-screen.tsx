@@ -227,7 +227,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
     if (!r.status) return null
     const s = statusL[r.status]
     return (
-      <span className="inline-flex items-center gap-[5px] self-start rounded-xl border px-2.5 py-[3px] text-[11.5px] whitespace-nowrap" style={{ borderColor: `rgba(${s.rgb},.7)`, background: `rgba(${s.rgb},.12)` }}>
+      <span className={cn('inline-flex items-center gap-[5px] self-start rounded-xl border py-[3px] whitespace-nowrap', isMobile ? 'px-[9px] text-[10.5px]' : 'px-2.5 text-[11.5px]')} style={{ borderColor: `rgba(${s.rgb},.7)`, background: `rgba(${s.rgb},.12)` }}>
         <i className={s.icon} aria-hidden="true" />
         {t(s)}
       </span>
@@ -291,7 +291,7 @@ function DocList({ type, party, onNew, onOpen }: { type: DocType; party: string;
         {isPending &&
           Array.from({ length: 6 }, (_, i) => (
             <div key={i} className="border-b border-[rgba(var(--fg),.07)] px-[22px] py-[15px]">
-              <div className="h-3 animate-[shim_1.2s_linear_infinite] rounded-md bg-[linear-gradient(90deg,rgba(var(--fg),.06),rgba(var(--fg),.16),rgba(var(--fg),.06))] bg-[length:200%_100%]" />
+              <div className="h-2.5 animate-[shim_1.4s_linear_infinite] rounded-full bg-[linear-gradient(90deg,rgba(var(--fg),.06),rgba(var(--fg),.16),rgba(var(--fg),.06))] bg-[length:300%_100%]" />
             </div>
           ))}
         {!isPending && rows.length === 0 && (

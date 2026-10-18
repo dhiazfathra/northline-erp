@@ -86,8 +86,8 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             render={({ field }) => (
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
-                <span className="field flex h-[41px] items-center gap-2 px-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
+                <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
+                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>
@@ -113,7 +113,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
               <span className="text-right">{L.discount}</span>
               <span className="text-right">PPh 23</span>
             </div>
-            <div className="max-h-[260px] min-h-[140px] overflow-auto">
+            <div className="max-h-[260px] overflow-auto">
               {fields.map((f, i) => {
                 const l = v.lines[i] ?? f
                 return (
@@ -132,7 +132,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
                 )
               })}
               {fields.length === 0 && (
-                <div className="flex h-[140px] items-center justify-center text-[13px] opacity-50">
+                <div className="p-[22px] text-center text-[13px] opacity-50">
                   {v.party ? t({ id: 'Tidak ada faktur terutang', en: 'No open invoices' }) : t({ id: `Pilih ${partyLabel.toLowerCase()} terlebih dahulu`, en: `Choose a ${partyLabel.toLowerCase()} first` })}
                 </div>
               )}
@@ -141,7 +141,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
         </div>
         {pphAllowed && <div className="mt-2 text-[11.5px] opacity-75">{t({ id: 'Dipotong PPh 23 4% dari DPP (pemasok tanpa NPWP)', en: 'PPh 23 withheld at 4% of DPP (vendor without NPWP)' })}</div>}
 
-        <div className="mt-[18px]">
+        <div className="mt-3.5">
           <Totals
             rows={[
               { l: t({ id: 'Total Bayar', en: 'Total Paid' }), v: idr(tot.pay) },

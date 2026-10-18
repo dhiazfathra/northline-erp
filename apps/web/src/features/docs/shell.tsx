@@ -149,11 +149,11 @@ export function Problems({ items, onClose }: { items: string[]; onClose: () => v
 export function Totals({ rows }: { rows: { l: string; v: string; big?: boolean }[] }) {
   const { isMobile } = useShell()
   return (
-    <div className={cn('flex flex-wrap gap-x-9 gap-y-3 text-[11px]', isMobile ? 'justify-between' : 'justify-end')}>
+    <div className="flex flex-wrap items-center justify-end gap-2.5">
       {rows.map((r) => (
-        <div key={r.l}>
-          <div className="opacity-60">{r.l}</div>
-          <div className={cn('tabular-nums', r.big ? '-mt-0.5 text-[30px] font-extralight' : 'mt-1 text-[20px]')}>{r.v}</div>
+        <div key={r.l} className={cn('flex flex-col gap-1 rounded-2xl bg-[rgba(var(--fg),.06)] px-4 py-3', isMobile ? 'min-w-0 flex-[1_1_40%]' : 'min-w-[160px]')}>
+          <span className="text-[11px] opacity-60">{r.l}</span>
+          <span className="text-right text-[15px] text-(--ink) tabular-nums">{r.v}</span>
         </div>
       ))}
     </div>

@@ -158,8 +158,8 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
             render={({ field }) => (
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
-                <span className="field flex h-[41px] items-center gap-2 px-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
+                <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
+                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>
@@ -194,7 +194,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
               <span />
             </div>
           )}
-          <div className="max-h-[260px] min-h-[160px] overflow-auto">
+          <div className="max-h-[260px] overflow-auto">
             {fields.map((f, i) => {
               const it = v.items[i] ?? f
               const line = Math.round(it.qty * it.price * (1 - it.discPct / 100))
@@ -244,7 +244,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                 </div>
               )
             })}
-            {fields.length === 0 && <div className="flex h-[160px] items-center justify-center text-[13px] opacity-50">{L.noData}</div>}
+            {fields.length === 0 && <div className="p-[22px] text-center text-[13px] opacity-50">{L.noData}</div>}
           </div>
         </div>
 
@@ -312,7 +312,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
           </div>
         )}
 
-        <div className="mt-[18px]">
+        <div className="mt-3.5">
           <Totals
             rows={[
               { l: L.subTotal, v: idr(tot.sub) },

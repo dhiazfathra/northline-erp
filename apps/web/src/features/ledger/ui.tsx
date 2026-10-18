@@ -19,7 +19,7 @@ export function Frame({ subs, children }: { subs?: ReactNode; children: ReactNod
   const t = useT()
   const nav = navFor(pathname)
   return (
-    <div className="flex-none animate-[fade_.25s] px-10 pt-5 pb-8 max-[719px]:px-4">
+    <div className="flex-none animate-[fade_.25s] px-10 pt-5 pb-8 max-[1099px]:px-6 max-[639px]:px-4">
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-3.5">
         <div>
           <div className="text-[11px] tracking-[.5px] uppercase opacity-60">{nav && t(nav.mod.name)}</div>

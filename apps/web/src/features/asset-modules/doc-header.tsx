@@ -11,9 +11,9 @@ export interface DocSub {
 
 /** Page frame of the design's `isDoc` view: module eyebrow, title, segmented sub-tabs. */
 export function DocFrame({ mod, label, subs, children }: { mod: string; label: string; subs: DocSub[]; children: ReactNode }) {
-  const { isMobile } = useShell()
+  const { isMobile, isDesktop } = useShell()
   return (
-    <div className="flex-none animate-[fade_.25s] pt-5 pb-8" style={{ paddingInline: isMobile ? 16 : 40 }}>
+    <div className="flex-none animate-[fade_.25s] pt-5 pb-8" style={{ paddingInline: isMobile ? 16 : isDesktop ? 40 : 24 }}>
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-[14px]">
         <div>
           <div className="text-[11px] tracking-[.5px] uppercase opacity-60">{mod}</div>

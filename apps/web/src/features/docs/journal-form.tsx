@@ -51,7 +51,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
   return (
     <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[1fr_1fr_2fr]')}>
+        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
           <label className={lbl}>
             <span className="opacity-75">
               {L.date} {req}
@@ -64,14 +64,14 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
             render={({ field }) => (
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
-                <span className="field flex h-[41px] items-center gap-2 px-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) outline-none read-only:opacity-70" />
+                <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
+                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>
             )}
           />
-          <label className={lbl}>
+          <label className={cn(lbl, !isMobile && 'col-span-2')}>
             <span className="opacity-75">{L.notes}</span>
             <input {...register('description')} className={fieldCls} />
           </label>
@@ -101,7 +101,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
               <span />
             </div>
           )}
-          <div className="max-h-[260px] min-h-[160px] overflow-auto">
+          <div className="max-h-[260px] overflow-auto">
             {fields.map((f, i) => {
               const l = lines[i] ?? f
               const del = (
@@ -153,10 +153,10 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
                 </div>
               )
             })}
-            {fields.length === 0 && <div className="flex h-[160px] items-center justify-center text-[13px] opacity-50">{L.noData}</div>}
+            {fields.length === 0 && <div className="p-[22px] text-center text-[13px] opacity-50">{L.noData}</div>}
           </div>
         </div>
-        <div className="mt-[18px] flex flex-wrap items-end justify-between gap-4">
+        <div className="mt-3.5 flex flex-wrap items-end justify-between gap-4">
           {diff !== 0 ? (
             <span className="flex items-center gap-1.5 rounded-xl border border-[#f472b6] px-3 py-1.5 text-xs text-[#f472b6]">
               <i className="ph-light ph-scales" />
@@ -188,8 +188,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
 
 export function AutoSwitch({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
-    <span className="flex flex-none items-center gap-2 text-xs opacity-80">
-      {label}
+    <span className="flex flex-none items-center" title={label}>
       <Switch.Root checked={checked} onCheckedChange={onChange} aria-label={label} className="relative h-4 w-7 cursor-pointer rounded-lg bg-[rgba(var(--fg),.25)] data-[state=checked]:bg-(--ink)">
         <Switch.Thumb className="absolute top-0.5 left-0.5 block size-3 rounded-full bg-(--paper) transition-[left] duration-150 data-[state=checked]:left-[14px]" />
       </Switch.Root>

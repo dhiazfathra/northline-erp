@@ -158,7 +158,7 @@ export function CreateWorkspaceForm() {
               disabled={create.isPending}
               className={cn(
                 'h-11 flex-none cursor-pointer rounded-2xl px-[22px] text-[13px] font-normal transition-[background,color] duration-150',
-                isValid ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.12)] text-(--ink)',
+                isValid ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.12)] text-[rgba(var(--fg),.45)]',
               )}
             >
               {L.crBtn}

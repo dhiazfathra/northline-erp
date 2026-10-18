@@ -36,4 +36,4 @@ export const inp = 'w-full rounded-[12px] border border-[rgba(var(--fg),.18)] bg
 export const iconBtn = 'flex size-[30px] cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(var(--fg),.12)]'
 export const pill = 'flex h-[34px] cursor-pointer items-center gap-1.5 rounded-[17px] px-3.5 text-[12.5px] hover:opacity-85'
 export const xBtn = 'flex size-8 flex-none cursor-pointer items-center justify-center rounded-full bg-[rgba(var(--fg),.1)]'
-export const modal = 'border border-[rgba(var(--fg),.16)] bg-(--panel) text-(--ink) shadow-[0_30px_70px_rgba(0,0,0,.4)] backdrop-blur-[26px] [animation:pop_.22s_ease-out] rounded-[28px] sm:max-w-none'
+export const modal = 'font-light border border-[rgba(var(--fg),.16)] bg-(--panel) text-(--ink) shadow-[0_30px_70px_rgba(0,0,0,.4)] backdrop-blur-[26px] [animation:pop_.22s_ease-out] rounded-[28px] sm:max-w-none'

@@ -16,9 +16,9 @@ const filters: { k: Filter; name: { id: string; en: string } }[] = [
   { k: 'inactive', name: { id: 'Nonaktif', en: 'Inactive' } },
 ]
 const status: Record<ListRow['status'], { name: { id: string; en: string }; bg: string }> = {
-  active: { name: filters[1].name, bg: 'rgba(34,197,94,.22)' },
-  overdue: { name: filters[2].name, bg: 'rgba(236,72,153,.28)' },
-  inactive: { name: filters[3].name, bg: 'rgba(var(--fg),.1)' },
+  active: { name: filters[1].name, bg: 'rgba(var(--fg),.08)' },
+  overdue: { name: filters[2].name, bg: 'rgba(239,68,68,.16)' },
+  inactive: { name: filters[3].name, bg: 'rgba(var(--fg),.08)' },
 }
 const initials = (s: string) =>
   s

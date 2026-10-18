@@ -23,7 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
-import { Check, DatePicker, DocHeader, Picker, fmtDate, fmtIdr, parseNum, tx } from './parts'
+import { Check, DatePicker, DocHeader, Picker, menuPanel, fmtDate, fmtIdr, parseNum, tx } from './parts'
 
 const faT = {
   newTitle: { id: 'Aset Tetap Baru', en: 'New Fixed Asset' },
@@ -106,7 +106,7 @@ let draft: FixedAssetForm | null = null
 const roIn = 'w-full rounded-[14px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.03)] px-[14px] py-[11px] text-[13px] text-(--ink) outline-none'
 const bad = 'border-[#f472b6]'
 const popItem = 'flex cursor-pointer items-center gap-2 rounded-[10px] px-2.5 py-[9px] text-[12.5px] text-(--ink) focus:bg-[rgba(var(--fg),.1)] focus:text-(--ink)'
-const popBox = 'glass-pop rounded-[20px] p-2 text-(--ink)'
+const popBox = cn(menuPanel, 'rounded-[20px] p-2 text-(--ink)')
 
 function Field({ label, req, children, className }: { label: string; req?: boolean; children: ReactNode; className?: string }) {
   return (
@@ -294,7 +294,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                   </svg>
                 </span>
               </PopoverTrigger>
-              <PopoverContent align="end" sideOffset={10} className="glass-pop w-[340px] max-w-[calc(100vw-48px)] rounded-[22px] p-[14px] text-(--ink)">
+              <PopoverContent align="end" sideOffset={10} className={cn(menuPanel, 'w-[340px] max-w-[calc(100vw-48px)] rounded-[22px] p-[14px] text-(--ink)')}>
                 <div className="mb-2.5 flex items-center justify-between">
                   <span className="text-[14px]">{t(faT.att)}</span>
                   <span className="text-[11px] opacity-55">{v.files.length}</span>

@@ -175,7 +175,7 @@ export function AiHistory() {
         )}
       </div>
       <AlertDialog open={confirm} onOpenChange={setConfirm}>
-        <AlertDialogContent className="glass-pop rounded-3xl text-(--ink)">
+        <AlertDialogContent className="glass-pop font-light rounded-3xl text-(--ink)">
           <AlertDialogHeader>
             <AlertDialogTitle>{t({ id: 'Hapus percakapan?', en: 'Delete conversation?' })}</AlertDialogTitle>
             <AlertDialogDescription className="text-(--ink) opacity-70">

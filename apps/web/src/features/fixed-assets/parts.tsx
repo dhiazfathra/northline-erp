@@ -10,6 +10,9 @@ export const parseNum = (s: string) => Number(s.replace(/\D/g, '')) || 0
 /** ISO yyyy-mm-dd → dd/mm/yyyy */
 export const fmtDate = (iso: string) => (iso ? iso.split('-').reverse().join('/') : '')
 
+/** The design's menu panel ({{ panel }} + blur, .16 border, flat shadow) — plainer than glass-pop. */
+export const menuPanel = 'border border-[rgba(var(--fg),.16)] bg-(--panel) shadow-[0_24px_60px_rgba(0,0,0,.3)] backdrop-blur-[28px] backdrop-saturate-[1.8]'
+
 export const tx = {
   mod: { id: 'Aset Tetap', en: 'Fixed Assets' },
   list: { id: 'Daftar Aset', en: 'Asset List' },
@@ -22,7 +25,7 @@ export function DocHeader({ label, current, onClose, children }: { label: string
   const { isMobile } = useShell()
   const seg = 'flex items-center gap-2 rounded-[16px] px-[14px] py-2 text-[12px] cursor-pointer'
   return (
-    <div className={cn('flex-none animate-[fade_.25s] pt-5 pb-8', isMobile ? 'px-4' : 'px-10')}>
+    <div className={cn('flex-none animate-[fade_.25s] pt-5 pb-8', isMobile ? 'px-4' : 'px-10 max-[1099px]:px-6')}>
       <div className="mb-[18px] flex flex-wrap items-end justify-between gap-[14px]">
         <div>
           <div className="text-[11px] tracking-[.5px] uppercase opacity-60">{t(tx.mod)}</div>
@@ -258,7 +261,7 @@ export function Picker({
             <i className="ph-light ph-magnifying-glass flex-none text-[16px] opacity-60" />
           </div>
         </PopoverTrigger>
-        <PopoverContent align="start" className="glass-pop w-(--radix-popover-trigger-width) rounded-[18px] p-2 text-(--ink)">
+        <PopoverContent align="start" className={cn(menuPanel, 'w-(--radix-popover-trigger-width)', 'rounded-[18px] p-2 text-(--ink)')}>
           <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={ph} className="field w-full rounded-[12px] px-3 py-[9px] text-[12.5px] outline-none" />
           <div className="mt-1.5 max-h-[236px] overflow-y-auto">
             {shown.map((o) => (

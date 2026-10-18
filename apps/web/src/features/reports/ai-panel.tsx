@@ -18,7 +18,7 @@ const tx = {
 }
 
 export function AiPanel({ report, onClose }: { report: string; onClose: () => void }) {
-  const { L, isDesktop, showToast } = useShell()
+  const { L, isMobile, showToast } = useShell()
   const t = useT()
   const [msgs, setMsgs] = useState<AiMessage[]>(() => [aiGreeting(report)])
   const [q, setQ] = useState('')
@@ -40,7 +40,7 @@ export function AiPanel({ report, onClose }: { report: string; onClose: () => vo
   return (
     <aside
       data-screen-label="AI analysis panel"
-      className={cn('flex min-h-0 flex-none animate-[pop_.18s_ease-out] flex-col overflow-hidden rounded-[24px] border border-[rgba(var(--fg),.12)] bg-(--card) shadow-[inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-[28px] backdrop-saturate-[180%]', isDesktop ? 'h-full w-[340px]' : 'h-[460px] w-full')}
+      className={cn('flex min-h-0 flex-none animate-[pop_.18s_ease-out] flex-col overflow-hidden rounded-[24px] border border-[rgba(var(--fg),.12)] bg-(--card) shadow-[inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-[28px] backdrop-saturate-[180%]', isMobile ? 'h-[460px] w-full' : 'h-full w-[340px]')}
     >
       <div className="flex flex-none flex-col gap-1.5 border-b border-[rgba(var(--fg),.1)] pt-4 pr-4 pb-3.5 pl-[18px]">
         <div className="flex items-center justify-between gap-2.5">

@@ -52,7 +52,7 @@ export function Preferences() {
   return (
     <Frame>
       <Tabs.Root defaultValue="fitur" orientation="vertical" data-screen-label="Preferensi" className="glass-card flex flex-wrap items-start gap-[18px] p-[18px]">
-        <Tabs.List className="flex flex-[0_0_200px] flex-col gap-0.5 max-[719px]:flex-[1_1_100%]">
+        <Tabs.List className="flex flex-[0_0_200px] flex-col gap-0.5">
           {tabs.map((x) => (
             <Tabs.Trigger
               key={x.id}

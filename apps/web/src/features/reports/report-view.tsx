@@ -51,7 +51,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
   const rep = reps?.find((r) => r.id === id)
   const rowsQ = useQuery(reportRowsQuery(id, search))
   const layout = useQuery(reportLayoutQuery(id)).data
-  const [zoom, setZoom] = useState(isMobile ? 0.45 : 1)
+  const [zoom, setZoom] = useState(isMobile ? 0.4 : isDesktop ? 1 : 0.8)
   const [md, setMd] = useState(false)
   const [drill, setDrill] = useState<ReportRow | null>(null)
   const ai = search.ai === 1
@@ -125,7 +125,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
                 <i className="ph-light ph-caret-down text-[11px]" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" sideOffset={8} className="glass-pop w-[190px] rounded-[16px] p-1.5 text-(--ink)">
+            <DropdownMenuContent align="end" sideOffset={8} className="glass-pop font-light w-[190px] rounded-[16px] p-1.5 text-(--ink)">
               {exps.map((x) => (
                 <DropdownMenuItem key={x.name} onSelect={() => showToast(`${t(tx.exp)} ${name} (${x.name})…`)} className="cursor-pointer gap-2.5 rounded-[10px] px-2.5 py-[9px] text-[12.5px] text-(--ink) focus:bg-[rgba(var(--fg),.1)] focus:text-(--ink)">
                   <i className={cn(x.icon, 'text-[16px] opacity-80')} />
@@ -149,7 +149,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
           </button>
         </div>
       </div>
-      <div className="flex min-h-0 flex-1 gap-3.5" style={{ flexDirection: isDesktop ? 'row' : 'column' }}>
+      <div className="flex min-h-0 flex-1 gap-3.5" style={{ flexDirection: isMobile ? 'column' : 'row' }}>
         <div className={cn('box-border flex min-h-[420px] min-w-0 flex-1 items-start overflow-auto rounded-[24px] border border-[rgba(var(--fg),.1)] bg-[rgba(var(--fg),.05)] shadow-[inset_0_2px_14px_rgba(0,0,0,.22)]', isMobile ? 'p-3' : 'p-7')}>
           <div
             data-rp-paper="1"
