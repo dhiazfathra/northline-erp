@@ -69,16 +69,16 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Histori Bank | `BankBookReport` | report | FROMTO | selectedBank= | |
+| Histori Bank | `BankBookReport` | report | FROMTO | selectedBank= | [verified](BankBookReport.md) |
 | Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | |
 | Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | |
 | Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | |
 | Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | |
 | Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | |
-| Arus Kas per Akun | `CashFlowbyAccountReport` | report | FROMTO | selectedBank= | |
+| Arus Kas per Akun | `CashFlowbyAccountReport` | report | FROMTO | selectedBank= | [verified](CashFlowbyAccountReport.md) |
 | Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | |
 | Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | |
-| Daftar Kas | `CashBankAccountListReport` | report | ASOF | — | |
+| Daftar Kas | `CashBankAccountListReport` | report | ASOF | — | [verified](CashBankAccountListReport.md) |
 | Rekening Koran | `BankStatementReport` | report | FROMTO | selectedBank= | |
 | Ringkasan Daftar Pembayaran | `PaymentListReport` | report | FROMTO | selectedBranch= | |
 | Ringkasan Daftar Penerimaan | `DepositListReport` | report | FROMTO | selectedBranch= | |

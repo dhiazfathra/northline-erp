@@ -5,6 +5,7 @@ import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, months, profitLoss } from './financial-statements'
 import { ownerEquityChange, retainedEarnings } from './equity'
 import { bsTotals, financialRatios, plTotals } from './financial-ratios'
+import { bankBook, cashAccountList, cashFlowByAccount } from './cash-bank'
 import { cashFlowDirect, cashFlowIndirect, cashFlowIndirectDetail, formatCashFlow } from './cash-flow'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
@@ -96,4 +97,17 @@ export async function queryFinancialRatios(db: Db, year: number, month?: number)
   const [py, pm] = month === 1 ? [year - 1, 12] : [year, month - 1]
   const first = (y: number, m: number) => `${y}-${String(m).padStart(2, '0')}-01`
   return financialRatios(col(first(year, month), end(year, month)), col(first(py, pm), end(py, pm)), true)
+}
+
+export async function queryBankBook(db: Db, banks: string[], q: TrialBalanceQuery) {
+  const { accounts, balances } = await loadLedger(db, q.to)
+  return bankBook(accounts, balances, await loadJournals(db, q.from, q.to), banks, q.from, q.to)
+}
+export async function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBalanceQuery) {
+  const { accounts } = await loadLedger(db, q.to)
+  return cashFlowByAccount(accounts, await loadJournals(db, q.from, q.to), banks, q.from, q.to)
+}
+export async function queryCashAccountList(db: Db, asOf: string) {
+  const { accounts, balances, settings } = await loadLedger(db, asOf)
+  return cashAccountList(accounts, balances, settings, asOf)
 }

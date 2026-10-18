@@ -25,3 +25,6 @@ export type CashFlowReport = 'direct' | 'indirect' | 'indirect-detail';
 export declare function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBalanceQuery, monthly?: boolean): Promise<string[][]>;
 /** Rasio Keuangan: `month` given → per month (vs previous month), else per year (vs previous year). */
 export declare function queryFinancialRatios(db: Db, year: number, month?: number): Promise<string[][]>;
+export declare function queryBankBook(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
+export declare function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
+export declare function queryCashAccountList(db: Db, asOf: string): Promise<string[][]>;

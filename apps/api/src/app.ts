@@ -8,7 +8,7 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryBalanceSheet, queryCashFlow, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -44,6 +44,12 @@ export function createApp(db: Db) {
       const q = z.object({ year: z.coerce.number().int().min(1900).max(9999), month: z.coerce.number().int().min(1).max(12).optional() }).parse(c.req.query())
       return c.json(await queryFinancialRatios(db, q.year, q.month))
     })
+    .get('/reports/cash-bank/:report{bank-book|cash-flow-by-account}', async c => {
+      const banks = c.req.queries('bank') ?? []
+      const q = trialBalanceQuery.parse(c.req.query())
+      return c.json(c.req.param('report') === 'bank-book' ? await queryBankBook(db, banks, q) : await queryCashFlowByAccount(db, banks, q))
+    })
+    .get('/reports/cash-bank/cash-list', async c => c.json(await queryCashAccountList(db, balanceSheetQuery.parse(c.req.query()).asOf)))
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().route('/api', api).get('*', serveSpa)

@@ -1,3 +1,4 @@
+import type { StatementLine } from './financial-statements';
 export interface BsTotals {
     cash: number;
     receivable: number;
@@ -24,7 +25,6 @@ export interface RatioInput {
 }
 /** `current` and `previous` are the report period and the one before it (previous month, or previous year). */
 export declare function financialRatios(current: RatioInput, previous: RatioInput, monthly: boolean): string[][];
-import type { StatementLine } from './financial-statements';
 /** Totals from our own Neraca (Standar) lines, in rupiah. */
 export declare const bsTotals: (l: StatementLine[]) => BsTotals;
 /** Totals from our own Laba/Rugi (Standar) lines, in rupiah. */
