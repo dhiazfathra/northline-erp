@@ -17,3 +17,4 @@
 | [0013](0013-demo-inclusive-totals.md) | Reports that total the whole sandbox are verified on our own movement | Accepted |
 | [0014](0014-pph-reports-out-of-scope.md) | PPh withholding reports stay at spec | Accepted |
 | [0015](0015-bank-integration-reports-out-of-scope.md) | Bank-integration reports stay at spec | Accepted |
+| [0016](0016-cogs-monitoring-out-of-scope.md) | Monitoring HPP stays at spec | Accepted |

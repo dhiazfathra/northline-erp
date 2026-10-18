@@ -49,3 +49,11 @@ test('finance charts: net worth, liquidity, ROA, ROE from Accurate statement tot
     expect(F.revenueVsExpenseChart(rows)).toEqual(ch.RevenueToExpenseComparisonChartReport.series)
   } finally { await f.close() }
 })
+
+test('Fokus Keuangan 2031 vs 2030: every cell except the Modal Kerja % (ADR-0013)', async () => {
+  const { financialFocus } = await import('../src/reports/financial-ratios')
+  const got = financialFocus(bs['2031-12-31']!, bs['2030-12-31']!, pl['2031']!, pl['2030']!)
+  const want = fx.FinancialFocusReport.rows.slice(1)
+  const mask = (rows: string[][]) => rows.map(r => r[0] === 'Modal Kerja' ? r.slice(0, 3) : r)
+  expect(mask(got)).toEqual(mask(want))
+})

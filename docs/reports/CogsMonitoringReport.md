@@ -1,6 +1,6 @@
 # Monitoring HPP (`CogsMonitoringReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Penjualan. **Status: out of scope** ([ADR-0016](../decisions/0016-cogs-monitoring-out-of-scope.md)); spec captured (no seeded fixture or ERP implementation yet).
 Capture: [`captures/CogsMonitoringReport.json`](captures/CogsMonitoringReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

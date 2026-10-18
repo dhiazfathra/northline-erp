@@ -1,7 +1,8 @@
-# Fokus Keuangan (`FinancialFocusReport`) — partial, not verified
+# Fokus Keuangan (`FinancialFocusReport`)
 
 Group: Keuangan. Observed in Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: `fixtures/financial-ratios.json`
-(`FinancialFocusReport`). Not implemented in the ERP yet.
+(`FinancialFocusReport`). **Status: verified** under [ADR-0013](../decisions/0013-demo-inclusive-totals.md): zero diff on every cell of 2031 vs 2030 except the Modal Kerja `Penambahan (%)`, which is flagged below.
+ERP: `apps/api/src/reports/financial-ratios.ts` (`financialFocus`), from the same statement totals as Rasio Keuangan; test: `apps/api/test/financial-ratios.test.ts`.
 
 Params: `asOfYear`. Columns: `Keterangan` | `Tahun ini` | `Tahun Lalu` | `Penambahan (%)`.
 
@@ -15,7 +16,7 @@ Params: `asOfYear`. Columns: `Keterangan` | `Tahun ini` | `Tahun Lalu` | `Penamb
 | Liabilitas Jangka Panjang | Jumlah Kewajiban Jangka Panjang | reconciles (0) |
 | Modal | Jumlah Ekuitas (137.657.403,5 / 137.907.404, −0,18) | reconciles |
 
-`Penambahan (%)` = (this − last) / |last| × 100, 2 decimals, except the Modal Kerja row. Six years captured 2026-10-18 (`byYear` in the fixture) still do not isolate the Modal Kerja base:
+`Penambahan (%)` = (this − last) / last × 100 with a **signed** denominator (2032 Pendapatan Operasi: 750.000 vs −250.000,5 prints −400), 2 decimals, on unrounded values; 0 when last is 0. The exception is the Modal Kerja row. Six years captured 2026-10-18 (`byYear` in the fixture) still do not isolate the Modal Kerja base:
 
 | Year | Modal Kerja | Last year | Printed % | Plain change % | Implied base (Δ / printed %) |
 |---|---|---|---|---|---|
@@ -28,5 +29,5 @@ Params: `asOfYear`. Columns: `Keterangan` | `Tahun ini` | `Tahun Lalu` | `Penamb
 
 The implied base swings between about 177 and 395 jt and matches none of: last year's working capital, current assets,
 current liabilities, their sum, total assets estimated from the ratio, or working capital less a constant. Every other
-row's percentage is the plain change. Status stays **spec**: implementing the other six rows without this one would not
-be a zero-diff report.
+row's percentage is the plain change. The user accepted verifying the other cells and flagging this one (2026-10-18). The ERP prints the plain change in that cell
+(`shortcut:` in the code).

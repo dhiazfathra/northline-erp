@@ -27,7 +27,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Arus Kas (Tak Langsung) | `CashFlowDetailIndirectReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectReport.md) |
 | Rasio Keuangan (Per Tahun) | `FinancialRatioReport` | report | ASOFYEAR | — | [verified](FinancialRatioReport.md) |
 | Rasio Keuangan (Per Bulan) | `FinancialRatioPerMonthReport` | report | PERIOD | — | [verified](FinancialRatioPerMonthReport.md) |
-| Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | [spec](FinancialFocusReport.md) |
+| Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | [verified](FinancialFocusReport.md) |
 | Laba Ditahan | `RetainedEarningReport` | report | ASOFYEAR | — | [verified](RetainedEarningReport.md) |
 | Perubahan Ekuitas Pemilik | `OwnerEquityChangedReport` | report | FROMTO | — | [verified](OwnerEquityChangedReport.md) |
 | Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | [verified](AccountValueCompareChartReport.md) |
@@ -148,7 +148,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDownPaymentDetailReport.md) |
 | Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [verified](SalesInvoicePaidInstallmentListReport.md) |
 | Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [verified](SalesInvoiceUnpaidInstallmentListReport.md) |
-| Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](CogsMonitoringReport.md) |
+| Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [out of scope](CogsMonitoringReport.md) |
 | Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | [verified](ProfitabilityBySalesInvoiceReport.md) |
 | Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByItemReport.md) |
 | Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByCustomerReport.md) |

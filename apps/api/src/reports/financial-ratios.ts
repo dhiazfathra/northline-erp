@@ -86,3 +86,22 @@ export const returnOnAssetChart = (ends: BsTotals[], pls: PlTotals[]) => ({ 'Lab
 export const returnOnEquityChart = (ends: BsTotals[], pls: PlTotals[]) => ({ 'Laba/Rugi': pls.map(p => fmtR(p.net)), 'Harta Bersih': ends.map(b => fmtR(b.equity)) })
 /** Grafik Pendapatan berbanding Biaya: per period, revenue (incl. other income) and costs (COGS, expenses, other expenses). */
 export const revenueVsExpenseChart = (pls: { revenue: number; expense: number }[]) => ({ 'Total Pendapatan': pls.map(p => fmtR(p.revenue)), 'Total Biaya': pls.map(p => fmtR(p.expense)) })
+
+/**
+ * Fokus Keuangan (docs/reports/FinancialFocusReport.md), this year vs last from statement totals at 31 Dec and the year's
+ * P&L. Penambahan (%) = (this - last) / last x 100 (signed denominator: 750.000 vs -250.000,5 prints -400), 2 decimals,
+ * on unrounded values; 0 when last is 0.
+ */
+// shortcut: Accurate's Modal Kerja % follows no rule found across six years (ADR-0013); this prints the plain change there.
+export function financialFocus(end: BsTotals, prevEnd: BsTotals, pl: PlTotals, prevPl: PlTotals): string[][] {
+  const money = (v: number) => { const c = Math.round(v * 100), s = c < 0 ? '-' : '', a = Math.abs(c)
+    return s + String(Math.floor(a / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (a % 100 ? ',' + String(a % 100).padStart(2, '0').replace(/0$/, '') : '') }
+  const pct = (a: number, b: number) => fmt(round(b === 0 ? 0 : (a - b) / b * 100, 2))
+  const current = (b: BsTotals) => div(b.cash + b.receivable + b.inventory, b.currentLiabilities)
+  const row = (label: string, a: number, b: number, show = money) => [label, show(a), show(b), pct(a, b)]
+  return [['Keterangan', 'Tahun ini', 'Tahun Lalu', 'Penambahan (%)'],
+    row('Total Pendapatan', pl.revenue, prevPl.revenue), row('Pendapatan Operasi', pl.operating, prevPl.operating), row('Laba/Rugi', pl.net, prevPl.net),
+    row('Modal Kerja', workingCapital(end), workingCapital(prevEnd)),
+    row('Rasio Lancar', current(end), current(prevEnd), v => fmt(round(v, 2))),
+    row('Liabilitas Jangka Panjang', end.longTermLiabilities, prevEnd.longTermLiabilities), row('Modal', end.equity, prevEnd.equity)]
+}
