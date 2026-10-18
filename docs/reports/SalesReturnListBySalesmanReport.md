@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesReturnListBySalesmanReport.json`](captures/retail/SalesReturnListBySalesmanReport.json).
 
-Status: blocked: requires Salesman on invoice.
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesReturnListBySalesmanReport.json`](captures/retail/SalesReturnListBySalesmanReport.json).
 
 ## Purpose
 
@@ -27,12 +27,10 @@ Title lines: `Retur Penjualan per Penjual`, `Dari 01 Jan 2000 s/d 31 Des 2040`, 
 
 ## Calculation rules
 
-- Unverified. Other Retail Demo reports show sales-return postings exist ([ProfitLossByBranchReport](ProfitLossByBranchReport.md) `Retur Penjualan` -29,022,654.61), so returns without a salesman are excluded or the salesman is not stored on returns; not traced.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout of the empty report (title, header cells where printed, footer).
-- Unverified: grouping, subtotal rows, why returns on the ledger are absent.
+- A return is listed under its document salesman, taken from the invoice lines it takes back (Accurate stores the salesman on the return line); SRT.2043.02.00001 returns the NL-RC Sales B line of SI.2043.02.00001 and is listed under NL-RC Sales B with 2,000,000, then a subtotal row.
+- The demo returns of 2017 have no salesman on their header (`masterSalesman` null), which is why the demo capture was empty.
 
 ## Retail Demo variation
 

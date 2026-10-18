@@ -311,3 +311,22 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [out of scope](AccessPrivilegeByUserListReport.md) |
 
 New in 2026-10-19 (Retail Demo pass): 46 more specs, statuses and ERP dependencies in [_coverage.md](_coverage.md); build order proposed in ADR-0021.
+
+Tenaga Penjual (Retail Demo, ADR-0023; fixture [fixtures/retail/salesman-rc.json](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts`):
+
+| Report | planId | View | Date param | Extra params | Spec |
+|---|---|---|---|---|---|
+| Umur Piutang per Penjual | `AgingReceivablePerSalesmanReport` | crosstab | ASOF | selectedBranch= | [verified](AgingReceivablePerSalesmanReport.md) |
+| Rincian Umur Piutang per Penjual | `AgingReceivableDetailPerSalesmanReport` | report | ASOF | selectedBranch= | [verified](AgingReceivableDetailPerSalesmanReport.md) |
+| Faktur Belum Lunas per Penjual | `OutstandingInvoicePerSalesmanReport` | report | ASOF | selectedBranch= | [verified](OutstandingInvoicePerSalesmanReport.md) |
+| Faktur Penjualan per Penjual | `SalesInvoiceListBySalesmanReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceListBySalesmanReport.md) |
+| Retur Penjualan per Penjual | `SalesReturnListBySalesmanReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnListBySalesmanReport.md) |
+| Penjualan Barang per Penjual | `SalesSalesmanByItemReport` | crosstab | FROMTO | selectedBranch=, selectedSalesman= | [verified](SalesSalesmanByItemReport.md) |
+| Target Penjualan Penjual | `SalesmanSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](SalesmanSalesTargetReport.md) |
+| Histori Transaksi per Penjual | `TransactionPerSalesmanListReport` | report | FROMTO | selectedBranch= | [verified](TransactionPerSalesmanListReport.md) |
+| Rincian Komisi (Dihitung per Faktur) | `SalesmanCommissionByInvoiceDetailReport` | report | FROMTO | — | [verified](SalesmanCommissionByInvoiceDetailReport.md) |
+| Ringkasan Komisi (Dihitung per Faktur) | `SalesmanCommissionByInvoiceSummaryReport` | report | FROMTO | — | [verified](SalesmanCommissionByInvoiceSummaryReport.md) |
+| Rincian Komisi Penjual (Dihitung per Periode) | `SalesmanCommissionByPeriodDetailReport` | report | PERIOD | — | [verified](SalesmanCommissionByPeriodDetailReport.md) |
+| Ringkasan Komisi (Dihitung per Periode) | `SalesmanCommissionByPeriodSummaryReport` | report | PERIOD | — | [verified](SalesmanCommissionByPeriodSummaryReport.md) |
+| Daftar Komisi Penjual | `SalesmanCommissionListReport` | report | NONE | — | [verified](SalesmanCommissionListReport.md) |
+| Check In per Karyawan | `SalesCheckInPerSalesmanReport` | report | FROMTO | selectedBranch= | [verified](SalesCheckInPerSalesmanReport.md) |

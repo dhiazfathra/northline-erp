@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesmanCommissionByInvoiceDetailReport.json`](captures/retail/SalesmanCommissionByInvoiceDetailReport.json).
 
-Status: blocked: requires Salesman commission. Fixture: [`fixtures/retail/SalesmanCommissionByInvoiceDetailReport.json`](fixtures/retail/SalesmanCommissionByInvoiceDetailReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesmanCommissionByInvoiceDetailReport.json`](captures/retail/SalesmanCommissionByInvoiceDetailReport.json).
 
 ## Purpose
 
@@ -26,13 +26,14 @@ Title lines: `Rincian Komisi (Dihitung per Faktur)`, `Dari 01 Jan 2000 s/d 31 De
 
 ## Calculation rules
 
-- Salesman total = sum of invoice commissions: Adam 173,880,000 + 1,120,000 = 175,000,000 (checked); Jhonni Haris 7,115,343.05 + 51,800 + 122,500 + 420,000 = 7,709,643.05 (checked).
-- `Permeriksaan syarat` shows `Syarat terpenuhi` (condition met) for every row; the commission has no conditions (`Tanpa batasan dan syarat`), other values are unverified.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: non-met condition wording, multiple commission rules per invoice, ordering of invoices.
+- Komisi Penjual rules (NL-RC Komisi: 5% of sales value, level 1 only, NL-RC Sales A and B; the sandbox's Komisi Team: 7%, levels 1-5, every salesman, applies to NL-RC too).
+- A commission is earned when the invoice is **fully settled**, dated by the receipt that settles it (receipts + returns cover the total). The partly paid SI.2043.01.00001 earns nothing; SI.2043.02.00001 is settled by the 25 Mar 2043 receipt.
+- Base = sum of line totals (IDR, before tax; a foreign line at the invoice rate) where the salesman sits at a level the rule pays (level = position in the line's salesman list). Shared line of SI.2043.02.00001: A is level 1, B level 2, so Komisi Team pays B 7% x 6,000,000 = 420,000 but NL-RC Komisi pays B only 5% x 4,000,000 = 200,000 and A 5% x 2,000,000 = 100,000.
+- A return creates negative rows `Syarat terpenuhi (Retur)` dated on the return date (7% and 5% of the returned 2,000,000 line: -140,000 / -100,000 in February 2043, while the invoice itself is settled in March). Unverified: a return against an invoice that is never settled (implemented as counted).
+- `Permeriksaan syarat` (Accurate's typo) prints `Syarat terpenuhi`; rules have no conditions (`Tanpa batasan dan syarat`), other condition types are unverified.
+- Layout: salesman name line, then per invoice (by number) its number line, rule rows (rules by name, each followed by its return row) and an invoice subtotal, then the salesman total. Events are filtered by their own date (the March window shows SI.2043.02.00001 without its February return rows).
 
 ## Retail Demo variation
 

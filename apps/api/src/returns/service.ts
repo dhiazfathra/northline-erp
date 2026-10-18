@@ -58,7 +58,7 @@ export async function createSalesReturn(db: Db, input: ReturnInput) {
     await tx.execute(sql`INSERT INTO sales_returns (number, customer_no, invoice_number, date, description, total, journal_id)
       VALUES (${number}, ${inv.customer_no}, ${rt.invoice}, ${rt.date}, ${rt.description}, ${total}, ${journalId})`)
     for (const [i, l] of rt.lines.entries())
-      await tx.execute(sql`INSERT INTO sales_return_lines (return_number, seq, item_no, quantity, unit_price, total) VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.price}, ${Math.round(l.qty * l.price)})`)
+      await tx.execute(sql`INSERT INTO sales_return_lines (return_number, seq, item_no, quantity, unit_price, total, invoice_seq) VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.price}, ${Math.round(l.qty * l.price)}, ${l.invoiceSeq ?? null})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rt.idempotencyKey}, 'CreateSalesReturn', ${JSON.stringify(result)}::jsonb)`)
     return result

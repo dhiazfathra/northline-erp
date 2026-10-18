@@ -9,27 +9,27 @@ import { formatIdr } from './trial-balance'
 // (fixture: fixtures/targets-t21.json). Riil = sales at DPP in the target's range, as in the sales item views.
 
 export const salesTargetInput = z.object({
-  name: z.string().min(1), kind: z.enum(['ITEM', 'CATEGORY', 'GENERAL']), year: z.number().int(),
+  name: z.string().min(1), kind: z.enum(['ITEM', 'CATEGORY', 'GENERAL', 'SALESMAN']), year: z.number().int(),
   from: z.string(), to: z.string(), analyst: z.string().default(''),
-  lines: z.array(z.object({ item: z.string().optional(), category: z.string().optional(), month: z.number().int().min(1).max(12).optional(), qty: z.number().default(0), amount: z.number().positive() })).min(1),
+  lines: z.array(z.object({ item: z.string().optional(), salesman: z.string().optional(), category: z.string().optional(), month: z.number().int().min(1).max(12).optional(), qty: z.number().default(0), amount: z.number().positive() })).min(1),
 })
 export async function saveSalesTarget(db: Db, input: z.input<typeof salesTargetInput>) {
   const t = salesTargetInput.parse(input)
   await db.transaction(async tx => {
     await tx.execute(sql`INSERT INTO sales_targets (name, kind, year, from_date, to_date, analyst) VALUES (${t.name}, ${t.kind}, ${t.year}, ${t.from}, ${t.to}, ${t.analyst})`)
     for (const [i, l] of t.lines.entries())
-      await tx.execute(sql`INSERT INTO sales_target_lines (target_name, seq, item_no, category, month, quantity, amount)
-        VALUES (${t.name}, ${i + 1}, ${l.item ?? null}, ${l.category ?? null}, ${l.month ?? null}, ${l.qty}, ${Math.round(l.amount * 100)})`)
+      await tx.execute(sql`INSERT INTO sales_target_lines (target_name, seq, item_no, category, month, quantity, amount, salesman_no)
+        VALUES (${t.name}, ${i + 1}, ${l.item ?? null}, ${l.category ?? null}, ${l.month ?? null}, ${l.qty}, ${Math.round(l.amount * 100)}, ${l.salesman ?? null})`)
   })
 }
 
-export interface SalesTarget { name: string; kind: 'ITEM' | 'CATEGORY' | 'GENERAL'; year: number; from: string; to: string; analyst: string
-  lines: { item?: string; itemName?: string; category?: string; month?: number; qty: number; amount: number }[] }
+export interface SalesTarget { name: string; kind: 'ITEM' | 'CATEGORY' | 'GENERAL' | 'SALESMAN'; year: number; from: string; to: string; analyst: string
+  lines: { item?: string; itemName?: string; salesman?: string; category?: string; month?: number; qty: number; amount: number }[] }
 export async function loadSalesTargets(db: Db): Promise<SalesTarget[]> {
   const ls = await db.execute(sql`SELECT l.*, i.name AS item_name FROM sales_target_lines l LEFT JOIN items i ON i.no = l.item_no ORDER BY l.target_name, l.seq`)
   return (await db.execute(sql`SELECT name, kind, year, to_char(from_date,'YYYY-MM-DD') AS f, to_char(to_date,'YYYY-MM-DD') AS t, analyst FROM sales_targets ORDER BY name`))
     .map(r => ({ name: r.name as string, kind: r.kind as SalesTarget['kind'], year: Number(r.year), from: r.f as string, to: r.t as string, analyst: r.analyst as string,
-      lines: ls.filter(l => l.target_name === r.name).map(l => ({ item: (l.item_no as string) ?? undefined, itemName: (l.item_name as string) ?? undefined, category: (l.category as string) ?? undefined,
+      lines: ls.filter(l => l.target_name === r.name).map(l => ({ item: (l.item_no as string) ?? undefined, itemName: (l.item_name as string) ?? undefined, salesman: (l.salesman_no as string) ?? undefined, category: (l.category as string) ?? undefined,
         month: l.month === null ? undefined : Number(l.month), qty: Number(l.quantity), amount: Number(l.amount) })) }))
 }
 
