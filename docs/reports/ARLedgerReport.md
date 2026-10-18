@@ -9,3 +9,5 @@ Columns `Nama Pelanggan` | `Saldo Awal` | `Faktur` | `Pembayaran` | `Retur` | `U
 3. Last row: column totals.
 
 Returns (verified with `returns-t6.json`): the `Retur` column holds sales returns in range; Saldo Akhir = awal + faktur − pembayaran − retur.
+
+Down payments (verified with `downpayment-t7.json`): a DP invoice (type Uang Muka Penjualan, SI numbering, Dr Piutang / Cr Uang Muka Penjualan) counts in **Faktur** and again in **Uang Muka**; an invoice using a DP counts its full total in Faktur. Saldo Akhir = awal + faktur − pembayaran − retur − uang muka.

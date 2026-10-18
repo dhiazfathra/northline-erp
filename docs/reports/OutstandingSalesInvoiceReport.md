@@ -5,3 +5,5 @@ Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2
 Params: `asOfDate`, `selectedBranch`. Currency heading, then per customer with unpaid invoices (by name): `<name> | Sisa Kredit | : | 0`, column header `Nomor #` | `Tanggal` | `Jatuh Tempo` | `Total` | `Piutang` | `Piutang Pajak` | `Umur (hr)`, one row per invoice with a remaining balance at `asOfDate` (receipts dated after `asOfDate` ignored), then `<total> | <owing> | <tax owing>`; last row grand totals. Umur = days from due date to `asOfDate`, thousands separator (`2.476`).
 
 Unverified: Umur measured from the due date vs the invoice date (equal in this fixture), tax owing, Sisa Kredit (customer credit/overpayment).
+
+Down payments (verified with `downpayment-t7.json`): a DP invoice (type Uang Muka Penjualan, SI numbering, Dr Piutang / Cr Uang Muka Penjualan) is not listed; an invoice using a DP shows its full Total and Piutang = total − DP used − payments − returns.

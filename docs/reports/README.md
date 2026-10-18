@@ -133,7 +133,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [verified](AnnualSalesChartReport.md) |
 | Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesCustomerChartReport.md) |
 | Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesItemChartReport.md) |
-| Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | [spec](SalesDownPaymentByCustomerReport.md) |
+| Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | [verified](SalesDownPaymentByCustomerReport.md) |
 | Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemSalesTargetReport.md) |
 | Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemCategorySalesTargetReport.md) |
 | Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](GeneralSalesTargetReport.md) |
@@ -145,7 +145,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [spec](SalesInvoiceChartReport.md) |
 | Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnListReport.md) |
 | Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnDetailReport.md) |
-| Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceDownPaymentDetailReport.md) |
+| Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDownPaymentDetailReport.md) |
 | Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [spec](SalesInvoicePaidInstallmentListReport.md) |
 | Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [spec](SalesInvoiceUnpaidInstallmentListReport.md) |
 | Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](CogsMonitoringReport.md) |

@@ -4,7 +4,8 @@ import { formatIdr } from './trial-balance'
 // Piutang / Penjualan reports over the sales tables; rules in docs/reports/<planId>.md (fixture: fixtures/sales-t2.json).
 
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
-export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string }
+export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string
+  /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface Return { number: string; customer: string; invoice: string; date: string; description: string; total: number; lines: InvoiceLine[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; returns?: Return[]; labels?: Labels }
@@ -24,11 +25,19 @@ const inRange = (x: { date: string }, from: string, to: string) => x.date >= fro
 /** Receivable movements of one customer: invoices +, receipts − (one entry per receipt). */
 function movements(d: SalesData, customer: string) {
   return [
-    ...d.invoices.filter(i => i.customer === customer).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total })),
+    // A DP invoice shows +total and −total (the down-payment entry); an invoice using DP shows its net and the DP used.
+    ...d.invoices.filter(i => i.customer === customer).flatMap(i => {
+      const m = (amount: number) => ({ number: i.number, date: i.date, description: i.description, amount })
+      if (i.kind === 'DP') return [m(i.total), m(-i.total)]
+      const used = dpUsed(i)
+      return used ? [m(i.total - used), m(used)] : [m(i.total)]
+    }),
     ...d.receipts.filter(r => r.customer === customer).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount })),
     ...(d.returns ?? []).filter(r => r.customer === customer).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.total })),
   ].sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
+const dpUsed = (i: Invoice) => (i.dpUses ?? []).reduce((s, u) => s + u.amount, 0)
+const regular = (d: SalesData) => d.invoices.filter(i => i.kind !== 'DP')
 const balanceBefore = (d: SalesData, c: string, date: string) => movements(d, c).filter(m => m.date < date).reduce((s, m) => s + m.amount, 0)
 const activeCustomers = (d: SalesData, from: string, to: string) =>
   [...d.customers.keys()].filter(c => movements(d, c).some(m => inRange(m, from, to))).sort(byName(d))
@@ -36,13 +45,13 @@ const activeCustomers = (d: SalesData, from: string, to: string) =>
 /** Daftar Faktur Penjualan */
 export function salesInvoiceList(d: SalesData, from: string, to: string): string[][] {
   return [['Nomor #', 'Tanggal', L(d).party, 'Total'],
-    ...d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+    ...regular(d).filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
       .map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, formatIdr(i.total)])]
 }
 
 /** Penjualan per Pelanggan */
 export function salesByCustomer(d: SalesData, from: string, to: string): string[][] {
-  const rows = activeCustomers(d, from, to).map(c => [c, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)] as const).filter(([, v]) => v)
+  const rows = activeCustomers(d, from, to).map(c => [c, regular(d).filter(i => i.customer === c && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)] as const).filter(([, v]) => v)
   return [['Pelanggan', 'Penjualan'], ...rows.map(([c, v]) => [d.customers.get(c)!, formatIdr(v)]), ['Total Pelanggan', formatIdr(rows.reduce((s, [, v]) => s + v, 0))]]
 }
 
@@ -61,7 +70,8 @@ export function arLedger(d: SalesData, from: string, to: string): string[][] {
     const inv = d.invoices.filter(i => i.customer === c && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)
     const pay = d.receipts.filter(r => r.customer === c && inRange(r, from, to)).reduce((s, r) => s + r.amount, 0)
     const ret = (d.returns ?? []).filter(r => r.customer === c && inRange(r, from, to)).reduce((s, r) => s + r.total, 0)
-    return [d.customers.get(c)!, open, inv, pay, ret, 0, 0, open + inv - pay - ret] as const
+    const dp = d.invoices.filter(i => i.customer === c && i.kind === 'DP' && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)
+    return [d.customers.get(c)!, open, inv, pay, ret, dp, 0, open + inv - pay - ret - dp] as const
   })
   const sum = (i: number) => rows.reduce((s, r) => s + (r[i] as number), 0)
   return [[L(d).partyName, 'Saldo Awal', 'Faktur', 'Pembayaran', 'Retur', 'Uang Muka', 'Jurnal Umum', 'Saldo Akhir'], [CURRENCY],
@@ -102,12 +112,10 @@ export function customerStatement(d: SalesData, from: string, to: string): strin
 
 /** Faktur Belum Lunas: per customer (by name), unpaid invoices at `asOf` with age in days from the due date. */
 export function outstandingInvoices(d: SalesData, asOf: string): string[][] {
-  const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
   const out: string[][] = [[CURRENCY]]
   let gt = 0, go = 0
   for (const c of [...d.customers.keys()].sort(byName(d))) {
-    const open = d.invoices.filter(i => i.customer === c && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number) })).filter(i => i.owing > 0)
-      .sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+    const open = openInvoices(d, asOf, c) // net of payments, returns and down payments used
     if (!open.length) continue
     out.push([d.customers.get(c)!, 'Sisa Kredit', ':', '0'], ['Nomor #', 'Tanggal', 'Jatuh Tempo', 'Total', 'Piutang', 'Piutang Pajak', 'Umur (hr)'],
       ...open.map(i => [i.number, fmtDate(i.date), fmtDate(i.dueDate), formatIdr(i.total), formatIdr(i.owing), '0', formatIdr(days(i.dueDate, asOf) * 100)]))
@@ -126,7 +134,7 @@ const bucket = (age: number) => (age <= 0 ? 0 : age <= 30 ? 1 : age <= 60 ? 2 : 
 export function openInvoices(d: SalesData, asOf: string, customer: string) {
   const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
   const ret = (n: string) => (d.returns ?? []).filter(r => r.invoice === n && r.date <= asOf).reduce((s, r) => s + r.total, 0)
-  return d.invoices.filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number) - ret(i.number), age: days(i.dueDate, asOf) }))
+  return regular(d).filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - dpUsed(i) - paid(i.number) - ret(i.number), age: days(i.dueDate, asOf) }))
     .filter(i => i.owing > 0).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
 export const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
@@ -162,9 +170,13 @@ export function arLedgerDetail(d: SalesData, from: string, to: string): string[]
     out.push([d.customers.get(c)!], ['-'], [prev, `Saldo ${L(d).balance} per ${prev}`, formatIdr(open)], [formatIdr(open)])
     let bal = open
     const groups: [string, { number: string; date: string; description: string; amount: number }[]][] = [
-      [L(d).invoice, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total }))],
+      [L(d).invoice, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).flatMap(i => {
+        const m = (amount: number) => ({ number: i.number, date: i.date, description: i.description, amount })
+        return i.kind === 'DP' || !dpUsed(i) ? [m(i.total)] : [m(i.total - dpUsed(i)), m(dpUsed(i))]
+      })],
       [L(d).payment, d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
       [L(d).ret, (d.returns ?? []).filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.total }))],
+      ['Uang Muka Penjualan', d.invoices.filter(i => i.customer === c && i.kind === 'DP' && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: -i.total }))],
     ]
     for (const [label, docs] of groups) {
       if (!docs.length) continue
@@ -419,4 +431,29 @@ export function collectionDaysChart(d: SalesData, from: string, to: string): [st
     out.push([`${MON_SHORT[Number(m.slice(5)) - 1]} ${m.slice(0, 4)}`, String(ds.length ? Math.round(ds.reduce((s, x) => s + x, 0) / ds.length) : 0)])
   }
   return out
+}
+
+// ---- down payments ----
+const dpUsedBy = (d: SalesData, dp: string, asOf: string) =>
+  regular(d).filter(i => i.date <= asOf).flatMap(i => (i.dpUses ?? []).filter(u => u.dp === dp).map(u => ({ i, amount: u.amount })))
+
+/** Uang Muka Penjualan per customer: DP invoices in range, used (as of the end date) and remaining. */
+export function downPaymentsByCustomer(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Total', 'Terpakai/Retur (per Tgl)', 'Sisa Uang Muka (per Tgl)', 'No Pesanan #']]
+  for (const c of [...d.customers.keys()].sort(byName(d))) {
+    const dps = d.invoices.filter(i => i.customer === c && i.kind === 'DP' && inRange(i, from, to))
+    if (!dps.length) continue
+    out.push([d.customers.get(c)!], ...dps.map(i => { const used = dpUsedBy(d, i.number, to).reduce((s, u) => s + u.amount, 0); return [i.number, fmtDate(i.date), formatIdr(i.total), formatIdr(used), formatIdr(i.total - used)] }))
+  }
+  return out
+}
+
+/** Penggunaan Uang Muka Penjualan: per DP invoice in range, the invoices that used it. */
+export function downPaymentUsage(d: SalesData, from: string, to: string): string[][] {
+  return d.invoices.filter(i => i.kind === 'DP' && inRange(i, from, to)).flatMap(dp => {
+    const uses = dpUsedBy(d, dp.number, to), used = uses.reduce((s, u) => s + u.amount, 0)
+    return [['Nomor #', ':', dp.number, 'Uang Muka', ':', formatIdr(dp.total)], ['Tanggal', ':', fmtDate(dp.date), 'Terpakai/Retur (per Tgl)', ':', formatIdr(used)],
+      ['Sisa Uang Muka (per Tgl)', ':', formatIdr(dp.total - used)], ['Nomor Transaksi', 'Tgl Transaksi', 'Tipe Transaksi', 'Pakai Uang Muka (per Tgl)'],
+      ...uses.map(u => [u.i.number, fmtDate(u.i.date), 'Faktur Penjualan', formatIdr(u.amount)]), [formatIdr(used)]]
+  })
 }

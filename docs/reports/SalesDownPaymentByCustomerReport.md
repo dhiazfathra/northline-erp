@@ -1,24 +1,5 @@
 # Uang Muka Penjualan (`SalesDownPaymentByCustomerReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/SalesDownPaymentByCustomerReport.json`](captures/SalesDownPaymentByCustomerReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan / Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/downpayment-t7.json`](fixtures/downpayment-t7.json) (DP SI.2034.04.00001 500.000 paid by NL-T1-1101.2034.04.00001, used in SI.2034.04.00002). ERP: `apps/api/src/reports/receivables.ts`, `createSalesDownPayment` in `src/sales/service.ts`; test: `apps/api/test/downpayments.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | Tanggal | Total | Terpakai/Retur (per Tgl) | Sisa Uang Muka (per Tgl) | No Pesanan #`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Nomor #` | `Tanggal` | `Total` | `Terpakai/Retur (per Tgl)` | `Sisa Uang Muka (per Tgl)` | `No Pesanan #`. Per customer with down-payment invoices in range: name, one row per DP (used amount as of the end date, remaining; empty order number prints nothing).

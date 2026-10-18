@@ -1,4 +1,4 @@
-import { customerInput, itemInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales';
+import { customerInput, itemInput, type SalesDownPaymentInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales';
 import type { z } from 'zod';
 import type { Db, Tx } from '../db';
 export declare function upsertCustomer(db: Db, input: z.input<typeof customerInput>): Promise<void>;
@@ -17,5 +17,8 @@ export declare function createSalesInvoice(db: Db, input: SalesInvoiceInput): Pr
     number: string;
 }>;
 export declare function createSalesReceipt(db: Db, input: SalesReceiptInput): Promise<{
+    number: string;
+}>;
+export declare function createSalesDownPayment(db: Db, input: SalesDownPaymentInput): Promise<{
     number: string;
 }>;

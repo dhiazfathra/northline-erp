@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { customerInput, itemInput, salesInvoiceInput, salesReceiptInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales'
+import { customerInput, itemInput, salesDownPaymentInput, salesInvoiceInput, salesReceiptInput, type SalesDownPaymentInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales'
 import type { z } from 'zod'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
@@ -59,11 +59,23 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
       const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -c.cost }))])
       costs.push({ item: l.item, qty: l.qty, cost: fifoCost(ls, l.qty), cogs: st.cogs, inv: st.inv })
     }
+    // Down payments used: the receivable is debited net, the DP liability for the amount used (Accurate's line order).
+    const dps: { dp: string; amount: number; account: string }[] = []
+    for (const u of inv.downPayments) {
+      const [dp] = await tx.execute(sql`SELECT i.customer_no, i.dp_account, i.total - COALESCE((SELECT SUM(amount) FROM sales_dp_usages WHERE dp_number = i.number), 0) AS left
+        FROM sales_invoices i WHERE i.number = ${u.invoice} AND i.kind = 'DP' FOR UPDATE`)
+      if (!dp || dp.customer_no !== inv.customer) throw new DomainError(`Uang muka ${u.invoice} tidak ditemukan untuk pelanggan ini`)
+      if (u.amount > Number(dp.left)) throw new DomainError(`Uang muka ${u.invoice} tidak cukup`)
+      dps.push({ dp: u.invoice, amount: u.amount, account: dp.dp_account as string })
+    }
+    const dpUsed = dps.reduce((s, d) => s + d.amount, 0)
+    if (dpUsed > total) throw new DomainError('Uang muka melebihi total faktur')
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${inv.idempotencyKey}:journal`, journalId, number, sourceType: 'SI', date: inv.date, description: inv.description,
       lines: [
-        { account: cust.ar_account as string, side: 'DEBIT', amount: (total / 100).toFixed(2) },
+        ...(total - dpUsed ? [{ account: cust.ar_account as string, side: 'DEBIT' as const, amount: ((total - dpUsed) / 100).toFixed(2) }] : []),
+        ...merge(dps).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: (d.amount / 100).toFixed(2) })),
         ...merge(lines.map(l => ({ account: items.get(l.item)!, amount: l.total }))).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
         ...merge(costs.map(c => ({ account: c.cogs, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'DEBIT' as const, amount: (c.amount / 100).toFixed(2) })),
         ...merge(costs.map(c => ({ account: c.inv, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
@@ -75,6 +87,7 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     for (const l of lines)
       await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total)
         VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total})`)
+    for (const d of dps) await tx.execute(sql`INSERT INTO sales_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${inv.idempotencyKey}, 'CreateSalesInvoice', ${JSON.stringify(result)}::jsonb)`)
     return result
@@ -111,6 +124,27 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
       await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount) VALUES (${number}, ${p.invoice}, ${p.amount})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rc.idempotencyKey}, 'CreateSalesReceipt', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+export async function createSalesDownPayment(db: Db, input: SalesDownPaymentInput) {
+  const dp = salesDownPaymentInput.parse(input)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${dp.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const [cust] = await tx.execute(sql`SELECT ar_account FROM customers WHERE no = ${dp.customer}`)
+    if (!cust) throw new DomainError(`Pelanggan ${dp.customer} tidak ditemukan`)
+    const number = dp.number ?? await nextNumber(tx, `SI.${period(dp.date)}`)
+    const journalId = crypto.randomUUID()
+    await handleTx(tx, {
+      type: 'PostJournal', idempotencyKey: `${dp.idempotencyKey}:journal`, journalId, number, sourceType: 'SDP', date: dp.date, description: dp.description,
+      lines: [{ account: cust.ar_account as string, side: 'DEBIT', amount: (dp.amount / 100).toFixed(2) }, { account: dp.dpAccount, side: 'CREDIT', amount: (dp.amount / 100).toFixed(2) }],
+    })
+    await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id, kind, dp_account)
+      VALUES (${number}, ${dp.customer}, ${dp.date}, ${dp.date}, ${dp.description}, ${dp.amount}, ${journalId}, 'DP', ${dp.dpAccount})`)
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreateSalesDownPayment', ${JSON.stringify(result)}::jsonb)`)
     return result
   })
 }

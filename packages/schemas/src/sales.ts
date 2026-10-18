@@ -18,6 +18,8 @@ export const salesInvoiceInput = z.object({
   dueDate: isoDate.optional(),
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents })).min(1),
+  /** Down payments (DP invoices of the same customer) deducted from this invoice. */
+  downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
 })
 export type SalesInvoiceInput = z.input<typeof salesInvoiceInput>
 
@@ -70,3 +72,15 @@ export const returnInput = z.object({
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
 })
 export type ReturnInput = z.input<typeof returnInput>
+
+/** Uang Muka Penjualan: an invoice of kind DP, Dr receivable / Cr the down-payment liability account. */
+export const salesDownPaymentInput = z.object({
+  idempotencyKey: z.string().min(8),
+  number: code.optional(),
+  customer: code,
+  date: isoDate,
+  description: z.string().default(''),
+  amount: amountToCents,
+  dpAccount: code,
+})
+export type SalesDownPaymentInput = z.input<typeof salesDownPaymentInput>

@@ -15,6 +15,11 @@ export interface Invoice {
     total: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
+    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */
+    dpUses?: {
+        dp: string;
+        amount: number;
+    }[];
 }
 export interface Receipt {
     number: string;
@@ -82,6 +87,11 @@ export declare function openInvoices(d: SalesData, asOf: string, customer: strin
     total: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
+    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */
+    dpUses?: {
+        dp: string;
+        amount: number;
+    }[];
     owing: number;
     age: number;
 }[];
@@ -145,3 +155,7 @@ export declare function agingChart(d: SalesData, asOf: string): [string, string]
 /** Grafik Rata-rata Pembayaran Pelanggan: per month in range, average days from invoice date to each receipt dated that month
  *  (partial payments count); months without receipts show 0. */
 export declare function collectionDaysChart(d: SalesData, from: string, to: string): [string, string][];
+/** Uang Muka Penjualan per customer: DP invoices in range, used (as of the end date) and remaining. */
+export declare function downPaymentsByCustomer(d: SalesData, from: string, to: string): string[][];
+/** Penggunaan Uang Muka Penjualan: per DP invoice in range, the invoices that used it. */
+export declare function downPaymentUsage(d: SalesData, from: string, to: string): string[][];

@@ -16,7 +16,7 @@ import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
-import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
+import { createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
 import { queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
@@ -62,6 +62,7 @@ export function createApp(db: Db) {
     .post('/sales/customers', async c => { await upsertCustomer(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/invoices', async c => c.json(await createSalesInvoice(db, await c.req.json()), 201))
+    .post('/sales/down-payments', async c => c.json(await createSalesDownPayment(db, await c.req.json()), 201))
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
       const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')
@@ -70,7 +71,8 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(q)
       const fn = { 'invoice-list': R.salesInvoiceList, 'sales-by-customer': R.salesByCustomer, 'receipt-list': R.salesReceiptList, 'ar-ledger': R.arLedger, 'ar-history': R.arHistory, 'customer-statement': R.customerStatement, 'ar-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'receipt-detail': R.salesReceiptDetail,
         'owing-collection': R.owingCollection, 'by-item': R.salesByItem, 'item-by-customer': R.salesItemByCustomer, 'customer-by-item': R.salesCustomerByItem,
-        'by-customer-detail': R.salesByCustomerDetail, 'by-item-detail': R.salesByItemDetail, 'by-branch': R.salesByBranch, 'invoice-detail': R.salesInvoiceDetail }[r]!
+        'by-customer-detail': R.salesByCustomerDetail, 'by-item-detail': R.salesByItemDetail, 'by-branch': R.salesByBranch, 'invoice-detail': R.salesInvoiceDetail,
+        'down-payments': R.downPaymentsByCustomer, 'down-payment-usage': R.downPaymentUsage }[r]!
       return c.json(fn(d, from, to))
     })
     .post('/purchases/vendors', async c => { await upsertVendor(db, await c.req.json()); return c.json({ ok: true }) })

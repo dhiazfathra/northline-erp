@@ -5,3 +5,5 @@ Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2
 Columns `Nomor #` | `Tanggal` | `Deskripsi` | `Nilai`, under a currency heading. Per active customer (by name): name row, `Saldo Piutang per <day before startDate>` with the opening, one row per document (invoice +total, receipt −amount; description = document description), then the closing balance. Last row: sum of closings.
 
 Returns print as their own rows with a negative value (`SRT.2033.12.00001 | 05 Des 2033 | NL-T6-SR1 | -42.000`).
+
+Down payments (verified with `downpayment-t7.json`): a DP invoice (type Uang Muka Penjualan, SI numbering, Dr Piutang / Cr Uang Muka Penjualan) prints two rows (+amount, −amount); an invoice using a DP prints its net and then the DP used, both positive.
