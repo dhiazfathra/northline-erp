@@ -111,3 +111,9 @@ test('sales item views over the T4..T14 chain (sales-views.json: per gudang, per
   for (const [id, fn] of Object.entries(fns))
     for (const w of (fx as any)[id].filter((w: any) => w.from >= '2033-10-01' && w.to <= '2034-12-31')) expect(fn(d, w.from, w.to)).toEqual(w.rows)
 })
+
+test('AnalysisInventoryValuationReport over the T4..T15 chain (stock-movement.json; header + NL-T4 rows)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/stock-movement.json')).default as any, Q = await import('../src/reports/queries')
+  const d = await Q.loadInventory(f.db), keep = (r: string[], i: number) => i < 5 || r[0]!.startsWith('NL-')
+  for (const c of fx.AnalysisInventoryValuationReport) expect(I.analysisValuation(d, c.from, c.to).filter(keep)).toEqual(c.rows.filter(keep))
+})

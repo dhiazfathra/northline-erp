@@ -231,3 +231,25 @@ export function countSheet(items: { no: string; name: string; unit: string }[], 
   return [['Lembar Penghitungan Stok'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]'], ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan', 'Hitung #1', 'Hitung #2'],
     ...(items.length ? [['Umum']] : []), ...items.map(i => [i.no, i.name, formatIdr(Math.round(qty(i.no) * 100)), i.unit])]
 }
+
+/**
+ * Analisa Nilai Persediaan (docs/reports/AnalysisInventoryValuationReport.md): every stock item (name order), all
+ * warehouses: opening, Penjualan, Pembelian, Produksi, Penyesuaian, Lainnya, closing, each as quantity and FIFO value.
+ * Columns as in Pergerakan Stok (returns with their side); transfers fall under Lainnya and net to zero over all warehouses.
+ */
+export function analysisValuation(d: InventoryData, from: string, to: string): string[][] {
+  const q = (n: number) => formatIdr(Math.round(n * 100))
+  const COL: Record<string, number> = { SI: 0, DO: 0, SRT: 0, PI: 1, RI: 1, PRT: 1, IA: 3 }
+  const rows: string[][] = [['Analisa Nilai Persediaan'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`], ['Cabang : [Semua Cabang]'],
+    ['Nama Barang', 'Saldo Awal', 'Penjualan', 'Pembelian', 'Produksi', 'Penyesuaian', 'Lainnya', 'Saldo Akhir'],
+    ['Kuantitas', 'Nilai', 'Kuantitas', 'Nilai', 'Kuantitas', 'Nilai', 'Kuantitas', 'Nilai', 'Kuantitas', 'Nilai', 'Kuantitas', 'Nilai', 'Kuantitas', 'Nilai']]
+  for (const it of [...d.items].sort((a, b) => a.name.localeCompare(b.name))) {
+    const ms = d.moves.filter(m => m.item === it.no && m.date <= to)
+    const before = ms.filter(m => m.date < from), cols = Array.from({ length: 5 }, () => ({ qty: 0, value: 0 }))
+    for (const m of ms.filter(m => m.date >= from)) { const c = cols[COL[m.docType] ?? 4]!; c.qty += m.quantity; c.value += m.value }
+    const open = { qty: before.reduce((s, m) => s + m.quantity, 0), value: before.reduce((s, m) => s + m.value, 0) }
+    const close = { qty: open.qty + cols.reduce((s, c) => s + c.qty, 0), value: open.value + cols.reduce((s, c) => s + c.value, 0) }
+    rows.push([it.name, ...[open, ...cols, close].flatMap(c => [q(c.qty), formatIdr(c.value)])])
+  }
+  return rows
+}

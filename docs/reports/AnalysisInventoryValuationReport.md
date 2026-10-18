@@ -1,25 +1,27 @@
 # Analisa Nilai Persediaan (`AnalysisInventoryValuationReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AnalysisInventoryValuationReport.json`](captures/AnalysisInventoryValuationReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. **Status: verified** (zero diff on header + NL-T4 rows, 6 windows). Fixture: [`fixtures/stock-movement.json`](fixtures/stock-movement.json) (`AnalysisInventoryValuationReport`).
+ERP: `apps/api/src/reports/inventory.ts` (`analysisValuation`); test: `apps/api/test/adjustments.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-Selection: `ITEM_CATEGORY_ALL`.
+`FROMTO` + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`). All warehouses.
 
 ## Layout
 
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
+Two header rows: `Nama Barang | Saldo Awal | Penjualan | Pembelian | Produksi | Penyesuaian | Lainnya | Saldo Akhir`, then
+`Kuantitas | Nilai` per column. One row per stock item in name order (every item, also without movement).
 
+## Calculation rules (quantity and FIFO value, signed)
 
-First table row (columns): `Nama Barang | Saldo Awal | Penjualan | Pembelian | Produksi | Penyesuaian | Lainnya | Saldo Akhir`
+| Window | NL-T4 Barang A row |
+|---|---|
+| Okt-Nov 2033 | 0/0, sales -15 / -165.000 (FIFO cost), purchases 25 / 303.000, closing 10 / 138.000 |
+| Des 2033 | sales return +2 / 29.200 under Penjualan; purchase return -1 / -13.000 under Pembelian |
+| Jan-Jun 2034 | goods receipts +10 / 75.000 under Pembelian |
+| Jul 2034 | adjustment +1 / 22.000 under Penyesuaian |
+| Okt 2034 | delivery order -4 / -55.200 under Penjualan |
+| Nov 2034 | transfers between warehouses: no change (they net to zero over all warehouses) |
 
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Saldo Awal = moves before `from`; Saldo Akhir = Saldo Awal + all columns.
+- Values are the stock-move values (FIFO cost for issues, purchase cost for receipts, the return costing of ADR-0008).
