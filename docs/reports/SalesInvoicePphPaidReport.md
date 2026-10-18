@@ -1,6 +1,6 @@
 # Pembayaran PPh Penjualan (`SalesInvoicePphPaidReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Piutang. **Status: out of scope** ([ADR-0014](../decisions/0014-pph-reports-out-of-scope.md)); spec captured (no seeded fixture or ERP implementation yet).
 Capture: [`captures/SalesInvoicePphPaidReport.json`](captures/SalesInvoicePphPaidReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

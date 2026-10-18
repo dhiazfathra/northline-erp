@@ -106,7 +106,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | [verified](CustomerStatementReport.md) |
 | Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [verified](OwingCollectionGraphReport.md) |
 | Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoicePaidReport.md) |
-| Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePphPaidReport.md) |
+| Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [out of scope](SalesInvoicePphPaidReport.md) |
 | Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [verified](CustomerExistingCreditListReport.md) |
 | Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListReport.md) |
 | Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListDetailReport.md) |
@@ -173,7 +173,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [verified](AgingPayableChartReport.md) |
 | Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [verified](VendorStatementReport.md) |
 | Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoicePaidReport.md) |
-| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePphPaidReport.md) |
+| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [out of scope](PurchaseInvoicePphPaidReport.md) |
 | Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | [verified](PurchasePaymentListReport.md) |
 | Rincian Pembayaran Pembelian | `PurchasePaymentListDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchasePaymentListDetailReport.md) |
 | Utang per Bulan | `VendorPayablePerMonthReport` | report | ASOFYEAR | — | [verified](VendorPayablePerMonthReport.md) |
@@ -286,14 +286,14 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | [verified](TaxationInOutReport.md) |
 | Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [verified](SalesInvoiceSPTListReport.md) |
 | Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | [verified](PurchaseInvoiceSPTListReport.md) |
-| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [spec](PurchasePaymentPPhReport.md) |
-| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [spec](SalesReceiptPPhReport.md) |
+| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [out of scope](PurchasePaymentPPhReport.md) |
+| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [out of scope](SalesReceiptPPhReport.md) |
 
 ## Pemeriksaan (AUDIT)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | [spec](ItemValueToAccountBalanceDifferenceReport.md) |
+| Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | [verified](ItemValueToAccountBalanceDifferenceReport.md) |
 | Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | [verified](UnbilledAccountBalanceDifferenceReport.md) |
 
 ## Lain-lain (OTHERS)

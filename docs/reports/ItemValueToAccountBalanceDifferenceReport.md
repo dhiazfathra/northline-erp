@@ -1,21 +1,29 @@
 # Selisih Saldo Akun Persediaan dengan Nilai Barang (`ItemValueToAccountBalanceDifferenceReport`)
 
-Group: Pemeriksaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ItemValueToAccountBalanceDifferenceReport.json`](captures/ItemValueToAccountBalanceDifferenceReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. **Status: verified** under [ADR-0013](../decisions/0013-demo-inclusive-totals.md): the layout, the 0
+difference, and the change in 110401 and item value between 30 Apr and 31 May 2036. Fixture:
+[`fixtures/purchase-expense-t25.json`](fixtures/purchase-expense-t25.json) (`ItemValueToAccountBalanceDifferenceReport`).
+ERP: `apps/api/src/reports/inventory.ts` (`itemValueDifference`); test: `apps/api/test/purchases-2036.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
+`startDate` / `endDate`. Balances are taken at the end date; the start date does not change them.
 
 ## Layout
 
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
+`Nomor # | Tanggal | Tipe Transaksi | Keterangan | Nilai`, then:
+- section `Selisih antara akun persediaan dengan nilai barang`
+  - `Saldo Akun Persediaan`: one row per inventory account (`no | - | name | balance`) and its total
+  - `Nilai barang`: one row `Nilai barang | - | Nilai barang Persediaan | -value` and its total
+- the grand total `Total dari Selisih ...` = account balances - item value
 
+## Calculation rules
 
-First table row (columns): `Nomor # | Tanggal | Tipe Transaksi | Keterangan | Nilai`
+- Inventory account balances at the end date, against the stock value of all items at the end date (negated).
+- With every stock move journaled to its item's inventory account, the difference is 0 (as in every capture).
+- 30 Apr to 31 May 2036: 110401 moves 193.695.750 -> 193.715.750 and item value 195.583.750 -> 195.603.750, both +20.000.
+  These are the two T25 purchase item lines of 10.000.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Differences (a non-zero Selisih and the transaction list Accurate prints under it) are not captured.

@@ -14,3 +14,5 @@
 | [0010](0010-report-scope.md) | Payroll, job orders, manufacturing and access reports are out of scope | Accepted |
 | [0011](0011-unlabeled-chart-verification.md) | Unlabeled charts are verified through their backing table report | Accepted |
 | [0012](0012-foreign-currency-sales.md) | Foreign-currency sales post in IDR at the document's rate | Accepted |
+| [0013](0013-demo-inclusive-totals.md) | Reports that total the whole sandbox are verified on our own movement | Accepted |
+| [0014](0014-pph-reports-out-of-scope.md) | PPh withholding reports stay at spec | Accepted |

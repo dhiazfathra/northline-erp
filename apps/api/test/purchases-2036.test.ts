@@ -103,3 +103,19 @@ test('InventoryValuationDetailDownloadReport: per-item CSV with opening row (T25
     else expect(rel(got)).toEqual(rel(c.rows))
   }
 })
+
+test('ItemValueToAccountBalanceDifferenceReport: layout, zero difference and the T25 movement (ADR-0013)', async () => {
+  const { itemValueDifference } = await import('../src/reports/inventory'), Q = await import('../src/reports/queries')
+  const cs = (t25 as any).ItemValueToAccountBalanceDifferenceReport as { to: string; rows: string[][] }[]
+  const n = (s: string) => Number(s.replace(/\./g, '').replace(',', '.'))
+  const erp = async (to: string) => {
+    const { accounts, balances } = await Q.loadLedger(f.db, to), { moves } = await Q.loadInventory(f.db)
+    const inv = accounts.filter(a => a.no === '110401').map(a => ({ no: a.no, name: a.name, balance: balances.filter(b => b.account === a.no).reduce((s, b) => s + b.debit - b.credit, 0) }))
+    return itemValueDifference(inv, moves.filter(m => m.date <= to).reduce((s, m) => s + m.value, 0))
+  }
+  const [a, b] = [await erp(cs[0]!.to), await erp(cs[1]!.to)], [sa, sb] = cs.map(c => body(c.rows))
+  const row = (rows: string[][], k: string) => rows.find(r => r[0] === k || r[2] === k)!.at(-1)!
+  expect(a.map(r => r[0])).toEqual(sa!.filter(r => r[0] !== '110405').map(r => r[0]))
+  for (const k of ['Persediaan Barang Jadi', 'Nilai barang Persediaan']) expect(n(row(b, k)) - n(row(a, k))).toBe(n(row(sb!, k)) - n(row(sa!, k)))
+  expect(row(b, 'Total dari Selisih antara akun persediaan dengan nilai barang')).toBe(row(sb!, 'Total dari Selisih antara akun persediaan dengan nilai barang'))
+})

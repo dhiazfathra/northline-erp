@@ -1,6 +1,6 @@
 # Laba/Rugi Tidak Terealisasi (`UnRealizeGainLossReport`)
 
-Group: Buku Besar. **Status: verified** (zero diff on the header, currency and receivable rows and the receivable's figures;
+Group: Buku Besar. **Status: verified** under [ADR-0013](../decisions/0013-demo-inclusive-totals.md) (zero diff on the header, currency and receivable rows and the receivable's figures;
 the sandbox's two demo USD bank accounts are outside the ERP). Fixture: [`fixtures/fx-t31.json`](fixtures/fx-t31.json) (`t36`).
 ERP: `apps/api/src/reports/receivables.ts` (`foreignOpenReceivables`, `unrealizedGainLoss`), loader `loadForeignOwing`
 (migration 0039); test: `apps/api/test/fx.test.ts`.

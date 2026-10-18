@@ -1,6 +1,6 @@
 # Daftar Bukti Potong PPh Penjualan (`SalesReceiptPPhReport`)
 
-Group: Pajak. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Pajak. **Status: out of scope** ([ADR-0014](../decisions/0014-pph-reports-out-of-scope.md)); spec captured (no seeded fixture or ERP implementation yet).
 Capture: [`captures/SalesReceiptPPhReport.json`](captures/SalesReceiptPPhReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

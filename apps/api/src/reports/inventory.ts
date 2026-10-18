@@ -352,3 +352,15 @@ export function inventoryValuationCsv(moves: StockMove[], item: string, from: st
   }
   return rows
 }
+
+/**
+ * Selisih Saldo Akun Persediaan dengan Nilai Barang (docs/reports/ItemValueToAccountBalanceDifferenceReport.md): balances
+ * of the inventory accounts at the end date against the stock value of all items at that date; the difference should be 0.
+ */
+export function itemValueDifference(accounts: { no: string; name: string; balance: number }[], itemValue: number): string[][] {
+  const total = accounts.reduce((s, a) => s + a.balance, 0), f = formatIdr
+  return [['Nomor #', 'Tanggal', 'Tipe Transaksi', 'Keterangan', 'Nilai'], ['Selisih antara akun persediaan dengan nilai barang'], ['Saldo Akun Persediaan'],
+    ...accounts.map(a => [a.no, '-', a.name, f(a.balance)]), ['Total dari Saldo Akun Persediaan', f(total)],
+    ['Nilai barang'], ['Nilai barang', '-', 'Nilai barang Persediaan', f(-itemValue)], ['Total dari Nilai barang', f(-itemValue)],
+    ['Total dari Selisih antara akun persediaan dengan nilai barang', f(total - itemValue)]]
+}

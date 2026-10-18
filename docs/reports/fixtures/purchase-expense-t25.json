@@ -278,5 +278,130 @@
    "Total Nama Akun",
    "250.000"
   ]
- ]
+ ],
+ "ItemValueToAccountBalanceDifferenceReport": [
+  {
+   "to": "2036-04-30",
+   "param": {
+    "startDate": "01/04/2036",
+    "endDate": "30/04/2036"
+   },
+   "rows": [
+    [
+     "Selisih Saldo Akun Persediaan dengan Nilai Barang"
+    ],
+    [
+     "Dari 01 Apr 2036 s/d 30 Apr 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Selisih antara akun persediaan dengan nilai barang"
+    ],
+    [
+     "Saldo Akun Persediaan"
+    ],
+    [
+     "110401",
+     "-",
+     "Persediaan Barang Jadi",
+     "193.695.750"
+    ],
+    [
+     "110405",
+     "-",
+     "Persediaan NG Goods",
+     "1.888.000"
+    ],
+    [
+     "Total dari Saldo Akun Persediaan",
+     "195.583.750"
+    ],
+    [
+     "Nilai barang"
+    ],
+    [
+     "Nilai barang",
+     "-",
+     "Nilai barang Persediaan",
+     "-195.583.750"
+    ],
+    [
+     "Total dari Nilai barang",
+     "-195.583.750"
+    ],
+    [
+     "Total dari Selisih antara akun persediaan dengan nilai barang",
+     "0"
+    ]
+   ]
+  },
+  {
+   "to": "2036-05-31",
+   "param": {
+    "startDate": "01/05/2036",
+    "endDate": "31/05/2036"
+   },
+   "rows": [
+    [
+     "Selisih Saldo Akun Persediaan dengan Nilai Barang"
+    ],
+    [
+     "Dari 01 Mei 2036 s/d 31 Mei 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Selisih antara akun persediaan dengan nilai barang"
+    ],
+    [
+     "Saldo Akun Persediaan"
+    ],
+    [
+     "110401",
+     "-",
+     "Persediaan Barang Jadi",
+     "193.715.750"
+    ],
+    [
+     "110405",
+     "-",
+     "Persediaan NG Goods",
+     "1.888.000"
+    ],
+    [
+     "Total dari Saldo Akun Persediaan",
+     "195.603.750"
+    ],
+    [
+     "Nilai barang"
+    ],
+    [
+     "Nilai barang",
+     "-",
+     "Nilai barang Persediaan",
+     "-195.603.750"
+    ],
+    [
+     "Total dari Nilai barang",
+     "-195.603.750"
+    ],
+    [
+     "Total dari Selisih antara akun persediaan dengan nilai barang",
+     "0"
+    ]
+   ]
+  }
+ ],
+ "ItemValueDifferenceNote": "Whole-sandbox totals include demo stock (ADR-0013): the test compares the layout, the 0 difference and the change between 30 Apr and 31 May 2036 (+20.000 on 110401 and item value, the two T25 purchases)."
 }
