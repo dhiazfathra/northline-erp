@@ -1,0 +1,407 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. One Pembayaran and one Penerimaan on NL-T1 Kas, Jan 2035. Bank params: selectedBank = [NL-T1 Kas].",
+ "documents": [
+  {
+   "kind": "PAY",
+   "number": "NL-T1-1101.2035.01.00001",
+   "bank": "NL-T1-1101",
+   "date": "2035-01-10",
+   "description": "NL-T18-OP1",
+   "lines": [
+    {
+     "account": "NL-T1-6001",
+     "amount": 250000,
+     "notes": "NL-T18-OP1"
+    }
+   ]
+  },
+  {
+   "kind": "DEP",
+   "number": "NL-T1-1101.2035.01.00002",
+   "bank": "NL-T1-1101",
+   "date": "2035-01-15",
+   "description": "NL-T18-OD1",
+   "lines": [
+    {
+     "account": "NL-T1-4001",
+     "amount": 400000,
+     "notes": "NL-T18-OD1"
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "PaymentListReport": {
+   "rows": [
+    [
+     "Ringkasan Daftar Pembayaran"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tanggal",
+     "No Cek #",
+     "Kas/Bank",
+     "Nilai"
+    ],
+    [
+     "10 Jan 2035",
+     "NL-T1 Kas",
+     "250.000"
+    ]
+   ]
+  },
+  "DepositListReport": {
+   "rows": [
+    [
+     "Ringkasan Daftar Penerimaan"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tanggal",
+     "No Cek #",
+     "Kas/Bank",
+     "Nilai"
+    ],
+    [
+     "15 Jan 2035",
+     "NL-T1 Kas",
+     "400.000"
+    ]
+   ]
+  },
+  "PaymentByBankSummaryReport": {
+   "rows": [
+    [
+     "Ringkasan Pembayaran per Bank"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kas/Bank",
+     "Nama Akun Perkiraan",
+     "Jumlah"
+    ],
+    [
+     "NL-T1 Kas",
+     "NL-T1 Beban",
+     "250.000"
+    ],
+    [
+     "Total Nama Akun Perkiraan",
+     "250.000"
+    ],
+    [
+     "Total Kas/Bank",
+     "250.000"
+    ]
+   ]
+  },
+  "DepositByBankSummaryReport": {
+   "rows": [
+    [
+     "Ringkasan Penerimaan per Bank"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kas/Bank",
+     "Nama Akun Perkiraan",
+     "Jumlah"
+    ],
+    [
+     "NL-T1 Kas",
+     "NL-T1 Pendapatan",
+     "400.000"
+    ],
+    [
+     "Total Nama Akun Perkiraan",
+     "400.000"
+    ],
+    [
+     "Total Kas/Bank",
+     "400.000"
+    ]
+   ]
+  },
+  "PaymentByBankDetailReport": {
+   "rows": [
+    [
+     "Rincian Pembayaran per Bank"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kas/Bank",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     "No Cek #",
+     "Keterangan Pembayaran",
+     "Jumlah"
+    ],
+    [
+     "NL-T1 Beban"
+    ],
+    [
+     "10 Jan 2035",
+     "NL-T18-OP1",
+     "250.000"
+    ],
+    [
+     "250.000"
+    ],
+    [
+     "250.000"
+    ]
+   ]
+  },
+  "DepositByBankDetailReport": {
+   "rows": [
+    [
+     "Rincian Penerimaan per Bank"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kas/Bank",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     "No Cek #",
+     "Kode Perkiraan",
+     "Nama",
+     "Jumlah"
+    ],
+    [
+     "NL-T1 Pendapatan"
+    ],
+    [
+     "15 Jan 2035",
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "400.000"
+    ],
+    [
+     "400.000"
+    ],
+    [
+     "400.000"
+    ]
+   ]
+  },
+  "PaymentLoadReport": {
+   "rows": [
+    [
+     "Rincian Beban Pembayaran"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Nomor # Pembayaran",
+     ":",
+     "NL-T1-1101.2035.01.00001",
+     "Kas/Bank",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "Tanggal Pembayaran",
+     ":",
+     "10 Jan 2035"
+    ],
+    [
+     "Rincian Pembayaran",
+     "Nilai"
+    ],
+    [
+     "NL-T1 Beban",
+     "250.000"
+    ],
+    [
+     "250.000"
+    ]
+   ]
+  },
+  "BankStatementReport": {
+   "rows": [
+    [
+     "Rekening Koran"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kode",
+     ":"
+    ],
+    [
+     "Nama",
+     ":"
+    ],
+    [
+     "Tanggal",
+     "Keterangan",
+     "Mutasi",
+     "Tipe Mutasi",
+     "Saldo"
+    ]
+   ]
+  },
+  "UnreconciledBankReport": {
+   "rows": [
+    [
+     "Transaksi Bank belum Terekonsiliasi"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Bank : NL-T1 Kas"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-1101"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "Tanggal",
+     "Transaksi",
+     "Nilai",
+     "Referensi"
+    ],
+    [
+     "Histori Bank"
+    ],
+    [
+     "10 Jan 2035",
+     "NL-T1-1101.2035.01.00001 - Pembayaran : NL-T18-OP1",
+     "-250.000"
+    ],
+    [
+     "15 Jan 2035",
+     "NL-T1-1101.2035.01.00002 - Penerimaan : NL-T18-OD1",
+     "400.000"
+    ],
+    [
+     "150.000"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2035 s/d 31 Jan 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "10 Jan 2035"
+    ],
+    [
+     "Pembayaran",
+     "NL-T1-1101.2035.01.00001",
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "NL-T18-OP1",
+     "250.000",
+     "0"
+    ],
+    [
+     "Pembayaran",
+     "NL-T1-1101.2035.01.00001",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T18-OP1",
+     "0",
+     "250.000"
+    ],
+    [
+     "15 Jan 2035"
+    ],
+    [
+     "Penerimaan",
+     "NL-T1-1101.2035.01.00002",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T18-OD1",
+     "400.000",
+     "0"
+    ],
+    [
+     "Penerimaan",
+     "NL-T1-1101.2035.01.00002",
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "NL-T18-OD1",
+     "0",
+     "400.000"
+    ]
+   ]
+  }
+ }
+}

@@ -10,7 +10,7 @@ import { cashFlowDirect, cashFlowIndirect, cashFlowIndirectDetail, formatCashFlo
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
-async function loadLedger(db: Db, to: string) {
+export async function loadLedger(db: Db, to: string) {
   const accounts = (await db.execute(sql`SELECT no, name, type, parent_no FROM accounts`)).map(r => ({
     no: r.no as string, name: r.name as string, type: r.type as AccountType, parentNo: (r.parent_no as string) ?? null,
   }))
@@ -245,4 +245,12 @@ export async function loadExchanges(db: Db) {
   const ls = await db.execute(sql`SELECT exchange_number, invoice_number FROM exchange_invoice_lines`)
   return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, to_char(collect_date,'YYYY-MM-DD') AS c, to_char(due_date,'YYYY-MM-DD') AS d FROM exchange_invoices`))
     .map(r => ({ number: r.number as string, date: r.date as string, collectDate: r.c as string, dueDate: r.d as string, invoices: ls.filter(l => l.exchange_number === r.number).map(l => l.invoice_number as string) }))
+}
+
+export async function loadCashDocs(db: Db): Promise<import('./cash-bank').CashDoc[]> {
+  const ls = await db.execute(sql`SELECT l.document_number, l.account_no, a.name, l.amount, l.notes FROM cash_document_lines l JOIN accounts a ON a.no = l.account_no ORDER BY l.seq`)
+  return (await db.execute(sql`SELECT d.number, d.kind, d.bank_no, a.name AS bank_name, to_char(d.date,'YYYY-MM-DD') AS date, d.cheque_no, d.description, d.amount FROM cash_documents d JOIN accounts a ON a.no = d.bank_no`))
+    .map(r => ({ number: r.number as string, kind: r.kind as 'PAY' | 'DEP', bank: r.bank_no as string, bankName: r.bank_name as string, date: r.date as string, chequeNo: r.cheque_no as string,
+      description: r.description as string, amount: Number(r.amount),
+      lines: ls.filter(l => l.document_number === r.number).map(l => ({ account: l.account_no as string, accountName: l.name as string, amount: Number(l.amount), notes: l.notes as string })) }))
 }

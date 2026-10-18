@@ -72,3 +72,62 @@ export function cashAccountList(accounts: TbAccount[], balances: DailyBalance[],
     [formatIdr(total), formatIdr(total)],
   ]
 }
+
+// ---- Pembayaran / Penerimaan reports (fixtures/cash-bank-t18.json) ----
+export interface CashDoc { number: string; kind: 'PAY' | 'DEP'; bank: string; bankName: string; date: string; chequeNo: string; description: string; amount: number; lines: { account: string; accountName: string; amount: number; notes: string }[] }
+const docsIn = (ds: CashDoc[], kind: 'PAY' | 'DEP', from: string, to: string, banks?: string[]) =>
+  ds.filter(x => x.kind === kind && x.date >= from && x.date <= to && (!banks || banks.includes(x.bank))).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+const nonEmpty = (...xs: string[]) => xs.filter(x => x !== '')
+
+/** Ringkasan Daftar Pembayaran / Penerimaan; empty cheque numbers print nothing. */
+export const cashDocList = (ds: CashDoc[], kind: 'PAY' | 'DEP', from: string, to: string) =>
+  [['Tanggal', 'No Cek #', 'Kas/Bank', 'Nilai'], ...docsIn(ds, kind, from, to).map(x => nonEmpty(fmtDate(x.date), x.chequeNo, x.bankName, formatIdr(x.amount)))]
+
+/** Ringkasan Pembayaran/Penerimaan per Bank: per bank, totals per counter-account (by name). */
+export function cashByBankSummary(ds: CashDoc[], kind: 'PAY' | 'DEP', banks: string[], from: string, to: string): string[][] {
+  const out: string[][] = [['Kas/Bank', 'Nama Akun Perkiraan', 'Jumlah']]
+  for (const b of banks) {
+    const xs = docsIn(ds, kind, from, to, [b]); if (!xs.length) continue
+    const m = new Map<string, number>(); for (const l of xs.flatMap(x => x.lines)) m.set(l.accountName, (m.get(l.accountName) ?? 0) + l.amount)
+    const names = [...m.keys()].sort(), total = [...m.values()].reduce((s, v) => s + v, 0)
+    out.push(...names.map((n, i) => [...(i === 0 ? [xs[0]!.bankName] : []), n, formatIdr(m.get(n)!)]), ['Total Nama Akun Perkiraan', formatIdr(total)], ['Total Kas/Bank', formatIdr(total)])
+  }
+  return out
+}
+
+/** Rincian Pembayaran/Penerimaan per Bank: per bank and counter-account, the lines. Payments show the line notes,
+ *  deposits the account code and name. */
+export function cashByBankDetail(ds: CashDoc[], kind: 'PAY' | 'DEP', banks: string[], from: string, to: string): string[][] {
+  const out: string[][] = []
+  for (const b of banks) {
+    const xs = docsIn(ds, kind, from, to, [b]); if (!xs.length) continue
+    out.push(['Kas/Bank', ':', xs[0]!.bankName], ['Mata Uang', ':', 'Indonesian Rupiah'],
+      kind === 'PAY' ? ['Tanggal', 'No Cek #', 'Keterangan Pembayaran', 'Jumlah'] : ['Tanggal', 'No Cek #', 'Kode Perkiraan', 'Nama', 'Jumlah'])
+    const ls = xs.flatMap(x => x.lines.map(l => ({ x, l }))), accs = [...new Set(ls.map(y => y.l.accountName))].sort()
+    for (const a of accs) {
+      const ys = ls.filter(y => y.l.accountName === a)
+      out.push([a], ...ys.map(({ x, l }) => kind === 'PAY' ? nonEmpty(fmtDate(x.date), x.chequeNo, l.notes, formatIdr(l.amount)) : nonEmpty(fmtDate(x.date), x.chequeNo, l.account, l.accountName, formatIdr(l.amount))),
+        [formatIdr(ys.reduce((s, y) => s + y.l.amount, 0))])
+    }
+    out.push([formatIdr(xs.reduce((s, x) => s + x.amount, 0))])
+  }
+  return out
+}
+
+/** Rincian Beban Pembayaran: one block per payment. */
+export const paymentLoad = (ds: CashDoc[], banks: string[], from: string, to: string) => docsIn(ds, 'PAY', from, to, banks).flatMap(x => [
+  ['Nomor # Pembayaran', ':', x.number, 'Kas/Bank', ':', x.bankName], ['Tanggal Pembayaran', ':', fmtDate(x.date)], ['Rincian Pembayaran', 'Nilai'],
+  ...x.lines.map(l => [l.accountName, formatIdr(l.amount)]), [formatIdr(x.amount)]])
+
+/** Transaksi Bank belum Terekonsiliasi: per bank, all unreconciled Pembayaran/Penerimaan under "Histori Bank".
+ *  shortcut: covers cash documents only; receipts/payments of invoices and bank reconciliation are not modelled yet. */
+export function unreconciledBank(ds: CashDoc[], accounts: TbAccount[], banks: string[], from: string, to: string): string[][] {
+  return banks.flatMap(b => { const a = accounts.find(x => x.no === b)!
+    const xs = ds.filter(x => x.bank === b && x.date >= from && x.date <= to).sort((p, q) => (p.date + p.number < q.date + q.number ? -1 : 1))
+    const v = (x: CashDoc) => (x.kind === 'PAY' ? -x.amount : x.amount)
+    return [['Kode Perkiraan', ':', a.no], ['Nama', ':', a.name], ['Tanggal', 'Transaksi', 'Nilai', 'Referensi'], ['Histori Bank'],
+      ...xs.map(x => [fmtDate(x.date), `${x.number} - ${x.kind === 'PAY' ? 'Pembayaran' : 'Penerimaan'} : ${x.description}`, formatIdr(v(x))]), [formatIdr(xs.reduce((s, x) => s + v(x), 0))]] })
+}
+
+/** Rekening Koran: imported bank statements are not modelled; prints the empty header (verified when no statement exists). */
+export const bankStatement = () => [['Kode', ':'], ['Nama', ':'], ['Tanggal', 'Keterangan', 'Mutasi', 'Tipe Mutasi', 'Saldo']]

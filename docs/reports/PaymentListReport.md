@@ -1,24 +1,7 @@
 # Ringkasan Daftar Pembayaran (`PaymentListReport`)
 
-Group: Kas & Bank. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PaymentListReport.json`](captures/PaymentListReport.json), run with default parameters over the sandbox demo data.
+Group: Kas & Bank. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/cash-bank-t18.json`](fixtures/cash-bank-t18.json) (Pembayaran NL-T1-1101.2035.01.00001 250.000 to NL-T1 Beban, Penerimaan …00002 400.000 from NL-T1 Pendapatan). ERP: `apps/api/src/reports/cash-bank.ts`, `src/cash-bank/service.ts`; test: `apps/api/test/cash-docs.test.ts`. These reports cover the Pembayaran/Penerimaan documents (not invoice receipts/payments).
 
-## Parameters
+Columns `Tanggal` | `No Cek #` | `Kas/Bank` | `Nilai`; an empty cheque number prints nothing.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Tanggal | No Cek # | Kas/Bank | Nilai`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Postings: Pembayaran Dr accounts / Cr bank (type Pembayaran); Penerimaan Dr bank / Cr accounts (type Penerimaan); numbered by the bank prefix.

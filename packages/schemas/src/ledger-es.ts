@@ -19,7 +19,7 @@ export const amountToCents = z
   })
   .pipe(cents)
 
-export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO'])
+export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO', 'OP', 'OD'])
 export type JournalSource = z.infer<typeof journalSource>
 
 export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional() })

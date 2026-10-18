@@ -1,6 +1,26 @@
 import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/ledger-es';
 import type { Db } from '../db';
+import { type AccountType } from './trial-balance';
 import { type Journal } from './general-ledger';
+/** Reads only projections + master data, never the event store. */
+export declare function loadLedger(db: Db, to: string): Promise<{
+    accounts: {
+        no: string;
+        name: string;
+        type: AccountType;
+        parentNo: string;
+    }[];
+    balances: {
+        account: string;
+        date: string;
+        debit: number;
+        credit: number;
+    }[];
+    settings: {
+        retainedEarningsAccount: string;
+        fiscalYearStartMonth: number;
+    };
+}>;
 export declare function queryTrialBalance(db: Db, q: TrialBalanceQuery): Promise<{
     no: string;
     name: string;
@@ -84,3 +104,4 @@ export declare function loadExchanges(db: Db): Promise<{
     dueDate: string;
     invoices: string[];
 }[]>;
+export declare function loadCashDocs(db: Db): Promise<import('./cash-bank').CashDoc[]>;

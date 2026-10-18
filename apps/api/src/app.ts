@@ -1,3 +1,5 @@
+import { createCashDocument } from './cash-bank/service'
+import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
@@ -19,7 +21,7 @@ import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
 import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -83,6 +85,16 @@ export function createApp(db: Db) {
       if (r === 'list') return c.json(loanList(ls))
       const l = ls.find(x => x.number === c.req.query('loan'))
       return l ? c.json(r === 'history' ? loanHistory(l) : loanInstallments(l)) : c.json({ error: 'loan not found' }, 404)
+    })
+    .post('/cash-bank/documents', async c => c.json(await createCashDocument(db, await c.req.json()), 201))
+    .get('/reports/cash-bank/:report{payment-list|deposit-list|payment-by-bank|deposit-by-bank|payment-by-bank-detail|deposit-by-bank-detail|payment-load|unreconciled|statement}', async c => {
+      const ds = await loadCashDocs(db), r = c.req.param('report'), banks = c.req.queries('bank') ?? [], { from, to } = trialBalanceQuery.parse(c.req.query())
+      if (r === 'statement') return c.json(CB.bankStatement())
+      if (r === 'payment-list' || r === 'deposit-list') return c.json(CB.cashDocList(ds, r === 'payment-list' ? 'PAY' : 'DEP', from, to))
+      if (r === 'payment-load') return c.json(CB.paymentLoad(ds, banks, from, to))
+      if (r === 'unreconciled') return c.json(CB.unreconciledBank(ds, (await loadLedger(db, to)).accounts, banks, from, to))
+      const kind = r.startsWith('payment') ? 'PAY' : 'DEP'
+      return c.json(r.endsWith('detail') ? CB.cashByBankDetail(ds, kind, banks, from, to) : CB.cashByBankSummary(ds, kind, banks, from, to))
     })
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {

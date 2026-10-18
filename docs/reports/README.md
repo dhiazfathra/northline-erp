@@ -72,18 +72,18 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 |---|---|---|---|---|---|
 | Histori Bank | `BankBookReport` | report | FROMTO | selectedBank= | [verified](BankBookReport.md) |
 | Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | [spec](ReconciledBankReport.md) |
-| Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | [spec](UnreconciledBankReport.md) |
-| Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [spec](PaymentByBankSummaryReport.md) |
-| Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [spec](DepositByBankSummaryReport.md) |
+| Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | [verified](UnreconciledBankReport.md) |
+| Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](PaymentByBankSummaryReport.md) |
+| Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](DepositByBankSummaryReport.md) |
 | Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | [spec](OutstandingChequeReport.md) |
 | Arus Kas per Akun | `CashFlowbyAccountReport` | report | FROMTO | selectedBank= | [verified](CashFlowbyAccountReport.md) |
-| Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | [spec](PaymentByBankDetailReport.md) |
-| Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | [spec](DepositByBankDetailReport.md) |
+| Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | [verified](PaymentByBankDetailReport.md) |
+| Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | [verified](DepositByBankDetailReport.md) |
 | Daftar Kas | `CashBankAccountListReport` | report | ASOF | — | [verified](CashBankAccountListReport.md) |
-| Rekening Koran | `BankStatementReport` | report | FROMTO | selectedBank= | [spec](BankStatementReport.md) |
-| Ringkasan Daftar Pembayaran | `PaymentListReport` | report | FROMTO | selectedBranch= | [spec](PaymentListReport.md) |
-| Ringkasan Daftar Penerimaan | `DepositListReport` | report | FROMTO | selectedBranch= | [spec](DepositListReport.md) |
-| Rincian Beban Pembayaran | `PaymentLoadReport` | report | FROMTO | selectedBank= | [spec](PaymentLoadReport.md) |
+| Rekening Koran | `BankStatementReport` | report | FROMTO | selectedBank= | [verified](BankStatementReport.md) |
+| Ringkasan Daftar Pembayaran | `PaymentListReport` | report | FROMTO | selectedBranch= | [verified](PaymentListReport.md) |
+| Ringkasan Daftar Penerimaan | `DepositListReport` | report | FROMTO | selectedBranch= | [verified](DepositListReport.md) |
+| Rincian Beban Pembayaran | `PaymentLoadReport` | report | FROMTO | selectedBank= | [verified](PaymentLoadReport.md) |
 | Rekonsiliasi Bank (Jurnal terhadap Rekening Koran) | `BankReconcileBookToStatementReport` | report | FROMTO | selectedBank= | [spec](BankReconcileBookToStatementReport.md) |
 | Rekonsiliasi Bank (Rekening Koran terhadap Jurnal) | `BankReconcileStatementToBookReport` | report | FROMTO | selectedBank= | [spec](BankReconcileStatementToBookReport.md) |
 | Daftar Piutang Karyawan | `EmployeeLoanListReport` | report | NONE | selectedBranch= | [verified](EmployeeLoanListReport.md) |
