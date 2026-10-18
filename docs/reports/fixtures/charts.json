@@ -1,0 +1,39 @@
+{
+ "source": "Accurate chart reports render a PNG only (HTML and XLS export both embed an image). Values below are transcribed from the PNG labels in captures/charts/, window Oct–Nov 2033 over inventory-t4.json.",
+ "AnnualSalesChartReport": {
+  "from": "2033-10-01",
+  "to": "2033-11-30",
+  "image": "captures/charts/AnnualSalesChartReport-t4.png",
+  "bars": [
+   [
+    "Okt 2033",
+    "160.000"
+   ],
+   [
+    "Nov 2033",
+    "147.000"
+   ]
+  ],
+  "axes": {
+   "x": "Bulan",
+   "y": "Penjualan"
+  }
+ },
+ "TopSalesCustomerChartReport": {
+  "from": "2033-10-01",
+  "to": "2033-11-30",
+  "image": "captures/charts/TopSalesCustomerChartReport-t4.png",
+  "legend": [
+   "NL-T2 Pelanggan A - 160.000 (52%)",
+   "NL-T2 Pelanggan B - 147.000 (48%)"
+  ]
+ },
+ "TopSalesItemChartReport": {
+  "from": "2033-10-01",
+  "to": "2033-11-30",
+  "image": "captures/charts/TopSalesItemChartReport-t4.png",
+  "legend": [
+   "NL-T4 Barang A - 307.000 (100%)"
+  ]
+ }
+}

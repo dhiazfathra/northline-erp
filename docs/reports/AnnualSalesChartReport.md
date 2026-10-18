@@ -1,22 +1,5 @@
 # Grafik Penjualan Bulanan (`AnnualSalesChartReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AnnualSalesChartReport.json`](captures/AnnualSalesChartReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. Chart report: Accurate renders only a PNG (HTML and XLS export embed the image). Verified by transcribing the labels of [`captures/charts/AnnualSalesChartReport-t4.png`](captures/charts/AnnualSalesChartReport-t4.png) into [`fixtures/charts.json`](fixtures/charts.json); test in `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `chart`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Bar per month (x `Bulan`, y `Penjualan`), bar label = invoice totals of the month (`Okt 2033` 160.000, `Nov 2033` 147.000). ERP: `monthlySalesChart`.

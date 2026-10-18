@@ -138,6 +138,10 @@ export function createApp(db: Db) {
       const d = c.req.param('side') === 'sales' ? await loadSales(db) : await loadPurchases(db), { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ list: R.returnList, detail: R.returnDetail, 'by-item': R.returnByItem }[c.req.param('report') as 'list' | 'detail' | 'by-item'](d, from, to))
     })
+    .get('/reports/charts/:chart{monthly-sales|customer-share|item-share}', async c => {
+      const d = await loadSales(db), { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ 'monthly-sales': R.monthlySalesChart, 'customer-share': R.customerShareChart, 'item-share': R.itemShareChart }[c.req.param('chart') as 'monthly-sales'](d, from, to))
+    })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().route('/api', api).get('*', serveSpa)

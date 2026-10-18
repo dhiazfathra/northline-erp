@@ -381,3 +381,25 @@ export function returnByItem(d: SalesData, from: string, to: string): string[][]
   const label = d.labels ? ['Nama Barang Barang & Jasa', 'Nilai Retur'] : ['Nama Barang & Jasa', 'Nilai Retur (Faktur)']
   return [label, ...sortBy([...group(ls, l => l.item).values()], xs => xs[0]!.itemName).map(xs => [xs[0]!.itemName, formatIdr(tv(xs))]), [`Total ${label[0]}`, formatIdr(tv(ls))]]
 }
+
+// ---- charts: Accurate renders these as images; the ERP returns the series and the labels printed on them ----
+const MON_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des']
+
+/** Grafik Penjualan Bulanan: one bar per month with invoices in range, labelled "<Mon yyyy>" and the amount. */
+export function monthlySalesChart(d: SalesData, from: string, to: string): [string, string][] {
+  const m = new Map<string, number>()
+  for (const i of d.invoices.filter(i => inRange(i, from, to))) m.set(i.date.slice(0, 7), (m.get(i.date.slice(0, 7)) ?? 0) + i.total)
+  return [...m].sort().map(([k, v]) => [`${MON_SHORT[Number(k.slice(5)) - 1]} ${k.slice(0, 4)}`, formatIdr(v)])
+}
+
+/** Pie legend lines "<name> - <amount> (<pct>%)", largest first, whole-number percentages. */
+function shareLegend(xs: [string, number][]) {
+  const total = xs.reduce((s, [, v]) => s + v, 0)
+  return xs.filter(([, v]) => v).sort((a, b) => b[1] - a[1]).map(([n, v]) => `${n} - ${formatIdr(v)} (${Math.round((v / total) * 100)}%)`)
+}
+/** Porsi Penjualan per Pelanggan */
+export const customerShareChart = (d: SalesData, from: string, to: string) =>
+  shareLegend([...d.customers.keys()].map(c => [d.customers.get(c)!, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)]))
+/** Porsi Penjualan per Barang */
+export const itemShareChart = (d: SalesData, from: string, to: string) =>
+  shareLegend([...group(linesIn(d, from, to), l => l.item).values()].map(xs => [xs[0]!.itemName, tv(xs)]))

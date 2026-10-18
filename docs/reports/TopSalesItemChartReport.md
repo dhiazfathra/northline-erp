@@ -1,22 +1,5 @@
 # Porsi Penjualan per Barang (`TopSalesItemChartReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/TopSalesItemChartReport.json`](captures/TopSalesItemChartReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. Chart report: Accurate renders only a PNG (HTML and XLS export embed the image). Verified by transcribing the labels of [`captures/charts/TopSalesItemChartReport-t4.png`](captures/charts/TopSalesItemChartReport-t4.png) into [`fixtures/charts.json`](fixtures/charts.json); test in `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `chart`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Pie; legend `<item> - <sales> (<pct>%)`. ERP: `itemShareChart`.

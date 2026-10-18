@@ -75,3 +75,12 @@ test('Profitabilitas per Faktur / per Pelanggan with FIFO cost; Penjualan per Ba
   expect(R.profitabilityByCustomer(d, W.from, W.to, cogs)).toEqual(rep('ProfitabilityByCustomerReport'))
   expect(R.salesByItem(d, W.from, W.to)).toEqual(rep('ViewSalesByItemReport'))
 })
+
+test('sales charts (series transcribed from Accurate PNGs)', async () => {
+  const ch = (await import('../../../docs/reports/fixtures/charts.json')).default
+  const R = await import('../src/reports/receivables'), { loadSales } = await import('../src/reports/queries')
+  const d = await loadSales(f.db)
+  expect(R.monthlySalesChart(d, W.from, W.to) as string[][]).toEqual(ch.AnnualSalesChartReport.bars)
+  expect(R.customerShareChart(d, W.from, W.to)).toEqual(ch.TopSalesCustomerChartReport.legend)
+  expect(R.itemShareChart(d, W.from, W.to)).toEqual(ch.TopSalesItemChartReport.legend)
+})

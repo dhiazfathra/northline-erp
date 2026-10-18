@@ -130,9 +130,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Penjualan per Cabang | `ViewSalesByBranchReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByBranchReport.md) |
 | Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByBranchReport.md) |
 | Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesReturnByItemReport.md) |
-| Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [spec](AnnualSalesChartReport.md) |
-| Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesCustomerChartReport.md) |
-| Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesItemChartReport.md) |
+| Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [verified](AnnualSalesChartReport.md) |
+| Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesCustomerChartReport.md) |
+| Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesItemChartReport.md) |
 | Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | [spec](SalesDownPaymentByCustomerReport.md) |
 | Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemSalesTargetReport.md) |
 | Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemCategorySalesTargetReport.md) |

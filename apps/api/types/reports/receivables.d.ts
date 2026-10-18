@@ -134,3 +134,9 @@ export declare function returnList(d: SalesData, from: string, to: string): stri
 export declare function returnDetail(d: SalesData, from: string, to: string): string[][];
 /** Retur Penjualan/Pembelian per Barang */
 export declare function returnByItem(d: SalesData, from: string, to: string): string[][];
+/** Grafik Penjualan Bulanan: one bar per month with invoices in range, labelled "<Mon yyyy>" and the amount. */
+export declare function monthlySalesChart(d: SalesData, from: string, to: string): [string, string][];
+/** Porsi Penjualan per Pelanggan */
+export declare const customerShareChart: (d: SalesData, from: string, to: string) => string[];
+/** Porsi Penjualan per Barang */
+export declare const itemShareChart: (d: SalesData, from: string, to: string) => string[];
