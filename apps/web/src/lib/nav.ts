@@ -20,128 +20,158 @@ export interface NavModule {
   subs: NavSub[]
 }
 
+// Reference `cat` legend: order, colors and names.
 export const kindColor: Record<SubKind, string> = {
-  tx: '#ec4899',
-  data: '#a855f7',
-  report: '#38bdf8',
-  setting: '#f59e0b',
+  tx: '#22c55e',
+  data: '#3b82f6',
+  setting: '#ef4444',
+  report: '#eab308',
 }
 
 export const kindLabel: Record<SubKind, T> = {
   tx: { id: 'Transaksi', en: 'Transactions' },
-  data: { id: 'Data', en: 'Records' },
-  report: { id: 'Laporan', en: 'Reports' },
-  setting: { id: 'Pengaturan', en: 'Settings' },
+  data: { id: 'Data master', en: 'Master data' },
+  setting: { id: 'Pengaturan', en: 'Setup' },
+  report: { id: 'Laporan & alat', en: 'Reports & tools' },
 }
 
 const locked = (feature: string): T => ({ id: `Aktifkan "${feature}" di Preferensi`, en: `Turn on "${feature}" in Preferences` })
 
-// The 10 rail modules (00-navigation-map.md): Manufaktur replaces the Aset Tetap module; Aset Tetap,
-// Mata Uang and Anggaran tiles sit under Buku Besar (placement is a design proposal).
+type K = 't' | 'm' | 's' | 'r'
+const kindOf: Record<K, SubKind> = { t: 'tx', m: 'data', s: 'setting', r: 'report' }
+const gen = (en: string) => '/modules/' + en.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+/** One reference menu entry; no `to` = generic list screen at /modules/<slug>. */
+const sub = (k: K, id: string, en: string, icon: string, to?: string, lock?: [feature: string, name: string]): NavSub => ({
+  label: { id, en },
+  kind: kindOf[k],
+  icon: 'ph-light ph-' + icon,
+  to: to ?? gen(en),
+  ...(lock && { feature: lock[0], offNote: locked(lock[1]) }),
+})
+const mod = (id: string, name: T, icon: string, subs: NavSub[]): NavModule => ({ id, name, icon: 'ph-light ph-' + icon, subs })
+
+// The 10 rail modules, set/order/names/icons as in the Ops Dashboard v30 reference (MODS).
 export const modules: NavModule[] = [
-  {
-    id: 'company',
-    name: { id: 'Perusahaan', en: 'Company' },
-    icon: 'ph-light ph-briefcase',
-    subs: [
-      { label: { id: 'Pelanggan', en: 'Customers' }, kind: 'data', icon: 'ph-light ph-users', to: '/modules/customers' },
-      { label: { id: 'Pemasok', en: 'Vendors' }, kind: 'data', icon: 'ph-light ph-truck', to: '/modules/vendors' },
-      { label: { id: 'Ganti Perusahaan', en: 'Switch Company' }, kind: 'setting', icon: 'ph-light ph-swap', to: '/workspaces' },
-    ],
-  },
-  {
-    id: 'ledger',
-    name: { id: 'Buku Besar', en: 'General Ledger' },
-    icon: 'ph-light ph-book-open',
-    subs: [
-      { label: { id: 'Akun Perkiraan', en: 'Chart of Accounts' }, kind: 'data', icon: 'ph-light ph-tree-structure', to: '/accounts' },
-      { label: { id: 'Jurnal Umum', en: 'Journal Voucher' }, kind: 'tx', icon: 'ph-light ph-notebook', to: '/docs/journal' },
-      { label: { id: 'Proses Akhir Bulan', en: 'Month-end Close' }, kind: 'tx', icon: 'ph-light ph-calendar-check', to: '/ledger/month-end' },
-      { label: { id: 'Neraca Percobaan', en: 'Trial Balance' }, kind: 'report', icon: 'ph-light ph-scales', to: '/ledger/trial-balance' },
-      { label: { id: 'Aset Tetap', en: 'Fixed Assets' }, kind: 'data', icon: 'ph-light ph-armchair', to: '/fixed-assets' },
-      { label: { id: 'Pengeluaran Aset', en: 'Asset Expenditure' }, kind: 'tx', icon: 'ph-light ph-wrench', to: '/asset-modules' },
-      { label: { id: 'Aset per Lokasi', en: 'Assets by Location' }, kind: 'report', icon: 'ph-light ph-map-pin', to: '/asset-modules/by-location' },
-      { label: { id: 'Mata Uang', en: 'Currencies' }, kind: 'data', icon: 'ph-light ph-currency-circle-dollar', feature: 'fx', offNote: locked('Multi Mata Uang') },
-      { label: { id: 'Anggaran', en: 'Budget' }, kind: 'data', icon: 'ph-light ph-chart-pie-slice', feature: 'budget', offNote: locked('Anggaran') },
-    ],
-  },
-  {
-    id: 'cash',
-    name: { id: 'Kas & Bank', en: 'Cash & Bank' },
-    icon: 'ph-light ph-bank',
-    subs: [
-      { label: { id: 'Penerimaan', en: 'Receipts' }, kind: 'tx', icon: 'ph-light ph-arrow-down-left', to: '/docs/cash-receipt' },
-      { label: { id: 'Pembayaran', en: 'Payments' }, kind: 'tx', icon: 'ph-light ph-arrow-up-right', to: '/docs/cash-payment' },
-      { label: { id: 'Rekonsiliasi Bank', en: 'Bank Reconciliation' }, kind: 'tx', icon: 'ph-light ph-link', to: '/cash-bank/reconciliation' },
-    ],
-  },
-  {
-    id: 'sales',
-    name: { id: 'Penjualan', en: 'Sales' },
-    icon: 'ph-light ph-shopping-bag',
-    subs: [
-      { label: { id: 'Penawaran Penjualan', en: 'Sales Quotation' }, kind: 'tx', icon: 'ph-light ph-note-pencil', to: '/docs/sales-quotation' },
-      { label: { id: 'Pesanan Penjualan', en: 'Sales Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/sales-order' },
-      { label: { id: 'Uang Muka Penjualan', en: 'Sales Down Payment' }, kind: 'tx', icon: 'ph-light ph-coins', to: '/docs/sales-down-payment' },
-      { label: { id: 'Faktur Penjualan', en: 'Sales Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/sales-invoice' },
-      { label: { id: 'Penerimaan Penjualan', en: 'Sales Receipt' }, kind: 'tx', icon: 'ph-light ph-hand-coins', to: '/docs/sales-receipt' },
-      { label: { id: 'Retur Penjualan', en: 'Sales Return' }, kind: 'tx', icon: 'ph-light ph-arrow-u-up-left', to: '/docs/sales-return' },
-    ],
-  },
-  {
-    id: 'purchase',
-    name: { id: 'Pembelian', en: 'Purchases' },
-    icon: 'ph-light ph-shopping-cart',
-    subs: [
-      { label: { id: 'Pesanan Pembelian', en: 'Purchase Order' }, kind: 'tx', icon: 'ph-light ph-clipboard-text', to: '/docs/purchase-order' },
-      { label: { id: 'Faktur Pembelian', en: 'Purchase Invoice' }, kind: 'tx', icon: 'ph-light ph-receipt', to: '/docs/purchase-invoice' },
-      { label: { id: 'Pembayaran Pembelian', en: 'Purchase Payment' }, kind: 'tx', icon: 'ph-light ph-money', to: '/docs/purchase-payment' },
-      { label: { id: 'Retur Pembelian', en: 'Purchase Return' }, kind: 'tx', icon: 'ph-light ph-arrow-u-up-left', to: '/docs/purchase-return' },
-    ],
-  },
-  {
-    id: 'inventory',
-    name: { id: 'Persediaan', en: 'Inventory' },
-    icon: 'ph-light ph-package',
-    subs: [
-      { label: { id: 'Barang & Jasa', en: 'Items & Services' }, kind: 'data', icon: 'ph-light ph-cube', to: '/modules/items' },
-      { label: { id: 'Gudang', en: 'Warehouses' }, kind: 'data', icon: 'ph-light ph-warehouse', to: '/modules/warehouses' },
-      { label: { id: 'Penyesuaian Persediaan', en: 'Inventory Adjustment' }, kind: 'tx', icon: 'ph-light ph-sliders', to: '/docs/stock-adjustment' },
-    ],
-  },
-  {
-    id: 'manufacturing',
-    name: { id: 'Manufaktur', en: 'Manufacturing' },
-    icon: 'ph-light ph-factory',
-    subs: [
-      { label: { id: 'Formula Produk', en: 'Bill of Materials' }, kind: 'data', icon: 'ph-light ph-flask', feature: 'mfg', offNote: locked('Manufaktur') },
-      { label: { id: 'Perintah Kerja', en: 'Work Order' }, kind: 'tx', icon: 'ph-light ph-hammer', feature: 'mfg', offNote: locked('Manufaktur') },
-    ],
-  },
-  {
-    id: 'tax',
-    name: { id: 'Perpajakan', en: 'Tax' },
-    icon: 'ph-light ph-percent',
-    subs: [
-      { label: { id: 'Pajak', en: 'Tax Codes' }, kind: 'data', icon: 'ph-light ph-percent', to: '/modules/taxes' },
-      { label: { id: 'e-Faktur', en: 'e-Invoice' }, kind: 'tx', icon: 'ph-light ph-file-text', feature: 'efaktur', offNote: locked('e-Faktur') },
-    ],
-  },
-  {
-    id: 'reports',
-    name: { id: 'Daftar Laporan', en: 'Reports' },
-    icon: 'ph-light ph-chart-line',
-    subs: [
-      { label: { id: 'Semua Laporan', en: 'All Reports' }, kind: 'report', icon: 'ph-light ph-files', to: '/reports' },
-      { label: { id: 'Riwayat AI', en: 'AI History' }, kind: 'report', icon: 'ph-light ph-sparkle', to: '/ai/history' },
-    ],
-  },
-  {
-    id: 'settings',
-    name: { id: 'Pengaturan', en: 'Settings' },
-    icon: 'ph-light ph-gear-six',
-    subs: [{ label: { id: 'Preferensi', en: 'Preferences' }, kind: 'setting', icon: 'ph-light ph-sliders-horizontal', to: '/settings/preferences' }],
-  },
+  mod('settings', { id: 'Pengaturan', en: 'Settings' }, 'gear-six', [
+    sub('s', 'Preferensi', 'Preferences', 'sliders-horizontal', '/settings/preferences'),
+    sub('s', 'Akses Grup', 'Group Access', 'users-three'),
+    sub('s', 'Pengguna', 'Users', 'user'),
+    sub('s', 'Penomoran', 'Numbering', 'hash'),
+    sub('s', 'Desain Cetakan', 'Print Templates', 'printer'),
+    sub('r', 'Northline Store', 'Northline Store', 'storefront'),
+  ]),
+  mod('company', { id: 'Perusahaan', en: 'Company' }, 'buildings', [
+    sub('m', 'Pajak', 'Taxes', 'percent', '/modules/taxes'),
+    sub('m', 'Syarat Pembayaran', 'Payment Terms', 'money'),
+    sub('m', 'Pengiriman', 'Shipping', 'truck'),
+    sub('m', 'FOB', 'FOB', 'anchor'),
+    sub('m', 'Gaji/Tunjangan', 'Salary/Allowances', 'wallet'),
+    sub('m', 'Karyawan', 'Employees', 'user'),
+    sub('t', 'Transaksi Berulang', 'Recurring Transactions', 'repeat'),
+    sub('t', 'Proses Akhir Bulan', 'Month-End Process', 'calendar-x', '/ledger/month-end'),
+    sub('m', 'Kontak', 'Contacts', 'address-book'),
+    sub('r', 'Transaksi Favorit', 'Favorite Transactions', 'star'),
+    sub('r', 'Kalender', 'Calendar', 'chart-line'),
+    sub('r', 'Log Aktifitas', 'Activity Log', 'clock-counter-clockwise'),
+    sub('m', 'Mata Uang', 'Currencies', 'currency-dollar', undefined, ['fx', 'Multi Mata Uang']),
+  ]),
+  mod('ledger', { id: 'Buku Besar', en: 'General Ledger' }, 'book-open-text', [
+    sub('m', 'Akun Perkiraan', 'Chart of Accounts', 'notebook', '/accounts'),
+    sub('t', 'Pencatatan Beban', 'Expense Entry', 'trend-down'),
+    sub('t', 'Pencatatan Gaji', 'Payroll Entry', 'wallet'),
+    sub('t', 'Jurnal Umum', 'General Journal', 'notebook', '/docs/journal'),
+    sub('r', 'Histori Akun', 'Account History', 'notebook'),
+    sub('r', 'Log Aktifitas Jurnal', 'Journal Activity Log', 'notebook'),
+    sub('s', 'Anggaran', 'Budget', 'chart-pie-slice', undefined, ['budget', 'Anggaran dan Target']),
+  ]),
+  mod('cash', { id: 'Kas & Bank', en: 'Cash & Bank' }, 'bank', [
+    sub('t', 'Pembayaran', 'Payments', 'money', '/docs/cash-payment'),
+    sub('t', 'Penerimaan', 'Receipts', 'money', '/docs/cash-receipt'),
+    sub('t', 'Transfer Bank', 'Bank Transfer', 'arrows-left-right'),
+    sub('s', 'SmartLink e-Banking', 'SmartLink e-Banking', 'bank'),
+    sub('r', 'Rekening Koran', 'Bank Statement', 'bank'),
+    sub('r', 'Histori Bank', 'Bank History', 'clock-counter-clockwise'),
+    sub('t', 'Rekonsiliasi Bank', 'Bank Reconciliation', 'bank', '/cash-bank/reconciliation'),
+    sub('s', 'SmartLink Virtual Account', 'SmartLink Virtual Account', 'bank'),
+    sub('s', 'SmartLink e-Payment', 'SmartLink e-Payment', 'money'),
+  ]),
+  mod('sales', { id: 'Penjualan', en: 'Sales' }, 'storefront', [
+    sub('t', 'Pengiriman Pesanan', 'Order Delivery', 'clipboard-text'),
+    sub('t', 'Uang Muka Penjualan', 'Sales Down Payments', 'hand-coins', '/docs/sales-down-payment'),
+    sub('t', 'Faktur Penjualan', 'Sales Invoices', 'receipt', '/docs/sales-invoice'),
+    sub('t', 'Penerimaan Penjualan', 'Sales Receipts', 'money', '/docs/sales-receipt'),
+    sub('m', 'Kategori Pelanggan', 'Customer Categories', 'squares-four'),
+    sub('m', 'Kategori Penjualan', 'Sales Categories', 'squares-four'),
+    sub('m', 'Pelanggan', 'Customers', 'address-book', '/modules/customers'),
+    sub('s', 'Penyesuaian Harga/Diskon', 'Price/Discount Adjustments', 'currency-circle-dollar'),
+    sub('s', 'SmartLink e-Commerce', 'SmartLink e-Commerce', 'gear'),
+    // Reference locks these three behind same-named features; kept open because their screens are built.
+    sub('t', 'Penawaran Penjualan', 'Sales Quotes', 'tag', '/docs/sales-quotation'),
+    sub('t', 'Pesanan Penjualan', 'Sales Orders', 'clipboard-text', '/docs/sales-order'),
+    sub('t', 'Retur Penjualan', 'Sales Returns', 'arrow-u-up-left', '/docs/sales-return'),
+  ]),
+  mod('purchase', { id: 'Pembelian', en: 'Purchasing' }, 'shopping-cart', [
+    sub('t', 'Pesanan Pembelian', 'Purchase Orders', 'clipboard-text', '/docs/purchase-order'),
+    sub('t', 'Penerimaan Barang', 'Goods Receipts', 'package'),
+    sub('t', 'Uang Muka Pembelian', 'Purchase Down Payments', 'hand-coins'),
+    sub('t', 'Faktur Pembelian', 'Purchase Invoices', 'receipt', '/docs/purchase-invoice'),
+    sub('t', 'Pembayaran Pembelian', 'Purchase Payments', 'money', '/docs/purchase-payment'),
+    sub('t', 'Retur Pembelian', 'Purchase Returns', 'arrow-u-up-left', '/docs/purchase-return'),
+    sub('m', 'Kategori Pemasok', 'Supplier Categories', 'squares-four'),
+    sub('m', 'Pemasok', 'Suppliers', 'handshake', '/modules/vendors'),
+    sub('t', 'Perintah Pembayaran', 'Payment Orders', 'clipboard-text'),
+    sub('t', 'Transfer Pemasok', 'Supplier Transfers', 'arrows-left-right'),
+  ]),
+  mod('inventory', { id: 'Persediaan', en: 'Inventory' }, 'package', [
+    sub('t', 'Permintaan Barang', 'Item Requests', 'hand'),
+    sub('t', 'Penyesuaian Persediaan', 'Inventory Adjustments', 'list-checks', '/docs/stock-adjustment'),
+    sub('t', 'Perintah Stok Opname', 'Stock Count Orders', 'clipboard-text'),
+    sub('t', 'Hasil Stok Opname', 'Stock Count Results', 'list-checks'),
+    sub('m', 'Barang & Jasa', 'Goods & Services', 'cube', '/modules/items'),
+    sub('m', 'Satuan Barang', 'Item Units', 'cube'),
+    sub('m', 'Kategori Barang', 'Item Categories', 'squares-four'),
+    sub('m', 'Merek Barang', 'Item Brands', 'cube'),
+    sub('r', 'Barang Stok Minimum', 'Minimum Stock Items', 'cube'),
+    sub('t', 'Pemindahan Barang', 'Item Transfers', 'arrows-left-right', undefined, ['wh', 'Multi Gudang']),
+    sub('m', 'Gudang', 'Warehouses', 'map-pin', '/modules/warehouses', ['wh', 'Multi Gudang']),
+    sub('m', 'Aset Tetap', 'Fixed Assets', 'office-chair', '/fixed-assets', ['fa', 'Pencatatan Aset']),
+  ]),
+  mod('manufacturing', { id: 'Manufaktur', en: 'Manufacturing' }, 'factory', [
+    sub('m', 'Standar Biaya Produksi', 'Standard Production Cost', 'database'),
+    sub('m', 'Formula Produksi', 'Production Formula', 'database'),
+    sub('t', 'Rencana Produksi', 'Production Plan', 'file-text'),
+    sub('t', 'Perintah Kerja', 'Work Order', 'clipboard-text'),
+    sub('t', 'Pengambilan Bahan Baku', 'Material Issue', 'factory'),
+    sub('t', 'Persiapan Bahan Baku', 'Material Preparation', 'factory'),
+    sub('m', 'Tahapan Proses', 'Process Stages', 'database'),
+    sub('t', 'Penyelesaian Barang Jadi', 'Finished Goods Completion', 'factory'),
+    sub('t', 'Alokasi Biaya Produksi', 'Production Cost Allocation', 'map-pin'),
+    sub('r', 'Jadwal Produksi', 'Production Schedule', 'chart-line'),
+    sub('r', 'Pemenuhan Bahan Baku', 'Material Fulfillment', 'factory'),
+    sub('r', 'Monitor Perintah Kerja', 'Work Order Monitor', 'clipboard-text'),
+  ]),
+  mod('tax', { id: 'SmartLink Tax', en: 'SmartLink Tax' }, 'receipt', [
+    sub('t', 'e-Faktur CTAS', 'e-Faktur CTAS', 'receipt'),
+    sub('t', 'Email Faktur Pajak', 'Tax Invoice Email', 'receipt'),
+    sub('t', 'e-Faktur Legacy', 'e-Faktur Legacy', 'receipt'),
+  ]),
+  mod('reports', { id: 'Daftar Laporan', en: 'Report List' }, 'chart-bar', [
+    sub('r', 'Daftar Laporan', 'Report List', 'chart-bar', '/reports'),
+    sub('r', 'SPT PPN / PPNBM', 'VAT / LGST Return', 'percent'),
+    sub('r', 'Analisa AI', 'AI Analysis', 'sparkle', '/ai/history'),
+    sub('r', 'SPT PPh Ps.21', 'Income Tax Art. 21 Return', 'percent'),
+    sub('r', 'Bukti Potong PPh Ps.21', 'Income Tax Art. 21 Withholding Slip', 'percent'),
+  ]),
+]
+
+// Built screens the reference reaches from inside other screens, not from the menu: tab labels only.
+const routeOnly: NavModule[] = [
+  mod('ledger', { id: 'Buku Besar', en: 'General Ledger' }, 'book-open-text', [
+    sub('r', 'Neraca Percobaan', 'Trial Balance', 'scales', '/ledger/trial-balance'),
+    sub('t', 'Pengeluaran Aset', 'Asset Expenditure', 'wrench', '/asset-modules'),
+    sub('r', 'Aset per Lokasi', 'Assets by Location', 'map-pin', '/asset-modules/by-location'),
+  ]),
+  mod('company', { id: 'Perusahaan', en: 'Company' }, 'buildings', [sub('s', 'Ganti Perusahaan', 'Switch Company', 'swap', '/workspaces')]),
 ]
 
 export const notDesigned: T = { id: 'Layar ini belum tersedia di desain', en: 'This screen is not designed yet' }
@@ -152,7 +182,7 @@ export const isLocked = (s: NavSub, enabled: Set<string>) => !!s.feature && !ena
 /** Lookup for tab labels: longest matching nav path wins. */
 export function navFor(path: string): { sub: NavSub; mod: NavModule } | undefined {
   let best: { sub: NavSub; mod: NavModule } | undefined
-  for (const mod of modules)
+  for (const mod of [...modules, ...routeOnly])
     for (const sub of mod.subs)
       if (sub.to && (path === sub.to || path.startsWith(sub.to + '/')) && (!best || sub.to.length > best.sub.to!.length))
         best = { sub, mod }
