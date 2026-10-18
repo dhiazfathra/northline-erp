@@ -1,7 +1,7 @@
 # Selisih Akun Pembelian belum tertagih (`UnbilledAccountBalanceDifferenceReport`)
 
 Group: Pembelian. **Status: verified** (zero diff, 3 windows around one unbilled receipt). Fixture: [`fixtures/unbilled-t24.json`](fixtures/unbilled-t24.json).
-ERP: `apps/api/src/reports/unbilled.ts` (`unbilledDifference`), receipt journal in `apps/api/src/purchases/service.ts` (`createReceiveItem`); test: `apps/api/test/purchases-t24-t25.test.ts`.
+ERP: `apps/api/src/reports/unbilled.ts` (`unbilledDifference`), receipt journal in `apps/api/src/purchases/service.ts` (`createReceiveItem`); test: `apps/api/test/purchases-2036.test.ts`.
 
 ## Parameters
 

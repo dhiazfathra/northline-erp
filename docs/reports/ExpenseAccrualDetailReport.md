@@ -1,24 +1,29 @@
 # Rincian Pencatatan Beban (`ExpenseAccrualDetailReport`)
 
-Group: Buku Besar. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ExpenseAccrualDetailReport.json`](captures/ExpenseAccrualDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Buku Besar. **Status: verified** (zero diff, two seeded accruals). Fixture: [`fixtures/expense-accrual-t26.json`](fixtures/expense-accrual-t26.json).
+ERP: `apps/api/src/reports/expense-accrual.ts` (`expenseAccrualDetail`), service `createExpenseAccrual` in `apps/api/src/cash-bank/service.ts`
+(migration 0032); test: `apps/api/test/purchases-2036.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
+`startDate` / `endDate` (dd/MM/yyyy) + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`).
 
 ## Layout
 
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
+One page per accrual, **oldest first**: `No Beban # : <no> | Dibayar : <paid>`, `Tanggal : <date> | Status : <status>`,
+`Jatuh Tempo : <due>`, then `Kode Perkiraan | Nama Biaya | Jumlah` (Nama Biaya = account name), lines in entry order, and
+a one-cell total row.
 
+## Calculation rules
 
-First table row (columns): `No Beban # | : | Dibayar | :`
+- Same accruals and window as the [summary](ExpenseAccrualSummaryReport.md).
+
+## Source document
+
+Pencatatan Beban (`/accurate/general-ledger/save-expense-accrual.do`, flat `param.*`; number `EXP.yyyy.mm.nnnnn`): header
+date, due date, payable account (`expensePayableId`), `detailAccount[n]` lines (`accountId`, `amount`). Journal: Dr each
+expense line in entry order / Cr the payable account for the total; GL type `Pencatatan Beban`.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Paying an accrual (Dibayar, status change) is not captured (`shortcut:` in the code).

@@ -297,3 +297,10 @@ export async function loadPurchaseExpenses(db: Db) {
     JOIN purchase_invoices i ON i.number = e.invoice_number JOIN accounts a ON a.no = e.account_no ORDER BY i.date, e.invoice_number, e.seq`))
     .map(r => ({ date: r.date as string, account: r.account_no as string, accountName: r.name as string, amount: Number(r.amount) }))
 }
+
+export async function loadExpenseAccruals(db: Db): Promise<import('./expense-accrual').ExpenseAccrual[]> {
+  const ls = await db.execute(sql`SELECT l.accrual_number, l.account_no, a.name, l.amount FROM expense_accrual_lines l JOIN accounts a ON a.no = l.account_no ORDER BY l.accrual_number, l.seq`)
+  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, total FROM expense_accruals`))
+    .map(r => ({ number: r.number as string, date: r.date as string, dueDate: r.due as string, total: Number(r.total),
+      lines: ls.filter(l => l.accrual_number === r.number).map(l => ({ account: l.account_no as string, accountName: l.name as string, amount: Number(l.amount) })) }))
+}

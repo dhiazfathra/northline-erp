@@ -1,0 +1,310 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T26: two Pencatatan Beban (expense accruals), payable account 210206, never paid.",
+ "accounts": [
+  {
+   "no": "600011",
+   "name": "Beban Listrik",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "600013",
+   "name": "Beban Telekomunikasi",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "210206",
+   "name": "Hutang Gaji Karyawan",
+   "type": "OTHER_CURRENT_LIABILITY"
+  }
+ ],
+ "accruals": [
+  {
+   "number": "EXP.2036.06.00001",
+   "date": "2036-06-01",
+   "dueDate": "2036-06-30",
+   "description": "NL-T26-EA1",
+   "payableAccount": "210206",
+   "lines": [
+    {
+     "account": "600011",
+     "amount": 300000
+    }
+   ]
+  },
+  {
+   "number": "EXP.2036.06.00002",
+   "date": "2036-06-15",
+   "dueDate": "2036-07-15",
+   "description": "NL-T26-EA2",
+   "payableAccount": "210206",
+   "lines": [
+    {
+     "account": "600013",
+     "amount": 80000
+    },
+    {
+     "account": "600011",
+     "amount": 20000
+    }
+   ]
+  }
+ ],
+ "GeneralLedgerHistoryReport": [
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 01 Jun 2036 s/d 01 Jun 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "01 Jun 2036"
+   ],
+   [
+    "Pencatatan Beban",
+    "EXP.2036.06.00001",
+    "600011",
+    "Beban Listrik",
+    "NL-T26-EA1",
+    "300.000",
+    "0"
+   ],
+   [
+    "Pencatatan Beban",
+    "EXP.2036.06.00001",
+    "210206",
+    "Hutang Gaji Karyawan",
+    "NL-T26-EA1",
+    "0",
+    "300.000"
+   ]
+  ],
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 15 Jun 2036 s/d 15 Jun 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "15 Jun 2036"
+   ],
+   [
+    "Pencatatan Beban",
+    "EXP.2036.06.00002",
+    "600013",
+    "Beban Telekomunikasi",
+    "NL-T26-EA2",
+    "80.000",
+    "0"
+   ],
+   [
+    "Pencatatan Beban",
+    "EXP.2036.06.00002",
+    "600011",
+    "Beban Listrik",
+    "NL-T26-EA2",
+    "20.000",
+    "0"
+   ],
+   [
+    "Pencatatan Beban",
+    "EXP.2036.06.00002",
+    "210206",
+    "Hutang Gaji Karyawan",
+    "NL-T26-EA2",
+    "0",
+    "100.000"
+   ]
+  ]
+ ],
+ "ExpenseAccrualSummaryReport": [
+  {
+   "from": "2036-06-01",
+   "to": "2036-06-30",
+   "param": {
+    "startDate": "01/06/2036",
+    "endDate": "30/06/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "No Beban #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Dibayar",
+     "Status"
+    ],
+    [
+     "EXP.2036.06.00002",
+     "15 Jun 2036",
+     "15 Jul 2036",
+     "100.000",
+     "0",
+     "Sedang diproses"
+    ],
+    [
+     "EXP.2036.06.00001",
+     "01 Jun 2036",
+     "30 Jun 2036",
+     "300.000",
+     "0",
+     "Sedang diproses"
+    ]
+   ]
+  },
+  {
+   "from": "2036-06-10",
+   "to": "2036-07-31",
+   "param": {
+    "startDate": "10/06/2036",
+    "endDate": "31/07/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "No Beban #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Dibayar",
+     "Status"
+    ],
+    [
+     "EXP.2036.06.00002",
+     "15 Jun 2036",
+     "15 Jul 2036",
+     "100.000",
+     "0",
+     "Sedang diproses"
+    ]
+   ]
+  }
+ ],
+ "ExpenseAccrualDetailReport": [
+  {
+   "from": "2036-06-01",
+   "to": "2036-06-30",
+   "param": {
+    "startDate": "01/06/2036",
+    "endDate": "30/06/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "No Beban #",
+     ":",
+     "EXP.2036.06.00001",
+     "Dibayar",
+     ":",
+     "0"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jun 2036",
+     "Status",
+     ":",
+     "Sedang diproses"
+    ],
+    [
+     "Jatuh Tempo",
+     ":",
+     "30 Jun 2036"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Biaya",
+     "Jumlah"
+    ],
+    [
+     "600011",
+     "Beban Listrik",
+     "300.000"
+    ],
+    [
+     "300.000"
+    ],
+    [
+     "No Beban #",
+     ":",
+     "EXP.2036.06.00002",
+     "Dibayar",
+     ":",
+     "0"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jun 2036",
+     "Status",
+     ":",
+     "Sedang diproses"
+    ],
+    [
+     "Jatuh Tempo",
+     ":",
+     "15 Jul 2036"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Biaya",
+     "Jumlah"
+    ],
+    [
+     "600013",
+     "Beban Telekomunikasi",
+     "80.000"
+    ],
+    [
+     "600011",
+     "Beban Listrik",
+     "20.000"
+    ],
+    [
+     "100.000"
+    ]
+   ]
+  }
+ ]
+}

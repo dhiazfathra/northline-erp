@@ -2,7 +2,7 @@
 
 Group: Pembelian. **Status: verified** (zero diff, 2 windows over two seeded invoices). Fixture: [`fixtures/purchase-expense-t25.json`](fixtures/purchase-expense-t25.json).
 ERP: `apps/api/src/reports/payables.ts` (`purchaseByExpense`), loader `loadPurchaseExpenses`; expense lines in `createPurchaseInvoice`
-(`expenses`, table `purchase_invoice_expenses`, migration 0031); test: `apps/api/test/purchases-t24-t25.test.ts`.
+(`expenses`, table `purchase_invoice_expenses`, migration 0031); test: `apps/api/test/purchases-2036.test.ts`.
 
 ## Parameters
 

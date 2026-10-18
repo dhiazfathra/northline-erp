@@ -45,3 +45,18 @@ test('PurchaseByExpenseReport: Biaya-tab lines summed per account; journals debi
   const ex = await loadPurchaseExpenses(f.db)
   for (const c of t25.PurchaseByExpenseReport) expect(purchaseByExpense(ex, c.from, c.to)).toEqual(body(c.rows))
 })
+
+test('Pencatatan Beban: journal, ExpenseAccrualSummaryReport and ExpenseAccrualDetailReport (T26)', async () => {
+  const t26 = (await import('../../../docs/reports/fixtures/expense-accrual-t26.json')).default
+  const { createExpenseAccrual } = await import('../src/cash-bank/service')
+  const { expenseAccrualSummary, expenseAccrualDetail } = await import('../src/reports/expense-accrual')
+  for (const a of t26.accounts.filter(a => a.no === '210206')) await handle(f.db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  await catchUp(f.db, ledgerProjection)
+  for (const a of t26.accruals) await createExpenseAccrual(f.db, { idempotencyKey: `t26-${a.number}`, ...a })
+  await catchUp(f.db, ledgerProjection)
+  for (const [i, d] of ['2036-06-01', '2036-06-15'].entries())
+    expect(await queryGeneralLedger(f.db, 'history', { from: d, to: d, showZeroBalance: false, showParentAccount: true })).toEqual(body(t26.GeneralLedgerHistoryReport[i]!))
+  const all = await (await import('../src/reports/queries')).loadExpenseAccruals(f.db)
+  for (const c of t26.ExpenseAccrualSummaryReport) expect(expenseAccrualSummary(all, c.from, c.to)).toEqual(c.rows)
+  for (const c of t26.ExpenseAccrualDetailReport) expect(expenseAccrualDetail(all, c.from, c.to)).toEqual(c.rows)
+})

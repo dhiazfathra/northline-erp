@@ -63,8 +63,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [out of scope](EmployeePphReport.md) |
 | Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [out of scope](EmployeeSalaryProportionReport.md) |
 | Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [out of scope](EmployeeSalaryPerYearReport.md) |
-| Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualSummaryReport.md) |
-| Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualDetailReport.md) |
+| Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | [verified](ExpenseAccrualSummaryReport.md) |
+| Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | [verified](ExpenseAccrualDetailReport.md) |
 
 ## Kas & Bank (CASH_BANK)
 

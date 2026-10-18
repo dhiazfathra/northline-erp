@@ -26,3 +26,21 @@ export async function createCashDocument(db: Db, d: { idempotencyKey: string; ki
     return result
   })
 }
+
+// Pencatatan Beban (fixtures/expense-accrual-t26.json): number EXP.yyyy.mm.nnnnn; Dr each expense line in entry order / Cr the payable account.
+export async function createExpenseAccrual(db: Db, d: { idempotencyKey: string; number?: string; date: string; dueDate: string; description?: string; payableAccount: string; lines: { account: string; amount: number }[] }) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const lines = d.lines.map(l => ({ ...l, cents: Math.round(l.amount * 100) })), total = lines.reduce((s, l) => s + l.cents, 0)
+    const number = d.number ?? await nextNumber(tx, `EXP.${period(d.date)}`)
+    const rp = (c: number) => (c / 100).toFixed(2), journalId = crypto.randomUUID()
+    await handleTx(tx, { type: 'PostJournal', idempotencyKey: `${d.idempotencyKey}:journal`, journalId, number, sourceType: 'EXP', date: d.date, description: d.description ?? '',
+      lines: [...lines.map(l => ({ account: l.account, side: 'DEBIT' as const, amount: rp(l.cents) })), { account: d.payableAccount, side: 'CREDIT' as const, amount: rp(total) }] })
+    await tx.execute(sql`INSERT INTO expense_accruals VALUES (${number}, ${d.date}, ${d.dueDate}, ${d.description ?? ''}, ${d.payableAccount}, ${total}, ${journalId})`)
+    for (const [i, l] of lines.entries()) await tx.execute(sql`INSERT INTO expense_accrual_lines VALUES (${number}, ${i + 1}, ${l.account}, ${l.cents})`)
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateExpenseAccrual', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
