@@ -9,6 +9,7 @@ export interface Asset {
   expenditures: { name: string; date: string; amount: number }[]
   depreciations: { period: string; date: string; jvNumber: string; periodEndNumber: string; amount: number }[]
   disposal?: { number: string; date: string; description: string; gainLossName: string; sold: boolean; price: number; sellingName: string }
+  edits?: { number: string; date: string; description: string; oldLifeMonths: number; newLifeMonths: number }[]
 }
 
 const METHOD = 'Metode Garis Lurus'
@@ -95,8 +96,10 @@ export function assetLocationHistory(a: Asset): string[][] {
   return [['Nomor #', ':', a.number, 'Umur (Tahun)', ':', y], ['Tanggal', ':', fmtDate(a.date), 'Umur (Bulan)', ':', m],
     ['Metode Penyusutan', ':', METHOD, 'Nama Lokasi Awal Aset', ':', LOCATION],
     ['Tanggal', 'No.', 'Keterangan', 'Kuantitas', 'Lokasi Aset', 'Alamat Asal'],
-    [fmtDate(a.date), a.number, a.description, '1', LOCATION],
-    ...(a.disposal ? [[fmtDate(a.disposal.date), a.disposal.number, a.disposal.description, '-1', LOCATION]] : [])]
+    ...[{ date: a.date, r: [fmtDate(a.date), a.number, a.description, '1', LOCATION] },
+      ...(a.edits ?? []).map(e => ({ date: e.date, r: [fmtDate(e.date), e.number, e.description, '0', LOCATION] })),
+      ...(a.disposal ? [{ date: a.disposal.date, r: [fmtDate(a.disposal.date), a.disposal.number, a.disposal.description, '-1', LOCATION] }] : [])]
+      .sort((x, y) => x.date.localeCompare(y.date)).map(x => x.r)]
 }
 
 /**
@@ -108,6 +111,16 @@ export function fixedAssetEditedHistory(a: Asset, from: string, to: string): str
   return [['Kode Aset', ':', a.number, 'Umur (Tahun)', ':', y], ['Tanggal Beli', ':', fmtDate(a.date), 'Umur (Bulan)', ':', m],
     ['Metode Penyusutan', ':', METHOD],
     ['Tanggal', 'Nomor #', 'Tipe', 'Keterangan', 'Kode Aset', 'Tanggal Beli', 'Metode Penyusutan', 'Umur (Tahun)', 'Umur (Bulan)'],
+    ...(a.edits ?? []).filter(e => e.date >= from && e.date <= to).map(e => [fmtDate(e.date), e.number, 'Data', lifeChange(e), a.number, fmtDate(a.date), METHOD, y, m]),
     ...(d && d.date >= from && d.date <= to ? [[fmtDate(d.date), d.number, 'Disposisi',
       `Disposisi 1, ${d.sold ? `dijual senilai ${(d.price / 100).toLocaleString('en-US')}` : 'tidak dijual' /* shortcut: unsold wording not captured */}`, a.number, fmtDate(a.date), METHOD, y, m]] : [])]
+}
+
+// shortcut: only whole-year lives are captured ("1 Tahun"); the wording for months is unknown.
+const lifeChange = (e: { oldLifeMonths: number; newLifeMonths: number }) => `Perubahan Perkiraan Umur dari ${e.oldLifeMonths / 12} Tahun menjadi ${e.newLifeMonths / 12} Tahun`
+
+/** Daftar Perubahan Aset Tetap: asset edits dated in the window (disposals are not listed); Tipe "Data", Pengeluaran empty. */
+export function fixedAssetEditedList(assets: Asset[], from: string, to: string): string[][] {
+  const rows = assets.flatMap(a => (a.edits ?? []).filter(e => e.date >= from && e.date <= to).map(e => ({ e, a }))).sort((x, y) => x.e.date.localeCompare(y.e.date) || x.e.number.localeCompare(y.e.number))
+  return [['Nomor #', 'Tanggal', 'Kode Aset', 'Nama', 'Tipe', 'Keterangan', 'Pengeluaran'], ...rows.map(({ e, a }) => [e.number, fmtDate(e.date), a.number, a.description, 'Data', e.description])]
 }

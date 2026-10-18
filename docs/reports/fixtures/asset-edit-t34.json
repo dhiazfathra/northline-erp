@@ -1,0 +1,255 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T34: asset FAA.2036.12.00001 NL-T34 Printer (6.000.000, 1 year, Inventaris Kantor) on 1 Dec 2036; FAE.2036.12.00001 on 15 Dec 2036 extends its life to 2 years. The edit posts no journal.",
+ "asset": {
+  "number": "FAA.2036.12.00001",
+  "description": "NL-T34 Printer",
+  "date": "2036-12-01",
+  "usageDate": "2036-12-01",
+  "lifeMonths": 12,
+  "method": "STRAIGHTLINE",
+  "category": "ZZ-R03-Elektronik C",
+  "assetAccount": "120005",
+  "accumulatedAccount": "12000604",
+  "expenseAccount": "600024",
+  "expenditures": [
+   {
+    "name": "NL-T34 perolehan",
+    "date": "2036-12-01",
+    "amount": 6000000,
+    "account": "NL-T1-3001"
+   }
+  ]
+ },
+ "edit": {
+  "number": "FAE.2036.12.00001",
+  "asset": "FAA.2036.12.00001",
+  "date": "2036-12-15",
+  "description": "NL-T34-E1",
+  "lifeMonths": 24
+ },
+ "GeneralLedgerHistoryReport": [
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Des 2036 s/d 31 Des 2036"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "01 Des 2036"
+  ],
+  [
+   "Aset Tetap",
+   "FAA.2036.12.00001",
+   "120005",
+   "Inventaris Kantor",
+   "NL-T34 Printer",
+   "6.000.000",
+   "0"
+  ],
+  [
+   "Aset Tetap",
+   "FAA.2036.12.00001",
+   "NL-T1-3001",
+   "NL-T1 Modal",
+   "NL-T34 Printer",
+   "0",
+   "6.000.000"
+  ]
+ ],
+ "FixedAssetEditedListReport": [
+  {
+   "from": "2036-12-01",
+   "to": "2036-12-31",
+   "param": {
+    "startDate": "01/12/2036",
+    "endDate": "31/12/2036"
+   },
+   "rows": [
+    [
+     "Daftar Perubahan Aset Tetap"
+    ],
+    [
+     "Dari 01 Des 2036 s/d 31 Des 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama",
+     "Tipe",
+     "Keterangan",
+     "Pengeluaran"
+    ],
+    [
+     "FAE.2036.12.00001",
+     "15 Des 2036",
+     "FAA.2036.12.00001",
+     "NL-T34 Printer",
+     "Data",
+     "NL-T34-E1"
+    ]
+   ]
+  },
+  {
+   "from": "2036-12-01",
+   "to": "2036-12-14",
+   "param": {
+    "startDate": "01/12/2036",
+    "endDate": "14/12/2036"
+   },
+   "rows": [
+    [
+     "Daftar Perubahan Aset Tetap"
+    ],
+    [
+     "Dari 01 Des 2036 s/d 14 Des 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama",
+     "Tipe",
+     "Keterangan",
+     "Pengeluaran"
+    ]
+   ]
+  }
+ ],
+ "FixedAssetEditedHistoryReport": {
+  "from": "2036-12-01",
+  "to": "2036-12-31",
+  "param": {
+   "startDate": "01/12/2036",
+   "endDate": "31/12/2036",
+   "selectedAsset": [
+    {
+     "id": 200
+    }
+   ]
+  },
+  "rows": [
+   [
+    "Histori Perubahan Aset"
+   ],
+   [
+    "Dari 01 Des 2036 s/d 31 Des 2036"
+   ],
+   [
+    "Kode Aset",
+    ":",
+    "FAA.2036.12.00001",
+    "Umur (Tahun)",
+    ":",
+    "2"
+   ],
+   [
+    "Tanggal Beli",
+    ":",
+    "01 Des 2036",
+    "Umur (Bulan)",
+    ":",
+    "0"
+   ],
+   [
+    "Metode Penyusutan",
+    ":",
+    "Metode Garis Lurus"
+   ],
+   [
+    "Tanggal",
+    "Nomor #",
+    "Tipe",
+    "Keterangan",
+    "Kode Aset",
+    "Tanggal Beli",
+    "Metode Penyusutan",
+    "Umur (Tahun)",
+    "Umur (Bulan)"
+   ],
+   [
+    "15 Des 2036",
+    "FAE.2036.12.00001",
+    "Data",
+    "Perubahan Perkiraan Umur dari 1 Tahun menjadi 2 Tahun",
+    "FAA.2036.12.00001",
+    "01 Des 2036",
+    "Metode Garis Lurus",
+    "2",
+    "0"
+   ]
+  ]
+ },
+ "AssetLocationHistoryReport": {
+  "param": {
+   "selectedAsset": [
+    {
+     "id": 200
+    }
+   ]
+  },
+  "rows": [
+   [
+    "Histori Lokasi Aset"
+   ],
+   [
+    "Nomor #",
+    ":",
+    "FAA.2036.12.00001",
+    "Umur (Tahun)",
+    ":",
+    "2"
+   ],
+   [
+    "Tanggal",
+    ":",
+    "01 Des 2036",
+    "Umur (Bulan)",
+    ":",
+    "0"
+   ],
+   [
+    "Metode Penyusutan",
+    ":",
+    "Metode Garis Lurus",
+    "Nama Lokasi Awal Aset",
+    ":",
+    "Kantor Pusat"
+   ],
+   [
+    "Tanggal",
+    "No.",
+    "Keterangan",
+    "Kuantitas",
+    "Lokasi Aset",
+    "Alamat Asal"
+   ],
+   [
+    "01 Des 2036",
+    "FAA.2036.12.00001",
+    "NL-T34 Printer",
+    "1",
+    "Kantor Pusat"
+   ],
+   [
+    "15 Des 2036",
+    "FAE.2036.12.00001",
+    "NL-T34-E1",
+    "0",
+    "Kantor Pusat"
+   ]
+  ]
+ }
+}

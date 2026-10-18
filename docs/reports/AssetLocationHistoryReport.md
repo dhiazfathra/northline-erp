@@ -19,6 +19,7 @@ Per asset: `Nomor # : <no> | Umur (Tahun) : <y>`, `Tanggal : <purchase date> | U
 - Disposal row: disposal date and number, disposal description, quantity `-1`, same location.
 - Umur = useful life split into whole years and remaining months (24 months = 2 / 0).
 - Alamat Asal is empty (the trailing cell is dropped).
+- An asset edit adds a row with quantity `0` (number, date, the edit's description), ordered by date with the others (T34).
 
 ## Open work
 

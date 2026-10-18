@@ -18,7 +18,9 @@ ERP: `apps/api/src/reports/fixed-assets.ts` (`fixedAssetEditedHistory`); test: `
   `Disposisi 1, dijual senilai <price>` with en-US digit grouping (`11,000,000`), not the disposal's own description.
 - The asset columns repeat the asset's data after the change (code, purchase date, method, life).
 - The acquisition itself is not a change and does not print.
+- An asset edit prints Tipe `Data` with a generated Keterangan `Perubahan Perkiraan Umur dari <old> Tahun menjadi <new> Tahun`
+  (T34, [`fixtures/asset-edit-t34.json`](fixtures/asset-edit-t34.json)). The asset columns show the life after the change.
 
 ## Open work
 
-- Unsold-disposal wording and asset edits (Ubah Aset) are not captured.
+- Unsold-disposal wording is not captured.

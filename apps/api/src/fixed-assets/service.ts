@@ -118,3 +118,16 @@ export async function disposeFixedAsset(db: Db, raw: { idempotencyKey: string; n
     return result
   })
 }
+
+/** Perubahan Aset Tetap (FAE.yyyy.mm.nnnnn), useful-life change only: no journal (fixtures/asset-edit-t34.json). */
+// shortcut: cost, method and account changes (and the depreciation they reschedule) are not modelled.
+export async function editFixedAsset(db: Db, e: { number?: string; asset: string; date: string; description?: string; lifeMonths: number }) {
+  return db.transaction(async tx => {
+    const [a] = await tx.execute(sql`SELECT life_months FROM fixed_assets WHERE number = ${e.asset} FOR UPDATE`)
+    if (!a) throw new DomainError(`Aset ${e.asset} tidak ditemukan`)
+    const number = e.number ?? await nextNumber(tx, `FAE.${e.date.slice(0, 4)}.${e.date.slice(5, 7)}`)
+    await tx.execute(sql`INSERT INTO fixed_asset_edits VALUES (${number}, ${e.asset}, ${e.date}, ${e.description ?? ''}, ${Number(a.life_months)}, ${e.lifeMonths})`)
+    await tx.execute(sql`UPDATE fixed_assets SET life_months = ${e.lifeMonths} WHERE number = ${e.asset}`)
+    return { number }
+  })
+}

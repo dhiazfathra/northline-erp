@@ -58,3 +58,17 @@ test('disposal: journal, Daftar Disposisi, history of a disposed asset (asset-di
   expect(F.assetLocationHistory(disposed)).toEqual(r('AssetLocationHistoryReport'))
   expect(F.fixedAssetEditedHistory(disposed, '2034-01-01', '2034-12-31')).toEqual(r('FixedAssetEditedHistoryReport'))
 })
+
+test('asset edit (T34): no journal, Daftar Perubahan Aset Tetap, Histori Perubahan Aset, Histori Lokasi Aset', async () => {
+  const t34 = (await import('../../../docs/reports/fixtures/asset-edit-t34.json')).default
+  const { editFixedAsset } = await import('../src/fixed-assets/service')
+  await createFixedAsset(f.db, { idempotencyKey: 't34-asset', ...t34.asset })
+  await editFixedAsset(f.db, t34.edit)
+  await catchUp(f.db, ledgerProjection)
+  const h = await queryGeneralLedger(f.db, 'history', { from: '2036-12-01', to: '2036-12-31', showZeroBalance: false, showParentAccount: true })
+  expect(h).toEqual(body(t34.GeneralLedgerHistoryReport))
+  const all = await loadFixedAssets(f.db), a = all.find(x => x.number === t34.asset.number)!
+  for (const c of t34.FixedAssetEditedListReport) expect(F.fixedAssetEditedList(all, c.from, c.to)).toEqual(body(c.rows))
+  expect(F.fixedAssetEditedHistory(a, t34.FixedAssetEditedHistoryReport.from, t34.FixedAssetEditedHistoryReport.to)).toEqual(body(t34.FixedAssetEditedHistoryReport.rows))
+  expect(F.assetLocationHistory(a)).toEqual(body(t34.AssetLocationHistoryReport.rows))
+})
