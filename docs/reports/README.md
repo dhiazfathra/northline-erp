@@ -210,7 +210,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Nilai Persediaan | `InventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryValuationReport.md) |
-| Rincian Nilai Persediaan (CSV) | `InventoryValuationDetailDownloadReport` | download | FROMTO | — sel:ITEM_CATEGORY_ALL | [spec](InventoryValuationDetailDownloadReport.md) |
+| Rincian Nilai Persediaan (CSV) | `InventoryValuationDetailDownloadReport` | download | FROMTO | — sel:ITEM_CATEGORY_ALL | [verified](InventoryValuationDetailDownloadReport.md) |
 | Ketersediaan Stok Penjualan | `InventoryAnalysisReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAnalysisReport.md) |
 | Umur Persediaan | `InventoryAgingReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingReport.md) |
 | Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingByWarehouseReport.md) |

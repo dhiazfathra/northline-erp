@@ -334,3 +334,21 @@ export function itemGroupDetail(groups: { no: string; name: string; unit: string
   return groups.flatMap(g => [['Kode Barang Grup Barang', ':', g.no, 'Satuan', ':', g.unit], ['Nama Barang Grup Barang', ':', g.name],
     ['Kode Barang Barang & Jasa', 'Nama Barang', 'Kuantitas', 'Satuan'], ...g.components.map(c => [c.no, c.name, String(c.qty), c.unit])])
 }
+
+/**
+ * Rincian Nilai Persediaan (CSV) (docs/reports/InventoryValuationDetailDownloadReport.md): one file per item. An opening
+ * row (no number, dated the day before the start) carries quantity and value in; then each move in the window with the
+ * running quantity and value. Values are plain rupiah.
+ */
+export function inventoryValuationCsv(moves: StockMove[], item: string, from: string, to: string): string[][] {
+  const ms = moves.filter(m => m.item === item && m.date <= to).sort((a, b) => a.date.localeCompare(b.date) || a.docNumber.localeCompare(b.docNumber))
+  const before = ms.filter(m => m.date < from), num = (c: number) => String(c / 100).replace('.', ',')
+  let q = before.reduce((s, m) => s + m.quantity, 0), v = before.reduce((s, m) => s + m.value, 0)
+  const prev = new Date(Date.parse(from + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
+  const rows = [['Nomor #', 'Tanggal', 'Kts Masuk', 'Nilai Masuk', 'Kts Keluar', 'Nilai Keluar', 'Kts Akhir', 'Nilai Akhir'], ['', prev, String(q), num(v), '0', '0', String(q), num(v)]]
+  for (const m of ms.filter(m => m.date >= from)) {
+    q += m.quantity; v += m.value
+    rows.push([m.docNumber, m.date, String(Math.max(m.quantity, 0)), num(Math.max(m.value, 0)), String(Math.max(-m.quantity, 0)), num(Math.max(-m.value, 0)), String(q), num(v)])
+  }
+  return rows
+}

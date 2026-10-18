@@ -3,10 +3,11 @@
  "item": {
   "no": "NL-T33-SN",
   "name": "NL-T33 Barang Serial",
-  "type": "SERVICE",
+  "type": "INVENTORY",
   "unit": "PCS",
   "salesAccount": "400001",
-  "expenseAccount": "600020"
+  "inventoryAccount": "110401",
+  "cogsAccount": "510101"
  },
  "invoice": {
   "number": "PI.2036.11.00001",
@@ -424,5 +425,146 @@
     ]
    ]
   }
- ]
+ ],
+ "InventoryValuationDetailDownloadReport": [
+  {
+   "from": "2036-11-01",
+   "to": "2036-11-30",
+   "item": "NL-T4-B1",
+   "rows": [
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "",
+     "2036-10-31",
+     "23",
+     "336000",
+     "0",
+     "0",
+     "23",
+     "336000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-11-01",
+   "to": "2036-11-30",
+   "item": "NL-T33-SN",
+   "rows": [
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "",
+     "2036-10-31",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2036.11.00001",
+     "2036-11-01",
+     "2",
+     "100000",
+     "0",
+     "0",
+     "2",
+     "100000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-05-01",
+   "to": "2036-05-31",
+   "item": "NL-T4-B1",
+   "rows": [
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "",
+     "2036-04-30",
+     "21",
+     "316000",
+     "0",
+     "0",
+     "21",
+     "316000"
+    ],
+    [
+     "PI.2036.05.00001",
+     "2036-05-05",
+     "1",
+     "10000",
+     "0",
+     "0",
+     "22",
+     "326000"
+    ],
+    [
+     "PI.2036.05.00002",
+     "2036-05-20",
+     "1",
+     "10000",
+     "0",
+     "0",
+     "23",
+     "336000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-05-01",
+   "to": "2036-05-31",
+   "item": "NL-T33-SN",
+   "rows": [
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "",
+     "2036-04-30",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  }
+ ],
+ "InventoryValuationDetailDownloadNote": "Zipped CSV (one file per item) from computed.downloadLink of the download page. NL-T4-B1 carries the T4-T15 history in the sandbox; the test compares its rows relative to the opening row."
 }

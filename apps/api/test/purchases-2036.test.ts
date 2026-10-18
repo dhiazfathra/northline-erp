@@ -89,3 +89,17 @@ test('serial-number reports: Mutasi, Umur, Sisa Umur (T33)', async () => {
   for (const c of t33.SerialNumberAgingDetailReport) expect(SN.serialAging(ms, it, c.warehouse, c.asOf)).toEqual(body(c.rows))
   for (const c of t33.RemainingAgeSerialNumberDetailReport) expect(SN.remainingAgeSerials(ms, it, c.asOf)).toEqual(body(c.rows))
 })
+
+test('InventoryValuationDetailDownloadReport: per-item CSV with opening row (T25, T33)', async () => {
+  const t33 = (await import('../../../docs/reports/fixtures/serial-t33.json')).default as any
+  const { inventoryValuationCsv } = await import('../src/reports/inventory')
+  const { moves } = await (await import('../src/reports/queries')).loadInventory(f.db)
+  // NL-T4-B1 has older history in the sandbox: compare quantities/values relative to each side's opening row.
+  const rel = (rows: string[][]) => { const n = (s: string) => Number(s.replace(',', '.')), [, , q0, v0] = rows[1]!
+    return rows.map((r, i) => i < 1 ? r : [r[0], r[1], ...r.slice(2, 6), String(n(r[6]!) - n(q0!)), String(n(r[7]!) - n(v0!))].map(String)).slice(2) }
+  for (const c of t33.InventoryValuationDetailDownloadReport) {
+    const got = inventoryValuationCsv(moves, c.item, c.from, c.to)
+    if (c.item === 'NL-T33-SN') expect(got).toEqual(c.rows)
+    else expect(rel(got)).toEqual(rel(c.rows))
+  }
+})

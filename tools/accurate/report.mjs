@@ -27,7 +27,9 @@ export async function runReport(app, planId, param, { keepEmpty = false, view = 
   }, { planId, param }).then(async (r) => {
     if (r.error || !r.cacheId) return { error: { first: r.first, poll: r.meta } };
     // download-type reports: the HTML view of the cache is the file body (an export call afterwards finds the cache expired)
-    if (view === 'csv') { const t = await (await app.request.get(r.host + '/accurate/report/report-output-html.do?' + new URLSearchParams({ _dsi: r.dsi, _usi: r.usi, cacheId: r.cacheId, reportView: 'download' }))).text(); return { meta: 'ok', csv: red(t) } }
+    if (view === 'csv') { const t = await (await app.request.get(r.host + '/accurate/report/report-output-html.do?' + new URLSearchParams({ _dsi: r.dsi, _usi: r.usi, cacheId: r.cacheId, reportView: 'download' }))).text(); const link = /"downloadLink":"([^"]+)"/.exec(t)?.[1]?.replace(/\\u0026/g, '&');
+      const zip = link ? (await (await app.request.get(r.host + link)).body()).toString('base64') : null
+      return { meta: 'ok', csv: red(t), zip } }
     const html = await (await app.request.get(r.host + '/accurate/report/report-output-html.do?' + new URLSearchParams({ _dsi: r.dsi, _usi: r.usi, cacheId: r.cacheId, reportView: view === 'xls' ? 'chart' : view }))).text();
     if (raw) return { meta: 'ok', html: red(html) } // chart views render a PNG; use xls for the numbers
     if (view === 'xls') { const b = await (await app.request.get(r.host + '/accurate/report/export-report.do?' + new URLSearchParams({ _dsi: r.dsi, _usi: r.usi, cacheId: r.cacheId, exportType: 'xls' }))).body(); return { meta: 'ok', xls: b } }
