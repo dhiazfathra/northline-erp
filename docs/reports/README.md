@@ -94,21 +94,21 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Faktur Belum Lunas | `OutstandingSalesInvoiceReport` | report | ASOF | selectedBranch= | [spec](OutstandingSalesInvoiceReport.md) |
+| Faktur Belum Lunas | `OutstandingSalesInvoiceReport` | report | ASOF | selectedBranch= | [verified](OutstandingSalesInvoiceReport.md) |
 | Faktur Belum Lunas per Pelanggan | `OutstandingSalesInvoicePerCustomerReport` | crosstab | ASOF | selectedBranch= | [spec](OutstandingSalesInvoicePerCustomerReport.md) |
 | Umur Piutang | `AgingReceivableReport` | crosstab | ASOF | selectedBranch= | [spec](AgingReceivableReport.md) |
-| Buku Besar Pembantu Piutang | `ARLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](ARLedgerReport.md) |
-| Histori Piutang | `ARHistoryReport` | report | FROMTO | selectedBranch= | [spec](ARHistoryReport.md) |
+| Buku Besar Pembantu Piutang | `ARLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [verified](ARLedgerReport.md) |
+| Histori Piutang | `ARHistoryReport` | report | FROMTO | selectedBranch= | [verified](ARHistoryReport.md) |
 | Rata-rata Pembayaran Pelanggan | `OwingCollectionPerCustomerReport` | report | FROMTO | selectedBranch= | [spec](OwingCollectionPerCustomerReport.md) |
 | Rincian Umur Piutang | `AgingReceivableDetailReport` | report | ASOF | selectedBranch= | [spec](AgingReceivableDetailReport.md) |
 | Grafik Umur Piutang | `AgingReceivableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingReceivableChartReport.md) |
 | Rincian Buku Besar Pembantu Piutang | `ARLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](ARLedgerDetailReport.md) |
-| Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | [spec](CustomerStatementReport.md) |
+| Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | [verified](CustomerStatementReport.md) |
 | Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [spec](OwingCollectionGraphReport.md) |
 | Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePaidReport.md) |
 | Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePphPaidReport.md) |
 | Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [spec](CustomerExistingCreditListReport.md) |
-| Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | [spec](SalesReceiptListReport.md) |
+| Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListReport.md) |
 | Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesReceiptListDetailReport.md) |
 | Daftar Pelanggan | `CustomerListReport` | report | ASOF | selectedBranch= | [spec](CustomerListReport.md) |
 | Limit Piutang Pelanggan | `CustomerLimitReport` | report | NONE | selectedBranch= | [spec](CustomerLimitReport.md) |
@@ -118,7 +118,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Penjualan per Pelanggan | `ViewSalesByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByCustomerReport.md) |
+| Penjualan per Pelanggan | `ViewSalesByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByCustomerReport.md) |
 | Penjualan per Barang | `ViewSalesByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByItemReport.md) |
 | Penjualan per Merek | `ViewSalesByBrandReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByBrandReport.md) |
 | Penjualan Barang per Pelanggan | `ViewSalesItemByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByCustomerReport.md) |
@@ -140,7 +140,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Pengiriman Pesanan | `DeliveryOrderListReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderListReport.md) |
 | Rincian Pengiriman Pesanan | `DeliveryOrderDetailReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderDetailReport.md) |
 | Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderHistorySummaryReport.md) |
-| Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceListReport.md) |
+| Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceListReport.md) |
 | Rincian Faktur Penjualan | `SalesInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceDetailReport.md) |
 | Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [spec](SalesInvoiceChartReport.md) |
 | Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [spec](SalesReturnListReport.md) |

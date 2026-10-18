@@ -27,8 +27,8 @@ export const ledgerProjection: Projection = {
       await tx.execute(sql`UPDATE accounts SET suspended = true, updated_at = now() WHERE no = ${e.data.no}`)
     } else if (e.type === 'JournalPosted') {
       const d = e.data
-      await tx.execute(sql`INSERT INTO journals (journal_id, number, date, description, reverses, global_position)
-        VALUES (${d.journalId}, ${d.number ?? null}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)
+      await tx.execute(sql`INSERT INTO journals (journal_id, number, source_type, date, description, reverses, global_position)
+        VALUES (${d.journalId}, ${d.number ?? null}, ${d.sourceType ?? 'JV'}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)
       let total = 0
       for (const [i, l] of d.lines.entries()) {
         const debit = l.side === 'DEBIT' ? l.amount : 0, credit = l.side === 'CREDIT' ? l.amount : 0

@@ -19,6 +19,9 @@ export const amountToCents = z
   })
   .pipe(cents)
 
+export const journalSource = z.enum(['JV', 'SI', 'SR'])
+export type JournalSource = z.infer<typeof journalSource>
+
 export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional() })
 export type JournalLine = z.infer<typeof journalLine>
 
@@ -30,6 +33,8 @@ export const postJournalCommand = z.object({
   type: z.literal('PostJournal'),
   journalId: z.string().uuid(),
   number: z.string().optional(),
+  /** Document that produced the journal (JV = Jurnal Umum entered directly). */
+  sourceType: journalSource.default('JV'),
   date: isoDate,
   description: z.string().default(''),
   lines: z.array(journalLine.extend({ amount: amountToCents })).min(2),
@@ -73,6 +78,8 @@ export const journalPosted = z.object({
   date: isoDate,
   description: z.string(),
   lines: z.array(journalLine).min(2),
+  /** Absent on events written before source types existed; read as 'JV'. */
+  sourceType: journalSource.optional(),
   /** Set when this journal is the reversal of another. */
   reverses: z.string().optional(),
 })

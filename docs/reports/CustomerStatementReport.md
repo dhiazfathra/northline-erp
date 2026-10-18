@@ -1,24 +1,5 @@
 # Pernyataan Piutang (`CustomerStatementReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/CustomerStatementReport.json`](captures/CustomerStatementReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json) (invoices I1–I3, receipts R1–R2, Apr–Jun 2033). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`. Params: `startDate`, `endDate`, `selectedBranch` unless noted.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Pelanggan | : | ZZ-R01-Pelanggan Asing | Email | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+One statement per active customer: `Pelanggan : <name>  Email :`, `Handphone : Alamat :`, `Faximili :` (contact fields), column header `Nomor #` | `Tanggal` | `Deskripsi` | `Bertambah` | `Berkurang` | `Saldo`, currency heading, `Saldo Piutang per <day before startDate> | 0 | 0 | <opening>`, document rows with a running balance, then `<total bertambah> | <total berkurang>`. The title, period and branch lines repeat per customer.

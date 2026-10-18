@@ -1,24 +1,7 @@
 # Faktur Belum Lunas (`OutstandingSalesInvoiceReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/OutstandingSalesInvoiceReport.json`](captures/OutstandingSalesInvoiceReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json) (invoices I1–I3, receipts R1–R2, Apr–Jun 2033). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`. Params: `startDate`, `endDate`, `selectedBranch` unless noted.
 
-## Parameters
+Params: `asOfDate`, `selectedBranch`. Currency heading, then per customer with unpaid invoices (by name): `<name> | Sisa Kredit | : | 0`, column header `Nomor #` | `Tanggal` | `Jatuh Tempo` | `Total` | `Piutang` | `Piutang Pajak` | `Umur (hr)`, one row per invoice with a remaining balance at `asOfDate` (receipts dated after `asOfDate` ignored), then `<total> | <owing> | <tax owing>`; last row grand totals. Umur = days from due date to `asOfDate`, thousands separator (`2.476`).
 
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `ZZ-R01-Pelanggan Satu | Sisa Kredit | : | 0`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Unverified: Umur measured from the due date vs the invoice date (equal in this fixture), tax owing, Sisa Kredit (customer credit/overpayment).

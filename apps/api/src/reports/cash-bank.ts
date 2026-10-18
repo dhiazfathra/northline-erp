@@ -1,11 +1,10 @@
-import { fmtDate, type Journal } from './general-ledger'
+import { fmtDate, typeLabel, type Journal } from './general-ledger'
 import { formatIdr, trialBalance, type DailyBalance, type LedgerSettings, type TbAccount } from './trial-balance'
 
 // Kas & Bank reports over journals; rules in docs/reports/BankBookReport.md, CashFlowbyAccountReport.md, CashBankAccountListReport.md.
 
 const EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
-const TYPE_LABEL = 'Jurnal Umum'
 const inRange = (j: Journal, from: string, to: string) => j.date >= from && j.date <= to
 const byDateNumber = (a: Journal, b: Journal) => (a.date + a.number < b.date + b.number ? -1 : 1)
 const balanceBefore = (balances: DailyBalance[], no: string, from: string) =>
@@ -26,7 +25,7 @@ export function bankBook(accounts: TbAccount[], balances: DailyBalance[], journa
     for (const j of journals.filter(j => inRange(j, from, to)).sort(byDateNumber))
       for (const l of j.lines.filter(l => l.account === no)) {
         bal += l.debit - l.credit; d += l.debit; c += l.credit
-        out.push([fmtDate(j.date), j.number, j.number, TYPE_LABEL, ...(l.memo ? [l.memo] : []), formatIdr(l.debit), formatIdr(l.credit), formatIdr(bal)])
+        out.push([fmtDate(j.date), j.number, j.number, typeLabel(j), ...(l.memo ? [l.memo] : []), formatIdr(l.debit), formatIdr(l.credit), formatIdr(bal)])
       }
     out.push([formatIdr(d), formatIdr(c)])
   }
@@ -47,7 +46,7 @@ export function cashFlowByAccount(accounts: TbAccount[], journals: Journal[], ba
       if (!cash.length) continue
       for (const l of j.lines.filter(l => l.account !== no)) {
         const v = l.credit - l.debit // counter-account credit = cash in
-        groups.set(l.account, [...(groups.get(l.account) ?? []), [fmtDate(j.date), TYPE_LABEL, j.number, ...(l.memo ? [l.memo] : []), formatIdr(v)]])
+        groups.set(l.account, [...(groups.get(l.account) ?? []), [fmtDate(j.date), typeLabel(j), j.number, ...(l.memo ? [l.memo] : []), formatIdr(v)]])
         totals.set(l.account, (totals.get(l.account) ?? 0) + v)
       }
     }

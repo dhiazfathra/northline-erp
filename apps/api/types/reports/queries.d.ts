@@ -28,3 +28,4 @@ export declare function queryFinancialRatios(db: Db, year: number, month?: numbe
 export declare function queryBankBook(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryCashAccountList(db: Db, asOf: string): Promise<string[][]>;
+export declare function loadSales(db: Db): Promise<import('./receivables').SalesData>;

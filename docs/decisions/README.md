@@ -6,3 +6,4 @@
 | [0002](0002-hand-rolled-event-store-on-drizzle.md) | Hand-rolled event store on Drizzle | Accepted |
 | [0003](0003-report-calculation-rules-from-accurate.md) | Report calculations follow Accurate's observed rules | Accepted |
 | [0004](0004-account-aggregate.md) | Chart of accounts through an event-sourced Account aggregate | Accepted |
+| [0005](0005-sales-documents-post-through-the-ledger.md) | Sales documents are plain tables that post through the ledger | Accepted |

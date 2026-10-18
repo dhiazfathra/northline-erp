@@ -38,13 +38,13 @@ export async function queryBalanceSheet(db: Db, q: BalanceSheetQuery) {
 
 export async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]> {
   const rows = await db.execute(sql`
-    SELECT j.journal_id, j.number, to_char(j.date, 'YYYY-MM-DD') AS date, j.description, l.account_no, l.debit, l.credit, l.memo
+    SELECT j.journal_id, j.number, j.source_type, to_char(j.date, 'YYYY-MM-DD') AS date, j.description, l.account_no, l.debit, l.credit, l.memo
     FROM journals j JOIN journal_lines l USING (journal_id)
     WHERE j.date BETWEEN ${from} AND ${to} ORDER BY j.date, j.number, l.line_no`)
   const byId = new Map<string, Journal>()
   for (const r of rows) {
     const id = r.journal_id as string
-    if (!byId.has(id)) byId.set(id, { number: r.number as string, date: r.date as string, description: r.description as string, lines: [] })
+    if (!byId.has(id)) byId.set(id, { number: r.number as string, date: r.date as string, description: r.description as string, sourceType: r.source_type as string, lines: [] })
     byId.get(id)!.lines.push({ account: r.account_no as string, debit: Number(r.debit), credit: Number(r.credit), memo: r.memo as string | null })
   }
   return [...byId.values()]
@@ -110,4 +110,15 @@ export async function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBa
 export async function queryCashAccountList(db: Db, asOf: string) {
   const { accounts, balances, settings } = await loadLedger(db, asOf)
   return cashAccountList(accounts, balances, settings, asOf)
+}
+
+export async function loadSales(db: Db): Promise<import('./receivables').SalesData> {
+  const customers = new Map((await db.execute(sql`SELECT no, name FROM customers`)).map(r => [r.no as string, r.name as string]))
+  const invoices = (await db.execute(sql`SELECT number, customer_no, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.customer_no as string, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total) }))
+  const lines = await db.execute(sql`SELECT receipt_number, invoice_number, amount FROM sales_receipt_lines`)
+  const receipts = (await db.execute(sql`SELECT number, customer_no, to_char(date,'YYYY-MM-DD') AS date, description, amount FROM sales_receipts`))
+    .map(r => ({ number: r.number as string, customer: r.customer_no as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),
+      payments: lines.filter(l => l.receipt_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
+  return { customers, invoices, receipts }
 }

@@ -3,7 +3,7 @@ import { formatIdr, trialBalance, type AccountType, type DailyBalance, type Ledg
 // Buku Besar listings; rules in docs/reports/GeneralLedger*.md, JournalListReport.md, AllJournalReport.md.
 // Every function returns text rows shaped like Accurate's printed table (empty cells dropped).
 
-export interface Journal { number: string; date: string; description: string; lines: { account: string; debit: number; credit: number; memo: string | null }[] }
+export interface Journal { number: string; date: string; description: string; sourceType?: string; lines: { account: string; debit: number; credit: number; memo: string | null }[] }
 
 const CREDIT_NORMAL: ReadonlySet<AccountType> = new Set([
   'ACCOUNT_PAYABLE', 'OTHER_CURRENT_LIABILITY', 'LONG_TERM_LIABILITY', 'EQUITY', 'REVENUE', 'OTHER_INCOME', 'ACCUMULATED_DEPRECIATION',
@@ -15,7 +15,9 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', '
 export const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${MONTHS[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const row = (...cells: string[]) => cells.filter(c => c !== '')
-const TYPE_LABEL = 'Jurnal Umum' // only JV exists so far; other sources get their own labels
+const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan' }
+/** Tipe Transaksi printed for a journal's source document. */
+export const typeLabel = (j: Pick<Journal, 'sourceType'>) => SOURCE_LABEL[j.sourceType ?? 'JV']!
 
 const byDateNumber = (a: Journal, b: Journal) => (a.date + a.number < b.date + b.number ? -1 : a.date + a.number > b.date + b.number ? 1 : 0)
 
@@ -23,7 +25,7 @@ const byDateNumber = (a: Journal, b: Journal) => (a.date + a.number < b.date + b
 export function journalList(journals: Journal[]): string[][] {
   return [
     ['Nomor #', 'No. Trans #', 'Tanggal', 'Tipe Transaksi', 'Nilai', 'Keterangan'],
-    ...[...journals].sort(byDateNumber).map(j => row(j.number, j.number, fmtDate(j.date), TYPE_LABEL, formatIdr(sum(j, 'debit')), j.description)),
+    ...[...journals].sort(byDateNumber).map(j => row(j.number, j.number, fmtDate(j.date), typeLabel(j), formatIdr(sum(j, 'debit')), j.description)),
   ]
 }
 
@@ -32,7 +34,7 @@ export function allJournals(journals: Journal[], accounts: TbAccount[]): string[
   const name = new Map(accounts.map(a => [a.no, a.name]))
   return [...journals].sort(byDateNumber).flatMap(j => [
     row('Tanggal', ':', fmtDate(j.date), 'No. Trans #', ':', j.number),
-    row('Tipe Transaksi', ':', TYPE_LABEL, 'Deskripsi', ':', j.description),
+    row('Tipe Transaksi', ':', typeLabel(j), 'Deskripsi', ':', j.description),
     ['Kode Perkiraan', 'Nama Perkiraan', 'Debit', 'Kredit'],
     ...j.lines.map(l => [l.account, name.get(l.account)!, formatIdr(l.debit), formatIdr(l.credit)]),
     [formatIdr(sum(j, 'debit')), formatIdr(sum(j, 'credit'))],
@@ -46,7 +48,7 @@ export function glHistory(journals: Journal[], accounts: TbAccount[]): string[][
   let date = ''
   for (const j of [...journals].sort(byDateNumber)) {
     if (j.date !== date) out.push([fmtDate((date = j.date))])
-    for (const l of j.lines) out.push(row(TYPE_LABEL, j.number, l.account, name.get(l.account)!, j.description, formatIdr(l.debit), formatIdr(l.credit)))
+    for (const l of j.lines) out.push(row(typeLabel(j), j.number, l.account, name.get(l.account)!, j.description, formatIdr(l.debit), formatIdr(l.credit)))
   }
   return out
 }
@@ -72,9 +74,9 @@ export function glSummary(accounts: TbAccount[], balances: DailyBalance[], setti
 /** Rincian Buku Besar: per account with transactions, opening "Saldo per" row, lines with running balance, totals. */
 export function glDetail(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][] {
   const open = openings(accounts, balances, settings, from, to)
-  const lines = new Map<string, { date: string; memo: string; debit: number; credit: number }[]>()
+  const lines = new Map<string, { date: string; memo: string; debit: number; credit: number; sourceType?: string }[]>()
   for (const j of [...journals].sort(byDateNumber))
-    for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { date: j.date, memo: l.memo ?? '', debit: l.debit, credit: l.credit }])
+    for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { date: j.date, memo: l.memo ?? '', debit: l.debit, credit: l.credit, sourceType: j.sourceType }])
   const prev = fmtDate(dayBefore(from))
   const out: string[][] = [['Tanggal', 'Tipe Transaksi', 'Keterangan', 'Debit', 'Kredit', 'Saldo Akhir']]
   for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
@@ -86,7 +88,7 @@ export function glDetail(accounts: TbAccount[], balances: DailyBalance[], settin
     let d = 0, c = 0
     for (const l of ls) {
       bal += normalized(t, l.debit - l.credit); d += l.debit; c += l.credit
-      out.push(row(fmtDate(l.date), TYPE_LABEL, l.memo, formatIdr(l.debit), formatIdr(l.credit), formatIdr(bal)))
+      out.push(row(fmtDate(l.date), typeLabel(l), l.memo, formatIdr(l.debit), formatIdr(l.credit), formatIdr(bal)))
     }
     out.push([formatIdr(d), formatIdr(c)])
   }
@@ -104,16 +106,16 @@ export const ACCOUNT_TYPE_LABEL: Record<AccountType, string> = {
 
 /** Rincian Jurnal Akun: per account with lines in range, each line's normalized amount, then the block total. */
 export function journalDetailList(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][] {
-  const lines = new Map<string, { number: string; date: string; net: number }[]>()
+  const lines = new Map<string, { number: string; date: string; net: number; sourceType?: string }[]>()
   for (const j of [...journals].sort(byDateNumber))
-    for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { number: j.number, date: j.date, net: l.debit - l.credit }])
+    for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { number: j.number, date: j.date, net: l.debit - l.credit, sourceType: j.sourceType }])
   const out: string[][] = []
   for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
     const ls = lines.get(r.no)
     if (!ls) continue
     const t = accounts.find(a => a.no === r.no)!.type
     out.push(['Kode Perkiraan', ':', r.no, 'Tipe Akun', ':', ACCOUNT_TYPE_LABEL[t]], ['Nama', ':', r.name], ['No. Trans #', 'Tipe Transaksi', 'Tanggal', 'Nilai (Dinormalkan)'])
-    for (const l of ls) out.push([l.number, TYPE_LABEL, fmtDate(l.date), formatIdr(normalized(t, l.net))])
+    for (const l of ls) out.push([l.number, typeLabel(l), fmtDate(l.date), formatIdr(normalized(t, l.net))])
     out.push([formatIdr(normalized(t, ls.reduce((s, l) => s + l.net, 0)))])
   }
   return out

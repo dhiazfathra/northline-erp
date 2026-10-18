@@ -8,7 +8,9 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import * as R from './reports/receivables'
+import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
+import { loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -50,6 +52,17 @@ export function createApp(db: Db) {
       return c.json(c.req.param('report') === 'bank-book' ? await queryBankBook(db, banks, q) : await queryCashFlowByAccount(db, banks, q))
     })
     .get('/reports/cash-bank/cash-list', async c => c.json(await queryCashAccountList(db, balanceSheetQuery.parse(c.req.query()).asOf)))
+    .post('/sales/customers', async c => { await upsertCustomer(db, await c.req.json()); return c.json({ ok: true }) })
+    .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
+    .post('/sales/invoices', async c => c.json(await createSalesInvoice(db, await c.req.json()), 201))
+    .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
+    .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
+      const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')
+      if (r === 'outstanding') return c.json(R.outstandingInvoices(d, balanceSheetQuery.parse(q).asOf))
+      const { from, to } = trialBalanceQuery.parse(q)
+      const fn = { 'invoice-list': R.salesInvoiceList, 'sales-by-customer': R.salesByCustomer, 'receipt-list': R.salesReceiptList, 'ar-ledger': R.arLedger, 'ar-history': R.arHistory, 'customer-statement': R.customerStatement }[r]!
+      return c.json(fn(d, from, to))
+    })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().route('/api', api).get('*', serveSpa)

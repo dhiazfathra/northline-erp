@@ -1,24 +1,7 @@
 # Penjualan per Pelanggan (`ViewSalesByCustomerReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ViewSalesByCustomerReport.json`](captures/ViewSalesByCustomerReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json) (invoices I1–I3, receipts R1–R2, Apr–Jun 2033). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`. Params: `startDate`, `endDate`, `selectedBranch` unless noted.
 
-## Parameters
+Columns `Pelanggan` | `Penjualan`. One row per customer with invoices in range (invoice totals, before tax in this fixture), by customer name; last row `Total Pelanggan`.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Pelanggan | Penjualan`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Unverified: discounts, tax, returns (crosstab view may net returns).

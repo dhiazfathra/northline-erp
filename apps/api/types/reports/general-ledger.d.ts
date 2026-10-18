@@ -3,6 +3,7 @@ export interface Journal {
     number: string;
     date: string;
     description: string;
+    sourceType?: string;
     lines: {
         account: string;
         debit: number;
@@ -11,6 +12,8 @@ export interface Journal {
     }[];
 }
 export declare const fmtDate: (iso: string) => string;
+/** Tipe Transaksi printed for a journal's source document. */
+export declare const typeLabel: (j: Pick<Journal, 'sourceType'>) => string;
 /** Jurnal Umum: one row per journal; Nilai = total debit. */
 export declare function journalList(journals: Journal[]): string[][];
 /** Keseluruhan Jurnal: a block per journal with its lines and totals. */

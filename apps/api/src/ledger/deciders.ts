@@ -3,7 +3,7 @@ import type { Decider } from '../es/store'
 
 export class DomainError extends Error {}
 
-type PostCmd = { type: 'Post'; journalId: string; number?: string; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
+type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR'; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
 type ReverseCmd = { type: 'Reverse'; reversalJournalId: string; date: string; reason: string }
 
 export type JournalState =
@@ -25,7 +25,7 @@ export const journalDecider: Decider<JournalState, PostCmd | ReverseCmd, LedgerE
       const credit = c.lines.filter(l => l.side === 'CREDIT').reduce((a, l) => a + l.amount, 0)
       if (debit !== credit) throw new DomainError(`Debit (${debit}) dan kredit (${credit}) tidak seimbang`)
       if (debit === 0) throw new DomainError('Jurnal tanpa nilai')
-      return [{ type: 'JournalPosted', data: { journalId: c.journalId, number: c.number, date: c.date, description: c.description, lines: c.lines, reverses: c.reverses } }]
+      return [{ type: 'JournalPosted', data: { journalId: c.journalId, number: c.number, sourceType: c.sourceType ?? 'JV', date: c.date, description: c.description, lines: c.lines, reverses: c.reverses } }]
     }
     if (s.status === 'none') throw new DomainError('Jurnal tidak ditemukan')
     if (s.status === 'reversed') throw new DomainError(`Jurnal ${s.journalId} sudah dibalik`)
