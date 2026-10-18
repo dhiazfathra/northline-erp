@@ -9,6 +9,8 @@ DATABASE_URL=postgres://postgres:northline@localhost:55432/northline bun src/mai
 bun run build                           # dist/northline-api single binary; --role=web|worker|all
 ./dist/northline-api rebuild ledger     # truncate read models and replay from position 0
 docker build -f apps/api/Dockerfile .   # from repo root
+bun scripts/seed.ts                     # migrate + idempotent demo seed (NL_EMAIL/NL_PASSWORD add a login)
+npx wrangler deploy                     # production: Cloudflare Worker + Neon, see docs/deploy.md (ADR-0017)
 ```
 
 | Path | |

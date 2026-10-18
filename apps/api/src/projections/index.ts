@@ -87,6 +87,6 @@ export async function waitFor(db: Db, position: number, timeoutMs = 5000) {
     const [r] = await db.execute(sql`SELECT COALESCE(MIN(global_position), 0) AS p FROM projection_checkpoints`)
     if (Number(r!.p) >= position) return
     if (Date.now() > until) throw new Error(`Projections behind position ${position}`)
-    await Bun.sleep(50)
+    await new Promise(r => setTimeout(r, 50))
   }
 }

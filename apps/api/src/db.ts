@@ -40,9 +40,9 @@ import m0037 from '../migrations/0037_fixed_asset_edits.sql' with { type: 'text'
 import m0038 from '../migrations/0038_fiscal_assets.sql' with { type: 'text' }
 import m0039 from '../migrations/0039_unrealized_gain.sql' with { type: 'text' }
 
-export function connect(url = process.env.DATABASE_URL) {
+export function connect(url = process.env.DATABASE_URL, opts: postgres.Options<{}> = {}) {
   if (!url) throw new Error('DATABASE_URL is required')
-  const client = postgres(url, { max: 10, onnotice: () => {} })
+  const client = postgres(url, { max: 10, onnotice: () => {}, ...opts })
   return { client, db: drizzle(client) }
 }
 export type Db = ReturnType<typeof connect>['db']
