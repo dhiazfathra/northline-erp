@@ -134,9 +134,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesCustomerChartReport.md) |
 | Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesItemChartReport.md) |
 | Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | [verified](SalesDownPaymentByCustomerReport.md) |
-| Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemSalesTargetReport.md) |
-| Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemCategorySalesTargetReport.md) |
-| Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](GeneralSalesTargetReport.md) |
+| Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](ItemSalesTargetReport.md) |
+| Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](ItemCategorySalesTargetReport.md) |
+| Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](GeneralSalesTargetReport.md) |
 | Daftar Pengiriman Pesanan | `DeliveryOrderListReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderListReport.md) |
 | Rincian Pengiriman Pesanan | `DeliveryOrderDetailReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderDetailReport.md) |
 | Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderHistorySummaryReport.md) |

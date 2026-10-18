@@ -1,0 +1,227 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Preferensi > Anggaran dan Target (featureBudgetTarget) enabled; targets saved via save-sales-target.do (flat param.*, detail fields qtyPeriod/amountPeriod/period/itemCategoryId). Riil comes from the tax-t19.json sales (Nov 2035).",
+ "year": 2035,
+ "targets": [
+  {
+   "name": "NL-T21 target barang",
+   "kind": "ITEM",
+   "year": 2035,
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "analyst": "NL-T21",
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "qty": 20,
+     "amount": 2500000
+    }
+   ]
+  },
+  {
+   "name": "NL-T21 target kategori",
+   "kind": "CATEGORY",
+   "year": 2035,
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "analyst": "NL-T21",
+   "lines": [
+    {
+     "category": "Umum",
+     "qty": 30,
+     "amount": 4000000
+    }
+   ]
+  },
+  {
+   "name": "NL-T21 target bulanan",
+   "kind": "GENERAL",
+   "year": 2035,
+   "from": "2035-01-01",
+   "to": "2035-12-31",
+   "analyst": "NL-T21",
+   "lines": [
+    {
+     "month": 11,
+     "amount": 3000000
+    },
+    {
+     "month": 12,
+     "amount": 1000000
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "ItemSalesTargetReport": {
+   "param": {
+    "asOfYear": 2035,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan Barang"
+    ],
+    [
+     "per 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "NL-T21 target barang",
+     "S/d Tanggal",
+     ":",
+     "30 Nov 2035"
+    ],
+    [
+     "Dari Tanggal",
+     ":",
+     "01 Nov 2035",
+     "Penganalisa",
+     ":",
+     "NL-T21"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Kuantitas",
+     "Nilai Target",
+     "Kts Riil",
+     "Nilai Riil",
+     "Pencapaian Kts (%)",
+     "Pencapaian (%)"
+    ],
+    [
+     "NL-T19 Jasa Kena PPN",
+     "20",
+     "2.500.000",
+     "15",
+     "2.041.250",
+     "75",
+     "81,65"
+    ],
+    [
+     "2.500.000",
+     "2.041.250"
+    ]
+   ]
+  },
+  "ItemCategorySalesTargetReport": {
+   "param": {
+    "asOfYear": 2035,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan per Kategori"
+    ],
+    [
+     "per 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "NL-T21 target kategori",
+     "S/d Tanggal",
+     ":",
+     "30 Nov 2035"
+    ],
+    [
+     "Dari Tanggal",
+     ":",
+     "01 Nov 2035",
+     "Penganalisa",
+     ":",
+     "NL-T21"
+    ],
+    [
+     "Nama Kategori Barang",
+     "Nilai Target",
+     "Nilai Riil",
+     "Pencapaian (%)"
+    ],
+    [
+     "Umum",
+     "4.000.000",
+     "2.041.250",
+     "51,03"
+    ],
+    [
+     "4.000.000",
+     "2.041.250"
+    ]
+   ]
+  },
+  "GeneralSalesTargetReport": {
+   "param": {
+    "asOfYear": 2035,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan per Bulan"
+    ],
+    [
+     "per 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "NL-T21 target bulanan",
+     "Penganalisa",
+     ":",
+     "NL-T21"
+    ],
+    [
+     "Tahun",
+     ":",
+     "2035"
+    ],
+    [
+     "Bulan",
+     "Nilai Target",
+     "Nilai Riil",
+     "Pencapaian (%)"
+    ],
+    [
+     "November",
+     "3.000.000",
+     "2.041.250",
+     "68,04"
+    ],
+    [
+     "Desember",
+     "1.000.000",
+     "0",
+     "0"
+    ],
+    [
+     "4.000.000",
+     "2.041.250"
+    ]
+   ]
+  }
+ }
+}

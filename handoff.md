@@ -4,15 +4,15 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **166 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 192/192 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **169 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 193/193 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
 ## Sandbox state (Accurate, Data Usaha = `SANDBOX_DB_NAME`)
 
 - Fixture data all prefixed `NL-T*`, dated 2030–2035 (outside real data). Each fixture file in `docs/reports/fixtures/` lists its documents and the window.
-- Preferensi changed: multi-warehouse, sales quote/order, invoice exchange, employee loans **enabled**. Manufacturing would not stay on (likely paid).
+- Preferensi changed: Anggaran dan Target **enabled** (`tools/accurate/set-pref.mjs featureBudgetTarget true`); multi-warehouse, sales quote/order, invoice exchange, employee loans **enabled**. Manufacturing would not stay on (likely paid).
 - Leftovers: empty stock-opname order `OPO.00002`; warehouse `NL-Gudang B`.
 
 ## Tooling (in repo: `tools/accurate/`, see its README)

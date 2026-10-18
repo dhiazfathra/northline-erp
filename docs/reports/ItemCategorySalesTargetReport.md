@@ -1,24 +1,21 @@
 # Target Penjualan per Kategori (`ItemCategorySalesTargetReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ItemCategorySalesTargetReport.json`](captures/ItemCategorySalesTargetReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. **Status: verified** (zero diff). Fixture: [`fixtures/targets-t21.json`](fixtures/targets-t21.json) (sales from `tax-t19.json`).
+ERP: `apps/api/src/reports/targets.ts` (`categoryTargets`); test: `apps/api/test/tax.test.ts`.
+Default-params capture: [`captures/ItemCategorySalesTargetReport.json`](captures/ItemCategorySalesTargetReport.json).
 
 ## Parameters
 
-Date parameter kind: `ASOFYEAR`; request param used: `{"asOfYear":2026,"selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
+`ASOFYEAR`: `{"asOfYear":2035,"selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`. Targets of that year.
 
 ## Layout
 
-View: `report`. Header lines: "per 2026", "Cabang : [Semua Cabang]".
+Per ITEMCATEGORY_TARGET: `Nama Kategori Barang | Nilai Target | Nilai Riil | Pencapaian (%)`; riil = sales of the category's items. ERP: every item is in Umum (`shortcut:`).
 
+## Calculation rules
 
-First table row (columns): `Nama Target | : | S/d Tanggal | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Source: Target Penjualan (Preferensi > **Anggaran dan Target** must be on; module `accurate__budget-target__sales-target`).
+Riil = sales at DPP (after line and invoice discounts, no PPN, returns negative) in the target's range, the same
+figure as the sales item views (2.041.250 for Nov 2035). Pencapaian (%) = Riil / Target x 100 to two decimals,
+trailing zeros dropped ("75", "81,65", "0"). Each target prints its own block (title repeated), then a totals row
+(Target, Riil).

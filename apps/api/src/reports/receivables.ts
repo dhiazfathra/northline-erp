@@ -497,7 +497,7 @@ export function exchangeDetail(d: SalesData, xs: { number: string; date: string;
  * Sales lines for the item views: invoice lines at DPP (line total less its pro-rata share of the invoice discount, no PPN)
  * and sales-return lines negative, dated in [from, to] (fixtures/sales-views.json: T19 Penjualan 2.041.250 = sum of DPPs).
  */
-function itemSales(d: SalesData, from: string, to: string) {
+export function itemSales(d: SalesData, from: string, to: string) {
   const out: { line: InvoiceLine; qty: number; value: number }[] = []
   for (const i of regular(d).filter(i => inRange(i, from, to))) {
     const sub = (i.lines ?? []).reduce((s, l) => s + l.total, 0)

@@ -80,3 +80,13 @@ test('OutstandingChequeReport: cheques listed until their cheque date', async ()
 test('AllJournalReport Dec 2035: a cheque receipt is journaled on its cheque date', async () => {
   expect(await queryGeneralLedger(f.db, 'all-journals', { from: '2035-12-01', to: '2035-12-31', showZeroBalance: false, showParentAccount: true })).toEqual(R.AllJournalReportDec.rows.slice(2))
 })
+
+test('sales target reports 2035 (targets-t21.json): riil = DPP sales in the target range', async () => {
+  const t21 = (await import('../../../docs/reports/fixtures/targets-t21.json')).default
+  const TG = await import('../src/reports/targets'), Q = await import('../src/reports/queries')
+  for (const t of t21.targets) await TG.saveSalesTarget(f.db, t as any)
+  const ts = await TG.loadSalesTargets(f.db), d = await Q.loadSales(f.db)
+  expect(TG.itemTargets(ts, d, t21.year)).toEqual(t21.reports.ItemSalesTargetReport.rows)
+  expect(TG.categoryTargets(ts, d, t21.year)).toEqual(t21.reports.ItemCategorySalesTargetReport.rows)
+  expect(TG.generalTargets(ts, d, t21.year)).toEqual(t21.reports.GeneralSalesTargetReport.rows)
+})
