@@ -33,3 +33,13 @@ Purchase invoice expense lines (Biaya tab): pass `extra.detailExpense: [{_status
 - **Stock items** created with `save-item.mjs` need explicit GL ids (copy them from `detail-item.do` of NL-T4-B1). Otherwise Accurate rejects the parent account.
 - **Services** need an expense account in `cogsGlAccountId`/`inventoryGlAccountId`.
 - **PPh:** `tax3Id` on a service did not persist (NL-T29-S2, id 401).
+
+`session.mjs <steps.mjs>` logs in once and runs `export default async ({ app, call, runReport, log }) => ...` from a
+steps file; `forms.mjs` holds the helpers those steps use (`formParams`/`formData` serialize a record's edit form,
+`captureWire` returns the body its Simpan would send with the request aborted, `save` follows background saves and
+warning flags, `asNew` turns a captured body into a new record).
+
+`AuditListReport` (Daftar Log Aktifitas) prints the login, email and IP. `runReport` reads its xlsx export instead of the
+HTML, merges records Jasper split across page breaks, restores wrapped reference/type text from `search-audit.do`, and
+replaces Pengguna/Email/Alamat IP with `nl-tester`, `nl-tester@example.test`, `203.0.113.10` before returning; `raw`
+is refused for this plan.
