@@ -4,9 +4,9 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **147 / 229 verified** (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 172/172 `bun test` pass, typecheck clean, everything pushed to `main`.
-- ADRs 0001–0008 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns).
+- **148 / 229 verified** (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 175/175 `bun test` pass, typecheck clean, everything pushed to `main`.
+- ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
 ## Sandbox state (Accurate, Data Usaha = `SANDBOX_DB_NAME`)
@@ -15,15 +15,15 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 - Preferensi changed: multi-warehouse, sales quote/order, invoice exchange, employee loans **enabled**. Manufacturing would not stay on (likely paid).
 - Leftovers: empty stock-opname order `OPO.00002`; warehouse `NL-Gudang B`.
 
-## Tooling (session scratchpad, not in repo — recreate if lost)
+## Tooling (in repo: `tools/accurate/`, see its README)
 
-Playwright scripts under the session scratchpad `acc/`: `acc.mjs` (login state, `assertSandbox` guard, `red` scrubber), `report.mjs <planId> '<param json>' <out>` (bg-execute → poll → HTML rows; `EXPORT=xls` for charts), `batch.mjs <GROUPS> <dir>` (all reports of groups, `DATES` override), `s14.mjs` (serialize fresh form via app `populateServerParam` + `_convertToExperimentalJsonParam`, patch bean keys, save), `s15.mjs` (serialize existing record = key template), `call.mjs` (raw `.do` call). Secrets only read from `.env`; scrub before any output/screenshot.
-
-Key facts: report API `bg-execute-report.do` → `company/bg-proc-response.do` → `report-output-html.do` on `acc.reportHost`; saves post `_param` JSON; branch/currency params must be arrays of objects; warnings return `{c:<flag>}` to set and resubmit.
+Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs`, `call.mjs`, `capture-save.mjs` (serialize an existing record with the form's own submit, request aborted), `save-inv.mjs` (`KIND=si|pi`), `save-item.mjs`. Captured wire templates (`si-wire.json`, `pi-wire.json`, `item-wire.json`) are gitignored; recreate with `capture-save.mjs`. `selectedBranch` must be `[{"id":50}]` (an empty array returns no rows).
 
 ## Next steps
 
-1. **Tax (8 reports)**: script-saved invoices ignore PPN. Save one taxed invoice through the browser UI, capture its `_param`, template from it. Test invoices deleted; sandbox clean.
+1. **Tax**: solved for sales. PPN needs the item's default tax (`tax1Id`); item `NL-T19-S1` (id 301) has PPN 11%. `TaxationOutReport` verified (T19). Still open:
+   - **Purchase invoices**: `save-purchase-invoice.do` returns a server error ("Upsss…") even when cloning a known-good NL purchase invoice as-is (ids, optLock, number, journalId, history arrays removed). Next try: capture a *fresh* purchase form (`openModule` without id), set vendor and lines through the form model, then `submitForm` and inspect the request. Unblocks `TaxationInReport`, `PurchaseInvoiceSPTListReport`, `TaxationInOutReport`.
+   - SPT lists need an e-Faktur number on the invoice.
 2. UI-capture-first items: bank reconciliation / post-dated cheques, loan installment schedule, stock opname (order lists don't save via script), serial numbers, price/discount adjustments, sales targets, installments.
 3. Remaining charts/projections: export PNG (`EXPORT=xls`), transcribe labels into `fixtures/charts.json`.
 4. Scope decision pending from user: payroll, manufacturing, job orders, audit/users/access (~25 reports) — likely out of reach or out of scope. CSV download reports (4) return files, not tables.

@@ -20,6 +20,7 @@ export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
       expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account), inventory_account = COALESCE(EXCLUDED.inventory_account, items.inventory_account),
       cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)`)
   if (i.deliveredAccount) await db.execute(sql`UPDATE items SET delivered_account = ${i.deliveredAccount} WHERE no = ${i.no}`)
+  if (i.tax || i.salesDiscountAccount) await db.execute(sql`UPDATE items SET tax_name = ${i.tax ?? null}, sales_discount_account = ${i.salesDiscountAccount ?? null} WHERE no = ${i.no}`)
 }
 
 export async function nextNumber(tx: Tx, prefix: string) {
@@ -43,13 +44,35 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     const [cust] = await tx.execute(sql`SELECT ar_account FROM customers WHERE no = ${inv.customer}`)
     if (!cust) throw new DomainError(`Pelanggan ${inv.customer} tidak ditemukan`)
     const items = new Map((await tx.execute(sql`SELECT no, sales_account FROM items`)).map(r => [r.no as string, r.sales_account as string]))
+    const itemTax = new Map((await tx.execute(sql`SELECT i.no, i.sales_discount_account, t.name, t.rate, t.sales_account FROM items i LEFT JOIN taxes t ON t.name = i.tax_name`))
+      .map(r => [r.no as string, { discAccount: r.sales_discount_account as string | null, tax: r.name ? { name: r.name as string, rate: Number(r.rate), account: r.sales_account as string } : null }]))
     const stock = new Map((await tx.execute(sql`SELECT no, inventory_account, cogs_account FROM items WHERE type = 'INVENTORY'`))
       .map(r => [r.no as string, { inv: r.inventory_account as string, cogs: r.cogs_account as string }]))
     const lines = inv.lines.map((l, i) => {
       if (!items.has(l.item)) throw new DomainError(`Barang ${l.item} tidak ditemukan`)
-      return { ...l, seq: i + 1, total: Math.round(l.qty * l.price) }
+      const gross = Math.round(l.qty * l.price), disc = Math.round(gross * l.discPct / 100)
+      if (disc && !itemTax.get(l.item)!.discAccount) throw new DomainError(`Barang ${l.item} tidak punya akun diskon penjualan`)
+      return { ...l, seq: i + 1, gross, disc, total: gross - disc }
     })
-    const total = lines.reduce((s, l) => s + l.total, 0)
+    const subTotal = lines.reduce((s, l) => s + l.total, 0)
+    const discount = Math.round(subTotal * inv.discPct / 100)
+    if (discount && !inv.discountAccount) throw new DomainError('Diskon faktur butuh akun diskon')
+    // DPP per tax = its lines' totals less their share of the invoice discount; PPN rounds half-up to the rupiah (70.537,5 -> 70.538).
+    // shortcut: discount share is pro-rata per tax without per-line remainder handling; verify against a multi-line, multi-tax Accurate invoice before relying on it.
+    const taxes = new Map<string, { name: string; rate: number; account: string; dpp: number; amount: number }>()
+    if (inv.taxable) for (const l of lines) {
+      const t = itemTax.get(l.item)!.tax
+      if (!t) continue
+      const e = taxes.get(t.name) ?? { ...t, dpp: 0, amount: 0 }
+      e.dpp += l.total
+      taxes.set(t.name, e)
+    }
+    for (const t of taxes.values()) {
+      t.dpp -= subTotal ? Math.round(discount * t.dpp / subTotal) : 0
+      t.amount = Math.round(t.dpp * t.rate / 100 / 100) * 100
+    }
+    const taxTotal = [...taxes.values()].reduce((s, t) => s + t.amount, 0)
+    const total = subTotal - discount + taxTotal
     const number = inv.number ?? await nextNumber(tx, `SI.${period(inv.date)}`)
     // Stock items: FIFO cost now, booked Dr HPP / Cr Persediaan after the sales lines (Accurate's order).
     const costs: { item: string; qty: number; cost: number; cogs: string; inv: string; delivered?: boolean }[] = []
@@ -83,18 +106,24 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
       lines: [
         ...(total - dpUsed ? [{ account: cust.ar_account as string, side: 'DEBIT' as const, amount: ((total - dpUsed) / 100).toFixed(2) }] : []),
         ...merge(dps).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: (d.amount / 100).toFixed(2) })),
-        ...merge(lines.map(l => ({ account: items.get(l.item)!, amount: l.total }))).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
+        // Accurate's order: invoice discount, line discounts, taxes, then sales at gross.
+        ...(discount ? [{ account: inv.discountAccount!, side: 'DEBIT' as const, amount: (discount / 100).toFixed(2) }] : []),
+        ...merge(lines.filter(l => l.disc).map(l => ({ account: itemTax.get(l.item)!.discAccount!, amount: l.disc }))).map(c => ({ account: c.account, side: 'DEBIT' as const, amount: (c.amount / 100).toFixed(2) })),
+        ...merge([...taxes.values()].filter(t => t.amount).map(t => ({ account: t.account, amount: t.amount }))).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
+        ...merge(lines.map(l => ({ account: items.get(l.item)!, amount: l.gross }))).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
         ...merge(costs.map(c => ({ account: c.cogs, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'DEBIT' as const, amount: (c.amount / 100).toFixed(2) })),
         ...merge(costs.map(c => ({ account: c.inv, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
       ],
     })
     for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
-    await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id)
-      VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId})`)
+    await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id, discount, tax_date)
+      VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${discount}, ${inv.taxable ? inv.date : null})`)
+    for (const t of taxes.values())
+      await tx.execute(sql`INSERT INTO sales_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
     if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)
     for (const l of lines)
-      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total)
-        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total})`)
+      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct)
+        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO sales_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${inv.idempotencyKey}, 'CreateSalesInvoice', ${JSON.stringify(result)}::jsonb)`)

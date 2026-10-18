@@ -11,7 +11,7 @@ the sandbox, and every helper calls it before acting.
 | `report.mjs <planId> '<param json>' [out]` | `report-input` → `bg-execute-report` → poll `bg-proc-response` → `report-output-html?cacheId&reportView=report` on `acc.reportHost`; prints rows |
 | `call.mjs <path.do> '<json>' [out]` | Raw POST to an app endpoint (`search-*`, `view-*`, `detail-lookup-*`, `delete-*`) |
 | `capture-save.mjs <module> <id> <regex> <out>` | Opens a record, serializes it with the form's own `_getSubmitData`/`submitForm`, **aborts** the save request, writes the wire body to `<out>-raw.txt`. Never persists |
-| `save-si.mjs '<spec>'` | New sales invoice cloned from `si-wire.json` (decoded `_param` of a captured taxed invoice) |
+| `KIND=si|pi save-inv.mjs '<spec>'` | New sales or purchase invoice cloned from `si-wire.json` / `pi-wire.json` (decoded `_param` of a captured taxed invoice) |
 | `save-item.mjs '<overrides>'` | New item cloned from `item-wire.json` (flat `param.*` keys) |
 
 Wire formats: transaction forms post `_param=<nested JSON>`; detail rows need `_status: 'insert'`.

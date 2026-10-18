@@ -1,0 +1,298 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Window Nov 2035. Saldo Awal 628.100 is the sandbox demo data's PPN Keluaran (ZZ-R01/ZZ-R03 invoices, Oct 2026), not part of this fixture.",
+ "accounts": [
+  {
+   "no": "110301",
+   "name": "Piutang Usaha IDR",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "400004",
+   "name": "Diskon Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "440101",
+   "name": "Diskon Penjualan IDR",
+   "type": "REVENUE"
+  },
+  {
+   "no": "210201",
+   "name": "PPN Keluaran",
+   "type": "OTHER_CURRENT_LIABILITY"
+  }
+ ],
+ "taxes": [
+  {
+   "name": "ZZ-R01-PPN 11%",
+   "rate": 11,
+   "salesAccount": "210201"
+  }
+ ],
+ "customers": [
+  {
+   "no": "NL-T2-C1",
+   "name": "NL-T2 Pelanggan A",
+   "arAccount": "110301"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-T19-S1",
+   "name": "NL-T19 Jasa Kena PPN",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "400001",
+   "salesDiscountAccount": "400004",
+   "tax": "ZZ-R01-PPN 11%"
+  }
+ ],
+ "invoiceDiscountAccount": "440101",
+ "documents": [
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T19-I1",
+   "number": "SI.2035.11.00002",
+   "customer": "NL-T2-C1",
+   "date": "2035-11-05",
+   "description": "NL-T19 faktur PPN 1",
+   "taxable": true,
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "name": "NL-T19 Jasa Kena PPN",
+     "qty": 10,
+     "price": 100000
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T19-I2",
+   "number": "SI.2035.11.00003",
+   "customer": "NL-T2-C1",
+   "date": "2035-11-20",
+   "description": "NL-T19 faktur PPN 2",
+   "taxable": true,
+   "discPct": 5,
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "name": "NL-T19 Jasa Kena PPN",
+     "qty": 3,
+     "price": 250000,
+     "discPct": 10
+    }
+   ]
+  }
+ ],
+ "notes": [
+  "SI.2035.11.00001 was saved untaxed (item had no default tax) and deleted; Accurate does not reuse the number.",
+  "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788."
+ ],
+ "reports": {
+  "TaxationOutReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035"
+   },
+   "rows": [
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "628.100"
+    ],
+    [
+     "628.100"
+    ],
+    [
+     "ZZ-R01-PPN 11% (11%)"
+    ],
+    [
+     "05 Nov 2035",
+     "05 Nov 2035",
+     "SI.2035.11.00002",
+     "110.000"
+    ],
+    [
+     "20 Nov 2035",
+     "20 Nov 2035",
+     "SI.2035.11.00003",
+     "70.538"
+    ],
+    [
+     "180.538"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "808.638"
+    ]
+   ]
+  },
+  "SalesInvoiceSPTListReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035"
+   },
+   "rows": [
+    [
+     "Faktur Penjualan SPT Masa PPN"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "No. Faktur Pajak",
+     "Tgl Faktur Pajak",
+     "Pelanggan",
+     "Nilai Pajak"
+    ]
+   ]
+  },
+  "AllJournalReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035",
+    "selectedBranch": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Keseluruhan Jurnal"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Nov 2035",
+     "No. Trans #",
+     ":",
+     "SI.2035.11.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T19 faktur PPN 1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "1.110.000",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "0",
+     "110.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Nov 2035",
+     "No. Trans #",
+     ":",
+     "SI.2035.11.00003"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T19 faktur PPN 2"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "711.788",
+     "0"
+    ],
+    [
+     "440101",
+     "Diskon Penjualan IDR",
+     "33.750",
+     "0"
+    ],
+    [
+     "400004",
+     "Diskon Penjualan",
+     "75.000",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "0",
+     "70.538"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "750.000"
+    ],
+    [
+     "820.538",
+     "820.538"
+    ]
+   ]
+  }
+ }
+}

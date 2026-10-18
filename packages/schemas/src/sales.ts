@@ -6,7 +6,8 @@ import { amountToCents, isoDate } from './ledger-es'
 const code = z.string().trim().min(1).max(60)
 
 export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code })
-export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional() })
+export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional(),
+  /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional() })
 
 export const salesInvoiceInput = z.object({
   idempotencyKey: z.string().min(8),
@@ -17,7 +18,12 @@ export const salesInvoiceInput = z.object({
   /** Omitted → the invoice date (cash on delivery, the sandbox's default term). */
   dueDate: isoDate.optional(),
   description: z.string().default(''),
-  lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents })).min(1),
+  lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents, discPct: z.number().min(0).max(100).default(0) })).min(1),
+  /** PPN: each line's item default tax applies on its DPP (line total less its share of the invoice discount). */
+  taxable: z.boolean().default(false),
+  /** Invoice discount %, posted to discountAccount. */
+  discPct: z.number().min(0).max(100).default(0),
+  discountAccount: code.optional(),
   /** Down payments (DP invoices of the same customer) deducted from this invoice. */
   downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
   /** Delivery order this invoice bills: stock already left at delivery, the invoice moves its cost to HPP. */

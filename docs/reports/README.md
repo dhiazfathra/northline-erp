@@ -281,7 +281,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar PPN/PPnBM Keluaran | `TaxationOutReport` | report | FROMTO | — | [spec](TaxationOutReport.md) |
+| Daftar PPN/PPnBM Keluaran | `TaxationOutReport` | report | FROMTO | — | [verified](TaxationOutReport.md) |
 | Daftar PPN/PPnBM Masukan | `TaxationInReport` | report | FROMTO | — | [spec](TaxationInReport.md) |
 | Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | [spec](TaxationInOutReport.md) |
 | Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [spec](SalesInvoiceSPTListReport.md) |
