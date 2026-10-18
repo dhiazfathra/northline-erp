@@ -240,7 +240,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [spec](ReceivedDeliveredSerialNumberReport.md) |
 | Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [spec](RemainingAgeSerialNumberDetailReport.md) |
 | Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | [verified](ItemTransferListReport.md) |
-| Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | [spec](StockMovementByWarehouseReport.md) |
+| Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | [verified](StockMovementByWarehouseReport.md) |
 
 ## Pekerjaan Pesanan (JOB_ORDER)
 

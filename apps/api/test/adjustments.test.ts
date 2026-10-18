@@ -90,3 +90,9 @@ test('Tukar Faktur (exchange-t16.json)', async () => {
   expect(R.exchangeDetail(d, await Q.loadExchanges(f.db), O.from, O.to, t16.today)).toEqual(r('ExchangeInvoiceDetailReport'))
   expect(R.flowHistory(d, O.from, O.to, true)).toEqual(r('SalesFlowHistoryReport'))
 })
+
+test('StockMovementByWarehouseReport over the T4..T15 chain (stock-movement.json; runs after the T15 transfers)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/stock-movement.json')).default, Q = await import('../src/reports/queries')
+  const d = await Q.loadInventory(f.db)
+  for (const c of fx.StockMovementByWarehouseReport) expect(I.stockMovementByWarehouse(d, c.warehouse, c.from, c.to)).toEqual(c.rows)
+})

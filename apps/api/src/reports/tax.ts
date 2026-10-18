@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import type { Db } from '../db'
-import { fmtDate } from './general-ledger'
+import { fmtDate, fmtHeaderDate } from './general-ledger'
 import { formatIdr } from './trial-balance'
 
 // Pajak reports over invoice tax lines; rules in docs/reports/TaxationOutReport.md, TaxationInReport.md,
@@ -28,7 +28,7 @@ export async function loadTaxLines(db: Db): Promise<TaxLine[]> {
 const NAME = { OUT: 'PPN Keluaran', IN: 'PPN Masukan' } as const
 const GROUP = { OUT: 'Pajak Keluaran', IN: 'Pajak Masukan' } as const
 const HEADER = ['Tanggal', 'Tgl Pajak', 'No Referensi', 'No. Faktur Pajak', 'Nilai Pajak']
-const range = (from: string, to: string) => [`Dari ${fmtDate(from)} s/d ${fmtDate(to)}`]
+const range = (from: string, to: string) => [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`]
 const sum = (ls: TaxLine[]) => ls.reduce((s, l) => s + l.amount, 0)
 const opening = (lines: TaxLine[], side: 'OUT' | 'IN', from: string) => sum(lines.filter(l => l.side === side && l.taxDate < from))
 const period = (lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string) => lines.filter(l => l.side === side && l.taxDate >= from && l.taxDate <= to)

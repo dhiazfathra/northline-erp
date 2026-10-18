@@ -1,0 +1,274 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Runs over the T4..T15 chain (NL-T4-B1). selectedWarehouse must be an array of {id}; only the first warehouse is used (Utama id 50, NL-Gudang B id 100). Demo items have no movement in these windows.",
+ "StockMovementByWarehouseReport": [
+  {
+   "from": "2033-12-01",
+   "to": "2033-12-31",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Des 2033 s/d 31 Des 2033"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "10",
+     "2",
+     "-1",
+     "0",
+     "0",
+     "0",
+     "0",
+     "11"
+    ]
+   ]
+  },
+  {
+   "from": "2034-01-01",
+   "to": "2034-06-30",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 30 Jun 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "11",
+     "0",
+     "10",
+     "0",
+     "0",
+     "0",
+     "0",
+     "21"
+    ]
+   ]
+  },
+  {
+   "from": "2034-07-01",
+   "to": "2034-07-31",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Jul 2034 s/d 31 Jul 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "21",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1",
+     "0",
+     "22"
+    ]
+   ]
+  },
+  {
+   "from": "2034-08-01",
+   "to": "2034-09-30",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Agu 2034 s/d 30 Sep 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ]
+   ]
+  },
+  {
+   "from": "2034-10-01",
+   "to": "2034-10-31",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "22",
+     "-4",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "18"
+    ]
+   ]
+  },
+  {
+   "from": "2034-11-01",
+   "to": "2034-11-30",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "18",
+     "0",
+     "0",
+     "0",
+     "-5",
+     "0",
+     "0",
+     "13"
+    ]
+   ]
+  },
+  {
+   "from": "2034-11-01",
+   "to": "2034-11-30",
+   "warehouse": "NL-Gudang B",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "0",
+     "0",
+     "5"
+    ]
+   ]
+  },
+  {
+   "from": "2033-10-01",
+   "to": "2034-11-30",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Pergerakan Stok per Barang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2034"
+    ],
+    [
+     "Nama Barang",
+     "Kuantitas Saldo Awal",
+     "Kuantitas Penjualan",
+     "Kuantitas Pembelian",
+     "Kuantitas Produksi",
+     "Kuantitas Pemindahan",
+     "Kuantitas Penyesuaian",
+     "Kuantitas Lainnya",
+     "Kuantitas Saldo Akhir"
+    ],
+    [
+     "NL-T4 Barang A",
+     "0",
+     "-17",
+     "34",
+     "0",
+     "-5",
+     "1",
+     "0",
+     "13"
+    ]
+   ]
+  }
+ ]
+}

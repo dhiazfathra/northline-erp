@@ -1,4 +1,4 @@
-import { fmtDate } from './general-ledger'
+import { fmtDate, fmtHeaderDate } from './general-ledger'
 import { formatIdr } from './trial-balance'
 import { layers } from '../inventory/fifo'
 
@@ -194,7 +194,29 @@ const ITEM_TYPE: Record<string, string> = { SERVICE: 'Jasa', INVENTORY: 'Persedi
  */
 export function itemList(items: { no: string; name: string; type: string }[], moves: { item: string; date: string; quantity: number }[], asOf: string): string[][] {
   const qty = (no: string) => moves.filter(m => m.item === no && m.date <= asOf).reduce((s, m) => s + m.quantity, 0)
-  return [['Daftar Barang dan Jasa'], [`Per Tgl. ${fmtDate(asOf)}`], ['Cabang : [Semua Cabang]'],
+  return [['Daftar Barang dan Jasa'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]'],
     ['Kode Barang', 'Nama Barang', 'Jenis Barang', 'Def. Hrg. Jual Satuan #1', 'Kts (Semua Gdng)'],
     ...(items.length ? [['Umum']] : []), ...items.map(i => [i.no, i.name, ITEM_TYPE[i.type]!, '0', formatIdr(Math.round(qty(i.no) * 100))])]
+}
+
+/** Kuantitas column a stock move counts in: returns count with their side (sales / purchases), receipts as purchases. */
+const MOVE_COLUMN: Record<string, number> = { SI: 0, DO: 0, SRT: 0, PI: 1, RI: 1, PRT: 1, IT: 3, IA: 4 }
+/**
+ * Pergerakan Stok per Barang (docs/reports/StockMovementByWarehouseReport.md): one warehouse; per item with a move in the
+ * window: opening, Penjualan, Pembelian, Produksi, Pemindahan, Penyesuaian, Lainnya, closing (signed quantities).
+ */
+export function stockMovementByWarehouse(d: InventoryData, warehouse: string, from: string, to: string): string[][] {
+  const q = (n: number) => formatIdr(Math.round(n * 100))
+  const rows: string[][] = [['Pergerakan Stok per Barang'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`],
+    ['Nama Barang', 'Kuantitas Saldo Awal', 'Kuantitas Penjualan', 'Kuantitas Pembelian', 'Kuantitas Produksi', 'Kuantitas Pemindahan', 'Kuantitas Penyesuaian', 'Kuantitas Lainnya', 'Kuantitas Saldo Akhir']]
+  for (const it of [...d.items].sort((a, b) => a.name.localeCompare(b.name))) {
+    const ms = d.moves.filter(m => m.item === it.no && wh(m) === warehouse)
+    const inRange = ms.filter(m => m.date >= from && m.date <= to)
+    if (!inRange.length) continue
+    const open = ms.filter(m => m.date < from).reduce((s, m) => s + m.quantity, 0)
+    const cols = [0, 0, 0, 0, 0, 0]
+    for (const m of inRange) cols[MOVE_COLUMN[m.docType] ?? 5]! += m.quantity
+    rows.push([it.name, q(open), ...cols.map(q), q(open + cols.reduce((s, c) => s + c, 0))])
+  }
+  return rows
 }

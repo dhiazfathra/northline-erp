@@ -14,6 +14,8 @@ const normalized = (type: AccountType, net: number) => (CREDIT_NORMAL.has(type) 
 // Row dates abbreviate August as "Agt"; period headers ("s/d 31 Agu 2033") use "Agu" — both verified (purchase-t3.json).
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des']
 export const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${MONTHS[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
+/** Period headers ("Dari … s/d …", "Per Tgl. …") spell August "Agu". */
+export const fmtHeaderDate = (iso: string) => fmtDate(iso).replace(' Agt ', ' Agu ')
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const row = (...cells: string[]) => cells.filter(c => c !== '')
 const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan', PI: 'Faktur Pembelian', PP: 'Pembayaran Pembelian', FA: 'Aset Tetap', PE: 'Proses Akhir Bulan (Penyusutan)', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian', SDP: 'Uang Muka Penjualan', PDP: 'Uang Muka Pembelian', IA: 'Penyesuaian Persediaan', FAD: 'Disposisi Aset Tetap', DO: 'Pengiriman Pesanan', OP: 'Pembayaran', OD: 'Penerimaan' }
