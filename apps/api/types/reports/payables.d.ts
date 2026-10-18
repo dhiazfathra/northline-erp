@@ -48,3 +48,18 @@ export declare function orderByVendor(d: OrderData, f: string, t: string): strin
 /** Daftar Penerimaan Barang; the "Pengiriman" (shipment) column prints nothing when unset. */
 export declare const receiveList: (d: OrderData, f: string, t: string) => string[][];
 export declare const receiveDetail: (d: OrderData, f: string, t: string) => string[][];
+export interface Requisition {
+    number: string;
+    date: string;
+    description: string;
+    lines: {
+        item: string;
+        itemName: string;
+        unit: string;
+        qty: number;
+    }[];
+}
+export declare const requisitionList: (rs: Requisition[], f: string, t: string) => string[][];
+export declare const requisitionDetail: (rs: Requisition[], f: string, t: string) => string[][];
+export declare function requisitionByItem(rs: Requisition[], f: string, t: string): string[][];
+export declare const requisitionOrderStatus: (rs: Requisition[], f: string, t: string) => string[][];

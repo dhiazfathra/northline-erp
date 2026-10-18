@@ -218,10 +218,10 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | [spec](InventoryAnalysisDetailReport.md) |
 | Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](InventoryAgingDetailReport.md) |
 | Kartu Stok Persediaan | `InventoryStockCardReport` | report | FROMTO | selectedItem= | [verified](InventoryStockCardReport.md) |
-| Permintaan per Barang (Belum Proses) | `PurchaseRequisitionByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseRequisitionByItemReport.md) |
-| Daftar Permintaan Barang | `PurchaseRequisitionListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionListReport.md) |
-| Rincian Permintaan Barang | `PurchaseRequisitionDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionDetailReport.md) |
-| Status Pesanan Permintaan Barang | `PurchaseRequisitionOrderStatusReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionOrderStatusReport.md) |
+| Permintaan per Barang (Belum Proses) | `PurchaseRequisitionByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseRequisitionByItemReport.md) |
+| Daftar Permintaan Barang | `PurchaseRequisitionListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseRequisitionListReport.md) |
+| Rincian Permintaan Barang | `PurchaseRequisitionDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseRequisitionDetailReport.md) |
+| Status Pesanan Permintaan Barang | `PurchaseRequisitionOrderStatusReport` | report | FROMTO | selectedBranch= | [verified](PurchaseRequisitionOrderStatusReport.md) |
 | Barang Grup | `ItemGroupDetailReport` | report | NONE | selectedBranch= | [spec](ItemGroupDetailReport.md) |
 | Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](InventoryAdjustmentDetailReport.md) |
 | Daftar Barang dan Jasa | `ItemListReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](ItemListReport.md) |

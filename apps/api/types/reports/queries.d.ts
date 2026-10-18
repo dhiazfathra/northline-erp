@@ -68,3 +68,4 @@ export declare function loadAdjustments(db: Db): Promise<{
         qty: number;
     }[];
 }[]>;
+export declare function loadRequisitions(db: Db): Promise<import('./payables').Requisition[]>;

@@ -14,6 +14,7 @@ import m0011 from '../migrations/0011_purchase_down_payments.sql' with { type: '
 import m0012 from '../migrations/0012_purchase_orders.sql' with { type: 'text' }
 import m0013 from '../migrations/0013_item_adjustments.sql' with { type: 'text' }
 import m0014 from '../migrations/0014_asset_disposals.sql' with { type: 'text' }
+import m0015 from '../migrations/0015_purchase_requisitions.sql' with { type: 'text' }
 
 export function connect(url = process.env.DATABASE_URL) {
   if (!url) throw new Error('DATABASE_URL is required')
@@ -24,7 +25,7 @@ export type Db = ReturnType<typeof connect>['db']
 export type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
 
 // Embedded so `bun build --compile` carries them; add new files here in order.
-const MIGRATIONS: Record<string, string> = { '0001_ledger.sql': m0001, '0002_number_sequences.sql': m0002, '0003_auth.sql': m0003, '0004_sales.sql': m0004, '0005_purchases.sql': m0005, '0006_customer_created_at.sql': m0006, '0007_inventory.sql': m0007, '0008_fixed_assets.sql': m0008, '0009_returns.sql': m0009, '0010_down_payments.sql': m0010, '0011_purchase_down_payments.sql': m0011, '0012_purchase_orders.sql': m0012, '0013_item_adjustments.sql': m0013, '0014_asset_disposals.sql': m0014 }
+const MIGRATIONS: Record<string, string> = { '0001_ledger.sql': m0001, '0002_number_sequences.sql': m0002, '0003_auth.sql': m0003, '0004_sales.sql': m0004, '0005_purchases.sql': m0005, '0006_customer_created_at.sql': m0006, '0007_inventory.sql': m0007, '0008_fixed_assets.sql': m0008, '0009_returns.sql': m0009, '0010_down_payments.sql': m0010, '0011_purchase_down_payments.sql': m0011, '0012_purchase_orders.sql': m0012, '0013_item_adjustments.sql': m0013, '0014_asset_disposals.sql': m0014, '0015_purchase_requisitions.sql': m0015 }
 
 /** Applies migrations in name order, once each. Hand-written SQL because triggers and deferred constraints are the point. */
 export async function migrate(client: postgres.Sql) {

@@ -16,9 +16,9 @@ import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment } from './inventory/adjustment'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
-import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createReceiveItem, upsertVendor } from './purchases/service'
+import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
 import { createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadAdjustments, loadOrders, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { loadAdjustments, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -88,6 +88,11 @@ export function createApp(db: Db) {
     })
     .post('/inventory/adjustments', async c => c.json(await createItemAdjustment(db, await c.req.json()), 201))
     .get('/reports/inventory/adjustments', async c => { const { from, to } = trialBalanceQuery.parse(c.req.query()); return c.json(I.adjustmentDetail(await loadAdjustments(db), from, to)) })
+    .post('/purchases/requisitions', async c => c.json(await createPurchaseRequisition(db, await c.req.json()), 201))
+    .get('/reports/requisitions/:report{list|detail|by-item|order-status}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ list: P.requisitionList, detail: P.requisitionDetail, 'by-item': P.requisitionByItem, 'order-status': P.requisitionOrderStatus }[c.req.param('report') as 'list'](await loadRequisitions(db), from, to))
+    })
     .post('/purchases/payments', async c => c.json(await createPurchasePayment(db, await c.req.json()), 201))
     .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month|down-payments|down-payment-usage}', async c => {
       const d = await loadPurchases(db), q = c.req.query(), r = c.req.param('report')

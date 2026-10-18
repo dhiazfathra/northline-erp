@@ -157,3 +157,13 @@ export async function createReceiveItem(db: Db, input: z.input<typeof orderInput
     return { number }
   })
 }
+
+/** Permintaan Barang: no journal, no stock effect. */
+export async function createPurchaseRequisition(db: Db, r: { number?: string; date: string; description?: string; lines: { item: string; qty: number; requiredDate?: string }[] }) {
+  return db.transaction(async tx => {
+    const number = r.number ?? await nextNumber(tx, `PR.${period(r.date)}`)
+    await tx.execute(sql`INSERT INTO purchase_requisitions VALUES (${number}, ${r.date}, ${r.description ?? ''})`)
+    for (const [i, l] of r.lines.entries()) await tx.execute(sql`INSERT INTO purchase_requisition_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.requiredDate ?? null})`)
+    return { number }
+  })
+}

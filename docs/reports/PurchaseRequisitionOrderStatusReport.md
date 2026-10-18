@@ -1,24 +1,5 @@
 # Status Pesanan Permintaan Barang (`PurchaseRequisitionOrderStatusReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseRequisitionOrderStatusReport.json`](captures/PurchaseRequisitionOrderStatusReport.json), run with default parameters over the sandbox demo data.
+Group: Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/requisition-t12.json`](fixtures/requisition-t12.json) (PR.2034.08.00001, 4 units, unprocessed). ERP: `apps/api/src/reports/payables.ts`; test: `apps/api/test/purchase-orders.test.ts`. Verified only for an unprocessed requisition.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | Keterangan | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Block per requisition: `Nomor # : <no>  Keterangan : <desc>`, `Tanggal`, header `Kode #` | `Nama Barang` | `Kuantitas (Unit)` | `Kts Dipesan (Unit)` | `Persentase PO (Kts)` | `Tot Hrg Estimasi` | `Total Harga Pesanan` | `Persentase PO (Harga)`; quantities print with the unit (`4 PCS`), percentages `0 %`.

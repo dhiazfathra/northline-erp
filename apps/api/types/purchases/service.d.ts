@@ -33,4 +33,17 @@ export declare function createReceiveItem(db: Db, input: z.input<typeof orderInp
 }): Promise<{
     number: string;
 }>;
+/** Permintaan Barang: no journal, no stock effect. */
+export declare function createPurchaseRequisition(db: Db, r: {
+    number?: string;
+    date: string;
+    description?: string;
+    lines: {
+        item: string;
+        qty: number;
+        requiredDate?: string;
+    }[];
+}): Promise<{
+    number: string;
+}>;
 export {};

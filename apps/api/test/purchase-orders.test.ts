@@ -38,3 +38,13 @@ test('PurchaseFlowHistoryReport with unlinked receipt and order', async () => {
   const o = await loadOrders(f.db)
   expect(R.flowHistory(await loadPurchases(f.db), W.from, W.to, false, { receipts: o.receipts.map(r => r.number), orders: o.orders.map(r => r.number) })).toEqual(rep('PurchaseFlowHistoryReport'))
 })
+
+test('Permintaan Barang reports (requisition-t12.json)', async () => {
+  const t12 = (await import('../../../docs/reports/fixtures/requisition-t12.json')).default
+  const { createPurchaseRequisition } = await import('../src/purchases/service'), { loadRequisitions } = await import('../src/reports/queries')
+  await createPurchaseRequisition(f.db, t12.requisition)
+  const rs = await loadRequisitions(f.db), r = (p: string) => body((t12.reports as any)[p].rows).filter(x => !/^Cabang :/.test(x[0]!))
+  for (const [p, fn] of [['PurchaseRequisitionListReport', P.requisitionList], ['PurchaseRequisitionDetailReport', P.requisitionDetail],
+    ['PurchaseRequisitionByItemReport', P.requisitionByItem], ['PurchaseRequisitionOrderStatusReport', P.requisitionOrderStatus]] as const)
+    expect(fn(rs, '2034-08-01', '2034-08-31')).toEqual(r(p))
+})

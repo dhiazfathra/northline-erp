@@ -166,3 +166,20 @@ export const receiveList = (d: OrderData, f: string, t: string) =>
 export const receiveDetail = (d: OrderData, f: string, t: string) => d.receipts.filter(r => inR(r, f, t)).sort(byDateNo2).flatMap(r => [
   ['Nomor #', ':', r.number, 'Pemasok', ':', d.vendors.get(r.vendor)!], ['Tanggal', ':', fmtDate(r.date)], ['Kode #', 'Nama Barang', 'Kuantitas', 'Satuan'],
   ...r.lines.map(l => [l.item, l.itemName, qty(l.qty), l.unit]), [qty(r.lines.reduce((s, l) => s + l.qty, 0))]])
+
+// ---- Permintaan Barang. shortcut: requisitions are never linked to orders yet, so status/processed figures are the unprocessed case ----
+export interface Requisition { number: string; date: string; description: string; lines: { item: string; itemName: string; unit: string; qty: number }[] }
+const reqIn = (rs: Requisition[], f: string, t: string) => rs.filter(r => inR(r, f, t)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+export const requisitionList = (rs: Requisition[], f: string, t: string) =>
+  [['Nomor #', 'Tanggal', 'Status', 'Keterangan'], ...reqIn(rs, f, t).map(r => [r.number, fmtDate(r.date), 'Menunggu diproses', r.description])]
+export const requisitionDetail = (rs: Requisition[], f: string, t: string) => reqIn(rs, f, t).flatMap(r => [
+  ['Nomor #', ':', r.number], ['Tanggal', ':', fmtDate(r.date)], ['Kode #', 'Nama Barang', 'Kuantitas'], ...r.lines.map(l => [l.item, l.itemName, qty(l.qty)]), [qty(r.lines.reduce((s, l) => s + l.qty, 0))]])
+export function requisitionByItem(rs: Requisition[], f: string, t: string) {
+  const ls = reqIn(rs, f, t).flatMap(r => r.lines), items = [...new Set(ls.map(l => l.item))]
+  const q = (xs: typeof ls) => qty(xs.reduce((s, l) => s + l.qty, 0))
+  return [['Nama Barang Barang & Jasa', 'Kts (Unit#1)'], ...items.map(i => { const xs = ls.filter(l => l.item === i); return [xs[0]!.itemName, q(xs)] }), ['Total Nama Barang Barang & Jasa', q(ls)]]
+}
+export const requisitionOrderStatus = (rs: Requisition[], f: string, t: string) => reqIn(rs, f, t).flatMap(r => [
+  ['Nomor #', ':', r.number, 'Keterangan', ':', r.description], ['Tanggal', ':', fmtDate(r.date)],
+  ['Kode #', 'Nama Barang', 'Kuantitas (Unit)', 'Kts Dipesan (Unit)', 'Persentase PO (Kts)', 'Tot Hrg Estimasi', 'Total Harga Pesanan', 'Persentase PO (Harga)'],
+  ...r.lines.map(l => [l.item, l.itemName, `${qty(l.qty)} ${l.unit}`, `0 ${l.unit}`, '0 %', '0', '0', '0 %'])])
