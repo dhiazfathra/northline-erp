@@ -11,7 +11,7 @@ Assessed 2026-10-18. Severity = likelihood × impact:
 
 | # | Risk | Likelihood | Impact | Severity | Mitigation | Trigger to revisit |
 |---|---|---|---|---|---|---|
-| R1 | Worker deployed before `scripts/seed.ts` migrates Neon: code queries tables/columns that don't exist yet | Medium | High | **High** | deploy.md order: migrate (seed script) → `wrangler deploy`; never the reverse | Any new file in `apps/api/migrations/` |
+| R1 | Worker deployed before `scripts/seed.ts` migrates Neon: code queries tables/columns that don't exist yet | Medium | High | **High** | `pnpm deploy:prod` always migrates Neon before `wrangler deploy`; bare `wrangler deploy` skips it | Any new file in `apps/api/migrations/` |
 | R2 | Outbox rows pile up unrelayed (no pg-boss relay on Workers) | High | Low | Medium | Nothing consumes the topics; rows are small | A consumer is needed → Cloudflare Queues relay (see ADR-0017) |
 | R3 | Neon cold start + per-request TCP/TLS connect make the first request after idle slow | High | Low | Medium | Accepted to keep scale-to-zero | Users complain about latency → Hyperdrive |
 | R4 | Neon free compute-hours or storage exhausted; DB suspended until the month resets | Low | High | Medium | No cron/queues/replicas; scale-to-zero on; check usage in the Neon console | Usage > 50% mid-month |

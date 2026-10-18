@@ -22,7 +22,8 @@ resources burns the free quota.
 - The outbox→pg-boss relay does not run on Workers; nothing consumes those queues today. Outbox rows stay pending.
 - Passwords move from Bun argon2 to PBKDF2-SHA256 (100k iterations, Web Crypto) so one hash verifies on both runtimes;
   argon2 hashes still verify under Bun only.
-- Migrations and seed data run from a developer machine (`bun scripts/seed.ts`), never at Worker request time.
+- Migrations and seed data run from a developer machine, never at Worker request time. Production is on demand only
+  (`pnpm deploy:prod`: migrate + seed Neon, then `wrangler deploy`); local Docker Postgres is the default `DATABASE_URL`.
 - Observability: Workers Logs on at 10% head sampling, traces off.
 
 ## Alternatives Considered

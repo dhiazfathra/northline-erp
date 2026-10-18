@@ -8,25 +8,21 @@ Design and trade-offs: [ADR-0017](decisions/0017-cloudflare-workers-and-neon-fre
 | SPA | `apps/web/dist`, served by Workers Static Assets |
 | Database | Neon project `autumn-paper-67811977` (see `.neon`), branch `production`, region `ap-southeast-1` |
 
-## First deploy
+## Local is the default
+
+`.env` `DATABASE_URL` points at local Docker Postgres (`pnpm dev:db`, `pnpm seed`, `pnpm dev:api`). Neon URLs live in
+`NEON_DATABASE_URL` / `NEON_DATABASE_URL_UNPOOLED` and nothing reads them except the deploy script. There is no CI or
+git-triggered deploy: production changes only when someone runs `pnpm deploy:prod`.
+
+## Deploy (on demand)
 
 ```sh
-pnpm install && pnpm --filter web build
-# migrations + seed (idempotent): trial-balance ledger, sales-t2 customers/items/invoices, one login
-DATABASE_URL="$DATABASE_URL_UNPOOLED" NL_EMAIL=admin@northline.app NL_PASSWORD=… bun apps/api/scripts/seed.ts
-cd apps/api
-npx wrangler login
-npx wrangler secret put DATABASE_URL      # paste the Neon POOLED url (…-pooler…)
-npx wrangler deploy
+pnpm deploy:prod   # asks y/N, then: build web → migrate + seed Neon (NEON_DATABASE_URL_UNPOOLED) → wrangler deploy
 ```
 
-## Redeploy
+Migrations run before the Worker ships (risks.md R1). The seed is idempotent: it adds missing fixture rows and never deletes.
 
-```sh
-pnpm --filter web build && (cd apps/api && npx wrangler deploy)
-```
-
-New migrations: add to `apps/api/src/db.ts`, then rerun `scripts/seed.ts` (it migrates first). The Worker never migrates.
+First time only: `cd apps/api && npx wrangler login && npx wrangler secret put DATABASE_URL` (paste the Neon **pooled** URL).
 
 ## Free-tier guardrails
 - No cron, no queues, no Hyperdrive, no KV/D1: nothing wakes Neon unless a user calls `/api/*`.

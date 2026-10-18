@@ -16,8 +16,10 @@ const sync = async () => { for (const p of projections) await catchUp(db, p) }
 await migrate(client)
 
 const accounts = [...tb.accounts, { no: RE, name: 'Laba Ditahan', type: 'EQUITY' }, ...t2.accounts.filter(a => !a.no.startsWith('NL-T1'))]
+// skip accounts a dev DB already opened under another idempotency key
+const open = new Set((await db.execute(sql`SELECT no FROM accounts`)).map(r => r.no as string))
 for (const a of new Map(accounts.map(a => [a.no, a])).values())
-  await handle(db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  if (!open.has(a.no)) await handle(db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
 await sync()
 await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month)
   SELECT ${RE}, ${tb.fiscalYearStartMonth} WHERE NOT EXISTS (SELECT 1 FROM ledger_settings)`)

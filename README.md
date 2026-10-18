@@ -27,13 +27,15 @@ Requires [Bun](https://bun.sh) ≥ 1.3, pnpm, and Docker.
 
 ```sh
 pnpm install
-docker run -d --name northline-pg -e POSTGRES_PASSWORD=northline -e POSTGRES_DB=northline -p 55432:5432 postgres:17-alpine
-export DATABASE_URL=postgres://postgres:northline@localhost:55432/northline
-NL_EMAIL=me@example.com NL_PASSWORD=secret bun apps/api/scripts/seed.ts   # migrate + demo data + login
-bun apps/api/src/main.ts --role=all &                                       # API on :3000
-pnpm dev                                                                    # web on Vite's port, proxies /api
-pnpm --filter api test                                                      # 218 tests against Accurate fixtures
+echo 'DATABASE_URL="postgres://postgres:northline@localhost:55432/northline"' >> .env   # local is the default
+pnpm dev:db                                       # Postgres 17 in Docker on :55432
+NL_EMAIL=me@example.com NL_PASSWORD=secret pnpm seed   # migrate + demo data + login
+pnpm dev:api                                      # API on :3000 (watch mode)
+pnpm dev                                          # web on Vite's port, proxies /api
+pnpm --filter api test                            # 218 tests against Accurate fixtures
 ```
+
+Production (Cloudflare Worker + Neon) is deployed only on demand with `pnpm deploy:prod`; see [docs/deploy.md](docs/deploy.md).
 
 ## Layout
 
