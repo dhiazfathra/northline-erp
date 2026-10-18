@@ -1,3 +1,4 @@
+import * as ML from './master/lists'
 import { createCashDocument } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
@@ -96,6 +97,8 @@ export function createApp(db: Db) {
       const kind = r.startsWith('payment') ? 'PAY' : 'DEP'
       return c.json(r.endsWith('detail') ? CB.cashByBankDetail(ds, kind, banks, from, to) : CB.cashByBankSummary(ds, kind, banks, from, to))
     })
+    .get('/reports/master/:list{currencies|fob|taxes|shipments|employees|fiscal-fa-types}', async c =>
+      c.json(await ({ currencies: ML.currencyList, fob: ML.fobList, taxes: ML.taxList, shipments: ML.shipmentList, employees: ML.employeeList, 'fiscal-fa-types': ML.fiscalFaTypeList }[c.req.param('list') as 'fob'])(db)))
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
       const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')

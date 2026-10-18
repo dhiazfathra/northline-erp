@@ -1,0 +1,207 @@
+{
+ "source": "Sandbox master data (inputs) and the captured lists (expected), docs/reports/captures/*.json, 2026-10-18. Fiscal FA rates are not stored: the test derives them from life + method.",
+ "currencies": [
+  {
+   "code": "IDR",
+   "name": "Indonesian Rupiah",
+   "symbol": "Rp",
+   "converter": "FOREIGN_TO_LOCAL"
+  },
+  {
+   "code": "USD",
+   "name": "US Dollar",
+   "symbol": "$",
+   "converter": "FOREIGN_TO_LOCAL"
+  }
+ ],
+ "fobs": [
+  "Shipping Point",
+  "Destination"
+ ],
+ "taxes": [
+  {
+   "name": "Pajak Pertambahan Nilai",
+   "rate": 10
+  },
+  {
+   "name": "Dividen",
+   "rate": 15
+  },
+  {
+   "name": "Bunga",
+   "rate": 15
+  },
+  {
+   "name": "Royalti",
+   "rate": 15
+  },
+  {
+   "name": "Hadiah dan penghargaan",
+   "rate": 15
+  },
+  {
+   "name": "Sewa dan Penghasilan lain",
+   "rate": 2
+  },
+  {
+   "name": "Jasa Teknik",
+   "rate": 2
+  },
+  {
+   "name": "Jasa Manajemen",
+   "rate": 2
+  },
+  {
+   "name": "Jasa Konsultan",
+   "rate": 2
+  },
+  {
+   "name": "Persewaan Tanah",
+   "rate": 10
+  },
+  {
+   "name": "Jasa pelaksanaan konstruksi usaha kecil",
+   "rate": 2
+  },
+  {
+   "name": "Jasa pelaksanaan konstruksi non usaha",
+   "rate": 4
+  },
+  {
+   "name": "Jasa pelaksanaan konstruksi lain",
+   "rate": 3
+  },
+  {
+   "name": "Jasa perencanaan konstruksi",
+   "rate": 4
+  },
+  {
+   "name": "Jasa perencanaan konstruksi non usaha",
+   "rate": 6
+  },
+  {
+   "name": "Jasa pengawasan konstruksi",
+   "rate": 4
+  },
+  {
+   "name": "Jasa pengawasan konstruksi non usaha",
+   "rate": 6
+  },
+  {
+   "name": "PPh 21",
+   "rate": 0
+  },
+  {
+   "name": "ZZ-R01-PPN 11%",
+   "rate": 11
+  },
+  {
+   "name": "ZZ-R03-PPN 11%",
+   "rate": 11
+  }
+ ],
+ "shipments": [],
+ "employees": [
+  {
+   "no": "E.00001",
+   "name": "Karyawan Produksi"
+  }
+ ],
+ "fiscalFaTypes": [
+  {
+   "name": "Bangunan Permanen",
+   "lifeYears": 20,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Bangunan Semi Permanen",
+   "lifeYears": 10,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Gol 1 [Garis Lurus]",
+   "lifeYears": 4,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Gol 1 [Saldo Menurun]",
+   "lifeYears": 4,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Gol 2 [Garis Lurus]",
+   "lifeYears": 8,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Gol 2 [Saldo Menurun]",
+   "lifeYears": 8,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Gol 3 [Garis Lurus]",
+   "lifeYears": 16,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Gol 3 [Saldo Menurun]",
+   "lifeYears": 16,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Gol 4 [Garis Lurus]",
+   "lifeYears": 20,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Gol 4 [Saldo Menurun]",
+   "lifeYears": 20,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Tidak Berwujud 1 [Garis Lurus]",
+   "lifeYears": 4,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Tidak Berwujud 1 [Saldo Menurun]",
+   "lifeYears": 4,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Tidak Berwujud 2 [Garis Lurus]",
+   "lifeYears": 8,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Tidak Berwujud 2 [Saldo Menurun]",
+   "lifeYears": 8,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Tidak Berwujud 3 [Garis Lurus]",
+   "lifeYears": 16,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Tidak Berwujud 3 [Saldo Menurun]",
+   "lifeYears": 16,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Tidak Berwujud 4 [Garis Lurus]",
+   "lifeYears": 20,
+   "method": "STRAIGHTLINE"
+  },
+  {
+   "name": "Tidak Berwujud 4 [Saldo Menurun]",
+   "lifeYears": 20,
+   "method": "DECLINING"
+  },
+  {
+   "name": "Tidak Disusutkan",
+   "lifeYears": 0,
+   "method": "NONE"
+  }
+ ]
+}

@@ -273,7 +273,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [spec](AssetLocationHistoryReport.md) |
 | Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [verified](FixedAssetDetailReport.md) |
 | Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetEditedHistoryReport.md) |
-| Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [spec](FiscalFaTypeListReport.md) |
+| Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [verified](FiscalFaTypeListReport.md) |
 | Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | [spec](FixedAssetEditedListReport.md) |
 | Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | [verified](FixedAssetDisposedListReport.md) |
 
@@ -300,11 +300,11 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar Mata Uang | `CurrencyListReport` | report | NONE | — | [spec](CurrencyListReport.md) |
-| Daftar FOB | `FreeOnBoardListReport` | report | NONE | — | [spec](FreeOnBoardListReport.md) |
-| Daftar Pajak | `TaxListReport` | report | NONE | — | [spec](TaxListReport.md) |
-| Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [spec](ShipmentListReport.md) |
-| Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [spec](SalesmanListReport.md) |
+| Daftar Mata Uang | `CurrencyListReport` | report | NONE | — | [verified](CurrencyListReport.md) |
+| Daftar FOB | `FreeOnBoardListReport` | report | NONE | — | [verified](FreeOnBoardListReport.md) |
+| Daftar Pajak | `TaxListReport` | report | NONE | — | [verified](TaxListReport.md) |
+| Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [verified](ShipmentListReport.md) |
+| Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [verified](SalesmanListReport.md) |
 | Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [spec](AuditListReport.md) |
 | Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [spec](UserByBranchListReport.md) |
 | Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [spec](AccessGroupPrivilegeListReport.md) |

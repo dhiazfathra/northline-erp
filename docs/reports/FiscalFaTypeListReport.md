@@ -1,21 +1,5 @@
 # Daftar Kategori Aset Tetap Pajak (`FiscalFaTypeListReport`)
 
-Group: Aset Tetap. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/FiscalFaTypeListReport.json`](captures/FiscalFaTypeListReport.json), run with default parameters over the sandbox demo data.
+Group: Aset Tetap. Verified against [`captures/FiscalFaTypeListReport.json`](captures/FiscalFaTypeListReport.json) with the sandbox master data as input ([`fixtures/master-lists.json`](fixtures/master-lists.json)). ERP: `apps/api/src/master/lists.ts`; test: `apps/api/test/master-lists.test.ts`.
 
-## Parameters
-
-Date parameter kind: `NONE`; request param used: `{}`.
-
-
-
-## Layout
-
-View: `report`. Header lines: —.
-
-
-First table row (columns): `Nama | Tarif Penyusutan (%) | Perkiraan Umur (tahun) | Metode Penyusutan`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Nama` | `Tarif Penyusutan (%)` | `Perkiraan Umur (tahun)` | `Metode Penyusutan`. The rate is derived: 100 ÷ life (garis lurus) or 200 ÷ life (saldo menurun), decimal comma (`12,5 %`); non-depreciating categories print `0 %`, `0 Tahun`, `Tidak Terdepresiasi`.
