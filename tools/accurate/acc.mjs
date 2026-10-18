@@ -8,8 +8,11 @@ const env = Object.fromEntries(
       return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^["']|["']$/g, '')];
     }),
 );
-export const DB = env.SANDBOX_DB_NAME;
-const SECRETS = [env.ACCURATE_USER, env.ACCURATE_PASS, env.SANDBOX_DB_NAME].filter(Boolean);
+// Allowlist is exactly the two sandboxes; ACC_DB=retail selects Retail Demo, default Manufaktur Demo.
+if (process.env.ACC_DB && !['retail', 'manufaktur'].includes(process.env.ACC_DB)) throw new Error('ACC_DB must be retail or manufaktur');
+export const DB = process.env.ACC_DB === 'retail' ? env.RETAIL_SANDBOX_DB_NAME : env.SANDBOX_DB_NAME;
+if (!DB) throw new Error('sandbox Data Usaha name missing from .env; abort');
+const SECRETS = [env.ACCURATE_USER, env.ACCURATE_PASS, env.SANDBOX_DB_NAME, env.RETAIL_SANDBOX_DB_NAME].filter(Boolean);
 export const red = (s) => SECRETS.reduce((t, x) => t.split(x).join('[REDACTED]'), String(s));
 export const log = (...a) => console.log(red(a.map((x) => (typeof x === 'string' ? x : JSON.stringify(x))).join(' ')));
 

@@ -1,6 +1,11 @@
 packages:
   - apps/*
   - packages/*
+minimumReleaseAgeExclude:
+  - '@hookform/resolvers@5.9.2'
+  - '@tanstack/query-core@5.104.4'
+  - '@tanstack/react-query@5.104.4'
+  - lucide-react@1.59.0
 permissions:
   '@tanstack/router-plugin':
     skills: true
