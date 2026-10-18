@@ -48,3 +48,22 @@ test('stock card and valuation detail with adjustments', async () => {
   expect(I.valuationDetail(d, ['NL-T4-B1'], W.from, W.to)).toEqual(rep('InventoryValuationDetailReport'))
 })
 test('InventoryAdjustmentDetailReport', async () => expect(I.adjustmentDetail(await loadAdjustments(f.db), W.from, W.to)).toEqual(rep('InventoryAdjustmentDetailReport')))
+
+test('linked sales order → delivery → invoice (sales-order-t14.json)', async () => {
+  const t14 = (await import('../../../docs/reports/fixtures/sales-order-t14.json')).default
+  const S = await import('../src/sales/service'), R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries')
+  for (const a of t14.accounts) await handle(f.db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  await catchUp(f.db, ledgerProjection)
+  await S.upsertItem(f.db, { ...t4.items[0], ...t14.itemPatch } as any)
+  await S.createSalesOrder(f.db, t14.order)
+  await S.createDeliveryOrder(f.db, { idempotencyKey: 't14-do-0001', ...t14.delivery })
+  await S.createSalesInvoice(f.db, { idempotencyKey: 't14-si-0001', ...t14.invoice })
+  await catchUp(f.db, ledgerProjection)
+  const r = (p: string) => body((t14.reports as any)[p].rows), O = { from: '2034-10-01', to: '2034-10-31' }
+  expect(await queryGeneralLedger(f.db, 'history', { ...O, showZeroBalance: false, showParentAccount: true })).toEqual(r('GeneralLedgerHistoryReport'))
+  const d = await Q.loadSales(f.db), ds = await Q.loadDeliveries(f.db)
+  expect(R.deliveryList(d, ds, O.from, O.to)).toEqual(r('DeliveryOrderListReport'))
+  expect(R.deliveryDetail(d, ds, O.from, O.to)).toEqual(r('DeliveryOrderDetailReport'))
+  expect(R.deliveryHistory(d, ds, O.from, O.to)).toEqual(r('DeliveryOrderHistorySummaryReport'))
+  expect(R.flowHistory(d, O.from, O.to, true)).toEqual(r('SalesFlowHistoryReport'))
+})

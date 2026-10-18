@@ -1,0 +1,266 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18 (sales orders enabled in Preferensi). Builds on adjustment-t10.json. Linked SO → DO → SI, Oct 2034.",
+ "accounts": [
+  {
+   "no": "110402",
+   "name": "Persediaan Terkirim",
+   "type": "INVENTORY"
+  }
+ ],
+ "itemPatch": {
+  "no": "NL-T4-B1",
+  "deliveredAccount": "110402"
+ },
+ "order": {
+  "number": "SO.2034.10.00001",
+  "customer": "NL-T2-C1",
+  "date": "2034-10-02",
+  "description": "NL-T14-SO1",
+  "lines": [
+   {
+    "item": "NL-T4-B1",
+    "qty": 4,
+    "price": 22000
+   }
+  ]
+ },
+ "delivery": {
+  "number": "DO.2034.10.00001",
+  "customer": "NL-T2-C1",
+  "order": "SO.2034.10.00001",
+  "date": "2034-10-05",
+  "description": "NL-T14-DO1",
+  "lines": [
+   {
+    "item": "NL-T4-B1",
+    "qty": 4
+   }
+  ]
+ },
+ "invoice": {
+  "number": "SI.2034.10.00001",
+  "customer": "NL-T2-C1",
+  "date": "2034-10-08",
+  "description": "NL-T14-SI",
+  "delivery": "DO.2034.10.00001",
+  "lines": [
+   {
+    "item": "NL-T4-B1",
+    "name": "NL-T4 Barang A",
+    "qty": 4,
+    "price": 22000
+   }
+  ]
+ },
+ "reports": {
+  "DeliveryOrderListReport": {
+   "rows": [
+    [
+     "Daftar Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Pengiriman"
+    ],
+    [
+     "DO.2034.10.00001",
+     "05 Okt 2034",
+     "NL-T2 Pelanggan A"
+    ]
+   ]
+  },
+  "DeliveryOrderDetailReport": {
+   "rows": [
+    [
+     "Rincian Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "DO.2034.10.00001",
+     "Pelanggan",
+     ":",
+     "NL-T2 Pelanggan A"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Okt 2034"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "4",
+     "PCS"
+    ],
+    [
+     "4"
+    ]
+   ]
+  },
+  "DeliveryOrderHistorySummaryReport": {
+   "rows": [
+    [
+     "Status Pengiriman Pesanan"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Status",
+     "No Faktur #",
+     "Tgl Faktur",
+     "Total Faktur"
+    ],
+    [
+     "NL-T2 Pelanggan A"
+    ],
+    [
+     "DO.2034.10.00001",
+     "05 Okt 2034",
+     "Difaktur",
+     "SI.2034.10.00001",
+     "08 Okt 2034",
+     "88.000"
+    ]
+   ]
+  },
+  "SalesFlowHistoryReport": {
+   "rows": [
+    [
+     "Histori Proses Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Penawaran Penjualan",
+     "Pesanan Penjualan",
+     "Pengiriman Pesanan",
+     "Uang Muka Penjualan",
+     "Faktur Penjualan",
+     "Retur Penjualan",
+     "Penerimaan Penjualan",
+     "Tukar Faktur"
+    ],
+    [
+     "-",
+     "SO.2034.10.00001",
+     "DO.2034.10.00001",
+     "-",
+     "SI.2034.10.00001",
+     "-",
+     "-",
+     "-"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "05 Okt 2034"
+    ],
+    [
+     "Pengiriman Pesanan",
+     "DO.2034.10.00001",
+     "110402",
+     "Persediaan Terkirim",
+     "NL-T14-DO1",
+     "55.200",
+     "0"
+    ],
+    [
+     "Pengiriman Pesanan",
+     "DO.2034.10.00001",
+     "110401",
+     "Persediaan Barang Jadi",
+     "NL-T14-DO1",
+     "0",
+     "55.200"
+    ],
+    [
+     "08 Okt 2034"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2034.10.00001",
+     "110301",
+     "Piutang Usaha IDR",
+     "NL-T14-SI",
+     "88.000",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2034.10.00001",
+     "400001",
+     "Penjualan",
+     "NL-T14-SI",
+     "0",
+     "88.000"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2034.10.00001",
+     "510101",
+     "Beban Pokok Penjualan",
+     "NL-T14-SI",
+     "55.200",
+     "0"
+    ],
+    [
+     "Faktur Penjualan",
+     "SI.2034.10.00001",
+     "110402",
+     "Persediaan Terkirim",
+     "NL-T14-SI",
+     "0",
+     "55.200"
+    ]
+   ]
+  }
+ }
+}

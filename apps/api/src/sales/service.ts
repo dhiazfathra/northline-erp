@@ -19,6 +19,7 @@ export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
     ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account,
       expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account), inventory_account = COALESCE(EXCLUDED.inventory_account, items.inventory_account),
       cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)`)
+  if (i.deliveredAccount) await db.execute(sql`UPDATE items SET delivered_account = ${i.deliveredAccount} WHERE no = ${i.no}`)
 }
 
 export async function nextNumber(tx: Tx, prefix: string) {
@@ -51,10 +52,16 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     const total = lines.reduce((s, l) => s + l.total, 0)
     const number = inv.number ?? await nextNumber(tx, `SI.${period(inv.date)}`)
     // Stock items: FIFO cost now, booked Dr HPP / Cr Persediaan after the sales lines (Accurate's order).
-    const costs: { item: string; qty: number; cost: number; cogs: string; inv: string }[] = []
+    const costs: { item: string; qty: number; cost: number; cogs: string; inv: string; delivered?: boolean }[] = []
     for (const l of lines) {
       const st = stock.get(l.item)
       if (!st) continue
+      if (inv.delivery) {
+        const [dl] = await tx.execute(sql`SELECT d.cost, d.quantity, i.delivered_account FROM delivery_order_lines d JOIN items i ON i.no = d.item_no WHERE d.delivery_number = ${inv.delivery} AND d.item_no = ${l.item}`)
+        if (!dl) throw new DomainError(`Barang ${l.item} tidak ada di pengiriman ${inv.delivery}`)
+        costs.push({ item: l.item, qty: l.qty, cost: Math.round(Number(dl.cost) * l.qty / Number(dl.quantity)), cogs: st.cogs, inv: dl.delivered_account as string, delivered: true })
+        continue
+      }
       const prior = costs.filter(c => c.item === l.item)
       const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -c.cost }))])
       costs.push({ item: l.item, qty: l.qty, cost: fifoCost(ls, l.qty), cogs: st.cogs, inv: st.inv })
@@ -81,9 +88,10 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
         ...merge(costs.map(c => ({ account: c.inv, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
       ],
     })
-    for (const c of costs) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
+    for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
     await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id)
       VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId})`)
+    if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)
     for (const l of lines)
       await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total)
         VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total})`)
@@ -145,6 +153,45 @@ export async function createSalesDownPayment(db: Db, input: SalesDownPaymentInpu
       VALUES (${number}, ${dp.customer}, ${dp.date}, ${dp.date}, ${dp.description}, ${dp.amount}, ${journalId}, 'DP', ${dp.dpAccount})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreateSalesDownPayment', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+/** Pesanan Penjualan: no journal. */
+export async function createSalesOrder(db: Db, o: { number?: string; customer: string; date: string; description?: string; lines: { item: string; qty: number; price: number }[] }) {
+  return db.transaction(async tx => {
+    const number = o.number ?? await nextNumber(tx, `SO.${period(o.date)}`)
+    await tx.execute(sql`INSERT INTO sales_orders VALUES (${number}, ${o.customer}, ${o.date}, ${o.description ?? ''}, ${Math.round(o.lines.reduce((s, l) => s + l.qty * l.price, 0) * 100)})`)
+    for (const [i, l] of o.lines.entries()) await tx.execute(sql`INSERT INTO sales_order_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${Math.round(l.price * 100)})`)
+    return { number }
+  })
+}
+
+/** Pengiriman Pesanan: stock leaves at FIFO cost into the delivered-goods account (Dr Persediaan Terkirim / Cr Persediaan). */
+export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; number?: string; customer: string; order?: string; date: string; description?: string; lines: { item: string; qty: number }[] }) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const number = d.number ?? await nextNumber(tx, `DO.${period(d.date)}`)
+    const costed: { item: string; qty: number; cost: number; inv: string; dlv: string }[] = []
+    for (const l of d.lines) {
+      const [it] = await tx.execute(sql`SELECT inventory_account, delivered_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
+      if (!it?.delivered_account) throw new DomainError(`Barang ${l.item} belum punya akun persediaan terkirim`)
+      costed.push({ item: l.item, qty: l.qty, cost: fifoCost(layers(await loadMoves(tx, l.item, d.date)), l.qty), inv: it.inventory_account as string, dlv: it.delivered_account as string })
+    }
+    const journalId = crypto.randomUUID()
+    await handleTx(tx, {
+      type: 'PostJournal', idempotencyKey: `${d.idempotencyKey}:journal`, journalId, number, sourceType: 'DO', date: d.date, description: d.description ?? '',
+      lines: [...merge(costed.map(c => ({ account: c.dlv, amount: c.cost }))).map(l => ({ account: l.account, side: 'DEBIT' as const, amount: (l.amount / 100).toFixed(2) })),
+        ...merge(costed.map(c => ({ account: c.inv, amount: c.cost }))).map(l => ({ account: l.account, side: 'CREDIT' as const, amount: (l.amount / 100).toFixed(2) }))],
+    })
+    await tx.execute(sql`INSERT INTO delivery_orders VALUES (${number}, ${d.customer}, ${d.order ?? null}, ${d.date}, ${d.description ?? ''}, ${journalId})`)
+    for (const [i, c] of costed.entries()) {
+      await tx.execute(sql`INSERT INTO delivery_order_lines VALUES (${number}, ${i + 1}, ${c.item}, ${c.qty}, ${c.cost})`)
+      await addMove(tx, { item: c.item, date: d.date, docType: 'DO', docNumber: number, description: d.description ?? '', quantity: -c.qty, value: -c.cost })
+    }
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateDeliveryOrder', ${JSON.stringify(result)}::jsonb)`)
     return result
   })
 }

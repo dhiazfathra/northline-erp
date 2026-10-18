@@ -115,8 +115,8 @@ export async function queryCashAccountList(db: Db, asOf: string) {
 export async function loadSales(db: Db): Promise<import('./receivables').SalesData> {
   const customers = new Map((await db.execute(sql`SELECT no, name FROM customers`)).map(r => [r.no as string, r.name as string]))
   const uses = await db.execute(sql`SELECT invoice_number, dp_number, amount FROM sales_dp_usages`)
-  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
-    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
+  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, delivery_number, (SELECT order_number FROM delivery_orders d WHERE d.number = sales_invoices.delivery_number) AS order_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', delivery: (r.delivery_number as string) ?? undefined, order: (r.order_number as string) ?? undefined, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
       dpUses: uses.filter(u => u.invoice_number === r.number).map(u => ({ dp: u.dp_number as string, amount: Number(u.amount) })) }))
   const invLines = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, l.quantity, l.unit_price, l.total
     FROM sales_invoice_lines l JOIN items i ON i.no = l.item_no ORDER BY l.invoice_number, l.seq`)
@@ -228,4 +228,10 @@ export async function loadRequisitions(db: Db): Promise<import('./payables').Req
   const ls = await db.execute(sql`SELECT l.requisition_number, l.item_no, i.name, i.unit, l.quantity FROM purchase_requisition_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
   return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, description FROM purchase_requisitions`)).map(r => ({ number: r.number as string, date: r.date as string, description: r.description as string,
     lines: ls.filter(l => l.requisition_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity) })) }))
+}
+
+export async function loadDeliveries(db: Db): Promise<import('./receivables').Delivery[]> {
+  const ls = await db.execute(sql`SELECT l.delivery_number, l.item_no, i.name, i.unit, l.quantity FROM delivery_order_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
+  return (await db.execute(sql`SELECT number, customer_no, to_char(date,'YYYY-MM-DD') AS date FROM delivery_orders`)).map(r => ({ number: r.number as string, customer: r.customer_no as string, date: r.date as string,
+    lines: ls.filter(l => l.delivery_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity) })) }))
 }

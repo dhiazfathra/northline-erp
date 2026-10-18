@@ -17,8 +17,8 @@ import { createItemAdjustment } from './inventory/adjustment'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadAdjustments, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
+import { loadAdjustments, loadDeliveries, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -64,6 +64,12 @@ export function createApp(db: Db) {
     .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/invoices', async c => c.json(await createSalesInvoice(db, await c.req.json()), 201))
     .post('/sales/down-payments', async c => c.json(await createSalesDownPayment(db, await c.req.json()), 201))
+    .post('/sales/orders', async c => c.json(await createSalesOrder(db, await c.req.json()), 201))
+    .post('/sales/deliveries', async c => c.json(await createDeliveryOrder(db, await c.req.json()), 201))
+    .get('/reports/deliveries/:report{list|detail|history}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ list: R.deliveryList, detail: R.deliveryDetail, history: R.deliveryHistory }[c.req.param('report') as 'list'](await loadSales(db), await loadDeliveries(db), from, to))
+    })
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
       const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')

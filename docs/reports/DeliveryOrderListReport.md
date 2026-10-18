@@ -1,24 +1,7 @@
 # Daftar Pengiriman Pesanan (`DeliveryOrderListReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/DeliveryOrderListReport.json`](captures/DeliveryOrderListReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox, sales orders enabled), 2026-10-18. Fixture: [`fixtures/sales-order-t14.json`](fixtures/sales-order-t14.json) (linked SO.2034.10.00001 → DO.2034.10.00001 → SI.2034.10.00001). ERP: `apps/api/src/reports/receivables.ts`, `createSalesOrder`/`createDeliveryOrder`; test: `apps/api/test/adjustments.test.ts`.
 
-## Parameters
+Columns `Nomor #` | `Tanggal` | `Pelanggan` | `Pengiriman` (empty shipment prints nothing).
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | Tanggal | Pelanggan | Pengiriman`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Postings: delivery Dr Persediaan Terkirim / Cr Persediaan at FIFO cost (type Pengiriman Pesanan); the invoice then posts sales and Dr HPP / Cr Persediaan Terkirim.

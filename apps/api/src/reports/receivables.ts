@@ -5,7 +5,7 @@ import { formatIdr } from './trial-balance'
 
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
 export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string
-  /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
+  /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */ delivery?: string; order?: string; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface Return { number: string; customer: string; invoice: string; date: string; description: string; total: number; lines: InvoiceLine[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; returns?: Return[]; labels?: Labels }
@@ -341,7 +341,7 @@ export function flowHistory(d: SalesData, from: string, to: string, sales: boole
     : ['Permintaan Barang', 'Pesanan Pembelian', 'Penerimaan Barang', 'Uang Muka Pembelian', 'Faktur Pembelian', 'Retur Pembelian', 'Pembayaran Pembelian']
   const rows = d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(i => {
     const pays = d.receipts.filter(r => r.payments.some(p => p.invoice === i.number)).sort((a, b) => (a.date < b.date ? -1 : 1))
-    return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', '-', '-', '-', i.number, '-', p, '-'] : ['-', '-', '-', '-', i.number, '-', p])
+    return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', i.order ?? '-', i.delivery ?? '-', '-', i.number, '-', p, '-'] : ['-', '-', '-', '-', i.number, '-', p])
   })
   const dash = (k: number, n: string) => head.map((_, i) => (i === k ? n : '-'))
   return [head, ...rows, ...extra.receipts.map(n => dash(2, n)), ...extra.orders.map(n => dash(1, n))]
@@ -458,4 +458,25 @@ export function downPaymentUsage(d: SalesData, from: string, to: string): string
       ['Sisa Uang Muka (per Tgl)', ':', formatIdr(dp.total - used)], ['Nomor Transaksi', 'Tgl Transaksi', 'Tipe Transaksi', 'Pakai Uang Muka (per Tgl)'],
       ...uses.map(u => [u.i.number, fmtDate(u.i.date), L(d).invoice, formatIdr(u.amount)]), [formatIdr(used)]]
   })
+}
+
+// ---- deliveries ----
+export interface Delivery { number: string; customer: string; date: string; lines: { item: string; itemName: string; unit: string; qty: number }[] }
+const dlvIn = (ds: Delivery[], f: string, t: string) => ds.filter(x => inRange(x, f, t)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+/** Daftar Pengiriman Pesanan; "Pengiriman" (shipment) prints nothing when unset. */
+export const deliveryList = (d: SalesData, ds: Delivery[], f: string, t: string) =>
+  [['Nomor #', 'Tanggal', 'Pelanggan', 'Pengiriman'], ...dlvIn(ds, f, t).map(x => [x.number, fmtDate(x.date), d.customers.get(x.customer)!])]
+export const deliveryDetail = (d: SalesData, ds: Delivery[], f: string, t: string) => dlvIn(ds, f, t).flatMap(x => [
+  ['Nomor #', ':', x.number, 'Pelanggan', ':', d.customers.get(x.customer)!], ['Tanggal', ':', fmtDate(x.date)], ['Kode #', 'Nama Barang', 'Kuantitas', 'Satuan'],
+  ...x.lines.map(l => [l.item, l.itemName, qty(l.qty), l.unit]), [qty(x.lines.reduce((s, l) => s + l.qty, 0))]])
+/** Status Pengiriman Pesanan: per customer, each delivery with the invoice that billed it. */
+export function deliveryHistory(d: SalesData, ds: Delivery[], f: string, t: string): string[][] {
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Status', 'No Faktur #', 'Tgl Faktur', 'Total Faktur']]
+  for (const c of [...d.customers.keys()].sort(byName(d))) {
+    const xs = dlvIn(ds, f, t).filter(x => x.customer === c)
+    if (!xs.length) continue
+    out.push([d.customers.get(c)!], ...xs.map(x => { const i = d.invoices.find(i => i.delivery === x.number)
+      return i ? [x.number, fmtDate(x.date), 'Difaktur', i.number, fmtDate(i.date), formatIdr(i.total)] : [x.number, fmtDate(x.date), 'Belum difaktur'] }))
+  }
+  return out
 }

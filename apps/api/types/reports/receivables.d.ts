@@ -15,7 +15,9 @@ export interface Invoice {
     total: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
-    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */
+    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
+    delivery?: string;
+    order?: string; /** down payments deducted on this invoice */
     dpUses?: {
         dp: string;
         amount: number;
@@ -88,7 +90,9 @@ export declare function openInvoices(d: SalesData, asOf: string, customer: strin
     total: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
-    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** down payments deducted on this invoice */
+    /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
+    delivery?: string;
+    order?: string; /** down payments deducted on this invoice */
     dpUses?: {
         dp: string;
         amount: number;
@@ -164,3 +168,19 @@ export declare function collectionDaysChart(d: SalesData, from: string, to: stri
 export declare function downPaymentsByCustomer(d: SalesData, from: string, to: string): string[][];
 /** Penggunaan Uang Muka Penjualan: per DP invoice in range, the invoices that used it. */
 export declare function downPaymentUsage(d: SalesData, from: string, to: string): string[][];
+export interface Delivery {
+    number: string;
+    customer: string;
+    date: string;
+    lines: {
+        item: string;
+        itemName: string;
+        unit: string;
+        qty: number;
+    }[];
+}
+/** Daftar Pengiriman Pesanan; "Pengiriman" (shipment) prints nothing when unset. */
+export declare const deliveryList: (d: SalesData, ds: Delivery[], f: string, t: string) => string[][];
+export declare const deliveryDetail: (d: SalesData, ds: Delivery[], f: string, t: string) => string[][];
+/** Status Pengiriman Pesanan: per customer, each delivery with the invoice that billed it. */
+export declare function deliveryHistory(d: SalesData, ds: Delivery[], f: string, t: string): string[][];

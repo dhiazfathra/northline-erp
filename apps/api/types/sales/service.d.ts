@@ -22,3 +22,32 @@ export declare function createSalesReceipt(db: Db, input: SalesReceiptInput): Pr
 export declare function createSalesDownPayment(db: Db, input: SalesDownPaymentInput): Promise<{
     number: string;
 }>;
+/** Pesanan Penjualan: no journal. */
+export declare function createSalesOrder(db: Db, o: {
+    number?: string;
+    customer: string;
+    date: string;
+    description?: string;
+    lines: {
+        item: string;
+        qty: number;
+        price: number;
+    }[];
+}): Promise<{
+    number: string;
+}>;
+/** Pengiriman Pesanan: stock leaves at FIFO cost into the delivered-goods account (Dr Persediaan Terkirim / Cr Persediaan). */
+export declare function createDeliveryOrder(db: Db, d: {
+    idempotencyKey: string;
+    number?: string;
+    customer: string;
+    order?: string;
+    date: string;
+    description?: string;
+    lines: {
+        item: string;
+        qty: number;
+    }[];
+}): Promise<{
+    number: string;
+}>;
