@@ -10,13 +10,13 @@ import { cn } from '@/lib/utils'
 import { DatePicker } from '@/features/fixed-assets/parts'
 import { Check, NumCell } from './item-form'
 import { AutoSwitch } from './journal-form'
-import { FormFrame, Rail, Totals, lbl, req, required, type FormProps } from './shell'
+import { FormFrame, Head, Info, Rail, noteCls, Totals, lbl, req, required, type FormProps } from './shell'
 
 const banks = accounts.filter((a) => a.parent === '1100').map((a) => `${a.code} ${a.name}`)
 const cols = 'grid-cols-[1.4fr_.9fr_1fr_1fr_1.2fr_1fr_.9fr]'
 
 export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onSaved, onDelete, report, onClose, partyLabel }: FormProps<PaymentDocInput> & { partyLabel: string }) {
-  const { L, isMobile, showToast } = useShell()
+  const { L, showToast } = useShell()
   const t = useT()
   const save = useSaveDoc()
   const { register, control, handleSubmit, subscribe } = useForm<PaymentDocInput>({ resolver: zodResolver(paymentDocSchema), defaultValues: values })
@@ -47,9 +47,9 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
   )
 
   return (
-    <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
+    <FormFrame>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
+        <Head rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
           <label className={lbl}>
             <span className="opacity-75">
               {partyLabel} {req}
@@ -76,10 +76,8 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             <Controller control={control} name="bank" render={({ field }) => <Dropdown noClear value={field.value} options={banks} onSelect={field.onChange} className="h-[41px]" />} />
           </label>
           <label className={lbl}>
-            <span className="opacity-75">
-              {L.date} {req}
-            </span>
-            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
+            <span className="opacity-75">Nilai Pembayaran {req}</span>
+            <Controller control={control} name="amount" render={({ field }) => <NumCell value={field.value} onChange={field.onChange} label="Nilai Pembayaran" className="h-[41px] rounded-[14px]" />} />
           </label>
           <Controller
             control={control}
@@ -95,12 +93,21 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             )}
           />
           <label className={lbl}>
-            <span className="opacity-75">Nilai Pembayaran {req}</span>
-            <Controller control={control} name="amount" render={({ field }) => <NumCell value={field.value} onChange={field.onChange} label="Nilai Pembayaran" className="h-[41px] rounded-[14px]" />} />
+            <span className="opacity-75">
+              {L.date} {req}
+            </span>
+            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
           </label>
-        </div>
+        </Head>
 
-        <div className="mt-[22px] text-[15px]">
+        <Info>
+          <label className={cn(lbl, 'col-span-full')}>
+            <span className="opacity-75">{L.notes}</span>
+            <textarea {...register('description')} rows={3} className={noteCls} />
+          </label>
+        </Info>
+
+        <div className="mt-[26px] text-[15px]">
           {t({ id: 'Rincian Faktur', en: 'Invoices' })} {req}
         </div>
         <div className="mt-2.5 overflow-x-auto rounded-2xl border border-[rgba(var(--fg),.12)]">

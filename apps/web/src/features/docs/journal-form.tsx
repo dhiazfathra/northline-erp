@@ -10,7 +10,7 @@ import { Seg, overlayCls, panelCls } from '@/features/ledger/ui'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { DatePicker } from '@/features/fixed-assets/parts'
-import { FormFrame, Rail, Totals, fieldCls, lbl, req, required, toNum, type FormProps } from './shell'
+import { FormFrame, Head, Info, Rail, noteCls, Totals, lbl, req, required, toNum, type FormProps } from './shell'
 
 type Line = JournalDocInput['lines'][number]
 const accName = (code: string) => accounts.find((a) => a.code === code)?.name ?? ''
@@ -50,9 +50,9 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
   )
 
   return (
-    <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
+    <FormFrame>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
+        <Head rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
           <label className={lbl}>
             <span className="opacity-75">
               {L.date} {req}
@@ -72,13 +72,16 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
               </label>
             )}
           />
-          <label className={cn(lbl, !isMobile && 'col-span-2')}>
-            <span className="opacity-75">{L.notes}</span>
-            <input {...register('description')} className={fieldCls} />
-          </label>
-        </div>
+        </Head>
 
-        <div className="mt-[22px] flex flex-wrap items-center justify-between gap-2.5">
+        <Info>
+          <label className={cn(lbl, 'col-span-full')}>
+            <span className="opacity-75">{L.notes}</span>
+            <textarea {...register('description')} rows={3} className={noteCls} />
+          </label>
+        </Info>
+
+        <div className="mt-[26px] flex flex-wrap items-center justify-between gap-2.5">
           <span className="text-[15px]">
             {t({ id: 'Rincian Akun', en: 'Account Lines' })} {req}
           </span>

@@ -82,7 +82,7 @@ export function SignIn() {
                     type={f.type}
                     placeholder={f.ph}
                     autoComplete={f.ac}
-                    className="min-w-0 flex-1 border-none bg-transparent px-3.5 py-[12px] text-[13px] text-(--ink) outline-none"
+                    className="min-w-0 flex-1 border-none bg-transparent px-3.5 py-[13px] text-sm text-(--ink) outline-none"
                   />
                   {f.k === 'password' && (
                     <button

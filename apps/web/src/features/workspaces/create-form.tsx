@@ -59,7 +59,7 @@ export function CreateWorkspaceForm() {
       },
     })
   const fieldCls = (k: keyof CreateWorkspaceInput) =>
-    cn('w-full rounded-[14px] bg-[rgba(var(--fg),.06)] px-3.5 py-[11px] text-[13px] text-(--ink) outline-none border', bad(k) ? 'border-[#f87171]' : 'border-[rgba(var(--fg),.18)]')
+    cn('w-full rounded-[14px] bg-[rgba(var(--fg),.06)] px-3.5 py-3 text-sm text-(--ink) outline-none border', bad(k) ? 'border-[#f87171]' : 'border-[rgba(var(--fg),.18)]')
 
   return (
     <div className="absolute inset-0 z-[79] box-border flex animate-[fade_.2s] items-center justify-center bg-[rgba(0,0,0,.45)] p-4 backdrop-blur-[4px]" onClick={cancel}>

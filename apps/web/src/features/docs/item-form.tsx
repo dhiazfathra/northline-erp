@@ -2,7 +2,7 @@ import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, type ItemDocInpu
 import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Checkbox } from 'radix-ui'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { catalog, docMeta, downPaymentsFor, invoicesFor, itemTotals, nextNumber, partiesFor, recordValues, useSaveDoc } from '@/api/docs'
 import { Dropdown } from '@/components/dropdown'
@@ -11,7 +11,7 @@ import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { DatePicker } from '@/features/fixed-assets/parts'
 import { AutoSwitch } from './journal-form'
-import { FormFrame, Rail, Totals, cellInput, fieldCls, lbl, req, required, toNum, type FormProps } from './shell'
+import { FormFrame, Head, Info, Rail, noteCls, Totals, cellInput, fieldCls, lbl, req, required, toNum, type FormProps } from './shell'
 
 const cols = 'grid-cols-[2.2fr_1fr_.8fr_.7fr_1.1fr_.7fr_1.1fr_28px]'
 const terms = ['COD', 'Net 14', 'Net 30', 'Net 60']
@@ -54,7 +54,6 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   const dps = type === 'sales-invoice' && v.party ? downPaymentsFor(v.party).filter((d) => d.no !== record?.no) : []
   const dpTotal = dps.filter((d) => v.dp.includes(d.no)).reduce((s, d) => s + d.total, 0)
   const tot = itemTotals(v, dpTotal)
-  const [info, setInfo] = useState(hasInfo && !!record)
 
   useEffect(() => subscribe({ formState: { values: true }, callback: ({ values }) => onEdit(values) }), [subscribe, onEdit])
 
@@ -95,9 +94,9 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   )
 
   return (
-    <FormFrame rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
+    <FormFrame>
       <form onSubmit={submit}>
-        <div className={cn('grid items-start gap-3.5', isMobile ? 'grid-cols-1' : 'grid-cols-[repeat(auto-fill,minmax(220px,1fr))]')}>
+        <Head rail={<Rail dirty={dirty} saving={save.isPending} onSave={submit} onDelete={() => onDelete(record?.no ?? values.number)} onClose={onClose} />}>
           {hasParty && (
             <label className={lbl}>
               <span className="opacity-75">
@@ -147,12 +146,6 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
               </span>
             </label>
           )}
-          <label className={lbl}>
-            <span className="opacity-75">
-              {L.date} {req}
-            </span>
-            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
-          </label>
           <Controller
             control={control}
             name="autoNo"
@@ -166,20 +159,61 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
               </label>
             )}
           />
+          <label className={lbl}>
+            <span className="opacity-75">
+              {L.date} {req}
+            </span>
+            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
+          </label>
           {type === 'purchase-invoice' && (
             <label className={lbl}>
               <span className="opacity-75">No Faktur # {req}</span>
               <input {...register('supplierNo')} className={fieldCls} />
             </label>
           )}
-        </div>
+        </Head>
 
-        <div className="mt-[22px] flex flex-wrap items-center justify-between gap-2.5">
+        <Info>
+          {hasInfo && (
+            <>
+              <label className={lbl}>
+                <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
+                <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
+              </label>
+              <label className={lbl}>
+                <span className="opacity-75">{t({ id: 'Kena Pajak', en: 'Taxable' })}</span>
+                <span className="flex h-[41px] items-center">
+                  <Controller control={control} name="taxable" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Ya', en: 'Yes' })} />} />
+                </span>
+              </label>
+              <label className={lbl}>
+                <span className="opacity-75">{t({ id: 'Total termasuk Pajak', en: 'Tax inclusive' })}</span>
+                <span className="flex h-[41px] items-center">
+                  <Controller control={control} name="inclusive" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Ya', en: 'Yes' })} />} />
+                </span>
+              </label>
+              <label className={lbl}>
+                <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
+                <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
+              </label>
+              <label className={lbl}>
+                <span className="opacity-75">No. PO</span>
+                <input {...register('poNo')} className={fieldCls} />
+              </label>
+            </>
+          )}
+          <label className={cn(lbl, 'col-span-full')}>
+            <span className="opacity-75">{L.notes}</span>
+            <textarea {...register('description')} rows={3} className={noteCls} />
+          </label>
+        </Info>
+
+        <div className="mt-[26px] flex flex-wrap items-center justify-between gap-2.5">
           <span className="text-[15px]">
             {L.itemDetail} {req}
           </span>
-          <div className="w-[260px] max-w-full">
-            <Dropdown value="" options={catalog.map((c) => `${c.code} ${c.name}`)} onSelect={addItem} placeholder={`+ ${L.addItem}`} />
+          <div className="w-[216px] max-w-full">
+            <Dropdown value="" options={catalog.map((c) => `${c.code} ${c.name}`)} onSelect={addItem} placeholder={t({ id: 'Cari/Pilih Barang & Jasa...', en: 'Search/select item or service…' })} className="h-9 px-3 text-[12.5px]" />
           </div>
         </div>
         <div className="mt-2.5 overflow-hidden rounded-2xl border border-[rgba(var(--fg),.12)]">
@@ -249,38 +283,6 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
           </div>
         </div>
 
-        {hasInfo && (
-          <div className="mt-4">
-            <button type="button" onClick={() => setInfo((o) => !o)} aria-expanded={info} className="flex cursor-pointer items-center gap-1.5 text-[13px]">
-              <i className={cn('ph-light', info ? 'ph-caret-down' : 'ph-caret-right')} />
-              {t({ id: 'Info lainnya', en: 'Other info' })}
-            </button>
-            {info && (
-              <div className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] items-end gap-3.5">
-                <label className={lbl}>
-                  <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
-                  <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
-                </label>
-                <label className={lbl}>
-                  <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
-                  <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
-                </label>
-                <label className={lbl}>
-                  <span className="opacity-75">No. PO</span>
-                  <input {...register('poNo')} className={fieldCls} />
-                </label>
-                <div className="flex h-[41px] flex-col justify-center gap-1.5">
-                  <Controller control={control} name="taxable" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Kena Pajak', en: 'Taxable' })} />} />
-                  <Controller
-                    control={control}
-                    name="inclusive"
-                    render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Total termasuk Pajak', en: 'Tax inclusive' })} />}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        )}
 
         {dps.length > 0 && (
           <div className="mt-4 rounded-2xl border border-[rgba(var(--fg),.14)] px-4 py-3">

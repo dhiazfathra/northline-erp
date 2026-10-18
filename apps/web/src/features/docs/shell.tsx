@@ -31,15 +31,35 @@ export function required(errors: object, labels: Record<string, string>) {
 
 export const toNum = (s: string) => Number(s.replace(/[^\d]/g, '')) || 0
 
-export function FormFrame({ rail, children }: { rail: ReactNode; children: ReactNode }) {
+/** The design's form card. Put a `Head` first, then `Info` and the line table full width. */
+export function FormFrame({ children }: { children: ReactNode }) {
   const { isMobile } = useShell()
+  return <div className={cn('glass-card', isMobile ? 'p-4' : 'px-6 py-[22px]')}>{children}</div>
+}
+
+/** Header fields grid with the action rail beside it (rail wraps below on narrow screens). */
+export function Head({ rail, children }: { rail: ReactNode; children: ReactNode }) {
   return (
-    <div className={cn('glass-card flex gap-4', isMobile ? 'flex-col-reverse p-4' : 'p-6')}>
-      <div className="min-w-0 flex-1">{children}</div>
+    <div className="flex flex-wrap items-start gap-4">
+      <div className="grid min-w-0 flex-[1_1_520px] grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-3.5">{children}</div>
       {rail}
     </div>
   )
 }
+
+/** "Info lainnya" section: heading rule + grid capped at 820px. */
+export function Info({ children }: { children: ReactNode }) {
+  const t = useT()
+  return (
+    <>
+      <div className="mt-[26px] border-b border-[rgba(var(--fg),.12)] pb-2.5 text-[15px]">{t({ id: 'Info lainnya', en: 'Other info' })}</div>
+      <div className="mt-4 grid max-w-[820px] grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3.5">{children}</div>
+    </>
+  )
+}
+
+/** Keterangan textarea spanning the whole Info grid. */
+export const noteCls = 'field resize-y px-3.5 py-[11px]'
 
 const railBtn =
   'flex size-11 cursor-pointer flex-col items-center justify-center rounded-full bg-transparent text-[18px] text-(--ink) hover:bg-[rgba(var(--fg),.1)] disabled:cursor-not-allowed disabled:opacity-40'
@@ -81,7 +101,7 @@ export function Rail({ dirty, saving, onSave, onDelete, onClose }: { dirty: bool
     </button>
   )
   return (
-    <div role="toolbar" className={cn('flex flex-none gap-2 self-start rounded-3xl border border-[rgba(var(--fg),.12)] bg-[rgba(var(--fg),.06)] p-1.5', isMobile ? 'flex-row self-end' : 'ml-auto flex-col')}>
+    <div role="toolbar" className={cn('flex flex-none gap-2 self-start rounded-3xl border border-[rgba(var(--fg),.12)] bg-[rgba(var(--fg),.06)] p-1.5', isMobile ? 'flex-row' : 'ml-auto flex-col')}>
       {btn('ph-light ph-floppy-disk', t({ id: 'Simpan [Ctrl + S]', en: 'Save [Ctrl + S]' }), onSave, { disabled: !can, primary: true })}
       {btn('ph-light ph-printer', t({ id: 'Cetak', en: 'Print' }), () => window.print())}
       {btn('ph-light ph-paperclip', t({ id: 'Lampiran', en: 'Attachments' }), () => document.getElementById(fileId)?.click(), { badge: files })}
