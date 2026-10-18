@@ -21,3 +21,4 @@
 | [0017](0017-cloudflare-workers-and-neon-free-tier.md) | Production on Cloudflare Workers + Neon, sized for both free tiers | Accepted |
 | [0018](0018-local-default-on-demand-production.md) | Local Postgres is the default; production deploys only on demand | Accepted |
 | [0019](0019-activity-log.md) | Log Aktifitas (activity log) is in scope, written with every change | Accepted |
+| [0020](0020-scalar-api-reference.md) | Scalar API reference generated from the live route table | Accepted |

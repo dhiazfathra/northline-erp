@@ -11,6 +11,8 @@ import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-
 import type { Db } from './db'
 import { authRoutes, requireSession, type AuthEnv } from './auth'
 import { serveSpa } from './spa'
+import { openApiSpec } from './openapi'
+import { Scalar } from '@scalar/hono-api-reference'
 import { withActor } from './activity/log'
 import { auditList, loadActivity } from './reports/activity-log'
 import { ConcurrencyError } from './es/store'
@@ -231,6 +233,9 @@ export function createApp(db: Db) {
       return c.json({ 'monthly-sales': R.monthlySalesChart, 'customer-share': R.customerShareChart, 'item-share': R.itemShareChart }[c.req.param('chart') as 'monthly-sales'](d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
+  // API reference (ADR-0020): behind the session like the rest of /api; spec built lazily from the final route table
+  let spec: ReturnType<typeof openApiSpec> | undefined
+  api.get('/openapi.json', c => c.json(spec ??= openApiSpec(api, '/api'))).get('/docs', Scalar({ url: '/api/openapi.json', pageTitle: 'Northline ERP API' }))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).
   return new Hono().use('*', secureHeaders()).route('/api', api).get('*', serveSpa)
 }

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@northline/schemas": "workspace:*",
+    "@scalar/hono-api-reference": "^0.12.13",
     "drizzle-orm": "^0.45.4",
     "hono": "^4.13.13",
     "pg-boss": "^12.38.0",
