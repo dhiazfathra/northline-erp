@@ -1,24 +1,5 @@
 # Rincian Umur Piutang (`AgingReceivableDetailReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AgingReceivableDetailReport.json`](captures/AgingReceivableDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `ZZ-R01-Pelanggan Satu | Sisa Kredit | : | 0`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`, `selectedBranch`. Currency heading, then per customer with open invoices: `<name> | Sisa Kredit | : | 0`, header `Nomor #` | `Tanggal` | `Piutang` | buckets (as [Umur Piutang](AgingReceivableReport.md)), one row per open invoice, then a row with the bucket totals only (no Piutang total).

@@ -1,24 +1,9 @@
 # Umur Piutang (`AgingReceivableReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AgingReceivableReport.json`](captures/AgingReceivableReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`.
 
-## Parameters
+Params: `asOfDate`, `selectedBranch`. Columns `Mata Uang` | `Pelanggan` | `Piutang` | `Blm Tempo` | `1 - 30` | `31 - 60` | `61 - 90` | `91 - 120` | `> 120` | `Sisa Kredit`.
 
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `crosstab`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Mata Uang | Pelanggan | Piutang | Blm Tempo | 1 - 30 | 31 - 60 | 61 - 90 | 91 - 120 | &gt; 120 | Sisa Kredit`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+1. One row per customer with an open balance at `asOfDate` (by name); the currency code prints on the first row only.
+2. Each invoice's remaining balance goes to one bucket by days past due (`asOfDate` − due date): ≤ 0 not yet due, 1–30, 31–60, 61–90, 91–120, > 120. Fixture: 101 days → 91–120, 44 days → 31–60.
+3. Rows `Total Pelanggan` and `Total Mata Uang` sum all customers.

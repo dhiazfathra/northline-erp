@@ -4,7 +4,7 @@ import { formatIdr } from './trial-balance'
 // Piutang / Penjualan reports over the sales tables; rules in docs/reports/<planId>.md (fixture: fixtures/sales-t2.json).
 
 export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number }
-export interface Receipt { number: string; customer: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
+export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[] }
 
 const CURRENCY = 'Indonesian Rupiah'
@@ -106,4 +106,88 @@ export function outstandingInvoices(d: SalesData, asOf: string): string[][] {
   }
   out.push([formatIdr(gt), formatIdr(go), '0'])
   return out
+}
+
+// ---- aging ----
+const BUCKETS = ['Blm Tempo', '1 - 30', '31 - 60', '61 - 90', '91 - 120', '&gt; 120']
+/** Bucket index by days past due: not yet due, 1–30, 31–60, 61–90, 91–120, >120. */
+const bucket = (age: number) => (age <= 0 ? 0 : age <= 30 ? 1 : age <= 60 ? 2 : age <= 90 ? 3 : age <= 120 ? 4 : 5)
+
+function openInvoices(d: SalesData, asOf: string, customer: string) {
+  const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
+  return d.invoices.filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number), age: days(i.dueDate, asOf) }))
+    .filter(i => i.owing > 0).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+}
+const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
+
+/** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
+export function agingReceivable(d: SalesData, asOf: string): string[][] {
+  const rows = [...d.customers.keys()].sort(byName(d)).map(c => ({ c, xs: openInvoices(d, asOf, c) })).filter(r => r.xs.length)
+  const all = rows.flatMap(r => r.xs)
+  const line = (xs: typeof all) => [formatIdr(xs.reduce((s, x) => s + x.owing, 0)), ...spread(xs).map(formatIdr), '0']
+  return [['Mata Uang', 'Pelanggan', 'Piutang', ...BUCKETS, 'Sisa Kredit'],
+    ...rows.map((r, i) => [...(i === 0 ? ['IDR'] : []), d.customers.get(r.c)!, ...line(r.xs)]),
+    ['Total Pelanggan', ...line(all)], ['Total Mata Uang', ...line(all)]]
+}
+
+/** Rincian Umur Piutang */
+export function agingReceivableDetail(d: SalesData, asOf: string): string[][] {
+  const out: string[][] = [[CURRENCY]]
+  for (const c of [...d.customers.keys()].sort(byName(d))) {
+    const xs = openInvoices(d, asOf, c)
+    if (!xs.length) continue
+    out.push([d.customers.get(c)!, 'Sisa Kredit', ':', '0'], ['Nomor #', 'Tanggal', 'Piutang', ...BUCKETS],
+      ...xs.map(x => [x.number, fmtDate(x.date), formatIdr(x.owing), ...spread([x]).map(formatIdr)]), spread(xs).map(formatIdr))
+  }
+  return out
+}
+
+/** Rincian Buku Besar Pembantu Piutang: per customer, opening, then documents grouped by type with subtotals. */
+export function arLedgerDetail(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Deskripsi', 'Piutang'], [CURRENCY]]
+  let grand = 0
+  for (const c of activeCustomers(d, from, to)) {
+    const open = balanceBefore(d, c, from), prev = fmtDate(dayBefore(from))
+    out.push([d.customers.get(c)!], ['-'], [prev, `Saldo Piutang per ${prev}`, formatIdr(open)], [formatIdr(open)])
+    let bal = open
+    const groups: [string, { number: string; date: string; description: string; amount: number }[]][] = [
+      ['Faktur Penjualan', d.invoices.filter(i => i.customer === c && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total }))],
+      ['Penerimaan Penjualan', d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
+    ]
+    for (const [label, docs] of groups) {
+      if (!docs.length) continue
+      docs.sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+      const sum = docs.reduce((s, x) => s + x.amount, 0); bal += sum
+      out.push([label], ...docs.map(x => [x.number, fmtDate(x.date), x.description, formatIdr(x.amount)]), [formatIdr(sum)])
+    }
+    out.push([formatIdr(bal)]); grand += bal
+  }
+  out.push([formatIdr(grand)])
+  return out
+}
+
+/** Pembayaran Faktur: per customer, per invoice paid in the range, the receipts that paid it. */
+export function salesInvoicePaid(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['No. Form', 'Tgl Pembayaran', 'Bank', 'Total Faktur', 'Total pemotongan PPh23', 'Pembayaran'], [CURRENCY]]
+  for (const c of activeCustomers(d, from, to)) {
+    const pays = d.receipts.filter(r => r.customer === c && inRange(r, from, to)).flatMap(r => r.payments.map(p => ({ r, p })))
+    if (!pays.length) continue
+    out.push([d.customers.get(c)!])
+    for (const inv of [...new Set(pays.map(x => x.p.invoice))].sort()) {
+      const ps = pays.filter(x => x.p.invoice === inv), total = d.invoices.find(i => i.number === inv)!.total
+      out.push([inv], ...ps.map(({ r, p }) => [r.number, fmtDate(r.date), r.bankName ?? '', formatIdr(total), '0', formatIdr(p.amount)]), [formatIdr(ps.reduce((s, x) => s + x.p.amount, 0))])
+    }
+  }
+  return out
+}
+
+/** Rincian Penerimaan Penjualan: one block per receipt (date order); the amount after "Nilai Pembayaran :" is not printed by Accurate. */
+export function salesReceiptDetail(d: SalesData, from: string, to: string): string[][] {
+  return d.receipts.filter(r => inRange(r, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(r => [
+    ['No. Form', ':', r.number, 'Bank', ':', r.bankName ?? ''], ['Tgl Pembayaran', ':', fmtDate(r.date), 'Mata Uang', ':', CURRENCY],
+    ['Pelanggan', ':', d.customers.get(r.customer)!], ['Nilai Pembayaran'], [':'],
+    ['No. Faktur', 'Tgl Faktur', 'Total Faktur', 'Bayar', 'Diskon', 'Pembayaran'],
+    ...r.payments.map(p => { const i = d.invoices.find(x => x.number === p.invoice)!; return [i.number, fmtDate(i.date), formatIdr(i.total), formatIdr(p.amount), '0', formatIdr(p.amount)] }),
+    [formatIdr(r.amount), '0', formatIdr(r.amount)],
+  ])
 }

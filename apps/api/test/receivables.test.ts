@@ -24,9 +24,8 @@ beforeAll(async () => {
 afterAll(() => f.close())
 
 const W = { from: '2033-04-01', to: '2033-06-30' }
-const TITLES = /^(Daftar Faktur Penjualan|Penjualan per Pelanggan|Penerimaan Penjualan|Buku Besar Pembantu Piutang|Histori Piutang|Pernyataan Piutang|Faktur Belum Lunas)$/
-/** Drops page chrome Accurate repeats per page/customer: title, date range, branch line. */
-const body = (rows: string[][]) => rows.filter(r => !(r.length === 1 && (TITLES.test(r[0]!) || /^(Dari |Per Tgl\.|Cabang :)/.test(r[0]!))))
+/** Drops page chrome Accurate repeats per page/customer: the report's own title, date range, branch line. */
+const body = (rows: string[][]) => rows.filter(r => !(r.length === 1 && (r[0] === rows[0]![0] || /^(Dari |Per Tgl\.|Cabang :)/.test(r[0]!))))
 const rep = (p: string) => body((t2.reports as any)[p].rows)
 
 const full: [string, (d: R.SalesData) => string[][]][] = [
@@ -36,6 +35,9 @@ const full: [string, (d: R.SalesData) => string[][]][] = [
   ['ARLedgerReport', d => R.arLedger(d, W.from, W.to)],
   ['ARHistoryReport', d => R.arHistory(d, W.from, W.to)],
   ['CustomerStatementReport', d => R.customerStatement(d, W.from, W.to)],
+  ['ARLedgerDetailReport', d => R.arLedgerDetail(d, W.from, W.to)],
+  ['SalesInvoicePaidReport', d => R.salesInvoicePaid(d, W.from, W.to)],
+  ['SalesReceiptListDetailReport', d => R.salesReceiptDetail(d, W.from, W.to)],
 ]
 for (const [p, fn] of full) test(`${p} Apr–Jun 2033`, async () => expect(fn(await loadSales(f.db))).toEqual(rep(p)))
 
@@ -58,4 +60,16 @@ test('invoice and receipt journals: types, numbers, merged lines', async () => {
 
 test('overpayment is rejected', async () => {
   await expect(createSalesReceipt(f.db, { idempotencyKey: 't2-overpay-1', customer: 'NL-T2-C1', bank: 'NL-T1-1101', date: '2033-07-01', payments: [{ invoice: 'SI.2033.06.00001', amount: 900000 }] })).rejects.toThrow('melebihi')
+})
+
+test('AgingReceivableReport per 15 Jul 2033 (header + NL-T2 row)', async () => {
+  const e = rep('AgingReceivableReport'), ours = R.agingReceivable(await loadSales(f.db), '2033-07-15')
+  expect(ours.slice(0, 2)).toEqual(e.slice(0, 2))
+})
+
+test('AgingReceivableDetailReport per 15 Jul 2033 (NL-T2 block)', async () => {
+  const e = rep('AgingReceivableDetailReport')
+  const second = e.findIndex((r, i) => i > 1 && r[1] === 'Sisa Kredit')
+  const ours = R.agingReceivableDetail(await loadSales(f.db), '2033-07-15')
+  expect(ours).toEqual(e.slice(0, second))
 })
