@@ -157,7 +157,10 @@ export async function createPurchaseOrder(db: Db, input: z.input<typeof orderInp
   })
 }
 
-/** Penerimaan Barang: quantities only; stock value arrives with the purchase invoice.
+// shortcut: fixed Accurate default account; read it from preferences when GRNI linking to invoices is modelled.
+export const UNBILLED_ACCOUNT = '210203'
+
+/** Penerimaan Barang: unpriced (unlinked) receipts add quantity only; priced receipts also journal to the unbilled account.
  *  shortcut: receipt does not move stock here; stock moves on the invoice (matches the unlinked sandbox case), link receipts to invoices when GRNI is modelled. */
 export async function createReceiveItem(db: Db, input: z.input<typeof orderInput> & { receiveNumber: string }) {
   const o = orderInput.parse(input)
@@ -168,7 +171,18 @@ export async function createReceiveItem(db: Db, input: z.input<typeof orderInput
       await tx.execute(sql`INSERT INTO receive_item_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
       // Unlinked receipt: Accurate adds the quantity at zero value (fixtures/adjustment-t10.json opens at 21 units).
       const [st] = await tx.execute(sql`SELECT 1 FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
-      if (st) await addMove(tx, { item: l.item, date: o.date, docType: 'RI', docNumber: number, description: o.description, quantity: l.qty, value: 0 })
+      if (st) await addMove(tx, { item: l.item, date: o.date, docType: 'RI', docNumber: number, description: o.description, quantity: l.qty, value: Math.round(l.qty * (l.price ?? 0) * 100) })
+    }
+    // Priced receipt: Dr inventory, Cr Hutang Pembelian Belum Ditagih (fixtures/unbilled-t24.json). Unpriced receipts journal nothing.
+    const priced = o.lines.filter(l => l.price)
+    if (priced.length) {
+      const inv = new Map((await tx.execute(sql`SELECT no, inventory_account FROM items`)).map(r => [r.no as string, r.inventory_account as string]))
+      const ls = merge(priced.map(l => ({ account: inv.get(l.item)!, amount: Math.round(l.qty * l.price! * 100) })))
+      await handleTx(tx, {
+        type: 'PostJournal', idempotencyKey: `ri:${number}:journal`, journalId: crypto.randomUUID(), number, sourceType: 'RI', date: o.date, description: o.description,
+        lines: [...ls.map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
+          { account: UNBILLED_ACCOUNT, side: 'CREDIT' as const, amount: rupiah(ls.reduce((t, d) => t + d.amount, 0)) }],
+      })
     }
     return { number }
   })

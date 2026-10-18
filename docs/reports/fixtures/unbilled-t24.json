@@ -1,0 +1,282 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T24: one priced Penerimaan Barang (NL-T3-V1, NL-T4-B1 3 x 40.000, Utama) never invoiced. Unpriced receipts (T9) journal 0 and never show.",
+ "accounts": [
+  {
+   "no": "110401",
+   "name": "Persediaan Barang Jadi",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "210203",
+   "name": "Hutang Pembelian Belum Ditagih",
+   "type": "OTHER_CURRENT_LIABILITY"
+  }
+ ],
+ "receipt": {
+  "vendor": "NL-T3-V1",
+  "date": "2036-03-10",
+  "number": "RI.2036.03.00001",
+  "receiveNumber": "NL-T24-RI1",
+  "description": "NL-T24-RI1",
+  "lines": [
+   {
+    "item": "NL-T4-B1",
+    "qty": 3,
+    "price": 40000
+   }
+  ]
+ },
+ "GeneralLedgerHistoryReport": [
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 10 Mar 2036 s/d 10 Mar 2036"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "10 Mar 2036"
+  ],
+  [
+   "Penerimaan Barang",
+   "RI.2036.03.00001",
+   "110401",
+   "Persediaan Barang Jadi",
+   "NL-T24-RI1",
+   "120.000",
+   "0"
+  ],
+  [
+   "Penerimaan Barang",
+   "RI.2036.03.00001",
+   "210203",
+   "Hutang Pembelian Belum Ditagih",
+   "NL-T24-RI1",
+   "0",
+   "120.000"
+  ]
+ ],
+ "UnbilledAccountBalanceDifferenceReport": [
+  {
+   "from": "2036-03-01",
+   "to": "2036-03-31",
+   "param": {
+    "startDate": "01/03/2036",
+    "endDate": "31/03/2036"
+   },
+   "rows": [
+    [
+     "Selisih Akun Pembelian belum tertagih"
+    ],
+    [
+     "Dari 01 Mar 2036 s/d 31 Mar 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Saldo Pembelian belum tertagih"
+    ],
+    [
+     "Saldo Pembelian belum tertagih Per 1 Mar 2036"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "0"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih Per 1 Mar 2036",
+     "0"
+    ],
+    [
+     "Perubahan Saldo Pembelian belum tertagih"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "120.000"
+    ],
+    [
+     "Total dari Perubahan Saldo Pembelian belum tertagih",
+     "120.000"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih",
+     "120.000"
+    ],
+    [
+     "Selisih Saldo Pembelian belum tertagih"
+    ],
+    [
+     "Penerimaan Barang belum/sebagian tertagih"
+    ],
+    [
+     "RI.2036.03.00001",
+     "10 Mar 2036",
+     "Penerimaan Barang",
+     "NL-T24-RI1",
+     "120.000"
+    ],
+    [
+     "Total dari Penerimaan Barang belum/sebagian tertagih",
+     "120.000"
+    ],
+    [
+     "Total dari Selisih Saldo Pembelian belum tertagih",
+     "120.000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-04-01",
+   "to": "2036-04-30",
+   "param": {
+    "startDate": "01/04/2036",
+    "endDate": "30/04/2036"
+   },
+   "rows": [
+    [
+     "Selisih Akun Pembelian belum tertagih"
+    ],
+    [
+     "Dari 01 Apr 2036 s/d 30 Apr 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Saldo Pembelian belum tertagih"
+    ],
+    [
+     "Saldo Pembelian belum tertagih Per 1 Apr 2036"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "120.000"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih Per 1 Apr 2036",
+     "120.000"
+    ],
+    [
+     "Perubahan Saldo Pembelian belum tertagih"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "0"
+    ],
+    [
+     "Total dari Perubahan Saldo Pembelian belum tertagih",
+     "0"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih",
+     "120.000"
+    ],
+    [
+     "Selisih Saldo Pembelian belum tertagih"
+    ],
+    [
+     "Penerimaan Barang belum/sebagian tertagih"
+    ],
+    [
+     "RI.2036.03.00001",
+     "10 Mar 2036",
+     "Penerimaan Barang",
+     "NL-T24-RI1",
+     "120.000"
+    ],
+    [
+     "Total dari Penerimaan Barang belum/sebagian tertagih",
+     "120.000"
+    ],
+    [
+     "Total dari Selisih Saldo Pembelian belum tertagih",
+     "120.000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-01-01",
+   "to": "2036-03-09",
+   "param": {
+    "startDate": "01/01/2036",
+    "endDate": "09/03/2036"
+   },
+   "rows": [
+    [
+     "Selisih Akun Pembelian belum tertagih"
+    ],
+    [
+     "Dari 01 Jan 2036 s/d 09 Mar 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Saldo Pembelian belum tertagih"
+    ],
+    [
+     "Saldo Pembelian belum tertagih Per 1 Jan 2036"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "0"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih Per 1 Jan 2036",
+     "0"
+    ],
+    [
+     "Perubahan Saldo Pembelian belum tertagih"
+    ],
+    [
+     "210203",
+     "-",
+     "Hutang Pembelian Belum Ditagih",
+     "0"
+    ],
+    [
+     "Total dari Perubahan Saldo Pembelian belum tertagih",
+     "0"
+    ],
+    [
+     "Total dari Saldo Pembelian belum tertagih",
+     "0"
+    ]
+   ]
+  }
+ ]
+}

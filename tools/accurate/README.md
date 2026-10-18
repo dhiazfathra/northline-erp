@@ -21,3 +21,6 @@ PPN gotcha: the invoice `taxable`/`useTax1` flags are ignored unless the **item*
 (`tax1Id`, e.g. 100 = "ZZ-R01-PPN 11%"). Without it Accurate saves the invoice untaxed.
 
 Captured payloads (`*.json`, `*.txt`) and `state.json` are gitignored: they hold sandbox data and session cookies.
+
+`save-ri.mjs '<spec>'` saves a new Penerimaan Barang cloned from `ri.json` (captured with
+`capture-save.mjs accurate__vendor__receive-item 200 save-receive-item ri.json`); saves go through `bg-save-receive-item.do`.

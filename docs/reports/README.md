@@ -294,7 +294,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | [spec](ItemValueToAccountBalanceDifferenceReport.md) |
-| Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | [spec](UnbilledAccountBalanceDifferenceReport.md) |
+| Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | [verified](UnbilledAccountBalanceDifferenceReport.md) |
 
 ## Lain-lain (OTHERS)
 

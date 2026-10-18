@@ -18,7 +18,7 @@ export const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${MONTHS[Number(iso
 export const fmtHeaderDate = (iso: string) => fmtDate(iso).replace(' Agt ', ' Agu ')
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const row = (...cells: string[]) => cells.filter(c => c !== '')
-const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan', PI: 'Faktur Pembelian', PP: 'Pembayaran Pembelian', FA: 'Aset Tetap', PE: 'Proses Akhir Bulan (Penyusutan)', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian', SDP: 'Uang Muka Penjualan', PDP: 'Uang Muka Pembelian', IA: 'Penyesuaian Persediaan', FAD: 'Disposisi Aset Tetap', DO: 'Pengiriman Pesanan', OP: 'Pembayaran', OD: 'Penerimaan' }
+const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan', PI: 'Faktur Pembelian', PP: 'Pembayaran Pembelian', FA: 'Aset Tetap', PE: 'Proses Akhir Bulan (Penyusutan)', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian', SDP: 'Uang Muka Penjualan', PDP: 'Uang Muka Pembelian', IA: 'Penyesuaian Persediaan', FAD: 'Disposisi Aset Tetap', DO: 'Pengiriman Pesanan', OP: 'Pembayaran', OD: 'Penerimaan', RI: 'Penerimaan Barang' }
 /** Tipe Transaksi printed for a journal's source document. */
 export const typeLabel = (j: Pick<Journal, 'sourceType'>) => SOURCE_LABEL[j.sourceType ?? 'JV']!
 
