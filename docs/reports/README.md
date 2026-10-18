@@ -39,6 +39,17 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Arus Kas Multi Period (Langsung) | `CashFlowDirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowDirectMultiPeriodReport.md) |
 | Arus Kas Multi Period (Tak Langsung) | `CashFlowIndirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowIndirectMultiPeriodReport.md) |
 | Rincian Arus Kas Multi Period (Tak Langsung) | `CashFlowDetailIndirectMultiPeriodReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectMultiPeriodReport.md) |
+| Laba/Rugi Cabang | `ProfitLossByBranchReport` | financialstatement | FROMTO | selectedBranch=[Semua Cabang] | [verified](ProfitLossByBranchReport.md) |
+
+## Pusat Laba & Biaya (Retail Demo; ADR-0022)
+
+| Report | planId | View | Date param | Extra params | Spec |
+|---|---|---|---|---|---|
+| Laba/Rugi Departemen | `ProfitLossByDepartmentReport` | financialstatement | FROMTO | selectedDepartment=[{id,name}…], selectedProject=[], selectedDataClassification1..10=[] | [verified](ProfitLossByDepartmentReport.md) |
+| Laba/Rugi Departemen (Multi Periode) | `ProfitLossDepartmentMultiPeriodReport` | financialstatement | PERIODFROMTO | selectedDepartment=[{id,name}], selectedProject=[] | [verified](ProfitLossDepartmentMultiPeriodReport.md) |
+| Laba/Rugi Departemen (Perbandingan Periode) | `ProfitLossComparePeriodPerDepartmentReport` | financialstatement | COMPAREFROMTO | selectedDepartment=[{id,name}] | [verified](ProfitLossComparePeriodPerDepartmentReport.md) |
+| Laba/Rugi Proyek (Perbandingan Periode) | `ProfitLossComparePeriodPerProjectReport` | financialstatement | COMPAREFROMTO | selectedProject=[{id,name}] | [verified](ProfitLossComparePeriodPerProjectReport.md) |
+| Analisa Laba/Rugi Departemen | `AnalysisProfitLossDepartmentReport` | report | FROMTO | selectedBranch=[Semua Cabang] | [verified](AnalysisProfitLossDepartmentReport.md) |
 
 ## Buku Besar (GENERAL_LEDGER)
 
@@ -301,6 +312,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Daftar Mata Uang | `CurrencyListReport` | report | NONE | — | [verified](CurrencyListReport.md) |
+| Daftar Departemen | `DepartmentListReport` | report | NONE | — | [verified](DepartmentListReport.md) |
 | Daftar FOB | `FreeOnBoardListReport` | report | NONE | — | [verified](FreeOnBoardListReport.md) |
 | Daftar Pajak | `TaxListReport` | report | NONE | — | [verified](TaxListReport.md) |
 | Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [verified](ShipmentListReport.md) |

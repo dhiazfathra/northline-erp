@@ -30,7 +30,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Laba/Rugi (Perbandingan Periode)](ProfitLossComparePeriodReport.md) | `ProfitLossComparePeriodReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Laba/Rugi (Kuartal)](ProfitLossQuarterReport.md) | `ProfitLossQuarterReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Laba/Rugi (Perbandingan Anggaran)](ProfitLossCompareBudgetReport.md) | `ProfitLossCompareBudgetReport` | Keuangan | Y | Y | spec (Retail Demo) | Journal/Period/Account | blocked: requires Budget |
-| [Laba/Rugi Cabang](ProfitLossByBranchReport.md) | `ProfitLossByBranchReport` | Keuangan | N | Y | spec (Retail Demo) | Journal/Period/Account | blocked: requires Branch dimension on Journal |
+| [Laba/Rugi Cabang](ProfitLossByBranchReport.md) | `ProfitLossByBranchReport` | Keuangan | N | Y | done | Branch dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
 | [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) | `BalanceSheetComparePeriodReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
@@ -70,12 +70,12 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Gaji Karyawan per Tahun](EmployeeSalaryPerYearReport.md) | `EmployeeSalaryPerYearReport` | Buku Besar | Y | Y | done (out of scope) | Journal/Period/Account |  |
 | [Ringkasan Pencatatan Beban](ExpenseAccrualSummaryReport.md) | `ExpenseAccrualSummaryReport` | Buku Besar | Y | Y | done | Journal/Period/Account |  |
 | [Rincian Pencatatan Beban](ExpenseAccrualDetailReport.md) | `ExpenseAccrualDetailReport` | Buku Besar | Y | Y | done | Journal/Period/Account |  |
-| [Laba/Rugi Departemen](ProfitLossByDepartmentReport.md) | `ProfitLossByDepartmentReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Departemen](ProfitLossByDepartmentReport.md) | `ProfitLossByDepartmentReport` | Pusat Laba & Biaya | N | Y | done | Department/Project dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
 | [Laba/Rugi Departemen (Perbandingan Anggaran)](ProfitLossCompareBudgetDepartmentReport.md) | `ProfitLossCompareBudgetDepartmentReport` | Pusat Laba & Biaya | N | Y | spec (Retail Demo) | Department/Project dimension | blocked: requires Budget, Department |
-| [Laba/Rugi Departemen (Multi Periode)](ProfitLossDepartmentMultiPeriodReport.md) | `ProfitLossDepartmentMultiPeriodReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
-| [Laba/Rugi Departemen (Perbandingan Periode)](ProfitLossComparePeriodPerDepartmentReport.md) | `ProfitLossComparePeriodPerDepartmentReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
-| [Laba/Rugi Proyek (Perbandingan Periode)](ProfitLossComparePeriodPerProjectReport.md) | `ProfitLossComparePeriodPerProjectReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Project dimension |
-| [Analisa Laba/Rugi Departemen](AnalysisProfitLossDepartmentReport.md) | `AnalysisProfitLossDepartmentReport` | Pusat Laba & Biaya | N | Y | spec (Retail Demo) | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Departemen (Multi Periode)](ProfitLossDepartmentMultiPeriodReport.md) | `ProfitLossDepartmentMultiPeriodReport` | Pusat Laba & Biaya | N | Y | done | Department/Project dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
+| [Laba/Rugi Departemen (Perbandingan Periode)](ProfitLossComparePeriodPerDepartmentReport.md) | `ProfitLossComparePeriodPerDepartmentReport` | Pusat Laba & Biaya | N | Y | done | Department/Project dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
+| [Laba/Rugi Proyek (Perbandingan Periode)](ProfitLossComparePeriodPerProjectReport.md) | `ProfitLossComparePeriodPerProjectReport` | Pusat Laba & Biaya | N | Y | done | Department/Project dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
+| [Analisa Laba/Rugi Departemen](AnalysisProfitLossDepartmentReport.md) | `AnalysisProfitLossDepartmentReport` | Pusat Laba & Biaya | N | Y | done | Department/Project dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
 | [Histori Bank](BankBookReport.md) | `BankBookReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
 | [Transaksi Bank Terekonsiliasi](ReconciledBankReport.md) | `ReconciledBankReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
 | [Transaksi Bank belum Terekonsiliasi](UnreconciledBankReport.md) | `UnreconciledBankReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
@@ -288,7 +288,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Daftar Pajak](TaxListReport.md) | `TaxListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Pengiriman](ShipmentListReport.md) | `ShipmentListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Karyawan](SalesmanListReport.md) | `SalesmanListReport` | Lain-lain | Y | Y | done | Master data |  |
-| [Daftar Departemen](DepartmentListReport.md) | `DepartmentListReport` | Lain-lain | N | Y | spec (Retail Demo) | Master data | blocked: requires Department |
+| [Daftar Departemen](DepartmentListReport.md) | `DepartmentListReport` | Lain-lain | N | Y | done | Master data | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
 | [Daftar Log Aktifitas](AuditListReport.md) | `AuditListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Pengguna per Cabang](UserByBranchListReport.md) | `UserByBranchListReport` | Lain-lain | Y | Y | done (out of scope) | Master data |  |
 | [Daftar Akses Grup](AccessGroupPrivilegeListReport.md) | `AccessGroupPrivilegeListReport` | Lain-lain | Y | Y | done (out of scope) | Master data |  |

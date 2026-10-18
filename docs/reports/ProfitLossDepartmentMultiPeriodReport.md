@@ -2,7 +2,7 @@
 
 Group: Pusat Laba & Biaya. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/ProfitLossDepartmentMultiPeriodReport.json`](captures/retail/ProfitLossDepartmentMultiPeriodReport.json).
 
-Status: blocked: requires Department (spec partial: layout not captured).
+Status: verified (Retail Demo, ADR-0022). Fixture: [`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json); test `apps/api/test/dimensions.test.ts`.
 
 ## Purpose
 
@@ -19,22 +19,28 @@ Date kind `PERIODFROMTO`: `periodStartMonth`, `periodStartYear`, `periodEndMonth
 
 Params used for the capture (default over all history unless stated): `{"periodStartMonth":"1","periodStartYear":2026,"periodEndMonth":"12","periodEndYear":2026,"showTotal":false,"showParentAccount":true,"showChildAccount":true,"showZeroBalance":false,"showParentAccountBalance":true}`
 
+Accepted wire shape (found 2026-10-19 from `init-report-input.do` defaults and the server's own errors): `selectedDepartment` must be a one-element list `[{id, name}]` and `selectedProject` a list (`[]`); a bare object returns the generic `Upsss...` server error, a boolean `selectedProject` the Boolean→List cast error. `selectedCurrency` is the IDR currency object from `init-report-input.do`.
+
 ## Columns
 
-Not captured (see Status). Expected columns: `Deskripsi` plus one amount column per month in the period range, by analogy with a multi-period Laba/Rugi (see [ProfitLossComparePeriodReport](ProfitLossComparePeriodReport.md)).
+`Deskripsi` | one column per month, full Indonesian month name (`Januari` … `Desember`) | `Total`
 
 ## Row grouping
 
-Layout was not captured. Server rejected every API param shape tried for `ProfitLossDepartmentMultiPeriodReport`: capture run (no department param) and a drill-down re-run with `selectedDepartment=[{id:101,name:"Head Office"}]`, Jan-Dec 2016, both returned the generic server error `Upsss... Telah terjadi permasalahan` (internal error).  Retail Demo has 3 departments (Accounting id 105, Head Office 101, Opersional 103) and zero projects. Expected layout by analogy: [Laba/Rugi (Perbandingan Periode)](ProfitLossComparePeriodReport.md) with one block per selected department and one column per month between `periodStartMonth/Year` and `periodEndMonth/Year`.
+Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1 (P.00001), Jurnal Umum J1–J7 (JV.2041.02.00001 … JV.2041.09.00001) over branches JAKARTA and SURABAYA, with one line in a project, lines in each department and lines with no department (J5, every cash line). Params of the capture: `{"periodStartYear": 2041, "periodEndMonth": 12, "showChildAccount": true, "periodStartMonth": 1, "showParentAccountBalance": true, "showTotal": false, "periodEndYear": 2041, "selectedDepartment": [{"id": 101850, "name": "NL-RA-D1"}], "selectedProject": [], "showZeroBalance": false, "showParentAccount": true, "selectedBranch": [{"name": "[Semua Cabang]", "id": null}]}`.
 
 ## Calculation rules
 
-- Unverified (no data captured).
+- Each amount column is the standard Laba/Rugi ([ProfitLossStandardReport](ProfitLossStandardReport.md)) computed over only the journal lines of that column, with zero rows kept so the columns align; an account row hides only when it is zero in every column (`showZeroBalance=false`). Headings and `Jumlah ...` rows always print.
+- Retail Demo ends with two rows `LABA BERSIH (Sebelum Pajak)` and `LABA BERSIH (Setelah Pajak)`, both equal to the net profit (no income-tax line is modelled).
+- Numbers print en-US (`1,650,000.5`), negatives with a leading `-`.
+- One department; title line `Laba/Rugi <department> (Multi Periode)`, period line `Dari Periode Januari 2041 s/d Desember 2041`.
+- Month columns are calendar months of the period range; Total = sum of the months.
 
 ## Verified / unverified
 
-- Verified: only that the server rejects the API params used.
-- Unverified: entire layout.
+- Verified: zero diff on every body row against the 2041 capture ([`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json), test `apps/api/test/dimensions.test.ts`); page furniture (title lines, footer, repeated header) is stripped before comparing.
+- Unverified: branch filter other than `[Semua Cabang]`, data classification filters, foreign-currency accounts.
 
 ## Retail Demo variation
 

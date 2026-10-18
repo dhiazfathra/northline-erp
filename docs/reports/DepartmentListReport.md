@@ -2,7 +2,7 @@
 
 Group: Lain-lain. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/DepartmentListReport.json`](captures/retail/DepartmentListReport.json).
 
-Status: blocked: requires Department. Fixture: [`fixtures/retail/DepartmentListReport.json`](fixtures/retail/DepartmentListReport.json) (Retail Demo).
+Status: verified (Retail Demo, ADR-0022). Fixture: [`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json); test `apps/api/test/dimensions.test.ts`.
 
 ## Purpose
 
@@ -16,22 +16,20 @@ Params used for the capture (default over all history unless stated): `{}`
 
 ## Columns
 
-`Nama | Keterangan`
+`Nama` | `Keterangan`
 
 ## Row grouping
 
-One row per department, no total: `Accounting`, `Head Office` (`Keterangan` Head Office), `Opersional` (misspelling kept). Empty description cells are omitted in the capture, so only Head Office has two cells.
-
-Title lines: `Daftar Departemen`; footer lines `ACCURATE Accounting System Report`, `Tercetak pada <d MMMM yyyy - HH:mm>`, `Halaman <n> dari <total>` on every page.
+Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1 (P.00001), Jurnal Umum J1–J7 (JV.2041.02.00001 … JV.2041.09.00001) over branches JAKARTA and SURABAYA, with one line in a project, lines in each department and lines with no department (J5, every cash line). Params of the capture: `{}`.
 
 ## Calculation rules
 
-- Matches the 3 departments (Accounting id 105, Head Office 101, Opersional 103) used by the department P&L reports (checked).
+- Every department, ordered by name; an empty description prints nothing (the row is one cell).
 
 ## Verified / unverified
 
-- Verified: 3 rows against the known department list.
-- Unverified: sort rule (as printed: Accounting, Head Office, Opersional, alphabetical), suspended departments.
+- Verified: zero diff on every body row against the 2041 capture ([`fixtures/retail/dimensions-ra.json`](fixtures/retail/dimensions-ra.json), test `apps/api/test/dimensions.test.ts`); page furniture (title lines, footer, repeated header) is stripped before comparing.
+- Unverified: branch filter other than `[Semua Cabang]`, data classification filters, foreign-currency accounts.
 
 ## Retail Demo variation
 
