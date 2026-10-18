@@ -22,4 +22,4 @@
 | [0018](0018-local-default-on-demand-production.md) | Local Postgres is the default; production deploys only on demand | Accepted |
 | [0019](0019-activity-log.md) | Log Aktifitas (activity log) is in scope, written with every change | Accepted |
 | [0020](0020-scalar-api-reference.md) | Scalar API reference generated from the live route table | Accepted |
-| [0021](0021-retail-report-module-dependencies.md) | Module dependencies surfaced by Retail Demo reports; proposed build order | Proposed |
+| [0021](0021-retail-report-module-dependencies.md) | Module dependencies surfaced by Retail Demo reports; proposed build order | Accepted |

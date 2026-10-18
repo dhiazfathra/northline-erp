@@ -18,7 +18,7 @@ export const log = (...a) => console.log(red(a.map((x) => (typeof x === 'string'
 
 const DIR = new URL('.', import.meta.url).pathname;
 // One session file per sandbox: a saved session reopens its own Data Usaha and blocks switching.
-const STATE = DIR + (process.env.ACC_DB === 'retail' ? 'state-retail.json' : 'state.json');
+const STATE = DIR + (process.env.ACC_STATE ?? (process.env.ACC_DB === 'retail' ? 'state-retail.json' : 'state.json')); // ACC_STATE: separate session per parallel worker
 
 export async function open({ headless = true } = {}) {
   const browser = await chromium.launch({ headless });

@@ -1,7 +1,8 @@
 # ADR-0021: Module dependencies surfaced by Retail Demo reports, and a proposed build order
 
 ## Status
-Proposed. The build order below needs the principal's review; nothing in it is decided.
+Accepted 2026-10-19: the principal asked for all 46 reports and every missing module to be built, Job Costing included
+(this supersedes ADR-0010 for the four Job Costing reports only).
 
 ## Date
 2026-10-19
