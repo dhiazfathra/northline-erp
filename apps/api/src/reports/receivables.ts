@@ -5,7 +5,7 @@ import { formatIdr } from './trial-balance'
 
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
 export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string
-  /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */ delivery?: string; order?: string; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
+  /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */ delivery?: string; order?: string; exchange?: string; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface Return { number: string; customer: string; invoice: string; date: string; description: string; total: number; lines: InvoiceLine[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; returns?: Return[]; labels?: Labels }
@@ -341,7 +341,7 @@ export function flowHistory(d: SalesData, from: string, to: string, sales: boole
     : ['Permintaan Barang', 'Pesanan Pembelian', 'Penerimaan Barang', 'Uang Muka Pembelian', 'Faktur Pembelian', 'Retur Pembelian', 'Pembayaran Pembelian']
   const rows = d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(i => {
     const pays = d.receipts.filter(r => r.payments.some(p => p.invoice === i.number)).sort((a, b) => (a.date < b.date ? -1 : 1))
-    return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', i.order ?? '-', i.delivery ?? '-', '-', i.number, '-', p, '-'] : ['-', '-', '-', '-', i.number, '-', p])
+    return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', i.order ?? '-', i.delivery ?? '-', '-', i.number, '-', p, i.exchange ?? '-'] : ['-', '-', '-', '-', i.number, '-', p])
   })
   const dash = (k: number, n: string) => head.map((_, i) => (i === k ? n : '-'))
   return [head, ...rows, ...extra.receipts.map(n => dash(2, n)), ...extra.orders.map(n => dash(1, n))]
@@ -479,4 +479,16 @@ export function deliveryHistory(d: SalesData, ds: Delivery[], f: string, t: stri
       return i ? [x.number, fmtDate(x.date), 'Difaktur', i.number, fmtDate(i.date), formatIdr(i.total)] : [x.number, fmtDate(x.date), 'Belum difaktur'] }))
   }
   return out
+}
+
+/** Rincian Tukar Faktur. Umur is days from the invoice due date to `today` (Accurate uses the current date, not the report range). */
+export function exchangeDetail(d: SalesData, xs: { number: string; date: string; collectDate: string; dueDate: string; invoices: string[] }[], from: string, to: string, today: string): string[][] {
+  const owing = (i: Invoice) => openInvoices(d, today < i.date ? i.date : today, i.customer).find(o => o.number === i.number)?.owing ?? 0
+  return xs.filter(x => inRange(x, from, to)).sort((a, b) => (a.number < b.number ? -1 : 1)).flatMap(x => {
+    const invs = x.invoices.map(n => d.invoices.find(i => i.number === n)!)
+    return [['Nomor #', ':', x.number, 'Jatuh Tempo', ':', fmtDate(x.dueDate)], ['Tanggal', ':', fmtDate(x.date), 'Tenaga Penjual', ':'], ['Tgl Tukar', ':', fmtDate(x.collectDate)],
+      ['No Faktur', 'Tgl Faktur', 'Pelanggan', 'Jatuh Tempo', 'Total Faktur', 'Terutang', 'Umur (hr)'],
+      ...invs.map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, fmtDate(i.dueDate), formatIdr(i.total), formatIdr(owing(i)), formatIdr(days(i.dueDate, today) * 100)]),
+      [formatIdr(invs.reduce((s, i) => s + i.total, 0))]]
+  })
 }

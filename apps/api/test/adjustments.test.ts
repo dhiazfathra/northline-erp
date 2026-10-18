@@ -81,3 +81,12 @@ test('item transfers between warehouses via transit (transfer-t15.json)', async 
   expect(I.quantityByWarehouse(d, '2034-11-30', t15.warehouses).filter(NL)).toEqual(r('QuantityItemByWarehouseReport').filter(NL))
   expect(await queryGeneralLedger(f.db, 'history', { ...O, showZeroBalance: false, showParentAccount: true })).toEqual(r('GeneralLedgerHistoryReport'))
 })
+
+test('Tukar Faktur (exchange-t16.json)', async () => {
+  const t16 = (await import('../../../docs/reports/fixtures/exchange-t16.json')).default
+  const S = await import('../src/sales/service'), R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries')
+  await S.createExchangeInvoice(f.db, t16.exchange)
+  const r = (p: string) => body((t16.reports as any)[p].rows), O = { from: '2034-10-01', to: '2034-10-31' }, d = await Q.loadSales(f.db)
+  expect(R.exchangeDetail(d, await Q.loadExchanges(f.db), O.from, O.to, t16.today)).toEqual(r('ExchangeInvoiceDetailReport'))
+  expect(R.flowHistory(d, O.from, O.to, true)).toEqual(r('SalesFlowHistoryReport'))
+})

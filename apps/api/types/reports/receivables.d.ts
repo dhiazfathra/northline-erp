@@ -17,7 +17,8 @@ export interface Invoice {
     bill?: string;
     /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
     delivery?: string;
-    order?: string; /** down payments deducted on this invoice */
+    order?: string;
+    exchange?: string; /** down payments deducted on this invoice */
     dpUses?: {
         dp: string;
         amount: number;
@@ -92,7 +93,8 @@ export declare function openInvoices(d: SalesData, asOf: string, customer: strin
     bill?: string;
     /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
     delivery?: string;
-    order?: string; /** down payments deducted on this invoice */
+    order?: string;
+    exchange?: string; /** down payments deducted on this invoice */
     dpUses?: {
         dp: string;
         amount: number;
@@ -184,3 +186,11 @@ export declare const deliveryList: (d: SalesData, ds: Delivery[], f: string, t: 
 export declare const deliveryDetail: (d: SalesData, ds: Delivery[], f: string, t: string) => string[][];
 /** Status Pengiriman Pesanan: per customer, each delivery with the invoice that billed it. */
 export declare function deliveryHistory(d: SalesData, ds: Delivery[], f: string, t: string): string[][];
+/** Rincian Tukar Faktur. Umur is days from the invoice due date to `today` (Accurate uses the current date, not the report range). */
+export declare function exchangeDetail(d: SalesData, xs: {
+    number: string;
+    date: string;
+    collectDate: string;
+    dueDate: string;
+    invoices: string[];
+}[], from: string, to: string, today: string): string[][];

@@ -77,3 +77,10 @@ export declare function loadTransfers(db: Db): Promise<{
     warehouse: string;
     reference: string;
 }[]>;
+export declare function loadExchanges(db: Db): Promise<{
+    number: string;
+    date: string;
+    collectDate: string;
+    dueDate: string;
+    invoices: string[];
+}[]>;

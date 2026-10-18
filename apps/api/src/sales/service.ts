@@ -195,3 +195,13 @@ export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; n
     return result
   })
 }
+
+/** Tukar Faktur: bundles invoices for collection; no journal. */
+export async function createExchangeInvoice(db: Db, x: { number?: string; date: string; collectDate: string; dueDate: string; description?: string; invoices: string[] }) {
+  return db.transaction(async tx => {
+    const number = x.number ?? await nextNumber(tx, `EXI.${period(x.date)}`)
+    await tx.execute(sql`INSERT INTO exchange_invoices VALUES (${number}, ${x.date}, ${x.collectDate}, ${x.dueDate}, ${x.description ?? ''})`)
+    for (const i of x.invoices) await tx.execute(sql`INSERT INTO exchange_invoice_lines VALUES (${number}, ${i})`)
+    return { number }
+  })
+}

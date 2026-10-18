@@ -112,7 +112,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListDetailReport.md) |
 | Daftar Pelanggan | `CustomerListReport` | report | ASOF | selectedBranch= | [verified](CustomerListReport.md) |
 | Limit Piutang Pelanggan | `CustomerLimitReport` | report | NONE | selectedBranch= | [spec](CustomerLimitReport.md) |
-| Rincian Tukar Faktur | `ExchangeInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](ExchangeInvoiceDetailReport.md) |
+| Rincian Tukar Faktur | `ExchangeInvoiceDetailReport` | report | FROMTO | selectedBranch= | [verified](ExchangeInvoiceDetailReport.md) |
 
 ## Penjualan (SALES)
 

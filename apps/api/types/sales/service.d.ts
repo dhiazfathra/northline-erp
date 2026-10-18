@@ -51,3 +51,14 @@ export declare function createDeliveryOrder(db: Db, d: {
 }): Promise<{
     number: string;
 }>;
+/** Tukar Faktur: bundles invoices for collection; no journal. */
+export declare function createExchangeInvoice(db: Db, x: {
+    number?: string;
+    date: string;
+    collectDate: string;
+    dueDate: string;
+    description?: string;
+    invoices: string[];
+}): Promise<{
+    number: string;
+}>;

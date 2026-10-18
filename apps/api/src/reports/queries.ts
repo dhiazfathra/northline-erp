@@ -115,8 +115,8 @@ export async function queryCashAccountList(db: Db, asOf: string) {
 export async function loadSales(db: Db): Promise<import('./receivables').SalesData> {
   const customers = new Map((await db.execute(sql`SELECT no, name FROM customers`)).map(r => [r.no as string, r.name as string]))
   const uses = await db.execute(sql`SELECT invoice_number, dp_number, amount FROM sales_dp_usages`)
-  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, delivery_number, (SELECT order_number FROM delivery_orders d WHERE d.number = sales_invoices.delivery_number) AS order_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
-    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', delivery: (r.delivery_number as string) ?? undefined, order: (r.order_number as string) ?? undefined, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
+  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, delivery_number, (SELECT order_number FROM delivery_orders d WHERE d.number = sales_invoices.delivery_number) AS order_number, (SELECT exchange_number FROM exchange_invoice_lines x WHERE x.invoice_number = sales_invoices.number LIMIT 1) AS exchange_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', delivery: (r.delivery_number as string) ?? undefined, order: (r.order_number as string) ?? undefined, exchange: (r.exchange_number as string) ?? undefined, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
       dpUses: uses.filter(u => u.invoice_number === r.number).map(u => ({ dp: u.dp_number as string, amount: Number(u.amount) })) }))
   const invLines = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, l.quantity, l.unit_price, l.total
     FROM sales_invoice_lines l JOIN items i ON i.no = l.item_no ORDER BY l.invoice_number, l.seq`)
@@ -239,4 +239,10 @@ export async function loadDeliveries(db: Db): Promise<import('./receivables').De
 export async function loadTransfers(db: Db) {
   return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, direction, warehouse, reference_warehouse FROM item_transfers`))
     .map(r => ({ number: r.number as string, date: r.date as string, direction: r.direction as 'OUT' | 'IN', warehouse: r.warehouse as string, reference: r.reference_warehouse as string }))
+}
+
+export async function loadExchanges(db: Db) {
+  const ls = await db.execute(sql`SELECT exchange_number, invoice_number FROM exchange_invoice_lines`)
+  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, to_char(collect_date,'YYYY-MM-DD') AS c, to_char(due_date,'YYYY-MM-DD') AS d FROM exchange_invoices`))
+    .map(r => ({ number: r.number as string, date: r.date as string, collectDate: r.c as string, dueDate: r.d as string, invoices: ls.filter(l => l.exchange_number === r.number).map(l => l.invoice_number as string) }))
 }

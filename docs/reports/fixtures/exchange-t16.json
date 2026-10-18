@@ -1,0 +1,100 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18 (Umur is computed against that date). Builds on sales-order-t14.json.",
+ "today": "2026-10-18",
+ "exchange": {
+  "number": "EXI.2034.10.00001",
+  "date": "2034-10-12",
+  "collectDate": "2034-10-20",
+  "dueDate": "2034-10-20",
+  "description": "NL-T16-TF1",
+  "invoices": [
+   "SI.2034.10.00001"
+  ]
+ },
+ "reports": {
+  "ExchangeInvoiceDetailReport": {
+   "rows": [
+    [
+     "Rincian Tukar Faktur"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "EXI.2034.10.00001",
+     "Jatuh Tempo",
+     ":",
+     "20 Okt 2034"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "12 Okt 2034",
+     "Tenaga Penjual",
+     ":"
+    ],
+    [
+     "Tgl Tukar",
+     ":",
+     "20 Okt 2034"
+    ],
+    [
+     "No Faktur",
+     "Tgl Faktur",
+     "Pelanggan",
+     "Jatuh Tempo",
+     "Total Faktur",
+     "Terutang",
+     "Umur (hr)"
+    ],
+    [
+     "SI.2034.10.00001",
+     "08 Okt 2034",
+     "NL-T2 Pelanggan A",
+     "08 Okt 2034",
+     "88.000",
+     "88.000",
+     "-2.912"
+    ],
+    [
+     "88.000"
+    ]
+   ]
+  },
+  "SalesFlowHistoryReport": {
+   "rows": [
+    [
+     "Histori Proses Penjualan"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Penawaran Penjualan",
+     "Pesanan Penjualan",
+     "Pengiriman Pesanan",
+     "Uang Muka Penjualan",
+     "Faktur Penjualan",
+     "Retur Penjualan",
+     "Penerimaan Penjualan",
+     "Tukar Faktur"
+    ],
+    [
+     "-",
+     "SO.2034.10.00001",
+     "DO.2034.10.00001",
+     "-",
+     "SI.2034.10.00001",
+     "-",
+     "-",
+     "EXI.2034.10.00001"
+    ]
+   ]
+  }
+ }
+}

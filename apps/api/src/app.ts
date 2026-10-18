@@ -17,8 +17,8 @@ import { createItemAdjustment, createItemTransfer } from './inventory/adjustment
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
+import { loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -69,6 +69,11 @@ export function createApp(db: Db) {
     .get('/reports/deliveries/:report{list|detail|history}', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ list: R.deliveryList, detail: R.deliveryDetail, history: R.deliveryHistory }[c.req.param('report') as 'list'](await loadSales(db), await loadDeliveries(db), from, to))
+    })
+    .post('/sales/exchange-invoices', async c => c.json(await createExchangeInvoice(db, await c.req.json()), 201))
+    .get('/reports/exchange-invoices', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json(R.exchangeDetail(await loadSales(db), await loadExchanges(db), from, to, new Date().toISOString().slice(0, 10)))
     })
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
