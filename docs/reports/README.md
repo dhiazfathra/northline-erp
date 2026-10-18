@@ -24,8 +24,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Neraca (Induk Skontro) | `BalanceSheetParentScontroReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
 | Arus Kas (Langsung) | `CashFlowDirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowDirectReport.md) |
 | Rincian Arus Kas (Tak Langsung) | `CashFlowDetailIndirectReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectReport.md) |
-| Rasio Keuangan (Per Tahun) | `FinancialRatioReport` | report | ASOFYEAR | — | |
-| Rasio Keuangan (Per Bulan) | `FinancialRatioPerMonthReport` | report | PERIOD | — | |
+| Rasio Keuangan (Per Tahun) | `FinancialRatioReport` | report | ASOFYEAR | — | [verified](FinancialRatioReport.md) |
+| Rasio Keuangan (Per Bulan) | `FinancialRatioPerMonthReport` | report | PERIOD | — | [verified](FinancialRatioPerMonthReport.md) |
 | Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | |
 | Laba Ditahan | `RetainedEarningReport` | report | ASOFYEAR | — | [verified](RetainedEarningReport.md) |
 | Perubahan Ekuitas Pemilik | `OwnerEquityChangedReport` | report | FROMTO | — | [verified](OwnerEquityChangedReport.md) |

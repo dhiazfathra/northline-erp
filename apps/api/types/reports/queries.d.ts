@@ -23,3 +23,5 @@ export declare function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery): Pr
 export type CashFlowReport = 'direct' | 'indirect' | 'indirect-detail';
 /** `monthly` splits [from, to] into calendar-month columns (the Multi Period variants). */
 export declare function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBalanceQuery, monthly?: boolean): Promise<string[][]>;
+/** Rasio Keuangan: `month` given → per month (vs previous month), else per year (vs previous year). */
+export declare function queryFinancialRatios(db: Db, year: number, month?: number): Promise<string[][]>;

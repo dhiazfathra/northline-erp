@@ -1,0 +1,477 @@
+{
+ "source": "Accurate Online v1.0.1#4970, sandbox, captured 2026-10-18. Ratios use whole-company balances, so inputs are the totals Accurate itself prints on Neraca (Standar) and Laba/Rugi (Standar) for the same dates; the test checks the formulas, the statements are verified separately.",
+ "balanceSheets": {
+  "2029-12-31": {
+   "cash": 3792386,
+   "receivable": 5020000,
+   "inventory": 218093904,
+   "currentAssets": 227126290,
+   "fixedAssets": 0,
+   "assets": 227126290,
+   "payable": 99346500,
+   "currentLiabilities": 102218886,
+   "longTermLiabilities": 0,
+   "equity": 124907404
+  },
+  "2030-12-31": {
+   "cash": 16792386,
+   "receivable": 5020000,
+   "inventory": 218093904,
+   "currentAssets": 240126290,
+   "fixedAssets": 0,
+   "assets": 240126290,
+   "payable": 99346500,
+   "currentLiabilities": 102218886,
+   "longTermLiabilities": 0,
+   "equity": 137907404
+  },
+  "2031-01-31": {
+   "cash": 15542385.5,
+   "receivable": 5020000,
+   "inventory": 218093904,
+   "currentAssets": 238876289.5,
+   "fixedAssets": 0,
+   "assets": 238876289.5,
+   "payable": 99346500,
+   "currentLiabilities": 102218886,
+   "longTermLiabilities": 0,
+   "equity": 136657403.5
+  },
+  "2031-02-28": {
+   "cash": 2542385.5,
+   "receivable": 5020000,
+   "inventory": 218093904,
+   "currentAssets": 240876289.5,
+   "fixedAssets": 0,
+   "assets": 240876289.5,
+   "payable": 99346500,
+   "currentLiabilities": 103218886,
+   "longTermLiabilities": 0,
+   "equity": 137657403.5
+  },
+  "2031-12-31": {
+   "cash": 2542385.5,
+   "receivable": 5020000,
+   "inventory": 218093904,
+   "currentAssets": 240876289.5,
+   "fixedAssets": 0,
+   "assets": 240876289.5,
+   "payable": 99346500,
+   "currentLiabilities": 103218886,
+   "longTermLiabilities": 0,
+   "equity": 137657403.5
+  }
+ },
+ "profitLoss": {
+  "2030": {
+   "revenue": 3000000,
+   "cogs": 0,
+   "operating": 3000000,
+   "net": 3000000
+  },
+  "2031": {
+   "revenue": 2000000,
+   "cogs": 0,
+   "operating": -250000.5,
+   "net": -250000.5
+  },
+  "2031-01": {
+   "revenue": 0,
+   "cogs": 0,
+   "operating": -1250000.5,
+   "net": -1250000.5
+  },
+  "2031-02": {
+   "revenue": 2000000,
+   "cogs": 0,
+   "operating": 1000000,
+   "net": 1000000
+  }
+ },
+ "FinancialRatioPerMonthReport": {
+  "params": {
+   "periodMonth": 2,
+   "periodYear": 2031
+  },
+  "rows": [
+   [
+    "Jenis Rasio",
+    "Rasio",
+    "Bulan Sebelumnya",
+    "Satuan"
+   ],
+   [
+    "Rasio Likuiditas"
+   ],
+   [
+    "Current Ratio",
+    "2,33",
+    "2,34",
+    "Kali"
+   ],
+   [
+    "Quick Ratio",
+    "0,07",
+    "0,2",
+    "Kali"
+   ],
+   [
+    "Cash Ratio",
+    "2,46",
+    "15,21",
+    "%"
+   ],
+   [
+    "Cash Turnover",
+    "22,12",
+    "0",
+    "%"
+   ],
+   [
+    "Inventory to Net Working Capital",
+    "158,43",
+    "159,59",
+    "%"
+   ],
+   [
+    "Rasio Solvabilitas"
+   ],
+   [
+    "Debt to Asset Ratio",
+    "42,9",
+    "42,8",
+    "%"
+   ],
+   [
+    "Debt to Equity Ratio",
+    "75",
+    "74,8",
+    "%"
+   ],
+   [
+    "Long Term Liability to Equity Ratio",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Equity Multiplier",
+    "1,75",
+    "1,75",
+    "Kali"
+   ],
+   [
+    "Rasio Aktifitas"
+   ],
+   [
+    "Total Asset Turnover",
+    "0,01",
+    "0",
+    "Kali"
+   ],
+   [
+    "Receivable Turnover",
+    "0,4",
+    "0",
+    "Kali"
+   ],
+   [
+    "Payable Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Average Collection Period",
+    "916,15",
+    "0",
+    "Hari"
+   ],
+   [
+    "Inventory Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Working Capital Turnover",
+    "0,02",
+    "0",
+    "Kali"
+   ],
+   [
+    "Days of Receivable",
+    "916,15",
+    "0",
+    "Hari"
+   ],
+   [
+    "Days of Inventory",
+    "0",
+    "0",
+    "Hari"
+   ],
+   [
+    "Fixed Asset Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Rasio Profitabilitas"
+   ],
+   [
+    "Gross Profit Margin",
+    "100",
+    "0",
+    "%"
+   ],
+   [
+    "Operating Profit Margin",
+    "50",
+    "0",
+    "%"
+   ],
+   [
+    "Net Profit Margin",
+    "50",
+    "0",
+    "%"
+   ],
+   [
+    "Return On Asset",
+    "0,4",
+    "-0,5",
+    "%"
+   ],
+   [
+    "Return On Equity",
+    "0,7",
+    "-0,9",
+    "%"
+   ]
+  ]
+ },
+ "FinancialRatioReport": {
+  "params": {
+   "asOfYear": 2031
+  },
+  "rows": [
+   [
+    "Jenis Rasio",
+    "Rasio",
+    "Tahun Sebelumnya",
+    "Satuan"
+   ],
+   [
+    "Rasio Likuiditas"
+   ],
+   [
+    "Current Ratio",
+    "2,33",
+    "2,35",
+    "Kali"
+   ],
+   [
+    "Quick Ratio",
+    "0,07",
+    "0,21",
+    "Kali"
+   ],
+   [
+    "Cash Ratio",
+    "2,46",
+    "16,43",
+    "%"
+   ],
+   [
+    "Cash Turnover",
+    "20,69",
+    "29,15",
+    "%"
+   ],
+   [
+    "Inventory to Net Working Capital",
+    "158,43",
+    "158,15",
+    "%"
+   ],
+   [
+    "Rasio Solvabilitas"
+   ],
+   [
+    "Debt to Asset Ratio",
+    "42,9",
+    "42,6",
+    "%"
+   ],
+   [
+    "Debt to Equity Ratio",
+    "75",
+    "74,1",
+    "%"
+   ],
+   [
+    "Long Term Liability to Equity Ratio",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Equity Multiplier",
+    "1,75",
+    "1,74",
+    "Kali"
+   ],
+   [
+    "Rasio Aktifitas"
+   ],
+   [
+    "Total Asset Turnover",
+    "0,01",
+    "0,01",
+    "Kali"
+   ],
+   [
+    "Receivable Turnover",
+    "0,4",
+    "0,6",
+    "Kali"
+   ],
+   [
+    "Payable Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Average Collection Period",
+    "916,15",
+    "610,77",
+    "Hari"
+   ],
+   [
+    "Inventory Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Working Capital Turnover",
+    "0,02",
+    "0,02",
+    "Kali"
+   ],
+   [
+    "Days of Receivable",
+    "916,15",
+    "610,77",
+    "Hari"
+   ],
+   [
+    "Days of Inventory",
+    "0",
+    "0",
+    "Hari"
+   ],
+   [
+    "Fixed Asset Turnover",
+    "0",
+    "0",
+    "Kali"
+   ],
+   [
+    "Rasio Profitabilitas"
+   ],
+   [
+    "Gross Profit Margin",
+    "100",
+    "100",
+    "%"
+   ],
+   [
+    "Operating Profit Margin",
+    "-12,5",
+    "100",
+    "%"
+   ],
+   [
+    "Net Profit Margin",
+    "-12,5",
+    "100",
+    "%"
+   ],
+   [
+    "Return On Asset",
+    "-0,1",
+    "1,2",
+    "%"
+   ],
+   [
+    "Return On Equity",
+    "-0,2",
+    "2,2",
+    "%"
+   ]
+  ]
+ },
+ "FinancialFocusReport": {
+  "params": {
+   "asOfYear": 2031
+  },
+  "rows": [
+   [
+    "Fokus Keuangan"
+   ],
+   [
+    "Keterangan",
+    "Tahun ini",
+    "Tahun Lalu",
+    "Penambahan (%)"
+   ],
+   [
+    "Total Pendapatan",
+    "2.000.000",
+    "3.000.000",
+    "-33,33"
+   ],
+   [
+    "Pendapatan Operasi",
+    "-250.000,5",
+    "3.000.000",
+    "-108,33"
+   ],
+   [
+    "Laba/Rugi",
+    "-250.000,5",
+    "3.000.000",
+    "-108,33"
+   ],
+   [
+    "Modal Kerja",
+    "122.437.403,5",
+    "137.687.404",
+    "-3,87"
+   ],
+   [
+    "Rasio Lancar",
+    "2,19",
+    "2,35",
+    "-6,85"
+   ],
+   [
+    "Liabilitas Jangka Panjang",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Modal",
+    "137.657.403,5",
+    "137.907.404",
+    "-0,18"
+   ]
+  ],
+  "status": "formulas partly unresolved, see FinancialFocusReport.md"
+ }
+}

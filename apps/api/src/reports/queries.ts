@@ -4,6 +4,7 @@ import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, months, profitLoss } from './financial-statements'
 import { ownerEquityChange, retainedEarnings } from './equity'
+import { bsTotals, financialRatios, plTotals } from './financial-ratios'
 import { cashFlowDirect, cashFlowIndirect, cashFlowIndirectDetail, formatCashFlow } from './cash-flow'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
@@ -82,4 +83,17 @@ export async function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBala
     : report === 'indirect-detail' ? cashFlowIndirectDetail(accounts, balances, periods)
     : cashFlowDirect(accounts, balances, await loadJournals(db, q.from, q.to), periods)
   return formatCashFlow(rows, periods)
+}
+
+/** Rasio Keuangan: `month` given → per month (vs previous month), else per year (vs previous year). */
+export async function queryFinancialRatios(db: Db, year: number, month?: number) {
+  const end = (y: number, m: number) => new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10)
+  const { accounts, balances, settings } = await loadLedger(db, month ? end(year, month) : `${year}-12-31`)
+  const o = { showZeroBalance: true, showParentAccount: true }
+  const bs = (d: string) => bsTotals(balanceSheet(accounts, balances, settings, d, o))
+  const col = (from: string, to: string) => ({ start: bs(end(Number(from.slice(0, 4)), Number(from.slice(5, 7)) - 1)), end: bs(to), pl: plTotals(profitLoss(accounts, balances, from, to, o)) })
+  if (!month) return financialRatios(col(`${year}-01-01`, `${year}-12-31`), col(`${year - 1}-01-01`, `${year - 1}-12-31`), false)
+  const [py, pm] = month === 1 ? [year - 1, 12] : [year, month - 1]
+  const first = (y: number, m: number) => `${y}-${String(m).padStart(2, '0')}-01`
+  return financialRatios(col(first(year, month), end(year, month)), col(first(py, pm), end(py, pm)), true)
 }
