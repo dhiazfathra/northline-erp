@@ -7,9 +7,10 @@ import { nextNumber, openInvoices, partiesFor, payTotals, pphOf, useSaveDoc, ven
 import { Dropdown } from '@/components/dropdown'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
+import { DatePicker } from '@/features/fixed-assets/parts'
 import { Check, NumCell } from './item-form'
 import { AutoSwitch } from './journal-form'
-import { FormFrame, Rail, Totals, fieldCls, lbl, req, required, type FormProps } from './shell'
+import { FormFrame, Rail, Totals, lbl, req, required, type FormProps } from './shell'
 
 const banks = accounts.filter((a) => a.parent === '1100').map((a) => `${a.code} ${a.name}`)
 const cols = 'grid-cols-[1.4fr_.9fr_1fr_1fr_1.2fr_1fr_.9fr]'
@@ -78,7 +79,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
             <span className="opacity-75">
               {L.date} {req}
             </span>
-            <input {...register('date')} className={fieldCls} />
+            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
           </label>
           <Controller
             control={control}

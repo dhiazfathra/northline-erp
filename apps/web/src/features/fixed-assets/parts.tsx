@@ -50,14 +50,18 @@ export function DocHeader({ label, current, onClose, children }: { label: string
   )
 }
 
+const msId = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+const msEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const wdId = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
 const wdEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 const TODAY = '2026-10-17'
 
 /** Date field with day / month / year views (the design's `x.dp`). Value is ISO yyyy-mm-dd. */
-export function DatePicker({ value, onChange, invalid, id }: { value: string; onChange: (v: string) => void; invalid?: boolean; id?: string }) {
+export function DatePicker({ value: raw, onChange: emit, invalid, id, dmy }: { value: string; onChange: (v: string) => void; invalid?: boolean; id?: string; /** value is dd/mm/yyyy */ dmy?: boolean }) {
   const { lang } = useShell()
+  const value = dmy ? raw.split('/').reverse().join('-') : raw
+  const onChange = (v: string) => emit(dmy ? fmtDate(v) : v)
   const [open, setOpen] = useState(false)
   const [view, setView] = useState<'d' | 'm' | 'y'>('d')
   const sel = value ? new Date(`${value}T00:00`) : null
@@ -96,12 +100,12 @@ export function DatePicker({ value, onChange, invalid, id }: { value: string; on
           aria-invalid={invalid || undefined}
           className={cn(
             'flex h-[41px] w-full cursor-pointer items-center gap-2.5 rounded-[14px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-[14px] text-left text-[13px] transition-[border-color,box-shadow] duration-150 hover:bg-[rgba(var(--fg),.09)]',
-            open && 'border-[#ec4899] shadow-[0_0_0_3px_rgba(236,72,153,.18)]',
-            invalid && 'border-[#f472b6]',
+            open && 'border-[rgba(236,72,153,.7)] shadow-[0_0_0_4px_rgba(236,72,153,.14)]',
+            invalid && 'border-[#ec4899]',
           )}
         >
           <i className="ph-light ph-calendar-blank text-[16px] opacity-75" />
-          <span className={cn('min-w-0 flex-1 truncate tabular-nums', !value && 'opacity-50')}>{value ? fmtDate(value) : 'dd/mm/yyyy'}</span>
+          <span className={cn('min-w-0 flex-1 truncate tabular-nums', !value && 'opacity-50')}>{sel ? `${sel.getDate()} ${(lang === 'id' ? msId : msEn)[sel.getMonth()]} ${sel.getFullYear()}` : lang === 'id' ? 'Pilih tanggal' : 'Select date'}</span>
           <i className={cn('ph-light ph-caret-down text-[12px] opacity-60 transition-transform duration-200', open && 'rotate-180')} />
         </button>
       </PopoverTrigger>

@@ -9,6 +9,7 @@ import { Dropdown } from '@/components/dropdown'
 import { Seg, overlayCls, panelCls } from '@/features/ledger/ui'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
+import { DatePicker } from '@/features/fixed-assets/parts'
 import { FormFrame, Rail, Totals, fieldCls, lbl, req, required, toNum, type FormProps } from './shell'
 
 type Line = JournalDocInput['lines'][number]
@@ -56,7 +57,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
             <span className="opacity-75">
               {L.date} {req}
             </span>
-            <input {...register('date')} className={fieldCls} />
+            <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} />} />
           </label>
           <Controller
             control={control}

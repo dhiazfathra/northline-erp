@@ -5,6 +5,7 @@ import { useEffect, type ReactNode } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
 import { fixedAssets, useCreateAssetExpenditure } from '@/api/asset-modules'
 import { Dropdown } from '@/components/dropdown'
+import { DatePicker } from '@/features/fixed-assets/parts'
 import { useShell, useT } from '@/lib/shell'
 import { DocFrame } from './doc-header'
 import { idr, S } from './strings'
@@ -83,10 +84,7 @@ export function AssetForm() {
         <div className="flex flex-wrap items-start gap-4">
           <div className="grid min-w-0 flex-[1_1_520px] grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-[14px]">
             <Field label={t({ id: 'Tanggal', en: 'Date' })} req>
-              <div className={`flex h-[41px] items-center gap-2.5 rounded-[14px] bg-[rgba(var(--fg),.06)] px-[14px] ${bd(errors.date)}`}>
-                <i className="ph-light ph-calendar-blank text-[16px] opacity-75" />
-                <input {...register('date')} className="min-w-0 flex-1 bg-transparent text-[13px] tabular-nums text-(--ink) outline-none" />
-              </div>
+              <Controller control={control} name="date" render={({ field }) => <DatePicker dmy value={field.value} onChange={field.onChange} invalid={!!errors.date} />} />
             </Field>
             <Field label={t({ id: 'Kode Aset', en: 'Asset Code' })}>
               <Controller control={control} name="assetCode" render={({ field }) => <Dropdown value={field.value} options={fixedAssets.map(assetLabel)} onSelect={field.onChange} />} />
