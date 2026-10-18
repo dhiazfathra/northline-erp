@@ -1,0 +1,33 @@
+{
+ "planId": "ProfitLossComparePeriodPerDepartmentReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2025",
+  "endDate": "31/12/2025",
+  "compareStartDate": "01/01/2026",
+  "compareEndDate": "31/12/2026",
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"QaAiAxPo+jL3cYWeR4LqpvDS0CHZ6H45AAABoVAddow=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Cannot parsing part from a null date\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "QaAiAxPo+jL3cYWeR4LqpvDS0CHZ6H45AAABoVAddow=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Cannot parsing part from a null date"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

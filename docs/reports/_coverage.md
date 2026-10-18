@@ -2,14 +2,14 @@
 
 Source of truth: Daftar Laporan (`/accurate/report/init-report.do`) read 2026-10-19 from both allowlisted sandboxes,
 **Manufaktur Demo** (248 reports) and **Retail Demo** (275 reports).
-Spec status comes from [README.md](README.md): verified = done, out of scope (ADR-0010) = done (out of scope), no spec = missing.
+Spec status comes from [README.md](README.md): verified = done, out of scope (ADR-0010) = done (out of scope), spec (Retail Demo) = full spec + fixture from Retail Demo, not built; partial = layout or data not captured (see the spec).
 
 ERP module dependency is the module the report reads. The ERP already event-sources Sales, Purchasing, Inventory,
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals: 275 reports, 229 done, 46 missing
-(32 blocked, 1 buildable on Journal/Period/Account,
+Totals: 275 reports, 229 done, 46 new in this pass (19 partial)
+(33 blocked, 0 buildable on Journal/Period/Account,
 13 on existing modules).
 
 Retail re-check: every done row was verified against Manufaktur Demo fixtures. Retail Demo carries data Manufaktur Demo
@@ -29,8 +29,8 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Proyeksi Kas per Bulan](CashProjectionReport.md) | `CashProjectionReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Laba/Rugi (Perbandingan Periode)](ProfitLossComparePeriodReport.md) | `ProfitLossComparePeriodReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Laba/Rugi (Kuartal)](ProfitLossQuarterReport.md) | `ProfitLossQuarterReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
-| Laba/Rugi (Perbandingan Anggaran) | `ProfitLossCompareBudgetReport` | Keuangan | Y | Y | missing | Journal/Period/Account | blocked: requires Budget |
-| Laba/Rugi Cabang | `ProfitLossByBranchReport` | Keuangan | N | Y | missing | Journal/Period/Account | buildable now (single-branch ledger) |
+| [Laba/Rugi (Perbandingan Anggaran)](ProfitLossCompareBudgetReport.md) | `ProfitLossCompareBudgetReport` | Keuangan | Y | Y | spec (Retail Demo) | Journal/Period/Account | blocked: requires Budget |
+| [Laba/Rugi Cabang](ProfitLossByBranchReport.md) | `ProfitLossByBranchReport` | Keuangan | N | Y | spec (Retail Demo) | Journal/Period/Account | blocked: requires Branch dimension on Journal |
 | [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) | `BalanceSheetComparePeriodReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | done | Journal/Period/Account |  |
@@ -70,12 +70,12 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Gaji Karyawan per Tahun](EmployeeSalaryPerYearReport.md) | `EmployeeSalaryPerYearReport` | Buku Besar | Y | Y | done (out of scope) | Journal/Period/Account |  |
 | [Ringkasan Pencatatan Beban](ExpenseAccrualSummaryReport.md) | `ExpenseAccrualSummaryReport` | Buku Besar | Y | Y | done | Journal/Period/Account |  |
 | [Rincian Pencatatan Beban](ExpenseAccrualDetailReport.md) | `ExpenseAccrualDetailReport` | Buku Besar | Y | Y | done | Journal/Period/Account |  |
-| Laba/Rugi Departemen | `ProfitLossByDepartmentReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Department |
-| Laba/Rugi Departemen (Perbandingan Anggaran) | `ProfitLossCompareBudgetDepartmentReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Budget, Department |
-| Laba/Rugi Departemen (Multi Periode) | `ProfitLossDepartmentMultiPeriodReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Department |
-| Laba/Rugi Departemen (Perbandingan Periode) | `ProfitLossComparePeriodPerDepartmentReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Department |
-| Laba/Rugi Proyek (Perbandingan Periode) | `ProfitLossComparePeriodPerProjectReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Project dimension |
-| Analisa Laba/Rugi Departemen | `AnalysisProfitLossDepartmentReport` | Pusat Laba & Biaya | N | Y | missing | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Departemen](ProfitLossByDepartmentReport.md) | `ProfitLossByDepartmentReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Departemen (Perbandingan Anggaran)](ProfitLossCompareBudgetDepartmentReport.md) | `ProfitLossCompareBudgetDepartmentReport` | Pusat Laba & Biaya | N | Y | spec (Retail Demo) | Department/Project dimension | blocked: requires Budget, Department |
+| [Laba/Rugi Departemen (Multi Periode)](ProfitLossDepartmentMultiPeriodReport.md) | `ProfitLossDepartmentMultiPeriodReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Departemen (Perbandingan Periode)](ProfitLossComparePeriodPerDepartmentReport.md) | `ProfitLossComparePeriodPerDepartmentReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Department |
+| [Laba/Rugi Proyek (Perbandingan Periode)](ProfitLossComparePeriodPerProjectReport.md) | `ProfitLossComparePeriodPerProjectReport` | Pusat Laba & Biaya | N | Y | partial | Department/Project dimension | blocked: requires Project dimension |
+| [Analisa Laba/Rugi Departemen](AnalysisProfitLossDepartmentReport.md) | `AnalysisProfitLossDepartmentReport` | Pusat Laba & Biaya | N | Y | spec (Retail Demo) | Department/Project dimension | blocked: requires Department |
 | [Histori Bank](BankBookReport.md) | `BankBookReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
 | [Transaksi Bank Terekonsiliasi](ReconciledBankReport.md) | `ReconciledBankReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
 | [Transaksi Bank belum Terekonsiliasi](UnreconciledBankReport.md) | `UnreconciledBankReport` | Kas & Bank | Y | Y | done | Cash & Bank |  |
@@ -129,19 +129,19 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Grafik Penjualan Bulanan](AnnualSalesChartReport.md) | `AnnualSalesChartReport` | Penjualan | Y | Y | done | Sales |  |
 | [Porsi Penjualan per Pelanggan](TopSalesCustomerChartReport.md) | `TopSalesCustomerChartReport` | Penjualan | Y | Y | done | Sales |  |
 | [Porsi Penjualan per Barang](TopSalesItemChartReport.md) | `TopSalesItemChartReport` | Penjualan | Y | Y | done | Sales |  |
-| Penawaran per Pelanggan (Belum Proses) | `SalesQuotationByCustomerReport` | Penjualan | Y | Y | missing | Sales | blocked: requires Sales Quotation |
-| Penawaran per Barang (Belum Proses) | `SalesQuotationByItemReport` | Penjualan | Y | Y | missing | Sales | blocked: requires Sales Quotation |
-| Pesanan per Pelanggan (Belum Proses) | `SalesOrderByCustomerReport` | Penjualan | Y | Y | missing | Sales | existing module; spec + verify |
-| Pesanan per Barang (Belum Proses) | `SalesOrderByItemReport` | Penjualan | Y | Y | missing | Sales | existing module; spec + verify |
+| [Penawaran per Pelanggan (Belum Proses)](SalesQuotationByCustomerReport.md) | `SalesQuotationByCustomerReport` | Penjualan | Y | Y | partial | Sales | blocked: requires Sales Quotation |
+| [Penawaran per Barang (Belum Proses)](SalesQuotationByItemReport.md) | `SalesQuotationByItemReport` | Penjualan | Y | Y | partial | Sales | blocked: requires Sales Quotation |
+| [Pesanan per Pelanggan (Belum Proses)](SalesOrderByCustomerReport.md) | `SalesOrderByCustomerReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
+| [Pesanan per Barang (Belum Proses)](SalesOrderByItemReport.md) | `SalesOrderByItemReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
 | [Uang Muka Penjualan](SalesDownPaymentByCustomerReport.md) | `SalesDownPaymentByCustomerReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan Barang](ItemSalesTargetReport.md) | `ItemSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan per Kategori](ItemCategorySalesTargetReport.md) | `ItemCategorySalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
-| Target Penjualan Penjual | `SalesmanSalesTargetReport` | Penjualan | N | Y | missing | Sales | blocked: requires Salesman on invoice |
+| [Target Penjualan Penjual](SalesmanSalesTargetReport.md) | `SalesmanSalesTargetReport` | Penjualan | N | Y | partial | Sales | blocked: requires Salesman on invoice |
 | [Target Penjualan per Bulan](GeneralSalesTargetReport.md) | `GeneralSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
-| Daftar Penawaran Penjualan | `SalesQuotationListReport` | Penjualan | Y | Y | missing | Sales | blocked: requires Sales Quotation |
-| Rincian Penawaran Penjualan | `SalesQuotationDetailReport` | Penjualan | Y | Y | missing | Sales | blocked: requires Sales Quotation |
-| Daftar Pesanan Penjualan | `SalesOrderListReport` | Penjualan | Y | Y | missing | Sales | existing module; spec + verify |
-| Rincian Pesanan Penjualan | `SalesOrderDetailReport` | Penjualan | Y | Y | missing | Sales | existing module; spec + verify |
+| [Daftar Penawaran Penjualan](SalesQuotationListReport.md) | `SalesQuotationListReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
+| [Rincian Penawaran Penjualan](SalesQuotationDetailReport.md) | `SalesQuotationDetailReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
+| [Daftar Pesanan Penjualan](SalesOrderListReport.md) | `SalesOrderListReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
+| [Rincian Pesanan Penjualan](SalesOrderDetailReport.md) | `SalesOrderDetailReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
 | [Daftar Pengiriman Pesanan](DeliveryOrderListReport.md) | `DeliveryOrderListReport` | Penjualan | Y | Y | done | Sales |  |
 | [Rincian Pengiriman Pesanan](DeliveryOrderDetailReport.md) | `DeliveryOrderDetailReport` | Penjualan | Y | Y | done | Sales |  |
 | [Status Pengiriman Pesanan](DeliveryOrderHistorySummaryReport.md) | `DeliveryOrderHistorySummaryReport` | Penjualan | Y | Y | done | Sales |  |
@@ -163,19 +163,19 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Penyesuaian Diskon Jual](SellingDiscountAdjustmentDetailReport.md) | `SellingDiscountAdjustmentDetailReport` | Penjualan | Y | Y | done | Sales |  |
 | [Penyesuaian Diskon Jual per Kategori](SellingDiscountAdjustmentDetailPerCategoryReport.md) | `SellingDiscountAdjustmentDetailPerCategoryReport` | Penjualan | Y | Y | done | Sales |  |
 | [Barang Paling Laku](SellingItemFrequencyReport.md) | `SellingItemFrequencyReport` | Penjualan | Y | Y | done | Sales |  |
-| Faktur Belum Lunas per Penjual | `OutstandingInvoicePerSalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Umur Piutang per Penjual | `AgingReceivablePerSalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Rincian Umur Piutang per Penjual | `AgingReceivableDetailPerSalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Penjualan Barang per Penjual | `SalesSalesmanByItemReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Faktur Penjualan per Penjual | `SalesInvoiceListBySalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Retur Penjualan per Penjual | `SalesReturnListBySalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
-| Ringkasan Komisi (Dihitung per Periode) | `SalesmanCommissionByPeriodSummaryReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman commission |
-| Ringkasan Komisi (Dihitung per Faktur) | `SalesmanCommissionByInvoiceSummaryReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman commission |
-| Rincian Komisi (Dihitung per Faktur) | `SalesmanCommissionByInvoiceDetailReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman commission |
-| Rincian Komisi Penjual (Dihitung per Periode) | `SalesmanCommissionByPeriodDetailReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman commission |
-| Daftar Komisi Penjual | `SalesmanCommissionListReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman commission |
-| Check In per Karyawan | `SalesCheckInPerSalesmanReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman check-in (mobile) |
-| Histori Transaksi per Penjual | `TransactionPerSalesmanListReport` | Tenaga Penjual | N | Y | missing | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Faktur Belum Lunas per Penjual](OutstandingInvoicePerSalesmanReport.md) | `OutstandingInvoicePerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Umur Piutang per Penjual](AgingReceivablePerSalesmanReport.md) | `AgingReceivablePerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Rincian Umur Piutang per Penjual](AgingReceivableDetailPerSalesmanReport.md) | `AgingReceivableDetailPerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Penjualan Barang per Penjual](SalesSalesmanByItemReport.md) | `SalesSalesmanByItemReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Faktur Penjualan per Penjual](SalesInvoiceListBySalesmanReport.md) | `SalesInvoiceListBySalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Retur Penjualan per Penjual](SalesReturnListBySalesmanReport.md) | `SalesReturnListBySalesmanReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Ringkasan Komisi (Dihitung per Periode)](SalesmanCommissionByPeriodSummaryReport.md) | `SalesmanCommissionByPeriodSummaryReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman commission |
+| [Ringkasan Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceSummaryReport.md) | `SalesmanCommissionByInvoiceSummaryReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
+| [Rincian Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceDetailReport.md) | `SalesmanCommissionByInvoiceDetailReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
+| [Rincian Komisi Penjual (Dihitung per Periode)](SalesmanCommissionByPeriodDetailReport.md) | `SalesmanCommissionByPeriodDetailReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman commission |
+| [Daftar Komisi Penjual](SalesmanCommissionListReport.md) | `SalesmanCommissionListReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
+| [Check In per Karyawan](SalesCheckInPerSalesmanReport.md) | `SalesCheckInPerSalesmanReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman check-in (mobile) |
+| [Histori Transaksi per Penjual](TransactionPerSalesmanListReport.md) | `TransactionPerSalesmanListReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
 | [Faktur Belum Lunas](OutstandingPurchaseInvoiceReport.md) | `OutstandingPurchaseInvoiceReport` | Utang | Y | Y | done | Purchasing |  |
 | [Faktur Belum Lunas per Pemasok](OutstandingPurchaseInvoicePerVendorReport.md) | `OutstandingPurchaseInvoicePerVendorReport` | Utang | Y | Y | done | Purchasing |  |
 | [Umur Utang](AgingPayableReport.md) | `AgingPayableReport` | Utang | Y | Y | done | Purchasing |  |
@@ -212,7 +212,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Penggunaan Uang Muka Pembelian](PurchaseInvoiceDownPaymentDetailReport.md) | `PurchaseInvoiceDownPaymentDetailReport` | Pembelian | Y | Y | done | Purchasing |  |
 | [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | done (out of scope) | Purchasing |  |
 | [Perubahan Harga Beli Per Barang](VendorPriceHistoryReport.md) | `VendorPriceHistoryReport` | Pembelian | Y | Y | done | Purchasing |  |
-| Penyesuaian Harga Beli | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | missing | Purchasing | existing module; spec + verify |
+| [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | partial | Purchasing | existing module; spec + verify |
 | [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | done | Inventory |  |
 | [Rincian Nilai Persediaan (CSV)](InventoryValuationDetailDownloadReport.md) | `InventoryValuationDetailDownloadReport` | Persediaan | Y | Y | done | Inventory |  |
 | [Ketersediaan Stok Penjualan](InventoryAnalysisReport.md) | `InventoryAnalysisReport` | Persediaan | Y | Y | done | Inventory |  |
@@ -235,29 +235,29 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Mutasi per Barang](ItemMutationByWarehouseReport.md) | `ItemMutationByWarehouseReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Mutasi per Gudang](WarehouseMutationByItemReport.md) | `WarehouseMutationByItemReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Ringkasan Mutasi Gudang](WarehouseMutationSummaryReport.md) | `WarehouseMutationSummaryReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| Stok Nomor Seri/Produksi | `SerialNumberStockReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
-| Stok Nomor Seri/Produksi per Gudang | `SerialNumberStockPerWarehouseReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
-| Stok Nomor Seri/Produksi per Barang | `SerialNumberStockPerItemReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
+| [Stok Nomor Seri/Produksi](SerialNumberStockReport.md) | `SerialNumberStockReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
+| [Stok Nomor Seri/Produksi per Gudang](SerialNumberStockPerWarehouseReport.md) | `SerialNumberStockPerWarehouseReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
+| [Stok Nomor Seri/Produksi per Barang](SerialNumberStockPerItemReport.md) | `SerialNumberStockPerItemReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
 | [Lembar Penghitungan Stok](PhysicalInventoryCountSheetReport.md) | `PhysicalInventoryCountSheetReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| Rincian Pemindahan Barang | `ItemTransferDetailReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
-| Barang Diterima Sebagian | `UncompletedItemTransferReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
-| Daftar Gudang | `WarehouseListReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
+| [Rincian Pemindahan Barang](ItemTransferDetailReport.md) | `ItemTransferDetailReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
+| [Barang Diterima Sebagian](UncompletedItemTransferReport.md) | `UncompletedItemTransferReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
+| [Daftar Gudang](WarehouseListReport.md) | `WarehouseListReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
 | [Mutasi Nomor Seri/Produksi](ReceivedDeliveredSerialNumberReport.md) | `ReceivedDeliveredSerialNumberReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| Histori Nomor Seri/Produksi | `SerialNumberMutationReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | existing module; spec + verify |
+| [Histori Nomor Seri/Produksi](SerialNumberMutationReport.md) | `SerialNumberMutationReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
 | [Sisa Umur Per Nomor Produksi](RemainingAgeSerialNumberDetailReport.md) | `RemainingAgeSerialNumberDetailReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| Nomor Produksi Segera Kadaluarsa | `SerialNumberExpiredSoonReport` | Gudang | Y | Y | missing | Inventory (Warehouse) | blocked: requires Serial expiry date |
+| [Nomor Produksi Segera Kadaluarsa](SerialNumberExpiredSoonReport.md) | `SerialNumberExpiredSoonReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | blocked: requires Serial expiry date |
 | [Ringkasan Pemindahan Barang](ItemTransferListReport.md) | `ItemTransferListReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Pergerakan Stok per Barang](StockMovementByWarehouseReport.md) | `StockMovementByWarehouseReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| Bahan dan Biaya Pekerjaan per Bulan | `JobCostingByMonthReport` | Pekerjaan Pesanan | N | Y | missing | Job Costing | blocked: requires Job Costing |
-| Histori Pekerjaan Pesanan | `JobCostingHistoryDetailReport` | Pekerjaan Pesanan | N | Y | missing | Job Costing | blocked: requires Job Costing |
-| Penyelesaian Barang/Biaya per Bulan | `FinishedJobCostByMonth` | Pekerjaan Pesanan | N | Y | missing | Job Costing | blocked: requires Job Costing |
-| Rincian Jurnal Pekerjaan Pesanan | `JobCostingJournalDetailReport` | Pekerjaan Pesanan | N | Y | missing | Job Costing | blocked: requires Job Costing |
-| [Rincian Penambahan Bahan Baku](MaterialAdjustmentDetailReport.md) | `MaterialAdjustmentDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
-| [Rincian Barang Penyelesaian Pesanan ](RollOverItemDetailReport.md) | `RollOverItemDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
-| [Rincian Akun Penyelesaian Pesanan ](RollOverAccountDetailReport.md) | `RollOverAccountDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
-| [Daftar Pekerjaan Pesanan ](JobOrderListReport.md) | `JobOrderListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
-| [Daftar Penyelesaian Pesanan](RollOverListReport.md) | `RollOverListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
-| [Daftar Penambahan Bahan Baku](MaterialAdjustmentListReport.md) | `MaterialAdjustmentListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing |  |
+| [Bahan dan Biaya Pekerjaan per Bulan](JobCostingByMonthReport.md) | `JobCostingByMonthReport` | Pekerjaan Pesanan | N | Y | spec (Retail Demo) | Job Costing (out of scope, ADR-0010) | blocked: requires Job Costing (out of scope, ADR-0010) |
+| [Histori Pekerjaan Pesanan](JobCostingHistoryDetailReport.md) | `JobCostingHistoryDetailReport` | Pekerjaan Pesanan | N | Y | spec (Retail Demo) | Job Costing (out of scope, ADR-0010) | blocked: requires Job Costing (out of scope, ADR-0010) |
+| [Penyelesaian Barang/Biaya per Bulan](FinishedJobCostByMonth.md) | `FinishedJobCostByMonth` | Pekerjaan Pesanan | N | Y | spec (Retail Demo) | Job Costing (out of scope, ADR-0010) | blocked: requires Job Costing (out of scope, ADR-0010) |
+| [Rincian Jurnal Pekerjaan Pesanan](JobCostingJournalDetailReport.md) | `JobCostingJournalDetailReport` | Pekerjaan Pesanan | N | Y | spec (Retail Demo) | Job Costing (out of scope, ADR-0010) | blocked: requires Job Costing (out of scope, ADR-0010) |
+| [Rincian Penambahan Bahan Baku](MaterialAdjustmentDetailReport.md) | `MaterialAdjustmentDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
+| [Rincian Barang Penyelesaian Pesanan ](RollOverItemDetailReport.md) | `RollOverItemDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
+| [Rincian Akun Penyelesaian Pesanan ](RollOverAccountDetailReport.md) | `RollOverAccountDetailReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
+| [Daftar Pekerjaan Pesanan ](JobOrderListReport.md) | `JobOrderListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
+| [Daftar Penyelesaian Pesanan](RollOverListReport.md) | `RollOverListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
+| [Daftar Penambahan Bahan Baku](MaterialAdjustmentListReport.md) | `MaterialAdjustmentListReport` | Pekerjaan Pesanan | Y | Y | done (out of scope) | Job Costing (out of scope, ADR-0010) |  |
 | [Jurnal Perintah Kerja](WorkOrderJournalReport.md) | `WorkOrderJournalReport` | Manufaktur | Y | Y | done (out of scope) | Manufacturing |  |
 | [Penyesuaian Bahan (Harga Pokok Produksi)](AdjustmentCOGSManufactureReport.md) | `AdjustmentCOGSManufactureReport` | Manufaktur | Y | Y | done (out of scope) | Manufacturing |  |
 | [Pembelian (Harga Pokok Produksi)](PurchaseCOGSManufactureReport.md) | `PurchaseCOGSManufactureReport` | Manufaktur | Y | Y | done (out of scope) | Manufacturing |  |
@@ -280,15 +280,15 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Selisih Saldo Akun Persediaan dengan Nilai Barang](ItemValueToAccountBalanceDifferenceReport.md) | `ItemValueToAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
-| Perbedaan Persediaan Terkirim Pemindahan Barang | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | missing | Activity log | existing module; spec + verify |
-| Laporan Rincian Penyetuju Transaksi | `ApprovalListReport` | Pemeriksaan | N | Y | missing | Activity log | blocked: requires Approval workflow |
+| [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | partial | Activity log | existing module; spec + verify |
+| [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | partial | Activity log | blocked: requires Approval workflow |
 | [Selisih Akun Pembelian belum tertagih](UnbilledAccountBalanceDifferenceReport.md) | `UnbilledAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Daftar Mata Uang](CurrencyListReport.md) | `CurrencyListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar FOB](FreeOnBoardListReport.md) | `FreeOnBoardListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Pajak](TaxListReport.md) | `TaxListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Pengiriman](ShipmentListReport.md) | `ShipmentListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Karyawan](SalesmanListReport.md) | `SalesmanListReport` | Lain-lain | Y | Y | done | Master data |  |
-| Daftar Departemen | `DepartmentListReport` | Lain-lain | N | Y | missing | Master data | blocked: requires Department |
+| [Daftar Departemen](DepartmentListReport.md) | `DepartmentListReport` | Lain-lain | N | Y | spec (Retail Demo) | Master data | blocked: requires Department |
 | [Daftar Log Aktifitas](AuditListReport.md) | `AuditListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar Pengguna per Cabang](UserByBranchListReport.md) | `UserByBranchListReport` | Lain-lain | Y | Y | done (out of scope) | Master data |  |
 | [Daftar Akses Grup](AccessGroupPrivilegeListReport.md) | `AccessGroupPrivilegeListReport` | Lain-lain | Y | Y | done (out of scope) | Master data |  |

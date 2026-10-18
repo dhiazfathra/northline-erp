@@ -1,0 +1,32 @@
+{
+ "planId": "ProfitLossByDepartmentReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedDepartment": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"pYB3fLTd+gW149+FGcFX1A4s8osVlZdEAAABoVAdYbs=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Departemen harus diisi\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "pYB3fLTd+gW149+FGcFX1A4s8osVlZdEAAABoVAdYbs=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Departemen harus diisi"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

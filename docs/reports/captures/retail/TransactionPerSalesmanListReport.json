@@ -1,0 +1,660 @@
+{
+ "planId": "TransactionPerSalesmanListReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "10 Feb 2017"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "SI.2017.02.00005",
+   "17,600,000"
+  ],
+  [
+   "17,600,000"
+  ],
+  [
+   "Penerimaan Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "111.102-01.2017.02.00002",
+   "33,600,000"
+  ],
+  [
+   "33,600,000"
+  ],
+  [
+   "Pesanan Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "SO.2017.02.00002",
+   "17,600,000"
+  ],
+  [
+   "17,600,000"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SI.2017.02.00003",
+   "1,925,000"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "SI.2017.02.00007",
+   "6,600,000"
+  ],
+  [
+   "8,525,000"
+  ],
+  [
+   "Penerimaan Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "111.101-02.2017.02.00001",
+   "6,600,000"
+  ],
+  [
+   "6,600,000"
+  ],
+  [
+   "Pengiriman Pesanan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "DO.2017.02.00001",
+   "0"
+  ],
+  [
+   "0"
+  ],
+  [
+   "Pesanan Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SO.2017.02.00001",
+   "1,925,000"
+  ],
+  [
+   "1,925,000"
+  ],
+  [
+   "09 Feb 2017"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 6"
+  ],
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Penawaran Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SQ.2017.02.00001",
+   "1,925,000"
+  ],
+  [
+   "1,925,000"
+  ],
+  [
+   "29 Jan 2017"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "SI.2017.01.00010",
+   "64,350,000"
+  ],
+  [
+   "64,350,000"
+  ],
+  [
+   "17 Jan 2017"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SI.2017.01.00001",
+   "500,000"
+  ],
+  [
+   "Cinema Phone Cellular",
+   "Road agata Suite 9144 kentucy, IL 64598",
+   "SI.2017.01.00002",
+   "500,000"
+  ],
+  [
+   "1,000,000"
+  ],
+  [
+   "15 Jan 2017"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT Emas Sentosa",
+   "Jl. Raya Sawunggaling No. 1, Ds. Jemunpo, Kec. Taman, Sidoardjo",
+   "SI.2017.01.00007",
+   "216,000,000"
+  ],
+  [
+   "216,000,000"
+  ],
+  [
+   "10 Jan 2017"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT Kassakki Indo Baja",
+   "Parangloe Blok B No.8",
+   "SI.2017.01.00003",
+   "814,000"
+  ],
+  [
+   "814,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 2",
+   "dari 6"
+  ],
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "Penerimaan Penjualan"
+  ],
+  [
+   "PT Kassakki Indo Baja",
+   "111.202-01.2017.01.00001",
+   "794,000"
+  ],
+  [
+   "794,000"
+  ],
+  [
+   "05 Jan 2017"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Global Phone Jaya",
+   "ITC Roxy Mas Ground 4 431, Jakarta Pusat",
+   "SI.2017.01.00006",
+   "37,950,000"
+  ],
+  [
+   "37,950,000"
+  ],
+  [
+   "03 Jan 2017"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Pesanan Penjualan"
+  ],
+  [
+   "PT Sinar Bumi",
+   "Ruko Modernland Blok B 3 No. 354",
+   "SO.2017.01.00001",
+   "1,650,000"
+  ],
+  [
+   "1,650,000"
+  ],
+  [
+   "08 Des 2016"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT CIRCLE PHONE",
+   "Singapore Square, Asia Square Tow..., #23-01, 12 Marina View, 018961",
+   "SI.2016.12.00004",
+   "12,000"
+  ],
+  [
+   "12,000"
+  ],
+  [
+   "20 Nov 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Penerimaan Penjualan"
+  ],
+  [
+   "PT CIRCLE PHONE",
+   "111.102-03.2016.11.00001",
+   "10,730"
+  ],
+  [
+   "10,730"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 3",
+   "dari 6"
+  ],
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "18 Nov 2016"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Dimas seraya Accessories",
+   "Galaxy Mall Technozone No 19-20",
+   "SI.2016.11.00007",
+   "5,000,000"
+  ],
+  [
+   "Cinema Phone Cellular",
+   "Road agata Suite 9144 kentucy, IL 64598",
+   "SI.2017.02.00008",
+   "66,165"
+  ],
+  [
+   "5,066,165"
+  ],
+  [
+   "11 Nov 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT CIRCLE PHONE",
+   "Singapore Square, Asia Square Tow..., #23-01, 12 Marina View, 018961",
+   "SI.2016.11.00005",
+   "10,730"
+  ],
+  [
+   "10,730"
+  ],
+  [
+   "30 Okt 2016"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Penerimaan Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "111.102-01.2016.10.00004",
+   "2,484,000,000"
+  ],
+  [
+   "2,484,000,000"
+  ],
+  [
+   "15 Okt 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Surabaya",
+   "SI.2016.10.00005",
+   "26,000,000"
+  ],
+  [
+   "26,000,000"
+  ],
+  [
+   "Pengiriman Pesanan"
+  ],
+  [
+   "PT Galaxy Phone",
+   "Peakview Estate, 3, 3 Jalan Pari Dedap, 488606",
+   "DO.2017.02.00002",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 4",
+   "dari 6"
+  ],
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "0"
+  ],
+  [
+   "Pesanan Penjualan"
+  ],
+  [
+   "PT Galaxy Phone",
+   "Peakview Estate, 3, 3 Jalan Pari Dedap, 488606",
+   "SO.2016.10.00002",
+   "220"
+  ],
+  [
+   "220"
+  ],
+  [
+   "14 Okt 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Pesanan Penjualan"
+  ],
+  [
+   "PT Emas Sentosa",
+   "Jl. Raya Sawunggaling No. 1, Ds. Jemunpo, Kec. Taman, Sidoardjo",
+   "SO.2016.10.00001",
+   "3,300,000"
+  ],
+  [
+   "3,300,000"
+  ],
+  [
+   "12 Okt 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT Nusantara Indah",
+   "Jl. TB Simatupang KM 98, Jakarta Barat",
+   "SI.2017.02.00001",
+   "170,500,000"
+  ],
+  [
+   "170,500,000"
+  ],
+  [
+   "11 Okt 2016"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Pelanggan Umum - Jakarta",
+   "SI.2016.10.00004",
+   "26,000,000"
+  ],
+  [
+   "26,000,000"
+  ],
+  [
+   "10 Okt 2016"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SI.2016.10.00006",
+   "2,484,000,000"
+  ],
+  [
+   "2,484,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 5",
+   "dari 6"
+  ],
+  [
+   "Histori Transaksi per Penjual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Pelanggan",
+   "Alamat",
+   "No. Transaksi",
+   "Nilai"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT CIRCLE PHONE",
+   "Singapore Square, Asia Square Tow..., #23-01, 12 Marina View, 018961",
+   "SI.2016.10.00003",
+   "10,730"
+  ],
+  [
+   "10,730"
+  ],
+  [
+   "02 Okt 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "PT Emas Sentosa",
+   "Jl. Raya Sawunggaling No. 1, Ds. Jemunpo, Kec. Taman, Sidoardjo",
+   "SI.2016.10.00001",
+   "4,200,000"
+  ],
+  [
+   "4,200,000"
+  ],
+  [
+   "01 Okt 2016"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "Faktur Penjualan"
+  ],
+  [
+   "Abadi Phone Center",
+   "Jl. Raya Pabean Sedati 79",
+   "SI.2017.10.00001",
+   "20,350,000"
+  ],
+  [
+   "20,350,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 6",
+   "dari 6"
+  ]
+ ]
+}

@@ -1,0 +1,852 @@
+{
+ "planId": "SalesOrderDetailReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.10.00001",
+   "Sub Total",
+   ":",
+   "3,000,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "14 Okt 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Emas Sentosa",
+   "Total",
+   ":",
+   "3,300,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900002",
+   "Hard Case",
+   "25",
+   "120,000",
+   "3,000,000"
+  ],
+  [
+   "25",
+   "3,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 1",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.10.00002",
+   "Sub Total",
+   ":",
+   "200"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "15 Okt 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Galaxy Phone",
+   "Total",
+   ":",
+   "220"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Singapore Dollar",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900007",
+   "Charger Iphone 6 S",
+   "20",
+   "10",
+   "200"
+  ],
+  [
+   "20",
+   "200"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 2",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.10.00003",
+   "Sub Total",
+   ":",
+   "3,750,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "31 Okt 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Kapuk Kartika",
+   "Total",
+   ":",
+   "4,125,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "25",
+   "150,000",
+   "3,750,000"
+  ],
+  [
+   "25",
+   "3,750,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 3",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.11.00001",
+   "Sub Total",
+   ":",
+   "750,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "11 Nov 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Titik Terang",
+   "Total",
+   ":",
+   "825,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900016",
+   "Anti Gores Iphone 6S Plus",
+   "5",
+   "150,000",
+   "750,000"
+  ],
+  [
+   "5",
+   "750,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 4",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.11.00002",
+   "Sub Total",
+   ":",
+   "600,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "15 Nov 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Kapuk Kartika",
+   "Total",
+   ":",
+   "660,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900002",
+   "Hard Case",
+   "5",
+   "120,000",
+   "600,000"
+  ],
+  [
+   "5",
+   "600,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 5",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.12.00002",
+   "Sub Total",
+   ":",
+   "12,500,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "13 Des 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Abadi Phone Center",
+   "Total",
+   ":",
+   "13,750,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900016",
+   "Anti Gores Iphone 6S Plus",
+   "50",
+   "150,000",
+   "7,500,000"
+  ],
+  [
+   "9900014",
+   "Anti Gores Iphone 6",
+   "50",
+   "100,000",
+   "5,000,000"
+  ],
+  [
+   "100",
+   "12,500,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 6",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2016.12.00003",
+   "Sub Total",
+   ":",
+   "23,600,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "13 Des 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Cinema Phone Cellular",
+   "Total",
+   ":",
+   "25,960,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "5264003",
+   "Iphone 5 S 64 GB",
+   "4",
+   "5,900,000",
+   "23,600,000"
+  ],
+  [
+   "4",
+   "23,600,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 7",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2017.01.00001",
+   "Sub Total",
+   ":",
+   "1,500,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "03 Jan 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Sinar Bumi",
+   "Total",
+   ":",
+   "1,650,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "10",
+   "150,000",
+   "1,500,000"
+  ],
+  [
+   "10",
+   "1,500,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 8",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2017.01.00002",
+   "Sub Total",
+   ":",
+   "10,000,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "06 Jan 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Pelanggan Umum - Surabaya",
+   "Total",
+   ":",
+   "11,000,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "8800002",
+   "Connecter",
+   "50",
+   "200,000",
+   "10,000,000"
+  ],
+  [
+   "50",
+   "10,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 9",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2017.01.00003",
+   "Sub Total",
+   ":",
+   "4,250,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "15 Jan 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Pelanggan Umum - Surabaya",
+   "Total",
+   ":",
+   "4,675,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900005",
+   "Charger Samsung S6 Edge",
+   "25",
+   "170,000",
+   "4,250,000"
+  ],
+  [
+   "25",
+   "4,250,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 10",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2017.02.00001",
+   "Sub Total",
+   ":",
+   "1,750,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "10 Feb 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Abadi Phone Center",
+   "Total",
+   ":",
+   "1,925,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900012",
+   "Anti Gores Iphone 5",
+   "25",
+   "70,000",
+   "1,750,000"
+  ],
+  [
+   "25",
+   "1,750,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 11",
+   "dari 12"
+  ],
+  [
+   "Rincian Pesanan Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SO.2017.02.00002",
+   "Sub Total",
+   ":",
+   "16,000,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "10 Feb 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Pelanggan Umum - Jakarta",
+   "Total",
+   ":",
+   "17,600,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "No. PO",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "5164003",
+   "Iphone 5 64 GB",
+   "4",
+   "4,000,000",
+   "16,000,000"
+  ],
+  [
+   "4",
+   "16,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 12",
+   "dari 12"
+  ]
+ ]
+}

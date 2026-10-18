@@ -1,0 +1,78 @@
+{
+ "planId": "SalesOrderByItemReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Pesanan per Barang (Belum Proses)"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang], Filter berdasarkan : Status Pesanan Penjualan, Ditutup, Ditutup manual"
+  ],
+  [
+   "Nama Barang Barang & Jasa",
+   "Kts (Unit#1)",
+   "Kts Terproses",
+   "Total Harga"
+  ],
+  [
+   "Anti Gores Iphone 6S Plus",
+   "5",
+   "0",
+   "750,000"
+  ],
+  [
+   "Charger Iphone 6 S",
+   "20",
+   "5",
+   "200"
+  ],
+  [
+   "Connecter",
+   "50",
+   "10",
+   "10,000,000"
+  ],
+  [
+   "Flexcable",
+   "35",
+   "0",
+   "5,250,000"
+  ],
+  [
+   "Hard Case",
+   "30",
+   "2",
+   "3,600,000"
+  ],
+  [
+   "Total Nama Barang Barang & Jasa",
+   "140",
+   "17",
+   "19,600,200"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

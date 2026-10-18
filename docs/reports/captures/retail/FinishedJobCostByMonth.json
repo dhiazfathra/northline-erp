@@ -1,0 +1,68 @@
+{
+ "planId": "FinishedJobCostByMonth",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Penyelesaian Barang/Biaya per Bulan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Keterangan",
+   "Jan 2017",
+   "Des 2016",
+   "Total Bulan"
+  ],
+  [
+   "Kuantitas",
+   "Nilai Total",
+   "Kuantitas",
+   "Nilai Total",
+   "Kuantitas",
+   "Nilai Total"
+  ],
+  [
+   "Iphone 5 64 GB + Antigores",
+   "98",
+   "942,126,946.31",
+   "1",
+   "3,847,500",
+   "99",
+   "945,974,446.31"
+  ],
+  [
+   "Total Keterangan",
+   "98",
+   "942,126,946.31",
+   "1",
+   "3,847,500",
+   "99",
+   "945,974,446.31"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

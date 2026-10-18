@@ -1,0 +1,176 @@
+{
+ "dataUsaha": "Retail Demo",
+ "planId": "JobCostingHistoryDetailReport",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Histori Pekerjaan Pesanan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Batch No.",
+   ":",
+   "JC.2016.12.00001",
+   "Status",
+   ":",
+   "Selesai"
+  ],
+  [
+   "Tanggal Pekerjaan",
+   ":",
+   "07 Des 2016",
+   "Keterangan",
+   ":"
+  ],
+  [
+   "Tanggal Selesai",
+   ":",
+   "07 Des 2016",
+   "Total Pesanan",
+   ":",
+   "6,486,947.11"
+  ],
+  [
+   "Tanggal",
+   "Kode",
+   "Bahan dan Biaya",
+   "Kuantitas",
+   "Unit",
+   "Alokasi (%)",
+   "Biaya",
+   "Tipe Transaksi"
+  ],
+  [
+   "07 Des 2016",
+   "9900012",
+   "Anti Gores Iphone 5",
+   "1",
+   "PCS",
+   "47,500",
+   "Pengeluaran Barang"
+  ],
+  [
+   "07 Des 2016",
+   "5164003",
+   "Iphone 5 64 GB",
+   "1",
+   "PCS",
+   "6,439,447.11",
+   "Pengeluaran Barang"
+  ],
+  [
+   "07 Des 2016",
+   "5164003A",
+   "Iphone 5 64 GB + Antigores",
+   "1",
+   "PCS",
+   "100",
+   "3,847,500",
+   "Penyelesaian Pesanan"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "Histori Pekerjaan Pesanan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Batch No.",
+   ":",
+   "JC.2017.01.00001",
+   "Status",
+   ":",
+   "Selesai"
+  ],
+  [
+   "Tanggal Pekerjaan",
+   ":",
+   "02 Jan 2017",
+   "Keterangan",
+   ":"
+  ],
+  [
+   "Tanggal Selesai",
+   ":",
+   "15 Jan 2017",
+   "Total Pesanan",
+   ":",
+   "635,720,816.89"
+  ],
+  [
+   "Tanggal",
+   "Kode",
+   "Bahan dan Biaya",
+   "Kuantitas",
+   "Unit",
+   "Alokasi (%)",
+   "Biaya",
+   "Tipe Transaksi"
+  ],
+  [
+   "02 Jan 2017",
+   "9900012",
+   "Anti Gores Iphone 5",
+   "98",
+   "PCS",
+   "4,655,000",
+   "Pengeluaran Barang"
+  ],
+  [
+   "02 Jan 2017",
+   "5164003",
+   "Iphone 5 64 GB",
+   "98",
+   "PCS",
+   "631,065,816.89",
+   "Pengeluaran Barang"
+  ],
+  [
+   "15 Jan 2017",
+   "5164003A",
+   "Iphone 5 64 GB + Antigores",
+   "98",
+   "PCS",
+   "100",
+   "942,126,946.31",
+   "Penyelesaian Pesanan"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

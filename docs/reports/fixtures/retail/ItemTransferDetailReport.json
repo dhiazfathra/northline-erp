@@ -1,0 +1,2048 @@
+{
+ "dataUsaha": "Retail Demo",
+ "planId": "ItemTransferDetailReport",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00001"
+  ],
+  [
+   "10 Okt 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5116001",
+   "Iphone 5 16 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00002"
+  ],
+  [
+   "13 Okt 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5116001",
+   "Iphone 5 16 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 2",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00003"
+  ],
+  [
+   "13 Okt 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5264003",
+   "Iphone 5 S 64 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 3",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00004"
+  ],
+  [
+   "15 Okt 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5264003",
+   "Iphone 5 S 64 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 4",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00005"
+  ],
+  [
+   "20 Okt 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900007",
+   "Charger Iphone 6 S",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 5",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.10.00006"
+  ],
+  [
+   "22 Okt 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900007",
+   "Charger Iphone 6 S",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 6",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00001"
+  ],
+  [
+   "02 Nov 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "6212803",
+   "Iphone 6 S 128 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 7",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00002"
+  ],
+  [
+   "05 Nov 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "6212803",
+   "Iphone 6 S 128 GB",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 8",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00003"
+  ],
+  [
+   "05 Nov 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900005",
+   "Charger Samsung S6 Edge",
+   "60",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 9",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00004"
+  ],
+  [
+   "07 Nov 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900005",
+   "Charger Samsung S6 Edge",
+   "60",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 10",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00005"
+  ],
+  [
+   "13 Nov 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "6216001",
+   "Iphone 6 S 32 GB",
+   "35",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 11",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.11.00006"
+  ],
+  [
+   "15 Nov 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "6216001",
+   "Iphone 6 S 32 GB",
+   "35",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 12",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.12.00001"
+  ],
+  [
+   "11 Des 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900008",
+   "Charger Iphone 6S Plus",
+   "20",
+   "PCS"
+  ],
+  [
+   "9900013",
+   "Anti Gores Iphone 5S",
+   "20",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 13",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.12.00002"
+  ],
+  [
+   "13 Des 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "9900008",
+   "Charger Iphone 6S Plus",
+   "19",
+   "PCS"
+  ],
+  [
+   "9900013",
+   "Anti Gores Iphone 5S",
+   "20",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 14",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.12.00003"
+  ],
+  [
+   "13 Des 2016"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5232002",
+   "Iphone 5 S 32 GB",
+   "2",
+   "PCS"
+  ],
+  [
+   "5216001",
+   "Iphone 5 S 16 GB",
+   "3",
+   "PCS"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "10",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 15",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2016.12.00004.1"
+  ],
+  [
+   "15 Des 2016"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5232002",
+   "Iphone 5 S 32 GB",
+   "2",
+   "PCS"
+  ],
+  [
+   "5216001",
+   "Iphone 5 S 16 GB",
+   "3",
+   "PCS"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "10",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 16",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00001"
+  ],
+  [
+   "05 Jan 2017"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5232002",
+   "Iphone 5 S 32 GB",
+   "53",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 17",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00002"
+  ],
+  [
+   "07 Jan 2017"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5232002",
+   "Iphone 5 S 32 GB",
+   "53",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 18",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00003"
+  ],
+  [
+   "10 Jan 2017"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "30",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 19",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00004"
+  ],
+  [
+   "13 Jan 2017"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "8800003",
+   "Flexcable",
+   "30",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 20",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00005"
+  ],
+  [
+   "15 Jan 2017"
+  ],
+  [
+   "Kirim Barang"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5216001",
+   "Iphone 5 S 16 GB",
+   "35",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 21",
+   "dari 22"
+  ],
+  [
+   "Rincian Pemindahan Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "No. Pemindahan #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Proses Pemindahan Barang"
+  ],
+  [
+   "Gudang Tujuan/Dari"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IT.2017.01.00006"
+  ],
+  [
+   "17 Jan 2017"
+  ],
+  [
+   "Terima Barang"
+  ],
+  [
+   "GD. JAKARTA"
+  ],
+  [
+   "Alamat Tujuan/Dari"
+  ],
+  [
+   "Gudang"
+  ],
+  [
+   "Alamat Gudang"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia"
+  ],
+  [
+   "GD. SURABAYA"
+  ],
+  [
+   "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "5216001",
+   "Iphone 5 S 16 GB",
+   "35",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 22",
+   "dari 22"
+  ]
+ ]
+}

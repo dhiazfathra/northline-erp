@@ -1,0 +1,131 @@
+{
+ "planId": "SalesmanCommissionByInvoiceDetailReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "Rincian Komisi (Dihitung per Faktur)"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Nama Komisi Penjual",
+   "Permeriksaan syarat",
+   "Nilai Komisi"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "SI.2016.10.00006"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "173,880,000"
+  ],
+  [
+   "173,880,000"
+  ],
+  [
+   "SI.2017.02.00005"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "1,120,000"
+  ],
+  [
+   "1,120,000"
+  ],
+  [
+   "175,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "Rincian Komisi (Dihitung per Faktur)"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Nama Komisi Penjual",
+   "Permeriksaan syarat",
+   "Nilai Komisi"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "SI.2016.10.00003"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "7,115,343.05"
+  ],
+  [
+   "7,115,343.05"
+  ],
+  [
+   "SI.2017.01.00003"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "51,800"
+  ],
+  [
+   "51,800"
+  ],
+  [
+   "SI.2017.02.00003"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "122,500"
+  ],
+  [
+   "122,500"
+  ],
+  [
+   "SI.2017.02.00007"
+  ],
+  [
+   "Komisi Team",
+   "Syarat terpenuhi",
+   "420,000"
+  ],
+  [
+   "420,000"
+  ],
+  [
+   "7,709,643.05"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

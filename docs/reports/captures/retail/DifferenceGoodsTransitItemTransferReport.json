@@ -1,0 +1,32 @@
+{
+ "planId": "DifferenceGoodsTransitItemTransferReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "Perbedaan Persediaan Terkirim Pemindahan Barang"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Tanggal",
+   "No. Kirim #",
+   "No. Terima #",
+   "Selisih"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

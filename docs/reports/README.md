@@ -309,3 +309,5 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [out of scope](UserByBranchListReport.md) |
 | Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [out of scope](AccessGroupPrivilegeListReport.md) |
 | Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [out of scope](AccessPrivilegeByUserListReport.md) |
+
+New in 2026-10-19 (Retail Demo pass): 46 more specs, statuses and ERP dependencies in [_coverage.md](_coverage.md); build order proposed in ADR-0021.

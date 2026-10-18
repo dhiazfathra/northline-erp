@@ -1,0 +1,444 @@
+{
+ "dataUsaha": "Retail Demo",
+ "planId": "ProfitLossByBranchReport",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": [
+  [
+   "Laba/Rugi Cabang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Deskripsi",
+   "JAKARTA",
+   "SURABAYA",
+   "Total"
+  ],
+  [
+   "PENDAPATAN"
+  ],
+  [
+   "Penjualan",
+   "10,904,843,757.9",
+   "0",
+   "10,904,843,757.9"
+  ],
+  [
+   "Penjualan Handphone",
+   "10,680,403,757.9",
+   "0",
+   "10,680,403,757.9"
+  ],
+  [
+   "Penjualan Assesoris Handphone",
+   "221,190,000",
+   "0",
+   "221,190,000"
+  ],
+  [
+   "Pendapatan Jasa",
+   "3,250,000",
+   "0",
+   "3,250,000"
+  ],
+  [
+   "Retur Penjualan",
+   "-29,022,654.61",
+   "0",
+   "-29,022,654.61"
+  ],
+  [
+   "Retur Penjualan Handphone",
+   "-6,122,654.61",
+   "0",
+   "-6,122,654.61"
+  ],
+  [
+   "Retur Penjualan Assesoris Handphone",
+   "-22,900,000",
+   "0",
+   "-22,900,000"
+  ],
+  [
+   "Jumlah Pendapatan",
+   "10,875,821,103.29",
+   "0",
+   "10,875,821,103.29"
+  ],
+  [
+   "BEBAN POKOK PENJUALAN"
+  ],
+  [
+   "Beban Pokok Penjualan",
+   "7,055,471,537.09",
+   "0",
+   "7,055,471,537.09"
+  ],
+  [
+   "Beban Pokok Penjualan Handphone",
+   "6,871,837,492.74",
+   "0",
+   "6,871,837,492.74"
+  ],
+  [
+   "Beban Pokok Penjualan Assesoris Handphone",
+   "182,865,500",
+   "0",
+   "182,865,500"
+  ],
+  [
+   "Beban Selisih Nilai barang (Item Transfer)",
+   "768,544.36",
+   "0",
+   "768,544.36"
+  ],
+  [
+   "Potongan Pembelian",
+   "-75,000",
+   "-450,500",
+   "-525,500"
+  ],
+  [
+   "Potongan Pembelian Handphone",
+   "0",
+   "-450,500",
+   "-450,500"
+  ],
+  [
+   "Potongan Pembelian Assesoris Handphone",
+   "-75,000",
+   "0",
+   "-75,000"
+  ],
+  [
+   "Jumlah Beban Pokok Penjualan",
+   "7,055,396,537.09",
+   "-450,500",
+   "7,054,946,037.09"
+  ],
+  [
+   "LABA KOTOR",
+   "3,820,424,566.2",
+   "450,500",
+   "3,820,875,066.2"
+  ],
+  [
+   "BEBAN OPERASIONAL"
+  ],
+  [
+   "Beban",
+   "823,363,239.33",
+   "167,729,902.35",
+   "991,093,141.68"
+  ],
+  [
+   "Beban Penjualan",
+   "268,207,184",
+   "21,743,791.35",
+   "289,950,975.35"
+  ],
+  [
+   "Beban Komisi Penjualan",
+   "67,000,000",
+   "0",
+   "67,000,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "Laba/Rugi Cabang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Deskripsi",
+   "JAKARTA",
+   "SURABAYA",
+   "Total"
+  ],
+  [
+   "Beban Angkut Pembelian",
+   "88,320,000",
+   "546,295.35",
+   "88,866,295.35"
+  ],
+  [
+   "Beban Komunikasi",
+   "1,280,000",
+   "0",
+   "1,280,000"
+  ],
+  [
+   "Beban Tunjangan",
+   "28,073,184",
+   "20,852,496",
+   "48,925,680"
+  ],
+  [
+   "Beban Iklan",
+   "50,034,000",
+   "345,000",
+   "50,379,000"
+  ],
+  [
+   "Beban Perbaikan dan Perawatan Asset",
+   "33,500,000",
+   "0",
+   "33,500,000"
+  ],
+  [
+   "Beban Umum dan Administrasi",
+   "254,465,222",
+   "145,986,111",
+   "400,451,333"
+  ],
+  [
+   "Beban Gaji Umum & Admin",
+   "196,000,000",
+   "140,000,000",
+   "336,000,000"
+  ],
+  [
+   "Beban Listrik dan Air",
+   "3,350,000",
+   "2,750,000",
+   "6,100,000"
+  ],
+  [
+   "Beban Sewa",
+   "26,152,222",
+   "3,236,111",
+   "29,388,333"
+  ],
+  [
+   "Beban Alat Tulis Kantor",
+   "5,878,000",
+   "0",
+   "5,878,000"
+  ],
+  [
+   "Beban Rumah Tangga Kantor",
+   "23,085,000",
+   "0",
+   "23,085,000"
+  ],
+  [
+   "Beban Penyusutan",
+   "300,690,833.33",
+   "0",
+   "300,690,833.33"
+  ],
+  [
+   "Beban Penyusutan Bangunan",
+   "70,000,000",
+   "0",
+   "70,000,000"
+  ],
+  [
+   "Beban Penyusutan Kendaraan",
+   "198,583,333.33",
+   "0",
+   "198,583,333.33"
+  ],
+  [
+   "Beban Penyusutan Peralatan & Perlengkapan Kantor",
+   "32,107,500",
+   "0",
+   "32,107,500"
+  ],
+  [
+   "Jumlah Beban Operasional",
+   "823,363,239.33",
+   "167,729,902.35",
+   "991,093,141.68"
+  ],
+  [
+   "PENDAPATAN OPERASIONAL",
+   "2,997,061,326.87",
+   "-167,279,402.35",
+   "2,829,781,924.52"
+  ],
+  [
+   "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+  ],
+  [
+   "Pendapatan Non Operasional"
+  ],
+  [
+   "Pendapatan Diluar Usaha",
+   "33,682,946",
+   "12,663,900",
+   "46,346,846"
+  ],
+  [
+   "Pendapatan Bunga Bank",
+   "20,690,846",
+   "8,765,000",
+   "29,455,846"
+  ],
+  [
+   "Pendapatan Bunga Deposito",
+   "12,992,100",
+   "3,898,900",
+   "16,891,000"
+  ],
+  [
+   "Jumlah Pendapatan Non Operasional",
+   "33,682,946",
+   "12,663,900",
+   "46,346,846"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "Laba/Rugi Cabang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Deskripsi",
+   "JAKARTA",
+   "SURABAYA",
+   "Total"
+  ],
+  [
+   "Beban Non Operasional"
+  ],
+  [
+   "Biaya Diluar Usaha",
+   "80,985,058.69",
+   "52,500,000",
+   "133,485,058.69"
+  ],
+  [
+   "Biaya Administrasi Bank",
+   "2,255,741",
+   "0",
+   "2,255,741"
+  ],
+  [
+   "Biaya Zakat dan Donasi",
+   "20,000,000",
+   "0",
+   "20,000,000"
+  ],
+  [
+   "Bunga Pinjaman",
+   "363,750,000",
+   "52,500,000",
+   "416,250,000"
+  ],
+  [
+   "Biaya Selisih Pembiayaan Pesanan",
+   "-303,766,682.31",
+   "0",
+   "-303,766,682.31"
+  ],
+  [
+   "Biaya Selisih Penyesuaian Persediaan",
+   "-1,254,000",
+   "0",
+   "-1,254,000"
+  ],
+  [
+   "Laba/Rugi Selisih Kurs",
+   "-421,154,587.26",
+   "-80,042.88",
+   "-421,234,630.14"
+  ],
+  [
+   "Laba/Rugi Selisih Kurs Terealisasi SGD",
+   "0",
+   "-80,042.88",
+   "-80,042.88"
+  ],
+  [
+   "Laba/Rugi Selisih Kurs Belum Terealisasi USD",
+   "-352,492,150",
+   "0",
+   "-352,492,150"
+  ],
+  [
+   "Laba/Rugi Selisih Kurs Belum Terealisasi SGD",
+   "-68,662,437.26",
+   "0",
+   "-68,662,437.26"
+  ],
+  [
+   "Jumlah Beban Non Operasional",
+   "-340,169,528.57",
+   "52,419,957.12",
+   "-287,749,571.45"
+  ],
+  [
+   "Jumlah Pendapatan dan Beban Non Operasional",
+   "373,852,474.57",
+   "-39,756,057.12",
+   "334,096,417.45"
+  ],
+  [
+   "LABA BERSIH (Sebelum Pajak)",
+   "3,370,913,801.44",
+   "-207,035,459.47",
+   "3,163,878,341.97"
+  ],
+  [
+   "LABA BERSIH (Setelah Pajak)",
+   "3,370,913,801.44",
+   "-207,035,459.47",
+   "3,163,878,341.97"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

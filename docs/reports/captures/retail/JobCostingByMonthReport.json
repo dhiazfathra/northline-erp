@@ -1,0 +1,67 @@
+{
+ "planId": "JobCostingByMonthReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Bahan dan Biaya Pekerjaan per Bulan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Bahan dan Biaya",
+   "Jan 2017",
+   "Des 2016",
+   "Total Bulan"
+  ],
+  [
+   "Kuantitas",
+   "Biaya",
+   "Kuantitas",
+   "Biaya",
+   "Kuantitas",
+   "Biaya"
+  ],
+  [
+   "Anti Gores Iphone 5",
+   "98",
+   "4,655,000",
+   "1",
+   "47,500",
+   "99",
+   "4,702,500"
+  ],
+  [
+   "Iphone 5 64 GB",
+   "98",
+   "631,065,816.89",
+   "1",
+   "6,439,447.11",
+   "99",
+   "637,505,264"
+  ],
+  [
+   "Total Bahan dan Biaya",
+   "196",
+   "635,720,816.89",
+   "2",
+   "6,486,947.11",
+   "198",
+   "642,207,764"
+  ]
+ ]
+}

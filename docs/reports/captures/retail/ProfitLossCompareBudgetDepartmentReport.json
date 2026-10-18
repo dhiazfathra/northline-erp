@@ -1,0 +1,297 @@
+{
+ "planId": "ProfitLossCompareBudgetDepartmentReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2016,
+  "periodEndMonth": "12",
+  "periodEndYear": 2016,
+  "selectedDepartment": [
+   {
+    "id": 101,
+    "name": "Head Office"
+   }
+  ],
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true,
+  "showTotal": false
+ },
+ "rows": [
+  [
+   "Laba/Rugi Departemen (Perbandingan Anggaran)"
+  ],
+  [
+   "Dari Periode Januari 2016 s/d Desember 2016"
+  ],
+  [
+   "Departemen : Head Office"
+  ],
+  [
+   "Deskripsi",
+   "Aktual (IDR)",
+   "Anggaran",
+   "Variance",
+   "% Var."
+  ],
+  [
+   "PENDAPATAN"
+  ],
+  [
+   "Penjualan",
+   "138,080,000",
+   "0",
+   "138,080,000",
+   "100 %"
+  ],
+  [
+   "Penjualan Handphone",
+   "112,080,000",
+   "0",
+   "112,080,000",
+   "100 %"
+  ],
+  [
+   "Penjualan Assesoris Handphone",
+   "26,000,000",
+   "0",
+   "26,000,000",
+   "100 %"
+  ],
+  [
+   "Retur Penjualan",
+   "-26,800,000",
+   "0",
+   "-26,800,000",
+   "100 %"
+  ],
+  [
+   "Retur Penjualan Handphone",
+   "-22,800,000",
+   "0",
+   "-22,800,000",
+   "100 %"
+  ],
+  [
+   "Retur Penjualan Assesoris Handphone",
+   "-4,000,000",
+   "0",
+   "-4,000,000",
+   "100 %"
+  ],
+  [
+   "Jumlah Pendapatan",
+   "111,280,000",
+   "0",
+   "111,280,000",
+   "100 %"
+  ],
+  [
+   "BEBAN POKOK PENJUALAN"
+  ],
+  [
+   "Beban Pokok Penjualan",
+   "79,819,010.84",
+   "0",
+   "79,819,010.84",
+   "100 %"
+  ],
+  [
+   "Beban Pokok Penjualan Handphone",
+   "58,919,010.84",
+   "0",
+   "58,919,010.84",
+   "100 %"
+  ],
+  [
+   "Beban Pokok Penjualan Assesoris Handphone",
+   "20,900,000",
+   "0",
+   "20,900,000",
+   "100 %"
+  ],
+  [
+   "Jumlah Beban Pokok Penjualan",
+   "79,819,010.84",
+   "0",
+   "79,819,010.84",
+   "100 %"
+  ],
+  [
+   "LABA KOTOR",
+   "31,460,989.16",
+   "0",
+   "31,460,989.16",
+   "100 %"
+  ],
+  [
+   "BEBAN OPERASIONAL"
+  ],
+  [
+   "Beban",
+   "75,365,000",
+   "0",
+   "75,365,000",
+   "100 %"
+  ],
+  [
+   "Beban Umum dan Administrasi",
+   "8,400,000",
+   "0",
+   "8,400,000",
+   "100 %"
+  ],
+  [
+   "Beban Listrik dan Air",
+   "6,100,000",
+   "0",
+   "6,100,000",
+   "100 %"
+  ],
+  [
+   "Beban Sewa",
+   "2,300,000",
+   "0",
+   "2,300,000",
+   "100 %"
+  ],
+  [
+   "Beban Penyusutan",
+   "66,965,000",
+   "0",
+   "66,965,000",
+   "100 %"
+  ],
+  [
+   "Beban Penyusutan Bangunan",
+   "52,500,000",
+   "0",
+   "52,500,000",
+   "100 %"
+  ],
+  [
+   "Beban Penyusutan Peralatan & Perlengkapan Kantor",
+   "14,465,000",
+   "0",
+   "14,465,000",
+   "100 %"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:49"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "Laba/Rugi Departemen (Perbandingan Anggaran)"
+  ],
+  [
+   "Dari Periode Januari 2016 s/d Desember 2016"
+  ],
+  [
+   "Departemen : Head Office"
+  ],
+  [
+   "Deskripsi",
+   "Aktual (IDR)",
+   "Anggaran",
+   "Variance",
+   "% Var."
+  ],
+  [
+   "Jumlah Beban Operasional",
+   "75,365,000",
+   "0",
+   "75,365,000",
+   "100 %"
+  ],
+  [
+   "PENDAPATAN OPERASIONAL",
+   "-43,904,010.84",
+   "0",
+   "-43,904,010.84",
+   "100 %"
+  ],
+  [
+   "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+  ],
+  [
+   "Pendapatan Non Operasional"
+  ],
+  [
+   "Pendapatan Diluar Usaha",
+   "35,996,000",
+   "0",
+   "35,996,000",
+   "100 %"
+  ],
+  [
+   "Pendapatan Bunga Bank",
+   "19,105,000",
+   "0",
+   "19,105,000",
+   "100 %"
+  ],
+  [
+   "Pendapatan Bunga Deposito",
+   "16,891,000",
+   "0",
+   "16,891,000",
+   "100 %"
+  ],
+  [
+   "Jumlah Pendapatan Non Operasional",
+   "35,996,000",
+   "0",
+   "35,996,000",
+   "100 %"
+  ],
+  [
+   "Beban Non Operasional"
+  ],
+  [
+   "Jumlah Beban Non Operasional",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Pendapatan dan Beban Non Operasional",
+   "35,996,000",
+   "0",
+   "35,996,000",
+   "100 %"
+  ],
+  [
+   "LABA BERSIH (Sebelum Pajak)",
+   "-7,908,010.84",
+   "0",
+   "-7,908,010.84",
+   "100 %"
+  ],
+  [
+   "LABA BERSIH (Setelah Pajak)",
+   "-7,908,010.84",
+   "0",
+   "-7,908,010.84",
+   "100 %"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:49"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

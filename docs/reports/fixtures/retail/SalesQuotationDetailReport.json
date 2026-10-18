@@ -1,0 +1,227 @@
+{
+ "dataUsaha": "Retail Demo",
+ "planId": "SalesQuotationDetailReport",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Rincian Penawaran Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SQ.2016.12.00001",
+   "Sub Total",
+   ":",
+   "12,500,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "13 Des 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Abadi Phone Center",
+   "Total",
+   ":",
+   "13,750,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900016",
+   "Anti Gores Iphone 6S Plus",
+   "50",
+   "150,000",
+   "7,500,000"
+  ],
+  [
+   "9900014",
+   "Anti Gores Iphone 6",
+   "50",
+   "100,000",
+   "5,000,000"
+  ],
+  [
+   "100",
+   "12,500,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "Rincian Penawaran Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SQ.2016.12.00002",
+   "Sub Total",
+   ":",
+   "23,600,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "13 Des 2016",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Cinema Phone Cellular",
+   "Total",
+   ":",
+   "25,960,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "5264003",
+   "Iphone 5 S 64 GB",
+   "4",
+   "5,900,000",
+   "23,600,000"
+  ],
+  [
+   "4",
+   "23,600,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "Rincian Penawaran Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SQ.2017.02.00001",
+   "Sub Total",
+   ":",
+   "1,750,000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "09 Feb 2017",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "Abadi Phone Center",
+   "Total",
+   ":",
+   "1,925,000"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "9900012",
+   "Anti Gores Iphone 5",
+   "25",
+   "70,000",
+   "1,750,000"
+  ],
+  [
+   "25",
+   "1,750,000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

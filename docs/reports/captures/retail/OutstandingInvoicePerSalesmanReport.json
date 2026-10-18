@@ -1,0 +1,242 @@
+{
+ "planId": "OutstandingInvoicePerSalesmanReport",
+ "dataUsaha": "Retail Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "Faktur Belum Lunas per Penjual"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Jatuh Tempo",
+   "Pelanggan",
+   "Total",
+   "Piutang",
+   "Umur (hr)"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "SI.2016.10.00004",
+   "11 Okt 2016",
+   "11 Okt 2016",
+   "Pelanggan Umum - Jakarta",
+   "26,000,000",
+   "6,000,000",
+   "8,847"
+  ],
+  [
+   "SI.2016.11.00007",
+   "18 Nov 2016",
+   "18 Nov 2016",
+   "Dimas seraya Accessories",
+   "5,000,000",
+   "4,200,000",
+   "8,809"
+  ],
+  [
+   "SI.2017.01.00006",
+   "05 Jan 2017",
+   "05 Jan 2017",
+   "Global Phone Jaya",
+   "37,950,000",
+   "37,950,000",
+   "8,761"
+  ],
+  [
+   "SI.2017.01.00001",
+   "17 Jan 2017",
+   "17 Jan 2017",
+   "Abadi Phone Center",
+   "500,000",
+   "500,000",
+   "8,749"
+  ],
+  [
+   "SI.2017.01.00002",
+   "17 Jan 2017",
+   "17 Jan 2017",
+   "Cinema Phone Cellular",
+   "500,000",
+   "500,000",
+   "8,749"
+  ],
+  [
+   "SI.2017.01.00010",
+   "29 Jan 2017",
+   "29 Jan 2017",
+   "Pelanggan Umum - Jakarta",
+   "64,350,000",
+   "64,350,000",
+   "8,737"
+  ],
+  [
+   "134,300,000",
+   "113,500,000"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "SI.2017.10.00001",
+   "01 Okt 2016",
+   "01 Okt 2016",
+   "Abadi Phone Center",
+   "20,350,000",
+   "8,140,000",
+   "8,857"
+  ],
+  [
+   "SI.2016.10.00001",
+   "02 Okt 2016",
+   "02 Okt 2016",
+   "PT Emas Sentosa",
+   "4,200,000",
+   "4,200,000",
+   "8,856"
+  ],
+  [
+   "SI.2017.02.00001",
+   "12 Okt 2016",
+   "12 Okt 2016",
+   "PT Nusantara Indah",
+   "170,500,000",
+   "89,900,000",
+   "8,846"
+  ],
+  [
+   "SI.2016.10.00005",
+   "15 Okt 2016",
+   "15 Okt 2016",
+   "Pelanggan Umum - Surabaya",
+   "26,000,000",
+   "22,000,000",
+   "8,843"
+  ],
+  [
+   "SI.2017.01.00007",
+   "15 Jan 2017",
+   "15 Jan 2017",
+   "PT Emas Sentosa",
+   "216,000,000",
+   "216,000,000",
+   "8,751"
+  ],
+  [
+   "437,050,000",
+   "340,240,000"
+  ],
+  [
+   "Singapore Dollar"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "SI.2016.12.00004",
+   "08 Des 2016",
+   "08 Des 2016",
+   "PT CIRCLE PHONE",
+   "12,000",
+   "7,200",
+   "8,789"
+  ],
+  [
+   "12,000",
+   "7,200"
+  ],
+  [
+   "Jhonni Haris"
+  ],
+  [
+   "SI.2016.11.00005",
+   "11 Nov 2016",
+   "11 Nov 2016",
+   "PT CIRCLE PHONE",
+   "10,730",
+   "10,730",
+   "8,816"
+  ],
+  [
+   "10,730",
+   "10,730"
+  ],
+  [
+   "US Dollar"
+  ],
+  [
+   "Adam"
+  ],
+  [
+   "SI.2017.02.00008",
+   "18 Nov 2016",
+   "18 Nov 2016",
+   "Cinema Phone Cellular",
+   "66,165",
+   "60,150",
+   "8,809"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "Faktur Belum Lunas per Penjual"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Jatuh Tempo",
+   "Pelanggan",
+   "Total",
+   "Piutang",
+   "Umur (hr)"
+  ],
+  [
+   "66,165",
+   "60,150"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 00:44"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}
