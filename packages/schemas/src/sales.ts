@@ -6,7 +6,7 @@ import { amountToCents, isoDate } from './ledger-es'
 const code = z.string().trim().min(1).max(60)
 
 export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code })
-export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code })
+export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional() })
 
 export const salesInvoiceInput = z.object({
   idempotencyKey: z.string().min(8),
@@ -32,3 +32,30 @@ export const salesReceiptInput = z.object({
   payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
 })
 export type SalesReceiptInput = z.input<typeof salesReceiptInput>
+
+// Purchases mirror sales (ADR-0005): Dr item expense / Cr vendor payable; payment Dr payable / Cr bank.
+export const vendorInput = z.object({ no: code, name: z.string().trim().min(1), apAccount: code })
+export const purchaseInvoiceInput = z.object({
+  idempotencyKey: z.string().min(8),
+  /** Omitted → PI.yyyy.mm.nnnnn */
+  number: code.optional(),
+  vendor: code,
+  /** The vendor's own invoice number; unique per vendor. */
+  bill: code,
+  date: isoDate,
+  dueDate: isoDate.optional(),
+  description: z.string().default(''),
+  lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
+})
+export type PurchaseInvoiceInput = z.input<typeof purchaseInvoiceInput>
+export const purchasePaymentInput = z.object({
+  idempotencyKey: z.string().min(8),
+  /** Omitted → <bank account no>.yyyy.mm.nnnnn (shared with receipts of the same bank) */
+  number: code.optional(),
+  vendor: code,
+  bank: code,
+  date: isoDate,
+  description: z.string().default(''),
+  payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
+})
+export type PurchasePaymentInput = z.input<typeof purchasePaymentInput>

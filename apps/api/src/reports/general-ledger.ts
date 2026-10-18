@@ -11,11 +11,12 @@ const CREDIT_NORMAL: ReadonlySet<AccountType> = new Set([
 /** "Dinormalkan": positive on the account's normal side. */
 const normalized = (type: AccountType, net: number) => (CREDIT_NORMAL.has(type) ? -net : net)
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
+// Row dates abbreviate August as "Agt"; period headers ("s/d 31 Agu 2033") use "Agu" — both verified (purchase-t3.json).
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des']
 export const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${MONTHS[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const row = (...cells: string[]) => cells.filter(c => c !== '')
-const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan' }
+const SOURCE_LABEL: Record<string, string> = { JV: 'Jurnal Umum', SI: 'Faktur Penjualan', SR: 'Penerimaan Penjualan', PI: 'Faktur Pembelian', PP: 'Pembayaran Pembelian' }
 /** Tipe Transaksi printed for a journal's source document. */
 export const typeLabel = (j: Pick<Journal, 'sourceType'>) => SOURCE_LABEL[j.sourceType ?? 'JV']!
 

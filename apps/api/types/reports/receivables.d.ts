@@ -31,7 +31,21 @@ export interface SalesData {
     customers: Map<string, string>;
     invoices: Invoice[];
     receipts: Receipt[];
+    labels?: Labels;
 }
+/** Words that differ between the receivable (Piutang) and payable (Utang) versions of the same report. */
+export interface Labels {
+    party: string;
+    partyName: string;
+    balance: string;
+    invoice: string;
+    payment: string;
+    docNo: string;
+    sales: string;
+    historyValue: string;
+}
+export declare const AR: Labels;
+export declare const AP: Labels;
 /** Daftar Faktur Penjualan */
 export declare function salesInvoiceList(d: SalesData, from: string, to: string): string[][];
 /** Penjualan per Pelanggan */
@@ -46,6 +60,22 @@ export declare function arHistory(d: SalesData, from: string, to: string): strin
 export declare function customerStatement(d: SalesData, from: string, to: string): string[][];
 /** Faktur Belum Lunas: per customer (by name), unpaid invoices at `asOf` with age in days from the due date. */
 export declare function outstandingInvoices(d: SalesData, asOf: string): string[][];
+export declare const BUCKETS: string[];
+export declare function openInvoices(d: SalesData, asOf: string, customer: string): {
+    number: string;
+    customer: string;
+    date: string;
+    dueDate: string;
+    description: string;
+    total: number;
+    lines?: InvoiceLine[];
+    owing: number;
+    age: number;
+}[];
+export declare const spread: (xs: {
+    owing: number;
+    age: number;
+}[]) => number[];
 /** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
 export declare function agingReceivable(d: SalesData, asOf: string): string[][];
 /** Rincian Umur Piutang */

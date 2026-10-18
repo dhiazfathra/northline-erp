@@ -3,7 +3,7 @@ import type { Decider } from '../es/store'
 
 export class DomainError extends Error {}
 
-type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR'; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
+type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP'; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
 type ReverseCmd = { type: 'Reverse'; reversalJournalId: string; date: string; reason: string }
 
 export type JournalState =

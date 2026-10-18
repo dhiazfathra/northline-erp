@@ -6,7 +6,13 @@ import { formatIdr } from './trial-balance'
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
 export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
-export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[] }
+export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; labels?: Labels }
+
+/** Words that differ between the receivable (Piutang) and payable (Utang) versions of the same report. */
+export interface Labels { party: string; partyName: string; balance: string; invoice: string; payment: string; docNo: string; sales: string; historyValue: string }
+export const AR: Labels = { party: 'Pelanggan', partyName: 'Nama Pelanggan', balance: 'Piutang', invoice: 'Faktur Penjualan', payment: 'Penerimaan Penjualan', docNo: 'Nomor #', sales: 'Penjualan', historyValue: 'Nilai' }
+export const AP: Labels = { party: 'Pemasok', partyName: 'Nama Pemasok', balance: 'Utang', invoice: 'Faktur Pembelian', payment: 'Pembayaran Pembelian', docNo: 'No Form #', sales: 'Pembelian', historyValue: 'Utang' }
+const L = (d: SalesData) => d.labels ?? AR
 
 const CURRENCY = 'Indonesian Rupiah'
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
@@ -27,7 +33,7 @@ const activeCustomers = (d: SalesData, from: string, to: string) =>
 
 /** Daftar Faktur Penjualan */
 export function salesInvoiceList(d: SalesData, from: string, to: string): string[][] {
-  return [['Nomor #', 'Tanggal', 'Pelanggan', 'Total'],
+  return [['Nomor #', 'Tanggal', L(d).party, 'Total'],
     ...d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
       .map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, formatIdr(i.total)])]
 }
@@ -41,7 +47,7 @@ export function salesByCustomer(d: SalesData, from: string, to: string): string[
 /** Penerimaan Penjualan: newest first; cheque date = receipt date (no cheque number printed when empty). */
 export function salesReceiptList(d: SalesData, from: string, to: string): string[][] {
   const rs = d.receipts.filter(r => inRange(r, from, to)).sort((a, b) => (a.date + a.number > b.date + b.number ? -1 : 1))
-  return [['Nomor #', 'Tanggal', 'No. Cek', 'Tanggal Cek', 'Pelanggan', 'Nilai Pembayaran'], [CURRENCY],
+  return [['Nomor #', 'Tanggal', 'No. Cek', 'Tanggal Cek', L(d).party, 'Nilai Pembayaran'], [CURRENCY],
     ...rs.map(r => [r.number, fmtDate(r.date), fmtDate(r.date), d.customers.get(r.customer)!, formatIdr(r.amount)]),
     [formatIdr(rs.reduce((s, r) => s + r.amount, 0))]]
 }
@@ -55,17 +61,17 @@ export function arLedger(d: SalesData, from: string, to: string): string[][] {
     return [d.customers.get(c)!, open, inv, pay, 0, 0, 0, open + inv - pay] as const
   })
   const sum = (i: number) => rows.reduce((s, r) => s + (r[i] as number), 0)
-  return [['Nama Pelanggan', 'Saldo Awal', 'Faktur', 'Pembayaran', 'Retur', 'Uang Muka', 'Jurnal Umum', 'Saldo Akhir'], [CURRENCY],
+  return [[L(d).partyName, 'Saldo Awal', 'Faktur', 'Pembayaran', 'Retur', 'Uang Muka', 'Jurnal Umum', 'Saldo Akhir'], [CURRENCY],
     ...rows.map(([n, ...v]) => [n, ...v.map(x => formatIdr(x as number))]), [1, 2, 3, 4, 5, 6, 7].map(i => formatIdr(sum(i)))]
 }
 
 /** Histori Piutang */
 export function arHistory(d: SalesData, from: string, to: string): string[][] {
-  const out: string[][] = [['Nomor #', 'Tanggal', 'Deskripsi', 'Nilai'], [CURRENCY]]
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Deskripsi', L(d).historyValue], [CURRENCY]]
   let grand = 0
   for (const c of activeCustomers(d, from, to)) {
     let bal = balanceBefore(d, c, from)
-    out.push([d.customers.get(c)!], [`Saldo Piutang per ${fmtDate(dayBefore(from))}`, formatIdr(bal)])
+    out.push([d.customers.get(c)!], [`Saldo ${L(d).balance} per ${fmtDate(dayBefore(from))}`, formatIdr(bal)])
     for (const m of movements(d, c).filter(m => inRange(m, from, to))) { bal += m.amount; out.push([m.number, fmtDate(m.date), m.description, formatIdr(m.amount)]) }
     out.push([formatIdr(bal)]); grand += bal
   }
@@ -78,9 +84,9 @@ export function customerStatement(d: SalesData, from: string, to: string): strin
   const out: string[][] = []
   for (const c of activeCustomers(d, from, to)) {
     let bal = balanceBefore(d, c, from), inc = 0, dec = 0
-    out.push(['Pelanggan', ':', d.customers.get(c)!, 'Email', ':'], ['Handphone', ':', 'Alamat', ':'], ['Faximili', ':'],
+    out.push([L(d).party, ':', d.customers.get(c)!, 'Email', ':'], ['Handphone', ':', 'Alamat', ':'], ['Faximili', ':'],
       ['Nomor #', 'Tanggal', 'Deskripsi', 'Bertambah', 'Berkurang', 'Saldo'], [CURRENCY],
-      [`Saldo Piutang per ${fmtDate(dayBefore(from))}`, '0', '0', formatIdr(bal)])
+      [`Saldo ${L(d).balance} per ${fmtDate(dayBefore(from))}`, '0', '0', formatIdr(bal)])
     for (const m of movements(d, c).filter(m => inRange(m, from, to))) {
       const up = Math.max(m.amount, 0), down = Math.max(-m.amount, 0)
       bal += m.amount; inc += up; dec += down
@@ -110,16 +116,16 @@ export function outstandingInvoices(d: SalesData, asOf: string): string[][] {
 }
 
 // ---- aging ----
-const BUCKETS = ['Blm Tempo', '1 - 30', '31 - 60', '61 - 90', '91 - 120', '&gt; 120']
+export const BUCKETS = ['Blm Tempo', '1 - 30', '31 - 60', '61 - 90', '91 - 120', '&gt; 120']
 /** Bucket index by days past due: not yet due, 1–30, 31–60, 61–90, 91–120, >120. */
 const bucket = (age: number) => (age <= 0 ? 0 : age <= 30 ? 1 : age <= 60 ? 2 : age <= 90 ? 3 : age <= 120 ? 4 : 5)
 
-function openInvoices(d: SalesData, asOf: string, customer: string) {
+export function openInvoices(d: SalesData, asOf: string, customer: string) {
   const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
   return d.invoices.filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number), age: days(i.dueDate, asOf) }))
     .filter(i => i.owing > 0).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
-const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
+export const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
 
 /** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
 export function agingReceivable(d: SalesData, asOf: string): string[][] {
@@ -145,15 +151,15 @@ export function agingReceivableDetail(d: SalesData, asOf: string): string[][] {
 
 /** Rincian Buku Besar Pembantu Piutang: per customer, opening, then documents grouped by type with subtotals. */
 export function arLedgerDetail(d: SalesData, from: string, to: string): string[][] {
-  const out: string[][] = [['Nomor #', 'Tanggal', 'Deskripsi', 'Piutang'], [CURRENCY]]
+  const out: string[][] = [[L(d).docNo, 'Tanggal', 'Deskripsi', L(d).balance], [CURRENCY]]
   let grand = 0
   for (const c of activeCustomers(d, from, to)) {
     const open = balanceBefore(d, c, from), prev = fmtDate(dayBefore(from))
-    out.push([d.customers.get(c)!], ['-'], [prev, `Saldo Piutang per ${prev}`, formatIdr(open)], [formatIdr(open)])
+    out.push([d.customers.get(c)!], ['-'], [prev, `Saldo ${L(d).balance} per ${prev}`, formatIdr(open)], [formatIdr(open)])
     let bal = open
     const groups: [string, { number: string; date: string; description: string; amount: number }[]][] = [
-      ['Faktur Penjualan', d.invoices.filter(i => i.customer === c && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total }))],
-      ['Penerimaan Penjualan', d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
+      [L(d).invoice, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total }))],
+      [L(d).payment, d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
     ]
     for (const [label, docs] of groups) {
       if (!docs.length) continue

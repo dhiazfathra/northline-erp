@@ -1,0 +1,2665 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. Window Jul–Aug 2033 (as-of reports at 15 Sep 2033). Sandbox 2026 payables of other vendors appear in as-of reports; compare NL-T3 blocks.",
+ "accounts": [
+  {
+   "no": "210101",
+   "name": "Hutang Usaha IDR",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "NL-T3-V1",
+   "name": "NL-T3 Pemasok A",
+   "apAccount": "210101"
+  },
+  {
+   "no": "NL-T3-V2",
+   "name": "NL-T3 Pemasok B",
+   "apAccount": "210101"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-T2-S1",
+   "name": "NL-T2 Jasa Konsultasi",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "400001",
+   "expenseAccount": "600020"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T3-P1",
+   "number": "PI.2033.07.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T3-P1",
+   "date": "2033-07-05",
+   "description": "NL-T3-P1",
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "qty": 3,
+     "price": 200000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T3-P2",
+   "number": "PI.2033.07.00002",
+   "vendor": "NL-T3-V2",
+   "bill": "NL-T3-P2",
+   "date": "2033-07-12",
+   "description": "NL-T3-P2",
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "qty": 5,
+     "price": 90000
+    }
+   ]
+  },
+  {
+   "kind": "PurchasePayment",
+   "ref": "NL-T3-W1",
+   "number": "NL-T1-1101.2033.07.00001",
+   "vendor": "NL-T3-V1",
+   "bank": "NL-T1-1101",
+   "date": "2033-07-25",
+   "description": "NL-T3-W1",
+   "payments": [
+    {
+     "invoice": "PI.2033.07.00001",
+     "amount": 400000
+    }
+   ]
+  },
+  {
+   "kind": "PurchasePayment",
+   "ref": "NL-T3-W2",
+   "number": "NL-T1-1101.2033.08.00001",
+   "vendor": "NL-T3-V2",
+   "bank": "NL-T1-1101",
+   "date": "2033-08-10",
+   "description": "NL-T3-W2",
+   "payments": [
+    {
+     "invoice": "PI.2033.07.00002",
+     "amount": 450000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T3-P3",
+   "number": "PI.2033.08.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T3-P3",
+   "date": "2033-08-20",
+   "description": "NL-T3-P3",
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "qty": 2,
+     "price": 150000
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "APHistoryReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Utang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Utang"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "Saldo Utang per 30 Jun 2033",
+     "0"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3-P1",
+     "600.000"
+    ],
+    [
+     "NL-T1-1101.2033.07.00001",
+     "25 Jul 2033",
+     "NL-T3-W1",
+     "-400.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3-P3",
+     "300.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "NL-T3 Pemasok B"
+    ],
+    [
+     "Saldo Utang per 30 Jun 2033",
+     "0"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3-P2",
+     "450.000"
+    ],
+    [
+     "NL-T1-1101.2033.08.00001",
+     "10 Agt 2033",
+     "NL-T3-W2",
+     "-450.000"
+    ],
+    [
+     "0"
+    ],
+    [
+     "500.000"
+    ]
+   ]
+  },
+  "APLedgerDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "showOnlyHasTransaction": true
+   },
+   "rows": [
+    [
+     "Rincian Buku Besar Pembantu Utang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "No Form #",
+     "Tanggal",
+     "Deskripsi",
+     "Utang"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "-"
+    ],
+    [
+     "30 Jun 2033",
+     "Saldo Utang per 30 Jun 2033",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Faktur Pembelian"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3-P1",
+     "600.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3-P3",
+     "300.000"
+    ],
+    [
+     "900.000"
+    ],
+    [
+     "Pembayaran Pembelian"
+    ],
+    [
+     "NL-T1-1101.2033.07.00001",
+     "25 Jul 2033",
+     "NL-T3-W1",
+     "-400.000"
+    ],
+    [
+     "-400.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "NL-T3 Pemasok B"
+    ],
+    [
+     "-"
+    ],
+    [
+     "30 Jun 2033",
+     "Saldo Utang per 30 Jun 2033",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Faktur Pembelian"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3-P2",
+     "450.000"
+    ],
+    [
+     "450.000"
+    ],
+    [
+     "Pembayaran Pembelian"
+    ],
+    [
+     "NL-T1-1101.2033.08.00001",
+     "10 Agt 2033",
+     "NL-T3-W2",
+     "-450.000"
+    ],
+    [
+     "-450.000"
+    ],
+    [
+     "0"
+    ],
+    [
+     "500.000"
+    ]
+   ]
+  },
+  "APLedgerReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "showOnlyHasTransaction": true
+   },
+   "rows": [
+    [
+     "Buku Besar Pembantu Utang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Pemasok",
+     "Saldo Awal",
+     "Faktur",
+     "Pembayaran",
+     "Retur",
+     "Uang Muka",
+     "Jurnal Umum",
+     "Saldo Akhir"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A",
+     "0",
+     "900.000",
+     "400.000",
+     "0",
+     "0",
+     "0",
+     "500.000"
+    ],
+    [
+     "NL-T3 Pemasok B",
+     "0",
+     "450.000",
+     "450.000",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "1.350.000",
+     "850.000",
+     "0",
+     "0",
+     "0",
+     "500.000"
+    ]
+   ]
+  },
+  "AgingPayableChartReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Grafik Umur Utang"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "AgingPayableDetailReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Umur Utang"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Utang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "200.000",
+     "0",
+     "0",
+     "0",
+     "200.000",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "300.000",
+     "0",
+     "300.000",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "500.000",
+     "0",
+     "300.000",
+     "0",
+     "200.000",
+     "0"
+    ],
+    [
+     "PT AUTO PART LAMP"
+    ],
+    [
+     "PI.2021.06.00002",
+     "05 Jun 2021",
+     "26.617.500",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "26.617.500"
+    ],
+    [
+     "PI.2021.06.00004",
+     "12 Jun 2021",
+     "19.999.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "19.999.000"
+    ],
+    [
+     "PI.2021.06.00006",
+     "17 Jun 2021",
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600.000"
+    ],
+    [
+     "PI.2021.06.00009",
+     "17 Jun 2021",
+     "1.225.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1.225.000"
+    ],
+    [
+     "PI.2021.06.00011",
+     "21 Jun 2021",
+     "37.205.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "37.205.000"
+    ],
+    [
+     "85.646.500",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PT Pack Multi Guna Abadi"
+    ],
+    [
+     "PI.2021.06.00001",
+     "06 Jun 2021",
+     "2.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "PI.2021.06.00003",
+     "12 Jun 2021",
+     "1.900.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1.900.000"
+    ],
+    [
+     "PI.2021.06.00008",
+     "18 Jun 2021",
+     "2.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "PI.2021.06.00012",
+     "24 Jun 2021",
+     "1.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "6.900.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PT Plastic Energy Sejahtera"
+    ],
+    [
+     "PI.2021.06.00007",
+     "09 Jun 2021",
+     "2.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "PI.2021.06.00005",
+     "12 Jun 2021",
+     "2.300.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "2.300.000"
+    ],
+    [
+     "PI.2021.06.00010",
+     "15 Jun 2021",
+     "800.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "800.000"
+    ],
+    [
+     "5.600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Pemasok Satu"
+    ],
+    [
+     "PI.2026.10.00002",
+     "04 Okt 2026",
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600.000"
+    ],
+    [
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rincian Umur Utang"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Utang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "ZZ-R03-Pemasok Satu"
+    ],
+    [
+     "PI.2026.10.00004",
+     "04 Okt 2026",
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600.000"
+    ],
+    [
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ]
+   ]
+  },
+  "AgingPayableReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Utang"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     "Utang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "&gt; 120"
+    ],
+    [
+     "NL-T3 Pemasok A",
+     "500.000",
+     "0",
+     "300.000",
+     "0",
+     "200.000",
+     "0",
+     "0"
+    ],
+    [
+     "PT AUTO PART LAMP",
+     "85.646.500",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "85.646.500"
+    ],
+    [
+     "PT Pack Multi Guna Abadi",
+     "6.900.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "6.900.000"
+    ],
+    [
+     "PT Plastic Energy Sejahtera",
+     "5.600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5.600.000"
+    ],
+    [
+     "ZZ-R01-Pemasok Satu",
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600.000"
+    ],
+    [
+     "ZZ-R03-Pemasok Satu",
+     "600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600.000"
+    ],
+    [
+     "Total Pemasok",
+     "99.846.500",
+     "0",
+     "300.000",
+     "0",
+     "200.000",
+     "0",
+     "99.346.500"
+    ]
+   ]
+  },
+  "OutstandingPurchaseInvoicePerVendorReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Faktur Belum Lunas per Pemasok"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pemasok",
+     "Total",
+     "Utang",
+     "Utang Pajak"
+    ],
+    [
+     "Indonesian Rupiah",
+     "NL-T3 Pemasok A",
+     "900.000",
+     "500.000",
+     "0"
+    ],
+    [
+     "PT AUTO PART LAMP",
+     "85.646.500",
+     "85.646.500",
+     "0"
+    ],
+    [
+     "PT Pack Multi Guna Abadi",
+     "6.900.000",
+     "6.900.000",
+     "0"
+    ],
+    [
+     "PT Plastic Energy Sejahtera",
+     "5.600.000",
+     "5.600.000",
+     "0"
+    ],
+    [
+     "ZZ-R01-Pemasok Satu",
+     "750.000",
+     "600.000",
+     "0"
+    ],
+    [
+     "ZZ-R03-Pemasok Satu",
+     "750.000",
+     "600.000",
+     "0"
+    ],
+    [
+     "Total Pemasok",
+     "100.546.500",
+     "99.846.500",
+     "0"
+    ],
+    [
+     "Total Mata Uang",
+     "100.546.500",
+     "99.846.500",
+     "0"
+    ]
+   ]
+  },
+  "OutstandingPurchaseInvoiceReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Faktur Belum Lunas"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Utang",
+     "Utang Pajak",
+     "Umur (hr)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "05 Jul 2033",
+     "600.000",
+     "200.000",
+     "0",
+     "72"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "20 Agt 2033",
+     "300.000",
+     "300.000",
+     "0",
+     "26"
+    ],
+    [
+     "900.000",
+     "500.000",
+     "0"
+    ],
+    [
+     "PT AUTO PART LAMP"
+    ],
+    [
+     "PI.2021.06.00002",
+     "05 Jun 2021",
+     "05 Jun 2021",
+     "26.617.500",
+     "26.617.500",
+     "0",
+     "4.485"
+    ],
+    [
+     "PI.2021.06.00004",
+     "12 Jun 2021",
+     "12 Jun 2021",
+     "19.999.000",
+     "19.999.000",
+     "0",
+     "4.478"
+    ],
+    [
+     "PI.2021.06.00006",
+     "17 Jun 2021",
+     "17 Jun 2021",
+     "600.000",
+     "600.000",
+     "0",
+     "4.473"
+    ],
+    [
+     "PI.2021.06.00009",
+     "17 Jun 2021",
+     "17 Jun 2021",
+     "1.225.000",
+     "1.225.000",
+     "0",
+     "4.473"
+    ],
+    [
+     "PI.2021.06.00011",
+     "21 Jun 2021",
+     "21 Jun 2021",
+     "37.205.000",
+     "37.205.000",
+     "0",
+     "4.469"
+    ],
+    [
+     "85.646.500",
+     "85.646.500",
+     "0"
+    ],
+    [
+     "PT Pack Multi Guna Abadi"
+    ],
+    [
+     "PI.2021.06.00001",
+     "06 Jun 2021",
+     "06 Jun 2021",
+     "2.000.000",
+     "2.000.000",
+     "0",
+     "4.484"
+    ],
+    [
+     "PI.2021.06.00003",
+     "12 Jun 2021",
+     "12 Jun 2021",
+     "1.900.000",
+     "1.900.000",
+     "0",
+     "4.478"
+    ],
+    [
+     "PI.2021.06.00008",
+     "18 Jun 2021",
+     "18 Jun 2021",
+     "2.000.000",
+     "2.000.000",
+     "0",
+     "4.472"
+    ],
+    [
+     "PI.2021.06.00012",
+     "24 Jun 2021",
+     "24 Jun 2021",
+     "1.000.000",
+     "1.000.000",
+     "0",
+     "4.466"
+    ],
+    [
+     "6.900.000",
+     "6.900.000",
+     "0"
+    ],
+    [
+     "PT Plastic Energy Sejahtera"
+    ],
+    [
+     "PI.2021.06.00007",
+     "09 Jun 2021",
+     "09 Jun 2021",
+     "2.500.000",
+     "2.500.000",
+     "0",
+     "4.481"
+    ],
+    [
+     "PI.2021.06.00005",
+     "12 Jun 2021",
+     "12 Jun 2021",
+     "2.300.000",
+     "2.300.000",
+     "0",
+     "4.478"
+    ],
+    [
+     "PI.2021.06.00010",
+     "15 Jun 2021",
+     "15 Jun 2021",
+     "800.000",
+     "800.000",
+     "0",
+     "4.475"
+    ],
+    [
+     "5.600.000",
+     "5.600.000",
+     "0"
+    ],
+    [
+     "ZZ-R01-Pemasok Satu"
+    ],
+    [
+     "PI.2026.10.00002",
+     "04 Okt 2026",
+     "04 Okt 2026",
+     "750.000",
+     "600.000",
+     "0",
+     "2.538"
+    ],
+    [
+     "750.000",
+     "600.000",
+     "0"
+    ],
+    [
+     "Faktur Belum Lunas"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Utang",
+     "Utang Pajak",
+     "Umur (hr)"
+    ],
+    [
+     "ZZ-R03-Pemasok Satu"
+    ],
+    [
+     "PI.2026.10.00004",
+     "04 Okt 2026",
+     "04 Okt 2026",
+     "750.000",
+     "600.000",
+     "0",
+     "2.538"
+    ],
+    [
+     "750.000",
+     "600.000",
+     "0"
+    ],
+    [
+     "100.546.500",
+     "99.846.500",
+     "0"
+    ]
+   ]
+  },
+  "PurchaseByExpenseReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Biaya"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "PurchaseByItemDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Kuantitas",
+     "Satuan",
+     "Pembelian"
+    ],
+    [
+     "NL-T2 Jasa Konsultasi"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3-P1",
+     "3",
+     "Jam",
+     "600.000"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3-P2",
+     "5",
+     "Jam",
+     "450.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3-P3",
+     "2",
+     "Jam",
+     "300.000"
+    ]
+   ]
+  },
+  "PurchaseByItemReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kts (Unit#1)",
+     "Pembelian"
+    ],
+    [
+     "NL-T2 Jasa Konsultasi",
+     "10",
+     "1.350.000"
+    ],
+    [
+     "Total Nama Barang",
+     "10",
+     "1.350.000"
+    ]
+   ]
+  },
+  "PurchaseByVendorDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pembelian per Pemasok"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Pembelian (prime)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3-P1",
+     "600.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3-P3",
+     "300.000"
+    ],
+    [
+     "900.000"
+    ],
+    [
+     "NL-T3 Pemasok B"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3-P2",
+     "450.000"
+    ],
+    [
+     "450.000"
+    ],
+    [
+     "1.350.000"
+    ]
+   ]
+  },
+  "PurchaseByVendorReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Pemasok"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pemasok",
+     "Pembelian (prime)"
+    ],
+    [
+     "Indonesian Rupiah",
+     "NL-T3 Pemasok A",
+     "900.000"
+    ],
+    [
+     "NL-T3 Pemasok B",
+     "450.000"
+    ],
+    [
+     "Total Pemasok",
+     "1.350.000"
+    ],
+    [
+     "Total Mata Uang",
+     "1.350.000"
+    ]
+   ]
+  },
+  "PurchaseDownPaymentByVendorReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Uang Muka Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Total",
+     "Terpakai/Retur (per Tgl)",
+     "Sisa Uang Muka (per Tgl)",
+     "No Pesanan #"
+    ]
+   ]
+  },
+  "PurchaseFlowHistoryReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033"
+   },
+   "rows": [
+    [
+     "Histori Proses Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Permintaan Barang",
+     "Pesanan Pembelian",
+     "Penerimaan Barang",
+     "Uang Muka Pembelian",
+     "Faktur Pembelian",
+     "Retur Pembelian",
+     "Pembayaran Pembelian"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "PI.2033.07.00001",
+     "-",
+     "NL-T1-1101.2033.07.00001"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "PI.2033.07.00002",
+     "-",
+     "NL-T1-1101.2033.08.00001"
+    ],
+    [
+     "-",
+     "-",
+     "-",
+     "-",
+     "PI.2033.08.00001",
+     "-",
+     "-"
+    ]
+   ]
+  },
+  "PurchaseInvoiceDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "PI.2033.07.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Jul 2033",
+     "Sub Total",
+     ":",
+     "600.000"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":",
+     "600.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "3",
+     "200.000",
+     "600.000"
+    ],
+    [
+     "3",
+     "600.000"
+    ],
+    [
+     "Rincian Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "PI.2033.07.00002",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "12 Jul 2033",
+     "Sub Total",
+     ":",
+     "450.000"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok B",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":",
+     "450.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "5",
+     "90.000",
+     "450.000"
+    ],
+    [
+     "5",
+     "450.000"
+    ],
+    [
+     "Rincian Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "PI.2033.08.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Agt 2033",
+     "Sub Total",
+     ":",
+     "300.000"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":",
+     "300.000"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "2",
+     "150.000",
+     "300.000"
+    ],
+    [
+     "2",
+     "300.000"
+    ]
+   ]
+  },
+  "PurchaseInvoiceDownPaymentDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penggunaan Uang Muka Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Uang Muka",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Terpakai/Retur (per Tgl)",
+     ":"
+    ],
+    [
+     "Sisa Uang Muka (per Tgl)",
+     ":"
+    ],
+    [
+     "Nomor Transaksi",
+     "Tgl Transaksi",
+     "Tipe Transaksi",
+     "Pakai Uang Muka (per Tgl)"
+    ]
+   ]
+  },
+  "PurchaseInvoiceListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3 Pemasok A",
+     "600.000"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3 Pemasok B",
+     "450.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3 Pemasok A",
+     "300.000"
+    ]
+   ]
+  },
+  "PurchaseInvoicePaidReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembayaran Faktur"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "No. Form",
+     "Tgl Pembayaran",
+     "Bank",
+     "Total Faktur",
+     "Total pemotongan PPh23",
+     "Pembayaran"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2033.07.00001"
+    ],
+    [
+     "NL-T1-1101.2033.07.00001",
+     "25 Jul 2033",
+     "NL-T1 Kas",
+     "600.000",
+     "0",
+     "400.000"
+    ],
+    [
+     "400.000"
+    ],
+    [
+     "NL-T3 Pemasok B"
+    ],
+    [
+     "PI.2033.07.00002"
+    ],
+    [
+     "NL-T1-1101.2033.08.00001",
+     "10 Agt 2033",
+     "NL-T1 Kas",
+     "450.000",
+     "0",
+     "450.000"
+    ],
+    [
+     "450.000"
+    ]
+   ]
+  },
+  "PurchaseInvoicePphPaidReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembayaran PPh Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Faktur Pembelian",
+     "No. Form",
+     "PPh",
+     "Bayar PPh",
+     "NTPN",
+     "Tgl Bayar PPh"
+    ]
+   ]
+  },
+  "PurchaseOrderByItemReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Barang (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status Pesanan Pembelian, Ditutup, Ditutup manual"
+    ]
+   ]
+  },
+  "PurchaseOrderByVendorReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Pemasok (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status"
+    ]
+   ]
+  },
+  "PurchaseOrderDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pesanan Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Mata Uang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Sub Total",
+     ":"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "Total Biaya",
+     ":"
+    ],
+    [
+     "Nama Biaya",
+     ":",
+     "Total",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ]
+   ]
+  },
+  "PurchaseOrderListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pesanan Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ]
+   ]
+  },
+  "PurchasePaymentListDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pembayaran Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Nama Bank",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "No Bukti #",
+     ":",
+     "NL-T1-1101.2033.07.00001",
+     "Metode Bayar",
+     ":",
+     "Tunai"
+    ],
+    [
+     "Tgl Bayar",
+     ":",
+     "25 Jul 2033"
+    ],
+    [
+     "Nilai Pembayaran"
+    ],
+    [
+     ":",
+     "400.000"
+    ],
+    [
+     "No. Faktur",
+     "Tgl Faktur",
+     "Total Faktur",
+     "Bayar",
+     "Diskon",
+     "Pembayaran"
+    ],
+    [
+     "NL-T3-P1",
+     "05 Jul 2033",
+     "600.000",
+     "400.000",
+     "0",
+     "400.000"
+    ],
+    [
+     "400.000",
+     "0",
+     "400.000"
+    ],
+    [
+     "Rincian Pembayaran Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok B",
+     "Nama Bank",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "No Bukti #",
+     ":",
+     "NL-T1-1101.2033.08.00001",
+     "Metode Bayar",
+     ":",
+     "Tunai"
+    ],
+    [
+     "Tgl Bayar",
+     ":",
+     "10 Agt 2033"
+    ],
+    [
+     "Nilai Pembayaran"
+    ],
+    [
+     ":",
+     "450.000"
+    ],
+    [
+     "No. Faktur",
+     "Tgl Faktur",
+     "Total Faktur",
+     "Bayar",
+     "Diskon",
+     "Pembayaran"
+    ],
+    [
+     "NL-T3-P2",
+     "12 Jul 2033",
+     "450.000",
+     "450.000",
+     "0",
+     "450.000"
+    ],
+    [
+     "450.000",
+     "0",
+     "450.000"
+    ]
+   ]
+  },
+  "PurchasePaymentListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembayaran Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "No. Cek",
+     "Tanggal Cek",
+     "Pemasok",
+     "Nilai Pembayaran"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T1-1101.2033.08.00001",
+     "10 Agt 2033",
+     "10 Agt 2033",
+     "NL-T3 Pemasok B",
+     "450.000"
+    ],
+    [
+     "NL-T1-1101.2033.07.00001",
+     "25 Jul 2033",
+     "25 Jul 2033",
+     "NL-T3 Pemasok A",
+     "400.000"
+    ],
+    [
+     "850.000"
+    ]
+   ]
+  },
+  "PurchaseReturnByItemReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Retur Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "PurchaseReturnDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Retur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Mata Uang",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Sub Total",
+     ":"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "Total",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ]
+   ]
+  },
+  "PurchaseReturnListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Retur Pembelian"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ]
+   ]
+  },
+  "ReceiveItemDetailReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penerimaan Barang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Pemasok",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ]
+   ]
+  },
+  "ReceiveItemListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Penerimaan Barang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Pengiriman"
+    ]
+   ]
+  },
+  "TransferOrderListReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Perintah Pembayaran"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Bank",
+     "Metode Bayar",
+     "Status",
+     "Faktur Dibayar"
+    ]
+   ]
+  },
+  "VendorListReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pemasok"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "ID Pemasok",
+     "Nama",
+     "Saldo (Mata Uang)"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "NL-T3-V1",
+     "NL-T3 Pemasok A",
+     "IDR 500.000"
+    ],
+    [
+     "NL-T3-V2",
+     "NL-T3 Pemasok B",
+     "IDR 0"
+    ],
+    [
+     "V.00001",
+     "PT Pack Multi Guna Abadi",
+     "IDR 6.900.000"
+    ],
+    [
+     "V.00002",
+     "PT Plastic Energy Sejahtera",
+     "IDR 5.600.000"
+    ],
+    [
+     "V.00003",
+     "PT AUTO PART LAMP",
+     "IDR 85.646.500"
+    ],
+    [
+     "V.00004",
+     "PT Warna Abadi",
+     "IDR 0"
+    ],
+    [
+     "V.00005",
+     "ZZ-R01-Pemasok Satu",
+     "IDR 600.000"
+    ],
+    [
+     "V.00006",
+     "ZZ-R03-Pemasok Satu",
+     "IDR 600.000"
+    ]
+   ]
+  },
+  "VendorPayablePerMonthReport": {
+   "param": {
+    "asOfYear": 2033
+   },
+   "rows": [
+    [
+     "Utang per Bulan"
+    ],
+    [
+     "per 2033"
+    ],
+    [
+     "Nama Pemasok",
+     "Saldo Awal",
+     "Januari",
+     "Februari",
+     "Maret",
+     "April",
+     "Mei",
+     "Juni",
+     "Juli",
+     "Agustus",
+     "September",
+     "Oktober",
+     "November",
+     "Desember",
+     "Saldo Akhir"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "NL-T3 Pemasok A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "200.000",
+     "300.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "500.000"
+    ],
+    [
+     "NL-T3 Pemasok B",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "450.000",
+     "-450.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "650.000",
+     "-150.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "500.000"
+    ]
+   ]
+  },
+  "VendorPriceHistoryReport": {
+   "param": {
+    "asOfDate": "15/09/2033",
+    "selectedItem": []
+   },
+   "rows": [
+    [
+     "Perubahan Harga Beli Per Barang"
+    ],
+    [
+     "Per Tgl. 15 Sep 2033"
+    ],
+    [
+     "Mulai Berlaku",
+     "Tanggal Berakhir",
+     "Pemasok",
+     "Mata Uang",
+     "Harga Lama",
+     "Harga Baru",
+     "Satuan"
+    ]
+   ]
+  },
+  "VendorStatementReport": {
+   "param": {
+    "startDate": "01/07/2033",
+    "endDate": "31/08/2033",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pernyataan Utang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok A",
+     "Email",
+     ":"
+    ],
+    [
+     "Handphone",
+     ":",
+     "Alamat",
+     ":"
+    ],
+    [
+     "Faximili",
+     ":"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Bertambah",
+     "Berkurang",
+     "Saldo"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Saldo Utang per 30 Jun 2033",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.07.00001",
+     "05 Jul 2033",
+     "NL-T3-P1",
+     "600.000",
+     "0",
+     "600.000"
+    ],
+    [
+     "NL-T1-1101.2033.07.00001",
+     "25 Jul 2033",
+     "NL-T3-W1",
+     "0",
+     "400.000",
+     "200.000"
+    ],
+    [
+     "PI.2033.08.00001",
+     "20 Agt 2033",
+     "NL-T3-P3",
+     "300.000",
+     "0",
+     "500.000"
+    ],
+    [
+     "900.000",
+     "400.000"
+    ],
+    [
+     "Pernyataan Utang"
+    ],
+    [
+     "Dari 01 Jul 2033 s/d 31 Agu 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "NL-T3 Pemasok B",
+     "Email",
+     ":"
+    ],
+    [
+     "Handphone",
+     ":",
+     "Alamat",
+     ":"
+    ],
+    [
+     "Faximili",
+     ":"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Bertambah",
+     "Berkurang",
+     "Saldo"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Saldo Utang per 30 Jun 2033",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.07.00002",
+     "12 Jul 2033",
+     "NL-T3-P2",
+     "450.000",
+     "0",
+     "450.000"
+    ],
+    [
+     "NL-T1-1101.2033.08.00001",
+     "10 Agt 2033",
+     "NL-T3-W2",
+     "0",
+     "450.000",
+     "0"
+    ],
+    [
+     "450.000",
+     "450.000"
+    ]
+   ]
+  }
+ }
+}

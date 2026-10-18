@@ -126,3 +126,16 @@ export async function loadSales(db: Db): Promise<import('./receivables').SalesDa
       payments: lines.filter(l => l.receipt_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
   return { customers, invoices, receipts }
 }
+
+/** Purchases in the shape the shared receivable/payable report functions use (parties = vendors, AP labels). */
+export async function loadPurchases(db: Db): Promise<import('./receivables').SalesData> {
+  const { AP } = await import('./receivables')
+  const customers = new Map((await db.execute(sql`SELECT no, name FROM vendors`)).map(r => [r.no as string, r.name as string]))
+  const invoices = (await db.execute(sql`SELECT number, vendor_no, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM purchase_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.vendor_no as string, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total) }))
+  const lines = await db.execute(sql`SELECT payment_number, invoice_number, amount FROM purchase_payment_lines`)
+  const receipts = (await db.execute(sql`SELECT p.number, p.vendor_no, a.name AS bank_name, to_char(p.date,'YYYY-MM-DD') AS date, p.description, p.amount FROM purchase_payments p JOIN accounts a ON a.no = p.bank_no`))
+    .map(r => ({ number: r.number as string, customer: r.vendor_no as string, bankName: r.bank_name as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),
+      payments: lines.filter(l => l.payment_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
+  return { customers, invoices, receipts, labels: AP }
+}

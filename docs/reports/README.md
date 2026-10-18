@@ -163,18 +163,18 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Faktur Belum Lunas | `OutstandingPurchaseInvoiceReport` | report | ASOF | selectedBranch= | [spec](OutstandingPurchaseInvoiceReport.md) |
+| Faktur Belum Lunas | `OutstandingPurchaseInvoiceReport` | report | ASOF | selectedBranch= | [verified](OutstandingPurchaseInvoiceReport.md) |
 | Faktur Belum Lunas per Pemasok | `OutstandingPurchaseInvoicePerVendorReport` | crosstab | ASOF | selectedBranch= | [spec](OutstandingPurchaseInvoicePerVendorReport.md) |
-| Umur Utang | `AgingPayableReport` | crosstab | ASOF | selectedBranch= | [spec](AgingPayableReport.md) |
-| Buku Besar Pembantu Utang | `APLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](APLedgerReport.md) |
-| Histori Utang | `APHistoryReport` | report | FROMTO | selectedBranch= | [spec](APHistoryReport.md) |
+| Umur Utang | `AgingPayableReport` | crosstab | ASOF | selectedBranch= | [verified](AgingPayableReport.md) |
+| Buku Besar Pembantu Utang | `APLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [verified](APLedgerReport.md) |
+| Histori Utang | `APHistoryReport` | report | FROMTO | selectedBranch= | [verified](APHistoryReport.md) |
 | Rincian Umur Utang | `AgingPayableDetailReport` | report | ASOF | selectedBranch= | [spec](AgingPayableDetailReport.md) |
-| Rincian Buku Besar Pembantu Utang | `APLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](APLedgerDetailReport.md) |
+| Rincian Buku Besar Pembantu Utang | `APLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [verified](APLedgerDetailReport.md) |
 | Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingPayableChartReport.md) |
-| Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [spec](VendorStatementReport.md) |
-| Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePaidReport.md) |
+| Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [verified](VendorStatementReport.md) |
+| Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoicePaidReport.md) |
 | Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePphPaidReport.md) |
-| Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | [spec](PurchasePaymentListReport.md) |
+| Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | [verified](PurchasePaymentListReport.md) |
 | Rincian Pembayaran Pembelian | `PurchasePaymentListDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchasePaymentListDetailReport.md) |
 | Utang per Bulan | `VendorPayablePerMonthReport` | report | ASOFYEAR | — | [spec](VendorPayablePerMonthReport.md) |
 | Daftar Pemasok | `VendorListReport` | report | ASOF | selectedBranch= | [spec](VendorListReport.md) |
@@ -183,7 +183,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByVendorReport.md) |
+| Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByVendorReport.md) |
 | Pembelian per Barang | `PurchaseByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByItemReport.md) |
 | Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByExpenseReport.md) |
 | Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | [spec](PurchaseDownPaymentByVendorReport.md) |
@@ -197,7 +197,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Pesanan Pembelian | `PurchaseOrderDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseOrderDetailReport.md) |
 | Daftar Penerimaan Barang | `ReceiveItemListReport` | report | FROMTO | selectedBranch= | [spec](ReceiveItemListReport.md) |
 | Rincian Penerimaan Barang | `ReceiveItemDetailReport` | report | FROMTO | selectedBranch= | [spec](ReceiveItemDetailReport.md) |
-| Daftar Faktur Pembelian | `PurchaseInvoiceListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceListReport.md) |
+| Daftar Faktur Pembelian | `PurchaseInvoiceListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceListReport.md) |
 | Rincian Faktur Pembelian | `PurchaseInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceDetailReport.md) |
 | Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnListReport.md) |
 | Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnDetailReport.md) |

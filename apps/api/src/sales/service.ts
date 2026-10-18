@@ -12,18 +12,18 @@ export async function upsertCustomer(db: Db, input: z.input<typeof customerInput
 }
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
-  await db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account) VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account`)
+  await db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account, expense_account) VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount}, ${i.expenseAccount ?? null})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account, expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account)`)
 }
 
-async function nextNumber(tx: Tx, prefix: string) {
+export async function nextNumber(tx: Tx, prefix: string) {
   const [r] = await tx.execute(sql`INSERT INTO number_sequences (prefix, last) VALUES (${prefix}, 1)
     ON CONFLICT (prefix) DO UPDATE SET last = number_sequences.last + 1 RETURNING last`)
   return prefix + String(r!.last).padStart(5, '0')
 }
-const period = (date: string) => `${date.slice(0, 4)}.${date.slice(5, 7)}.`
+export const period = (date: string) => `${date.slice(0, 4)}.${date.slice(5, 7)}.`
 /** Credit/debit lines merged per account, in order of first appearance (Accurate prints one line per account). */
-function merge(lines: { account: string; amount: number }[]) {
+export function merge(lines: { account: string; amount: number }[]) {
   const m = new Map<string, number>()
   for (const l of lines) m.set(l.account, (m.get(l.account) ?? 0) + l.amount)
   return [...m].map(([account, amount]) => ({ account, amount }))

@@ -29,3 +29,5 @@ export declare function queryBankBook(db: Db, banks: string[], q: TrialBalanceQu
 export declare function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryCashAccountList(db: Db, asOf: string): Promise<string[][]>;
 export declare function loadSales(db: Db): Promise<import('./receivables').SalesData>;
+/** Purchases in the shape the shared receivable/payable report functions use (parties = vendors, AP labels). */
+export declare function loadPurchases(db: Db): Promise<import('./receivables').SalesData>;
