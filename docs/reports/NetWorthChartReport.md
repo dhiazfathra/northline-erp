@@ -1,19 +1,5 @@
 # Grafik Harta Bersih (`NetWorthChartReport`)
 
-Group: Keuangan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/NetWorthChartReport.json`](captures/NetWorthChartReport.json), run with default parameters over the sandbox demo data.
+Group: Keuangan. Chart report (PNG only), Des 2030 – Feb 2031. Verified by transcribing [`captures/charts/NetWorthChartReport.png`](captures/charts/NetWorthChartReport.png) into [`fixtures/charts.json`](fixtures/charts.json); ERP: `apps/api/src/reports/financial-ratios.ts`, route `/api/reports/charts/*`; test `apps/api/test/financial-ratios.test.ts`.
 
-## Parameters
-
-Date parameter kind: `PERIODFROMTO`; request param used: `{"periodStartMonth":"1","periodStartYear":2026,"periodEndMonth":"10","periodEndYear":2026}`.
-
-
-
-## Layout
-
-View: `chart`. Header lines: "Dari Periode Januari 2026 s/d Oktober 2026".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: month range. Per month end: `Total Aset` (JUMLAH ASET), `Total Kewajiban` (Jumlah Kewajiban), `Harta Bersih` (Jumlah Ekuitas). Whole-company balances: checked against Accurate's own statement totals.

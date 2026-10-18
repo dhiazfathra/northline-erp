@@ -35,3 +35,24 @@ export declare function loadInventory(db: Db): Promise<import('./inventory').Inv
 /** FIFO cost of goods per sales invoice (cents), from stock_moves. */
 export declare function cogsByInvoice(db: Db): Promise<(invoice: string) => number>;
 export declare function loadFixedAssets(db: Db): Promise<import('./fixed-assets').Asset[]>;
+/** Finance charts over calendar months [from, to], from our own Neraca / Laba-Rugi totals. */
+export declare function queryFinanceChart(db: Db, chart: 'net-worth' | 'liquidity' | 'roa' | 'roe' | 'revenue-vs-expense', from: string, to: string): Promise<{
+    labels: string[];
+    series: {
+        'Total Aset': string[];
+        'Total Kewajiban': string[];
+        'Harta Bersih': string[];
+    } | {
+        'Kas & Bank': string[];
+        'Utang Usaha': string[];
+    } | {
+        'Laba/Rugi': string[];
+        'Total Aset': string[];
+    } | {
+        'Laba/Rugi': string[];
+        'Harta Bersih': string[];
+    } | {
+        'Total Pendapatan': string[];
+        'Total Biaya': string[];
+    };
+}>;

@@ -104,5 +104,136 @@
    "x": "Bulan",
    "y": "Bayar (Hari)"
   }
- }
+ },
+ "RevenueToExpenseComparisonChartReport": {
+  "periods": [
+   "2030-12",
+   "2031-01",
+   "2031-02"
+  ],
+  "image": "captures/charts/RevenueToExpenseComparisonChartReport.png",
+  "labels": [
+   "Des 2030",
+   "Jan 2031",
+   "Feb 2031"
+  ],
+  "series": {
+   "Total Pendapatan": [
+    "3.000.000",
+    "0",
+    "2.000.000"
+   ],
+   "Total Biaya": [
+    "0",
+    "1.250.000,5",
+    "1.000.000"
+   ]
+  }
+ },
+ "NetWorthChartReport": {
+  "periods": [
+   "2030-12",
+   "2031-01",
+   "2031-02"
+  ],
+  "image": "captures/charts/NetWorthChartReport.png",
+  "labels": [
+   "Des 2030",
+   "Jan 2031",
+   "Feb 2031"
+  ],
+  "series": {
+   "Total Aset": [
+    "240.126.290",
+    "238.876.289,5",
+    "240.876.289,5"
+   ],
+   "Total Kewajiban": [
+    "102.218.886",
+    "102.218.886",
+    "103.218.886"
+   ],
+   "Harta Bersih": [
+    "137.907.404",
+    "136.657.403,5",
+    "137.657.403,5"
+   ]
+  }
+ },
+ "LiquidityRatioChartReport": {
+  "periods": [
+   "2030-12",
+   "2031-01",
+   "2031-02"
+  ],
+  "image": "captures/charts/LiquidityRatioChartReport.png",
+  "labels": [
+   "Des 2030",
+   "Jan 2031",
+   "Feb 2031"
+  ],
+  "series": {
+   "Kas & Bank": [
+    "16.792.386",
+    "15.542.385,5",
+    "2.542.385,5"
+   ],
+   "Utang Usaha": [
+    "99.346.500",
+    "99.346.500",
+    "99.346.500"
+   ]
+  }
+ },
+ "ReturnOnAssetChartReport": {
+  "periods": [
+   "2030-12",
+   "2031-01",
+   "2031-02"
+  ],
+  "image": "captures/charts/ReturnOnAssetChartReport.png",
+  "labels": [
+   "Des 2030",
+   "Jan 2031",
+   "Feb 2031"
+  ],
+  "series": {
+   "Laba/Rugi": [
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000"
+   ],
+   "Total Aset": [
+    "240.126.290",
+    "238.876.289,5",
+    "240.876.289,5"
+   ]
+  }
+ },
+ "ReturnOnEquityChartReport": {
+  "periods": [
+   "2030-12",
+   "2031-01",
+   "2031-02"
+  ],
+  "image": "captures/charts/ReturnOnEquityChartReport.png",
+  "labels": [
+   "Des 2030",
+   "Jan 2031",
+   "Feb 2031"
+  ],
+  "series": {
+   "Laba/Rugi": [
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000"
+   ],
+   "Harta Bersih": [
+    "137.907.404",
+    "136.657.403,5",
+    "137.657.403,5"
+   ]
+  }
+ },
+ "financeChartsNote": "Net worth, liquidity, ROA and ROE use whole-company balances; the test feeds the statement totals Accurate prints (fixtures/financial-ratios.json) and checks the series. Revenue vs expense is fixture-only and is computed from the ERP ledger."
 }

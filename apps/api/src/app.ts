@@ -17,7 +17,7 @@ import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
 import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -141,6 +141,10 @@ export function createApp(db: Db) {
     .get('/reports/charts/:chart{ar-aging|ap-aging}', async c => {
       const d = c.req.param('chart') === 'ar-aging' ? await loadSales(db) : await loadPurchases(db)
       return c.json(R.agingChart(d, balanceSheetQuery.parse(c.req.query()).asOf))
+    })
+    .get('/reports/charts/:chart{net-worth|liquidity|roa|roe|revenue-vs-expense}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json(await queryFinanceChart(db, c.req.param('chart') as 'net-worth', from, to))
     })
     .get('/reports/charts/collection-days', async c => { const { from, to } = trialBalanceQuery.parse(c.req.query()); return c.json(R.collectionDaysChart(await loadSales(db), from, to)) })
     .get('/reports/charts/:chart{monthly-sales|customer-share|item-share}', async c => {

@@ -1,5 +1,5 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -386,6 +386,38 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
     "/reports/charts/:chart{ar-aging|ap-aging}": {
         $get: {
             output: [string, string][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    chart: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/charts/:chart{net-worth|liquidity|roa|roe|revenue-vs-expense}": {
+        $get: {
+            output: {
+                labels: string[];
+                series: {
+                    'Total Aset': string[];
+                    'Total Kewajiban': string[];
+                    'Harta Bersih': string[];
+                } | {
+                    'Kas & Bank': string[];
+                    'Utang Usaha': string[];
+                } | {
+                    'Laba/Rugi': string[];
+                    'Total Aset': string[];
+                } | {
+                    'Laba/Rugi': string[];
+                    'Harta Bersih': string[];
+                } | {
+                    'Total Pendapatan': string[];
+                    'Total Biaya': string[];
+                };
+            };
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {

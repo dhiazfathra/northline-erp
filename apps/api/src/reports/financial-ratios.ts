@@ -72,3 +72,17 @@ export const bsTotals = (l: StatementLine[]): BsTotals => ({
 export const plTotals = (l: StatementLine[]): PlTotals => ({
   revenue: pick(l, 'Jumlah Pendapatan'), cogs: pick(l, 'Jumlah Beban Pokok Penjualan'), operating: pick(l, 'PENDAPATAN OPERASIONAL'), net: pick(l, 'LABA BERSIH'),
 })
+
+// ---- finance charts (Accurate renders PNGs; these return the labelled series) ----
+const fmtR = (r: number) => { const c = Math.round(r * 100); return (c < 0 ? '-' : '') + Math.floor(Math.abs(c) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (Math.abs(c) % 100 ? ',' + String(Math.abs(c) % 100).padStart(2, '0').replace(/0+$/, '') : '') }
+/** Per period end: Total Aset, Total Kewajiban, Harta Bersih (Grafik Harta Bersih). */
+export const netWorthChart = (ends: BsTotals[]) => ({
+  'Total Aset': ends.map(b => fmtR(b.assets)), 'Total Kewajiban': ends.map(b => fmtR(b.currentLiabilities + b.longTermLiabilities)), 'Harta Bersih': ends.map(b => fmtR(b.equity)) })
+/** Grafik Rasio Likuiditas: cash and trade payables at each period end. */
+export const liquidityChart = (ends: BsTotals[]) => ({ 'Kas & Bank': ends.map(b => fmtR(b.cash)), 'Utang Usaha': ends.map(b => fmtR(b.payable)) })
+/** Grafik Pengembalian Aset: the period's net income beside closing assets. */
+export const returnOnAssetChart = (ends: BsTotals[], pls: PlTotals[]) => ({ 'Laba/Rugi': pls.map(p => fmtR(p.net)), 'Total Aset': ends.map(b => fmtR(b.assets)) })
+/** Grafik Pengembalian pada Modal: the period's net income beside closing equity. */
+export const returnOnEquityChart = (ends: BsTotals[], pls: PlTotals[]) => ({ 'Laba/Rugi': pls.map(p => fmtR(p.net)), 'Harta Bersih': ends.map(b => fmtR(b.equity)) })
+/** Grafik Pendapatan berbanding Biaya: per period, revenue (incl. other income) and costs (COGS, expenses, other expenses). */
+export const revenueVsExpenseChart = (pls: { revenue: number; expense: number }[]) => ({ 'Total Pendapatan': pls.map(p => fmtR(p.revenue)), 'Total Biaya': pls.map(p => fmtR(p.expense)) })

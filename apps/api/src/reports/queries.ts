@@ -185,3 +185,18 @@ async function loadReturns(db: Db, kind: 'sales' | 'purchase'): Promise<import('
   return head.map(r => ({ number: r.number as string, customer: r.party as string, invoice: r.invoice_number as string, date: r.date as string, description: r.description as string, total: Number(r.total),
     lines: ls.filter(l => l.return_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) })) }))
 }
+
+/** Finance charts over calendar months [from, to], from our own Neraca / Laba-Rugi totals. */
+export async function queryFinanceChart(db: Db, chart: 'net-worth' | 'liquidity' | 'roa' | 'roe' | 'revenue-vs-expense', from: string, to: string) {
+  const { bsTotals, plTotals, netWorthChart, liquidityChart, returnOnAssetChart, returnOnEquityChart, revenueVsExpenseChart } = await import('./financial-ratios')
+  const { accounts, balances, settings } = await loadLedger(db, to)
+  const o = { showZeroBalance: true, showParentAccount: true }
+  const ms = months(Number(from.slice(0, 4)), Number(from.slice(5, 7)), Number(to.slice(0, 4)), Number(to.slice(5, 7)))
+  const ends = ms.map(m => bsTotals(balanceSheet(accounts, balances, settings, m.to, o)))
+  const pls = ms.map(m => plTotals(profitLoss(accounts, balances, m.from, m.to, o)))
+  const series = chart === 'net-worth' ? netWorthChart(ends) : chart === 'liquidity' ? liquidityChart(ends) : chart === 'roa' ? returnOnAssetChart(ends, pls)
+    : chart === 'roe' ? returnOnEquityChart(ends, pls)
+    : revenueVsExpenseChart(ms.map(m => { const l = profitLoss(accounts, balances, m.from, m.to, o), v = (k: string) => (l.find(x => x.label === k)?.amount ?? 0) / 100
+      return { revenue: v('Jumlah Pendapatan') + v('Jumlah Pendapatan Non Operasional'), expense: v('Jumlah Beban Pokok Penjualan') + v('Jumlah Beban Operasional') + v('Jumlah Beban Non Operasional') } }))
+  return { labels: ms.map(m => m.label), series }
+}

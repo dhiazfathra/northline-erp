@@ -1,19 +1,5 @@
 # Grafik Pendapatan berbanding Biaya (`RevenueToExpenseComparisonChartReport`)
 
-Group: Keuangan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/RevenueToExpenseComparisonChartReport.json`](captures/RevenueToExpenseComparisonChartReport.json), run with default parameters over the sandbox demo data.
+Group: Keuangan. Chart report (PNG only), Des 2030 – Feb 2031. Verified by transcribing [`captures/charts/RevenueToExpenseComparisonChartReport.png`](captures/charts/RevenueToExpenseComparisonChartReport.png) into [`fixtures/charts.json`](fixtures/charts.json); ERP: `apps/api/src/reports/financial-ratios.ts`, route `/api/reports/charts/*`; test `apps/api/test/financial-ratios.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
-
-## Layout
-
-View: `chart`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `startDate`, `endDate`. Per month (x `Bulan`): `Total Pendapatan` (revenue + other income) and `Total Biaya` (COGS + expenses + other expenses) of that month. Fixture-only data: diffed against the ERP ledger.

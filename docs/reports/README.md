@@ -31,11 +31,11 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Laba Ditahan | `RetainedEarningReport` | report | ASOFYEAR | — | [verified](RetainedEarningReport.md) |
 | Perubahan Ekuitas Pemilik | `OwnerEquityChangedReport` | report | FROMTO | — | [verified](OwnerEquityChangedReport.md) |
 | Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | [spec](AccountValueCompareChartReport.md) |
-| Grafik Pendapatan berbanding Biaya | `RevenueToExpenseComparisonChartReport` | chart | FROMTO | — | [spec](RevenueToExpenseComparisonChartReport.md) |
-| Grafik Harta Bersih | `NetWorthChartReport` | chart | PERIODFROMTO | — | [spec](NetWorthChartReport.md) |
-| Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | [spec](LiquidityRatioChartReport.md) |
-| Grafik Pengembalian Aset | `ReturnOnAssetChartReport` | chart | PERIODFROMTO | — | [spec](ReturnOnAssetChartReport.md) |
-| Grafik Pengembalian pada Modal | `ReturnOnEquityChartReport` | chart | PERIODFROMTO | — | [spec](ReturnOnEquityChartReport.md) |
+| Grafik Pendapatan berbanding Biaya | `RevenueToExpenseComparisonChartReport` | chart | FROMTO | — | [verified](RevenueToExpenseComparisonChartReport.md) |
+| Grafik Harta Bersih | `NetWorthChartReport` | chart | PERIODFROMTO | — | [verified](NetWorthChartReport.md) |
+| Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | [verified](LiquidityRatioChartReport.md) |
+| Grafik Pengembalian Aset | `ReturnOnAssetChartReport` | chart | PERIODFROMTO | — | [verified](ReturnOnAssetChartReport.md) |
+| Grafik Pengembalian pada Modal | `ReturnOnEquityChartReport` | chart | PERIODFROMTO | — | [verified](ReturnOnEquityChartReport.md) |
 | Arus Kas Multi Period (Langsung) | `CashFlowDirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowDirectMultiPeriodReport.md) |
 | Arus Kas Multi Period (Tak Langsung) | `CashFlowIndirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowIndirectMultiPeriodReport.md) |
 | Rincian Arus Kas Multi Period (Tak Langsung) | `CashFlowDetailIndirectMultiPeriodReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectMultiPeriodReport.md) |
