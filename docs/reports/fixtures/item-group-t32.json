@@ -1,0 +1,102 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T32: group item NL-T32-G1 (PCS) = 2 x NL-T4-B1 + 1 x NL-T30-B1. The sandbox has no other group items; the empty-state rows come from captures/ItemGroupDetailReport.json.",
+ "items": [
+  {
+   "no": "NL-T30-B1",
+   "name": "NL-T30 Barang HPP",
+   "type": "SERVICE",
+   "unit": "PCS",
+   "salesAccount": "400001"
+  },
+  {
+   "no": "NL-T32-G1",
+   "name": "NL-T32 Paket",
+   "type": "GROUP",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "components": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 2
+    },
+    {
+     "item": "NL-T30-B1",
+     "qty": 1
+    }
+   ]
+  }
+ ],
+ "ItemGroupDetailReport": {
+  "param": {
+   "selectedBranch": [
+    {
+     "name": "[Semua Cabang]",
+     "id": null
+    }
+   ]
+  },
+  "rows": [
+   [
+    "Barang Grup"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Kode Barang Grup Barang",
+    ":",
+    "NL-T32-G1",
+    "Satuan",
+    ":",
+    "PCS"
+   ],
+   [
+    "Nama Barang Grup Barang",
+    ":",
+    "NL-T32 Paket"
+   ],
+   [
+    "Kode Barang Barang & Jasa",
+    "Nama Barang",
+    "Kuantitas",
+    "Satuan"
+   ],
+   [
+    "NL-T4-B1",
+    "NL-T4 Barang A",
+    "2",
+    "PCS"
+   ],
+   [
+    "NL-T30-B1",
+    "NL-T30 Barang HPP",
+    "1",
+    "PCS"
+   ]
+  ]
+ },
+ "ItemGroupDetailEmpty": [
+  [
+   "Barang Grup"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Barang Grup Barang",
+   ":",
+   "Satuan",
+   ":"
+  ],
+  [
+   "Nama Barang Grup Barang",
+   ":"
+  ],
+  [
+   "Kode Barang Barang & Jasa",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ]
+ ]
+}

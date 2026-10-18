@@ -327,3 +327,10 @@ export function inventoryAnalysisDetail(d: InventoryData, orders: { number: stri
     ['No Referensi', 'Tgl Estimasi', 'Nama Referensi', 'Dipesan', 'Dijual'],
     ...lines.map(l => [l.number, fmtDate(l.date), l.vendorName, q(l.qty), '0']), ...(lines.length ? [[q(ordered), '0']] : [])]
 }
+
+/** Barang Grup (docs/reports/ItemGroupDetailReport.md): one block per group item (creation order), components in entry order. */
+export function itemGroupDetail(groups: { no: string; name: string; unit: string; components: { no: string; name: string; qty: number; unit: string }[] }[]): string[][] {
+  if (!groups.length) return [['Kode Barang Grup Barang', ':', 'Satuan', ':'], ['Nama Barang Grup Barang', ':'], ['Kode Barang Barang & Jasa', 'Nama Barang', 'Kuantitas', 'Satuan']]
+  return groups.flatMap(g => [['Kode Barang Grup Barang', ':', g.no, 'Satuan', ':', g.unit], ['Nama Barang Grup Barang', ':', g.name],
+    ['Kode Barang Barang & Jasa', 'Nama Barang', 'Kuantitas', 'Satuan'], ...g.components.map(c => [c.no, c.name, String(c.qty), c.unit])])
+}

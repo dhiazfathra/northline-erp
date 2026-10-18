@@ -69,3 +69,12 @@ test('VendorPriceHistoryReport: Harga Lama = previous price of the same vendor (
   const ps = await (await import('../src/reports/queries')).loadVendorPrices(f.db)
   for (const c of t27.VendorPriceHistoryReport) expect(vendorPriceHistory(ps, [c.item], c.asOf)).toEqual(c.rows)
 })
+
+test('ItemGroupDetailReport: group items with components (T32) and the empty state', async () => {
+  const t32 = (await import('../../../docs/reports/fixtures/item-group-t32.json')).default
+  const { itemGroupDetail } = await import('../src/reports/inventory')
+  const Q = await import('../src/reports/queries')
+  expect(itemGroupDetail(await Q.loadItemGroups(f.db))).toEqual(body(t32.ItemGroupDetailEmpty))
+  for (const i of t32.items) await upsertItem(f.db, i as any)
+  expect(itemGroupDetail(await Q.loadItemGroups(f.db))).toEqual(body(t32.ItemGroupDetailReport.rows))
+})

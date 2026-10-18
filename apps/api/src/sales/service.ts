@@ -21,6 +21,10 @@ export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
       cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)`)
   if (i.deliveredAccount) await db.execute(sql`UPDATE items SET delivered_account = ${i.deliveredAccount} WHERE no = ${i.no}`)
   if (i.tax || i.salesDiscountAccount) await db.execute(sql`UPDATE items SET tax_name = ${i.tax ?? null}, sales_discount_account = ${i.salesDiscountAccount ?? null} WHERE no = ${i.no}`)
+  if (i.type === 'GROUP') {
+    await db.execute(sql`DELETE FROM item_group_components WHERE group_no = ${i.no}`)
+    for (const [n, c] of i.components.entries()) await db.execute(sql`INSERT INTO item_group_components VALUES (${i.no}, ${n + 1}, ${c.item}, ${c.qty})`)
+  }
 }
 
 export async function nextNumber(tx: Tx, prefix: string) {

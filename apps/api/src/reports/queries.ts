@@ -316,3 +316,11 @@ export async function loadRealizedReceipts(db: Db) {
     FROM sales_receipt_lines l JOIN sales_receipts r ON r.number = l.receipt_number JOIN customers c ON c.no = r.customer_no`))
     .map(r => ({ receipt: r.number as string, date: r.date as string, currency: r.currency as string, atInvoice: Number(r.amount), atReceipt: Number(r.at_receipt) }))
 }
+
+export async function loadItemGroups(db: Db) {
+  const cs = await db.execute(sql`SELECT c.group_no, i.no, i.name, c.quantity, i.unit FROM item_group_components c JOIN items i ON i.no = c.item_no ORDER BY c.group_no, c.seq`)
+  return (await db.execute(sql`SELECT i.no, i.name, i.unit FROM items i WHERE i.type = 'GROUP'
+    ORDER BY (SELECT min(id) FROM audit_log a WHERE a.table_name = 'items' AND a.row_key = i.no AND a.op = 'INSERT')`))
+    .map(g => ({ no: g.no as string, name: g.name as string, unit: g.unit as string,
+      components: cs.filter(c => c.group_no === g.no).map(c => ({ no: c.no as string, name: c.name as string, qty: Number(c.quantity), unit: c.unit as string })) }))
+}

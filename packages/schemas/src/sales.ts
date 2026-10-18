@@ -8,8 +8,9 @@ const code = z.string().trim().min(1).max(60)
 /** taxDocumentCode: DIGUNGGUNG (retail, default) or CTAS_INVOICE (Faktur Pajak); taxType e.g. CTAS_KEPADA_SELAIN_PEMUNGUT_PPN. */
 export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code, taxDocumentCode: z.string().optional(), taxType: z.string().optional(), /** Limit Piutang */ creditLimit: amountToCents.optional(),
   /** Foreign-currency customer (ADR-0012): ISO code and the Laba/Rugi Terealisasi account for its receipts. */ currency: z.string().length(3).default('IDR'), realizedGainAccount: code.optional() })
-export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional(),
-  /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional() })
+export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY', 'GROUP']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional(),
+  /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional(),
+  /** Barang Grup: component items and quantities (type GROUP). */ components: z.array(z.object({ item: code, qty: z.number().positive() })).default([]) })
 
 export const salesInvoiceInput = z.object({
   idempotencyKey: z.string().min(8),
