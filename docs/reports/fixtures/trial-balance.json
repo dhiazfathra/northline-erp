@@ -1,0 +1,370 @@
+{
+ "source": "Accurate Online v1.0.1#4970, sandbox, captured 2026-10-18",
+ "planId": "TrialBalanceReport",
+ "params": {
+  "showZeroBalance": false,
+  "showParentAccount": true
+ },
+ "fiscalYearStartMonth": 1,
+ "accounts": [
+  {
+   "no": "NL-T1-1101",
+   "name": "NL-T1 Kas",
+   "type": "CASH_BANK"
+  },
+  {
+   "no": "NL-T1-1201",
+   "name": "NL-T1 Peralatan",
+   "type": "OTHER_CURRENT_ASSET"
+  },
+  {
+   "no": "NL-T1-2101",
+   "name": "NL-T1 Utang Lain",
+   "type": "OTHER_CURRENT_LIABILITY"
+  },
+  {
+   "no": "NL-T1-3001",
+   "name": "NL-T1 Modal",
+   "type": "EQUITY"
+  },
+  {
+   "no": "NL-T1-4001",
+   "name": "NL-T1 Pendapatan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "NL-T1-6001",
+   "name": "NL-T1 Beban",
+   "type": "EXPENSE"
+  }
+ ],
+ "journals": [
+  {
+   "ref": "NL-T1-J1",
+   "date": "2030-12-15",
+   "description": "NL-T1 setoran modal",
+   "lines": [
+    {
+     "account": "NL-T1-1101",
+     "side": "DEBIT",
+     "amount": 10000000
+    },
+    {
+     "account": "NL-T1-3001",
+     "side": "CREDIT",
+     "amount": 10000000
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J2",
+   "date": "2030-12-20",
+   "description": "NL-T1 pendapatan tahun lalu",
+   "lines": [
+    {
+     "account": "NL-T1-1101",
+     "side": "DEBIT",
+     "amount": 3000000
+    },
+    {
+     "account": "NL-T1-4001",
+     "side": "CREDIT",
+     "amount": 3000000
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J3",
+   "date": "2031-01-10",
+   "description": "NL-T1 beban desimal",
+   "lines": [
+    {
+     "account": "NL-T1-6001",
+     "side": "DEBIT",
+     "amount": 1250000.5
+    },
+    {
+     "account": "NL-T1-1101",
+     "side": "CREDIT",
+     "amount": 1250000.5
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J4",
+   "date": "2031-02-05",
+   "description": "NL-T1 pendapatan Feb",
+   "lines": [
+    {
+     "account": "NL-T1-1101",
+     "side": "DEBIT",
+     "amount": 2000000
+    },
+    {
+     "account": "NL-T1-4001",
+     "side": "CREDIT",
+     "amount": 2000000
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J5",
+   "date": "2031-02-10",
+   "description": "NL-T1 beli peralatan, kas minus",
+   "lines": [
+    {
+     "account": "NL-T1-1201",
+     "side": "DEBIT",
+     "amount": 15000000
+    },
+    {
+     "account": "NL-T1-1101",
+     "side": "CREDIT",
+     "amount": 15000000
+    }
+   ]
+  },
+  {
+   "ref": "NL-T1-J6",
+   "date": "2031-02-28",
+   "description": "NL-T1 multi-baris",
+   "lines": [
+    {
+     "account": "NL-T1-6001",
+     "side": "DEBIT",
+     "amount": 333333.33
+    },
+    {
+     "account": "NL-T1-6001",
+     "side": "DEBIT",
+     "amount": 333333.33
+    },
+    {
+     "account": "NL-T1-6001",
+     "side": "DEBIT",
+     "amount": 333333.34
+    },
+    {
+     "account": "NL-T1-2101",
+     "side": "CREDIT",
+     "amount": 1000000
+    }
+   ]
+  }
+ ],
+ "retainedEarningsDelta": {
+  "note": "Laba Ditahan (300002) opening: 34.002.596 D before 2031-01-01 baseline incl. other sandbox data; after fixture it is 31.002.596 D on/after 2031-01-01, i.e. prior-year fixture P&L (3.000.000 credit) closes into retained earnings.",
+  "before2031": "34.002.596",
+  "from2031": "31.002.596"
+ },
+ "expected": {
+  "dec30": {
+   "from": "2030-12-01",
+   "to": "2030-12-31",
+   "header": "Dari 01 Des 2030 s/d 31 Des 2030",
+   "rows": [
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "0",
+     "0",
+     "13.000.000",
+     "0",
+     "13.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "0",
+     "0",
+     "10.000.000",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "0",
+     "0",
+     "3.000.000",
+     "0",
+     "3.000.000"
+    ]
+   ]
+  },
+  "jan31": {
+   "from": "2031-01-01",
+   "to": "2031-01-31",
+   "header": "Dari 01 Jan 2031 s/d 31 Jan 2031",
+   "rows": [
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "13.000.000",
+     "0",
+     "0",
+     "1.250.000,5",
+     "11.749.999,5",
+     "0"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "0",
+     "0",
+     "1.250.000,5",
+     "0",
+     "1.250.000,5",
+     "0"
+    ]
+   ]
+  },
+  "feb31": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "header": "Dari 01 Feb 2031 s/d 28 Feb 2031",
+   "rows": [
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "11.749.999,5",
+     "0",
+     "2.000.000",
+     "15.000.000",
+     "0",
+     "1.250.000,5"
+    ],
+    [
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "0",
+     "0",
+     "15.000.000",
+     "0",
+     "15.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "0",
+     "0",
+     "0",
+     "1.000.000",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "0",
+     "0",
+     "2.000.000",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "1.250.000,5",
+     "0",
+     "1.000.000",
+     "0",
+     "2.250.000,5",
+     "0"
+    ]
+   ]
+  },
+  "q131": {
+   "from": "2031-01-01",
+   "to": "2031-03-31",
+   "header": "Dari 01 Jan 2031 s/d 31 Mar 2031",
+   "rows": [
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "13.000.000",
+     "0",
+     "2.000.000",
+     "16.250.000,5",
+     "0",
+     "1.250.000,5"
+    ],
+    [
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "0",
+     "0",
+     "15.000.000",
+     "0",
+     "15.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "0",
+     "0",
+     "0",
+     "1.000.000",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "0",
+     "0",
+     "2.000.000",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "0",
+     "0",
+     "2.250.000,5",
+     "0",
+     "2.250.000,5",
+     "0"
+    ]
+   ]
+  }
+ }
+}
