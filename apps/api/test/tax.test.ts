@@ -115,3 +115,12 @@ test('CashProjectionReport per 18 Okt 2026: T23 receivable/payable land in their
   expect(CF.cashProjection(cp.today, cp.base, recv, pay)).toEqual(cp.rows)
   expect(CF.cashProjection(cp.today, cp.base, [], [])).toEqual(cp.before) // the baseline alone reproduces the pre-T23 capture
 })
+
+test('CashAvailabilityChartReport (ADR-0011): ERP cash events sit on Accurate x-axis dates with the verified projection amounts', async () => {
+  const CF = await import('../src/reports/cash-flow'), Q = await import('../src/reports/queries'), ch = t19.reports.CashAvailabilityChartReport
+  const owing = (d: Awaited<ReturnType<typeof Q.loadSales>>) => d.invoices.map(i => ({ due: i.dueDate, owing: i.total
+    - d.receipts.flatMap(r => r.payments).filter(p => p.invoice === i.number).reduce((s, p) => s + p.amount, 0) }))
+  const ev = CF.cashAvailabilityEvents(owing(await Q.loadSales(f.db)), owing(await Q.loadPurchases(f.db)), ch.from, ch.to)
+  expect(ev).toEqual([{ date: '2026-11-20', delta: 50_000_000 }, { date: '2026-12-05', delta: -30_000_000 }])
+  for (const e of ev) expect(ch.xAxis).toContain(e.date)
+})

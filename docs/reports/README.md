@@ -1,7 +1,7 @@
 # Accurate Daftar Laporan — catalog
 
 Captured 2026-10-18 from Accurate Online v1.0.1#4970 (sandbox Data Usaha) via `/accurate/report/init-report.do`.
-Spec column: **verified** = zero-diff ERP test against an Accurate fixture; **spec** = parameters/layout captured, not yet verified; **out of scope** = spec kept, not part of the accounting module (ADR-0010).
+Spec column: **verified** = zero-diff ERP test against an Accurate fixture; **spec** = parameters/layout captured, not yet verified; **out of scope** = spec kept, not part of the accounting module (ADR-0010). Unlabeled charts count as verified through their backing table report (ADR-0011).
 This is the acceptance-spec index: each report gets its own `docs/reports/<planId>.md` once reverse-engineered.
 
 Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (month/year), ASOFYEAR, COMPAREFROMTO, DATECOMPARE, YEARTODATE, NONE.
@@ -17,7 +17,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Laba/Rugi (Multi Year) | `ProfitLossMultiYearReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossMultiYearReport.md) |
 | Neraca (Multi Year) | `BalanceSheetMultiYearReport` | financialstatement | ASOFYEAR | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetMultiYearReport.md) |
 | Arus Kas (Tak Langsung) | `CashFlowIndirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowIndirectReport.md) |
-| Proyeksi Ketersediaan Kas | `CashAvailabilityChartReport` | chart | FROMTO | — | [spec](CashAvailabilityChartReport.md) |
+| Proyeksi Ketersediaan Kas | `CashAvailabilityChartReport` | chart | FROMTO | — | [verified](CashAvailabilityChartReport.md) |
 | Proyeksi Kas per Bulan | `CashProjectionReport` | report | NONE | — | [verified](CashProjectionReport.md) |
 | Laba/Rugi (Perbandingan Periode) | `ProfitLossComparePeriodReport` | financialstatement | COMPAREFROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossComparePeriodReport.md) |
 | Laba/Rugi (Kuartal) | `ProfitLossQuarterReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossQuarterReport.md) |

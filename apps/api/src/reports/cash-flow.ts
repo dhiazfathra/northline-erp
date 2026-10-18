@@ -166,3 +166,14 @@ export function cashProjection(today: string, base: CashProjectionBase, receivab
     ['Penggunaan Kas'], ['Utang Jatuh Tempo', ...f(utang)], ['Cek Mundur Jatuh Tempo', ...f(base.chequesOut)], ['Pembayaran Beban Jatuh Tempo', ...f(zero)], ['Pembayaran Gaji Karyawan', ...f(zero)],
     ['Total Penggunaan Kas', ...f(guna)], ['Perkiraan Lebih/Kurang Kas', ...f(akhir)]]
 }
+
+/**
+ * Proyeksi Ketersediaan Kas (chart): points where projected cash changes. Future points are open receivables (+) and
+ * payables (-) by due date in [from, to], the same items Proyeksi Kas per Bulan buckets by month (ADR-0011).
+ */
+export function cashAvailabilityEvents(receivables: { due: string; owing: number }[], payables: { due: string; owing: number }[], from: string, to: string) {
+  const m = new Map<string, number>()
+  for (const [xs, sign] of [[receivables, 1], [payables, -1]] as const)
+    for (const x of xs) if (x.owing && x.due >= from && x.due <= to) m.set(x.due, (m.get(x.due) ?? 0) + sign * x.owing)
+  return [...m].sort(([a], [b]) => a.localeCompare(b)).map(([date, delta]) => ({ date, delta }))
+}
