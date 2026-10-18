@@ -116,3 +116,34 @@ test('query string booleans: "false" stays false', async () => {
   const { trialBalanceQuery } = await import('@northline/schemas/ledger-es')
   expect(trialBalanceQuery.parse({ from: '2031-01-01', to: '2031-01-31', showParentAccount: 'false' }).showParentAccount).toBe(false)
 })
+
+describe('Laba/Rugi and Neraca match Accurate', async () => {
+  const fs = (await import('../../../docs/reports/fixtures/financial-statements.json')).default
+  const { formatLine, periodLabel } = await import('../src/reports/financial-statements')
+  const { queryProfitLoss, queryBalanceSheet } = await import('../src/reports/queries')
+  const opts = { showZeroBalance: false, showParentAccount: true }
+  // Fixture journals only; later tests in this file add more, so compare against the original posting set.
+  for (const [name, e] of Object.entries(fs.profitLoss)) {
+    test(`Laba/Rugi ${name}`, async () => {
+      const lines = (await queryProfitLoss(db, { from: e.from, to: e.to, ...opts })).map(formatLine)
+      expect([['Deskripsi', periodLabel(e.from, e.to)], ...lines]).toEqual(e.rows)
+    })
+  }
+  for (const [name, e] of Object.entries(fs.balanceSheet)) {
+    test(`Neraca ${name}`, async () => {
+      const lines = (await queryBalanceSheet(db, { asOf: e.asOf, ...opts })).map(formatLine)
+      // Sandbox retained earnings carry 34.002.596 D of other data before the fixture; ours starts at 0.
+      const expected = e.rows.flatMap(r => r[0] !== 'Laba Ditahan' ? [r] : e.asOf < '2031-01-01' ? [] : [['Laba Ditahan', '3.000.000']])
+      expect(lines.filter(l => /^NL-T1|^Laba /.test(l[0]!))).toEqual(expected)
+    })
+  }
+})
+
+test('Neraca: JUMLAH ASET = JUMLAH LIABILITAS DAN EKUITAS', async () => {
+  const { queryBalanceSheet } = await import('../src/reports/queries')
+  for (const asOf of ['2030-12-31', '2031-02-28', '2031-06-30']) {
+    const lines = await queryBalanceSheet(db, { asOf, showZeroBalance: false, showParentAccount: true })
+    const total = (l: string) => lines.find(x => x.label === l)!.amount
+    expect(total('JUMLAH ASET')).toBe(total('JUMLAH LIABILITAS DAN EKUITAS')!)
+  }
+})

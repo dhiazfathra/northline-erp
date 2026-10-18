@@ -85,6 +85,13 @@ export const trialBalanceQuery = z.object({
 })
 export type TrialBalanceQuery = z.infer<typeof trialBalanceQuery>
 
+export const balanceSheetQuery = z.object({
+  asOf: isoDate,
+  showZeroBalance: z.union([z.boolean(), z.stringbool()]).default(false),
+  showParentAccount: z.union([z.boolean(), z.stringbool()]).default(true),
+})
+export type BalanceSheetQuery = z.infer<typeof balanceSheetQuery>
+
 /** One trial-balance row; amounts in cents, net columns already split to one side. */
 export const trialBalanceRow = z.object({
   no: z.string(),

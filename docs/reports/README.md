@@ -9,8 +9,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Laba/Rugi (Standar) | `ProfitLossStandardReport` | financialstatement | FROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
-| Neraca (Standar) | `BalanceSheetStandardReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
+| Laba/Rugi (Standar) | `ProfitLossStandardReport` | financialstatement | FROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossStandardReport.md) |
+| Neraca (Standar) | `BalanceSheetStandardReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetStandardReport.md) |
 | Laba/Rugi (Multi Periode) | `ProfitLossMultiPeriodReport` | financialstatement | PERIODFROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
 | Neraca (Multi Periode) | `BalanceSheetMultiPeriodReport` | financialstatement | PERIODFROMTO | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
 | Laba/Rugi (Multi Year) | `ProfitLossMultiYearReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |

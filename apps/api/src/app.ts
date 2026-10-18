@@ -1,12 +1,12 @@
 import { Hono } from 'hono'
 import { ZodError } from 'zod'
-import { trialBalanceQuery } from '@northline/schemas/ledger-es'
+import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-es'
 import type { Db } from './db'
 import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryTrialBalance } from './reports/queries'
+import { queryBalanceSheet, queryProfitLoss, queryTrialBalance } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono()
@@ -28,6 +28,8 @@ export function createApp(db: Db) {
       if (after) await waitFor(db, after)
       return c.json(await queryTrialBalance(db, q))
     })
+    .get('/reports/profit-loss', async c => c.json(await queryProfitLoss(db, trialBalanceQuery.parse(c.req.query()))))
+    .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   return new Hono().route('/api', api)
 }
 
