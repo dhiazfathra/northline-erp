@@ -248,6 +248,42 @@
      "installment": "Cicilan 1"
     }
    ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T23-I1",
+   "number": "SI.2026.10.00014",
+   "customer": "NL-T2-C1",
+   "date": "2026-10-10",
+   "dueDate": "2026-11-20",
+   "description": "NL-T23 faktur proyeksi",
+   "taxable": false,
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "name": "NL-T2 Jasa Konsultasi",
+     "qty": 5,
+     "price": 100000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T23-P1",
+   "number": "PI.2026.10.00006",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T23-B2",
+   "date": "2026-10-12",
+   "dueDate": "2026-12-05",
+   "description": "NL-T23 pembelian proyeksi",
+   "taxable": false,
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "qty": 2,
+     "price": 150000
+    }
+   ]
   }
  ],
  "notes": [
@@ -261,7 +297,8 @@
   "A Cek/Giro receipt posts no journal on its transaction date; Accurate journals it on the cheque date (15 Dec 2035: Dr Kas / Cr Piutang 444.000).",
   "CustomerLimitReport re-captured after R2: saldo IDR 0, Giro Mundur 444.000 (cheque not yet due at print date 18 Oct 2026), Sisa 556.000. before_cheque keeps the earlier capture (saldo IDR 444.000, USD 0).",
   "T22: payment term 'NL-T22 Cicilan' (installmentTerm, id 150); SI.2035.12.00001 carries detailSchedulePayment (installmentName/Date/Amount); the receipt line names the installment (invoiceInstallmentId) or Accurate refuses ('Cicilan harus diisi').",
-  "Bank reconciliation (accurate__cash-bank__bank-reconcile): R1 reconciled manually on statement date 30 Nov 2035 via add-exist-in-bankstatement.do + save-bank-reconcile.do (tools/accurate/reconcile.mjs). 'Direkonsiliasi Oleh' prints the login user; the capture stores it as [REDACTED] and the ERP test reconciles as that name."
+  "Bank reconciliation (accurate__cash-bank__bank-reconcile): R1 reconciled manually on statement date 30 Nov 2035 via add-exist-in-bankstatement.do + save-bank-reconcile.do (tools/accurate/reconcile.mjs). 'Direkonsiliasi Oleh' prints the login user; the capture stores it as [REDACTED] and the ERP test reconciles as that name.",
+  "T23 (CashProjectionReport): SI.2026.10.00014 500.000 due 20 Nov 2026 (term 'NL-T23 net 41') and PI.2026.10.00006 300.000 due 5 Dec 2026 ('NL-T23 net 54'), dated before the print date 18 Oct 2026 so they fall in the projection window. An earlier C.O.D pair (SI.2026.10.00013 / PI.2026.10.00005) was deleted."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -1602,6 +1639,225 @@
      "Keterangan",
      "Nilai",
      "Referensi"
+    ]
+   ]
+  },
+  "CashProjectionReport": {
+   "today": "2026-10-18",
+   "base": {
+    "note": "From the capture before T23: sandbox cash and demo cheques; the ERP adds NL receivables/payables.",
+    "opening": 369238600,
+    "chequesIn": [
+     160000000,
+     320000000,
+     0,
+     0,
+     0
+    ],
+    "chequesOut": [
+     155000000,
+     315000000,
+     0,
+     0,
+     0
+    ]
+   },
+   "before": [
+    [
+     "Proyeksi Kas per Bulan"
+    ],
+    [
+     "Keterangan",
+     "18-31 Oktober 2026",
+     "November 2026",
+     "Desember 2026",
+     "Januari 2027",
+     "Februari 2027"
+    ],
+    [
+     "Saldo Kas per 18 Oktober 2026",
+     "3.692.386",
+     "3.742.386",
+     "3.792.386",
+     "3.792.386",
+     "3.792.386"
+    ],
+    [
+     "Sumber Pendapatan"
+    ],
+    [
+     "Piutang Jatuh Tempo",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pencairan Cek Jatuh Tempo",
+     "1.600.000",
+     "3.200.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Sumber Pendapatan",
+     "1.600.000",
+     "3.200.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Penggunaan Kas"
+    ],
+    [
+     "Utang Jatuh Tempo",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Cek Mundur Jatuh Tempo",
+     "1.550.000",
+     "3.150.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pembayaran Beban Jatuh Tempo",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pembayaran Gaji Karyawan",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Penggunaan Kas",
+     "1.550.000",
+     "3.150.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Perkiraan Lebih/Kurang Kas",
+     "3.742.386",
+     "3.792.386",
+     "3.792.386",
+     "3.792.386",
+     "3.792.386"
+    ]
+   ],
+   "rows": [
+    [
+     "Proyeksi Kas per Bulan"
+    ],
+    [
+     "Keterangan",
+     "18-31 Oktober 2026",
+     "November 2026",
+     "Desember 2026",
+     "Januari 2027",
+     "Februari 2027"
+    ],
+    [
+     "Saldo Kas per 18 Oktober 2026",
+     "3.692.386",
+     "3.742.386",
+     "4.292.386",
+     "3.992.386",
+     "3.992.386"
+    ],
+    [
+     "Sumber Pendapatan"
+    ],
+    [
+     "Piutang Jatuh Tempo",
+     "0",
+     "500.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pencairan Cek Jatuh Tempo",
+     "1.600.000",
+     "3.200.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Sumber Pendapatan",
+     "1.600.000",
+     "3.700.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Penggunaan Kas"
+    ],
+    [
+     "Utang Jatuh Tempo",
+     "0",
+     "0",
+     "300.000",
+     "0",
+     "0"
+    ],
+    [
+     "Cek Mundur Jatuh Tempo",
+     "1.550.000",
+     "3.150.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pembayaran Beban Jatuh Tempo",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Pembayaran Gaji Karyawan",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Penggunaan Kas",
+     "1.550.000",
+     "3.150.000",
+     "300.000",
+     "0",
+     "0"
+    ],
+    [
+     "Perkiraan Lebih/Kurang Kas",
+     "3.742.386",
+     "4.292.386",
+     "3.992.386",
+     "3.992.386",
+     "3.992.386"
     ]
    ]
   }

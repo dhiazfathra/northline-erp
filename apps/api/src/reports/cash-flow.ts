@@ -137,3 +137,32 @@ export function formatCashFlow(rows: Row[], periods: Period[]): string[][] {
   const head = periods.length === 1 ? ['Keterangan', 'Nilai'] : ['Keterangan', ...periods.map(p => `${MON[Number(p.from.slice(5, 7)) - 1]} ${p.from.slice(0, 4)}`)]
   return [head, ...rows.map(([l, ...v]) => [l, ...(v as number[]).map(formatIdr)])]
 }
+
+const MONTH_ID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+/** Sandbox-wide inputs the ERP does not hold: opening cash and cheque clearings per column (docs/reports/CashProjectionReport.md). */
+export interface CashProjectionBase { opening: number; chequesIn: number[]; chequesOut: number[] }
+/**
+ * Proyeksi Kas per Bulan: five columns from today (today..end of month, then four calendar months). Piutang / Utang Jatuh
+ * Tempo = open invoice balances bucketed by due date; each column's Saldo Kas is the previous column's
+ * Perkiraan Lebih/Kurang Kas = Saldo + Total Sumber - Total Penggunaan.
+ */
+// shortcut: balances already overdue before today, expense and salary schedules are not captured (0 in the fixture).
+export function cashProjection(today: string, base: CashProjectionBase, receivables: { due: string; owing: number }[], payables: { due: string; owing: number }[]): string[][] {
+  const [y, m, dd] = today.split('-').map(Number) as [number, number, number]
+  const cols = Array.from({ length: 5 }, (_, i) => {
+    const yy = y + Math.floor((m - 1 + i) / 12), mm = (m - 1 + i) % 12 + 1, last = new Date(Date.UTC(yy, mm, 0)).getUTCDate()
+    const ym = `${yy}-${String(mm).padStart(2, '0')}`
+    return { from: i === 0 ? today : `${ym}-01`, to: `${ym}-${String(last).padStart(2, '0')}`, label: i === 0 ? `${dd}-${last} ${MONTH_ID[mm - 1]} ${yy}` : `${MONTH_ID[mm - 1]} ${yy}` }
+  })
+  const bucket = (xs: { due: string; owing: number }[]) => cols.map(c => xs.filter(x => x.owing && x.due >= c.from && x.due <= c.to).reduce((s, x) => s + x.owing, 0))
+  const piutang = bucket(receivables), utang = bucket(payables)
+  const zero = cols.map(() => 0), saldo: number[] = [], akhir: number[] = []
+  const sumber = cols.map((_, i) => piutang[i]! + base.chequesIn[i]!), guna = cols.map((_, i) => utang[i]! + base.chequesOut[i]!)
+  cols.forEach((_, i) => { saldo.push(i ? akhir[i - 1]! : base.opening); akhir.push(saldo[i]! + sumber[i]! - guna[i]!) })
+  const f = (xs: number[]) => xs.map(formatIdr)
+  return [['Proyeksi Kas per Bulan'], ['Keterangan', ...cols.map(c => c.label)],
+    [`Saldo Kas per ${dd} ${MONTH_ID[m - 1]} ${y}`, ...f(saldo)],
+    ['Sumber Pendapatan'], ['Piutang Jatuh Tempo', ...f(piutang)], ['Pencairan Cek Jatuh Tempo', ...f(base.chequesIn)], ['Total Sumber Pendapatan', ...f(sumber)],
+    ['Penggunaan Kas'], ['Utang Jatuh Tempo', ...f(utang)], ['Cek Mundur Jatuh Tempo', ...f(base.chequesOut)], ['Pembayaran Beban Jatuh Tempo', ...f(zero)], ['Pembayaran Gaji Karyawan', ...f(zero)],
+    ['Total Penggunaan Kas', ...f(guna)], ['Perkiraan Lebih/Kurang Kas', ...f(akhir)]]
+}

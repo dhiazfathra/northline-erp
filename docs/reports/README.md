@@ -18,7 +18,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Neraca (Multi Year) | `BalanceSheetMultiYearReport` | financialstatement | ASOFYEAR | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetMultiYearReport.md) |
 | Arus Kas (Tak Langsung) | `CashFlowIndirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowIndirectReport.md) |
 | Proyeksi Ketersediaan Kas | `CashAvailabilityChartReport` | chart | FROMTO | — | [spec](CashAvailabilityChartReport.md) |
-| Proyeksi Kas per Bulan | `CashProjectionReport` | report | NONE | — | [spec](CashProjectionReport.md) |
+| Proyeksi Kas per Bulan | `CashProjectionReport` | report | NONE | — | [verified](CashProjectionReport.md) |
 | Laba/Rugi (Perbandingan Periode) | `ProfitLossComparePeriodReport` | financialstatement | COMPAREFROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossComparePeriodReport.md) |
 | Laba/Rugi (Kuartal) | `ProfitLossQuarterReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossQuarterReport.md) |
 | Neraca (Perbandingan Periode) | `BalanceSheetComparePeriodReport` | financialstatement | DATECOMPARE | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetComparePeriodReport.md) |

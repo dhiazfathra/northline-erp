@@ -25,7 +25,7 @@ beforeAll(async () => {
       await createSalesInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, date: d.date, description: d.description,
         taxable: d.taxable, taxNumber: d.taxNumber, dueDate: d.dueDate, installments: d.installments, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
     else if (d.kind === 'SalesReceipt') await createSalesReceipt(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, bank: d.bank, date: d.date, description: d.description, amount: d.amount, cheque: d.cheque, payments: d.payments })
-    else await createPurchaseInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, description: d.description, taxable: d.taxable, lines: d.lines })
+    else await createPurchaseInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, dueDate: d.dueDate, description: d.description, taxable: d.taxable, lines: d.lines })
   for (const s of t19.sptMasa) await reportSptMasa(f.db, s.from, s.to)
   await catchUp(f.db, ledgerProjection)
 })
@@ -105,4 +105,13 @@ test('bank reconciliation reports Nov-Dec 2035 (manual reconcile of R1)', async 
   expect(C.reconcileBookToStatement(rs, b.banks, b.from, b.to)).toEqual(b.rows)
   expect(C.reconcileStatementToBook(rs, b.banks, b.from, b.to)).toEqual(R.BankReconcileStatementToBookReport.rows)
   expect([...C.bankStatement(rs, { no: 'NL-T1-1101', name: 'NL-T1 Kas' }, b.from, b.to)]).toEqual(R.BankStatementReport.rows.slice(2))
+})
+
+test('CashProjectionReport per 18 Okt 2026: T23 receivable/payable land in their due months', async () => {
+  const CF = await import('../src/reports/cash-flow'), Q = await import('../src/reports/queries'), cp = t19.reports.CashProjectionReport
+  const owing = (d: Awaited<ReturnType<typeof Q.loadSales>>) => d.invoices.map(i => ({ due: i.dueDate, owing: i.total
+    - d.receipts.flatMap(r => r.payments).filter(p => p.invoice === i.number).reduce((s, p) => s + p.amount, 0) }))
+  const recv = owing(await Q.loadSales(f.db)).filter(x => x.due >= cp.today), pay = owing(await Q.loadPurchases(f.db)).filter(x => x.due >= cp.today)
+  expect(CF.cashProjection(cp.today, cp.base, recv, pay)).toEqual(cp.rows)
+  expect(CF.cashProjection(cp.today, cp.base, [], [])).toEqual(cp.before) // the baseline alone reproduces the pre-T23 capture
 })
