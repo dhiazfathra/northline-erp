@@ -54,7 +54,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | [verified](JournalDetailListReport.md) |
 | Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | [verified](JournalDetailListDownloadReport.md) |
 | Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | [verified](RealizeGainLossReport.md) |
-| Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | [spec](UnRealizeGainLossReport.md) |
+| Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | [verified](UnRealizeGainLossReport.md) |
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
 | Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
 | Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | [verified](GlAccountListReport.md) |

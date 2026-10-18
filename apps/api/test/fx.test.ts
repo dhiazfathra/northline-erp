@@ -44,3 +44,15 @@ test('CSV downloads: Keseluruhan Jurnal, Histori Buku Besar, Rincian Buku Besar,
     return rows.map(r => r[0] === 'NL-T1-1101' ? [...r.slice(0, 8), String(c(r[8]!) - o)] : r) }
   expect(rel(G.glDetailCsv(accounts, balances, settings, js, W.from, W.to))).toEqual(rel(d.GeneralLedgerDetailDownloadReport.rows))
 })
+
+test('UnRealizeGainLossReport: open USD receivable revalued at the month-end rate (T36)', async () => {
+  const t36 = (t31 as any).t36, R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries')
+  await handle(f.db, { type: 'OpenAccount', idempotencyKey: 'acct-720202', no: '720202', name: 'Laba/Rugi Belum Terealisasi USD', accountType: 'OTHER_EXPENSE' })
+  await createSalesInvoice(f.db, { idempotencyKey: 't36-si-0001', ...t36.invoice })
+  const open = R.foreignOpenReceivables(await Q.loadForeignOwing(f.db, '2037-01-31'))
+  const got = R.unrealizedGainLoss([{ month: t36.monthEnd.month, rates: t36.monthEnd.rates, open }])
+  // The sandbox also revalues two demo USD bank accounts the ERP does not hold: compare the header, currency and receivable rows.
+  const want = body(t36.UnRealizeGainLossReport[1].rows).filter((r: string[]) => r.length !== 7 || r[0] === 'Piutang Usaha USD' || r[0] === 'Nama Akun Perkiraan').filter((r: string[]) => !/^Dari Periode/.test(r[0]!) && r.length !== 4)
+  expect(got.slice(0, -1)).toEqual(want)
+  expect(got.at(-1)).toEqual(['200', '3.000.000', '3.080.000', '80.000'])
+})

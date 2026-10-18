@@ -8,8 +8,8 @@ import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
   const c = customerInput.parse(input)
-  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit, currency, realized_gain_account) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null}, ${c.currency}, ${c.realizedGainAccount ?? null})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit, currency = EXCLUDED.currency, realized_gain_account = EXCLUDED.realized_gain_account`)
+  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit, currency, realized_gain_account, unrealized_gain_account) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null}, ${c.currency}, ${c.realizedGainAccount ?? null}, ${c.unrealizedGainAccount ?? null})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit, currency = EXCLUDED.currency, realized_gain_account = EXCLUDED.realized_gain_account, unrealized_gain_account = EXCLUDED.unrealized_gain_account`)
 }
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)

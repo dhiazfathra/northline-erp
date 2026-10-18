@@ -1,28 +1,38 @@
 # Laba/Rugi Tidak Terealisasi (`UnRealizeGainLossReport`)
 
-Group: Buku Besar. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/UnRealizeGainLossReport.json`](captures/UnRealizeGainLossReport.json), run with default parameters over the sandbox demo data.
+Group: Buku Besar. **Status: verified** (zero diff on the header, currency and receivable rows and the receivable's figures;
+the sandbox's two demo USD bank accounts are outside the ERP). Fixture: [`fixtures/fx-t31.json`](fixtures/fx-t31.json) (`t36`).
+ERP: `apps/api/src/reports/receivables.ts` (`foreignOpenReceivables`, `unrealizedGainLoss`), loader `loadForeignOwing`
+(migration 0039); test: `apps/api/test/fx.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `PERIODFROMTO`; request param used: `{"periodStartMonth":"1","periodStartYear":2026,"periodEndMonth":"10","periodEndYear":2026}`.
-
-
+`periodStartMonth` / `periodStartYear` / `periodEndMonth` / `periodEndYear`. Months are 1-based strings.
 
 ## Layout
 
-View: `report`. Header lines: "Dari Periode Januari 2026 s/d Oktober 2026".
+`Nama Akun Perkiraan | Bulan | Nilai Asing | Nilai Domestik (Bulan) | Kurs Akhir Bulan | Nilai Domestik (Akhir Bulan) | Untung/Rugi`,
+a currency row (`US Dollar`), one row per revalued account and month (alphabetical by account name), and a total row
+`foreign | domestic | revalued | gain`.
 
+## Calculation rules
 
-First table row (columns): `Nama Akun Perkiraan | Bulan | Nilai Asing | Nilai Domestik (Bulan) | Kurs Akhir Bulan | Nilai Domestik (Akhir Bulan) | Untung/Rugi`
+- Rows exist only for months closed with **Proses Akhir Bulan** with gain/loss on. The month-end document carries the
+  rate per currency (`currencyRate[n].currencyId/rate`). Before T36's period end the report printed the header only.
+- Per foreign account: Nilai Asing = open foreign balance; Nilai Domestik (Bulan) = its IDR book value (invoice rate);
+  Kurs Akhir Bulan = the month-end rate; Nilai Domestik (Akhir Bulan) = foreign x month-end rate;
+  Untung/Rugi = revalued - book.
+- T36: 200 USD invoiced at 15.000 (3.000.000), month-end rate 15.400, giving 3.080.000 and a gain of 80.000.
+- The period-end journal (`Proses Akhir Bulan`, number `Januari 2037`) reverses the book value and posts the revalued value
+  per account (Cr 110303 3.000.000 / Dr 110303 3.080.000 / Cr 720202 Laba/Rugi Belum Terealisasi USD 80.000).
+  Losses on the demo banks debit 720202.
 
-## Findings so far (2026-10-18)
+## Seeding notes
 
-T31 left a USD receivable open in October 2036 only until 15 Oct. Run for Oct 2036 the report prints only its header:
-`Nama Akun Perkiraan | Bulan | Nilai Asing | Nilai Domestik (Bulan) | Kurs Akhir Bulan | Nilai Domestik (Akhir Bulan) | Untung/Rugi`.
-Rows need an open foreign balance at a month end and a month-end rate (Proses Akhir Bulan revaluation). The ERP keeps
-IDR only ([ADR-0012](../decisions/0012-foreign-currency-sales.md)).
+`save-period-end.do` with flat `param.*`: `yearPE`, `monthPE` (1-based), `gainLoss: true`, `depreciation: false`,
+`currencyRate[0..n]` (IDR 1, USD rate).
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- The ERP computes the report but does not post the revaluation journal or carry the revalued book value into the next
+  month (`shortcut:` in the code). Foreign bank accounts are not modelled (ADR-0012).

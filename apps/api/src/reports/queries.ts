@@ -332,3 +332,10 @@ export async function loadSerialMoves(db: Db): Promise<import('./serial-numbers'
   return (await db.execute(sql`SELECT s.item_no, i.name, s.serial, to_char(s.date,'YYYY-MM-DD') AS date, s.doc_type, s.quantity, s.warehouse FROM serial_numbers s JOIN items i ON i.no = s.item_no`))
     .map(r => ({ item: r.item_no as string, itemName: r.name as string, serial: r.serial as string, date: r.date as string, docType: r.doc_type as string, quantity: Number(r.quantity), warehouse: r.warehouse as string }))
 }
+
+/** Foreign invoices with their IDR owing at `asOf` (receipts dated by then). */
+export async function loadForeignOwing(db: Db, asOf: string) {
+  return (await db.execute(sql`SELECT c.ar_account, a.name, c.currency, i.rate, i.total - COALESCE((SELECT SUM(l.amount) FROM sales_receipt_lines l JOIN sales_receipts r ON r.number = l.receipt_number WHERE l.invoice_number = i.number AND r.date <= ${asOf}), 0) AS owing
+    FROM sales_invoices i JOIN customers c ON c.no = i.customer_no JOIN accounts a ON a.no = c.ar_account WHERE c.currency <> 'IDR' AND i.date <= ${asOf}`))
+    .map(r => ({ account: r.ar_account as string, accountName: r.name as string, currency: r.currency as string, rate: Number(r.rate), owing: Number(r.owing) }))
+}

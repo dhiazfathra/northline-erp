@@ -25,6 +25,11 @@
    "no": "600020",
    "name": "Beban Operasional Lainnya",
    "type": "EXPENSE"
+  },
+  {
+   "no": "720202",
+   "name": "Laba/Rugi Belum Terealisasi USD",
+   "type": "OTHER_EXPENSE"
   }
  ],
  "customer": {
@@ -32,7 +37,8 @@
   "name": "C.00002 USD",
   "arAccount": "110303",
   "currency": "USD",
-  "realizedGainAccount": "720102"
+  "realizedGainAccount": "720102",
+  "unrealizedGainAccount": "720202"
  },
  "item": {
   "no": "NL-T2-S1",
@@ -576,5 +582,257 @@
    ]
   }
  },
- "downloadsNote": "CSV previews (contentData.preview of the download page). NL-T1 Kas carries earlier NL-T1 history in the sandbox (opening 17493999,5); the test seeds only T31, so the Kas rows of Rincian Buku Besar (CSV) are compared after removing the opening offset."
+ "downloadsNote": "CSV previews (contentData.preview of the download page). NL-T1 Kas carries earlier NL-T1 history in the sandbox (opening 17493999,5); the test seeds only T31, so the Kas rows of Rincian Buku Besar (CSV) are compared after removing the opening offset.",
+ "t36": {
+  "source": "T36: 200 USD invoice on 10 Jan 2037 at 15.000, open at month end; Proses Akhir Bulan Januari 2037 (gain/loss only) with USD at 15.400. The sandbox also revalues two demo USD bank accounts (100 USD each at 16.000), which the ERP does not hold.",
+  "invoice": {
+   "number": "SI.2037.01.00001",
+   "customer": "C.00002",
+   "date": "2037-01-10",
+   "description": "NL-T36-S1",
+   "rate": 15000,
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "name": "NL-T2 Jasa Konsultasi",
+     "qty": 1,
+     "price": 200
+    }
+   ]
+  },
+  "monthEnd": {
+   "month": "2037-01",
+   "rates": {
+    "USD": 15400
+   }
+  },
+  "UnRealizeGainLossReport": [
+   {
+    "param": {
+     "periodStartMonth": "1",
+     "periodStartYear": 2037,
+     "periodEndMonth": "2",
+     "periodEndYear": 2037
+    },
+    "rows": [
+     [
+      "Laba/Rugi Tidak Terealisasi"
+     ],
+     [
+      "Dari Periode Januari 2037 s/d Februari 2037"
+     ],
+     [
+      "Nama Akun Perkiraan",
+      "Bulan",
+      "Nilai Asing",
+      "Nilai Domestik (Bulan)",
+      "Kurs Akhir Bulan",
+      "Nilai Domestik (Akhir Bulan)",
+      "Untung/Rugi"
+     ],
+     [
+      "US Dollar"
+     ],
+     [
+      "ZZ-R01-Bank USD Uji",
+      "Januari 2037",
+      "100",
+      "1.600.000",
+      "15.400",
+      "1.540.000",
+      "-60.000"
+     ],
+     [
+      "Piutang Usaha USD",
+      "Januari 2037",
+      "200",
+      "3.000.000",
+      "15.400",
+      "3.080.000",
+      "80.000"
+     ],
+     [
+      "ZZ-R03-Bank USD Uji 2",
+      "Januari 2037",
+      "100",
+      "1.600.000",
+      "15.400",
+      "1.540.000",
+      "-60.000"
+     ],
+     [
+      "400",
+      "6.200.000",
+      "6.160.000",
+      "-40.000"
+     ]
+    ]
+   },
+   {
+    "param": {
+     "periodStartMonth": "1",
+     "periodStartYear": 2037,
+     "periodEndMonth": "1",
+     "periodEndYear": 2037
+    },
+    "rows": [
+     [
+      "Laba/Rugi Tidak Terealisasi"
+     ],
+     [
+      "Dari Periode Januari 2037 s/d Januari 2037"
+     ],
+     [
+      "Nama Akun Perkiraan",
+      "Bulan",
+      "Nilai Asing",
+      "Nilai Domestik (Bulan)",
+      "Kurs Akhir Bulan",
+      "Nilai Domestik (Akhir Bulan)",
+      "Untung/Rugi"
+     ],
+     [
+      "US Dollar"
+     ],
+     [
+      "ZZ-R01-Bank USD Uji",
+      "Januari 2037",
+      "100",
+      "1.600.000",
+      "15.400",
+      "1.540.000",
+      "-60.000"
+     ],
+     [
+      "Piutang Usaha USD",
+      "Januari 2037",
+      "200",
+      "3.000.000",
+      "15.400",
+      "3.080.000",
+      "80.000"
+     ],
+     [
+      "ZZ-R03-Bank USD Uji 2",
+      "Januari 2037",
+      "100",
+      "1.600.000",
+      "15.400",
+      "1.540.000",
+      "-60.000"
+     ],
+     [
+      "400",
+      "6.200.000",
+      "6.160.000",
+      "-40.000"
+     ]
+    ]
+   }
+  ],
+  "GeneralLedgerHistoryReport": [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 31 Jan 2037 s/d 31 Jan 2037"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "31 Jan 2037"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "110303",
+    "Piutang Usaha USD",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "0",
+    "3.000.000"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "110303",
+    "Piutang Usaha USD",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "3.080.000",
+    "0"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "720202",
+    "Laba/Rugi Belum Terealisasi USD",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "0",
+    "80.000"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "ZZ-R01-1201",
+    "ZZ-R01-Bank USD Uji",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "0",
+    "1.600.000"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "ZZ-R01-1201",
+    "ZZ-R01-Bank USD Uji",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "1.540.000",
+    "0"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "720202",
+    "Laba/Rugi Belum Terealisasi USD",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "60.000",
+    "0"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "ZZ-R03-1202",
+    "ZZ-R03-Bank USD Uji 2",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "0",
+    "1.600.000"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "ZZ-R03-1202",
+    "ZZ-R03-Bank USD Uji 2",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "1.540.000",
+    "0"
+   ],
+   [
+    "Proses Akhir Bulan",
+    "Januari 2037",
+    "720202",
+    "Laba/Rugi Belum Terealisasi USD",
+    "Proses Akhir Bulan (Januari, 2037)",
+    "60.000",
+    "0"
+   ]
+  ]
+ }
 }

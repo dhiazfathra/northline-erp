@@ -626,3 +626,36 @@ export function realizedGainLoss(lines: { receipt: string; date: string; currenc
   }
   return rows
 }
+
+const BULAN_ID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+export interface ForeignOpen { account: string; accountName: string; currency: string; foreign: number; domestic: number }
+/**
+ * Open foreign receivables at a month end, per AR account: foreign = sum of (IDR owing / invoice rate), domestic = IDR owing; both in cents.
+ * Used by the month-end revaluation and Laba/Rugi Tidak Terealisasi.
+ */
+// shortcut: receivables only; foreign bank accounts are not modelled (ADR-0012), and a revalued balance is not carried into the next month's book value.
+export function foreignOpenReceivables(invoices: { account: string; accountName: string; currency: string; rate: number; owing: number }[]): ForeignOpen[] {
+  const by = new Map<string, ForeignOpen>()
+  for (const i of invoices.filter(i => i.currency !== 'IDR' && i.owing)) {
+    const x = by.get(i.account) ?? { account: i.account, accountName: i.accountName, currency: i.currency, foreign: 0, domestic: 0 }
+    x.foreign += i.owing / i.rate; x.domestic += i.owing; by.set(i.account, x)
+  }
+  return [...by.values()]
+}
+
+/** Laba/Rugi Tidak Terealisasi (docs/reports/UnRealizeGainLossReport.md): one row per revalued account and month, then a total row. */
+export function unrealizedGainLoss(months: { month: string; rates: Record<string, number>; open: ForeignOpen[] }[]): string[][] {
+  const rows: string[][] = [['Nama Akun Perkiraan', 'Bulan', 'Nilai Asing', 'Nilai Domestik (Bulan)', 'Kurs Akhir Bulan', 'Nilai Domestik (Akhir Bulan)', 'Untung/Rugi']]
+  let f = 0, d = 0, e = 0
+  for (const cur of [...new Set(months.flatMap(m => m.open.map(o => o.currency)))].sort()) {
+    rows.push([CURRENCY_NAME[cur] ?? cur])
+    for (const m of months) for (const o of m.open.filter(o => o.currency === cur).sort((a, b) => a.accountName.localeCompare(b.accountName))) {
+      const rate = m.rates[cur]!
+      const label = `${BULAN_ID[Number(m.month.slice(5, 7)) - 1]} ${m.month.slice(0, 4)}`
+      rows.push([o.accountName, label, formatIdr(Math.round(o.foreign)), formatIdr(o.domestic), formatIdr(rate * 100), formatIdr(Math.round(o.foreign * rate)), formatIdr(Math.round(o.foreign * rate) - o.domestic)])
+      f += o.foreign; d += o.domestic; e += Math.round(o.foreign * rate)
+    }
+  }
+  if (rows.length > 1) rows.push([formatIdr(Math.round(f)), formatIdr(d), formatIdr(e), formatIdr(e - d)])
+  return rows
+}
