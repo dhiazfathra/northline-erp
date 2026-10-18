@@ -24,6 +24,8 @@ export const salesInvoiceInput = z.object({
   taxable: z.boolean().default(false),
   /** No. Faktur Pajak (e-Faktur number), entered manually. */
   taxNumber: z.string().optional(),
+  /** Installment schedule (Cicilan) of an installment payment term; amounts must add up to the invoice total. */
+  installments: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: amountToCents })).default([]),
   /** Invoice discount %, posted to discountAccount. */
   discPct: z.number().min(0).max(100).default(0),
   discountAccount: code.optional(),
@@ -42,7 +44,7 @@ export const salesReceiptInput = z.object({
   bank: code,
   date: isoDate,
   description: z.string().default(''),
-  payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
+  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** installment name being paid */ installment: z.string().optional() })).min(1),
   /** Amount received; above the sum of payments the excess is a customer credit (kelebihan bayar). Omitted = sum of payments. */
   amount: amountToCents.optional(),
   /** Cek/Giro: the cheque number and its due date (giro mundur until then). */

@@ -146,8 +146,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnListReport.md) |
 | Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnDetailReport.md) |
 | Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDownPaymentDetailReport.md) |
-| Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [spec](SalesInvoicePaidInstallmentListReport.md) |
-| Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [spec](SalesInvoiceUnpaidInstallmentListReport.md) |
+| Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [verified](SalesInvoicePaidInstallmentListReport.md) |
+| Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [verified](SalesInvoiceUnpaidInstallmentListReport.md) |
 | Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](CogsMonitoringReport.md) |
 | Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | [verified](ProfitabilityBySalesInvoiceReport.md) |
 | Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByItemReport.md) |

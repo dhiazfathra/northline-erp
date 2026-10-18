@@ -1,21 +1,21 @@
 # Pembayaran Cicilan (`SalesInvoicePaidInstallmentListReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/SalesInvoicePaidInstallmentListReport.json`](captures/SalesInvoicePaidInstallmentListReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. **Status: verified** (zero diff). Fixture: [`fixtures/tax-t19.json`](fixtures/tax-t19.json) (T22 documents, `reports.SalesInvoicePaidInstallmentListReport`).
+ERP: `apps/api/src/reports/receivables.ts` (`paidInstallments`), loader `loadInstallments`; test: `apps/api/test/tax.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
+`FROMTO`: `{"startDate":"dd/MM/yyyy","endDate":"dd/MM/yyyy"}`.
 
+## Calculation rules
 
+Installments paid by receipts dated in range: `Pelanggan | No Faktur # | Tanggal Cicilan | Nama Cicilan | Jumlah | Bayar | Tanggal Bayar` (receipt date).
 
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-First table row (columns): `Pelanggan | No Faktur # | Tanggal Cicilan | Nama Cicilan | Jumlah | Bayar | Tanggal Bayar`
+Source: invoices on an **installment payment term** (Syarat Pembayaran with `installmentTerm`, here "NL-T22 Cicilan")
+carry a schedule (`detailSchedulePayment`: installmentName / installmentDate / installmentAmount). A receipt line must
+name the installment it pays (`invoiceInstallmentId`), or Accurate refuses with "Cicilan harus diisi".
+Fixture T22: SI.2035.12.00001, 3 x 100.000 due 10 Dec 2035 / 10 Jan / 10 Feb 2036; Cicilan 1 paid 12 Dec 2035.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Partial installment payments and one receipt paying several installments are not captured yet.

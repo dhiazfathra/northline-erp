@@ -28,6 +28,7 @@ import m0025 from '../migrations/0025_customer_credit_limit.sql' with { type: 't
 import m0026 from '../migrations/0026_receipt_cheques.sql' with { type: 'text' }
 import m0027 from '../migrations/0027_selling_price_adjustments.sql' with { type: 'text' }
 import m0028 from '../migrations/0028_sales_targets.sql' with { type: 'text' }
+import m0029 from '../migrations/0029_installments.sql' with { type: 'text' }
 
 export function connect(url = process.env.DATABASE_URL) {
   if (!url) throw new Error('DATABASE_URL is required')
@@ -38,7 +39,7 @@ export type Db = ReturnType<typeof connect>['db']
 export type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
 
 // Embedded so `bun build --compile` carries them; add new files here in order.
-const MIGRATIONS: Record<string, string> = { '0001_ledger.sql': m0001, '0002_number_sequences.sql': m0002, '0003_auth.sql': m0003, '0004_sales.sql': m0004, '0005_purchases.sql': m0005, '0006_customer_created_at.sql': m0006, '0007_inventory.sql': m0007, '0008_fixed_assets.sql': m0008, '0009_returns.sql': m0009, '0010_down_payments.sql': m0010, '0011_purchase_down_payments.sql': m0011, '0012_purchase_orders.sql': m0012, '0013_item_adjustments.sql': m0013, '0014_asset_disposals.sql': m0014, '0015_purchase_requisitions.sql': m0015, '0016_sales_orders.sql': m0016, '0017_warehouses.sql': m0017, '0018_exchange_invoices.sql': m0018, '0019_employee_loans.sql': m0019, '0020_cash_documents.sql': m0020, '0021_master_lists.sql': m0021, '0022_sales_tax.sql': m0022, '0023_purchase_tax.sql': m0023, '0024_spt_masa.sql': m0024, '0025_customer_credit_limit.sql': m0025, '0026_receipt_cheques.sql': m0026, '0027_selling_price_adjustments.sql': m0027, '0028_sales_targets.sql': m0028 }
+const MIGRATIONS: Record<string, string> = { '0001_ledger.sql': m0001, '0002_number_sequences.sql': m0002, '0003_auth.sql': m0003, '0004_sales.sql': m0004, '0005_purchases.sql': m0005, '0006_customer_created_at.sql': m0006, '0007_inventory.sql': m0007, '0008_fixed_assets.sql': m0008, '0009_returns.sql': m0009, '0010_down_payments.sql': m0010, '0011_purchase_down_payments.sql': m0011, '0012_purchase_orders.sql': m0012, '0013_item_adjustments.sql': m0013, '0014_asset_disposals.sql': m0014, '0015_purchase_requisitions.sql': m0015, '0016_sales_orders.sql': m0016, '0017_warehouses.sql': m0017, '0018_exchange_invoices.sql': m0018, '0019_employee_loans.sql': m0019, '0020_cash_documents.sql': m0020, '0021_master_lists.sql': m0021, '0022_sales_tax.sql': m0022, '0023_purchase_tax.sql': m0023, '0024_spt_masa.sql': m0024, '0025_customer_credit_limit.sql': m0025, '0026_receipt_cheques.sql': m0026, '0027_selling_price_adjustments.sql': m0027, '0028_sales_targets.sql': m0028, '0029_installments.sql': m0029 }
 
 /** Applies migrations in name order, once each. Hand-written SQL because triggers and deferred constraints are the point. */
 export async function migrate(client: postgres.Sql) {

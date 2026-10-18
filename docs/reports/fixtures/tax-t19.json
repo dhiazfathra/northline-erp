@@ -80,6 +80,13 @@
    "salesDiscountAccount": "400004",
    "tax": "ZZ-R01-PPN 11%",
    "expenseAccount": "600020"
+  },
+  {
+   "no": "NL-T2-S1",
+   "name": "NL-T2 Jasa Konsultasi",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "400001"
   }
  ],
  "invoiceDiscountAccount": "440101",
@@ -190,6 +197,57 @@
      "amount": 444000
     }
    ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T22-I1",
+   "number": "SI.2035.12.00001",
+   "customer": "NL-T2-C1",
+   "date": "2035-12-01",
+   "dueDate": "2036-02-01",
+   "description": "NL-T22 faktur cicilan",
+   "taxable": false,
+   "installments": [
+    {
+     "name": "Cicilan 1",
+     "date": "2035-12-10",
+     "amount": 100000
+    },
+    {
+     "name": "Cicilan 2",
+     "date": "2036-01-10",
+     "amount": 100000
+    },
+    {
+     "name": "Cicilan 3",
+     "date": "2036-02-10",
+     "amount": 100000
+    }
+   ],
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "name": "NL-T2 Jasa Konsultasi",
+     "qty": 3,
+     "price": 100000
+    }
+   ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "NL-T22-R1",
+   "number": "NL-T1-1101.2035.12.00001",
+   "customer": "NL-T2-C1",
+   "bank": "NL-T1-1101",
+   "date": "2035-12-12",
+   "description": "NL-T22-R1",
+   "payments": [
+    {
+     "invoice": "SI.2035.12.00001",
+     "amount": 100000,
+     "installment": "Cicilan 1"
+    }
+   ]
   }
  ],
  "notes": [
@@ -201,7 +259,8 @@
   "R1 receives 1.200.000 for SI.2035.11.00002 (1.110.000): saved with ignoreWarning ('Ada kelebihan bayar'); the 90.000 excess is the customer's credit. An earlier receipt/return pair (NL-T1-1101.2035.11.00001, SRT.2035.11.00001) was saved and deleted: a return on a paid invoice does not create Sisa Kredit.",
   "R2 pays SI.2035.11.00004 by Cek/Giro (paymentMethod BANK_CHEQUE) dated 30 Nov 2035, cheque due 15 Dec 2035. OutstandingChequeReport needs selectedBank = [{id}] (NL-T1 Kas id 650); an empty list returns nothing.",
   "A Cek/Giro receipt posts no journal on its transaction date; Accurate journals it on the cheque date (15 Dec 2035: Dr Kas / Cr Piutang 444.000).",
-  "CustomerLimitReport re-captured after R2: saldo IDR 0, Giro Mundur 444.000 (cheque not yet due at print date 18 Oct 2026), Sisa 556.000. before_cheque keeps the earlier capture (saldo IDR 444.000, USD 0)."
+  "CustomerLimitReport re-captured after R2: saldo IDR 0, Giro Mundur 444.000 (cheque not yet due at print date 18 Oct 2026), Sisa 556.000. before_cheque keeps the earlier capture (saldo IDR 444.000, USD 0).",
+  "T22: payment term 'NL-T22 Cicilan' (installmentTerm, id 150); SI.2035.12.00001 carries detailSchedulePayment (installmentName/Date/Amount); the receipt line names the installment (invoiceInstallmentId) or Accurate refuses ('Cicilan harus diisi')."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -1120,6 +1179,82 @@
     [
      "Tanggal",
      ":",
+     "01 Des 2035",
+     "No. Trans #",
+     ":",
+     "SI.2035.12.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T22 faktur cicilan"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "300.000",
+     "0"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "300.000"
+    ],
+    [
+     "300.000",
+     "300.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "12 Des 2035",
+     "No. Trans #",
+     ":",
+     "NL-T1-1101.2035.12.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Penerimaan Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T22-R1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "100.000",
+     "0"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "0",
+     "100.000"
+    ],
+    [
+     "100.000",
+     "100.000"
+    ],
+    [
+     "Tanggal",
+     ":",
      "15 Des 2035",
      "No. Trans #",
      ":",
@@ -1156,7 +1291,107 @@
      "444.000"
     ]
    ]
-  }
+  },
+  "SalesInvoicePaidInstallmentListReport": {
+   "from": "2035-12-01",
+   "to": "2035-12-31",
+   "rows": [
+    [
+     "Pembayaran Cicilan"
+    ],
+    [
+     "Dari 01 Des 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Pelanggan",
+     "No Faktur #",
+     "Tanggal Cicilan",
+     "Nama Cicilan",
+     "Jumlah",
+     "Bayar",
+     "Tanggal Bayar"
+    ],
+    [
+     "NL-T2 Pelanggan A",
+     "SI.2035.12.00001",
+     "10 Des 2035",
+     "Cicilan 1",
+     "100.000",
+     "100.000",
+     "12 Des 2035"
+    ]
+   ]
+  },
+  "SalesInvoiceUnpaidInstallmentListReport": [
+   {
+    "asOf": "2035-12-11",
+    "rows": [
+     [
+      "Cicilan Belum Terbayar"
+     ],
+     [
+      "Per Tgl. 11 Des 2035"
+     ],
+     [
+      "Pelanggan",
+      "No Faktur #",
+      "Tanggal Cicilan",
+      "Nama Cicilan",
+      "Jumlah",
+      "Bayar",
+      "Tanggal Bayar"
+     ]
+    ]
+   },
+   {
+    "asOf": "2035-12-31",
+    "rows": [
+     [
+      "Cicilan Belum Terbayar"
+     ],
+     [
+      "Per Tgl. 31 Des 2035"
+     ],
+     [
+      "Pelanggan",
+      "No Faktur #",
+      "Tanggal Cicilan",
+      "Nama Cicilan",
+      "Jumlah",
+      "Bayar",
+      "Tanggal Bayar"
+     ]
+    ]
+   },
+   {
+    "asOf": "2036-01-15",
+    "rows": [
+     [
+      "Cicilan Belum Terbayar"
+     ],
+     [
+      "Per Tgl. 15 Jan 2036"
+     ],
+     [
+      "Pelanggan",
+      "No Faktur #",
+      "Tanggal Cicilan",
+      "Nama Cicilan",
+      "Jumlah",
+      "Bayar",
+      "Tanggal Bayar"
+     ],
+     [
+      "NL-T2 Pelanggan A",
+      "SI.2035.12.00001",
+      "10 Jan 2036",
+      "Cicilan 2",
+      "100.000",
+      "0"
+     ]
+    ]
+   }
+  ]
  },
  "vendors": [
   {

@@ -273,3 +273,13 @@ export async function loadCheques(db: Db): Promise<import('./cash-bank').Cheque[
     FROM sales_receipts r JOIN accounts a ON a.no = r.bank_no JOIN customers c ON c.no = r.customer_no WHERE r.payment_method = 'BANK_CHEQUE'`))
     .map(r => ({ customer: r.customer_no as string, bank: r.bank_no as string, bankName: r.bank_name as string, date: r.date as string, chequeDate: r.cheque_date as string, chequeNo: r.cheque_no as string, party: r.party as string, amount: Number(r.amount) }))
 }
+
+/** Installments with what receipts paid on them and the last payment date. */
+export async function loadInstallments(db: Db): Promise<import('./receivables').Installment[]> {
+  return (await db.execute(sql`SELECT s.invoice_number, i.customer_no, s.name, to_char(s.due_date,'YYYY-MM-DD') AS due, s.amount,
+      COALESCE(SUM(l.amount), 0) AS paid, to_char(MAX(r.date),'YYYY-MM-DD') AS paid_date
+    FROM sales_invoice_installments s JOIN sales_invoices i ON i.number = s.invoice_number
+    LEFT JOIN sales_receipt_lines l ON l.invoice_number = s.invoice_number AND l.installment_seq = s.seq LEFT JOIN sales_receipts r ON r.number = l.receipt_number
+    GROUP BY s.invoice_number, i.customer_no, s.seq, s.name, s.due_date, s.amount ORDER BY s.due_date, s.invoice_number, s.seq`))
+    .map(r => ({ customer: r.customer_no as string, invoice: r.invoice_number as string, name: r.name as string, date: r.due as string, amount: Number(r.amount), paid: Number(r.paid), paidDate: (r.paid_date as string) ?? undefined }))
+}

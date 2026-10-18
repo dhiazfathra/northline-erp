@@ -1,5 +1,5 @@
 {
- "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Preferensi > Anggaran dan Target (featureBudgetTarget) enabled; targets saved via save-sales-target.do (flat param.*, detail fields qtyPeriod/amountPeriod/period/itemCategoryId). Riil comes from the tax-t19.json sales (Nov 2035).",
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Preferensi > Anggaran dan Target (featureBudgetTarget) enabled; targets saved via save-sales-target.do (flat param.*, detail fields qtyPeriod/amountPeriod/period/itemCategoryId). Riil comes from the tax-t19.json sales (Nov 2035). GeneralSalesTargetReport re-captured after the T22 installment invoice (Desember riil 300.000).",
  "year": 2035,
  "targets": [
   {
@@ -214,12 +214,12 @@
     [
      "Desember",
      "1.000.000",
-     "0",
-     "0"
+     "300.000",
+     "30"
     ],
     [
      "4.000.000",
-     "2.041.250"
+     "2.341.250"
     ]
    ]
   }

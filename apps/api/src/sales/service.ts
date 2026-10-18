@@ -118,6 +118,9 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
     await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id, discount, tax_date)
       VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${discount}, ${inv.taxable ? inv.date : null})`)
+    if (inv.installments.length && inv.installments.reduce((s, i) => s + i.amount, 0) !== total) throw new DomainError('Jumlah cicilan harus sama dengan total faktur')
+    for (const [i, c] of inv.installments.entries())
+      await tx.execute(sql`INSERT INTO sales_invoice_installments (invoice_number, seq, name, due_date, amount) VALUES (${number}, ${i + 1}, ${c.name}, ${c.date}, ${c.amount})`)
     if (inv.taxable) await tx.execute(sql`UPDATE sales_invoices SET tax_number = ${inv.taxNumber ?? null}, document_code = ${cust.tax_document_code as string}, tax_type = ${cust.tax_type as string | null} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO sales_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
@@ -163,8 +166,11 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     await tx.execute(sql`INSERT INTO sales_receipts (number, customer_no, bank_no, date, description, amount, journal_id)
       VALUES (${number}, ${rc.customer}, ${rc.bank}, ${rc.date}, ${rc.description}, ${amount}, ${journalId})`)
     if (rc.cheque) await tx.execute(sql`UPDATE sales_receipts SET payment_method = 'BANK_CHEQUE', cheque_no = ${rc.cheque.no}, cheque_date = ${rc.cheque.date} WHERE number = ${number}`)
-    for (const p of rc.payments)
-      await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount) VALUES (${number}, ${p.invoice}, ${p.amount})`)
+    for (const p of rc.payments) {
+      const [inst] = p.installment ? await tx.execute(sql`SELECT seq FROM sales_invoice_installments WHERE invoice_number = ${p.invoice} AND name = ${p.installment}`) : []
+      if (p.installment && !inst) throw new DomainError(`Cicilan ${p.installment} tidak ada di faktur ${p.invoice}`)
+      await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount, installment_seq) VALUES (${number}, ${p.invoice}, ${p.amount}, ${inst?.seq ?? null})`)
+    }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rc.idempotencyKey}, 'CreateSalesReceipt', ${JSON.stringify(result)}::jsonb)`)
     return result

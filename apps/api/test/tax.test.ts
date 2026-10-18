@@ -23,7 +23,7 @@ beforeAll(async () => {
   for (const d of t19.documents as any[])
     if (d.kind === 'SalesInvoice')
       await createSalesInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, date: d.date, description: d.description,
-        taxable: d.taxable, taxNumber: d.taxNumber, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
+        taxable: d.taxable, taxNumber: d.taxNumber, dueDate: d.dueDate, installments: d.installments, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
     else if (d.kind === 'SalesReceipt') await createSalesReceipt(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, bank: d.bank, date: d.date, description: d.description, amount: d.amount, cheque: d.cheque, payments: d.payments })
     else await createPurchaseInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, description: d.description, taxable: d.taxable, lines: d.lines })
   for (const s of t19.sptMasa) await reportSptMasa(f.db, s.from, s.to)
@@ -89,4 +89,11 @@ test('sales target reports 2035 (targets-t21.json): riil = DPP sales in the targ
   expect(TG.itemTargets(ts, d, t21.year)).toEqual(t21.reports.ItemSalesTargetReport.rows)
   expect(TG.categoryTargets(ts, d, t21.year)).toEqual(t21.reports.ItemCategorySalesTargetReport.rows)
   expect(TG.generalTargets(ts, d, t21.year)).toEqual(t21.reports.GeneralSalesTargetReport.rows)
+})
+
+test('installment reports (T22): paid list by receipt date, unpaid list = due and still unpaid now', async () => {
+  const R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries'), d = await Q.loadSales(f.db), is = await Q.loadInstallments(f.db)
+  const p = t19.reports.SalesInvoicePaidInstallmentListReport
+  expect(R.paidInstallments(d, is, p.from, p.to)).toEqual(p.rows)
+  for (const u of t19.reports.SalesInvoiceUnpaidInstallmentListReport) expect(R.unpaidInstallments(d, is, u.asOf)).toEqual(u.rows)
 })

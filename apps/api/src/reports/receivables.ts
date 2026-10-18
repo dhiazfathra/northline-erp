@@ -580,3 +580,20 @@ export function customerCredit(d: SalesData, asOf: string): string[][] {
   rows.push(['Total Pelanggan', formatIdr([...credit.values()].reduce((s, v) => s + v, 0))])
   return rows
 }
+
+export interface Installment { customer: string; invoice: string; name: string; date: string; amount: number; paid: number; paidDate?: string }
+/**
+ * Cicilan Belum Terbayar: installments due on or before the date that are still unpaid now (payment status is current,
+ * not as-of: an installment paid on 12 Dec is gone even as of 11 Dec). Bayar = paid so far; Tanggal Bayar blank.
+ */
+export function unpaidInstallments(d: SalesData, is: Installment[], asOf: string): string[][] {
+  const rows: string[][] = [['Cicilan Belum Terbayar'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Pelanggan', 'No Faktur #', 'Tanggal Cicilan', 'Nama Cicilan', 'Jumlah', 'Bayar', 'Tanggal Bayar']]
+  for (const i of is.filter(i => i.date <= asOf && i.paid < i.amount)) rows.push([d.customers.get(i.customer)!, i.invoice, fmtDate(i.date), i.name, formatIdr(i.amount), formatIdr(i.paid)])
+  return rows
+}
+/** Pembayaran Cicilan: installment payments whose receipt date is in range, with the receipt date as Tanggal Bayar. */
+export function paidInstallments(d: SalesData, is: Installment[], from: string, to: string): string[][] {
+  const rows: string[][] = [['Pembayaran Cicilan'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`], ['Pelanggan', 'No Faktur #', 'Tanggal Cicilan', 'Nama Cicilan', 'Jumlah', 'Bayar', 'Tanggal Bayar']]
+  for (const i of is.filter(i => i.paidDate && i.paidDate >= from && i.paidDate <= to)) rows.push([d.customers.get(i.customer)!, i.invoice, fmtDate(i.date), i.name, formatIdr(i.amount), formatIdr(i.paid), fmtDate(i.paidDate!)])
+  return rows
+}
