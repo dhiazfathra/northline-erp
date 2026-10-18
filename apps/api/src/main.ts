@@ -1,6 +1,7 @@
 import { PgBoss } from 'pg-boss'
 import { connect, migrate } from './db'
 import { createApp } from './app'
+import { createUser } from './auth'
 import { catchUp, projections, rebuild } from './projections'
 import { relayOutbox } from './es/relay'
 
@@ -9,6 +10,15 @@ const arg = (k: string) => process.argv.find(a => a.startsWith(`--${k}=`))?.spli
 const role = arg('role') ?? 'all'
 const { client, db } = connect()
 await migrate(client)
+
+if (process.argv[2] === 'create-user') {
+  const [email, password] = [process.argv[3], process.env.NL_PASSWORD]
+  if (!email || !password) throw new Error('usage: NL_PASSWORD=… northline-api create-user <email>')
+  await createUser(db, email, password)
+  console.log(`created ${email}`)
+  await client.end()
+  process.exit(0)
+}
 
 if (process.argv[2] === 'rebuild') {
   const p = projections.find(p => p.name === process.argv[3])

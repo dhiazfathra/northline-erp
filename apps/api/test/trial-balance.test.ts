@@ -102,13 +102,25 @@ describe('HTTP API', () => {
     const { createApp } = await import('../src/app')
     const { catchUp: cu } = await import('../src/projections')
     const app = createApp(db)
-    const res = await app.request('/api/ledger/commands', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
+    const { createUser } = await import('../src/auth')
+    expect((await app.request('/api/reports/trial-balance?from=2031-06-01&to=2031-06-30')).status).toBe(401)
+    await createUser(db, 'akuntan@example.com', 'rahasia-123')
+    const bad = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'akuntan@example.com', password: 'salah-salah' }) })
+    expect(bad.status).toBe(401)
+    const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'akuntan@example.com', password: 'rahasia-123' }) })
+    const setCookie = login.headers.get('set-cookie')!
+    expect(setCookie).toContain('HttpOnly')
+    expect(setCookie).toContain('SameSite=Strict')
+    const cookie = setCookie.split(';')[0]!
+    const res = await app.request('/api/ledger/commands', { method: 'POST', headers: { 'content-type': 'application/json', cookie }, body: JSON.stringify({
       type: 'PostJournal', idempotencyKey: 'http-0001', journalId: crypto.randomUUID(), date: '2031-06-03',
       lines: [{ account: 'NL-T1-2101', side: 'DEBIT', amount: '1500.25' }, { account: 'NL-T1-1101', side: 'CREDIT', amount: 1500.25 }] }) })
     expect(res.status).toBe(202)
     await cu(db, ledgerProjection)
-    const tb = await (await app.request('/api/reports/trial-balance?from=2031-06-01&to=2031-06-30')).json() as any[]
+    const tb = await (await app.request('/api/reports/trial-balance?from=2031-06-01&to=2031-06-30', { headers: { cookie } })).json() as any[]
     expect(tb.find(r => r.no === 'NL-T1-2101').debit).toBe(150025)
+    await app.request('/api/auth/logout', { method: 'POST', headers: { cookie } })
+    expect((await app.request('/api/me', { headers: { cookie } })).status).toBe(401)
   })
 })
 

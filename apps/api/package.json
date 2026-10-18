@@ -7,7 +7,8 @@
     "start": "bun src/main.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "build": "bun build src/main.ts --compile --outfile dist/northline-api"
+    "build": "pnpm --filter web build && bun scripts/embed-spa.ts && bun build src/main.ts --compile --outfile dist/northline-api && git checkout src/spa.generated.ts",
+    "create-user": "bun src/main.ts create-user"
   },
   "dependencies": {
     "@northline/schemas": "workspace:*",
