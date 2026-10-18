@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/AgingReceivableDetailPerSalesmanReport.json`](captures/retail/AgingReceivableDetailPerSalesmanReport.json).
 
-Status: blocked: requires Salesman on invoice. Fixture: [`fixtures/retail/AgingReceivableDetailPerSalesmanReport.json`](fixtures/retail/AgingReceivableDetailPerSalesmanReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/AgingReceivableDetailPerSalesmanReport.json`](captures/retail/AgingReceivableDetailPerSalesmanReport.json).
 
 ## Purpose
 
@@ -27,13 +27,13 @@ Title lines: `Rincian Umur Piutang per Penjual`, `Per Tgl. 31 Des 2040`, `Cabang
 
 ## Calculation rules
 
-- Invoice `Piutang` values equal [OutstandingInvoicePerSalesmanReport](OutstandingInvoicePerSalesmanReport.md) (checked: SI.2016.10.00004 6,000,000, SI.2016.11.00007 4,200,000, SI.2017.01.00006 37,950,000 ...).
-- As in the summary aging report all bucket cells are 0 although Piutang > 0 (the `> 120` bucket is absent from the capture); subtotal lines show only bucket zeros (the Piutang subtotal cell is not in the capture row).
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: bucket allocation for overdue ranges below 120 days; > 120 bucket; subtotal Piutang cell.
+- Open invoices are those whose **document salesman** is set: Accurate's `masterSalesman`, present only when every line carries the same salesmen (the NL-RC invoice SI.2043.02.00001, one line for NL-RC Sales B and one shared A+B line, appears under no salesman). Owing = total - receipts - returns dated on or before the as-of date; fully settled invoices drop out.
+- Age counts from the **invoice date**, not the due date: SI.2043.06.00004 (25 Jun, due 25 Jul) is 36 days old at 31 Jul and sits in `31 - 60`; at 20 Jul it is 25 days old and sits in `1 - 30`, not `Blm Tempo`, although it is not yet due. Buckets: age <= 0 `Blm Tempo` (unobserved), 1-30, 31-60 (60 inclusive: SI.2043.06.00001 at 60 days), 61-90, 91-120.
+- Invoices older than 120 days count in `Piutang` but in no printed bucket: there is no `> 120` column (SI.2043.01.00001, 207 days, 6,000,000 in Piutang, zeros elsewhere). This explains the all-zero buckets of the 2016-17 demo invoices.
+- Foreign currency: amounts print in the invoice currency (the USD invoice SI.2043.04.00001 shows 1,000, not 15,000,000 IDR at rate 15,000) in its own currency block (sorted IDR, SGD, USD); salesmen sort by name within a block.
+- Currency name heading (`Indonesian Rupiah`, `US Dollar`), salesman name line, one row per open invoice sorted by date, then a subtotal row of the five bucket cells only (no Piutang cell).
 
 ## Retail Demo variation
 

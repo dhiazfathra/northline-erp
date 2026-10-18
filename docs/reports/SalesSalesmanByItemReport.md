@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesSalesmanByItemReport.json`](captures/retail/SalesSalesmanByItemReport.json).
 
-Status: blocked: requires Salesman on invoice.
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesSalesmanByItemReport.json`](captures/retail/SalesSalesmanByItemReport.json).
 
 ## Purpose
 
@@ -28,12 +28,11 @@ Title lines: `Penjualan Barang per Penjual`, `Dari 01 Jan 2000 s/d 31 Des 2040`;
 
 ## Calculation rules
 
-- Unverified.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout of the empty report (title, header cells where printed, footer).
-- Unverified: layout, effect of empty `selectedSalesman`.
+- Needs an explicit salesman selection: with `selectedSalesman=[]` the report prints nothing (demo capture); with both NL-RC salesmen selected it prints `Nama Penjual | Nama Barang | Kts (Unit#1) | Penjualan`.
+- Every salesman on an invoice line (any level) is credited the **whole** line: the shared A+B line of SI.2043.02.00001 (1 x 2,000,000) counts in full for both. Value = line total in IDR before tax (the USD line 1,000 x 15,000 counts 15,000,000). Returns are **not** deducted.
+- Per salesman (by name) one row per item name (salesman name on the first), `Total Nama Barang`, and a final `Total Nama Penjual`. Branch/salesman selection is printed on the `Cabang :` line.
 
 ## Retail Demo variation
 

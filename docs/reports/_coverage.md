@@ -8,7 +8,7 @@ ERP module dependency is the module the report reads. The ERP already event-sour
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals: 275 reports, 229 done, 46 new in this pass (19 partial)
+Totals: 275 reports, 243 done (14 Tenaga Penjual reports verified under ADR-0023), 46 new in this pass (19 partial)
 (33 blocked, 0 buildable on Journal/Period/Account,
 13 on existing modules).
 
@@ -136,7 +136,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Uang Muka Penjualan](SalesDownPaymentByCustomerReport.md) | `SalesDownPaymentByCustomerReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan Barang](ItemSalesTargetReport.md) | `ItemSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan per Kategori](ItemCategorySalesTargetReport.md) | `ItemCategorySalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
-| [Target Penjualan Penjual](SalesmanSalesTargetReport.md) | `SalesmanSalesTargetReport` | Penjualan | N | Y | partial | Sales | blocked: requires Salesman on invoice |
+| [Target Penjualan Penjual](SalesmanSalesTargetReport.md) | `SalesmanSalesTargetReport` | Penjualan | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
 | [Target Penjualan per Bulan](GeneralSalesTargetReport.md) | `GeneralSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
 | [Daftar Penawaran Penjualan](SalesQuotationListReport.md) | `SalesQuotationListReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
 | [Rincian Penawaran Penjualan](SalesQuotationDetailReport.md) | `SalesQuotationDetailReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
@@ -163,19 +163,19 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Penyesuaian Diskon Jual](SellingDiscountAdjustmentDetailReport.md) | `SellingDiscountAdjustmentDetailReport` | Penjualan | Y | Y | done | Sales |  |
 | [Penyesuaian Diskon Jual per Kategori](SellingDiscountAdjustmentDetailPerCategoryReport.md) | `SellingDiscountAdjustmentDetailPerCategoryReport` | Penjualan | Y | Y | done | Sales |  |
 | [Barang Paling Laku](SellingItemFrequencyReport.md) | `SellingItemFrequencyReport` | Penjualan | Y | Y | done | Sales |  |
-| [Faktur Belum Lunas per Penjual](OutstandingInvoicePerSalesmanReport.md) | `OutstandingInvoicePerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Umur Piutang per Penjual](AgingReceivablePerSalesmanReport.md) | `AgingReceivablePerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Rincian Umur Piutang per Penjual](AgingReceivableDetailPerSalesmanReport.md) | `AgingReceivableDetailPerSalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Penjualan Barang per Penjual](SalesSalesmanByItemReport.md) | `SalesSalesmanByItemReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Faktur Penjualan per Penjual](SalesInvoiceListBySalesmanReport.md) | `SalesInvoiceListBySalesmanReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Retur Penjualan per Penjual](SalesReturnListBySalesmanReport.md) | `SalesReturnListBySalesmanReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman on invoice |
-| [Ringkasan Komisi (Dihitung per Periode)](SalesmanCommissionByPeriodSummaryReport.md) | `SalesmanCommissionByPeriodSummaryReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman commission |
-| [Ringkasan Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceSummaryReport.md) | `SalesmanCommissionByInvoiceSummaryReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
-| [Rincian Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceDetailReport.md) | `SalesmanCommissionByInvoiceDetailReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
-| [Rincian Komisi Penjual (Dihitung per Periode)](SalesmanCommissionByPeriodDetailReport.md) | `SalesmanCommissionByPeriodDetailReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman commission |
-| [Daftar Komisi Penjual](SalesmanCommissionListReport.md) | `SalesmanCommissionListReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman commission |
-| [Check In per Karyawan](SalesCheckInPerSalesmanReport.md) | `SalesCheckInPerSalesmanReport` | Tenaga Penjual | N | Y | partial | Sales + Salesman | blocked: requires Salesman check-in (mobile) |
-| [Histori Transaksi per Penjual](TransactionPerSalesmanListReport.md) | `TransactionPerSalesmanListReport` | Tenaga Penjual | N | Y | spec (Retail Demo) | Sales + Salesman | blocked: requires Salesman on invoice |
+| [Faktur Belum Lunas per Penjual](OutstandingInvoicePerSalesmanReport.md) | `OutstandingInvoicePerSalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Umur Piutang per Penjual](AgingReceivablePerSalesmanReport.md) | `AgingReceivablePerSalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Rincian Umur Piutang per Penjual](AgingReceivableDetailPerSalesmanReport.md) | `AgingReceivableDetailPerSalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Penjualan Barang per Penjual](SalesSalesmanByItemReport.md) | `SalesSalesmanByItemReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Faktur Penjualan per Penjual](SalesInvoiceListBySalesmanReport.md) | `SalesInvoiceListBySalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Retur Penjualan per Penjual](SalesReturnListBySalesmanReport.md) | `SalesReturnListBySalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Ringkasan Komisi (Dihitung per Periode)](SalesmanCommissionByPeriodSummaryReport.md) | `SalesmanCommissionByPeriodSummaryReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Ringkasan Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceSummaryReport.md) | `SalesmanCommissionByInvoiceSummaryReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Rincian Komisi (Dihitung per Faktur)](SalesmanCommissionByInvoiceDetailReport.md) | `SalesmanCommissionByInvoiceDetailReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Rincian Komisi Penjual (Dihitung per Periode)](SalesmanCommissionByPeriodDetailReport.md) | `SalesmanCommissionByPeriodDetailReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Daftar Komisi Penjual](SalesmanCommissionListReport.md) | `SalesmanCommissionListReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
+| [Check In per Karyawan](SalesCheckInPerSalesmanReport.md) | `SalesCheckInPerSalesmanReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on layout (check-ins are mobile-only) |
+| [Histori Transaksi per Penjual](TransactionPerSalesmanListReport.md) | `TransactionPerSalesmanListReport` | Tenaga Penjual | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
 | [Faktur Belum Lunas](OutstandingPurchaseInvoiceReport.md) | `OutstandingPurchaseInvoiceReport` | Utang | Y | Y | done | Purchasing |  |
 | [Faktur Belum Lunas per Pemasok](OutstandingPurchaseInvoicePerVendorReport.md) | `OutstandingPurchaseInvoicePerVendorReport` | Utang | Y | Y | done | Purchasing |  |
 | [Umur Utang](AgingPayableReport.md) | `AgingPayableReport` | Utang | Y | Y | done | Purchasing |  |

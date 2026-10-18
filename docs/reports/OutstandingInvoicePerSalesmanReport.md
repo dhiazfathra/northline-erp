@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/OutstandingInvoicePerSalesmanReport.json`](captures/retail/OutstandingInvoicePerSalesmanReport.json).
 
-Status: blocked: requires Salesman on invoice. Fixture: [`fixtures/retail/OutstandingInvoicePerSalesmanReport.json`](fixtures/retail/OutstandingInvoicePerSalesmanReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/OutstandingInvoicePerSalesmanReport.json`](captures/retail/OutstandingInvoicePerSalesmanReport.json).
 
 ## Purpose
 
@@ -27,14 +27,12 @@ Title lines: `Faktur Belum Lunas per Penjual`, `Per Tgl. 31 Des 2040`, `Cabang :
 
 ## Calculation rules
 
-- `Umur (hr)` = days from `Jatuh Tempo` to the as-of date: 11 Okt 2016 to 31 Des 2040 = 8,847 and 29 Jan 2017 = 8,737 (checked by date arithmetic). Due date equals invoice date (no payment terms).
-- Subtotals: Adam Total 134,300,000 = 26,000,000 + 5,000,000 + 37,950,000 + 500,000 + 500,000 + 64,350,000 (checked) and Piutang 113,500,000 (checked). Jhonni Haris Total 437,050,000 = 20,350,000 + 4,200,000 + 170,500,000 + 26,000,000 + 216,000,000 (checked), Piutang 340,240,000 (checked).
-- Only invoices with Piutang > 0 are listed; partly paid invoices show Total vs remaining Piutang (SI.2016.10.00004 26,000,000 / 6,000,000).
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: sort order within salesman (descending number/date as printed: ascending by due date), as-of dates other than 2040, invoices with no salesman.
+- Open invoices are those whose **document salesman** is set: Accurate's `masterSalesman`, present only when every line carries the same salesmen (the NL-RC invoice SI.2043.02.00001, one line for NL-RC Sales B and one shared A+B line, appears under no salesman). Owing = total - receipts - returns dated on or before the as-of date; fully settled invoices drop out.
+- Age counts from the **invoice date**, not the due date: SI.2043.06.00004 (25 Jun, due 25 Jul) is 36 days old at 31 Jul and sits in `31 - 60`; at 20 Jul it is 25 days old and sits in `1 - 30`, not `Blm Tempo`, although it is not yet due. Buckets: age <= 0 `Blm Tempo` (unobserved), 1-30, 31-60 (60 inclusive: SI.2043.06.00001 at 60 days), 61-90, 91-120.
+- Foreign currency: amounts print in the invoice currency (the USD invoice SI.2043.04.00001 shows 1,000, not 15,000,000 IDR at rate 15,000) in its own currency block (sorted IDR, SGD, USD); salesmen sort by name within a block.
+- `Umur (hr)` = as-of date - invoice date (SI.2043.06.00004: 36 although due 25 Jul). `Total` and `Piutang` in the invoice currency; salesman subtotal row `Total | Piutang`; rows sorted by date.
 
 ## Retail Demo variation
 

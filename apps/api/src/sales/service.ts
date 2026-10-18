@@ -81,7 +81,9 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
       .map(r => [r.no as string, { discAccount: r.sales_discount_account as string | null, tax: r.name ? { name: r.name as string, rate: Number(r.rate), account: r.sales_account as string } : null }]))
     const stock = new Map((await tx.execute(sql`SELECT no, inventory_account, cogs_account FROM items WHERE type = 'INVENTORY'`))
       .map(r => [r.no as string, { inv: r.inventory_account as string, cogs: r.cogs_account as string }]))
+    const known = new Set((await tx.execute(sql`SELECT no FROM salesmen`)).map(r => r.no as string))
     const lines = inv.lines.map((l, i) => {
+      for (const s of l.salesmen) if (!known.has(s)) throw new DomainError(`Tenaga Penjual ${s} tidak ditemukan`)
       if (!items.has(l.item)) throw new DomainError(`Barang ${l.item} tidak ditemukan`)
       const gross = Math.round(l.qty * l.price), disc = Math.round(gross * l.discPct / 100)
       if (disc && !itemTax.get(l.item)!.discAccount) throw new DomainError(`Barang ${l.item} tidak punya akun diskon penjualan`)
@@ -160,8 +162,8 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
     if (inv.rate !== 1) await tx.execute(sql`UPDATE sales_invoices SET rate = ${inv.rate} WHERE number = ${number}`)
     if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)
     for (const l of lines)
-      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct)
-        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct})`)
+      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct, salesmen)
+        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct}, ${sql`ARRAY[${sql.join(l.salesmen.map(s => sql`${s}`), sql`, `)}]::text[]`})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO sales_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     await logActivity(tx, { action, entity: 'SI', reference: number, docDate: inv.date })
     const result = { number }

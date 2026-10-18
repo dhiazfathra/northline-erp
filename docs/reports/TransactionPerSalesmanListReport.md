@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/TransactionPerSalesmanListReport.json`](captures/retail/TransactionPerSalesmanListReport.json).
 
-Status: blocked: requires Salesman on invoice. Fixture: [`fixtures/retail/TransactionPerSalesmanListReport.json`](fixtures/retail/TransactionPerSalesmanListReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/TransactionPerSalesmanListReport.json`](captures/retail/TransactionPerSalesmanListReport.json).
 
 ## Purpose
 
@@ -27,12 +27,11 @@ Title lines: `Histori Transaksi per Penjual`, `Dari 01 Jan 2000 s/d 31 Des 2040`
 
 ## Calculation rules
 
-- Example 10 Feb 2017, Adam: Faktur SI.2017.02.00005 17,600,000 equals invoice list value; SO.2017.02.00002 17,600,000 equals its sales order total (checked against [SalesOrderListReport](SalesOrderListReport.md)); receipt 33,600,000 has no matching invoice amount here (unverified).
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: inclusion rules for document types, ordering of dates, receipts belonging to several invoices.
+- Per date (newest first), per salesman (by name), document-type blocks (`Faktur Penjualan`, `Penerimaan Penjualan`; demo data also shows orders, deliveries and quotations, which the ERP does not tie to salesmen) with rows `Nama Pelanggan | Alamat | No. Transaksi | Nilai` and a subtotal; empty cells (Alamat) are omitted.
+- An invoice is listed under every salesman on any of its lines (SI.2043.02.00001 under both). A receipt is listed under every salesman of the invoices it pays, at the **receipt total** (111.101-02.2043.03.00002 4,900,000 under both NL-RC salesmen). Returns are not listed.
+- Foreign invoices show their own-currency total (1,000 USD).
 
 ## Retail Demo variation
 

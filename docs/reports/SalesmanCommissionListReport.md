@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesmanCommissionListReport.json`](captures/retail/SalesmanCommissionListReport.json).
 
-Status: blocked: requires Salesman commission. Fixture: [`fixtures/retail/SalesmanCommissionListReport.json`](fixtures/retail/SalesmanCommissionListReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesmanCommissionListReport.json`](captures/retail/SalesmanCommissionListReport.json).
 
 ## Purpose
 
@@ -26,13 +26,10 @@ Title lines: `Daftar Komisi Penjual`; footer lines `ACCURATE Accounting System R
 
 ## Calculation rules
 
-- The 7% rule is confirmed by arithmetic in [SalesmanCommissionByInvoiceSummaryReport](SalesmanCommissionByInvoiceSummaryReport.md) (checked).
-- The `Berlaku ke Penjual` cell prints an internal placeholder `(DO NOT SHOW)` text verbatim: Accurate bug worth keeping out of the ERP.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: other commission types (per item, tiered, with conditions).
+- One row per rule, by name: `Semua Barang`, `Tanpa batasan dan syarat`, `<pct> % dari Nilai Penjualan`, and `Berlaku ke Penjual` = `Tenaga Penjual: <names joined with ", " and a final " dan ">` when the rule is limited to salesmen (glued to the next text without a space, as Accurate prints it) + `Urutan (DO NOT SHOW) ` + the levels (`Pertama`, `Kedua`, `Ketiga`, `Keempat`, `Kelima`) joined the same way.
+- The `(DO NOT SHOW)` placeholder is printed verbatim: it is part of the compared output.
 
 ## Retail Demo variation
 

@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/AgingReceivablePerSalesmanReport.json`](captures/retail/AgingReceivablePerSalesmanReport.json).
 
-Status: blocked: requires Salesman on invoice. Fixture: [`fixtures/retail/AgingReceivablePerSalesmanReport.json`](fixtures/retail/AgingReceivablePerSalesmanReport.json) (Retail Demo).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/AgingReceivablePerSalesmanReport.json`](captures/retail/AgingReceivablePerSalesmanReport.json).
 
 ## Purpose
 
@@ -27,14 +27,13 @@ Title lines: `Umur Piutang per Penjual`, `Per Tgl. 31 Des 2040`, `Cabang : [Semu
 
 ## Calculation rules
 
-- `Piutang` per salesman = sum of open receivable (invoice `Piutang`) of that salesman's invoices: IDR Adam 113,500,000 and Jhonni Haris 340,240,000 equal the sums in [OutstandingInvoicePerSalesmanReport](OutstandingInvoicePerSalesmanReport.md) (checked: 6 invoices 6,000,000 + 4,200,000 + 37,950,000 + 500,000 + 500,000 + 64,350,000 = 113,500,000; 5 invoices 8,140,000 + 4,200,000 + 89,900,000 + 22,000,000 + 216,000,000 = 340,240,000); SGD 7,200 + 10,730 = 17,930; USD 60,150.
-- `Total Mata Uang` 0 = 453,740,000 + 17,930 + 60,150 = 453,818,080 (checked): currencies are summed raw, with no exchange-rate conversion (surprising).
-- All age buckets show 0 while Piutang > 0 and every invoice is ~8,700+ days past due at the as-of date 31/12/2040: the overdue-over-120-days bucket is missing from the capture (column dropped or not rendered); unverified.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: the `> 120` bucket and bucket boundaries; as-of other than 2040 (Retail Demo data is 2016-2017, so a realistic as-of date was not tried); invoices without a salesman.
+- Open invoices are those whose **document salesman** is set: Accurate's `masterSalesman`, present only when every line carries the same salesmen (the NL-RC invoice SI.2043.02.00001, one line for NL-RC Sales B and one shared A+B line, appears under no salesman). Owing = total - receipts - returns dated on or before the as-of date; fully settled invoices drop out.
+- Age counts from the **invoice date**, not the due date: SI.2043.06.00004 (25 Jun, due 25 Jul) is 36 days old at 31 Jul and sits in `31 - 60`; at 20 Jul it is 25 days old and sits in `1 - 30`, not `Blm Tempo`, although it is not yet due. Buckets: age <= 0 `Blm Tempo` (unobserved), 1-30, 31-60 (60 inclusive: SI.2043.06.00001 at 60 days), 61-90, 91-120.
+- Invoices older than 120 days count in `Piutang` but in no printed bucket: there is no `> 120` column (SI.2043.01.00001, 207 days, 6,000,000 in Piutang, zeros elsewhere). This explains the all-zero buckets of the 2016-17 demo invoices.
+- Foreign currency: amounts print in the invoice currency (the USD invoice SI.2043.04.00001 shows 1,000, not 15,000,000 IDR at rate 15,000) in its own currency block (sorted IDR, SGD, USD); salesmen sort by name within a block.
+- One row per salesman per currency (the code printed on the first row of the block), `Total Tenaga Penjual` per currency, and `Total Mata Uang` adding all currencies **unconverted** (468,440,000 IDR + 17,930 SGD + 61,150 USD = 468,519,080).
 
 ## Retail Demo variation
 

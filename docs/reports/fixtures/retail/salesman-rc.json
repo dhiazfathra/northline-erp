@@ -1,0 +1,3358 @@
+{
+ "dataUsaha": "Retail Demo",
+ "source": "Accurate Online sandbox (Retail Demo), 2026-10-19. NL-RC: two salesmen, three customers (one USD), two services, ten 2043 invoices (SI.2043.02.00001 has a line shared by both salesmen, levels 1 and 2), one return, three receipts, commission rule NL-RC Komisi (5%, level 1, both salesmen) next to the sandbox's own Komisi Team (7%, all levels, all salesmen), sales target NL-RC Target Penjual (Jan-Jun 2043). Check-ins are mobile-app records with no web/API create path: captured empty. Reports over 2043 (as-of 31 Jul 2043); variants: aging as-of 20 Jul 2043, commission period March 2043, commission by invoice March 2043.",
+ "accounts": [
+  {
+   "no": "111.101-02",
+   "name": "Kas Besar Kantor Jakarta",
+   "type": "CASH_BANK"
+  },
+  {
+   "no": "112.101-01",
+   "name": "Piutang Usaha Jakarta - IDR",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "112.101-02",
+   "name": "Piutang Usaha Jakarta - USD",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "411.000-99",
+   "name": "Pendapatan Jasa",
+   "type": "REVENUE"
+  }
+ ],
+ "salesmen": [
+  {
+   "no": "NL-RC-E1",
+   "name": "NL-RC Sales A"
+  },
+  {
+   "no": "NL-RC-E2",
+   "name": "NL-RC Sales B"
+  }
+ ],
+ "customers": [
+  {
+   "no": "NL-RC-C1",
+   "name": "NL-RC Pelanggan A",
+   "arAccount": "112.101-01"
+  },
+  {
+   "no": "NL-RC-C2",
+   "name": "NL-RC Pelanggan B",
+   "arAccount": "112.101-01"
+  },
+  {
+   "no": "NL-RC-C3",
+   "name": "NL-RC Pelanggan USD",
+   "arAccount": "112.101-02",
+   "currency": "USD"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-RC-S1",
+   "name": "NL-RC Jasa Kena Pajak",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "411.000-99"
+  },
+  {
+   "no": "NL-RC-S2",
+   "name": "NL-RC Jasa",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "411.000-99"
+  }
+ ],
+ "commissions": [
+  {
+   "name": "Komisi Team",
+   "percent": 7,
+   "levels": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "name": "NL-RC Komisi",
+   "percent": 5,
+   "levels": [
+    1
+   ],
+   "salesmen": [
+    "NL-RC-E1",
+    "NL-RC-E2"
+   ]
+  }
+ ],
+ "targets": [
+  {
+   "name": "NL-RC Target Penjual",
+   "kind": "SALESMAN",
+   "year": 2043,
+   "from": "2043-01-01",
+   "to": "2043-06-30",
+   "analyst": "NL-RC",
+   "lines": [
+    {
+     "salesman": "NL-RC-E1",
+     "amount": 15000000
+    },
+    {
+     "salesman": "NL-RC-E2",
+     "amount": 5000000
+    }
+   ]
+  }
+ ],
+ "checkIns": [],
+ "documents": [
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI1",
+   "number": "SI.2043.01.00001",
+   "customer": "NL-RC-C1",
+   "date": "2043-01-05",
+   "dueDate": "2043-01-05",
+   "description": "NL-RC faktur 1",
+   "lines": [
+    {
+     "item": "NL-RC-S1",
+     "name": "NL-RC Jasa Kena Pajak",
+     "qty": 1,
+     "price": 10000000,
+     "salesmen": [
+      "NL-RC-E1"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI5",
+   "number": "SI.2043.01.00002",
+   "customer": "NL-RC-C2",
+   "date": "2043-01-20",
+   "dueDate": "2043-01-20",
+   "description": "NL-RC faktur 5",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 1500000,
+     "salesmen": [
+      "NL-RC-E2"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI2",
+   "number": "SI.2043.02.00001",
+   "customer": "NL-RC-C2",
+   "date": "2043-02-10",
+   "dueDate": "2043-02-10",
+   "description": "NL-RC faktur 2",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 2,
+     "price": 2000000,
+     "salesmen": [
+      "NL-RC-E2"
+     ]
+    },
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa bersama",
+     "qty": 1,
+     "price": 2000000,
+     "salesmen": [
+      "NL-RC-E1",
+      "NL-RC-E2"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesReturn",
+   "ref": "SRT1",
+   "number": "SRT.2043.02.00001",
+   "invoice": "SI.2043.02.00001",
+   "date": "2043-02-15",
+   "description": "NL-RC retur 1",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "qty": 1,
+     "price": 2000000,
+     "invoiceSeq": 1
+    }
+   ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "R2",
+   "number": "111.101-02.2043.02.00001",
+   "customer": "NL-RC-C2",
+   "bank": "111.101-02",
+   "date": "2043-02-20",
+   "description": "NL-RC penerimaan 2",
+   "payments": [
+    {
+     "invoice": "SI.2043.01.00002",
+     "amount": 1500000
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI8",
+   "number": "SI.2043.03.00001",
+   "customer": "NL-RC-C2",
+   "date": "2043-03-10",
+   "dueDate": "2043-03-10",
+   "description": "NL-RC faktur 8",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 900000,
+     "salesmen": [
+      "NL-RC-E1"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "R1",
+   "number": "111.101-02.2043.03.00001",
+   "customer": "NL-RC-C1",
+   "bank": "111.101-02",
+   "date": "2043-03-20",
+   "description": "NL-RC penerimaan 1",
+   "payments": [
+    {
+     "invoice": "SI.2043.01.00001",
+     "amount": 4000000
+    }
+   ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "R3",
+   "number": "111.101-02.2043.03.00002",
+   "customer": "NL-RC-C2",
+   "bank": "111.101-02",
+   "date": "2043-03-25",
+   "description": "NL-RC penerimaan 3",
+   "payments": [
+    {
+     "invoice": "SI.2043.03.00001",
+     "amount": 900000
+    },
+    {
+     "invoice": "SI.2043.02.00001",
+     "amount": 4000000
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI3",
+   "number": "SI.2043.04.00001",
+   "customer": "NL-RC-C3",
+   "date": "2043-04-20",
+   "dueDate": "2043-04-20",
+   "description": "NL-RC faktur 3 USD",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 1000,
+     "salesmen": [
+      "NL-RC-E2"
+     ]
+    }
+   ],
+   "rate": 15000
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI6",
+   "number": "SI.2043.05.00001",
+   "customer": "NL-RC-C2",
+   "date": "2043-05-15",
+   "dueDate": "2043-05-15",
+   "description": "NL-RC faktur 6",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 800000,
+     "salesmen": [
+      "NL-RC-E1"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI4",
+   "number": "SI.2043.06.00001",
+   "customer": "NL-RC-C1",
+   "date": "2043-06-01",
+   "dueDate": "2043-06-01",
+   "description": "NL-RC faktur 4",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 3000000,
+     "salesmen": [
+      "NL-RC-E1"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI7",
+   "number": "SI.2043.06.00002",
+   "customer": "NL-RC-C1",
+   "date": "2043-06-10",
+   "dueDate": "2043-06-10",
+   "description": "NL-RC faktur 7",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 1200000,
+     "salesmen": [
+      "NL-RC-E2"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI9",
+   "number": "SI.2043.06.00003",
+   "customer": "NL-RC-C1",
+   "date": "2043-06-20",
+   "dueDate": "2043-06-20",
+   "description": "NL-RC faktur 9",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 700000,
+     "salesmen": [
+      "NL-RC-E2"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "SI10",
+   "number": "SI.2043.06.00004",
+   "customer": "NL-RC-C2",
+   "date": "2043-06-25",
+   "dueDate": "2043-07-25",
+   "description": "NL-RC faktur 10",
+   "lines": [
+    {
+     "item": "NL-RC-S2",
+     "name": "NL-RC Jasa",
+     "qty": 1,
+     "price": 600000,
+     "salesmen": [
+      "NL-RC-E1"
+     ]
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "AgingReceivablePerSalesmanReport": {
+   "param": {
+    "asOfDate": "31/07/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Umur Piutang per Penjual"
+    ],
+    [
+     "Per Tgl. 31 Jul 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Tenaga Penjual",
+     "Piutang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120"
+    ],
+    [
+     "IDR",
+     "Adam",
+     "113,500,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jhonni Haris",
+     "340,240,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-RC Sales A",
+     "10,400,000",
+     "0",
+     "0",
+     "3,600,000",
+     "800,000",
+     "0"
+    ],
+    [
+     "NL-RC Sales B",
+     "1,900,000",
+     "0",
+     "0",
+     "1,900,000",
+     "0",
+     "0"
+    ],
+    [
+     "Total Tenaga Penjual",
+     "466,040,000",
+     "0",
+     "0",
+     "5,500,000",
+     "800,000",
+     "0"
+    ],
+    [
+     "SGD",
+     "Adam",
+     "7,200",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jhonni Haris",
+     "10,730",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Tenaga Penjual",
+     "17,930",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "USD",
+     "Adam",
+     "60,150",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-RC Sales B",
+     "1,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1,000"
+    ],
+    [
+     "Total Tenaga Penjual",
+     "61,150",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1,000"
+    ],
+    [
+     "Total Mata Uang",
+     "466,119,080",
+     "0",
+     "0",
+     "5,500,000",
+     "800,000",
+     "1,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "20/07/2043",
+      "selectedBranch": [
+       {
+        "name": "[Semua Cabang]",
+        "id": null
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Umur Piutang per Penjual"
+      ],
+      [
+       "Per Tgl. 20 Jul 2043"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Mata Uang",
+       "Tenaga Penjual",
+       "Piutang",
+       "Blm Tempo",
+       "1 - 30",
+       "31 - 60",
+       "61 - 90",
+       "91 - 120"
+      ],
+      [
+       "IDR",
+       "Adam",
+       "113,500,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "Jhonni Haris",
+       "340,240,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "NL-RC Sales A",
+       "10,400,000",
+       "0",
+       "600,000",
+       "3,000,000",
+       "800,000",
+       "0"
+      ],
+      [
+       "NL-RC Sales B",
+       "1,900,000",
+       "0",
+       "700,000",
+       "1,200,000",
+       "0",
+       "0"
+      ],
+      [
+       "Total Tenaga Penjual",
+       "466,040,000",
+       "0",
+       "1,300,000",
+       "4,200,000",
+       "800,000",
+       "0"
+      ],
+      [
+       "SGD",
+       "Adam",
+       "7,200",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "Jhonni Haris",
+       "10,730",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "Total Tenaga Penjual",
+       "17,930",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "USD",
+       "Adam",
+       "60,150",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "NL-RC Sales B",
+       "1,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "1,000"
+      ],
+      [
+       "Total Tenaga Penjual",
+       "61,150",
+       "0",
+       "0",
+       "0",
+       "0",
+       "1,000"
+      ],
+      [
+       "Total Mata Uang",
+       "466,119,080",
+       "0",
+       "1,300,000",
+       "4,200,000",
+       "800,000",
+       "1,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:26"
+      ],
+      [
+       "Halaman 1",
+       "dari 1"
+      ]
+     ]
+    }
+   ]
+  },
+  "AgingReceivableDetailPerSalesmanReport": {
+   "param": {
+    "asOfDate": "31/07/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Umur Piutang per Penjual"
+    ],
+    [
+     "Per Tgl. 31 Jul 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Piutang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2016.10.00004",
+     "11 Okt 2016",
+     "Pelanggan Umum - Jakarta",
+     "6,000,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2016.11.00007",
+     "18 Nov 2016",
+     "Dimas seraya Accessories",
+     "4,200,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.01.00006",
+     "05 Jan 2017",
+     "Global Phone Jaya",
+     "37,950,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.01.00001",
+     "17 Jan 2017",
+     "Abadi Phone Center",
+     "500,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.01.00002",
+     "17 Jan 2017",
+     "Cinema Phone Cellular",
+     "500,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.01.00010",
+     "29 Jan 2017",
+     "Pelanggan Umum - Jakarta",
+     "64,350,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jhonni Haris"
+    ],
+    [
+     "SI.2017.10.00001",
+     "01 Okt 2016",
+     "Abadi Phone Center",
+     "8,140,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2016.10.00001",
+     "02 Okt 2016",
+     "PT Emas Sentosa",
+     "4,200,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.02.00001",
+     "12 Okt 2016",
+     "PT Nusantara Indah",
+     "89,900,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2016.10.00005",
+     "15 Okt 2016",
+     "Pelanggan Umum - Surabaya",
+     "22,000,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2017.01.00007",
+     "15 Jan 2017",
+     "PT Emas Sentosa",
+     "216,000,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "SI.2043.01.00001",
+     "05 Jan 2043",
+     "NL-RC Pelanggan A",
+     "6,000,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2043.05.00001",
+     "15 Mei 2043",
+     "NL-RC Pelanggan B",
+     "800,000",
+     "0",
+     "0",
+     "0",
+     "800,000",
+     "0"
+    ],
+    [
+     "SI.2043.06.00001",
+     "01 Jun 2043",
+     "NL-RC Pelanggan A",
+     "3,000,000",
+     "0",
+     "0",
+     "3,000,000",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2043.06.00004",
+     "25 Jun 2043",
+     "NL-RC Pelanggan B",
+     "600,000",
+     "0",
+     "0",
+     "600,000",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "3,600,000",
+     "800,000",
+     "0"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Rincian Umur Piutang per Penjual"
+    ],
+    [
+     "Per Tgl. 31 Jul 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Piutang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120"
+    ],
+    [
+     "SI.2043.06.00002",
+     "10 Jun 2043",
+     "NL-RC Pelanggan A",
+     "1,200,000",
+     "0",
+     "0",
+     "1,200,000",
+     "0",
+     "0"
+    ],
+    [
+     "SI.2043.06.00003",
+     "20 Jun 2043",
+     "NL-RC Pelanggan A",
+     "700,000",
+     "0",
+     "0",
+     "700,000",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "1,900,000",
+     "0",
+     "0"
+    ],
+    [
+     "Singapore Dollar"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2016.12.00004",
+     "08 Des 2016",
+     "PT CIRCLE PHONE",
+     "7,200",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jhonni Haris"
+    ],
+    [
+     "SI.2016.11.00005",
+     "11 Nov 2016",
+     "PT CIRCLE PHONE",
+     "10,730",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "US Dollar"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2017.02.00008",
+     "18 Nov 2016",
+     "Cinema Phone Cellular",
+     "60,150",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SI.2043.04.00001",
+     "20 Apr 2043",
+     "NL-RC Pelanggan USD",
+     "1,000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1,000"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0",
+     "1,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "20/07/2043",
+      "selectedBranch": [
+       {
+        "name": "[Semua Cabang]",
+        "id": null
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Rincian Umur Piutang per Penjual"
+      ],
+      [
+       "Per Tgl. 20 Jul 2043"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Nomor #",
+       "Tanggal",
+       "Pelanggan",
+       "Piutang",
+       "Blm Tempo",
+       "1 - 30",
+       "31 - 60",
+       "61 - 90",
+       "91 - 120"
+      ],
+      [
+       "Indonesian Rupiah"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2016.10.00004",
+       "11 Okt 2016",
+       "Pelanggan Umum - Jakarta",
+       "6,000,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2016.11.00007",
+       "18 Nov 2016",
+       "Dimas seraya Accessories",
+       "4,200,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.01.00006",
+       "05 Jan 2017",
+       "Global Phone Jaya",
+       "37,950,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.01.00001",
+       "17 Jan 2017",
+       "Abadi Phone Center",
+       "500,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.01.00002",
+       "17 Jan 2017",
+       "Cinema Phone Cellular",
+       "500,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.01.00010",
+       "29 Jan 2017",
+       "Pelanggan Umum - Jakarta",
+       "64,350,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "Jhonni Haris"
+      ],
+      [
+       "SI.2017.10.00001",
+       "01 Okt 2016",
+       "Abadi Phone Center",
+       "8,140,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2016.10.00001",
+       "02 Okt 2016",
+       "PT Emas Sentosa",
+       "4,200,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.02.00001",
+       "12 Okt 2016",
+       "PT Nusantara Indah",
+       "89,900,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2016.10.00005",
+       "15 Okt 2016",
+       "Pelanggan Umum - Surabaya",
+       "22,000,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2017.01.00007",
+       "15 Jan 2017",
+       "PT Emas Sentosa",
+       "216,000,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "NL-RC Sales A"
+      ],
+      [
+       "SI.2043.01.00001",
+       "05 Jan 2043",
+       "NL-RC Pelanggan A",
+       "6,000,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2043.05.00001",
+       "15 Mei 2043",
+       "NL-RC Pelanggan B",
+       "800,000",
+       "0",
+       "0",
+       "0",
+       "800,000",
+       "0"
+      ],
+      [
+       "SI.2043.06.00001",
+       "01 Jun 2043",
+       "NL-RC Pelanggan A",
+       "3,000,000",
+       "0",
+       "0",
+       "3,000,000",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2043.06.00004",
+       "25 Jun 2043",
+       "NL-RC Pelanggan B",
+       "600,000",
+       "0",
+       "600,000",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "600,000",
+       "3,000,000",
+       "800,000",
+       "0"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:26"
+      ],
+      [
+       "Halaman 1",
+       "dari 2"
+      ],
+      [
+       "Rincian Umur Piutang per Penjual"
+      ],
+      [
+       "Per Tgl. 20 Jul 2043"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Nomor #",
+       "Tanggal",
+       "Pelanggan",
+       "Piutang",
+       "Blm Tempo",
+       "1 - 30",
+       "31 - 60",
+       "61 - 90",
+       "91 - 120"
+      ],
+      [
+       "SI.2043.06.00002",
+       "10 Jun 2043",
+       "NL-RC Pelanggan A",
+       "1,200,000",
+       "0",
+       "0",
+       "1,200,000",
+       "0",
+       "0"
+      ],
+      [
+       "SI.2043.06.00003",
+       "20 Jun 2043",
+       "NL-RC Pelanggan A",
+       "700,000",
+       "0",
+       "700,000",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "700,000",
+       "1,200,000",
+       "0",
+       "0"
+      ],
+      [
+       "Singapore Dollar"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2016.12.00004",
+       "08 Des 2016",
+       "PT CIRCLE PHONE",
+       "7,200",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "Jhonni Haris"
+      ],
+      [
+       "SI.2016.11.00005",
+       "11 Nov 2016",
+       "PT CIRCLE PHONE",
+       "10,730",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "US Dollar"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2017.02.00008",
+       "18 Nov 2016",
+       "Cinema Phone Cellular",
+       "60,150",
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "SI.2043.04.00001",
+       "20 Apr 2043",
+       "NL-RC Pelanggan USD",
+       "1,000",
+       "0",
+       "0",
+       "0",
+       "0",
+       "1,000"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "0",
+       "1,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:26"
+      ],
+      [
+       "Halaman 2",
+       "dari 2"
+      ]
+     ]
+    }
+   ]
+  },
+  "OutstandingInvoicePerSalesmanReport": {
+   "param": {
+    "asOfDate": "31/07/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Faktur Belum Lunas per Penjual"
+    ],
+    [
+     "Per Tgl. 31 Jul 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Pelanggan",
+     "Total",
+     "Piutang",
+     "Umur (hr)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2016.10.00004",
+     "11 Okt 2016",
+     "11 Okt 2016",
+     "Pelanggan Umum - Jakarta",
+     "26,000,000",
+     "6,000,000",
+     "9,789"
+    ],
+    [
+     "SI.2016.11.00007",
+     "18 Nov 2016",
+     "18 Nov 2016",
+     "Dimas seraya Accessories",
+     "5,000,000",
+     "4,200,000",
+     "9,751"
+    ],
+    [
+     "SI.2017.01.00006",
+     "05 Jan 2017",
+     "05 Jan 2017",
+     "Global Phone Jaya",
+     "37,950,000",
+     "37,950,000",
+     "9,703"
+    ],
+    [
+     "SI.2017.01.00001",
+     "17 Jan 2017",
+     "17 Jan 2017",
+     "Abadi Phone Center",
+     "500,000",
+     "500,000",
+     "9,691"
+    ],
+    [
+     "SI.2017.01.00002",
+     "17 Jan 2017",
+     "17 Jan 2017",
+     "Cinema Phone Cellular",
+     "500,000",
+     "500,000",
+     "9,691"
+    ],
+    [
+     "SI.2017.01.00010",
+     "29 Jan 2017",
+     "29 Jan 2017",
+     "Pelanggan Umum - Jakarta",
+     "64,350,000",
+     "64,350,000",
+     "9,679"
+    ],
+    [
+     "134,300,000",
+     "113,500,000"
+    ],
+    [
+     "Jhonni Haris"
+    ],
+    [
+     "SI.2017.10.00001",
+     "01 Okt 2016",
+     "01 Okt 2016",
+     "Abadi Phone Center",
+     "20,350,000",
+     "8,140,000",
+     "9,799"
+    ],
+    [
+     "SI.2016.10.00001",
+     "02 Okt 2016",
+     "02 Okt 2016",
+     "PT Emas Sentosa",
+     "4,200,000",
+     "4,200,000",
+     "9,798"
+    ],
+    [
+     "SI.2017.02.00001",
+     "12 Okt 2016",
+     "12 Okt 2016",
+     "PT Nusantara Indah",
+     "170,500,000",
+     "89,900,000",
+     "9,788"
+    ],
+    [
+     "SI.2016.10.00005",
+     "15 Okt 2016",
+     "15 Okt 2016",
+     "Pelanggan Umum - Surabaya",
+     "26,000,000",
+     "22,000,000",
+     "9,785"
+    ],
+    [
+     "SI.2017.01.00007",
+     "15 Jan 2017",
+     "15 Jan 2017",
+     "PT Emas Sentosa",
+     "216,000,000",
+     "216,000,000",
+     "9,693"
+    ],
+    [
+     "437,050,000",
+     "340,240,000"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "SI.2043.01.00001",
+     "05 Jan 2043",
+     "05 Jan 2043",
+     "NL-RC Pelanggan A",
+     "10,000,000",
+     "6,000,000",
+     "207"
+    ],
+    [
+     "SI.2043.05.00001",
+     "15 Mei 2043",
+     "15 Mei 2043",
+     "NL-RC Pelanggan B",
+     "800,000",
+     "800,000",
+     "77"
+    ],
+    [
+     "SI.2043.06.00001",
+     "01 Jun 2043",
+     "01 Jun 2043",
+     "NL-RC Pelanggan A",
+     "3,000,000",
+     "3,000,000",
+     "60"
+    ],
+    [
+     "SI.2043.06.00004",
+     "25 Jun 2043",
+     "25 Jul 2043",
+     "NL-RC Pelanggan B",
+     "600,000",
+     "600,000",
+     "36"
+    ],
+    [
+     "14,400,000",
+     "10,400,000"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SI.2043.06.00002",
+     "10 Jun 2043",
+     "10 Jun 2043",
+     "NL-RC Pelanggan A",
+     "1,200,000",
+     "1,200,000",
+     "51"
+    ],
+    [
+     "SI.2043.06.00003",
+     "20 Jun 2043",
+     "20 Jun 2043",
+     "NL-RC Pelanggan A",
+     "700,000",
+     "700,000",
+     "41"
+    ],
+    [
+     "1,900,000",
+     "1,900,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Faktur Belum Lunas per Penjual"
+    ],
+    [
+     "Per Tgl. 31 Jul 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Pelanggan",
+     "Total",
+     "Piutang",
+     "Umur (hr)"
+    ],
+    [
+     "Singapore Dollar"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2016.12.00004",
+     "08 Des 2016",
+     "08 Des 2016",
+     "PT CIRCLE PHONE",
+     "12,000",
+     "7,200",
+     "9,731"
+    ],
+    [
+     "12,000",
+     "7,200"
+    ],
+    [
+     "Jhonni Haris"
+    ],
+    [
+     "SI.2016.11.00005",
+     "11 Nov 2016",
+     "11 Nov 2016",
+     "PT CIRCLE PHONE",
+     "10,730",
+     "10,730",
+     "9,758"
+    ],
+    [
+     "10,730",
+     "10,730"
+    ],
+    [
+     "US Dollar"
+    ],
+    [
+     "Adam"
+    ],
+    [
+     "SI.2017.02.00008",
+     "18 Nov 2016",
+     "18 Nov 2016",
+     "Cinema Phone Cellular",
+     "66,165",
+     "60,150",
+     "9,751"
+    ],
+    [
+     "66,165",
+     "60,150"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SI.2043.04.00001",
+     "20 Apr 2043",
+     "20 Apr 2043",
+     "NL-RC Pelanggan USD",
+     "1,000",
+     "1,000",
+     "102"
+    ],
+    [
+     "1,000",
+     "1,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "20/07/2043",
+      "selectedBranch": [
+       {
+        "name": "[Semua Cabang]",
+        "id": null
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Faktur Belum Lunas per Penjual"
+      ],
+      [
+       "Per Tgl. 20 Jul 2043"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Nomor #",
+       "Tanggal",
+       "Jatuh Tempo",
+       "Pelanggan",
+       "Total",
+       "Piutang",
+       "Umur (hr)"
+      ],
+      [
+       "Indonesian Rupiah"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2016.10.00004",
+       "11 Okt 2016",
+       "11 Okt 2016",
+       "Pelanggan Umum - Jakarta",
+       "26,000,000",
+       "6,000,000",
+       "9,778"
+      ],
+      [
+       "SI.2016.11.00007",
+       "18 Nov 2016",
+       "18 Nov 2016",
+       "Dimas seraya Accessories",
+       "5,000,000",
+       "4,200,000",
+       "9,740"
+      ],
+      [
+       "SI.2017.01.00006",
+       "05 Jan 2017",
+       "05 Jan 2017",
+       "Global Phone Jaya",
+       "37,950,000",
+       "37,950,000",
+       "9,692"
+      ],
+      [
+       "SI.2017.01.00001",
+       "17 Jan 2017",
+       "17 Jan 2017",
+       "Abadi Phone Center",
+       "500,000",
+       "500,000",
+       "9,680"
+      ],
+      [
+       "SI.2017.01.00002",
+       "17 Jan 2017",
+       "17 Jan 2017",
+       "Cinema Phone Cellular",
+       "500,000",
+       "500,000",
+       "9,680"
+      ],
+      [
+       "SI.2017.01.00010",
+       "29 Jan 2017",
+       "29 Jan 2017",
+       "Pelanggan Umum - Jakarta",
+       "64,350,000",
+       "64,350,000",
+       "9,668"
+      ],
+      [
+       "134,300,000",
+       "113,500,000"
+      ],
+      [
+       "Jhonni Haris"
+      ],
+      [
+       "SI.2017.10.00001",
+       "01 Okt 2016",
+       "01 Okt 2016",
+       "Abadi Phone Center",
+       "20,350,000",
+       "8,140,000",
+       "9,788"
+      ],
+      [
+       "SI.2016.10.00001",
+       "02 Okt 2016",
+       "02 Okt 2016",
+       "PT Emas Sentosa",
+       "4,200,000",
+       "4,200,000",
+       "9,787"
+      ],
+      [
+       "SI.2017.02.00001",
+       "12 Okt 2016",
+       "12 Okt 2016",
+       "PT Nusantara Indah",
+       "170,500,000",
+       "89,900,000",
+       "9,777"
+      ],
+      [
+       "SI.2016.10.00005",
+       "15 Okt 2016",
+       "15 Okt 2016",
+       "Pelanggan Umum - Surabaya",
+       "26,000,000",
+       "22,000,000",
+       "9,774"
+      ],
+      [
+       "SI.2017.01.00007",
+       "15 Jan 2017",
+       "15 Jan 2017",
+       "PT Emas Sentosa",
+       "216,000,000",
+       "216,000,000",
+       "9,682"
+      ],
+      [
+       "437,050,000",
+       "340,240,000"
+      ],
+      [
+       "NL-RC Sales A"
+      ],
+      [
+       "SI.2043.01.00001",
+       "05 Jan 2043",
+       "05 Jan 2043",
+       "NL-RC Pelanggan A",
+       "10,000,000",
+       "6,000,000",
+       "196"
+      ],
+      [
+       "SI.2043.05.00001",
+       "15 Mei 2043",
+       "15 Mei 2043",
+       "NL-RC Pelanggan B",
+       "800,000",
+       "800,000",
+       "66"
+      ],
+      [
+       "SI.2043.06.00001",
+       "01 Jun 2043",
+       "01 Jun 2043",
+       "NL-RC Pelanggan A",
+       "3,000,000",
+       "3,000,000",
+       "49"
+      ],
+      [
+       "SI.2043.06.00004",
+       "25 Jun 2043",
+       "25 Jul 2043",
+       "NL-RC Pelanggan B",
+       "600,000",
+       "600,000",
+       "25"
+      ],
+      [
+       "14,400,000",
+       "10,400,000"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "SI.2043.06.00002",
+       "10 Jun 2043",
+       "10 Jun 2043",
+       "NL-RC Pelanggan A",
+       "1,200,000",
+       "1,200,000",
+       "40"
+      ],
+      [
+       "SI.2043.06.00003",
+       "20 Jun 2043",
+       "20 Jun 2043",
+       "NL-RC Pelanggan A",
+       "700,000",
+       "700,000",
+       "30"
+      ],
+      [
+       "1,900,000",
+       "1,900,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:26"
+      ],
+      [
+       "Halaman 1",
+       "dari 2"
+      ],
+      [
+       "Faktur Belum Lunas per Penjual"
+      ],
+      [
+       "Per Tgl. 20 Jul 2043"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Nomor #",
+       "Tanggal",
+       "Jatuh Tempo",
+       "Pelanggan",
+       "Total",
+       "Piutang",
+       "Umur (hr)"
+      ],
+      [
+       "Singapore Dollar"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2016.12.00004",
+       "08 Des 2016",
+       "08 Des 2016",
+       "PT CIRCLE PHONE",
+       "12,000",
+       "7,200",
+       "9,720"
+      ],
+      [
+       "12,000",
+       "7,200"
+      ],
+      [
+       "Jhonni Haris"
+      ],
+      [
+       "SI.2016.11.00005",
+       "11 Nov 2016",
+       "11 Nov 2016",
+       "PT CIRCLE PHONE",
+       "10,730",
+       "10,730",
+       "9,747"
+      ],
+      [
+       "10,730",
+       "10,730"
+      ],
+      [
+       "US Dollar"
+      ],
+      [
+       "Adam"
+      ],
+      [
+       "SI.2017.02.00008",
+       "18 Nov 2016",
+       "18 Nov 2016",
+       "Cinema Phone Cellular",
+       "66,165",
+       "60,150",
+       "9,740"
+      ],
+      [
+       "66,165",
+       "60,150"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "SI.2043.04.00001",
+       "20 Apr 2043",
+       "20 Apr 2043",
+       "NL-RC Pelanggan USD",
+       "1,000",
+       "1,000",
+       "91"
+      ],
+      [
+       "1,000",
+       "1,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:26"
+      ],
+      [
+       "Halaman 2",
+       "dari 2"
+      ]
+     ]
+    }
+   ]
+  },
+  "SalesInvoiceListBySalesmanReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Faktur Penjualan per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total",
+     "Pembayaran",
+     "Piutang"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "SI.2043.06.00004",
+     "25 Jun 2043",
+     "NL-RC Pelanggan B",
+     "600,000",
+     "0",
+     "600,000"
+    ],
+    [
+     "SI.2043.06.00001",
+     "01 Jun 2043",
+     "NL-RC Pelanggan A",
+     "3,000,000",
+     "0",
+     "3,000,000"
+    ],
+    [
+     "SI.2043.05.00001",
+     "15 Mei 2043",
+     "NL-RC Pelanggan B",
+     "800,000",
+     "0",
+     "800,000"
+    ],
+    [
+     "SI.2043.03.00001",
+     "10 Mar 2043",
+     "NL-RC Pelanggan B",
+     "900,000",
+     "900,000",
+     "0"
+    ],
+    [
+     "SI.2043.01.00001",
+     "05 Jan 2043",
+     "NL-RC Pelanggan A",
+     "10,000,000",
+     "4,000,000",
+     "6,000,000"
+    ],
+    [
+     "15,300,000",
+     "4,900,000"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SI.2043.06.00003",
+     "20 Jun 2043",
+     "NL-RC Pelanggan A",
+     "700,000",
+     "0",
+     "700,000"
+    ],
+    [
+     "SI.2043.06.00002",
+     "10 Jun 2043",
+     "NL-RC Pelanggan A",
+     "1,200,000",
+     "0",
+     "1,200,000"
+    ],
+    [
+     "SI.2043.04.00001",
+     "20 Apr 2043",
+     "NL-RC Pelanggan USD",
+     "1,000",
+     "0",
+     "1,000"
+    ],
+    [
+     "SI.2043.01.00002",
+     "20 Jan 2043",
+     "NL-RC Pelanggan B",
+     "1,500,000",
+     "1,500,000",
+     "0"
+    ],
+    [
+     "3,401,000",
+     "1,500,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesReturnListBySalesmanReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Retur Penjualan per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SRT.2043.02.00001",
+     "15 Feb 2043",
+     "NL-RC Pelanggan B",
+     "2,000,000"
+    ],
+    [
+     "2,000,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesSalesmanByItemReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedSalesman": [
+     {
+      "id": 101900,
+      "name": "NL-RC Sales A"
+     },
+     {
+      "id": 101950,
+      "name": "NL-RC Sales B"
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penjualan Barang per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang], Penjual : NL-RC Sales A, NL-RC Sales B"
+    ],
+    [
+     "Nama Penjual",
+     "Nama Barang",
+     "Kts (Unit#1)",
+     "Penjualan"
+    ],
+    [
+     "NL-RC Sales A",
+     "NL-RC Jasa",
+     "5",
+     "7,300,000"
+    ],
+    [
+     "NL-RC Jasa Kena Pajak",
+     "1",
+     "10,000,000"
+    ],
+    [
+     "Total Nama Barang",
+     "6",
+     "17,300,000"
+    ],
+    [
+     "NL-RC Sales B",
+     "NL-RC Jasa",
+     "7",
+     "24,400,000"
+    ],
+    [
+     "Total Nama Barang",
+     "7",
+     "24,400,000"
+    ],
+    [
+     "Total Nama Penjual",
+     "13",
+     "41,700,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesmanSalesTargetReport": {
+   "param": {
+    "asOfYear": 2043,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Target Penjualan Penjual"
+    ],
+    [
+     "per 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Target",
+     ":",
+     "NL-RC Target Penjual",
+     "S/d Tanggal",
+     ":",
+     "30 Jun 2043"
+    ],
+    [
+     "Dari Tanggal",
+     ":",
+     "01 Jan 2043",
+     "Penganalisa",
+     ":",
+     "NL-RC"
+    ],
+    [
+     "Nama Tenaga Penjual",
+     "Nilai Target",
+     "Nilai Riil",
+     "Pencapaian (%)"
+    ],
+    [
+     "NL-RC Sales A",
+     "15,000,000",
+     "17,300,000",
+     "115.33"
+    ],
+    [
+     "NL-RC Sales B",
+     "5,000,000",
+     "22,400,000",
+     "448"
+    ],
+    [
+     "20,000,000",
+     "39,700,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TransactionPerSalesmanListReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Transaksi per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Pelanggan",
+     "Alamat",
+     "No. Transaksi",
+     "Nilai"
+    ],
+    [
+     "25 Jun 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.06.00004",
+     "600,000"
+    ],
+    [
+     "600,000"
+    ],
+    [
+     "20 Jun 2043"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan A",
+     "SI.2043.06.00003",
+     "700,000"
+    ],
+    [
+     "700,000"
+    ],
+    [
+     "10 Jun 2043"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan A",
+     "SI.2043.06.00002",
+     "1,200,000"
+    ],
+    [
+     "1,200,000"
+    ],
+    [
+     "01 Jun 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan A",
+     "SI.2043.06.00001",
+     "3,000,000"
+    ],
+    [
+     "3,000,000"
+    ],
+    [
+     "15 Mei 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.05.00001",
+     "800,000"
+    ],
+    [
+     "800,000"
+    ],
+    [
+     "20 Apr 2043"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 3"
+    ],
+    [
+     "Histori Transaksi per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Pelanggan",
+     "Alamat",
+     "No. Transaksi",
+     "Nilai"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan USD",
+     "SI.2043.04.00001",
+     "1,000"
+    ],
+    [
+     "1,000"
+    ],
+    [
+     "25 Mar 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Penerimaan Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "111.101-02.2043.03.00002",
+     "4,900,000"
+    ],
+    [
+     "4,900,000"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Penerimaan Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "111.101-02.2043.03.00002",
+     "4,900,000"
+    ],
+    [
+     "4,900,000"
+    ],
+    [
+     "20 Mar 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Penerimaan Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan A",
+     "111.101-02.2043.03.00001",
+     "4,000,000"
+    ],
+    [
+     "4,000,000"
+    ],
+    [
+     "10 Mar 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.03.00001",
+     "900,000"
+    ],
+    [
+     "900,000"
+    ],
+    [
+     "20 Feb 2043"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Penerimaan Penjualan"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 3"
+    ],
+    [
+     "Histori Transaksi per Penjual"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Pelanggan",
+     "Alamat",
+     "No. Transaksi",
+     "Nilai"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "111.101-02.2043.02.00001",
+     "1,500,000"
+    ],
+    [
+     "1,500,000"
+    ],
+    [
+     "10 Feb 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.02.00001",
+     "6,000,000"
+    ],
+    [
+     "6,000,000"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.02.00001",
+     "6,000,000"
+    ],
+    [
+     "6,000,000"
+    ],
+    [
+     "20 Jan 2043"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan B",
+     "SI.2043.01.00002",
+     "1,500,000"
+    ],
+    [
+     "1,500,000"
+    ],
+    [
+     "05 Jan 2043"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "Faktur Penjualan"
+    ],
+    [
+     "NL-RC Pelanggan A",
+     "SI.2043.01.00001",
+     "10,000,000"
+    ],
+    [
+     "10,000,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 3",
+     "dari 3"
+    ]
+   ]
+  },
+  "SalesmanCommissionByInvoiceDetailReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043"
+   },
+   "rows": [
+    [
+     "Rincian Komisi (Dihitung per Faktur)"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Nama Komisi Penjual",
+     "Permeriksaan syarat",
+     "Nilai Komisi"
+    ],
+    [
+     "NL-RC Sales A"
+    ],
+    [
+     "SI.2043.02.00001"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi",
+     "140,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi",
+     "100,000"
+    ],
+    [
+     "240,000"
+    ],
+    [
+     "SI.2043.03.00001"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi",
+     "63,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi",
+     "45,000"
+    ],
+    [
+     "108,000"
+    ],
+    [
+     "348,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Rincian Komisi (Dihitung per Faktur)"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Nama Komisi Penjual",
+     "Permeriksaan syarat",
+     "Nilai Komisi"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "SI.2043.01.00002"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi",
+     "105,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi",
+     "75,000"
+    ],
+    [
+     "180,000"
+    ],
+    [
+     "SI.2043.02.00001"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi",
+     "420,000"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi (Retur)",
+     "-140,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi",
+     "200,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi (Retur)",
+     "-100,000"
+    ],
+    [
+     "380,000"
+    ],
+    [
+     "560,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "startDate": "01/03/2043",
+      "endDate": "31/03/2043"
+     },
+     "rows": [
+      [
+       "Rincian Komisi (Dihitung per Faktur)"
+      ],
+      [
+       "Dari 01 Mar 2043 s/d 31 Mar 2043"
+      ],
+      [
+       "Nama Komisi Penjual",
+       "Permeriksaan syarat",
+       "Nilai Komisi"
+      ],
+      [
+       "NL-RC Sales A"
+      ],
+      [
+       "SI.2043.02.00001"
+      ],
+      [
+       "Komisi Team",
+       "Syarat terpenuhi",
+       "140,000"
+      ],
+      [
+       "NL-RC Komisi",
+       "Syarat terpenuhi",
+       "100,000"
+      ],
+      [
+       "240,000"
+      ],
+      [
+       "SI.2043.03.00001"
+      ],
+      [
+       "Komisi Team",
+       "Syarat terpenuhi",
+       "63,000"
+      ],
+      [
+       "NL-RC Komisi",
+       "Syarat terpenuhi",
+       "45,000"
+      ],
+      [
+       "108,000"
+      ],
+      [
+       "348,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:28"
+      ],
+      [
+       "Halaman 1",
+       "dari 2"
+      ],
+      [
+       "Rincian Komisi (Dihitung per Faktur)"
+      ],
+      [
+       "Dari 01 Mar 2043 s/d 31 Mar 2043"
+      ],
+      [
+       "Nama Komisi Penjual",
+       "Permeriksaan syarat",
+       "Nilai Komisi"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "SI.2043.02.00001"
+      ],
+      [
+       "Komisi Team",
+       "Syarat terpenuhi",
+       "420,000"
+      ],
+      [
+       "NL-RC Komisi",
+       "Syarat terpenuhi",
+       "200,000"
+      ],
+      [
+       "620,000"
+      ],
+      [
+       "620,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:28"
+      ],
+      [
+       "Halaman 2",
+       "dari 2"
+      ]
+     ]
+    }
+   ]
+  },
+  "SalesmanCommissionByInvoiceSummaryReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043"
+   },
+   "rows": [
+    [
+     "Ringkasan Komisi (Dihitung per Faktur)"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Nama Tenaga Penjual",
+     "Nilai Komisi"
+    ],
+    [
+     "NL-RC Sales A",
+     "348,000"
+    ],
+    [
+     "NL-RC Sales B",
+     "560,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesmanCommissionByPeriodDetailReport": {
+   "param": {
+    "periodMonth": "2",
+    "periodYear": 2043
+   },
+   "rows": [
+    [
+     "Rincian Komisi Penjual (Dihitung per Periode)"
+    ],
+    [
+     "Per Februari 2043"
+    ],
+    [
+     "Nama Komisi Penjual",
+     "Permeriksaan syarat",
+     "Nilai Komisi"
+    ],
+    [
+     "NL-RC Sales B"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi",
+     "105,000"
+    ],
+    [
+     "Komisi Team",
+     "Syarat terpenuhi (Retur)",
+     "-140,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi",
+     "75,000"
+    ],
+    [
+     "NL-RC Komisi",
+     "Syarat terpenuhi (Retur)",
+     "-100,000"
+    ],
+    [
+     "-60,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "periodMonth": "3",
+      "periodYear": 2043
+     },
+     "rows": [
+      [
+       "Rincian Komisi Penjual (Dihitung per Periode)"
+      ],
+      [
+       "Per Maret 2043"
+      ],
+      [
+       "Nama Komisi Penjual",
+       "Permeriksaan syarat",
+       "Nilai Komisi"
+      ],
+      [
+       "NL-RC Sales A"
+      ],
+      [
+       "Komisi Team",
+       "Syarat terpenuhi",
+       "203,000"
+      ],
+      [
+       "NL-RC Komisi",
+       "Syarat terpenuhi",
+       "145,000"
+      ],
+      [
+       "348,000"
+      ],
+      [
+       "NL-RC Sales B"
+      ],
+      [
+       "Komisi Team",
+       "Syarat terpenuhi",
+       "420,000"
+      ],
+      [
+       "NL-RC Komisi",
+       "Syarat terpenuhi",
+       "200,000"
+      ],
+      [
+       "620,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:28"
+      ],
+      [
+       "Halaman 1",
+       "dari 1"
+      ]
+     ]
+    }
+   ]
+  },
+  "SalesmanCommissionByPeriodSummaryReport": {
+   "param": {
+    "periodMonth": "2",
+    "periodYear": 2043
+   },
+   "rows": [
+    [
+     "Ringkasan Komisi (Dihitung per Periode)"
+    ],
+    [
+     "Per Februari 2043"
+    ],
+    [
+     "Nama Tenaga Penjual",
+     "Nilai Komisi"
+    ],
+    [
+     "NL-RC Sales B",
+     "-60,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "periodMonth": "3",
+      "periodYear": 2043
+     },
+     "rows": [
+      [
+       "Ringkasan Komisi (Dihitung per Periode)"
+      ],
+      [
+       "Per Maret 2043"
+      ],
+      [
+       "Nama Tenaga Penjual",
+       "Nilai Komisi"
+      ],
+      [
+       "NL-RC Sales A",
+       "348,000"
+      ],
+      [
+       "NL-RC Sales B",
+       "620,000"
+      ],
+      [
+       "ACCURATE Accounting System Report"
+      ],
+      [
+       "Tercetak pada 19 October 2026 - 05:28"
+      ],
+      [
+       "Halaman 1",
+       "dari 1"
+      ]
+     ]
+    }
+   ]
+  },
+  "SalesmanCommissionListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Komisi Penjual"
+    ],
+    [
+     "Nama",
+     "Berlaku pada",
+     "Dengan Syarat",
+     "Mendapatkan Komisi",
+     "Berlaku ke Penjual"
+    ],
+    [
+     "Komisi Team",
+     "Semua Barang",
+     "Tanpa batasan dan syarat",
+     "7 % dari Nilai Penjualan",
+     "Urutan (DO NOT SHOW) Pertama, Kedua, Ketiga, Keempat dan Kelima"
+    ],
+    [
+     "NL-RC Komisi",
+     "Semua Barang",
+     "Tanpa batasan dan syarat",
+     "5 % dari Nilai Penjualan",
+     "Tenaga Penjual: NL-RC Sales A dan NL-RC Sales BUrutan (DO NOT SHOW) Pertama"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesCheckInPerSalesmanReport": {
+   "param": {
+    "startDate": "01/01/2043",
+    "endDate": "31/12/2043",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Check In per Karyawan"
+    ],
+    [
+     "Dari 01 Jan 2043 s/d 31 Des 2043"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tanggal",
+     "Alamat",
+     "Nama Pelanggan (Saat Check In)",
+     "Nomor Hp",
+     "Nama Kontak",
+     "No. Transaksi"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}

@@ -2,7 +2,7 @@
 
 Group: Penjualan. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesmanSalesTargetReport.json`](captures/retail/SalesmanSalesTargetReport.json).
 
-Status: blocked: requires Salesman on invoice.
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesmanSalesTargetReport.json`](captures/retail/SalesmanSalesTargetReport.json).
 
 ## Purpose
 
@@ -27,12 +27,11 @@ Title lines: `Target Penjualan Penjual`, `per 2026`, `Cabang : [Semua Cabang]`; 
 
 ## Calculation rules
 
-- Unverified. Pencapaian (%) presumably Nilai Riil / Nilai Target x 100 (unverified; no data).
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout of the empty report (title, header cells where printed, footer).
-- Unverified: all behavior; target definitions exist? not traced.
+- Target Penjualan of type Per Penjual (SALESMAN_TARGET) for the year: header block, then `Nama Tenaga Penjual | Nilai Target | Nilai Riil | Pencapaian (%)` and a total row (target, riil).
+- Nilai Riil = lines carrying the salesman (any level, whole line, IDR before tax) on invoices dated in the target range, **less** returned lines of that salesman dated in the range: NL-RC Sales B 24,400,000 - 2,000,000 = 22,400,000.
+- Pencapaian = riil / target x 100, up to two decimals, en-US (115.33, 448).
 
 ## Retail Demo variation
 

@@ -21,7 +21,8 @@ export const salesInvoiceInput = z.object({
   /** Omitted → the invoice date (cash on delivery, the sandbox's default term). */
   dueDate: isoDate.optional(),
   description: z.string().default(''),
-  lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents, discPct: z.number().min(0).max(100).default(0) })).min(1),
+  lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents, discPct: z.number().min(0).max(100).default(0),
+    /** Tenaga Penjual of the line, in Accurate's order (level 1..5, ADR-0023). */ salesmen: z.array(code).max(5).default([]) })).min(1),
   /** PPN: each line's item default tax applies on its DPP (line total less its share of the invoice discount). */
   taxable: z.boolean().default(false),
   /** No. Faktur Pajak (e-Faktur number), entered manually. */
@@ -101,7 +102,8 @@ export const returnInput = z.object({
   invoice: code,
   date: isoDate,
   description: z.string().default(''),
-  lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
+  lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents,
+    /** Invoice line returned (its seq); the return line takes that line's salesmen (ADR-0023). */ invoiceSeq: z.number().int().positive().optional() })).min(1),
 })
 export type ReturnInput = z.input<typeof returnInput>
 

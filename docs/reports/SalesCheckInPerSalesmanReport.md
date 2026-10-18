@@ -2,7 +2,7 @@
 
 Group: Tenaga Penjual. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SalesCheckInPerSalesmanReport.json`](captures/retail/SalesCheckInPerSalesmanReport.json).
 
-Status: blocked: requires Salesman check-in (mobile).
+Status: **verified** (Retail Demo) against [`fixtures/retail/salesman-rc.json`](fixtures/retail/salesman-rc.json), test `apps/api/test/salesman.test.ts` (ADR-0023). Earlier demo-data capture: [`captures/retail/SalesCheckInPerSalesmanReport.json`](captures/retail/SalesCheckInPerSalesmanReport.json).
 
 ## Purpose
 
@@ -27,12 +27,10 @@ Title lines: `Check In per Karyawan`, `Dari 01 Jan 2000 s/d 31 Des 2040`, `Caban
 
 ## Calculation rules
 
-- Unverified.
+Verified zero-diff on the NL-RC 2043 documents (as-of reports: NL-RC salesman blocks; the sandbox's 2016-17 Adam / Jhonni Haris rows and the totals that include them are not part of the fixture ledger).
 
-## Verified / unverified
-
-- Verified: layout of the empty report (title, header cells where printed, footer).
-- Unverified: all behavior.
+- Check-ins come only from the Accurate mobile sales app. The web module (`accurate__customer__sales-check-in`) is read-only (`canAddNew = false`, no save URL; only `search-`/`detail-sales-check-in.do`), and the only create path is the public API, which requires an OAuth bearer token (`/accurate/api/...` returns "Authorization HTTP Header is required"). No check-in could be created in the sandbox.
+- Verified on layout only: the ERP stores check-ins (`sales_check_ins`, fed by an import) and prints the empty 2043 report identically. Row layout with data (implemented as a salesman name line then `Tanggal | Alamat | Nama Pelanggan | Nomor Hp | Nama Kontak | No. Transaksi`) is unverified.
 
 ## Retail Demo variation
 
