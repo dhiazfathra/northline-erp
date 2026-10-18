@@ -669,5 +669,234 @@
     "-250.000,5"
    ]
   ]
+ },
+ "ProfitLossQuarterReport": {
+  "params": {
+   "asOfYear": 2031
+  },
+  "rows": [
+   [
+    "Deskripsi",
+    "Jan - Mar (IDR)",
+    "Apr - Jun (IDR)",
+    "Jul - Sep (IDR)",
+    "Okt - Des (IDR)",
+    "Total (IDR)"
+   ],
+   [
+    "PENDAPATAN"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "2.000.000",
+    "0",
+    "0",
+    "0",
+    "2.000.000"
+   ],
+   [
+    "Jumlah Pendapatan",
+    "2.000.000",
+    "0",
+    "0",
+    "0",
+    "2.000.000"
+   ],
+   [
+    "BEBAN POKOK PENJUALAN"
+   ],
+   [
+    "Jumlah Beban Pokok Penjualan",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA KOTOR",
+    "2.000.000",
+    "0",
+    "0",
+    "0",
+    "2.000.000"
+   ],
+   [
+    "BEBAN OPERASIONAL"
+   ],
+   [
+    "NL-T1 Beban",
+    "2.250.000,5",
+    "0",
+    "0",
+    "0",
+    "2.250.000,5"
+   ],
+   [
+    "Jumlah Beban Operasional",
+    "2.250.000,5",
+    "0",
+    "0",
+    "0",
+    "2.250.000,5"
+   ],
+   [
+    "PENDAPATAN OPERASIONAL",
+    "-250.000,5",
+    "0",
+    "0",
+    "0",
+    "-250.000,5"
+   ],
+   [
+    "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+   ],
+   [
+    "Pendapatan Non Operasional"
+   ],
+   [
+    "Jumlah Pendapatan Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Beban Non Operasional"
+   ],
+   [
+    "Jumlah Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Jumlah Pendapatan dan Beban Non Operasional",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "LABA BERSIH",
+    "-250.000,5",
+    "0",
+    "0",
+    "0",
+    "-250.000,5"
+   ]
+  ]
+ },
+ "BalanceSheetMultiYearReport": {
+  "params": {
+   "asOfYear": 2032
+  },
+  "note": "compare header, NL-T1 rows and Laba rows (sandbox has other balances)",
+  "header": [
+   "Deskripsi",
+   "2030 (IDR)",
+   "2031 (IDR)",
+   "2032 (IDR)"
+  ],
+  "rows": [
+   [
+    "NL-T1 Kas",
+    "13.000.000",
+    "-1.250.000,5",
+    "2.999.999,5"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "0",
+    "15.000.000",
+    "15.000.000"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "0",
+    "1.000.000",
+    "1.000.000"
+   ],
+   [
+    "Laba Ditahan",
+    "-34.002.596",
+    "-31.002.596",
+    "-31.252.596,5"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000",
+    "10.000.000",
+    "13.500.000"
+   ],
+   [
+    "Laba Tahun Ini",
+    "3.000.000",
+    "-250.000,5",
+    "750.000"
+   ]
+  ]
+ },
+ "BalanceSheetComparePeriodReport": {
+  "params": {
+   "startDate": "2030-12-31",
+   "endDate": "2031-02-28"
+  },
+  "note": "compare header, NL-T1 rows and Laba rows (sandbox has other balances)",
+  "header": [
+   "Deskripsi",
+   "Per 31 Dec 2030",
+   "Per 28 Feb 2031",
+   "Variance",
+   "% Var."
+  ],
+  "rows": [
+   [
+    "NL-T1 Kas",
+    "13.000.000",
+    "-1.250.000,5",
+    "-14.250.000,5",
+    "-109,62 %"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "0",
+    "15.000.000",
+    "15.000.000",
+    "100 %"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "0",
+    "1.000.000",
+    "1.000.000",
+    "100 %"
+   ],
+   [
+    "Laba Ditahan",
+    "-34.002.596",
+    "-31.002.596",
+    "3.000.000",
+    "8,82 %"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000",
+    "10.000.000",
+    "0",
+    "0 %"
+   ],
+   [
+    "Laba Tahun Ini",
+    "3.000.000",
+    "-250.000,5",
+    "-3.250.000,5",
+    "-108,33 %"
+   ]
+  ]
  }
 }

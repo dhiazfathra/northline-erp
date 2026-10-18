@@ -12,4 +12,4 @@ Columns: `Deskripsi` | base period label | compare period label | `Variance` | `
    Fixture: expenses 1.250.000,5 → 1.000.000 gives `-20 %`; operating result -1.250.000,5 → 1.000.000 gives `180 %`.
 3. Headings print the label only; rows hidden only when zero in both periods.
 
-Unverified: rounding of non-integer percentages (fixture ratios were exact; ERP uses `Math.round`).
+Rounding: 2 decimals, verified on [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) (`8,82 %`).

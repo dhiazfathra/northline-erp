@@ -159,9 +159,18 @@ export function compareColumns(base: StatementLine[], cmp: StatementLine[], o: S
     if (!l.amounts.length) return { ...l, pct: [] }
     const [a, b] = l.amounts as [number, number]
     const v = b - a
-    return { ...l, amounts: [a, b, v], pct: [a === 0 ? (v === 0 ? 0 : 100) : Math.round((v / Math.abs(a)) * 100)] }
+    return { ...l, amounts: [a, b, v], pct: [a === 0 ? (v === 0 ? 0 : 100) : Math.round((v / Math.abs(a)) * 10_000) / 100] }
   })
 }
 
 export const formatMulti = (l: MultiLine & { pct?: (number | null)[] }): string[] =>
-  [l.label, ...l.amounts.map(formatIdr), ...(l.pct ?? []).map(p => `${p} %`)]
+  [l.label, ...l.amounts.map(formatIdr), ...(l.pct ?? []).map(p => `${String(p).replace('.', ',')} %`)]
+
+/** Kuartal columns of a calendar year (fiscal quarters unverified). */
+export const quarters = (y: number) => [[1, 3], [4, 6], [7, 9], [10, 12]].map(([a, b]) => ({
+  from: `${y}-${String(a).padStart(2, '0')}-01`, to: new Date(Date.UTC(y, b!, 0)).toISOString().slice(0, 10), label: `${MONTHS[a! - 1]} - ${MONTHS[b! - 1]}`,
+}))
+
+/** Neraca (Perbandingan Periode) column headers use English month abbreviations, unlike every other date in Accurate's reports. */
+const EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+export const perDateEn = (iso: string) => `Per ${Number(iso.slice(8))} ${EN[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
