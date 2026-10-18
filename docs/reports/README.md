@@ -23,7 +23,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Neraca (Perbandingan Periode) | `BalanceSheetComparePeriodReport` | financialstatement | DATECOMPARE | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetComparePeriodReport.md) |
 | Neraca (Induk Skontro) | `BalanceSheetParentScontroReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
 | Arus Kas (Langsung) | `CashFlowDirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowDirectReport.md) |
-| Rincian Arus Kas (Tak Langsung) | `CashFlowDetailIndirectReport` | report | PERIODFROMTO | showZeroBalance=false | |
+| Rincian Arus Kas (Tak Langsung) | `CashFlowDetailIndirectReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectReport.md) |
 | Rasio Keuangan (Per Tahun) | `FinancialRatioReport` | report | ASOFYEAR | — | |
 | Rasio Keuangan (Per Bulan) | `FinancialRatioPerMonthReport` | report | PERIOD | — | |
 | Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | |
@@ -35,9 +35,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | |
 | Grafik Pengembalian Aset | `ReturnOnAssetChartReport` | chart | PERIODFROMTO | — | |
 | Grafik Pengembalian pada Modal | `ReturnOnEquityChartReport` | chart | PERIODFROMTO | — | |
-| Arus Kas Multi Period (Langsung) | `CashFlowDirectMultiPeriodReport` | report | PERIODFROMTO | — | |
-| Arus Kas Multi Period (Tak Langsung) | `CashFlowIndirectMultiPeriodReport` | report | PERIODFROMTO | — | |
-| Rincian Arus Kas Multi Period (Tak Langsung) | `CashFlowDetailIndirectMultiPeriodReport` | report | PERIODFROMTO | showZeroBalance=false | |
+| Arus Kas Multi Period (Langsung) | `CashFlowDirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowDirectMultiPeriodReport.md) |
+| Arus Kas Multi Period (Tak Langsung) | `CashFlowIndirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowIndirectMultiPeriodReport.md) |
+| Rincian Arus Kas Multi Period (Tak Langsung) | `CashFlowDetailIndirectMultiPeriodReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectMultiPeriodReport.md) |
 
 ## Buku Besar (GENERAL_LEDGER)
 

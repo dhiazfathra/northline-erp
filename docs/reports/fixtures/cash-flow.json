@@ -182,5 +182,497 @@
     "2.542.385,5"
    ]
   ]
+ },
+ "CashFlowDetailIndirectReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Nilai"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Laba/Rugi",
+    "2.749.999,5"
+   ],
+   [
+    "Tambah"
+   ],
+   [
+    "Akumulasi Penyusutan"
+   ],
+   [
+    "Total Akumulasi Penyusutan",
+    "0"
+   ],
+   [
+    "Selain Penyusutan"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "1.000.000"
+   ],
+   [
+    "Total Selain Penyusutan",
+    "1.000.000"
+   ],
+   [
+    "Total Tambah",
+    "1.000.000"
+   ],
+   [
+    "Kurang"
+   ],
+   [
+    "Selain Penyusutan"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "-15.000.000"
+   ],
+   [
+    "Total Selain Penyusutan",
+    "-15.000.000"
+   ],
+   [
+    "Total Kurang",
+    "-15.000.000"
+   ],
+   [
+    "Total Aktifitas Operasi",
+    "-11.250.000,5"
+   ],
+   [
+    "Investasi"
+   ],
+   [
+    "Kurang"
+   ],
+   [
+    "Total Kurang",
+    "0"
+   ],
+   [
+    "Total Investasi",
+    "0"
+   ],
+   [
+    "Pendanaan"
+   ],
+   [
+    "Tambah"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000"
+   ],
+   [
+    "Total Tambah",
+    "10.000.000"
+   ],
+   [
+    "Total Pendanaan",
+    "10.000.000"
+   ],
+   [
+    "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+    "-1.250.000,5"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "2.542.385,5"
+   ]
+  ]
+ },
+ "CashFlowIndirectMultiPeriodReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Des 2030",
+    "Jan 2031",
+    "Feb 2031"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Laba/Rugi",
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000"
+   ],
+   [
+    "Tambah Akumulasi Penyusutan",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Tambah Utang Usaha",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Tambah Liabilitas Jangka Pendek",
+    "0",
+    "0",
+    "1.000.000"
+   ],
+   [
+    "Kurang Piutang Usaha",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Kurang Persediaan",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Kurang Aset Lancar Lainnya",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Total Aktifitas Operasi",
+    "3.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Investasi"
+   ],
+   [
+    "Kurang Aset Tetap",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Kurang Aset Lainnya",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Total Investasi",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Pendanaan"
+   ],
+   [
+    "Tambah Liabilitas Jangka Panjang",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Tambah Modal",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total Pendanaan",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+    "13.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386",
+    "16.792.386",
+    "15.542.385,5"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "16.792.386",
+    "15.542.385,5",
+    "2.542.385,5"
+   ]
+  ]
+ },
+ "CashFlowDirectMultiPeriodReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Des 2030",
+    "Jan 2031",
+    "Feb 2031"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Kas dari Penjualan",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "NL-T1 Pendapatan",
+    "3.000.000",
+    "0",
+    "2.000.000"
+   ],
+   [
+    "Kas untuk Pembelian",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "NL-T1 Beban",
+    "0",
+    "-1.250.000,5",
+    "0"
+   ],
+   [
+    "Laba(Rugi) Operasi sebelum berubah di Operasi Aset dan Liabilitas",
+    "3.000.000",
+    "-1.250.000,5",
+    "2.000.000"
+   ],
+   [
+    "Berkurang(Bertambah) pada Operasi Aset"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Total Berkurang(Bertambah) pada Operasi Aset",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Berkurang(Bertambah) pada Operasi Liabilitas"
+   ],
+   [
+    "Total Berkurang(Bertambah) pada Operasi Liabilitas",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Total Kas bersih (dipakai)/ dihasilkan oleh Aktivitas Operasi",
+    "3.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Aktifitas Investasi"
+   ],
+   [
+    "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Investasi",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Aktifitas Pendanaan"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Pendanaan",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Kas bersih dihasilkan oleh / (dipakai) di Period ini",
+    "13.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386",
+    "16.792.386",
+    "15.542.385,5"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "16.792.386",
+    "15.542.385,5",
+    "2.542.385,5"
+   ]
+  ]
+ },
+ "CashFlowDetailIndirectMultiPeriodReport": {
+  "from": "2030-12-01",
+  "to": "2031-02-28",
+  "rows": [
+   [
+    "Keterangan",
+    "Des 2030",
+    "Jan 2031",
+    "Feb 2031"
+   ],
+   [
+    "Aktifitas Operasi"
+   ],
+   [
+    "Laba/Rugi",
+    "3.000.000",
+    "-1.250.000,5",
+    "1.000.000"
+   ],
+   [
+    "Tambah"
+   ],
+   [
+    "Akumulasi Penyusutan"
+   ],
+   [
+    "Total Akumulasi Penyusutan",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Selain Penyusutan"
+   ],
+   [
+    "NL-T1 Utang Lain",
+    "0",
+    "0",
+    "1.000.000"
+   ],
+   [
+    "Total Selain Penyusutan",
+    "0",
+    "0",
+    "1.000.000"
+   ],
+   [
+    "Total Tambah",
+    "0",
+    "0",
+    "1.000.000"
+   ],
+   [
+    "Kurang"
+   ],
+   [
+    "Selain Penyusutan"
+   ],
+   [
+    "NL-T1 Peralatan",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Total Selain Penyusutan",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Total Kurang",
+    "0",
+    "0",
+    "-15.000.000"
+   ],
+   [
+    "Total Aktifitas Operasi",
+    "3.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Investasi"
+   ],
+   [
+    "Kurang"
+   ],
+   [
+    "Total Kurang",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Total Investasi",
+    "0",
+    "0",
+    "0"
+   ],
+   [
+    "Pendanaan"
+   ],
+   [
+    "Tambah"
+   ],
+   [
+    "NL-T1 Modal",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total Tambah",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total Pendanaan",
+    "10.000.000",
+    "0",
+    "0"
+   ],
+   [
+    "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+    "13.000.000",
+    "-1.250.000,5",
+    "-13.000.000"
+   ],
+   [
+    "Kas & Setara Kas di Awal period",
+    "3.792.386",
+    "16.792.386",
+    "15.542.385,5"
+   ],
+   [
+    "Kas & Setara Kas di Akhir period",
+    "16.792.386",
+    "15.542.385,5",
+    "2.542.385,5"
+   ]
+  ]
  }
 }

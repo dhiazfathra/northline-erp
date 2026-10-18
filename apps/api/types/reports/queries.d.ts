@@ -20,4 +20,6 @@ export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' |
 export declare function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryRetainedEarnings(db: Db, year: number): Promise<string[][]>;
 export declare function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery): Promise<string[][]>;
-export declare function queryCashFlow(db: Db, method: 'direct' | 'indirect', q: TrialBalanceQuery): Promise<string[][]>;
+export type CashFlowReport = 'direct' | 'indirect' | 'indirect-detail';
+/** `monthly` splits [from, to] into calendar-month columns (the Multi Period variants). */
+export declare function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBalanceQuery, monthly?: boolean): Promise<string[][]>;

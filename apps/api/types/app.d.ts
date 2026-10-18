@@ -127,14 +127,14 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
         };
     };
 }) & {
-    "/reports/cash-flow/:method{direct|indirect}": {
+    "/reports/cash-flow/:report{direct|indirect|indirect-detail}": {
         $get: {
             output: string[][];
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {
                 param: {
-                    method: string;
+                    report: string;
                 };
             };
         };

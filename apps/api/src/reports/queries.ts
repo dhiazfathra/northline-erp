@@ -2,9 +2,9 @@ import { sql } from 'drizzle-orm'
 import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/ledger-es'
 import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
-import { balanceSheet, profitLoss } from './financial-statements'
+import { balanceSheet, months, profitLoss } from './financial-statements'
 import { ownerEquityChange, retainedEarnings } from './equity'
-import { cashFlowDirect, cashFlowIndirect } from './cash-flow'
+import { cashFlowDirect, cashFlowIndirect, cashFlowIndirectDetail, formatCashFlow } from './cash-flow'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
@@ -73,7 +73,13 @@ export async function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery) {
   return ownerEquityChange(accounts, balances, settings, q.from, q.to)
 }
 
-export async function queryCashFlow(db: Db, method: 'direct' | 'indirect', q: TrialBalanceQuery) {
+export type CashFlowReport = 'direct' | 'indirect' | 'indirect-detail'
+/** `monthly` splits [from, to] into calendar-month columns (the Multi Period variants). */
+export async function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBalanceQuery, monthly = false) {
   const { accounts, balances } = await loadLedger(db, q.to)
-  return method === 'indirect' ? cashFlowIndirect(accounts, balances, q.from, q.to) : cashFlowDirect(accounts, balances, await loadJournals(db, q.from, q.to), q.from, q.to)
+  const periods = monthly ? months(Number(q.from.slice(0, 4)), Number(q.from.slice(5, 7)), Number(q.to.slice(0, 4)), Number(q.to.slice(5, 7))) : [{ from: q.from, to: q.to }]
+  const rows = report === 'indirect' ? cashFlowIndirect(accounts, balances, periods)
+    : report === 'indirect-detail' ? cashFlowIndirectDetail(accounts, balances, periods)
+    : cashFlowDirect(accounts, balances, await loadJournals(db, q.from, q.to), periods)
+  return formatCashFlow(rows, periods)
 }
