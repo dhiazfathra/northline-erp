@@ -4,8 +4,8 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **148 / 229 verified** (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 175/175 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **150 / 229 verified** (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 177/177 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
@@ -21,9 +21,7 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 
 ## Next steps
 
-1. **Tax**: solved for sales. PPN needs the item's default tax (`tax1Id`); item `NL-T19-S1` (id 301) has PPN 11%. `TaxationOutReport` verified (T19). Still open:
-   - **Purchase invoices**: `save-purchase-invoice.do` returns a server error ("Upsss…") even when cloning a known-good NL purchase invoice as-is (ids, optLock, number, journalId, history arrays removed). Next try: capture a *fresh* purchase form (`openModule` without id), set vendor and lines through the form model, then `submitForm` and inspect the request. Unblocks `TaxationInReport`, `PurchaseInvoiceSPTListReport`, `TaxationInOutReport`.
-   - SPT lists need an e-Faktur number on the invoice.
+1. **Tax**: Keluaran, Masukan and Rekonsiliasi verified (T19). PPN needs the item's default tax (`tax1Id`); item `NL-T19-S1` (id 301) has PPN 11%. Purchase invoices save only via `bg-save-purchase-invoice.do` (background job, polled); `save-purchase-invoice.do` errors. Still open: the two SPT Masa PPN lists need an invoice with an e-Faktur number (set up a number range in the sandbox); `TaxListReport`/`FiscalFaTypeListReport` were already verified.
 2. UI-capture-first items: bank reconciliation / post-dated cheques, loan installment schedule, stock opname (order lists don't save via script), serial numbers, price/discount adjustments, sales targets, installments.
 3. Remaining charts/projections: export PNG (`EXPORT=xls`), transcribe labels into `fixtures/charts.json`.
 4. Scope decision pending from user: payroll, manufacturing, job orders, audit/users/access (~25 reports) — likely out of reach or out of scope. CSV download reports (4) return files, not tables.

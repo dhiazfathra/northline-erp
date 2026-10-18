@@ -1,5 +1,5 @@
 {
- "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Window Nov 2035. Saldo Awal 628.100 is the sandbox demo data's PPN Keluaran (ZZ-R01/ZZ-R03 invoices, Oct 2026), not part of this fixture.",
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Window Nov 2035. Saldo Awal 628.100 is the sandbox demo data's PPN Keluaran (ZZ-R01/ZZ-R03 invoices, Oct 2026), not part of this fixture. Saldo Awal PPN Masukan 220.000 is the demo data's (PI.2026.10.00001/00003). Page chrome (title, date range, column header repeated per printed page) is stripped.",
  "accounts": [
   {
    "no": "110301",
@@ -25,13 +25,29 @@
    "no": "210201",
    "name": "PPN Keluaran",
    "type": "OTHER_CURRENT_LIABILITY"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "110504",
+   "name": "PPN Masukan",
+   "type": "OTHER_CURRENT_ASSET"
+  },
+  {
+   "no": "210101",
+   "name": "Hutang Usaha IDR",
+   "type": "ACCOUNT_PAYABLE"
   }
  ],
  "taxes": [
   {
    "name": "ZZ-R01-PPN 11%",
    "rate": 11,
-   "salesAccount": "210201"
+   "salesAccount": "210201",
+   "purchaseAccount": "110504"
   }
  ],
  "customers": [
@@ -49,7 +65,8 @@
    "unit": "Jam",
    "salesAccount": "400001",
    "salesDiscountAccount": "400004",
-   "tax": "ZZ-R01-PPN 11%"
+   "tax": "ZZ-R01-PPN 11%",
+   "expenseAccount": "600020"
   }
  ],
  "invoiceDiscountAccount": "440101",
@@ -89,11 +106,29 @@
      "discPct": 10
     }
    ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-T19-P1",
+   "number": "PI.2035.11.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T19-B1",
+   "date": "2035-11-12",
+   "description": "NL-T19 pembelian PPN 1",
+   "taxable": true,
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "qty": 4,
+     "price": 150000
+    }
+   ]
   }
  ],
  "notes": [
   "SI.2035.11.00001 was saved untaxed (item had no default tax) and deleted; Accurate does not reuse the number.",
-  "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788."
+  "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788.",
+  "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -239,6 +274,50 @@
     [
      "Tanggal",
      ":",
+     "12 Nov 2035",
+     "No. Trans #",
+     ":",
+     "PI.2035.11.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Pembelian",
+     "Deskripsi",
+     ":",
+     "NL-T19 pembelian PPN 1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "600020",
+     "Beban Operasional Lainnya",
+     "600.000",
+     "0"
+    ],
+    [
+     "110504",
+     "PPN Masukan",
+     "66.000",
+     "0"
+    ],
+    [
+     "210101",
+     "Hutang Usaha IDR",
+     "0",
+     "666.000"
+    ],
+    [
+     "666.000",
+     "666.000"
+    ],
+    [
+     "Tanggal",
+     ":",
      "20 Nov 2035",
      "No. Trans #",
      ":",
@@ -293,6 +372,208 @@
      "820.538"
     ]
    ]
+  },
+  "TaxationInReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035"
+   },
+   "rows": [
+    [
+     "Daftar PPN/PPnBM Masukan"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "220.000"
+    ],
+    [
+     "220.000"
+    ],
+    [
+     "ZZ-R01-PPN 11% (11%)"
+    ],
+    [
+     "12 Nov 2035",
+     "12 Nov 2035",
+     "PI.2035.11.00001",
+     "66.000"
+    ],
+    [
+     "66.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "286.000"
+    ]
+   ]
+  },
+  "PurchaseInvoiceSPTListReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035"
+   },
+   "rows": [
+    [
+     "Faktur Pembelian SPT Masa PPN"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "No. Faktur Pajak",
+     "Tgl Faktur Pajak",
+     "Pemasok",
+     "Nilai Pajak"
+    ]
+   ]
+  },
+  "TaxationInOutReport": {
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "30/11/2035"
+   },
+   "rows": [
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "220.000"
+    ],
+    [
+     "-220.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "-220.000"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "-220.000"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "628.100"
+    ],
+    [
+     "628.100"
+    ],
+    [
+     "ZZ-R01-PPN 11% (11%)"
+    ],
+    [
+     "05 Nov 2035",
+     "05 Nov 2035",
+     "SI.2035.11.00002",
+     "110.000"
+    ],
+    [
+     "20 Nov 2035",
+     "20 Nov 2035",
+     "SI.2035.11.00003",
+     "70.538"
+    ],
+    [
+     "180.538"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "808.638"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "808.638"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "ZZ-R01-PPN 11% (11%)"
+    ],
+    [
+     "12 Nov 2035",
+     "12 Nov 2035",
+     "PI.2035.11.00001",
+     "66.000"
+    ],
+    [
+     "-66.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "-66.000"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "-66.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "522.638"
+    ]
+   ]
   }
- }
+ },
+ "vendors": [
+  {
+   "no": "NL-T3-V1",
+   "name": "NL-T3 Pemasok A",
+   "apAccount": "210101"
+  }
+ ]
 }

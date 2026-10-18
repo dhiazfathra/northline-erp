@@ -2,7 +2,7 @@
 // Builds a NEW sales/purchase invoice from the captured wire template (<kind>-wire.json) and saves it in the sandbox.
 const KIND = process.env.KIND ?? 'si';
 const K = { si: { file: './si-wire.json', save: '/accurate/customer/save-sales-invoice.do', party: 'customerId', parent: 'salesInvoiceId' },
-  pi: { file: './pi-wire.json', save: '/accurate/vendor/save-purchase-invoice.do', party: 'vendorId', parent: 'purchaseInvoiceId' } }[KIND];
+  pi: { file: './pi-wire.json', save: '/accurate/vendor/bg-save-purchase-invoice.do', party: 'vendorId', parent: 'purchaseInvoiceId' } }[KIND];
 import { openSandbox, assertSandbox, log } from './acc.mjs';
 import { call } from './call.mjs';
 import { readFileSync } from 'node:fs';
@@ -17,6 +17,8 @@ Object.assign(p, {
   description: spec.description, taxable: spec.taxable, inclusiveTax: spec.inclusiveTax ?? false,
   cashDiscount: spec.cashDiscount ?? 0, cashDiscPercent: spec.cashDiscPercent ?? '',
 });
+// An edit-form template lacks the auto-number scheme a fresh form carries; without it purchase saves fail server-side (NPE).
+if (KIND === 'pi') { delete p.journalId; delete p.paymentHistoryId; Object.assign(p, { typeAutoNumber: spec.typeAutoNumber ?? 62, countAutoNumber: 1 }); }
 p.detailItem = spec.lines.map((l, i) => {
   const d = { ...line0, _status: 'insert', seq: i + 1, itemId: l.itemId, itemUnitId: l.unitId, detailName: l.name, quantity: String(l.qty), unitPrice: String(l.price),
     itemDiscPercent: l.discPct ?? '', itemCashDiscount: '0', useTax1: l.useTax1 ?? spec.taxable };
@@ -26,7 +28,17 @@ p.detailItem = spec.lines.map((l, i) => {
 });
 const { browser, app } = await openSandbox();
 await assertSandbox(app);
-let res = await call(app, K.save, { _param: JSON.stringify(p) });
-for (let i = 0; i < 3 && res && res.s === false && res.c; i++) { log('warning flag', res.c); p[res.c] = true; res = await call(app, K.save, { _param: JSON.stringify(p) }); }
+// bg-save-* returns a background job id; poll it like reports do.
+const save = async () => {
+  let r = await call(app, K.save, { _param: JSON.stringify(p) });
+  for (let i = 0; i < 30 && r?.s && r.d?.bgPid === undefined && typeof r.b === 'string'; i++) {
+    const q = await call(app, '/accurate/company/bg-proc-response.do', { bgPid: r.b, keepCache: 'true' });
+    if (q.d?.status !== 'RUNNING') { r = q.d?.response ?? q; break; }
+    await new Promise((ok) => setTimeout(ok, 2000));
+  }
+  return r;
+};
+let res = await save();
+for (let i = 0; i < 3 && res && res.s === false && res.c; i++) { log('warning flag', res.c); p[res.c] = true; res = await save(); }
 log(JSON.stringify(res).slice(0, 1500));
 await browser.close();

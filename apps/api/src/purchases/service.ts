@@ -36,7 +36,19 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
       if (!acc) throw new DomainError(`Barang ${l.item} belum punya akun beban/persediaan`)
       return { ...l, seq: i + 1, account: acc, total: Math.round(l.qty * l.price) }
     })
-    const total = lines.reduce((s, l) => s + l.total, 0)
+    const taxOf = new Map((await tx.execute(sql`SELECT i.no, t.name, t.rate, t.purchase_account FROM items i JOIN taxes t ON t.name = i.tax_name`))
+      .map(r => [r.no as string, { name: r.name as string, rate: Number(r.rate), account: r.purchase_account as string }]))
+    const taxes = new Map<string, { name: string; rate: number; account: string; dpp: number; amount: number }>()
+    if (inv.taxable) for (const l of lines) {
+      const t = taxOf.get(l.item)
+      if (!t) continue
+      if (!t.account) throw new DomainError(`Pajak ${t.name} belum punya akun pajak pembelian`)
+      const e = taxes.get(t.name) ?? { ...t, dpp: 0, amount: 0 }
+      e.dpp += l.total
+      taxes.set(t.name, e)
+    }
+    for (const t of taxes.values()) t.amount = Math.round(t.dpp * t.rate / 100 / 100) * 100
+    const total = lines.reduce((s, l) => s + l.total, 0) + [...taxes.values()].reduce((s, t) => s + t.amount, 0)
     const number = inv.number ?? await nextNumber(tx, `PI.${period(inv.date)}`)
     const dps: { dp: string; amount: number; account: string }[] = []
     for (const u of inv.downPayments) {
@@ -54,12 +66,15 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
       type: 'PostJournal', idempotencyKey: `${inv.idempotencyKey}:journal`, journalId, number, sourceType: 'PI', date: inv.date, description: inv.description,
       lines: [
         ...merge(lines.map(l => ({ account: l.account, amount: l.total }))).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
+        ...merge([...taxes.values()].filter(t => t.amount).map(t => ({ account: t.account, amount: t.amount }))).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
         ...(total - dpUsed ? [{ account: vendor.ap_account as string, side: 'CREDIT' as const, amount: rupiah(total - dpUsed) }] : []),
         ...merge(dps).map(d => ({ account: d.account, side: 'CREDIT' as const, amount: rupiah(d.amount) })),
       ],
     })
-    await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id)
-      VALUES (${number}, ${inv.vendor}, ${inv.bill}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId})`)
+    await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id, tax_date)
+      VALUES (${number}, ${inv.vendor}, ${inv.bill}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${inv.taxable ? inv.date : null})`)
+    for (const t of taxes.values())
+      await tx.execute(sql`INSERT INTO purchase_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO purchase_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     for (const l of lines.filter(l => stockItems.has(l.item)))
       await addMove(tx, { item: l.item, date: inv.date, docType: 'PI', docNumber: number, description: inv.description, quantity: l.qty, value: l.total })

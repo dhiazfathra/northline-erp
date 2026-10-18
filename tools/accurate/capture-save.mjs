@@ -6,7 +6,7 @@ const [mod, id, re, out] = process.argv.slice(2);
 const { browser, app } = await openSandbox();
 let body = null;
 let hdr = null;
-await app.route(new RegExp(re), async (route) => { body = route.request().postData(); hdr = route.request().headers()['content-type']; await route.abort(); });
+await app.route(new RegExp(re), async (route) => { body = route.request().postData(); hdr = route.request().url().split('?')[0] + ' ' + route.request().headers()['content-type']; await route.abort(); });
 await assertSandbox(app);
 await app.evaluate(({ mod, id }) => acc.openModule(mod, { id: Number(id) }), { mod, id });
 await app.waitForTimeout(8000);

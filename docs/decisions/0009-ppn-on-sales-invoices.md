@@ -31,4 +31,5 @@ The Pajak reports (Daftar PPN/PPnBM Keluaran, SPT Masa PPN, Rekonsiliasi PPN) ne
 
 ## Consequences
 - Multi-line, multi-tax rounding is not yet observed; the pro-rata discount split is marked with a `shortcut:` comment.
-- Purchase-side PPN Masukan is still open: script saves of purchase invoices fail server-side in Accurate (see handoff).
+- Purchase invoices follow the same rule (migration 0023: `taxes.purchase_account`, `purchase_invoice_taxes`); the journal
+  debits PPN Masukan after the expense lines. Purchase discounts and PPh 23 are not modelled yet.

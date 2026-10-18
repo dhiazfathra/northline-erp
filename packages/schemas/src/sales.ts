@@ -56,6 +56,8 @@ export const purchaseInvoiceInput = z.object({
   dueDate: isoDate.optional(),
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents })).min(1),
+  /** PPN Masukan from each line's item default tax (ADR-0009). */
+  taxable: z.boolean().default(false),
   downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
 })
 export type PurchaseInvoiceInput = z.input<typeof purchaseInvoiceInput>
