@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z, ZodError } from 'zod'
 import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-es'
@@ -81,6 +82,22 @@ export function createApp(db: Db) {
         'ap-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'by-vendor': P.purchaseByVendor,
         'by-item': P.purchaseByItem, 'by-item-detail': P.purchaseByItemDetail, 'by-vendor-detail': P.purchaseByVendorDetail, 'payment-detail': P.purchasePaymentDetail, 'invoice-detail': P.purchaseInvoiceDetail }[r]!
       return c.json(fn(d, from, to))
+    })
+    .get('/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice}', async c => {
+      const r = c.req.param('report'), q = c.req.query()
+      if (r === 'customer-list' || r === 'vendor-list') {
+        const asOf = balanceSheetQuery.parse(q).asOf
+        if (r === 'vendor-list') return c.json(R.partyList(await loadPurchases(db), asOf))
+        // Accurate prints the creation time in Asia/Jakarta
+        const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des']
+        const created = new Map((await db.execute(sql`SELECT no, to_char(created_at AT TIME ZONE 'Asia/Jakarta', 'DD|MM|YYYY HH24:MI:SS') AS t FROM customers`))
+          .map(x => { const [dd, mm, rest] = (x.t as string).split('|'); return [x.no as string, `${dd} ${MON[Number(mm) - 1]} ${rest}`] }))
+        return c.json(R.partyList(await loadSales(db), asOf, created))
+      }
+      const { from, to } = trialBalanceQuery.parse(q)
+      if (r === 'purchase-flow') return c.json(R.flowHistory(await loadPurchases(db), from, to, false))
+      const d = await loadSales(db)
+      return c.json(r === 'sales-flow' ? R.flowHistory(d, from, to, true) : r === 'selling-frequency' ? R.sellingItemFrequency(d, from, to) : R.profitabilityByInvoice(d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).

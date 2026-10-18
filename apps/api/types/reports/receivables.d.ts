@@ -106,3 +106,12 @@ export declare function salesByItemDetail(d: SalesData, from: string, to: string
 export declare function salesByBranch(d: SalesData, from: string, to: string): string[][];
 /** Rincian Faktur Penjualan: one block per invoice; lines print the item master name. */
 export declare function salesInvoiceDetail(d: SalesData, from: string, to: string): string[][];
+/** Daftar Pelanggan / Daftar Pemasok: by number under the category; balance as "IDR <amount>" at asOf.
+ *  The customer list also prints the creation timestamp (`createdAt`, formatted `dd Mon yyyy HH:mm:ss`). */
+export declare function partyList(d: SalesData, asOf: string, createdAt?: Map<string, string>): string[][];
+/** Histori Proses Penjualan / Pembelian: one row per invoice in range with the payment documents that settle it ("-" when none). */
+export declare function flowHistory(d: SalesData, from: string, to: string, sales: boolean): string[][];
+/** Barang Paling Laku: per item, number of invoices containing it, quantity and value. */
+export declare function sellingItemFrequency(d: SalesData, from: string, to: string): string[][];
+/** Profitabilitas per Faktur: sales − cost of goods (0 for services) − extra costs. */
+export declare function profitabilityByInvoice(d: SalesData, from: string, to: string, cogs?: (invoice: string) => number): string[][];

@@ -85,3 +85,15 @@ test('AgingReceivableDetailReport per 15 Jul 2033 (NL-T2 block)', async () => {
 test('OutstandingSalesInvoicePerCustomerReport per 15 Jul 2033 (header + NL-T2 row)', async () => {
   expect(R.outstandingPerCustomer(await loadSales(f.db), '2033-07-15').slice(0, 2)).toEqual(rep('OutstandingSalesInvoicePerCustomerReport').slice(0, 2))
 })
+
+test('CustomerListReport per 15 Jul 2033 (NL-T2 rows; creation timestamps are Accurate wall-clock, passed through)', async () => {
+  const e = rep('CustomerListReport'), created = new Map(e.filter(r => /^NL-T2/.test(r[0]!)).map(r => [r[0]!, r[2]!]))
+  expect(R.partyList(await loadSales(f.db), '2033-07-15', created)).toEqual(e.filter(r => /^(ID |Umum$|NL-T2)/.test(r[0]!)))
+})
+
+test('SalesFlowHistoryReport, SellingItemFrequencyReport, ProfitabilityBySalesInvoiceReport', async () => {
+  const d = await loadSales(f.db)
+  expect(R.flowHistory(d, W.from, W.to, true)).toEqual(rep('SalesFlowHistoryReport'))
+  expect(R.sellingItemFrequency(d, W.from, W.to)).toEqual(rep('SellingItemFrequencyReport'))
+  expect(R.profitabilityByInvoice(d, W.from, W.to)).toEqual(rep('ProfitabilityBySalesInvoiceReport'))
+})

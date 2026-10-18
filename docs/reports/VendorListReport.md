@@ -1,24 +1,5 @@
 # Daftar Pemasok (`VendorListReport`)
 
-Group: Utang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/VendorListReport.json`](captures/VendorListReport.json), run with default parameters over the sandbox demo data.
+Group: Utang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/purchase-t3.json`](fixtures/purchase-t3.json). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/payables.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `ID Pemasok | Nama | Saldo (Mata Uang)`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`. Columns `ID Pemasok` | `Nama` | `Saldo (Mata Uang)`; under the category `Umum`; every vendor by number, zero balances included; `IDR <payable at asOfDate>`.

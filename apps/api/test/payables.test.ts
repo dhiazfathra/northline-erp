@@ -81,3 +81,9 @@ test('AgingPayableDetailReport (NL-T3 block)', async () => {
 test('VendorPayablePerMonthReport per 2033', async () => {
   expect(P.payablePerMonth(await loadPurchases(f.db), 2033)).toEqual(rep('VendorPayablePerMonthReport').filter(r => r[0] !== 'per 2033'))
 })
+
+test('VendorListReport (NL-T3 rows) and PurchaseFlowHistoryReport', async () => {
+  const d = await loadPurchases(f.db)
+  expect(R.partyList(d, AS_OF)).toEqual(rep('VendorListReport').filter(r => /^(ID |Umum$|NL-T3)/.test(r[0]!)))
+  expect(R.flowHistory(d, W.from, W.to, false)).toEqual(rep('PurchaseFlowHistoryReport'))
+})

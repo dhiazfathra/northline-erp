@@ -1,5 +1,5 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -262,6 +262,19 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
     };
 }) & {
     "/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice}": {
         $get: {
             output: string[][];
             outputFormat: "json";

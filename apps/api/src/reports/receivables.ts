@@ -304,3 +304,40 @@ export function salesInvoiceDetail(d: SalesData, from: string, to: string): stri
     [qty(tq(i.lines ?? [])), formatIdr(i.total)],
   ])
 }
+
+// ---- lists and flows ----
+const CATEGORY = 'Umum' // default customer/vendor category; categories are not modelled yet
+
+/** Daftar Pelanggan / Daftar Pemasok: by number under the category; balance as "IDR <amount>" at asOf.
+ *  The customer list also prints the creation timestamp (`createdAt`, formatted `dd Mon yyyy HH:mm:ss`). */
+export function partyList(d: SalesData, asOf: string, createdAt?: Map<string, string>): string[][] {
+  const bal = (c: string) => movements(d, c).filter(m => m.date <= asOf).reduce((s, m) => s + m.amount, 0)
+  const head = createdAt ? ['ID Pelanggan', 'Nama', 'Tgl/Jam Pembuatan', 'Saldo (Mata Uang)', 'Alamat lainnya'] : ['ID Pemasok', 'Nama', 'Saldo (Mata Uang)']
+  return [head, [CATEGORY], ...[...d.customers.keys()].sort().map(c => [c, d.customers.get(c)!, ...(createdAt ? [createdAt.get(c) ?? ''] : []), `IDR ${formatIdr(bal(c))}`])]
+}
+
+/** Histori Proses Penjualan / Pembelian: one row per invoice in range with the payment documents that settle it ("-" when none). */
+export function flowHistory(d: SalesData, from: string, to: string, sales: boolean): string[][] {
+  const head = sales
+    ? ['Penawaran Penjualan', 'Pesanan Penjualan', 'Pengiriman Pesanan', 'Uang Muka Penjualan', 'Faktur Penjualan', 'Retur Penjualan', 'Penerimaan Penjualan', 'Tukar Faktur']
+    : ['Permintaan Barang', 'Pesanan Pembelian', 'Penerimaan Barang', 'Uang Muka Pembelian', 'Faktur Pembelian', 'Retur Pembelian', 'Pembayaran Pembelian']
+  const rows = d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(i => {
+    const pays = d.receipts.filter(r => r.payments.some(p => p.invoice === i.number)).sort((a, b) => (a.date < b.date ? -1 : 1))
+    return (pays.length ? pays.map(p => p.number) : ['-']).map(p => sales ? ['-', '-', '-', '-', i.number, '-', p, '-'] : ['-', '-', '-', '-', i.number, '-', p])
+  })
+  return [head, ...rows]
+}
+
+/** Barang Paling Laku: per item, number of invoices containing it, quantity and value. */
+export function sellingItemFrequency(d: SalesData, from: string, to: string): string[][] {
+  const ls = linesIn(d, from, to)
+  return [['Kode Barang', 'Nama Barang', 'Frekuensi (x Terjual)', 'Kuantitas', 'Nilai Total'],
+    ...[...group(ls, l => l.item).values()].sort((a, b) => tv(b) - tv(a)).map(xs => [xs[0]!.item, xs[0]!.itemName, String(new Set(xs.map(x => x.inv.number)).size), qty(tq(xs)), formatIdr(tv(xs))])]
+}
+
+/** Profitabilitas per Faktur: sales − cost of goods (0 for services) − extra costs. */
+export function profitabilityByInvoice(d: SalesData, from: string, to: string, cogs: (invoice: string) => number = () => 0): string[][] {
+  return [['Nomor #', 'Tanggal', 'Pelanggan', 'Penjualan', 'BPP', 'Biaya Tambahan', 'Biaya Penerimaan', 'Laba setelah Biaya'],
+    ...d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+      .map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, formatIdr(i.total), formatIdr(cogs(i.number)), '0', '0', formatIdr(i.total - cogs(i.number))])]
+}
