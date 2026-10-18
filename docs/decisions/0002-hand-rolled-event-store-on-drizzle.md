@@ -29,5 +29,6 @@ later move to Emmett is mechanical.
 ## Consequences
 - We own: append with expected version, read stream, read-all from position, projector loop with checkpoints,
   outbox relay. Each gets direct tests against Postgres.
-- One DB client (Drizzle over `postgres`), one migration tool (drizzle-kit).
+- One DB client (Drizzle over `postgres`). Migrations are hand-written SQL (triggers and deferred constraints are
+  the point), embedded in the binary and applied in order by `migrate()`; drizzle-kit is not used.
 - If the hand-rolled code grows past what Emmett gives for free, revisit.
