@@ -185,3 +185,16 @@ export function adjustmentDetail(adjs: { number: string; date: string; descripti
     ['Nomor #', ':', a.number, 'Keterangan', ':', a.description], ['Tanggal', ':', fmtDate(a.date)], ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan'],
     ...a.lines.map(l => [l.item, l.name, qty(l.qty), l.unit])])
 }
+
+const ITEM_TYPE: Record<string, string> = { SERVICE: 'Jasa', INVENTORY: 'Persediaan', NON_INVENTORY: 'Non Persediaan' }
+/**
+ * Daftar Barang dan Jasa (docs/reports/ItemListReport.md): items grouped by category in creation order, quantity on hand in
+ * all warehouses as of the date. The ERP has no item categories or default selling prices yet: every item is in Accurate's
+ * default category "Umum" with price 0, as the NL fixture items are.
+ */
+export function itemList(items: { no: string; name: string; type: string }[], moves: { item: string; date: string; quantity: number }[], asOf: string): string[][] {
+  const qty = (no: string) => moves.filter(m => m.item === no && m.date <= asOf).reduce((s, m) => s + m.quantity, 0)
+  return [['Daftar Barang dan Jasa'], [`Per Tgl. ${fmtDate(asOf)}`], ['Cabang : [Semua Cabang]'],
+    ['Kode Barang', 'Nama Barang', 'Jenis Barang', 'Def. Hrg. Jual Satuan #1', 'Kts (Semua Gdng)'],
+    ...(items.length ? [['Umum']] : []), ...items.map(i => [i.no, i.name, ITEM_TYPE[i.type]!, '0', formatIdr(Math.round(qty(i.no) * 100))])]
+}

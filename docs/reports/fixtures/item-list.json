@@ -1,0 +1,316 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18, as of 30 Nov 2033 (end of the T4 window). Lists every sandbox item (demo categories included); compare the Umum block's NL items a test seeds, in Accurate's order.",
+ "ItemListReport": {
+  "param": {
+   "asOfDate": "30/11/2033",
+   "selectedBranch": [
+    {
+     "name": "[Semua Cabang]",
+     "id": null
+    }
+   ]
+  },
+  "rows": [
+   [
+    "Daftar Barang dan Jasa"
+   ],
+   [
+    "Per Tgl. 30 Nov 2033"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Kode Barang",
+    "Nama Barang",
+    "Jenis Barang",
+    "Def. Hrg. Jual Satuan #1",
+    "Kts (Semua Gdng)"
+   ],
+   [
+    "Bahan Baku"
+   ],
+   [
+    "100021",
+    "Biaya Kemasan (Subkon)",
+    "Biaya Produksi",
+    "0",
+    "0"
+   ],
+   [
+    "100023",
+    "Baiya Produksi Lainnya",
+    "Biaya Produksi",
+    "0",
+    "0"
+   ],
+   [
+    "100007",
+    "Polypropylene",
+    "Persediaan",
+    "0",
+    "0"
+   ],
+   [
+    "100008",
+    "Polycarbonat",
+    "Persediaan",
+    "0",
+    "50"
+   ],
+   [
+    "100011",
+    "Screw",
+    "Persediaan",
+    "0",
+    "425"
+   ],
+   [
+    "100014",
+    "Socket",
+    "Persediaan",
+    "0",
+    "245"
+   ],
+   [
+    "100015",
+    "Bulb Halogen (H4)",
+    "Persediaan",
+    "0",
+    "70"
+   ],
+   [
+    "100012",
+    "Actuator",
+    "Persediaan",
+    "0",
+    "175"
+   ],
+   [
+    "100022",
+    "Biaya Pekerja Produksi",
+    "Biaya Produksi",
+    "0",
+    "0"
+   ],
+   [
+    "100010",
+    "Harness",
+    "Persediaan",
+    "0",
+    "55"
+   ],
+   [
+    "100016",
+    "Bulb Umber",
+    "Persediaan",
+    "0",
+    "75"
+   ],
+   [
+    "100017",
+    "Bulb Senja (T10)",
+    "Persediaan",
+    "0",
+    "55"
+   ],
+   [
+    "100018",
+    "Pivot",
+    "Persediaan",
+    "0",
+    "185"
+   ],
+   [
+    "100019",
+    "Grommet",
+    "Persediaan",
+    "0",
+    "195"
+   ],
+   [
+    "100020",
+    "Adjuster",
+    "Persediaan",
+    "0",
+    "5"
+   ],
+   [
+    "100013",
+    "Cover",
+    "Persediaan",
+    "0",
+    "195"
+   ],
+   [
+    "100009",
+    "Polybutylene",
+    "Persediaan",
+    "0",
+    "50"
+   ],
+   [
+    "100024",
+    "Cat",
+    "Persediaan",
+    "0",
+    "177"
+   ],
+   [
+    "100025",
+    "Hard Coating",
+    "Persediaan",
+    "0",
+    "422"
+   ],
+   [
+    "100026",
+    "Basecoat",
+    "Persediaan",
+    "0",
+    "2"
+   ],
+   [
+    "100027",
+    "Spring",
+    "Persediaan",
+    "0",
+    "265"
+   ],
+   [
+    "Head Lamp"
+   ],
+   [
+    "100001",
+    "Head Lamp Daihatsu Xenia",
+    "Persediaan",
+    "0",
+    "100"
+   ],
+   [
+    "100002",
+    "Head Lamp Honda Brio",
+    "Persediaan",
+    "0",
+    "95"
+   ],
+   [
+    "NG"
+   ],
+   [
+    "100006",
+    "NG Goods",
+    "Persediaan",
+    "0",
+    "5"
+   ],
+   [
+    "Rear Combination Lamp"
+   ],
+   [
+    "100003",
+    "Rear Lamp Daihatsu Xenia",
+    "Persediaan",
+    "0",
+    "100"
+   ],
+   [
+    "100004",
+    "Rear Lamp Honda Brio",
+    "Persediaan",
+    "0",
+    "50"
+   ],
+   [
+    "Umum"
+   ],
+   [
+    "100029",
+    "ZZ-R01-Barang B",
+    "Persediaan",
+    "200.000",
+    "1"
+   ],
+   [
+    "NL-T2-S1",
+    "NL-T2 Jasa Konsultasi",
+    "Jasa",
+    "0",
+    "0"
+   ],
+   [
+    "100030",
+    "ZZ-R01-Barang A",
+    "Persediaan",
+    "200.000",
+    "0"
+   ],
+   [
+    "100031",
+    "ZZ-R01-Jasa Konsultasi",
+    "Jasa",
+    "1.000.000",
+    "0"
+   ],
+   [
+    "100032",
+    "ZZ-R03-Barang A",
+    "Persediaan",
+    "200.000",
+    "0"
+   ],
+   [
+    "100033",
+    "ZZ-R03-Barang B",
+    "Persediaan",
+    "200.000",
+    "0"
+   ],
+   [
+    "100034",
+    "ZZ-R03-Jasa Konsultasi",
+    "Jasa",
+    "1.000.000",
+    "0"
+   ],
+   [
+    "100035",
+    "ZZ-R03-Barang B2",
+    "Persediaan",
+    "200.000",
+    "1"
+   ],
+   [
+    "NL-T4-B1",
+    "NL-T4 Barang A",
+    "Persediaan",
+    "0",
+    "10"
+   ],
+   [
+    "NL-T19-S1",
+    "NL-T19 Jasa Kena PPN",
+    "Jasa",
+    "0",
+    "0"
+   ],
+   [
+    "Visor"
+   ],
+   [
+    "100005",
+    "Visor Yamaha Aerox",
+    "Persediaan",
+    "0",
+    "0"
+   ],
+   [
+    "100028",
+    "Visor Yamaha NMAX",
+    "Persediaan",
+    "0",
+    "0"
+   ]
+  ]
+ }
+}

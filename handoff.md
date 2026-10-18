@@ -4,8 +4,8 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **152 / 229 verified** (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 177/177 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **153 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 178/178 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 

@@ -7,7 +7,8 @@ import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
 import { createPurchaseInvoice, upsertVendor } from '../src/purchases/service'
 import * as I from '../src/reports/inventory'
-import { loadInventory, queryGeneralLedger } from '../src/reports/queries'
+import { loadInventory, loadItemList, queryGeneralLedger } from '../src/reports/queries'
+import itemListFx from '../../../docs/reports/fixtures/item-list.json'
 import { createSalesInvoice, upsertCustomer, upsertItem } from '../src/sales/service'
 import { fixtureDb } from './fixture-db'
 
@@ -83,4 +84,11 @@ test('sales charts (series transcribed from Accurate PNGs)', async () => {
   expect(R.monthlySalesChart(d, W.from, W.to) as string[][]).toEqual(ch.AnnualSalesChartReport.bars)
   expect(R.customerShareChart(d, W.from, W.to)).toEqual(ch.TopSalesCustomerChartReport.legend)
   expect(R.itemShareChart(d, W.from, W.to)).toEqual(ch.TopSalesItemChartReport.legend)
+})
+
+test('ItemListReport per 30 Nov 2033 (Umum block, items this test seeds, Accurate order)', async () => {
+  const { items, moves } = await loadItemList(f.db)
+  const seeded = new Set(items.map(i => i.no))
+  const expected = itemListFx.ItemListReport.rows.filter((r, i) => i < 4 || (r.length === 1 && r[0] === 'Umum') || (r.length > 1 && seeded.has(r[0]!)))
+  expect(I.itemList(items, moves, '2033-11-30')).toEqual(expected)
 })
