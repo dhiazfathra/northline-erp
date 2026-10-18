@@ -17,7 +17,15 @@ export const ledgerProjection: Projection = {
   name: 'ledger',
   tables: ['account_daily_balances', 'period_summaries', 'journal_lines', 'journals'],
   async apply(tx, e) {
-    if (e.type === 'JournalPosted') {
+    if (e.type === 'AccountOpened') {
+      // accounts is shared with imported master data and not truncated on rebuild, so replays must be idempotent
+      await tx.execute(sql`INSERT INTO accounts (no, name, type, parent_no) VALUES (${e.data.no}, ${e.data.name}, ${e.data.accountType}, ${e.data.parentNo ?? null})
+        ON CONFLICT (no) DO NOTHING`)
+    } else if (e.type === 'AccountRenamed') {
+      await tx.execute(sql`UPDATE accounts SET name = ${e.data.name}, updated_at = now() WHERE no = ${e.data.no}`)
+    } else if (e.type === 'AccountSuspended') {
+      await tx.execute(sql`UPDATE accounts SET suspended = true, updated_at = now() WHERE no = ${e.data.no}`)
+    } else if (e.type === 'JournalPosted') {
       const d = e.data
       await tx.execute(sql`INSERT INTO journals (journal_id, number, date, description, reverses, global_position)
         VALUES (${d.journalId}, ${d.number ?? null}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)

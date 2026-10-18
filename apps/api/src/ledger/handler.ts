@@ -2,7 +2,7 @@ import { sql } from 'drizzle-orm'
 import { ledgerCommand, type LedgerCommandInput } from '@northline/schemas/ledger-es'
 import type { Db, Tx } from '../db'
 import { append, load, maybeSnapshot } from '../es/store'
-import { DomainError, journalDecider, journalStream, periodDecider, periodStream, reverseLines } from './deciders'
+import { accountDecider, accountStream, DomainError, journalDecider, journalStream, periodDecider, periodStream, reverseLines } from './deciders'
 
 export interface CommandResult { globalPosition: number; streams: string[] }
 
@@ -23,6 +23,8 @@ export async function handle(db: Db, input: LedgerCommandInput, metadata: Record
       case 'PostJournal': {
         const unknown = await unknownAccounts(tx, cmd.lines.map(l => l.account))
         if (unknown.length) throw new DomainError(`Akun tidak dikenal: ${unknown.join(', ')}`)
+        for (const no of new Set(cmd.lines.map(l => l.account)))
+          if ((await load(tx, accountStream(no), accountDecider)).state.status === 'suspended') throw new DomainError(`Akun ${no} nonaktif`)
         const { type: _, idempotencyKey: __, ...post_ } = cmd
         result = await post(tx, { ...post_, periodClosed: await isClosed(tx, cmd.date) }, meta)
         break
@@ -39,6 +41,20 @@ export async function handle(db: Db, input: LedgerCommandInput, metadata: Record
           lines: reverseLines(state.lines), reverses: state.journalId, periodClosed: await isClosed(tx, cmd.date),
         }, meta)
         result.streams.unshift(sid)
+        break
+      }
+      case 'OpenAccount':
+      case 'RenameAccount':
+      case 'SuspendAccount': {
+        const sid = accountStream(cmd.no)
+        const { state, version } = await load(tx, sid, accountDecider)
+        const c = cmd.type === 'OpenAccount'
+          ? { type: 'Open' as const, no: cmd.no, name: cmd.name, accountType: cmd.accountType, parentNo: cmd.parentNo,
+              parentExists: !cmd.parentNo || (await load(tx, accountStream(cmd.parentNo), accountDecider)).state.status !== 'none' }
+          : cmd.type === 'RenameAccount' ? { type: 'Rename' as const, name: cmd.name } : { type: 'Suspend' as const }
+        const evs = accountDecider.decide(state, c)
+        const stored = await append(tx, sid, version, evs.map(e => ({ ...e, metadata: meta })))
+        result = { globalPosition: stored.at(-1)?.globalPosition ?? 0, streams: [sid] }
         break
       }
       case 'ClosePeriod':

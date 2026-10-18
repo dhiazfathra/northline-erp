@@ -57,3 +57,32 @@ export const reverseLines = (lines: JournalLine[]): JournalLine[] =>
 
 export const journalStream = (id: string) => `journal-${id}`
 export const periodStream = (period: string) => `period-${period}`
+
+type AccountCmd =
+  | { type: 'Open'; no: string; name: string; accountType: string; parentNo?: string; parentExists: boolean }
+  | { type: 'Rename'; name: string }
+  | { type: 'Suspend' }
+export type AccountState = { status: 'none' } | { status: 'open' | 'suspended'; no: string; name: string }
+
+export const accountDecider: Decider<AccountState, AccountCmd, LedgerEvent> = {
+  initial: { status: 'none' },
+  evolve(s, e) {
+    if (e.type === 'AccountOpened') return { status: 'open', no: e.data.no, name: e.data.name }
+    if (s.status === 'none') return s
+    if (e.type === 'AccountRenamed') return { ...s, name: e.data.name }
+    if (e.type === 'AccountSuspended') return { ...s, status: 'suspended' }
+    return s
+  },
+  decide(s, c) {
+    if (c.type === 'Open') {
+      if (s.status !== 'none') throw new DomainError(`Akun ${c.no} sudah ada`)
+      if (c.parentNo && !c.parentExists) throw new DomainError(`Akun induk ${c.parentNo} tidak ditemukan`)
+      return [{ type: 'AccountOpened', data: { no: c.no, name: c.name, accountType: c.accountType as any, parentNo: c.parentNo } }]
+    }
+    if (s.status === 'none') throw new DomainError('Akun tidak ditemukan')
+    if (c.type === 'Rename') return s.name === c.name ? [] : [{ type: 'AccountRenamed', data: { no: s.no, name: c.name } }]
+    if (s.status === 'suspended') throw new DomainError(`Akun ${s.no} sudah nonaktif`)
+    return [{ type: 'AccountSuspended', data: { no: s.no } }]
+  },
+}
+export const accountStream = (no: string) => `account-${no}`

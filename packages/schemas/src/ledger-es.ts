@@ -45,7 +45,19 @@ export const reverseJournalCommand = z.object({
 export const closePeriodCommand = z.object({ ...commandBase, type: z.literal('ClosePeriod'), period: periodId })
 export const reopenPeriodCommand = z.object({ ...commandBase, type: z.literal('ReopenPeriod'), period: periodId })
 
+export const accountType = z.enum([
+  'CASH_BANK', 'ACCOUNT_RECEIVABLE', 'INVENTORY', 'OTHER_CURRENT_ASSET', 'FIXED_ASSET', 'ACCUMULATED_DEPRECIATION', 'OTHER_ASSET',
+  'ACCOUNT_PAYABLE', 'OTHER_CURRENT_LIABILITY', 'LONG_TERM_LIABILITY', 'EQUITY', 'REVENUE', 'COGS', 'EXPENSE', 'OTHER_INCOME', 'OTHER_EXPENSE',
+])
+const accountNo = z.string().trim().min(1).max(40)
+export const openAccountCommand = z.object({ ...commandBase, type: z.literal('OpenAccount'), no: accountNo, name: z.string().trim().min(1), accountType, parentNo: accountNo.optional() })
+export const renameAccountCommand = z.object({ ...commandBase, type: z.literal('RenameAccount'), no: accountNo, name: z.string().trim().min(1) })
+export const suspendAccountCommand = z.object({ ...commandBase, type: z.literal('SuspendAccount'), no: accountNo })
+
 export const ledgerCommand = z.discriminatedUnion('type', [
+  openAccountCommand,
+  renameAccountCommand,
+  suspendAccountCommand,
   postJournalCommand,
   reverseJournalCommand,
   closePeriodCommand,
@@ -68,7 +80,14 @@ export const journalReversed = z.object({ journalId: z.string(), reversalJournal
 export const periodClosed = z.object({ period: periodId })
 export const periodReopened = z.object({ period: periodId })
 
+export const accountOpened = z.object({ no: z.string(), name: z.string(), accountType, parentNo: z.string().optional() })
+export const accountRenamed = z.object({ no: z.string(), name: z.string() })
+export const accountSuspended = z.object({ no: z.string() })
+
 export const ledgerEvent = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('AccountOpened'), data: accountOpened }),
+  z.object({ type: z.literal('AccountRenamed'), data: accountRenamed }),
+  z.object({ type: z.literal('AccountSuspended'), data: accountSuspended }),
   z.object({ type: z.literal('JournalPosted'), data: journalPosted }),
   z.object({ type: z.literal('JournalReversed'), data: journalReversed }),
   z.object({ type: z.literal('PeriodClosed'), data: periodClosed }),

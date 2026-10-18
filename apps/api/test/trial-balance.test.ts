@@ -18,8 +18,10 @@ const RE = '300002' // the sandbox's retained-earnings account
 beforeAll(async () => {
   await client.unsafe(`DROP SCHEMA IF EXISTS ${schema} CASCADE; CREATE SCHEMA ${schema}`)
   await migrate(client)
+  // Chart of accounts through the Account aggregate; settings reference the projected row.
   for (const a of [...fixture.accounts, { no: RE, name: 'Laba Ditahan', type: 'EQUITY' }])
-    await db.execute(sql`INSERT INTO accounts (no, name, type) VALUES (${a.no}, ${a.name}, ${a.type})`)
+    await handle(db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  await catchUp(db, ledgerProjection)
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES (${RE}, ${fixture.fiscalYearStartMonth})`)
   for (const j of fixture.journals)
     await handle(db, { type: 'PostJournal', idempotencyKey: `fixture-${j.ref}`, journalId: crypto.randomUUID(), date: j.date, description: j.description,
@@ -231,5 +233,23 @@ describe('Keuangan multi-column variants match Accurate', async () => {
     // Laba Ditahan: sandbox carries 34.002.596 D of unrelated history
     const exp = fs.BalanceSheetMultiPeriodReport.rows.map(r => r[0] === 'Laba Ditahan' ? ['Laba Ditahan', '0', '3.000.000', '3.000.000'] : r)
     expect(rows).toEqual(exp)
+  })
+})
+
+describe('Account aggregate', () => {
+  test('rename projects; suspended account rejects postings; duplicate and orphan rejected', async () => {
+    await handle(db, { type: 'OpenAccount', idempotencyKey: 'acct-x-parent', no: 'NL-X-1', name: 'Induk', accountType: 'EXPENSE' })
+    await handle(db, { type: 'OpenAccount', idempotencyKey: 'acct-x-child', no: 'NL-X-11', name: 'Anak', accountType: 'EXPENSE', parentNo: 'NL-X-1' })
+    await expect(handle(db, { type: 'OpenAccount', idempotencyKey: 'acct-x-dup', no: 'NL-X-1', name: 'Lagi', accountType: 'EXPENSE' })).rejects.toThrow('sudah ada')
+    await expect(handle(db, { type: 'OpenAccount', idempotencyKey: 'acct-x-orphan', no: 'NL-X-2', name: 'Yatim', accountType: 'EXPENSE', parentNo: 'NOPE' })).rejects.toThrow('induk')
+    await handle(db, { type: 'RenameAccount', idempotencyKey: 'acct-x-rename', no: 'NL-X-11', name: 'Anak Baru' })
+    await handle(db, { type: 'SuspendAccount', idempotencyKey: 'acct-x-suspend', no: 'NL-X-11' })
+    await catchUp(db, ledgerProjection)
+    const [row] = await db.execute(sql`SELECT name, parent_no, suspended FROM accounts WHERE no = 'NL-X-11'`)
+    expect(row).toEqual({ name: 'Anak Baru', parent_no: 'NL-X-1', suspended: true })
+    const audit = await db.execute(sql`SELECT op FROM accounts_audit WHERE account_no = 'NL-X-11' ORDER BY id`)
+    expect(audit.map(r => r.op)).toEqual(['INSERT', 'UPDATE', 'UPDATE'])
+    await expect(handle(db, { type: 'PostJournal', idempotencyKey: 'acct-x-post', journalId: crypto.randomUUID(), date: '2031-07-01',
+      lines: [{ account: 'NL-X-11', side: 'DEBIT', amount: '1' }, { account: 'NL-T1-1101', side: 'CREDIT', amount: '1' }] })).rejects.toThrow('nonaktif')
   })
 })
