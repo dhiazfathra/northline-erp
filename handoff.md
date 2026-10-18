@@ -4,8 +4,8 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **191 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 210/210 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **194 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 211/211 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0011 (0010 scope, 0011 unlabeled charts via backing table); 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
@@ -41,7 +41,7 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 
 | Preference | Value | Note |
 |---|---|---|
-| `featureSerialNumber` | false | Must be enabled before the serial-number reports can be seeded |
+| `featureSerialNumber` | **true** (switched on 2026-10-18 for T33) | |
 | `featureVendorPrice` | false | Vendor price documents save anyway |
 | `featureMultiCurrency` | true | Realized gain/loss default account id 61, unrealized id 62 |
 | `featureBranch` | false | |

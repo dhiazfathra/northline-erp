@@ -225,7 +225,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Barang Grup | `ItemGroupDetailReport` | report | NONE | selectedBranch= | [verified](ItemGroupDetailReport.md) |
 | Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](InventoryAdjustmentDetailReport.md) |
 | Daftar Barang dan Jasa | `ItemListReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](ItemListReport.md) |
-| Umur Nomor Seri/Batch | `SerialNumberAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](SerialNumberAgingDetailReport.md) |
+| Umur Nomor Seri/Batch | `SerialNumberAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [verified](SerialNumberAgingDetailReport.md) |
 | Analisa Nilai Persediaan | `AnalysisInventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](AnalysisInventoryValuationReport.md) |
 
 ## Gudang  (WAREHOUSE)
@@ -237,8 +237,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationByItemReport.md) |
 | Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationSummaryReport.md) |
 | Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | [verified](PhysicalInventoryCountSheetReport.md) |
-| Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [spec](ReceivedDeliveredSerialNumberReport.md) |
-| Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [spec](RemainingAgeSerialNumberDetailReport.md) |
+| Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [verified](ReceivedDeliveredSerialNumberReport.md) |
+| Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [verified](RemainingAgeSerialNumberDetailReport.md) |
 | Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | [verified](ItemTransferListReport.md) |
 | Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | [verified](StockMovementByWarehouseReport.md) |
 
