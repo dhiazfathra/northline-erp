@@ -43,6 +43,8 @@ export const salesReceiptInput = z.object({
   date: isoDate,
   description: z.string().default(''),
   payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
+  /** Amount received; above the sum of payments the excess is a customer credit (kelebihan bayar). Omitted = sum of payments. */
+  amount: amountToCents.optional(),
 })
 export type SalesReceiptInput = z.input<typeof salesReceiptInput>
 

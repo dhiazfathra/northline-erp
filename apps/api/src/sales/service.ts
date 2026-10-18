@@ -149,12 +149,16 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
       if (p.amount > Number(inv.owing)) throw new DomainError(`Pembayaran ${p.invoice} melebihi sisa piutang`)
       credits.push({ account: inv.ar_account as string, amount: p.amount })
     }
-    const amount = rc.payments.reduce((s, p) => s + p.amount, 0)
+    const paid = rc.payments.reduce((s, p) => s + p.amount, 0), amount = rc.amount ?? paid
+    if (amount < paid) throw new DomainError('Jumlah penerimaan kurang dari total pembayaran faktur')
+    const [arAcc] = await tx.execute(sql`SELECT ar_account FROM customers WHERE no = ${rc.customer}`)
     const number = rc.number ?? await nextNumber(tx, `${rc.bank}.${period(rc.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${rc.idempotencyKey}:journal`, journalId, number, sourceType: 'SR', date: rc.date, description: rc.description,
-      lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) }, ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) }))],
+      lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) }, ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
+        // the excess is credited to the receivable on its own line (Accurate does not merge it with the invoice payments)
+        ...(amount > paid ? [{ account: arAcc!.ar_account as string, side: 'CREDIT' as const, amount: ((amount - paid) / 100).toFixed(2) }] : [])],
     })
     await tx.execute(sql`INSERT INTO sales_receipts (number, customer_no, bank_no, date, description, amount, journal_id)
       VALUES (${number}, ${rc.customer}, ${rc.bank}, ${rc.date}, ${rc.description}, ${amount}, ${journalId})`)

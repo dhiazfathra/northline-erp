@@ -107,7 +107,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [verified](OwingCollectionGraphReport.md) |
 | Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoicePaidReport.md) |
 | Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePphPaidReport.md) |
-| Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [spec](CustomerExistingCreditListReport.md) |
+| Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [verified](CustomerExistingCreditListReport.md) |
 | Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListReport.md) |
 | Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReceiptListDetailReport.md) |
 | Daftar Pelanggan | `CustomerListReport` | report | ASOF | selectedBranch= | [verified](CustomerListReport.md) |

@@ -40,6 +40,11 @@
    "no": "210101",
    "name": "Hutang Usaha IDR",
    "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "NL-T1-1101",
+   "name": "NL-T1 Kas",
+   "type": "CASH_BANK"
   }
  ],
  "taxes": [
@@ -150,6 +155,22 @@
      "price": 200000
     }
    ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "NL-T19-R1",
+   "number": "NL-T1-1101.2035.11.00002",
+   "customer": "NL-T2-C1",
+   "bank": "NL-T1-1101",
+   "date": "2035-11-28",
+   "description": "NL-T19-R1",
+   "amount": 1200000,
+   "payments": [
+    {
+     "invoice": "SI.2035.11.00002",
+     "amount": 1110000
+    }
+   ]
   }
  ],
  "notes": [
@@ -157,7 +178,8 @@
   "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788.",
   "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors.",
   "I1 got its No. Faktur Pajak by re-saving the invoice; its document code stays Digunggung (customer default). Customer NL-T19-C1 is PKP (NPWP, document code Faktur Pajak), so I3 is CoreTax - Faktur Pajak. SPT Masa lists only show invoices reported in a saved SPT.",
-  "NL-T19-C1 got Limit Piutang 1.000.000 (customerLimitAmount) after the invoices; CustomerLimitReport has no date parameter."
+  "NL-T19-C1 got Limit Piutang 1.000.000 (customerLimitAmount) after the invoices; CustomerLimitReport has no date parameter.",
+  "R1 receives 1.200.000 for SI.2035.11.00002 (1.110.000): saved with ignoreWarning ('Ada kelebihan bayar'); the 90.000 excess is the customer's credit. An earlier receipt/return pair (NL-T1-1101.2035.11.00001, SRT.2035.11.00001) was saved and deleted: a return on a paid invoice does not create Sisa Kredit."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -489,6 +511,50 @@
     [
      "444.000",
      "444.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "28 Nov 2035",
+     "No. Trans #",
+     ":",
+     "NL-T1-1101.2035.11.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Penerimaan Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T19-R1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "1.200.000",
+     "0"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "0",
+     "1.110.000"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "0",
+     "90.000"
+    ],
+    [
+     "1.200.000",
+     "1.200.000"
     ]
    ]
   },
@@ -751,7 +817,71 @@
      "556.000"
     ]
    ]
-  }
+  },
+  "CustomerExistingCreditListReport": [
+   {
+    "asOf": "2035-11-27",
+    "param": {
+     "asOfDate": "27/11/2035",
+     "selectedBranch": [
+      {
+       "name": "[Semua Cabang]",
+       "id": null
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Sisa Kredit Pelanggan"
+     ],
+     [
+      "Per Tgl. 27 Nov 2035"
+     ],
+     [
+      "Cabang : [Semua Cabang]"
+     ]
+    ]
+   },
+   {
+    "asOf": "2035-11-30",
+    "param": {
+     "asOfDate": "30/11/2035",
+     "selectedBranch": [
+      {
+       "name": "[Semua Cabang]",
+       "id": null
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Sisa Kredit Pelanggan"
+     ],
+     [
+      "Per Tgl. 30 Nov 2035"
+     ],
+     [
+      "Cabang : [Semua Cabang]"
+     ],
+     [
+      "Mata Uang",
+      "Pelanggan",
+      "ID Pelanggan Pelang",
+      "Sisa Kredit"
+     ],
+     [
+      "Indonesian Rupiah",
+      "NL-T2 Pelanggan A",
+      "NL-T2-C1",
+      "90.000"
+     ],
+     [
+      "Total Pelanggan",
+      "90.000"
+     ]
+    ]
+   }
+  ]
  },
  "vendors": [
   {

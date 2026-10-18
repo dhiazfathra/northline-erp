@@ -4,8 +4,8 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **159 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 184/184 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **160 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 185/185 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
@@ -27,6 +27,9 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 4. Scope decided (ADR-0010): payroll, job orders, manufacturing, activity log/users/access (18 reports) are out of scope. CSV download reports (4) return files, not tables.
 
 ## Gotchas
+
+- `rtk` wraps `git` in this shell and truncates long output: use `rtk proxy git show ... > file` when capturing file contents.
+- Python helpers that append to a file must read before opening for write (an `open(p,'w').write(open(p).read()...)` one-liner truncates the file first).
 
 - Fixture tests replay earlier fixtures in order (FIFO/opening balances depend on it); see `apps/api/test/fixture-db.ts` and per-test `beforeAll`.
 - Accurate quirks recorded per report doc (e.g. "Agt" in row dates vs "Agu" in headers, English months in "Saldo per" labels, Umur in Tukar Faktur vs today).

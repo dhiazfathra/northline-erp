@@ -558,3 +558,22 @@ export function customerLimit(d: SalesData, limits: Map<string, number>, currenc
   }
   return rows
 }
+
+/**
+ * Sisa Kredit Pelanggan (docs/reports/CustomerExistingCreditListReport.md): customers with unused credit as of the date.
+ * Credit = receipts above the invoices they pay (kelebihan bayar); nothing in the ERP consumes credit yet.
+ */
+export function customerCredit(d: SalesData, asOf: string): string[][] {
+  const credit = new Map<string, number>()
+  for (const r of d.receipts.filter(r => r.date <= asOf)) {
+    const excess = r.amount - r.payments.reduce((s, p) => s + p.amount, 0)
+    if (excess > 0) credit.set(r.customer, (credit.get(r.customer) ?? 0) + excess)
+  }
+  const custs = [...credit.keys()].sort(byName(d))
+  const rows: string[][] = [['Sisa Kredit Pelanggan'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]']]
+  if (!custs.length) return rows
+  rows.push(['Mata Uang', 'Pelanggan', 'ID Pelanggan Pelang', 'Sisa Kredit'])
+  for (const c of custs) rows.push([CURRENCY, d.customers.get(c)!, c, formatIdr(credit.get(c)!)])
+  rows.push(['Total Pelanggan', formatIdr([...credit.values()].reduce((s, v) => s + v, 0))])
+  return rows
+}
