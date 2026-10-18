@@ -152,11 +152,11 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | [verified](ProfitabilityBySalesInvoiceReport.md) |
 | Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByItemReport.md) |
 | Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByCustomerReport.md) |
-| Perubahan Harga Jual Per Barang | `SellingPriceAdjustmentHistoryReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentHistoryReport.md) |
-| Penyesuaian Harga Jual | `SellingPriceAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailReport.md) |
-| Penyesuaian Harga Jual per Kategori | `SellingPriceAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailPerCategoryReport.md) |
-| Penyesuaian Diskon Jual | `SellingDiscountAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](SellingDiscountAdjustmentDetailReport.md) |
-| Penyesuaian Diskon Jual per Kategori | `SellingDiscountAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [spec](SellingDiscountAdjustmentDetailPerCategoryReport.md) |
+| Perubahan Harga Jual Per Barang | `SellingPriceAdjustmentHistoryReport` | report | FROMTO | selectedBranch= | [verified](SellingPriceAdjustmentHistoryReport.md) |
+| Penyesuaian Harga Jual | `SellingPriceAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](SellingPriceAdjustmentDetailReport.md) |
+| Penyesuaian Harga Jual per Kategori | `SellingPriceAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [verified](SellingPriceAdjustmentDetailPerCategoryReport.md) |
+| Penyesuaian Diskon Jual | `SellingDiscountAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](SellingDiscountAdjustmentDetailReport.md) |
+| Penyesuaian Diskon Jual per Kategori | `SellingDiscountAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [verified](SellingDiscountAdjustmentDetailPerCategoryReport.md) |
 | Barang Paling Laku | `SellingItemFrequencyReport` | report | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](SellingItemFrequencyReport.md) |
 
 ## Utang (AP_VENDOR)

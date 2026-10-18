@@ -1,24 +1,20 @@
 # Perubahan Harga Jual Per Barang (`SellingPriceAdjustmentHistoryReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/SellingPriceAdjustmentHistoryReport.json`](captures/SellingPriceAdjustmentHistoryReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. **Status: verified** (zero diff). Fixture: [`fixtures/price-t20.json`](fixtures/price-t20.json).
+ERP: `apps/api/src/reports/pricing.ts` (`priceHistory`), documents `apps/api/src/sales/pricing.ts`; test: `apps/api/test/pricing.test.ts`.
+Default-params capture: [`captures/SellingPriceAdjustmentHistoryReport.json`](captures/SellingPriceAdjustmentHistoryReport.json).
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
+`FROMTO` + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`). Documents with Mulai Berlaku (date) in range.
 
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
+## Layout and rules
 
+Per item (name heading), each price change in range: `Mulai Berlaku | Kategori Penjualan | Mata Uang | Harga Lama | Harga Baru | Satuan`. Here **Harga Lama is the previous adjusted price** (0 before the first).
 
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Mulai Berlaku | Kategori Penjualan | Mata Uang | Harga Lama | Harga Baru | Satuan`
+Source: Penyesuaian Harga/Diskon documents (`SPA.yyyy.mm.nnnnn`, type ITEM_PRICE_TYPE or ITEM_DISCOUNT_TYPE, price
+category Umum, all branches). They post no journal.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Item default prices / minimum prices, end dates and multiple price categories are not modelled.

@@ -1,24 +1,20 @@
 # Penyesuaian Harga Jual (`SellingPriceAdjustmentDetailReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/SellingPriceAdjustmentDetailReport.json`](captures/SellingPriceAdjustmentDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. **Status: verified** (zero diff). Fixture: [`fixtures/price-t20.json`](fixtures/price-t20.json).
+ERP: `apps/api/src/reports/pricing.ts` (`adjustmentDetail(…, "PRICE")`), documents `apps/api/src/sales/pricing.ts`; test: `apps/api/test/pricing.test.ts`.
+Default-params capture: [`captures/SellingPriceAdjustmentDetailReport.json`](captures/SellingPriceAdjustmentDetailReport.json).
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
+`FROMTO` + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`). Documents with Mulai Berlaku (date) in range.
 
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
+## Layout and rules
 
+One block per adjustment document, header repeated per block: Nomor/Kategori Penjualan, Mulai Berlaku/Berlaku di Cabang, Tanggal Berakhir, then `Kode # | Nama Barang | Harga Baru | Harga Lama | Harga Minimum`. **Harga Lama is the item master's default price (0), not the previous adjustment**: SPA.2035.12.00003 (120.000 → 125.000) still prints 0.
 
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | : | Kategori Penjualan | :`
+Source: Penyesuaian Harga/Diskon documents (`SPA.yyyy.mm.nnnnn`, type ITEM_PRICE_TYPE or ITEM_DISCOUNT_TYPE, price
+category Umum, all branches). They post no journal.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Item default prices / minimum prices, end dates and multiple price categories are not modelled.
