@@ -472,6 +472,345 @@
     "-0,18"
    ]
   ],
-  "status": "formulas partly unresolved, see FinancialFocusReport.md"
+  "status": "formulas partly unresolved, see FinancialFocusReport.md",
+  "byYear": {
+   "2031": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2031"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "2.000.000",
+     "3.000.000",
+     "-33,33"
+    ],
+    [
+     "Pendapatan Operasi",
+     "-250.000,5",
+     "3.000.000",
+     "-108,33"
+    ],
+    [
+     "Laba/Rugi",
+     "-250.000,5",
+     "3.000.000",
+     "-108,33"
+    ],
+    [
+     "Modal Kerja",
+     "122.637.403,5",
+     "137.887.404",
+     "-3,86"
+    ],
+    [
+     "Rasio Lancar",
+     "2,18",
+     "2,34",
+     "-6,84"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "137.857.403,5",
+     "138.107.404",
+     "-0,18"
+    ]
+   ],
+   "2032": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2032"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "750.000",
+     "2.000.000",
+     "-62,5"
+    ],
+    [
+     "Pendapatan Operasi",
+     "750.000",
+     "-250.000,5",
+     "-400"
+    ],
+    [
+     "Laba/Rugi",
+     "750.000",
+     "-250.000,5",
+     "-400"
+    ],
+    [
+     "Modal Kerja",
+     "126.887.403,5",
+     "122.637.403,5",
+     "1,29"
+    ],
+    [
+     "Rasio Lancar",
+     "2,23",
+     "2,18",
+     "1,88"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "142.107.403,5",
+     "137.857.403,5",
+     "3,08"
+    ]
+   ],
+   "2033": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2033"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "3.815.000",
+     "750.000",
+     "408,67"
+    ],
+    [
+     "Pendapatan Operasi",
+     "2.330.800",
+     "750.000",
+     "210,77"
+    ],
+    [
+     "Laba/Rugi",
+     "2.330.800",
+     "750.000",
+     "210,77"
+    ],
+    [
+     "Modal Kerja",
+     "129.218.203,5",
+     "126.887.403,5",
+     "1,17"
+    ],
+    [
+     "Rasio Lancar",
+     "2,24",
+     "2,23",
+     "0,59"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "144.438.203,5",
+     "142.107.403,5",
+     "1,64"
+    ]
+   ],
+   "2034": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2034"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "1.288.000",
+     "3.815.000",
+     "-66,24"
+    ],
+    [
+     "Pendapatan Operasi",
+     "-1.067.200",
+     "2.330.800",
+     "-145,79"
+    ],
+    [
+     "Laba/Rugi",
+     "-567.200",
+     "2.330.800",
+     "-124,33"
+    ],
+    [
+     "Modal Kerja",
+     "140.673.003,5",
+     "129.218.203,5",
+     "3,73"
+    ],
+    [
+     "Rasio Lancar",
+     "2,34",
+     "2,24",
+     "4,57"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "155.893.003,5",
+     "144.438.203,5",
+     "7,93"
+    ]
+   ],
+   "2035": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2035"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "2.741.250",
+     "1.288.000",
+     "112,83"
+    ],
+    [
+     "Pendapatan Operasi",
+     "1.891.250",
+     "-1.067.200",
+     "-277,22"
+    ],
+    [
+     "Laba/Rugi",
+     "1.891.250",
+     "-567.200",
+     "-433,44"
+    ],
+    [
+     "Modal Kerja",
+     "142.498.253,5",
+     "140.673.003,5",
+     "1,03"
+    ],
+    [
+     "Rasio Lancar",
+     "2,35",
+     "2,34",
+     "0,25"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "157.784.253,5",
+     "155.893.003,5",
+     "1,21"
+    ]
+   ],
+   "2036": [
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2036"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "0",
+     "2.741.250",
+     "-100"
+    ],
+    [
+     "Pendapatan Operasi",
+     "0",
+     "1.891.250",
+     "-100"
+    ],
+    [
+     "Laba/Rugi",
+     "0",
+     "1.891.250",
+     "-100"
+    ],
+    [
+     "Modal Kerja",
+     "142.498.253,5",
+     "142.498.253,5",
+     "0"
+    ],
+    [
+     "Rasio Lancar",
+     "2,35",
+     "2,35",
+     "0"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Modal",
+     "157.784.253,5",
+     "157.784.253,5",
+     "0"
+    ]
+   ]
+  },
+  "byYearNote": "Captured 2026-10-18 after the T19-T23 fixtures (2031 values moved by +200.000 vs the first capture: later sandbox documents dated earlier). Modal Kerja Penambahan (%) still unexplained."
  }
 }
