@@ -136,7 +136,7 @@ export function createApp(db: Db) {
     .post('/purchases/returns', async c => c.json(await createPurchaseReturn(db, await c.req.json()), 201))
     .get('/reports/returns/:side{sales|purchase}/:report{list|detail|by-item}', async c => {
       const d = c.req.param('side') === 'sales' ? await loadSales(db) : await loadPurchases(db), { from, to } = trialBalanceQuery.parse(c.req.query())
-      return c.json({ list: R.returnList, detail: R.returnDetail, 'by-item': R.returnByItem }[c.req.param('report')](d, from, to))
+      return c.json({ list: R.returnList, detail: R.returnDetail, 'by-item': R.returnByItem }[c.req.param('report') as 'list' | 'detail' | 'by-item'](d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).

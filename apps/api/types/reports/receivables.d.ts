@@ -28,10 +28,20 @@ export interface Receipt {
         amount: number;
     }[];
 }
+export interface Return {
+    number: string;
+    customer: string;
+    invoice: string;
+    date: string;
+    description: string;
+    total: number;
+    lines: InvoiceLine[];
+}
 export interface SalesData {
     customers: Map<string, string>;
     invoices: Invoice[];
     receipts: Receipt[];
+    returns?: Return[];
     labels?: Labels;
 }
 /** Words that differ between the receivable (Piutang) and payable (Utang) versions of the same report. */
@@ -44,6 +54,7 @@ export interface Labels {
     docNo: string;
     sales: string;
     historyValue: string;
+    ret: string;
 }
 export declare const AR: Labels;
 export declare const AP: Labels;
@@ -117,3 +128,9 @@ export declare function sellingItemFrequency(d: SalesData, from: string, to: str
 export declare function profitabilityByInvoice(d: SalesData, from: string, to: string, cogs?: (invoice: string) => number): string[][];
 /** Profitabilitas per Pelanggan: per customer with invoices in range: sales, cost of goods, margin; total. */
 export declare function profitabilityByCustomer(d: SalesData, from: string, to: string, cogs?: (invoice: string) => number): string[][];
+/** Daftar Retur Penjualan / Pembelian */
+export declare function returnList(d: SalesData, from: string, to: string): string[][];
+/** Rincian Retur: one block per return. The sales version adds an empty "Nama Biaya :" line; the purchase version does not. */
+export declare function returnDetail(d: SalesData, from: string, to: string): string[][];
+/** Retur Penjualan/Pembelian per Barang */
+export declare function returnByItem(d: SalesData, from: string, to: string): string[][];
