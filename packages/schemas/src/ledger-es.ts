@@ -22,7 +22,8 @@ export const amountToCents = z
 export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO', 'OP', 'OD', 'RI', 'EXP'])
 export type JournalSource = z.infer<typeof journalSource>
 
-export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional() })
+/** department / project: optional dimensions per line (ADR-0022); names of master rows. */
+export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional(), department: z.string().optional(), project: z.string().optional() })
 export type JournalLine = z.infer<typeof journalLine>
 
 // ---- commands ----
@@ -35,6 +36,8 @@ export const postJournalCommand = z.object({
   number: z.string().optional(),
   /** Document that produced the journal (JV = Jurnal Umum entered directly). */
   sourceType: journalSource.default('JV'),
+  /** Cabang; absent = the default branch (ADR-0022). */
+  branch: z.string().optional(),
   date: isoDate,
   description: z.string().default(''),
   lines: z.array(journalLine.extend({ amount: amountToCents })).min(2),
@@ -53,6 +56,7 @@ export const editJournalCommand = z.object({
   type: z.literal('EditJournal'),
   journalId: z.string().uuid(),
   number: z.string().optional(),
+  branch: z.string().optional(),
   date: isoDate,
   description: z.string().default(''),
   lines: z.array(journalLine.extend({ amount: amountToCents })).min(2),
@@ -90,6 +94,8 @@ export type LedgerCommandInput = z.input<typeof ledgerCommand>
 export const journalPosted = z.object({
   journalId: z.string(),
   number: z.string().optional(),
+  /** Absent on events written before branches existed; read as the default branch. */
+  branch: z.string().optional(),
   date: isoDate,
   description: z.string(),
   lines: z.array(journalLine).min(2),
@@ -99,7 +105,7 @@ export const journalPosted = z.object({
   reverses: z.string().optional(),
 })
 export const journalReversed = z.object({ journalId: z.string(), reversalJournalId: z.string(), date: isoDate, reason: z.string() })
-export const journalEdited = z.object({ journalId: z.string(), number: z.string().optional(), date: isoDate, description: z.string(), lines: z.array(journalLine).min(2) })
+export const journalEdited = z.object({ journalId: z.string(), number: z.string().optional(), branch: z.string().optional(), date: isoDate, description: z.string(), lines: z.array(journalLine).min(2) })
 export const journalDeleted = z.object({ journalId: z.string() })
 export const periodClosed = z.object({ period: periodId })
 export const periodReopened = z.object({ period: periodId })

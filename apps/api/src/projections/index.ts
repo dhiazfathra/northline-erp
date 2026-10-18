@@ -30,12 +30,12 @@ export const ledgerProjection: Projection = {
       await tx.execute(sql`DELETE FROM accounts a WHERE a.no = ${e.data.no} AND NOT EXISTS (SELECT 1 FROM journal_lines WHERE account_no = a.no)`)
     } else if (e.type === 'JournalPosted') {
       const d = e.data
-      await tx.execute(sql`INSERT INTO journals (journal_id, number, source_type, date, description, reverses, global_position)
-        VALUES (${d.journalId}, ${d.number ?? null}, ${d.sourceType ?? 'JV'}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)
+      await tx.execute(sql`INSERT INTO journals (journal_id, number, source_type, branch, date, description, reverses, global_position)
+        VALUES (${d.journalId}, ${d.number ?? null}, ${d.sourceType ?? 'JV'}, ${d.branch ?? null}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)
       await postLines(tx, d.journalId, d.date, d.lines)
     } else if (e.type === 'JournalEdited') {
       await unpostLines(tx, e.data.journalId)
-      await tx.execute(sql`UPDATE journals SET number = ${e.data.number ?? null}, date = ${e.data.date}, description = ${e.data.description} WHERE journal_id = ${e.data.journalId}`)
+      await tx.execute(sql`UPDATE journals SET number = ${e.data.number ?? null}, branch = ${e.data.branch ?? null}, date = ${e.data.date}, description = ${e.data.description} WHERE journal_id = ${e.data.journalId}`)
       await postLines(tx, e.data.journalId, e.data.date, e.data.lines)
     } else if (e.type === 'JournalDeleted') {
       await unpostLines(tx, e.data.journalId)
@@ -50,13 +50,13 @@ export const ledgerProjection: Projection = {
 }
 
 /** Adds a journal's lines to journal_lines and the daily/period totals. */
-async function postLines(tx: Tx, journalId: string, date: string, lines: { account: string; side: string; amount: number; memo?: string }[]) {
+async function postLines(tx: Tx, journalId: string, date: string, lines: { account: string; side: string; amount: number; memo?: string; department?: string; project?: string }[]) {
   let total = 0
   for (const [i, l] of lines.entries()) {
     const debit = l.side === 'DEBIT' ? l.amount : 0, credit = l.side === 'CREDIT' ? l.amount : 0
     total += debit
-    await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo)
-      VALUES (${journalId}, ${i + 1}, ${date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null})`)
+    await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo, department, project)
+      VALUES (${journalId}, ${i + 1}, ${date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null}, ${l.department ?? null}, ${l.project ?? null})`)
     await tx.execute(sql`INSERT INTO account_daily_balances (account_no, date, debit, credit) VALUES (${l.account}, ${day(date)}, ${debit}, ${credit})
       ON CONFLICT (account_no, date) DO UPDATE SET debit = account_daily_balances.debit + EXCLUDED.debit, credit = account_daily_balances.credit + EXCLUDED.credit`)
   }

@@ -29,6 +29,7 @@ export async function handleTx(tx: Tx, input: LedgerCommandInput, metadata: Reco
   switch (cmd.type) {
     case 'PostJournal': {
       await checkAccounts(tx, cmd.lines.map(l => l.account))
+      await checkDimensions(tx, cmd.branch, cmd.lines)
       const { type: _, idempotencyKey: __, ...post_ } = cmd
       const posted = await post(tx, { ...post_, periodClosed: await isClosed(tx, cmd.date) }, meta)
       if (cmd.sourceType === 'JV') await log({ action: 'CREATE', entity: 'JV', reference: posted.number, docDate: cmd.date })
@@ -42,8 +43,8 @@ export async function handleTx(tx: Tx, input: LedgerCommandInput, metadata: Reco
       if (state.status === 'none') throw new DomainError('Jurnal tidak ditemukan')
       const evs = cmd.type === 'DeleteJournal'
         ? journalDecider.decide(state, { type: 'Delete', periodClosed: await isClosed(tx, state.date) })
-        : (await checkAccounts(tx, cmd.lines.map(l => l.account)), journalDecider.decide(state, {
-            type: 'Edit', number: cmd.number, date: cmd.date, description: cmd.description, lines: cmd.lines,
+        : (await checkAccounts(tx, cmd.lines.map(l => l.account)), await checkDimensions(tx, cmd.branch, cmd.lines), journalDecider.decide(state, {
+            type: 'Edit', number: cmd.number, branch: cmd.branch, date: cmd.date, description: cmd.description, lines: cmd.lines,
             periodClosed: (await isClosed(tx, state.date)) || (await isClosed(tx, cmd.date)) }))
       const stored = await append(tx, sid, version, evs.map(e => ({ ...e, metadata: meta })))
       const e = evs[0]!
@@ -62,7 +63,7 @@ export async function handleTx(tx: Tx, input: LedgerCommandInput, metadata: Reco
       // The correction is a new journal in an open period; the original stays untouched.
       result = await post(tx, {
         journalId: cmd.reversalJournalId, date: cmd.date, description: `Pembalik ${state.journalId}${cmd.reason ? ': ' + cmd.reason : ''}`,
-        lines: reverseLines(state.lines), reverses: state.journalId, periodClosed: await isClosed(tx, cmd.date),
+        lines: reverseLines(state.lines), reverses: state.journalId, branch: state.branch, periodClosed: await isClosed(tx, cmd.date),
       }, meta)
       result.streams.unshift(sid)
       break
@@ -123,6 +124,20 @@ async function checkAccounts(tx: Tx, nos: string[]) {
   if (unknown.length) throw new DomainError(`Akun tidak dikenal: ${unknown.join(', ')}`)
   for (const no of new Set(nos))
     if ((await load(tx, accountStream(no), accountDecider)).state.status === 'suspended') throw new DomainError(`Akun ${no} nonaktif`)
+}
+
+/** Branch, departments and projects must be master rows (ADR-0022). */
+async function checkDimensions(tx: Tx, branch: string | undefined, lines: { department?: string; project?: string }[]) {
+  const check = async (table: string, names: (string | undefined)[], label: string) => {
+    const want = [...new Set(names.filter((n): n is string => !!n))]
+    if (!want.length) return
+    const have = new Set((await tx.execute(sql`SELECT name FROM ${sql.identifier(table)} WHERE name IN ${want}`)).map(r => r.name as string))
+    const missing = want.filter(n => !have.has(n))
+    if (missing.length) throw new DomainError(`${label} tidak dikenal: ${missing.join(', ')}`)
+  }
+  await check('branches', [branch], 'Cabang')
+  await check('departments', lines.map(l => l.department), 'Departemen')
+  await check('projects', lines.map(l => l.project), 'Proyek')
 }
 
 /** An account referenced by any row (journal lines, sub-accounts, master data) cannot be deleted. */

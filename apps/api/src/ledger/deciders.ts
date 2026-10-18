@@ -3,14 +3,14 @@ import type { Decider } from '../es/store'
 
 export class DomainError extends Error {}
 
-type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP'; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
+type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP'; branch?: string; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
 type ReverseCmd = { type: 'Reverse'; reversalJournalId: string; date: string; reason: string }
-type EditCmd = { type: 'Edit'; number?: string; date: string; description: string; lines: JournalLine[]; periodClosed: boolean }
+type EditCmd = { type: 'Edit'; number?: string; branch?: string; date: string; description: string; lines: JournalLine[]; periodClosed: boolean }
 type DeleteCmd = { type: 'Delete'; periodClosed: boolean }
 
 export type JournalState =
   | { status: 'none' }
-  | { status: 'posted' | 'reversed' | 'deleted'; journalId: string; number?: string; sourceType: string; date: string; lines: JournalLine[] }
+  | { status: 'posted' | 'reversed' | 'deleted'; journalId: string; number?: string; branch?: string; sourceType: string; date: string; lines: JournalLine[] }
 
 const balance = (lines: JournalLine[]) => {
   const debit = lines.filter(l => l.side === 'DEBIT').reduce((a, l) => a + l.amount, 0)
@@ -22,10 +22,10 @@ const balance = (lines: JournalLine[]) => {
 export const journalDecider: Decider<JournalState, PostCmd | ReverseCmd | EditCmd | DeleteCmd, LedgerEvent> = {
   initial: { status: 'none' },
   evolve(s, e) {
-    if (e.type === 'JournalPosted') return { status: 'posted', journalId: e.data.journalId, number: e.data.number, sourceType: e.data.sourceType ?? 'JV', date: e.data.date, lines: e.data.lines }
+    if (e.type === 'JournalPosted') return { status: 'posted', journalId: e.data.journalId, number: e.data.number, branch: e.data.branch, sourceType: e.data.sourceType ?? 'JV', date: e.data.date, lines: e.data.lines }
     if (s.status === 'none') return s
     if (e.type === 'JournalReversed') return { ...s, status: 'reversed' }
-    if (e.type === 'JournalEdited') return { ...s, number: e.data.number, date: e.data.date, lines: e.data.lines }
+    if (e.type === 'JournalEdited') return { ...s, number: e.data.number, branch: e.data.branch, date: e.data.date, lines: e.data.lines }
     if (e.type === 'JournalDeleted') return { ...s, status: 'deleted' }
     return s
   },
@@ -34,7 +34,7 @@ export const journalDecider: Decider<JournalState, PostCmd | ReverseCmd | EditCm
       if (s.status !== 'none') throw new DomainError(`Jurnal ${c.journalId} sudah diposting`)
       if (c.periodClosed) throw new DomainError(`Periode ${c.date.slice(0, 7)} sudah ditutup`)
       balance(c.lines)
-      return [{ type: 'JournalPosted', data: { journalId: c.journalId, number: c.number, sourceType: c.sourceType ?? 'JV', date: c.date, description: c.description, lines: c.lines, reverses: c.reverses } }]
+      return [{ type: 'JournalPosted', data: { journalId: c.journalId, number: c.number, branch: c.branch, sourceType: c.sourceType ?? 'JV', date: c.date, description: c.description, lines: c.lines, reverses: c.reverses } }]
     }
     if (s.status === 'none' || s.status === 'deleted') throw new DomainError('Jurnal tidak ditemukan')
     if (s.status === 'reversed') throw new DomainError(`Jurnal ${s.journalId} sudah dibalik`)
@@ -43,7 +43,7 @@ export const journalDecider: Decider<JournalState, PostCmd | ReverseCmd | EditCm
       if (c.periodClosed) throw new DomainError(`Periode jurnal ${s.number ?? s.journalId} sudah ditutup`)
       if (c.type === 'Delete') return [{ type: 'JournalDeleted', data: { journalId: s.journalId } }]
       balance(c.lines)
-      return [{ type: 'JournalEdited', data: { journalId: s.journalId, number: c.number ?? s.number, date: c.date, description: c.description, lines: c.lines } }]
+      return [{ type: 'JournalEdited', data: { journalId: s.journalId, number: c.number ?? s.number, branch: c.branch, date: c.date, description: c.description, lines: c.lines } }]
     }
     return [{ type: 'JournalReversed', data: { journalId: s.journalId, reversalJournalId: c.reversalJournalId, date: c.date, reason: c.reason } }]
   },
