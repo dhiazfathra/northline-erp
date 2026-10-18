@@ -1,0 +1,8 @@
+{"planId":"AgingReceivableReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Umur Piutang"],
+["Per Tgl. 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Mata Uang","Pelanggan","Piutang","Blm Tempo","1 - 30","31 - 60","61 - 90","91 - 120","&gt; 120","Sisa Kredit"],
+["IDR","ZZ-R01-Pelanggan Satu","2.510.000","0","2.510.000","0","0","0","0","0"],
+["ZZ-R03-Pelanggan Satu","2.510.000","0","2.510.000","0","0","0","0","0"],
+["Total Pelanggan","5.020.000","0","5.020.000","0","0","0","0","0"],
+["Total Mata Uang","5.020.000","0","5.020.000","0","0","0","0","0"]]}

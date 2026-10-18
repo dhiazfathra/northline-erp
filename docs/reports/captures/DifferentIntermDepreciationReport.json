@@ -1,0 +1,6 @@
+{"planId":"DifferentIntermDepreciationReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfYear":2026,"selectedAsset":[]},"rows":[["Perbedaan Penyusutan"],
+["per 2026"],
+["Kode Aset",":","Perkiraan Umur",":","Tahun"],
+["Tanggal",":","Total Aset",":"],
+["Metode Penyusutan",":","Nilai Sisa",":"],
+["Tahun","PPh","Koreksi Pajak","Penyusutan Akuntansi"]]}

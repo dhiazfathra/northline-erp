@@ -1,0 +1,3 @@
+{"planId":"CustomerLimitReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Limit Piutang Pelanggan"],
+["Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang"],
+["Nama","Saldo (Mata Uang)","Pesanan","Giro Mundur","Limit Piutang","Sisa Limit"]]}

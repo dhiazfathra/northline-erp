@@ -1,0 +1,9 @@
+{"planId":"CustomerListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Daftar Pelanggan"],
+["Per Tgl. 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["ID Pelanggan","Nama","Tgl/Jam Pembuatan","Saldo (Mata Uang)","Alamat lainnya"],
+["Umum"],
+["C.00001","ZZ-R01-Pelanggan Satu","04 Okt 2026 07:54:50","IDR 2.510.000"],
+["C.00002","ZZ-R01-Pelanggan Asing","04 Okt 2026 09:49:33","USD 0"],
+["C.00003","ZZ-R03-Pelanggan Satu","04 Okt 2026 11:00:04","IDR 2.510.000"],
+["C.00004","ZZ-R03-Pelanggan Asing","04 Okt 2026 13:07:56","USD 0"]]}

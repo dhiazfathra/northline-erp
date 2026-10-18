@@ -1,0 +1,7 @@
+{"planId":"FixedAssetListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{},"rows":[["Daftar Aset Tetap"],
+["Nomor #","Nama Aset","Total Aset","Penyusutan","Nilai Buku","Tanggal Pakai","Tanggal Beli"],
+["Berwujud"],
+["FAA.2026.09.00001","ZZ-R01-Laptop Uji","0","0","0","01 Sep 2026","01 Sep 2026"],
+["FAA.2026.09.00002","ZZ-R03-Laptop Uji","0","0","0","01 Sep 2026","01 Sep 2026"],
+["FAA.2026.11.00001","ZZ-R03-Laptop Uji 2","0","0","0","01 Nov 2026","01 Nov 2026"],
+["0","0","0"]]}

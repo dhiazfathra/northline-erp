@@ -1,0 +1,11 @@
+{"planId":"PurchaseCOGSManufactureReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"periodMonth":"10","periodYear":2026},"rows":[["Pembelian (Harga Pokok Produksi)"],
+["Per Oktober 2026"],
+["Tipe Transaksi","Nomor #","Nama Barang","Nilai Masuk","Nilai Keluar","Nilai"],
+["Pembelian"],
+["04 Okt 2026"],
+["Faktur Pembelian","PI.2026.10.00002","ZZ-R01-Barang B","750.000","0","750.000"],
+["Retur Pembelian","PRT.2026.10.00001","ZZ-R01-Barang B","0","150.000","-150.000"],
+["Faktur Pembelian","PI.2026.10.00004","ZZ-R03-Barang B2","750.000","0","750.000"],
+["Retur Pembelian","PRT.2026.10.00002","ZZ-R03-Barang B2","0","150.000","-150.000"],
+["1.500.000","300.000","1.200.000"],
+["1.500.000","300.000","1.200.000"]]}

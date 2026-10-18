@@ -1,0 +1,5 @@
+{"planId":"FixedAssetDetailReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedAsset":[]},"rows":[["Detail Aset Tetap"],
+["Kode Aset",":","Umur (Tahun)",":"],
+["Tanggal Beli",":","Umur (Bulan)",":"],
+["Metode Penyusutan",":"],
+["Nama Biaya","Tanggal","Tipe Transaksi","Jumlah","Kode Aset","Tanggal Beli","Metode Penyusutan","Umur (Tahun)","Umur (Bulan)"]]}

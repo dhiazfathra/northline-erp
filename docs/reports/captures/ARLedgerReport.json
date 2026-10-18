@@ -1,0 +1,12 @@
+{"planId":"ARLedgerReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}],"showOnlyHasTransaction":true},"rows":[["Buku Besar Pembantu Piutang"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Nama Pelanggan","Saldo Awal","Faktur","Pembayaran","Retur","Uang Muka","Jurnal Umum","Saldo Akhir"],
+["Indonesian Rupiah"],
+["ZZ-R01-Pelanggan Satu","0","5.769.050","2.059.050","200.000","1.000.000","0","2.510.000"],
+["ZZ-R03-Pelanggan Satu","0","5.769.050","2.059.050","200.000","1.000.000","0","2.510.000"],
+["0","11.538.100","4.118.100","400.000","2.000.000","0","5.020.000"],
+["US Dollar"],
+["ZZ-R01-Pelanggan Asing","0","100","100","0","0","0","0"],
+["ZZ-R03-Pelanggan Asing","0","100","100","0","0","0","0"],
+["0","200","200","0","0","0","0"]]}

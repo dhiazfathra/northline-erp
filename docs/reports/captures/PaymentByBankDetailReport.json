@@ -1,0 +1,5 @@
+{"planId":"PaymentByBankDetailReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBank":[]},"rows":[["Rincian Pembayaran per Bank"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Kas/Bank",":"],
+["Mata Uang",":"],
+["Tanggal","No Cek #","Keterangan Pembayaran","Jumlah"]]}

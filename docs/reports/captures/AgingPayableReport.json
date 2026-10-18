@@ -1,0 +1,10 @@
+{"planId":"AgingPayableReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Umur Utang"],
+["Per Tgl. 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Pemasok","Utang","Blm Tempo","1 - 30","31 - 60","61 - 90","91 - 120","&gt; 120"],
+["PT AUTO PART LAMP","85.646.500","0","0","0","0","0","85.646.500"],
+["PT Pack Multi Guna Abadi","6.900.000","0","0","0","0","0","6.900.000"],
+["PT Plastic Energy Sejahtera","5.600.000","0","0","0","0","0","5.600.000"],
+["ZZ-R01-Pemasok Satu","600.000","0","600.000","0","0","0","0"],
+["ZZ-R03-Pemasok Satu","600.000","0","600.000","0","0","0","0"],
+["Total Pemasok","99.346.500","0","1.200.000","0","0","0","98.146.500"]]}

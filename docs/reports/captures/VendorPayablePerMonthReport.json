@@ -1,0 +1,7 @@
+{"planId":"VendorPayablePerMonthReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfYear":2026},"rows":[["Utang per Bulan"],
+["per 2026"],
+["Nama Pemasok","Saldo Awal","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember","Saldo Akhir"],
+["Indonesian Rupiah"],
+["ZZ-R01-Pemasok Satu","0","0","0","0","0","0","0","0","0","0","600.000","0","0","600.000"],
+["ZZ-R03-Pemasok Satu","0","0","0","0","0","0","0","0","0","0","600.000","0","0","600.000"],
+["0","0","0","0","0","0","0","0","0","0","1.200.000","0","0","1.200.000"]]}

@@ -1,0 +1,11 @@
+{"planId":"PurchaseInvoicePphPaidReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Pembayaran PPh Pembelian"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Faktur Pembelian","No. Form","PPh","Bayar PPh","NTPN","Tgl Bayar PPh"],
+["Pajak Penghasilan Ps.23"],
+["ZZ-R01-Pemasok Satu"],
+["PI.2026.10.00001","ZZ-R01-1101.2026.10.00002","40.000","0"],
+["40.000","0"],
+["ZZ-R03-Pemasok Satu"],
+["PI.2026.10.00003","ZZ-R03-1101.2026.10.00002","40.000","0"],
+["40.000","0"]]}

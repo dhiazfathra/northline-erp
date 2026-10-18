@@ -1,0 +1,6 @@
+{"planId":"UnRealizeGainLossReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"periodStartMonth":"1","periodStartYear":2026,"periodEndMonth":"10","periodEndYear":2026},"rows":[["Laba/Rugi Tidak Terealisasi"],
+["Dari Periode Januari 2026 s/d Oktober 2026"],
+["Nama Akun Perkiraan","Bulan","Nilai Asing","Nilai Domestik (Bulan)","Kurs Akhir Bulan","Nilai Domestik (Akhir Bulan)","Untung/Rugi"],
+["US Dollar"],
+["ZZ-R01-Bank USD Uji","Oktober 2026","100","1.550.000","16.000","1.600.000","50.000"],
+["100","1.550.000","1.600.000","50.000"]]}

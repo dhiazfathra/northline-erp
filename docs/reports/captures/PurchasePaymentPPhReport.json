@@ -1,0 +1,11 @@
+{"planId":"PurchasePaymentPPhReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026"},"rows":[["Daftar Bukti Potong PPh Pembelian"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Tanggal","No. Bukti Potong","No Faktur # Faktur Pembelian","Total Kena Pajak","Tarif PPh","Nilai PPh"],
+["Pajak Penghasilan Ps.23"],
+["ZZ-R01-Pemasok Satu"],
+["04 Okt 2026","ZZ-R01-INV-001","1.000.000","4 %","40.000"],
+["1.000.000","40.000"],
+["ZZ-R03-Pemasok Satu"],
+["04 Okt 2026","ZZ-R03-INV-001","1.000.000","4 %","40.000"],
+["1.000.000","40.000"],
+["2.000.000","80.000"]]}

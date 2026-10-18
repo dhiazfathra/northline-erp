@@ -1,0 +1,4 @@
+{"planId":"AccessPrivilegeByUserListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedUser":[]},"rows":[["Daftar Hak Akses per Pengguna"],
+["Nama",":","Pengguna",":"],
+["Pembatasan Akses",":"],
+["Hak Akses","Aktif","Buat","Ubah","Hapus","Lihat"]]}

@@ -1,0 +1,12 @@
+{"planId":"PurchaseByItemDetailReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Rincian Pembelian per Barang"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Nomor #","Tanggal","Keterangan","Kuantitas","Satuan","Pembelian"],
+["ZZ-R01-Barang B"],
+["PI.2026.10.00002","04 Okt 2026","5","PCS","750.000"],
+["ZZ-R01-Jasa Konsultasi"],
+["PI.2026.10.00001","04 Okt 2026","1","Jam","1.000.000"],
+["ZZ-R03-Barang B2"],
+["PI.2026.10.00004","04 Okt 2026","5","PCS","750.000"],
+["ZZ-R03-Jasa Konsultasi"],
+["PI.2026.10.00003","04 Okt 2026","1","Jam","1.000.000"]]}

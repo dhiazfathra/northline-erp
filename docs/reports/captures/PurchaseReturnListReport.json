@@ -1,0 +1,6 @@
+{"planId":"PurchaseReturnListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Daftar Retur Pembelian"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Nomor #","Tanggal","Pemasok","Total"],
+["PRT.2026.10.00001","04 Okt 2026","ZZ-R01-Pemasok Satu","150.000"],
+["PRT.2026.10.00002","04 Okt 2026","ZZ-R03-Pemasok Satu","150.000"]]}

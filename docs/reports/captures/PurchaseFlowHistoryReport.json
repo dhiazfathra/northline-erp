@@ -1,0 +1,7 @@
+{"planId":"PurchaseFlowHistoryReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026"},"rows":[["Histori Proses Pembelian"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Permintaan Barang","Pesanan Pembelian","Penerimaan Barang","Uang Muka Pembelian","Faktur Pembelian","Retur Pembelian","Pembayaran Pembelian"],
+["-","-","-","-","PI.2026.10.00001","-","ZZ-R01-1101.2026.10.00002"],
+["-","-","-","-","PI.2026.10.00002","PRT.2026.10.00001","-"],
+["-","-","-","-","PI.2026.10.00003","-","ZZ-R03-1101.2026.10.00002"],
+["-","-","-","-","PI.2026.10.00004","PRT.2026.10.00002","-"]]}

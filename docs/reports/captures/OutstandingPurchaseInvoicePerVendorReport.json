@@ -1,0 +1,11 @@
+{"planId":"OutstandingPurchaseInvoicePerVendorReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Faktur Belum Lunas per Pemasok"],
+["Per Tgl. 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Mata Uang","Pemasok","Total","Utang","Utang Pajak"],
+["Indonesian Rupiah","PT AUTO PART LAMP","85.646.500","85.646.500","0"],
+["PT Pack Multi Guna Abadi","6.900.000","6.900.000","0"],
+["PT Plastic Energy Sejahtera","5.600.000","5.600.000","0"],
+["ZZ-R01-Pemasok Satu","750.000","600.000","0"],
+["ZZ-R03-Pemasok Satu","750.000","600.000","0"],
+["Total Pemasok","99.646.500","99.346.500","0"],
+["Total Mata Uang","99.646.500","99.346.500","0"]]}

@@ -1,0 +1,5 @@
+{"planId":"AssetLocationHistoryReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedAsset":[]},"rows":[["Histori Lokasi Aset"],
+["Nomor #",":","Umur (Tahun)",":"],
+["Tanggal",":","Umur (Bulan)",":"],
+["Metode Penyusutan",":","Nama Lokasi Awal Aset",":"],
+["Tanggal","No.","Keterangan","Kuantitas","Lokasi Aset","Alamat Asal"]]}

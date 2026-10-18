@@ -1,0 +1,9 @@
+{"planId":"FixedAssetByCategoryReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026"},"rows":[["Aset Tetap per Kategori"],
+["Per Tgl. 18 Okt 2026"],
+["Nomor #","Nama Aset","Total Aset","Penyusutan","Penyusutan Tahun ini","Nilai Buku","Tanggal Pakai","Tanggal Beli"],
+["ZZ-R01-Elektronik"],
+["FAA.2026.09.00001","ZZ-R01-Laptop Uji","0","0","250.000","0","01 Sep 2026","01 Sep 2026"],
+["0","0","250.000","0"],
+["ZZ-R03-Elektronik B"],
+["FAA.2026.09.00002","ZZ-R03-Laptop Uji","0","0","250.000","0","01 Sep 2026","01 Sep 2026"],
+["0","0","250.000","0"]]}

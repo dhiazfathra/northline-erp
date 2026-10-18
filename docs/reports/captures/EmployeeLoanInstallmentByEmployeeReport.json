@@ -1,0 +1,2 @@
+{"planId":"EmployeeLoanInstallmentByEmployeeReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedEmployeeLoan":[]},"rows":[["Angsuran Pinjaman per Karyawan"],
+["Tanggal","Angsuran Pokok","Angsuran Bunga","Total Angsuran","Pembayaran Pokok","Pembayaran Bunga","Total Pembayaran","Sisa Pokok Pinjaman","Nomor Pembayaran"]]}

@@ -1,0 +1,7 @@
+{"planId":"SalesReturnByItemReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Retur Penjualan per Barang"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["Nama Barang & Jasa","Nilai Retur (Faktur)"],
+["ZZ-R01-Barang B","200.000"],
+["ZZ-R03-Barang B2","200.000"],
+["Total Nama Barang & Jasa","400.000"]]}

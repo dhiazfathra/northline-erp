@@ -1,0 +1,5 @@
+{"planId":"ItemGroupDetailReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Barang Grup"],
+["Cabang : [Semua Cabang]"],
+["Kode Barang Grup Barang",":","Satuan",":"],
+["Nama Barang Grup Barang",":"],
+["Kode Barang Barang & Jasa","Nama Barang","Kuantitas","Satuan"]]}

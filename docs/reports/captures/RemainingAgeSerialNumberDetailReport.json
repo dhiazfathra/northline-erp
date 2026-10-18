@@ -1,0 +1,5 @@
+{"planId":"RemainingAgeSerialNumberDetailReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedItem":[]},"rows":[["Sisa Umur Per Nomor Produksi"],
+["Per Tgl. 18 Okt 2026"],
+["Kode Barang",":"],
+["Nama Barang",":"],
+["No Seri/Produksi","Kuantitas","1 - 30","31 - 60","61 - 90","91 - 120","&gt; 120"]]}

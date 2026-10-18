@@ -1,0 +1,5 @@
+{"planId":"WarehouseMutationByItemReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedWarehouse":[]},"rows":[["Mutasi per Gudang"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Gudang",":","Alamat",":"],
+["Deskripsi",":"],
+["Nomor #","Tanggal","Deskripsi","Masuk","Keluar","Saldo"]]}

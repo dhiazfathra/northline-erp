@@ -1,0 +1,11 @@
+{"planId":"VendorListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]},"rows":[["Daftar Pemasok"],
+["Per Tgl. 18 Okt 2026"],
+["Cabang : [Semua Cabang]"],
+["ID Pemasok","Nama","Saldo (Mata Uang)"],
+["Umum"],
+["V.00001","PT Pack Multi Guna Abadi","IDR 6.900.000"],
+["V.00002","PT Plastic Energy Sejahtera","IDR 5.600.000"],
+["V.00003","PT AUTO PART LAMP","IDR 85.646.500"],
+["V.00004","PT Warna Abadi","IDR 0"],
+["V.00005","ZZ-R01-Pemasok Satu","IDR 600.000"],
+["V.00006","ZZ-R03-Pemasok Satu","IDR 600.000"]]}

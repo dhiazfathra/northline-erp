@@ -1,0 +1,1 @@
+{"planId":"StockMovementByWarehouseReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026","selectedWarehouse":null},"error":"{\"\":[\"ERROR: invalid input syntax for type bigint: \\\"null\\\"\\n  Position: 311\"]}","rows":[]}

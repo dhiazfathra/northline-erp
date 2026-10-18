@@ -1,0 +1,12 @@
+{"planId":"ItemValueToAccountBalanceDifferenceReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{"startDate":"01/01/2026","endDate":"18/10/2026"},"rows":[["Selisih Saldo Akun Persediaan dengan Nilai Barang"],
+["Dari 01 Jan 2026 s/d 18 Okt 2026"],
+["Nomor #","Tanggal","Tipe Transaksi","Keterangan","Nilai"],
+["Selisih antara akun persediaan dengan nilai barang"],
+["Saldo Akun Persediaan"],
+["110401","-","Persediaan Barang Jadi","193.379.750"],
+["110405","-","Persediaan NG Goods","1.888.000"],
+["Total dari Saldo Akun Persediaan","195.267.750"],
+["Nilai barang"],
+["Nilai barang","-","Nilai barang Persediaan","-195.267.750"],
+["Total dari Nilai barang","-195.267.750"],
+["Total dari Selisih antara akun persediaan dengan nilai barang","0"]]}

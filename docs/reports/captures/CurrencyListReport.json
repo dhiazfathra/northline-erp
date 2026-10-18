@@ -1,0 +1,4 @@
+{"planId":"CurrencyListReport","capturedFrom":"Accurate Online v1.0.1#4970 sandbox, 2026-10-18, default params over the sandbox demo data; user and IP cells redacted","param":{},"rows":[["Daftar Mata Uang"],
+["Negara/Nama","Kode","Simbol","Tipe Nilai Tukar"],
+["Indonesian Rupiah","IDR","Rp","Asing - Lokal"],
+["US Dollar","USD","$","Asing - Lokal"]]}

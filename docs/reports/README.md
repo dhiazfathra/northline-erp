@@ -1,6 +1,7 @@
 # Accurate Daftar Laporan — catalog
 
 Captured 2026-10-18 from Accurate Online v1.0.1#4970 (sandbox Data Usaha) via `/accurate/report/init-report.do`.
+Spec column: **verified** = zero-diff ERP test against an Accurate fixture; **spec** = parameters/layout captured, not yet verified.
 This is the acceptance-spec index: each report gets its own `docs/reports/<planId>.md` once reverse-engineered.
 
 Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (month/year), ASOFYEAR, COMPAREFROMTO, DATECOMPARE, YEARTODATE, NONE.
@@ -16,25 +17,25 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Laba/Rugi (Multi Year) | `ProfitLossMultiYearReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossMultiYearReport.md) |
 | Neraca (Multi Year) | `BalanceSheetMultiYearReport` | financialstatement | ASOFYEAR | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetMultiYearReport.md) |
 | Arus Kas (Tak Langsung) | `CashFlowIndirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowIndirectReport.md) |
-| Proyeksi Ketersediaan Kas | `CashAvailabilityChartReport` | chart | FROMTO | — | |
-| Proyeksi Kas per Bulan | `CashProjectionReport` | report | NONE | — | |
+| Proyeksi Ketersediaan Kas | `CashAvailabilityChartReport` | chart | FROMTO | — | [spec](CashAvailabilityChartReport.md) |
+| Proyeksi Kas per Bulan | `CashProjectionReport` | report | NONE | — | [spec](CashProjectionReport.md) |
 | Laba/Rugi (Perbandingan Periode) | `ProfitLossComparePeriodReport` | financialstatement | COMPAREFROMTO | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossComparePeriodReport.md) |
 | Laba/Rugi (Kuartal) | `ProfitLossQuarterReport` | financialstatement | ASOFYEAR | selectedBranch=, selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](ProfitLossQuarterReport.md) |
 | Neraca (Perbandingan Periode) | `BalanceSheetComparePeriodReport` | financialstatement | DATECOMPARE | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [verified](BalanceSheetComparePeriodReport.md) |
-| Neraca (Induk Skontro) | `BalanceSheetParentScontroReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | |
+| Neraca (Induk Skontro) | `BalanceSheetParentScontroReport` | financialstatement | ASOF | selectedCurrency=, showTotal=false, showParentAccount=true, showChildAccount=true, showZeroBalance=false, showParentAccountBalance=true | [spec](BalanceSheetParentScontroReport.md) |
 | Arus Kas (Langsung) | `CashFlowDirectReport` | report | PERIODFROMTO | selectedBranch= | [verified](CashFlowDirectReport.md) |
 | Rincian Arus Kas (Tak Langsung) | `CashFlowDetailIndirectReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectReport.md) |
 | Rasio Keuangan (Per Tahun) | `FinancialRatioReport` | report | ASOFYEAR | — | [verified](FinancialRatioReport.md) |
 | Rasio Keuangan (Per Bulan) | `FinancialRatioPerMonthReport` | report | PERIOD | — | [verified](FinancialRatioPerMonthReport.md) |
-| Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | |
+| Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | [spec](FinancialFocusReport.md) |
 | Laba Ditahan | `RetainedEarningReport` | report | ASOFYEAR | — | [verified](RetainedEarningReport.md) |
 | Perubahan Ekuitas Pemilik | `OwnerEquityChangedReport` | report | FROMTO | — | [verified](OwnerEquityChangedReport.md) |
-| Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | |
-| Grafik Pendapatan berbanding Biaya | `RevenueToExpenseComparisonChartReport` | chart | FROMTO | — | |
-| Grafik Harta Bersih | `NetWorthChartReport` | chart | PERIODFROMTO | — | |
-| Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | |
-| Grafik Pengembalian Aset | `ReturnOnAssetChartReport` | chart | PERIODFROMTO | — | |
-| Grafik Pengembalian pada Modal | `ReturnOnEquityChartReport` | chart | PERIODFROMTO | — | |
+| Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | [spec](AccountValueCompareChartReport.md) |
+| Grafik Pendapatan berbanding Biaya | `RevenueToExpenseComparisonChartReport` | chart | FROMTO | — | [spec](RevenueToExpenseComparisonChartReport.md) |
+| Grafik Harta Bersih | `NetWorthChartReport` | chart | PERIODFROMTO | — | [spec](NetWorthChartReport.md) |
+| Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | [spec](LiquidityRatioChartReport.md) |
+| Grafik Pengembalian Aset | `ReturnOnAssetChartReport` | chart | PERIODFROMTO | — | [spec](ReturnOnAssetChartReport.md) |
+| Grafik Pengembalian pada Modal | `ReturnOnEquityChartReport` | chart | PERIODFROMTO | — | [spec](ReturnOnEquityChartReport.md) |
 | Arus Kas Multi Period (Langsung) | `CashFlowDirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowDirectMultiPeriodReport.md) |
 | Arus Kas Multi Period (Tak Langsung) | `CashFlowIndirectMultiPeriodReport` | report | PERIODFROMTO | — | [verified](CashFlowIndirectMultiPeriodReport.md) |
 | Rincian Arus Kas Multi Period (Tak Langsung) | `CashFlowDetailIndirectMultiPeriodReport` | report | PERIODFROMTO | showZeroBalance=false | [verified](CashFlowDetailIndirectMultiPeriodReport.md) |
@@ -44,267 +45,267 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Keseluruhan Jurnal | `AllJournalReport` | report | FROMTO | selectedBranch= | [verified](AllJournalReport.md) |
-| Keseluruhan Jurnal (CSV) | `AllJournalDownloadReport` | download | FROMTO | selectedBranch= | |
+| Keseluruhan Jurnal (CSV) | `AllJournalDownloadReport` | download | FROMTO | selectedBranch= | [spec](AllJournalDownloadReport.md) |
 | Ringkasan Buku Besar | `GeneralLedgerSummaryReport` | report | FROMTO | showZeroBalance=false | [verified](GeneralLedgerSummaryReport.md) |
 | Histori Buku Besar | `GeneralLedgerHistoryReport` | report | FROMTO | selectedBranch= | [verified](GeneralLedgerHistoryReport.md) |
-| Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | |
+| Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | [spec](GeneralLedgerHistoryDownloadReport.md) |
 | Rincian Buku Besar | `GeneralLedgerDetailReport` | report | FROMTO | showOnlyHasTransaction=true | [verified](GeneralLedgerDetailReport.md) |
-| Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | |
+| Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | [spec](GeneralLedgerDetailDownloadReport.md) |
 | Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | [verified](JournalDetailListReport.md) |
-| Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | |
-| Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | |
-| Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | |
+| Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | [spec](JournalDetailListDownloadReport.md) |
+| Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | [spec](RealizeGainLossReport.md) |
+| Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | [spec](UnRealizeGainLossReport.md) |
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
 | Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
 | Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | [verified](GlAccountListReport.md) |
-| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | |
-| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | |
-| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | |
-| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | |
-| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | |
-| Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | |
-| Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | |
+| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | [spec](EmployeePaymentByEmployeeReport.md) |
+| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | [spec](EmployeePaymentYearlyByEmployeeReport.md) |
+| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [spec](EmployeePphReport.md) |
+| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [spec](EmployeeSalaryProportionReport.md) |
+| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [spec](EmployeeSalaryPerYearReport.md) |
+| Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualSummaryReport.md) |
+| Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualDetailReport.md) |
 
 ## Kas & Bank (CASH_BANK)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Histori Bank | `BankBookReport` | report | FROMTO | selectedBank= | [verified](BankBookReport.md) |
-| Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | |
-| Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | |
-| Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | |
-| Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | |
-| Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | |
+| Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | [spec](ReconciledBankReport.md) |
+| Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | [spec](UnreconciledBankReport.md) |
+| Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [spec](PaymentByBankSummaryReport.md) |
+| Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [spec](DepositByBankSummaryReport.md) |
+| Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | [spec](OutstandingChequeReport.md) |
 | Arus Kas per Akun | `CashFlowbyAccountReport` | report | FROMTO | selectedBank= | [verified](CashFlowbyAccountReport.md) |
-| Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | |
-| Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | |
+| Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | [spec](PaymentByBankDetailReport.md) |
+| Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | [spec](DepositByBankDetailReport.md) |
 | Daftar Kas | `CashBankAccountListReport` | report | ASOF | — | [verified](CashBankAccountListReport.md) |
-| Rekening Koran | `BankStatementReport` | report | FROMTO | selectedBank= | |
-| Ringkasan Daftar Pembayaran | `PaymentListReport` | report | FROMTO | selectedBranch= | |
-| Ringkasan Daftar Penerimaan | `DepositListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Beban Pembayaran | `PaymentLoadReport` | report | FROMTO | selectedBank= | |
-| Rekonsiliasi Bank (Jurnal terhadap Rekening Koran) | `BankReconcileBookToStatementReport` | report | FROMTO | selectedBank= | |
-| Rekonsiliasi Bank (Rekening Koran terhadap Jurnal) | `BankReconcileStatementToBookReport` | report | FROMTO | selectedBank= | |
-| Daftar Piutang Karyawan | `EmployeeLoanListReport` | report | NONE | selectedBranch= | |
-| Angsuran Pinjaman per Karyawan | `EmployeeLoanInstallmentByEmployeeReport` | report | NONE | selectedEmployeeLoan= | |
-| History Peminjaman per Karyawan | `EmployeeLoanHistoryReport` | report | NONE | selectedEmployeeLoan= | |
+| Rekening Koran | `BankStatementReport` | report | FROMTO | selectedBank= | [spec](BankStatementReport.md) |
+| Ringkasan Daftar Pembayaran | `PaymentListReport` | report | FROMTO | selectedBranch= | [spec](PaymentListReport.md) |
+| Ringkasan Daftar Penerimaan | `DepositListReport` | report | FROMTO | selectedBranch= | [spec](DepositListReport.md) |
+| Rincian Beban Pembayaran | `PaymentLoadReport` | report | FROMTO | selectedBank= | [spec](PaymentLoadReport.md) |
+| Rekonsiliasi Bank (Jurnal terhadap Rekening Koran) | `BankReconcileBookToStatementReport` | report | FROMTO | selectedBank= | [spec](BankReconcileBookToStatementReport.md) |
+| Rekonsiliasi Bank (Rekening Koran terhadap Jurnal) | `BankReconcileStatementToBookReport` | report | FROMTO | selectedBank= | [spec](BankReconcileStatementToBookReport.md) |
+| Daftar Piutang Karyawan | `EmployeeLoanListReport` | report | NONE | selectedBranch= | [spec](EmployeeLoanListReport.md) |
+| Angsuran Pinjaman per Karyawan | `EmployeeLoanInstallmentByEmployeeReport` | report | NONE | selectedEmployeeLoan= | [spec](EmployeeLoanInstallmentByEmployeeReport.md) |
+| History Peminjaman per Karyawan | `EmployeeLoanHistoryReport` | report | NONE | selectedEmployeeLoan= | [spec](EmployeeLoanHistoryReport.md) |
 
 ## Piutang (AR_CUSTOMER)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Faktur Belum Lunas | `OutstandingSalesInvoiceReport` | report | ASOF | selectedBranch= | |
-| Faktur Belum Lunas per Pelanggan | `OutstandingSalesInvoicePerCustomerReport` | crosstab | ASOF | selectedBranch= | |
-| Umur Piutang | `AgingReceivableReport` | crosstab | ASOF | selectedBranch= | |
-| Buku Besar Pembantu Piutang | `ARLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | |
-| Histori Piutang | `ARHistoryReport` | report | FROMTO | selectedBranch= | |
-| Rata-rata Pembayaran Pelanggan | `OwingCollectionPerCustomerReport` | report | FROMTO | selectedBranch= | |
-| Rincian Umur Piutang | `AgingReceivableDetailReport` | report | ASOF | selectedBranch= | |
-| Grafik Umur Piutang | `AgingReceivableChartReport` | chart | ASOF | selectedBranch= | |
-| Rincian Buku Besar Pembantu Piutang | `ARLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | |
-| Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | |
-| Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | |
-| Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | |
-| Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | |
-| Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | |
-| Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Pelanggan | `CustomerListReport` | report | ASOF | selectedBranch= | |
-| Limit Piutang Pelanggan | `CustomerLimitReport` | report | NONE | selectedBranch= | |
-| Rincian Tukar Faktur | `ExchangeInvoiceDetailReport` | report | FROMTO | selectedBranch= | |
+| Faktur Belum Lunas | `OutstandingSalesInvoiceReport` | report | ASOF | selectedBranch= | [spec](OutstandingSalesInvoiceReport.md) |
+| Faktur Belum Lunas per Pelanggan | `OutstandingSalesInvoicePerCustomerReport` | crosstab | ASOF | selectedBranch= | [spec](OutstandingSalesInvoicePerCustomerReport.md) |
+| Umur Piutang | `AgingReceivableReport` | crosstab | ASOF | selectedBranch= | [spec](AgingReceivableReport.md) |
+| Buku Besar Pembantu Piutang | `ARLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](ARLedgerReport.md) |
+| Histori Piutang | `ARHistoryReport` | report | FROMTO | selectedBranch= | [spec](ARHistoryReport.md) |
+| Rata-rata Pembayaran Pelanggan | `OwingCollectionPerCustomerReport` | report | FROMTO | selectedBranch= | [spec](OwingCollectionPerCustomerReport.md) |
+| Rincian Umur Piutang | `AgingReceivableDetailReport` | report | ASOF | selectedBranch= | [spec](AgingReceivableDetailReport.md) |
+| Grafik Umur Piutang | `AgingReceivableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingReceivableChartReport.md) |
+| Rincian Buku Besar Pembantu Piutang | `ARLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](ARLedgerDetailReport.md) |
+| Pernyataan Piutang | `CustomerStatementReport` | report | FROMTO | selectedBranch= | [spec](CustomerStatementReport.md) |
+| Grafik Rata-rata Pembayaran Pelanggan | `OwingCollectionGraphReport` | chart | FROMTO | — | [spec](OwingCollectionGraphReport.md) |
+| Pembayaran Faktur | `SalesInvoicePaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePaidReport.md) |
+| Pembayaran PPh Penjualan | `SalesInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoicePphPaidReport.md) |
+| Sisa Kredit Pelanggan | `CustomerExistingCreditListReport` | crosstab | ASOF | selectedBranch= | [spec](CustomerExistingCreditListReport.md) |
+| Penerimaan Penjualan | `SalesReceiptListReport` | report | FROMTO | selectedBranch= | [spec](SalesReceiptListReport.md) |
+| Rincian Penerimaan Penjualan | `SalesReceiptListDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesReceiptListDetailReport.md) |
+| Daftar Pelanggan | `CustomerListReport` | report | ASOF | selectedBranch= | [spec](CustomerListReport.md) |
+| Limit Piutang Pelanggan | `CustomerLimitReport` | report | NONE | selectedBranch= | [spec](CustomerLimitReport.md) |
+| Rincian Tukar Faktur | `ExchangeInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](ExchangeInvoiceDetailReport.md) |
 
 ## Penjualan (SALES)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Penjualan per Pelanggan | `ViewSalesByCustomerReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan per Barang | `ViewSalesByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan per Merek | `ViewSalesByBrandReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan Barang per Pelanggan | `ViewSalesItemByCustomerReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan Barang per Gudang | `ViewSalesItemByWarehouseReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan Pelanggan per Barang | `ViewSalesCustomerByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Histori Proses Penjualan | `SalesFlowHistoryReport` | report | FROMTO | — | |
-| Rincian Penjualan per Pelanggan | `ViewSalesByCustomerDetailReport` | report | FROMTO | selectedBranch= | |
-| Rincian Penjualan per Barang | `ViewSalesByItemDetailReport` | report | FROMTO | selectedBranch= | |
-| Penjualan per Cabang | `ViewSalesByBranchReport` | crosstab | FROMTO | selectedBranch= | |
-| Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | |
-| Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | |
-| Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | |
-| Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | |
-| Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | |
-| Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | |
-| Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | |
-| Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | |
-| Daftar Pengiriman Pesanan | `DeliveryOrderListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Pengiriman Pesanan | `DeliveryOrderDetailReport` | report | FROMTO | selectedBranch= | |
-| Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | |
-| Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Faktur Penjualan | `SalesInvoiceDetailReport` | report | FROMTO | selectedBranch= | |
-| Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | |
-| Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | |
-| Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | |
-| Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | |
-| Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | |
-| Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | |
-| Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | |
-| Perubahan Harga Jual Per Barang | `SellingPriceAdjustmentHistoryReport` | report | FROMTO | selectedBranch= | |
-| Penyesuaian Harga Jual | `SellingPriceAdjustmentDetailReport` | report | FROMTO | selectedBranch= | |
-| Penyesuaian Harga Jual per Kategori | `SellingPriceAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | |
-| Penyesuaian Diskon Jual | `SellingDiscountAdjustmentDetailReport` | report | FROMTO | selectedBranch= | |
-| Penyesuaian Diskon Jual per Kategori | `SellingDiscountAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | |
-| Barang Paling Laku | `SellingItemFrequencyReport` | report | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | |
+| Penjualan per Pelanggan | `ViewSalesByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByCustomerReport.md) |
+| Penjualan per Barang | `ViewSalesByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByItemReport.md) |
+| Penjualan per Merek | `ViewSalesByBrandReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByBrandReport.md) |
+| Penjualan Barang per Pelanggan | `ViewSalesItemByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByCustomerReport.md) |
+| Penjualan Barang per Gudang | `ViewSalesItemByWarehouseReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByWarehouseReport.md) |
+| Penjualan Pelanggan per Barang | `ViewSalesCustomerByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesCustomerByItemReport.md) |
+| Histori Proses Penjualan | `SalesFlowHistoryReport` | report | FROMTO | — | [spec](SalesFlowHistoryReport.md) |
+| Rincian Penjualan per Pelanggan | `ViewSalesByCustomerDetailReport` | report | FROMTO | selectedBranch= | [spec](ViewSalesByCustomerDetailReport.md) |
+| Rincian Penjualan per Barang | `ViewSalesByItemDetailReport` | report | FROMTO | selectedBranch= | [spec](ViewSalesByItemDetailReport.md) |
+| Penjualan per Cabang | `ViewSalesByBranchReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByBranchReport.md) |
+| Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByBranchReport.md) |
+| Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](SalesReturnByItemReport.md) |
+| Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [spec](AnnualSalesChartReport.md) |
+| Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesCustomerChartReport.md) |
+| Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesItemChartReport.md) |
+| Uang Muka Penjualan | `SalesDownPaymentByCustomerReport` | report | FROMTO | selectedBranch= | [spec](SalesDownPaymentByCustomerReport.md) |
+| Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemSalesTargetReport.md) |
+| Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](ItemCategorySalesTargetReport.md) |
+| Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [spec](GeneralSalesTargetReport.md) |
+| Daftar Pengiriman Pesanan | `DeliveryOrderListReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderListReport.md) |
+| Rincian Pengiriman Pesanan | `DeliveryOrderDetailReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderDetailReport.md) |
+| Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | [spec](DeliveryOrderHistorySummaryReport.md) |
+| Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceListReport.md) |
+| Rincian Faktur Penjualan | `SalesInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceDetailReport.md) |
+| Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [spec](SalesInvoiceChartReport.md) |
+| Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [spec](SalesReturnListReport.md) |
+| Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesReturnDetailReport.md) |
+| Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceDownPaymentDetailReport.md) |
+| Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [spec](SalesInvoicePaidInstallmentListReport.md) |
+| Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [spec](SalesInvoiceUnpaidInstallmentListReport.md) |
+| Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](CogsMonitoringReport.md) |
+| Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | [spec](ProfitabilityBySalesInvoiceReport.md) |
+| Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](ProfitabilityByItemReport.md) |
+| Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ProfitabilityByCustomerReport.md) |
+| Perubahan Harga Jual Per Barang | `SellingPriceAdjustmentHistoryReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentHistoryReport.md) |
+| Penyesuaian Harga Jual | `SellingPriceAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailReport.md) |
+| Penyesuaian Harga Jual per Kategori | `SellingPriceAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailPerCategoryReport.md) |
+| Penyesuaian Diskon Jual | `SellingDiscountAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](SellingDiscountAdjustmentDetailReport.md) |
+| Penyesuaian Diskon Jual per Kategori | `SellingDiscountAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [spec](SellingDiscountAdjustmentDetailPerCategoryReport.md) |
+| Barang Paling Laku | `SellingItemFrequencyReport` | report | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](SellingItemFrequencyReport.md) |
 
 ## Utang (AP_VENDOR)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Faktur Belum Lunas | `OutstandingPurchaseInvoiceReport` | report | ASOF | selectedBranch= | |
-| Faktur Belum Lunas per Pemasok | `OutstandingPurchaseInvoicePerVendorReport` | crosstab | ASOF | selectedBranch= | |
-| Umur Utang | `AgingPayableReport` | crosstab | ASOF | selectedBranch= | |
-| Buku Besar Pembantu Utang | `APLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | |
-| Histori Utang | `APHistoryReport` | report | FROMTO | selectedBranch= | |
-| Rincian Umur Utang | `AgingPayableDetailReport` | report | ASOF | selectedBranch= | |
-| Rincian Buku Besar Pembantu Utang | `APLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | |
-| Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | |
-| Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | |
-| Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | |
-| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | |
-| Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Pembayaran Pembelian | `PurchasePaymentListDetailReport` | report | FROMTO | selectedBranch= | |
-| Utang per Bulan | `VendorPayablePerMonthReport` | report | ASOFYEAR | — | |
-| Daftar Pemasok | `VendorListReport` | report | ASOF | selectedBranch= | |
+| Faktur Belum Lunas | `OutstandingPurchaseInvoiceReport` | report | ASOF | selectedBranch= | [spec](OutstandingPurchaseInvoiceReport.md) |
+| Faktur Belum Lunas per Pemasok | `OutstandingPurchaseInvoicePerVendorReport` | crosstab | ASOF | selectedBranch= | [spec](OutstandingPurchaseInvoicePerVendorReport.md) |
+| Umur Utang | `AgingPayableReport` | crosstab | ASOF | selectedBranch= | [spec](AgingPayableReport.md) |
+| Buku Besar Pembantu Utang | `APLedgerReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](APLedgerReport.md) |
+| Histori Utang | `APHistoryReport` | report | FROMTO | selectedBranch= | [spec](APHistoryReport.md) |
+| Rincian Umur Utang | `AgingPayableDetailReport` | report | ASOF | selectedBranch= | [spec](AgingPayableDetailReport.md) |
+| Rincian Buku Besar Pembantu Utang | `APLedgerDetailReport` | report | FROMTO | selectedBranch=, showOnlyHasTransaction=true | [spec](APLedgerDetailReport.md) |
+| Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [spec](AgingPayableChartReport.md) |
+| Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [spec](VendorStatementReport.md) |
+| Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePaidReport.md) |
+| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoicePphPaidReport.md) |
+| Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | [spec](PurchasePaymentListReport.md) |
+| Rincian Pembayaran Pembelian | `PurchasePaymentListDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchasePaymentListDetailReport.md) |
+| Utang per Bulan | `VendorPayablePerMonthReport` | report | ASOFYEAR | — | [spec](VendorPayablePerMonthReport.md) |
+| Daftar Pemasok | `VendorListReport` | report | ASOF | selectedBranch= | [spec](VendorListReport.md) |
 
 ## Pembelian (PURCHASE)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | |
-| Pembelian per Barang | `PurchaseByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | |
-| Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | |
-| Histori Proses Pembelian | `PurchaseFlowHistoryReport` | report | FROMTO | — | |
-| Rincian Pembelian per Pemasok | `PurchaseByVendorDetailReport` | report | FROMTO | selectedBranch= | |
-| Rincian Pembelian per Barang | `PurchaseByItemDetailReport` | report | FROMTO | selectedBranch= | |
-| Retur Pembelian per Barang | `PurchaseReturnByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Pesanan per Pemasok (Belum Proses) | `PurchaseOrderByVendorReport` | crosstab | FROMTO | selectedBranch= | |
-| Pesanan per Barang (Belum Proses) | `PurchaseOrderByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Daftar Pesanan Pembelian | `PurchaseOrderListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Pesanan Pembelian | `PurchaseOrderDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Penerimaan Barang | `ReceiveItemListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Penerimaan Barang | `ReceiveItemDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Faktur Pembelian | `PurchaseInvoiceListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Faktur Pembelian | `PurchaseInvoiceDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | |
-| Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | |
-| Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | |
+| Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByVendorReport.md) |
+| Pembelian per Barang | `PurchaseByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByItemReport.md) |
+| Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByExpenseReport.md) |
+| Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | [spec](PurchaseDownPaymentByVendorReport.md) |
+| Histori Proses Pembelian | `PurchaseFlowHistoryReport` | report | FROMTO | — | [spec](PurchaseFlowHistoryReport.md) |
+| Rincian Pembelian per Pemasok | `PurchaseByVendorDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseByVendorDetailReport.md) |
+| Rincian Pembelian per Barang | `PurchaseByItemDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseByItemDetailReport.md) |
+| Retur Pembelian per Barang | `PurchaseReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseReturnByItemReport.md) |
+| Pesanan per Pemasok (Belum Proses) | `PurchaseOrderByVendorReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseOrderByVendorReport.md) |
+| Pesanan per Barang (Belum Proses) | `PurchaseOrderByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseOrderByItemReport.md) |
+| Daftar Pesanan Pembelian | `PurchaseOrderListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseOrderListReport.md) |
+| Rincian Pesanan Pembelian | `PurchaseOrderDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseOrderDetailReport.md) |
+| Daftar Penerimaan Barang | `ReceiveItemListReport` | report | FROMTO | selectedBranch= | [spec](ReceiveItemListReport.md) |
+| Rincian Penerimaan Barang | `ReceiveItemDetailReport` | report | FROMTO | selectedBranch= | [spec](ReceiveItemDetailReport.md) |
+| Daftar Faktur Pembelian | `PurchaseInvoiceListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceListReport.md) |
+| Rincian Faktur Pembelian | `PurchaseInvoiceDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceDetailReport.md) |
+| Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnListReport.md) |
+| Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnDetailReport.md) |
+| Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceDownPaymentDetailReport.md) |
+| Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [spec](TransferOrderListReport.md) |
+| Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [spec](VendorPriceHistoryReport.md) |
 
 ## Persediaan (INVENTORY)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Nilai Persediaan | `InventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Rincian Nilai Persediaan (CSV) | `InventoryValuationDetailDownloadReport` | download | FROMTO | — sel:ITEM_CATEGORY_ALL | |
-| Ketersediaan Stok Penjualan | `InventoryAnalysisReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Umur Persediaan | `InventoryAgingReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Rincian Nilai Persediaan | `InventoryValuationDetailReport` | report | FROMTO | selectedItem= | |
-| Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | |
-| Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | |
-| Kartu Stok Persediaan | `InventoryStockCardReport` | report | FROMTO | selectedItem= | |
-| Permintaan per Barang (Belum Proses) | `PurchaseRequisitionByItemReport` | crosstab | FROMTO | selectedBranch= | |
-| Daftar Permintaan Barang | `PurchaseRequisitionListReport` | report | FROMTO | selectedBranch= | |
-| Rincian Permintaan Barang | `PurchaseRequisitionDetailReport` | report | FROMTO | selectedBranch= | |
-| Status Pesanan Permintaan Barang | `PurchaseRequisitionOrderStatusReport` | report | FROMTO | selectedBranch= | |
-| Barang Grup | `ItemGroupDetailReport` | report | NONE | selectedBranch= | |
-| Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Barang dan Jasa | `ItemListReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | |
-| Umur Nomor Seri/Batch | `SerialNumberAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | |
-| Analisa Nilai Persediaan | `AnalysisInventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | |
+| Nilai Persediaan | `InventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryValuationReport.md) |
+| Rincian Nilai Persediaan (CSV) | `InventoryValuationDetailDownloadReport` | download | FROMTO | — sel:ITEM_CATEGORY_ALL | [spec](InventoryValuationDetailDownloadReport.md) |
+| Ketersediaan Stok Penjualan | `InventoryAnalysisReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryAnalysisReport.md) |
+| Umur Persediaan | `InventoryAgingReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryAgingReport.md) |
+| Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryAgingByWarehouseReport.md) |
+| Rincian Nilai Persediaan | `InventoryValuationDetailReport` | report | FROMTO | selectedItem= | [spec](InventoryValuationDetailReport.md) |
+| Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | [spec](InventoryAnalysisDetailReport.md) |
+| Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](InventoryAgingDetailReport.md) |
+| Kartu Stok Persediaan | `InventoryStockCardReport` | report | FROMTO | selectedItem= | [spec](InventoryStockCardReport.md) |
+| Permintaan per Barang (Belum Proses) | `PurchaseRequisitionByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseRequisitionByItemReport.md) |
+| Daftar Permintaan Barang | `PurchaseRequisitionListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionListReport.md) |
+| Rincian Permintaan Barang | `PurchaseRequisitionDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionDetailReport.md) |
+| Status Pesanan Permintaan Barang | `PurchaseRequisitionOrderStatusReport` | report | FROMTO | selectedBranch= | [spec](PurchaseRequisitionOrderStatusReport.md) |
+| Barang Grup | `ItemGroupDetailReport` | report | NONE | selectedBranch= | [spec](ItemGroupDetailReport.md) |
+| Penyesuaian Stok Barang | `InventoryAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](InventoryAdjustmentDetailReport.md) |
+| Daftar Barang dan Jasa | `ItemListReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](ItemListReport.md) |
+| Umur Nomor Seri/Batch | `SerialNumberAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](SerialNumberAgingDetailReport.md) |
+| Analisa Nilai Persediaan | `AnalysisInventoryValuationReport` | crosstab | FROMTO | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](AnalysisInventoryValuationReport.md) |
 
 ## Gudang  (WAREHOUSE)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Kuantitas Barang per Gudang | `QuantityItemByWarehouseReport` | crosstab | ASOF | selectedBranch=, selectedWarehouse= sel:ITEM_CATEGORY_ALL | |
-| Mutasi per Barang | `ItemMutationByWarehouseReport` | report | FROMTO | selectedItem= | |
-| Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | |
-| Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | |
-| Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | |
-| Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | |
-| Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | |
-| Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | |
-| Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | |
+| Kuantitas Barang per Gudang | `QuantityItemByWarehouseReport` | crosstab | ASOF | selectedBranch=, selectedWarehouse= sel:ITEM_CATEGORY_ALL | [spec](QuantityItemByWarehouseReport.md) |
+| Mutasi per Barang | `ItemMutationByWarehouseReport` | report | FROMTO | selectedItem= | [spec](ItemMutationByWarehouseReport.md) |
+| Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | [spec](WarehouseMutationByItemReport.md) |
+| Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | [spec](WarehouseMutationSummaryReport.md) |
+| Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | [spec](PhysicalInventoryCountSheetReport.md) |
+| Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [spec](ReceivedDeliveredSerialNumberReport.md) |
+| Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [spec](RemainingAgeSerialNumberDetailReport.md) |
+| Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | [spec](ItemTransferListReport.md) |
+| Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | [spec](StockMovementByWarehouseReport.md) |
 
 ## Pekerjaan Pesanan (JOB_ORDER)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | |
-| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | |
-| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | |
-| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | |
-| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | |
-| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | |
+| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](MaterialAdjustmentDetailReport.md) |
+| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | [spec](RollOverItemDetailReport.md) |
+| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | [spec](RollOverAccountDetailReport.md) |
+| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [spec](JobOrderListReport.md) |
+| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [spec](RollOverListReport.md) |
+| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [spec](MaterialAdjustmentListReport.md) |
 
 ## Manufaktur (FABRICATION)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Jurnal Perintah Kerja | `WorkOrderJournalReport` | report | NONE | selectedWorkOrder= | |
-| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | |
-| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | |
+| Jurnal Perintah Kerja | `WorkOrderJournalReport` | report | NONE | selectedWorkOrder= | [spec](WorkOrderJournalReport.md) |
+| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | [spec](AdjustmentCOGSManufactureReport.md) |
+| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | [spec](PurchaseCOGSManufactureReport.md) |
 
 ## Aset Tetap (FIXED_ASSET)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar Aset Tetap | `FixedAssetListReport` | report | NONE | — | |
-| Aset Tetap per Kategori | `FixedAssetByCategoryReport` | report | ASOF | — | |
-| Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | |
-| Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | |
-| Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | |
-| Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | |
-| Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | |
-| Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | |
-| Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | |
-| Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | |
-| Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | |
+| Daftar Aset Tetap | `FixedAssetListReport` | report | NONE | — | [spec](FixedAssetListReport.md) |
+| Aset Tetap per Kategori | `FixedAssetByCategoryReport` | report | ASOF | — | [spec](FixedAssetByCategoryReport.md) |
+| Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetHistoryReport.md) |
+| Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | [spec](FixedAssetJournalReport.md) |
+| Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | [spec](DifferentIntermDepreciationReport.md) |
+| Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [spec](AssetLocationHistoryReport.md) |
+| Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [spec](FixedAssetDetailReport.md) |
+| Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetEditedHistoryReport.md) |
+| Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [spec](FiscalFaTypeListReport.md) |
+| Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | [spec](FixedAssetEditedListReport.md) |
+| Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | [spec](FixedAssetDisposedListReport.md) |
 
 ## Pajak (TAX_SUPPORT)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar PPN/PPnBM Keluaran | `TaxationOutReport` | report | FROMTO | — | |
-| Daftar PPN/PPnBM Masukan | `TaxationInReport` | report | FROMTO | — | |
-| Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | |
-| Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | |
-| Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | |
-| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | |
-| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | |
+| Daftar PPN/PPnBM Keluaran | `TaxationOutReport` | report | FROMTO | — | [spec](TaxationOutReport.md) |
+| Daftar PPN/PPnBM Masukan | `TaxationInReport` | report | FROMTO | — | [spec](TaxationInReport.md) |
+| Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | [spec](TaxationInOutReport.md) |
+| Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [spec](SalesInvoiceSPTListReport.md) |
+| Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | [spec](PurchaseInvoiceSPTListReport.md) |
+| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [spec](PurchasePaymentPPhReport.md) |
+| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [spec](SalesReceiptPPhReport.md) |
 
 ## Pemeriksaan (AUDIT)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | |
-| Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | |
+| Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | [spec](ItemValueToAccountBalanceDifferenceReport.md) |
+| Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | [spec](UnbilledAccountBalanceDifferenceReport.md) |
 
 ## Lain-lain (OTHERS)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar Mata Uang | `CurrencyListReport` | report | NONE | — | |
-| Daftar FOB | `FreeOnBoardListReport` | report | NONE | — | |
-| Daftar Pajak | `TaxListReport` | report | NONE | — | |
-| Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | |
-| Daftar Karyawan | `SalesmanListReport` | report | NONE | — | |
-| Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | |
-| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | |
-| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | |
-| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | |
+| Daftar Mata Uang | `CurrencyListReport` | report | NONE | — | [spec](CurrencyListReport.md) |
+| Daftar FOB | `FreeOnBoardListReport` | report | NONE | — | [spec](FreeOnBoardListReport.md) |
+| Daftar Pajak | `TaxListReport` | report | NONE | — | [spec](TaxListReport.md) |
+| Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [spec](ShipmentListReport.md) |
+| Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [spec](SalesmanListReport.md) |
+| Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [spec](AuditListReport.md) |
+| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [spec](UserByBranchListReport.md) |
+| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [spec](AccessGroupPrivilegeListReport.md) |
+| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [spec](AccessPrivilegeByUserListReport.md) |
