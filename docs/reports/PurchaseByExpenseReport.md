@@ -1,22 +1,33 @@
 # Pembelian per Biaya (`PurchaseByExpenseReport`)
 
-Group: Pembelian. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseByExpenseReport.json`](captures/PurchaseByExpenseReport.json), run with default parameters over the sandbox demo data.
+Group: Pembelian. **Status: verified** (zero diff, 2 windows over two seeded invoices). Fixture: [`fixtures/purchase-expense-t25.json`](fixtures/purchase-expense-t25.json).
+ERP: `apps/api/src/reports/payables.ts` (`purchaseByExpense`), loader `loadPurchaseExpenses`; expense lines in `createPurchaseInvoice`
+(`expenses`, table `purchase_invoice_expenses`, migration 0031); test: `apps/api/test/purchases-t24-t25.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
+`startDate` / `endDate` (dd/MM/yyyy) + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`). View `crosstab`.
 
 ## Layout
 
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
+`Nama Akun | Jumlah`, one row per expense account, then `Total Nama Akun`. With no expense lines in the window only the
+title, date and branch lines print.
 
+## Calculation rules
+
+- Source: the **Biaya** tab of Faktur Pembelian (`detailExpense`: account, amount, name). Item lines never count, even for
+  the same invoice.
+- Expense lines dated (invoice date) in the window are summed per account; rows are ordered by account number (600011
+  before 600013; alphabetical order gives the same result here, not disambiguated).
+- Journal: each expense line debits its account after the item debits, in entry order; Hutang Usaha is credited for
+  items + expenses.
+
+| Window | Beban Listrik | Beban Telekomunikasi | Total |
+|---|---|---|---|
+| 1 - 31 Mei 2036 (P1 only) | 250.000 | - | 250.000 |
+| 1 - 31 Mei 2036 | 300.000 | 75.000 | 375.000 |
+| 10 - 31 Mei 2036 | 50.000 | 75.000 | 125.000 |
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Expenses with `allocateToItemCost`, taxed expenses and branch filtering are not captured.

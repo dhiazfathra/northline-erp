@@ -183,3 +183,16 @@ export const requisitionOrderStatus = (rs: Requisition[], f: string, t: string) 
   ['Nomor #', ':', r.number, 'Keterangan', ':', r.description], ['Tanggal', ':', fmtDate(r.date)],
   ['Kode #', 'Nama Barang', 'Kuantitas (Unit)', 'Kts Dipesan (Unit)', 'Persentase PO (Kts)', 'Tot Hrg Estimasi', 'Total Harga Pesanan', 'Persentase PO (Harga)'],
   ...r.lines.map(l => [l.item, l.itemName, `${qty(l.qty)} ${l.unit}`, `0 ${l.unit}`, '0 %', '0', '0', '0 %'])])
+
+/**
+ * Pembelian per Biaya (docs/reports/PurchaseByExpenseReport.md): Biaya-tab amounts of purchase invoices dated in the
+ * window, summed per expense account, ordered by account number; item lines do not count.
+ */
+export function purchaseByExpense(expenses: { date: string; account: string; accountName: string; amount: number }[], from: string, to: string): string[][] {
+  const by = new Map<string, { name: string; amount: number }>()
+  for (const e of expenses.filter(e => e.date >= from && e.date <= to)) {
+    const x = by.get(e.account) ?? { name: e.accountName, amount: 0 }; x.amount += e.amount; by.set(e.account, x)
+  }
+  const rows = [...by].sort(([a], [b]) => a.localeCompare(b)).map(([, x]) => [x.name, formatIdr(x.amount)])
+  return rows.length ? [['Nama Akun', 'Jumlah'], ...rows, ['Total Nama Akun', formatIdr([...by.values()].reduce((s, x) => s + x.amount, 0))]] : []
+}

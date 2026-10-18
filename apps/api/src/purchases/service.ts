@@ -48,7 +48,8 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
       taxes.set(t.name, e)
     }
     for (const t of taxes.values()) t.amount = Math.round(t.dpp * t.rate / 100 / 100) * 100
-    const total = lines.reduce((s, l) => s + l.total, 0) + [...taxes.values()].reduce((s, t) => s + t.amount, 0)
+    const expenses = inv.expenses.reduce((s, e) => s + e.amount, 0)
+    const total = lines.reduce((s, l) => s + l.total, 0) + expenses + [...taxes.values()].reduce((s, t) => s + t.amount, 0)
     const number = inv.number ?? await nextNumber(tx, `PI.${period(inv.date)}`)
     const dps: { dp: string; amount: number; account: string }[] = []
     for (const u of inv.downPayments) {
@@ -66,6 +67,7 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
       type: 'PostJournal', idempotencyKey: `${inv.idempotencyKey}:journal`, journalId, number, sourceType: 'PI', date: inv.date, description: inv.description,
       lines: [
         ...merge(lines.map(l => ({ account: l.account, amount: l.total }))).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
+        ...merge(inv.expenses).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
         ...merge([...taxes.values()].filter(t => t.amount).map(t => ({ account: t.account, amount: t.amount }))).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
         ...(total - dpUsed ? [{ account: vendor.ap_account as string, side: 'CREDIT' as const, amount: rupiah(total - dpUsed) }] : []),
         ...merge(dps).map(d => ({ account: d.account, side: 'CREDIT' as const, amount: rupiah(d.amount) })),
@@ -76,6 +78,8 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     if (inv.taxable) await tx.execute(sql`UPDATE purchase_invoices SET document_code = ${vendor.tax_document_code as string}, tax_type = ${vendor.tax_type as string} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO purchase_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
+    for (const [i, e] of inv.expenses.entries())
+      await tx.execute(sql`INSERT INTO purchase_invoice_expenses (invoice_number, seq, account_no, name, amount) VALUES (${number}, ${i + 1}, ${e.account}, ${e.name}, ${e.amount})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO purchase_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     for (const l of lines.filter(l => stockItems.has(l.item)))
       await addMove(tx, { item: l.item, date: inv.date, docType: 'PI', docNumber: number, description: inv.description, quantity: l.qty, value: l.total })

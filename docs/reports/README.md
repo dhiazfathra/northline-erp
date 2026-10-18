@@ -185,7 +185,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 |---|---|---|---|---|---|
 | Pembelian per Pemasok | `PurchaseByVendorReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByVendorReport.md) |
 | Pembelian per Barang | `PurchaseByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByItemReport.md) |
-| Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseByExpenseReport.md) |
+| Pembelian per Biaya | `PurchaseByExpenseReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseByExpenseReport.md) |
 | Uang Muka Pembelian | `PurchaseDownPaymentByVendorReport` | report | FROMTO | selectedBranch= | [verified](PurchaseDownPaymentByVendorReport.md) |
 | Histori Proses Pembelian | `PurchaseFlowHistoryReport` | report | FROMTO | — | [verified](PurchaseFlowHistoryReport.md) |
 | Rincian Pembelian per Pemasok | `PurchaseByVendorDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseByVendorDetailReport.md) |

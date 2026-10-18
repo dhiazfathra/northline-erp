@@ -68,6 +68,8 @@ export const purchaseInvoiceInput = z.object({
   /** PPN Masukan from each line's item default tax (ADR-0009). */
   taxable: z.boolean().default(false),
   downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
+  /** Biaya tab: expense lines debited straight to their account (fixtures/purchase-expense-t25.json). */
+  expenses: z.array(z.object({ account: code, amount: amountToCents, name: z.string().default('') })).default([]),
 })
 export type PurchaseInvoiceInput = z.input<typeof purchaseInvoiceInput>
 export const purchasePaymentInput = z.object({

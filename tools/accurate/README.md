@@ -24,3 +24,5 @@ Captured payloads (`*.json`, `*.txt`) and `state.json` are gitignored: they hold
 
 `save-ri.mjs '<spec>'` saves a new Penerimaan Barang cloned from `ri.json` (captured with
 `capture-save.mjs accurate__vendor__receive-item 200 save-receive-item ri.json`); saves go through `bg-save-receive-item.do`.
+
+Purchase invoice expense lines (Biaya tab): pass `extra.detailExpense: [{_status:'insert', seq, accountId, expenseAmount, expenseName, expenseNotes:'', allocateToItemCost:false}]` to `save-inv.mjs`. Account ids come from `/accurate/general-ledger/search-glaccount.do`.

@@ -291,3 +291,9 @@ export async function loadReconciliations(db: Db): Promise<import('./cash-bank')
     .map(r => ({ bank: r.bank_no as string, bankName: r.bank_name as string, docDate: r.doc_date as string, docType: 'Penerimaan Penjualan', docNumber: r.number as string,
       side: 'Dr' as const, amount: Number(r.amount), docDescription: r.description as string, statementDate: r.st_date as string, statementDescription: r.statement_description as string, by: r.reconciled_by as string }))
 }
+
+export async function loadPurchaseExpenses(db: Db) {
+  return (await db.execute(sql`SELECT to_char(i.date,'YYYY-MM-DD') AS date, e.account_no, a.name, e.amount FROM purchase_invoice_expenses e
+    JOIN purchase_invoices i ON i.number = e.invoice_number JOIN accounts a ON a.no = e.account_no ORDER BY i.date, e.invoice_number, e.seq`))
+    .map(r => ({ date: r.date as string, account: r.account_no as string, accountName: r.name as string, amount: Number(r.amount) }))
+}

@@ -1,0 +1,282 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T25: two purchase invoices from NL-T3-V1, each with one NL-T4-B1 item line (1 x 10.000) and Biaya-tab expense lines. Captures after both invoices exist except where noted.",
+ "accounts": [
+  {
+   "no": "600011",
+   "name": "Beban Listrik",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "600013",
+   "name": "Beban Telekomunikasi",
+   "type": "EXPENSE"
+  }
+ ],
+ "invoices": [
+  {
+   "number": "PI.2036.05.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T25-P1",
+   "date": "2036-05-05",
+   "description": "NL-T25-P1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 1,
+     "price": 10000
+    }
+   ],
+   "expenses": [
+    {
+     "account": "600011",
+     "amount": 250000,
+     "name": "NL-T25 listrik"
+    }
+   ]
+  },
+  {
+   "number": "PI.2036.05.00002",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-T25-P2",
+   "date": "2036-05-20",
+   "description": "NL-T25-P2",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 1,
+     "price": 10000
+    }
+   ],
+   "expenses": [
+    {
+     "account": "600013",
+     "amount": 75000,
+     "name": "NL-T25 telkom"
+    },
+    {
+     "account": "600011",
+     "amount": 50000,
+     "name": "NL-T25 listrik 2"
+    }
+   ]
+  }
+ ],
+ "GeneralLedgerHistoryReport": [
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 05 Mei 2036 s/d 05 Mei 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "05 Mei 2036"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00001",
+    "110401",
+    "Persediaan Barang Jadi",
+    "NL-T25-P1",
+    "10.000",
+    "0"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00001",
+    "600011",
+    "Beban Listrik",
+    "NL-T25-P1",
+    "250.000",
+    "0"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00001",
+    "210101",
+    "Hutang Usaha IDR",
+    "NL-T25-P1",
+    "0",
+    "260.000"
+   ]
+  ],
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 20 Mei 2036 s/d 20 Mei 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "20 Mei 2036"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00002",
+    "110401",
+    "Persediaan Barang Jadi",
+    "NL-T25-P2",
+    "10.000",
+    "0"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00002",
+    "600013",
+    "Beban Telekomunikasi",
+    "NL-T25-P2",
+    "75.000",
+    "0"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00002",
+    "600011",
+    "Beban Listrik",
+    "NL-T25-P2",
+    "50.000",
+    "0"
+   ],
+   [
+    "Faktur Pembelian",
+    "PI.2036.05.00002",
+    "210101",
+    "Hutang Usaha IDR",
+    "NL-T25-P2",
+    "0",
+    "135.000"
+   ]
+  ]
+ ],
+ "PurchaseByExpenseReport": [
+  {
+   "from": "2036-05-01",
+   "to": "2036-05-31",
+   "param": {
+    "startDate": "01/05/2036",
+    "endDate": "31/05/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Biaya"
+    ],
+    [
+     "Dari 01 Mei 2036 s/d 31 Mei 2036"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Akun",
+     "Jumlah"
+    ],
+    [
+     "Beban Listrik",
+     "300.000"
+    ],
+    [
+     "Beban Telekomunikasi",
+     "75.000"
+    ],
+    [
+     "Total Nama Akun",
+     "375.000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-05-10",
+   "to": "2036-05-31",
+   "param": {
+    "startDate": "10/05/2036",
+    "endDate": "31/05/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembelian per Biaya"
+    ],
+    [
+     "Dari 10 Mei 2036 s/d 31 Mei 2036"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Akun",
+     "Jumlah"
+    ],
+    [
+     "Beban Listrik",
+     "50.000"
+    ],
+    [
+     "Beban Telekomunikasi",
+     "75.000"
+    ],
+    [
+     "Total Nama Akun",
+     "125.000"
+    ]
+   ]
+  }
+ ],
+ "PurchaseByExpenseFirstInvoiceOnly": [
+  [
+   "Pembelian per Biaya"
+  ],
+  [
+   "Dari 01 Mei 2036 s/d 31 Mei 2036"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Akun",
+   "Jumlah"
+  ],
+  [
+   "Beban Listrik",
+   "250.000"
+  ],
+  [
+   "Total Nama Akun",
+   "250.000"
+  ]
+ ]
+}
