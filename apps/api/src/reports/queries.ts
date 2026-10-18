@@ -3,6 +3,7 @@ import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/le
 import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, profitLoss } from './financial-statements'
+import { allJournals, glDetail, glHistory, glSummary, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
 async function loadLedger(db: Db, to: string) {
@@ -29,4 +30,31 @@ export async function queryProfitLoss(db: Db, q: TrialBalanceQuery) {
 export async function queryBalanceSheet(db: Db, q: BalanceSheetQuery) {
   const { accounts, balances, settings } = await loadLedger(db, q.asOf)
   return balanceSheet(accounts, balances, settings, q.asOf, q)
+}
+
+async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]> {
+  const rows = await db.execute(sql`
+    SELECT j.journal_id, j.number, to_char(j.date, 'YYYY-MM-DD') AS date, j.description, l.account_no, l.debit, l.credit, l.memo
+    FROM journals j JOIN journal_lines l USING (journal_id)
+    WHERE j.date BETWEEN ${from} AND ${to} ORDER BY j.date, j.number, l.line_no`)
+  const byId = new Map<string, Journal>()
+  for (const r of rows) {
+    const id = r.journal_id as string
+    if (!byId.has(id)) byId.set(id, { number: r.number as string, date: r.date as string, description: r.description as string, lines: [] })
+    byId.get(id)!.lines.push({ account: r.account_no as string, debit: Number(r.debit), credit: Number(r.credit), memo: r.memo as string | null })
+  }
+  return [...byId.values()]
+}
+
+export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail'
+export async function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]> {
+  const { accounts, balances, settings } = await loadLedger(db, q.to)
+  if (report === 'summary') return glSummary(accounts, balances, settings, q.from, q.to, q.showZeroBalance)
+  const journals = await loadJournals(db, q.from, q.to)
+  switch (report) {
+    case 'journal-list': return journalList(journals)
+    case 'all-journals': return allJournals(journals, accounts)
+    case 'history': return glHistory(journals, accounts)
+    case 'detail': return glDetail(accounts, balances, settings, journals, q.from, q.to)
+  }
 }

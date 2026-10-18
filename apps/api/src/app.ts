@@ -6,7 +6,7 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
-import { queryBalanceSheet, queryProfitLoss, queryTrialBalance } from './reports/queries'
+import { queryBalanceSheet, queryGeneralLedger, queryProfitLoss, queryTrialBalance, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono()
@@ -29,6 +29,8 @@ export function createApp(db: Db) {
       return c.json(await queryTrialBalance(db, q))
     })
     .get('/reports/profit-loss', async c => c.json(await queryProfitLoss(db, trialBalanceQuery.parse(c.req.query()))))
+    .get('/reports/general-ledger/:report{journal-list|all-journals|history|summary|detail}', async c =>
+      c.json(await queryGeneralLedger(db, c.req.param('report') as GlReport, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   return new Hono().route('/api', api)
 }

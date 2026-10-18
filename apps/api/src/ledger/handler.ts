@@ -62,7 +62,8 @@ type PostInput = Omit<Extract<Parameters<typeof journalDecider.decide>[1], { typ
 async function post(tx: Tx, c: PostInput, meta: Record<string, unknown>): Promise<CommandResult> {
   const sid = journalStream(c.journalId)
   const { state, version } = await load(tx, sid, journalDecider)
-  const evs = journalDecider.decide(state, { ...c, type: 'Post' })
+  const number = c.number ?? (state.status === 'none' ? await nextNumber(tx, c.date) : undefined)
+  const evs = journalDecider.decide(state, { ...c, number, type: 'Post' })
   const stored = await append(tx, sid, version, evs.map(e => ({ ...e, metadata: meta })))
   return { globalPosition: stored.at(-1)!.globalPosition, streams: [sid] }
 }
@@ -77,4 +78,12 @@ async function unknownAccounts(tx: Tx, nos: string[]) {
   const rows = await tx.execute(sql`SELECT no FROM accounts WHERE no IN ${want}`)
   const have = new Set(rows.map(r => r.no as string))
   return want.filter(n => !have.has(n))
+}
+
+/** JV.yyyy.mm.nnnnn, sequence per month (Accurate's default auto-number for Jurnal Umum). */
+async function nextNumber(tx: Tx, date: string) {
+  const prefix = `JV.${date.slice(0, 4)}.${date.slice(5, 7)}.`
+  const [r] = await tx.execute(sql`INSERT INTO number_sequences (prefix, last) VALUES (${prefix}, 1)
+    ON CONFLICT (prefix) DO UPDATE SET last = number_sequences.last + 1 RETURNING last`)
+  return prefix + String(r!.last).padStart(5, '0')
 }

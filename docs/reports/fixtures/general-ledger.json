@@ -1,0 +1,764 @@
+{
+ "source": "Accurate Online v1.0.1#4970, sandbox, captured 2026-10-18; journals as in trial-balance.json, posted in order J1..J6 (Accurate numbers them JV.yyyy.mm.nnnnn)",
+ "numbers": {
+  "NL-T1-J1": "JV.2030.12.00001",
+  "NL-T1-J2": "JV.2030.12.00002",
+  "NL-T1-J3": "JV.2031.01.00001",
+  "NL-T1-J4": "JV.2031.02.00001",
+  "NL-T1-J5": "JV.2031.02.00002",
+  "NL-T1-J6": "JV.2031.02.00003"
+ },
+ "JournalListReport": {
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Nomor #",
+     "No. Trans #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nilai",
+     "Keterangan"
+    ],
+    [
+     "JV.2031.02.00001",
+     "JV.2031.02.00001",
+     "05 Feb 2031",
+     "Jurnal Umum",
+     "2.000.000",
+     "NL-T1 pendapatan Feb"
+    ],
+    [
+     "JV.2031.02.00002",
+     "JV.2031.02.00002",
+     "10 Feb 2031",
+     "Jurnal Umum",
+     "15.000.000",
+     "NL-T1 beli peralatan, kas minus"
+    ],
+    [
+     "JV.2031.02.00003",
+     "JV.2031.02.00003",
+     "28 Feb 2031",
+     "Jurnal Umum",
+     "1.000.000",
+     "NL-T1 multi-baris"
+    ]
+   ]
+  }
+ },
+ "AllJournalReport": {
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Tanggal",
+     ":",
+     "05 Feb 2031",
+     "No. Trans #",
+     ":",
+     "JV.2031.02.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 pendapatan Feb"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "2.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "2.000.000",
+     "2.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Feb 2031",
+     "No. Trans #",
+     ":",
+     "JV.2031.02.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 beli peralatan, kas minus"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "15.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "0",
+     "15.000.000"
+    ],
+    [
+     "15.000.000",
+     "15.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "28 Feb 2031",
+     "No. Trans #",
+     ":",
+     "JV.2031.02.00003"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 multi-baris"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "333.333,33",
+     "0"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "333.333,33",
+     "0"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "333.333,34",
+     "0"
+    ],
+    [
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "1.000.000",
+     "1.000.000"
+    ]
+   ]
+  },
+  "span": {
+   "from": "2030-12-01",
+   "to": "2031-01-31",
+   "rows": [
+    [
+     "Tanggal",
+     ":",
+     "15 Des 2030",
+     "No. Trans #",
+     ":",
+     "JV.2030.12.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 setoran modal"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "10.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Des 2030",
+     "No. Trans #",
+     ":",
+     "JV.2030.12.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 pendapatan tahun lalu"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "3.000.000"
+    ],
+    [
+     "3.000.000",
+     "3.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2031",
+     "No. Trans #",
+     ":",
+     "JV.2031.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-T1 beban desimal"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "1.250.000,5",
+     "0"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "0",
+     "1.250.000,5"
+    ],
+    [
+     "1.250.000,5",
+     "1.250.000,5"
+    ]
+   ]
+  }
+ },
+ "GeneralLedgerHistoryReport": {
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "05 Feb 2031"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00001",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T1 pendapatan Feb",
+     "2.000.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00001",
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "NL-T1 pendapatan Feb",
+     "0",
+     "2.000.000"
+    ],
+    [
+     "10 Feb 2031"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00002",
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "NL-T1 beli peralatan, kas minus",
+     "15.000.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00002",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T1 beli peralatan, kas minus",
+     "0",
+     "15.000.000"
+    ],
+    [
+     "28 Feb 2031"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00003",
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "NL-T1 multi-baris",
+     "333.333,33",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00003",
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "NL-T1 multi-baris",
+     "333.333,33",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00003",
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "NL-T1 multi-baris",
+     "333.333,34",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2031.02.00003",
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "NL-T1 multi-baris",
+     "0",
+     "1.000.000"
+    ]
+   ]
+  }
+ },
+ "GeneralLedgerDetailReport": {
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Debit",
+     "Kredit",
+     "Saldo Akhir"
+    ],
+    [
+     "NL-T1-1101 - NL-T1 Kas"
+    ],
+    [
+     "31 Jan 2031",
+     "Saldo per 31 Jan 2031",
+     "11.749.999,5"
+    ],
+    [
+     "05 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J4",
+     "2.000.000",
+     "0",
+     "13.749.999,5"
+    ],
+    [
+     "10 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J5",
+     "0",
+     "15.000.000",
+     "-1.250.000,5"
+    ],
+    [
+     "2.000.000",
+     "15.000.000"
+    ],
+    [
+     "NL-T1-1201 - NL-T1 Peralatan"
+    ],
+    [
+     "31 Jan 2031",
+     "Saldo per 31 Jan 2031",
+     "0"
+    ],
+    [
+     "10 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J5",
+     "15.000.000",
+     "0",
+     "15.000.000"
+    ],
+    [
+     "15.000.000",
+     "0"
+    ],
+    [
+     "NL-T1-2101 - NL-T1 Utang Lain"
+    ],
+    [
+     "31 Jan 2031",
+     "Saldo per 31 Jan 2031",
+     "0"
+    ],
+    [
+     "28 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J6",
+     "0",
+     "1.000.000",
+     "1.000.000"
+    ],
+    [
+     "0",
+     "1.000.000"
+    ],
+    [
+     "NL-T1-4001 - NL-T1 Pendapatan"
+    ],
+    [
+     "31 Jan 2031",
+     "Saldo per 31 Jan 2031",
+     "0"
+    ],
+    [
+     "05 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J4",
+     "0",
+     "2.000.000",
+     "2.000.000"
+    ],
+    [
+     "0",
+     "2.000.000"
+    ],
+    [
+     "NL-T1-6001 - NL-T1 Beban"
+    ],
+    [
+     "31 Jan 2031",
+     "Saldo per 31 Jan 2031",
+     "1.250.000,5"
+    ],
+    [
+     "28 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J6",
+     "333.333,33",
+     "0",
+     "1.583.333,83"
+    ],
+    [
+     "28 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J6",
+     "333.333,33",
+     "0",
+     "1.916.667,16"
+    ],
+    [
+     "28 Feb 2031",
+     "Jurnal Umum",
+     "NL-T1-J6",
+     "333.333,34",
+     "0",
+     "2.250.000,5"
+    ],
+    [
+     "1.000.000",
+     "0"
+    ]
+   ]
+  },
+  "span": {
+   "from": "2030-12-01",
+   "to": "2031-01-31",
+   "rows": [
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Debit",
+     "Kredit",
+     "Saldo Akhir"
+    ],
+    [
+     "NL-T1-1101 - NL-T1 Kas"
+    ],
+    [
+     "30 Nov 2030",
+     "Saldo per 30 Nov 2030",
+     "0"
+    ],
+    [
+     "15 Des 2030",
+     "Jurnal Umum",
+     "NL-T1-J1",
+     "10.000.000",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "20 Des 2030",
+     "Jurnal Umum",
+     "NL-T1-J2",
+     "3.000.000",
+     "0",
+     "13.000.000"
+    ],
+    [
+     "10 Jan 2031",
+     "Jurnal Umum",
+     "NL-T1-J3",
+     "0",
+     "1.250.000,5",
+     "11.749.999,5"
+    ],
+    [
+     "13.000.000",
+     "1.250.000,5"
+    ],
+    [
+     "NL-T1-3001 - NL-T1 Modal"
+    ],
+    [
+     "30 Nov 2030",
+     "Saldo per 30 Nov 2030",
+     "0"
+    ],
+    [
+     "15 Des 2030",
+     "Jurnal Umum",
+     "NL-T1-J1",
+     "0",
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001 - NL-T1 Pendapatan"
+    ],
+    [
+     "30 Nov 2030",
+     "Saldo per 30 Nov 2030",
+     "0"
+    ],
+    [
+     "20 Des 2030",
+     "Jurnal Umum",
+     "NL-T1-J2",
+     "0",
+     "3.000.000",
+     "3.000.000"
+    ],
+    [
+     "0",
+     "3.000.000"
+    ],
+    [
+     "NL-T1-6001 - NL-T1 Beban"
+    ],
+    [
+     "30 Nov 2030",
+     "Saldo per 30 Nov 2030",
+     "0"
+    ],
+    [
+     "10 Jan 2031",
+     "Jurnal Umum",
+     "NL-T1-J3",
+     "1.250.000,5",
+     "0",
+     "1.250.000,5"
+    ],
+    [
+     "1.250.000,5",
+     "0"
+    ]
+   ]
+  }
+ },
+ "GeneralLedgerSummaryReport": {
+  "note": "sandbox has other accounts: compare NL-T1 rows and the Laba Ditahan delta",
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "300002",
+     "Laba Ditahan",
+     "-31.002.596",
+     "0",
+     "0",
+     "-31.002.596"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "11.749.999,5",
+     "2.000.000",
+     "15.000.000",
+     "-1.250.000,5"
+    ],
+    [
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "0",
+     "15.000.000",
+     "0",
+     "15.000.000"
+    ],
+    [
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "0",
+     "0",
+     "1.000.000",
+     "1.000.000"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "10.000.000",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "0",
+     "2.000.000",
+     "2.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "1.250.000,5",
+     "1.000.000",
+     "0",
+     "2.250.000,5"
+    ]
+   ]
+  },
+  "span": {
+   "from": "2030-12-01",
+   "to": "2031-01-31",
+   "rows": [
+    [
+     "300002",
+     "Laba Ditahan",
+     "-34.002.596",
+     "0",
+     "0",
+     "-34.002.596"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "0",
+     "13.000.000",
+     "1.250.000,5",
+     "11.749.999,5"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "0",
+     "0",
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "0",
+     "0",
+     "3.000.000",
+     "3.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "0",
+     "1.250.000,5",
+     "0",
+     "1.250.000,5"
+    ]
+   ]
+  }
+ }
+}

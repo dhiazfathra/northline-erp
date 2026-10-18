@@ -47,12 +47,14 @@
     {
      "account": "NL-T1-1101",
      "side": "DEBIT",
-     "amount": 10000000
+     "amount": 10000000,
+     "memo": "NL-T1-J1"
     },
     {
      "account": "NL-T1-3001",
      "side": "CREDIT",
-     "amount": 10000000
+     "amount": 10000000,
+     "memo": "NL-T1-J1"
     }
    ]
   },
@@ -64,12 +66,14 @@
     {
      "account": "NL-T1-1101",
      "side": "DEBIT",
-     "amount": 3000000
+     "amount": 3000000,
+     "memo": "NL-T1-J2"
     },
     {
      "account": "NL-T1-4001",
      "side": "CREDIT",
-     "amount": 3000000
+     "amount": 3000000,
+     "memo": "NL-T1-J2"
     }
    ]
   },
@@ -81,12 +85,14 @@
     {
      "account": "NL-T1-6001",
      "side": "DEBIT",
-     "amount": 1250000.5
+     "amount": 1250000.5,
+     "memo": "NL-T1-J3"
     },
     {
      "account": "NL-T1-1101",
      "side": "CREDIT",
-     "amount": 1250000.5
+     "amount": 1250000.5,
+     "memo": "NL-T1-J3"
     }
    ]
   },
@@ -98,12 +104,14 @@
     {
      "account": "NL-T1-1101",
      "side": "DEBIT",
-     "amount": 2000000
+     "amount": 2000000,
+     "memo": "NL-T1-J4"
     },
     {
      "account": "NL-T1-4001",
      "side": "CREDIT",
-     "amount": 2000000
+     "amount": 2000000,
+     "memo": "NL-T1-J4"
     }
    ]
   },
@@ -115,12 +123,14 @@
     {
      "account": "NL-T1-1201",
      "side": "DEBIT",
-     "amount": 15000000
+     "amount": 15000000,
+     "memo": "NL-T1-J5"
     },
     {
      "account": "NL-T1-1101",
      "side": "CREDIT",
-     "amount": 15000000
+     "amount": 15000000,
+     "memo": "NL-T1-J5"
     }
    ]
   },
@@ -132,22 +142,26 @@
     {
      "account": "NL-T1-6001",
      "side": "DEBIT",
-     "amount": 333333.33
+     "amount": 333333.33,
+     "memo": "NL-T1-J6"
     },
     {
      "account": "NL-T1-6001",
      "side": "DEBIT",
-     "amount": 333333.33
+     "amount": 333333.33,
+     "memo": "NL-T1-J6"
     },
     {
      "account": "NL-T1-6001",
      "side": "DEBIT",
-     "amount": 333333.34
+     "amount": 333333.34,
+     "memo": "NL-T1-J6"
     },
     {
      "account": "NL-T1-2101",
      "side": "CREDIT",
-     "amount": 1000000
+     "amount": 1000000,
+     "memo": "NL-T1-J6"
     }
    ]
   }

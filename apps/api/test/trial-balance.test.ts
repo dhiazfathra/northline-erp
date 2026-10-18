@@ -22,7 +22,7 @@ beforeAll(async () => {
     await db.execute(sql`INSERT INTO accounts (no, name, type) VALUES (${a.no}, ${a.name}, ${a.type})`)
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES (${RE}, ${fixture.fiscalYearStartMonth})`)
   for (const j of fixture.journals)
-    await handle(db, { type: 'PostJournal', idempotencyKey: `fixture-${j.ref}`, journalId: crypto.randomUUID(), number: j.ref, date: j.date, description: j.description,
+    await handle(db, { type: 'PostJournal', idempotencyKey: `fixture-${j.ref}`, journalId: crypto.randomUUID(), date: j.date, description: j.description,
       lines: j.lines.map(l => ({ ...l, side: l.side as 'DEBIT' | 'CREDIT' })) })
   await catchUp(db, ledgerProjection)
 })
@@ -146,4 +146,23 @@ test('Neraca: JUMLAH ASET = JUMLAH LIABILITAS DAN EKUITAS', async () => {
     const total = (l: string) => lines.find(x => x.label === l)!.amount
     expect(total('JUMLAH ASET')).toBe(total('JUMLAH LIABILITAS DAN EKUITAS')!)
   }
+})
+
+describe('Buku Besar listings match Accurate', async () => {
+  const gl = (await import('../../../docs/reports/fixtures/general-ledger.json')).default
+  const { queryGeneralLedger } = await import('../src/reports/queries')
+  const cases = [['JournalListReport', 'journal-list'], ['AllJournalReport', 'all-journals'], ['GeneralLedgerHistoryReport', 'history'], ['GeneralLedgerDetailReport', 'detail']] as const
+  for (const [planId, report] of cases)
+    for (const [p, e] of Object.entries(gl[planId] as Record<string, { from: string; to: string; rows: string[][] }>))
+      test(`${planId} ${p}`, async () => {
+        expect(await queryGeneralLedger(db, report, { from: e.from, to: e.to, showZeroBalance: false, showParentAccount: true })).toEqual(e.rows)
+      })
+  for (const p of ['feb', 'span'] as const)
+    test(`GeneralLedgerSummaryReport ${p}`, async () => {
+      const e = gl.GeneralLedgerSummaryReport[p]
+      const rows = await queryGeneralLedger(db, 'summary', { from: e.from, to: e.to, showZeroBalance: false, showParentAccount: true })
+      // Sandbox Laba Ditahan includes 34.002.596 D of unrelated history; ours holds only the fixture's closed-year income.
+      const re = e.from < '2031-01-01' ? [] : [['300002', 'Laba Ditahan', '3.000.000', '0', '0', '3.000.000']]
+      expect(rows.filter(r => /^NL-T1|^300002$/.test(r[0]!))).toEqual([...re, ...e.rows.filter(r => r[0] !== '300002')])
+    })
 })

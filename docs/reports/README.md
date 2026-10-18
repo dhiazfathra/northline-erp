@@ -43,19 +43,19 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Keseluruhan Jurnal | `AllJournalReport` | report | FROMTO | selectedBranch= | |
+| Keseluruhan Jurnal | `AllJournalReport` | report | FROMTO | selectedBranch= | [verified](AllJournalReport.md) |
 | Keseluruhan Jurnal (CSV) | `AllJournalDownloadReport` | download | FROMTO | selectedBranch= | |
-| Ringkasan Buku Besar | `GeneralLedgerSummaryReport` | report | FROMTO | showZeroBalance=false | |
-| Histori Buku Besar | `GeneralLedgerHistoryReport` | report | FROMTO | selectedBranch= | |
+| Ringkasan Buku Besar | `GeneralLedgerSummaryReport` | report | FROMTO | showZeroBalance=false | [verified](GeneralLedgerSummaryReport.md) |
+| Histori Buku Besar | `GeneralLedgerHistoryReport` | report | FROMTO | selectedBranch= | [verified](GeneralLedgerHistoryReport.md) |
 | Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | |
-| Rincian Buku Besar | `GeneralLedgerDetailReport` | report | FROMTO | showOnlyHasTransaction=true | |
+| Rincian Buku Besar | `GeneralLedgerDetailReport` | report | FROMTO | showOnlyHasTransaction=true | [verified](GeneralLedgerDetailReport.md) |
 | Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | |
 | Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | |
 | Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | |
 | Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | |
 | Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | |
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
-| Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | |
+| Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
 | Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | |
 | Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | |
 | Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | |
