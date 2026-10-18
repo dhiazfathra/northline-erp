@@ -1,23 +1,24 @@
 # Lembar Penghitungan Stok (`PhysicalInventoryCountSheetReport`)
 
-Group: Gudang . **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PhysicalInventoryCountSheetReport.json`](captures/PhysicalInventoryCountSheetReport.json), run with default parameters over the sandbox demo data.
+Group: Gudang. **Status: verified** (zero diff on the NL block, both warehouses). Fixture: [`fixtures/count-sheet.json`](fixtures/count-sheet.json).
+ERP: `apps/api/src/reports/inventory.ts` (`countSheet`), loader `loadItemList`; test: `apps/api/test/adjustments.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedWarehouse":null,"selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedWarehouse` | WAREHOUSE | null | Gudang |
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
+`ASOF` + `selectedWarehouse` as an **array of `{id}`** (`null`, the default, makes Accurate fail) + `selectedBranch`.
 
 ## Layout
 
-View: `report`. Accurate returned an error for default params: `{"":["Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ket`.
+```
+Lembar Penghitungan Stok / Per Tgl. 30 Nov 2034 / Cabang : [Semua Cabang]
+Kode Barang | Nama Barang | Kuantitas | Satuan | Hitung #1 | Hitung #2
+Umum
+NL-T2-S1 | NL-T2 Jasa Konsultasi | 0 | Jam
+NL-T4-B1 | NL-T4 Barang A | 13 | PCS        <- Utama; 5 in NL-Gudang B
+```
 
+## Calculation rules
 
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Same item set, category blocks and creation order as [Daftar Barang dan Jasa](ItemListReport.md); services listed with 0.
+- Kuantitas = stock moves in the selected warehouse dated on or before the as-of date (transfers count on each side).
+- Satuan = the item's unit; demo items without a unit print no cell. Hitung #1/#2 are blank write-in columns.

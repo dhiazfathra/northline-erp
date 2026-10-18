@@ -236,7 +236,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Mutasi per Barang | `ItemMutationByWarehouseReport` | report | FROMTO | selectedItem= | [verified](ItemMutationByWarehouseReport.md) |
 | Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationByItemReport.md) |
 | Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationSummaryReport.md) |
-| Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | [spec](PhysicalInventoryCountSheetReport.md) |
+| Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | [verified](PhysicalInventoryCountSheetReport.md) |
 | Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [spec](ReceivedDeliveredSerialNumberReport.md) |
 | Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [spec](RemainingAgeSerialNumberDetailReport.md) |
 | Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | [verified](ItemTransferListReport.md) |

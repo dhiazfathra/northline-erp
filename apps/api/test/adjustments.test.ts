@@ -96,3 +96,10 @@ test('StockMovementByWarehouseReport over the T4..T15 chain (stock-movement.json
   const d = await Q.loadInventory(f.db)
   for (const c of fx.StockMovementByWarehouseReport) expect(I.stockMovementByWarehouse(d, c.warehouse, c.from, c.to)).toEqual(c.rows)
 })
+
+test('PhysicalInventoryCountSheetReport per 30 Nov 2034 per warehouse (count-sheet.json, Umum block NL items)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/count-sheet.json')).default, Q = await import('../src/reports/queries')
+  const { items, moves } = await Q.loadItemList(f.db), seeded = new Set(items.map(i => i.no))
+  for (const c of fx.PhysicalInventoryCountSheetReport)
+    expect(I.countSheet(items, moves, c.warehouse, c.asOf)).toEqual(c.rows.filter((r, i) => i < 4 || (r.length === 1 && r[0] === 'Umum') || (r.length > 1 && seeded.has(r[0]!))))
+})

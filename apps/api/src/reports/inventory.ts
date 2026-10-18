@@ -220,3 +220,14 @@ export function stockMovementByWarehouse(d: InventoryData, warehouse: string, fr
   }
   return rows
 }
+
+/**
+ * Lembar Penghitungan Stok (docs/reports/PhysicalInventoryCountSheetReport.md): like Daftar Barang dan Jasa (category
+ * blocks, creation order, all items) with the quantity in one warehouse as of the date and the unit; the two "Hitung"
+ * columns are blank for writing in, so their cells drop out of each row.
+ */
+export function countSheet(items: { no: string; name: string; unit: string }[], moves: { item: string; date: string; quantity: number; warehouse?: string }[], warehouse: string, asOf: string): string[][] {
+  const qty = (no: string) => moves.filter(m => m.item === no && m.date <= asOf && (m.warehouse ?? WAREHOUSE) === warehouse).reduce((s, m) => s + m.quantity, 0)
+  return [['Lembar Penghitungan Stok'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]'], ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan', 'Hitung #1', 'Hitung #2'],
+    ...(items.length ? [['Umum']] : []), ...items.map(i => [i.no, i.name, formatIdr(Math.round(qty(i.no) * 100)), i.unit])]
+}

@@ -1,0 +1,541 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18, as of 30 Nov 2034 (after the T15 transfers). Lists every sandbox item; compare the Umum block's NL items a test seeds. selectedWarehouse = [{id}] (Utama 50, NL-Gudang B 100).",
+ "PhysicalInventoryCountSheetReport": [
+  {
+   "asOf": "2034-11-30",
+   "warehouse": "Utama",
+   "rows": [
+    [
+     "Lembar Penghitungan Stok"
+    ],
+    [
+     "Per Tgl. 30 Nov 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan",
+     "Hitung #1",
+     "Hitung #2"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "100021",
+     "Biaya Kemasan (Subkon)",
+     "0",
+     "PCS"
+    ],
+    [
+     "100023",
+     "Baiya Produksi Lainnya",
+     "0"
+    ],
+    [
+     "100007",
+     "Polypropylene",
+     "0",
+     "KG"
+    ],
+    [
+     "100008",
+     "Polycarbonat",
+     "50",
+     "KG"
+    ],
+    [
+     "100011",
+     "Screw",
+     "425",
+     "PCS"
+    ],
+    [
+     "100014",
+     "Socket",
+     "245",
+     "PCS"
+    ],
+    [
+     "100015",
+     "Bulb Halogen (H4)",
+     "70",
+     "PCS"
+    ],
+    [
+     "100012",
+     "Actuator",
+     "175",
+     "PCS"
+    ],
+    [
+     "100022",
+     "Biaya Pekerja Produksi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100010",
+     "Harness",
+     "55",
+     "PCS"
+    ],
+    [
+     "100016",
+     "Bulb Umber",
+     "75",
+     "PCS"
+    ],
+    [
+     "100017",
+     "Bulb Senja (T10)",
+     "55",
+     "PCS"
+    ],
+    [
+     "100018",
+     "Pivot",
+     "185",
+     "PCS"
+    ],
+    [
+     "100019",
+     "Grommet",
+     "195",
+     "PCS"
+    ],
+    [
+     "100020",
+     "Adjuster",
+     "5",
+     "PCS"
+    ],
+    [
+     "100013",
+     "Cover",
+     "195",
+     "PCS"
+    ],
+    [
+     "100009",
+     "Polybutylene",
+     "50",
+     "KG"
+    ],
+    [
+     "100024",
+     "Cat",
+     "177",
+     "Liter"
+    ],
+    [
+     "100025",
+     "Hard Coating",
+     "422",
+     "Liter"
+    ],
+    [
+     "100026",
+     "Basecoat",
+     "2",
+     "Liter"
+    ],
+    [
+     "100027",
+     "Spring",
+     "265",
+     "PCS"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "100001",
+     "Head Lamp Daihatsu Xenia",
+     "100",
+     "PCS"
+    ],
+    [
+     "100002",
+     "Head Lamp Honda Brio",
+     "95",
+     "PCS"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "100006",
+     "NG Goods",
+     "5",
+     "PCS"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "100003",
+     "Rear Lamp Daihatsu Xenia",
+     "100",
+     "PCS"
+    ],
+    [
+     "100004",
+     "Rear Lamp Honda Brio",
+     "50",
+     "PCS"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "100029",
+     "ZZ-R01-Barang B",
+     "1",
+     "PCS"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100030",
+     "ZZ-R01-Barang A",
+     "0",
+     "PCS"
+    ],
+    [
+     "100031",
+     "ZZ-R01-Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100032",
+     "ZZ-R03-Barang A",
+     "0",
+     "PCS"
+    ],
+    [
+     "100033",
+     "ZZ-R03-Barang B",
+     "0",
+     "PCS"
+    ],
+    [
+     "100034",
+     "ZZ-R03-Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100035",
+     "ZZ-R03-Barang B2",
+     "1",
+     "PCS"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "13",
+     "PCS"
+    ],
+    [
+     "NL-T19-S1",
+     "NL-T19 Jasa Kena PPN",
+     "0",
+     "Jam"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "100005",
+     "Visor Yamaha Aerox",
+     "0",
+     "PCS"
+    ],
+    [
+     "100028",
+     "Visor Yamaha NMAX",
+     "0",
+     "PCS"
+    ]
+   ]
+  },
+  {
+   "asOf": "2034-11-30",
+   "warehouse": "NL-Gudang B",
+   "rows": [
+    [
+     "Lembar Penghitungan Stok"
+    ],
+    [
+     "Per Tgl. 30 Nov 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan",
+     "Hitung #1",
+     "Hitung #2"
+    ],
+    [
+     "Bahan Baku"
+    ],
+    [
+     "100021",
+     "Biaya Kemasan (Subkon)",
+     "0",
+     "PCS"
+    ],
+    [
+     "100023",
+     "Baiya Produksi Lainnya",
+     "0"
+    ],
+    [
+     "100007",
+     "Polypropylene",
+     "0",
+     "KG"
+    ],
+    [
+     "100008",
+     "Polycarbonat",
+     "0",
+     "KG"
+    ],
+    [
+     "100011",
+     "Screw",
+     "0",
+     "PCS"
+    ],
+    [
+     "100014",
+     "Socket",
+     "0",
+     "PCS"
+    ],
+    [
+     "100015",
+     "Bulb Halogen (H4)",
+     "0",
+     "PCS"
+    ],
+    [
+     "100012",
+     "Actuator",
+     "0",
+     "PCS"
+    ],
+    [
+     "100022",
+     "Biaya Pekerja Produksi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100010",
+     "Harness",
+     "0",
+     "PCS"
+    ],
+    [
+     "100016",
+     "Bulb Umber",
+     "0",
+     "PCS"
+    ],
+    [
+     "100017",
+     "Bulb Senja (T10)",
+     "0",
+     "PCS"
+    ],
+    [
+     "100018",
+     "Pivot",
+     "0",
+     "PCS"
+    ],
+    [
+     "100019",
+     "Grommet",
+     "0",
+     "PCS"
+    ],
+    [
+     "100020",
+     "Adjuster",
+     "0",
+     "PCS"
+    ],
+    [
+     "100013",
+     "Cover",
+     "0",
+     "PCS"
+    ],
+    [
+     "100009",
+     "Polybutylene",
+     "0",
+     "KG"
+    ],
+    [
+     "100024",
+     "Cat",
+     "0",
+     "Liter"
+    ],
+    [
+     "100025",
+     "Hard Coating",
+     "0",
+     "Liter"
+    ],
+    [
+     "100026",
+     "Basecoat",
+     "0",
+     "Liter"
+    ],
+    [
+     "100027",
+     "Spring",
+     "0",
+     "PCS"
+    ],
+    [
+     "Head Lamp"
+    ],
+    [
+     "100001",
+     "Head Lamp Daihatsu Xenia",
+     "0",
+     "PCS"
+    ],
+    [
+     "100002",
+     "Head Lamp Honda Brio",
+     "0",
+     "PCS"
+    ],
+    [
+     "NG"
+    ],
+    [
+     "100006",
+     "NG Goods",
+     "0",
+     "PCS"
+    ],
+    [
+     "Rear Combination Lamp"
+    ],
+    [
+     "100003",
+     "Rear Lamp Daihatsu Xenia",
+     "0",
+     "PCS"
+    ],
+    [
+     "100004",
+     "Rear Lamp Honda Brio",
+     "0",
+     "PCS"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "100029",
+     "ZZ-R01-Barang B",
+     "0",
+     "PCS"
+    ],
+    [
+     "NL-T2-S1",
+     "NL-T2 Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100030",
+     "ZZ-R01-Barang A",
+     "0",
+     "PCS"
+    ],
+    [
+     "100031",
+     "ZZ-R01-Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100032",
+     "ZZ-R03-Barang A",
+     "0",
+     "PCS"
+    ],
+    [
+     "100033",
+     "ZZ-R03-Barang B",
+     "0",
+     "PCS"
+    ],
+    [
+     "100034",
+     "ZZ-R03-Jasa Konsultasi",
+     "0",
+     "Jam"
+    ],
+    [
+     "100035",
+     "ZZ-R03-Barang B2",
+     "0",
+     "PCS"
+    ],
+    [
+     "NL-T4-B1",
+     "NL-T4 Barang A",
+     "5",
+     "PCS"
+    ],
+    [
+     "NL-T19-S1",
+     "NL-T19 Jasa Kena PPN",
+     "0",
+     "Jam"
+    ],
+    [
+     "Visor"
+    ],
+    [
+     "100005",
+     "Visor Yamaha Aerox",
+     "0",
+     "PCS"
+    ],
+    [
+     "100028",
+     "Visor Yamaha NMAX",
+     "0",
+     "PCS"
+    ]
+   ]
+  }
+ ]
+}
