@@ -116,6 +116,10 @@ export async function loadSales(db: Db): Promise<import('./receivables').SalesDa
   const customers = new Map((await db.execute(sql`SELECT no, name FROM customers`)).map(r => [r.no as string, r.name as string]))
   const invoices = (await db.execute(sql`SELECT number, customer_no, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
     .map(r => ({ number: r.number as string, customer: r.customer_no as string, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total) }))
+  const invLines = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, l.quantity, l.unit_price, l.total
+    FROM sales_invoice_lines l JOIN items i ON i.no = l.item_no ORDER BY l.invoice_number, l.seq`)
+  for (const inv of invoices) (inv as any).lines = invLines.filter(l => l.invoice_number === inv.number).map(l => ({
+    item: l.item_no as string, itemName: l.item_name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) }))
   const lines = await db.execute(sql`SELECT receipt_number, invoice_number, amount FROM sales_receipt_lines`)
   const receipts = (await db.execute(sql`SELECT r.number, r.customer_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS date, r.description, r.amount FROM sales_receipts r JOIN accounts a ON a.no = r.bank_no`))
     .map(r => ({ number: r.number as string, customer: r.customer_no as string, bankName: r.bank_name as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),

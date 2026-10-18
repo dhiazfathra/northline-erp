@@ -1,3 +1,11 @@
+export interface InvoiceLine {
+    item: string;
+    itemName: string;
+    unit: string;
+    qty: number;
+    price: number;
+    total: number;
+}
 export interface Invoice {
     number: string;
     customer: string;
@@ -5,6 +13,7 @@ export interface Invoice {
     dueDate: string;
     description: string;
     total: number;
+    lines?: InvoiceLine[];
 }
 export interface Receipt {
     number: string;
@@ -47,3 +56,21 @@ export declare function arLedgerDetail(d: SalesData, from: string, to: string): 
 export declare function salesInvoicePaid(d: SalesData, from: string, to: string): string[][];
 /** Rincian Penerimaan Penjualan: one block per receipt (date order); the amount after "Nilai Pembayaran :" is not printed by Accurate. */
 export declare function salesReceiptDetail(d: SalesData, from: string, to: string): string[][];
+/** Faktur Belum Lunas per Pelanggan */
+export declare function outstandingPerCustomer(d: SalesData, asOf: string): string[][];
+/** Rata-rata Pembayaran Pelanggan: invoices settled by a receipt in the range; average days from invoice to settlement. */
+export declare function owingCollection(d: SalesData, from: string, to: string): string[][];
+/** Penjualan per Barang */
+export declare function salesByItem(d: SalesData, from: string, to: string): string[][];
+/** Penjualan Barang per Pelanggan: item, then its customers (item name printed on the first customer row). */
+export declare function salesItemByCustomer(d: SalesData, from: string, to: string): string[][];
+/** Penjualan Pelanggan per Barang */
+export declare function salesCustomerByItem(d: SalesData, from: string, to: string): string[][];
+/** Rincian Penjualan per Pelanggan */
+export declare function salesByCustomerDetail(d: SalesData, from: string, to: string): string[][];
+/** Rincian Penjualan per Barang */
+export declare function salesByItemDetail(d: SalesData, from: string, to: string): string[][];
+/** Penjualan per Cabang */
+export declare function salesByBranch(d: SalesData, from: string, to: string): string[][];
+/** Rincian Faktur Penjualan: one block per invoice; lines print the item master name. */
+export declare function salesInvoiceDetail(d: SalesData, from: string, to: string): string[][];

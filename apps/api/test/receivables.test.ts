@@ -38,6 +38,14 @@ const full: [string, (d: R.SalesData) => string[][]][] = [
   ['ARLedgerDetailReport', d => R.arLedgerDetail(d, W.from, W.to)],
   ['SalesInvoicePaidReport', d => R.salesInvoicePaid(d, W.from, W.to)],
   ['SalesReceiptListDetailReport', d => R.salesReceiptDetail(d, W.from, W.to)],
+  ['OwingCollectionPerCustomerReport', d => R.owingCollection(d, W.from, W.to)],
+  ['ViewSalesByItemReport', d => R.salesByItem(d, W.from, W.to)],
+  ['ViewSalesItemByCustomerReport', d => R.salesItemByCustomer(d, W.from, W.to)],
+  ['ViewSalesCustomerByItemReport', d => R.salesCustomerByItem(d, W.from, W.to)],
+  ['ViewSalesByCustomerDetailReport', d => R.salesByCustomerDetail(d, W.from, W.to)],
+  ['ViewSalesByItemDetailReport', d => R.salesByItemDetail(d, W.from, W.to)],
+  ['ViewSalesByBranchReport', d => R.salesByBranch(d, W.from, W.to)],
+  ['SalesInvoiceDetailReport', d => R.salesInvoiceDetail(d, W.from, W.to)],
 ]
 for (const [p, fn] of full) test(`${p} Apr–Jun 2033`, async () => expect(fn(await loadSales(f.db))).toEqual(rep(p)))
 
@@ -72,4 +80,8 @@ test('AgingReceivableDetailReport per 15 Jul 2033 (NL-T2 block)', async () => {
   const second = e.findIndex((r, i) => i > 1 && r[1] === 'Sisa Kredit')
   const ours = R.agingReceivableDetail(await loadSales(f.db), '2033-07-15')
   expect(ours).toEqual(e.slice(0, second))
+})
+
+test('OutstandingSalesInvoicePerCustomerReport per 15 Jul 2033 (header + NL-T2 row)', async () => {
+  expect(R.outstandingPerCustomer(await loadSales(f.db), '2033-07-15').slice(0, 2)).toEqual(rep('OutstandingSalesInvoicePerCustomerReport').slice(0, 2))
 })

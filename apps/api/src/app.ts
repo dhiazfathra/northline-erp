@@ -58,12 +58,12 @@ export function createApp(db: Db) {
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
       const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')
-      if (r === 'outstanding' || r === 'aging' || r === 'aging-detail') {
-        const asOf = balanceSheetQuery.parse(q).asOf
-        return c.json(r === 'outstanding' ? R.outstandingInvoices(d, asOf) : r === 'aging' ? R.agingReceivable(d, asOf) : R.agingReceivableDetail(d, asOf))
-      }
+      const asOfReports = { outstanding: R.outstandingInvoices, aging: R.agingReceivable, 'aging-detail': R.agingReceivableDetail, 'outstanding-per-customer': R.outstandingPerCustomer } as const
+      if (r in asOfReports) return c.json(asOfReports[r as keyof typeof asOfReports](d, balanceSheetQuery.parse(q).asOf))
       const { from, to } = trialBalanceQuery.parse(q)
-      const fn = { 'invoice-list': R.salesInvoiceList, 'sales-by-customer': R.salesByCustomer, 'receipt-list': R.salesReceiptList, 'ar-ledger': R.arLedger, 'ar-history': R.arHistory, 'customer-statement': R.customerStatement, 'ar-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'receipt-detail': R.salesReceiptDetail }[r]!
+      const fn = { 'invoice-list': R.salesInvoiceList, 'sales-by-customer': R.salesByCustomer, 'receipt-list': R.salesReceiptList, 'ar-ledger': R.arLedger, 'ar-history': R.arHistory, 'customer-statement': R.customerStatement, 'ar-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'receipt-detail': R.salesReceiptDetail,
+        'owing-collection': R.owingCollection, 'by-item': R.salesByItem, 'item-by-customer': R.salesItemByCustomer, 'customer-by-item': R.salesCustomerByItem,
+        'by-customer-detail': R.salesByCustomerDetail, 'by-item-detail': R.salesByItemDetail, 'by-branch': R.salesByBranch, 'invoice-detail': R.salesInvoiceDetail }[r]!
       return c.json(fn(d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))

@@ -3,7 +3,8 @@ import { formatIdr } from './trial-balance'
 
 // Piutang / Penjualan reports over the sales tables; rules in docs/reports/<planId>.md (fixture: fixtures/sales-t2.json).
 
-export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number }
+export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
+export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[] }
 
@@ -189,5 +190,111 @@ export function salesReceiptDetail(d: SalesData, from: string, to: string): stri
     ['No. Faktur', 'Tgl Faktur', 'Total Faktur', 'Bayar', 'Diskon', 'Pembayaran'],
     ...r.payments.map(p => { const i = d.invoices.find(x => x.number === p.invoice)!; return [i.number, fmtDate(i.date), formatIdr(i.total), formatIdr(p.amount), '0', formatIdr(p.amount)] }),
     [formatIdr(r.amount), '0', formatIdr(r.amount)],
+  ])
+}
+
+// ---- sales analysis (item lines) ----
+const BRANCH = 'Kantor Pusat' // single-branch ledger; branch filter not modelled yet
+const qty = (q: number) => formatIdr(Math.round(q * 100))
+const linesIn = (d: SalesData, from: string, to: string) =>
+  d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+    .flatMap(i => (i.lines ?? []).map(l => ({ ...l, inv: i })))
+const group = <T, K>(xs: T[], key: (x: T) => K) => { const m = new Map<K, T[]>(); for (const x of xs) m.set(key(x), [...(m.get(key(x)) ?? []), x]); return m }
+const tq = (xs: { qty: number }[]) => xs.reduce((s, x) => s + x.qty, 0)
+const tv = (xs: { total: number }[]) => xs.reduce((s, x) => s + x.total, 0)
+const sortBy = <T>(xs: T[], k: (x: T) => string) => [...xs].sort((a, b) => (k(a) < k(b) ? -1 : 1))
+
+/** Faktur Belum Lunas per Pelanggan */
+export function outstandingPerCustomer(d: SalesData, asOf: string): string[][] {
+  const rows = [...d.customers.keys()].sort(byName(d)).map(c => ({ c, xs: openInvoices(d, asOf, c) })).filter(r => r.xs.length)
+  const t = (xs: { total: number; owing: number }[]) => [formatIdr(xs.reduce((s, x) => s + x.total, 0)), formatIdr(xs.reduce((s, x) => s + x.owing, 0)), '0']
+  const all = rows.flatMap(r => r.xs)
+  return [['Mata Uang', 'Pelanggan', 'Total', 'Piutang', 'Piutang Pajak'], ...rows.map((r, i) => [...(i === 0 ? [CURRENCY] : []), d.customers.get(r.c)!, ...t(r.xs)]),
+    ['Total Pelanggan', ...t(all)], ['Total Mata Uang', ...t(all)]]
+}
+
+/** Rata-rata Pembayaran Pelanggan: invoices settled by a receipt in the range; average days from invoice to settlement. */
+export function owingCollection(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['Nama Pelanggan', 'Bayar (Hari)', 'Syarat Bayar (Hari)', 'Nunggak (Hari)']]
+  for (const c of [...d.customers.keys()].sort(byName(d))) {
+    const settled = d.invoices.filter(i => i.customer === c).flatMap(i => {
+      const ps = d.receipts.flatMap(r => r.payments.filter(p => p.invoice === i.number).map(p => ({ date: r.date, amount: p.amount }))).sort((a, b) => (a.date < b.date ? -1 : 1))
+      let paid = 0
+      for (const p of ps) { paid += p.amount; if (paid >= i.total) return inRange(p, from, to) ? [{ pay: days(i.date, p.date), term: days(i.date, i.dueDate) }] : [] }
+      return []
+    })
+    if (!settled.length) continue
+    const avg = (k: 'pay' | 'term') => Math.round(settled.reduce((s, x) => s + x[k], 0) / settled.length)
+    out.push([d.customers.get(c)!, String(avg('pay')), String(avg('term')), String(avg('pay') - avg('term'))])
+  }
+  return out
+}
+
+/** Penjualan per Barang */
+export function salesByItem(d: SalesData, from: string, to: string): string[][] {
+  const g = group(linesIn(d, from, to), l => l.item), all = linesIn(d, from, to)
+  return [['Nama Barang', 'Satuan', 'Kuantitas', 'Penjualan'], ...sortBy([...g.values()], xs => xs[0]!.itemName).map(xs => [xs[0]!.itemName, xs[0]!.unit, qty(tq(xs)), formatIdr(tv(xs))]),
+    ['Total Nama Barang', qty(tq(all)), formatIdr(tv(all))]]
+}
+
+/** Penjualan Barang per Pelanggan: item, then its customers (item name printed on the first customer row). */
+export function salesItemByCustomer(d: SalesData, from: string, to: string): string[][] {
+  const all = linesIn(d, from, to), out: string[][] = [['Nama Barang', 'Pelanggan', 'Kuantitas', 'Penjualan']]
+  for (const xs of sortBy([...group(all, l => l.item).values()], xs => xs[0]!.itemName)) {
+    const byC = sortBy([...group(xs, l => l.inv.customer).values()], ys => d.customers.get(ys[0]!.inv.customer)!)
+    byC.forEach((ys, i) => out.push([...(i === 0 ? [xs[0]!.itemName] : []), d.customers.get(ys[0]!.inv.customer)!, qty(tq(ys)), formatIdr(tv(ys))]))
+    out.push(['Total Pelanggan', qty(tq(xs)), formatIdr(tv(xs))])
+  }
+  out.push(['Total Nama Barang', qty(tq(all)), formatIdr(tv(all))])
+  return out
+}
+
+/** Penjualan Pelanggan per Barang */
+export function salesCustomerByItem(d: SalesData, from: string, to: string): string[][] {
+  const all = linesIn(d, from, to), out: string[][] = [['Pelanggan', 'Nama Barang', 'Satuan', 'Kuantitas', 'Penjualan']]
+  for (const xs of sortBy([...group(all, l => l.inv.customer).values()], xs => d.customers.get(xs[0]!.inv.customer)!)) {
+    sortBy([...group(xs, l => l.item).values()], ys => ys[0]!.itemName)
+      .forEach((ys, i) => out.push([...(i === 0 ? [d.customers.get(xs[0]!.inv.customer)!] : []), ys[0]!.itemName, ys[0]!.unit, qty(tq(ys)), formatIdr(tv(ys))]))
+    out.push(['Total Nama Barang', qty(tq(xs)), formatIdr(tv(xs))])
+  }
+  out.push(['Total Pelanggan', qty(tq(all)), formatIdr(tv(all))])
+  return out
+}
+
+/** Rincian Penjualan per Pelanggan */
+export function salesByCustomerDetail(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Tipe Transaksi', 'Keterangan', 'Penjualan (Prime)'], [CURRENCY]]
+  let grand = 0
+  for (const c of activeCustomers(d, from, to)) {
+    const inv = d.invoices.filter(i => i.customer === c && inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+    if (!inv.length) continue
+    out.push([d.customers.get(c)!], ...inv.map(i => [i.number, fmtDate(i.date), 'Faktur Penjualan', i.description, formatIdr(i.total)]), [formatIdr(tv(inv))]); grand += tv(inv)
+  }
+  out.push([formatIdr(grand)])
+  return out
+}
+
+/** Rincian Penjualan per Barang */
+export function salesByItemDetail(d: SalesData, from: string, to: string): string[][] {
+  const out: string[][] = [['Nomor #', 'Tanggal', 'Keterangan', 'Kuantitas', 'Satuan', 'Penjualan']]
+  for (const xs of sortBy([...group(linesIn(d, from, to), l => l.item).values()], xs => xs[0]!.itemName))
+    out.push([xs[0]!.itemName], ...xs.map(l => [l.inv.number, fmtDate(l.inv.date), l.inv.description, qty(l.qty), l.unit, formatIdr(l.total)]), [qty(tq(xs)), formatIdr(tv(xs))])
+  return out
+}
+
+/** Penjualan per Cabang */
+export function salesByBranch(d: SalesData, from: string, to: string): string[][] {
+  const t = formatIdr(tv(linesIn(d, from, to)))
+  return [['Cabang', 'Penjualan'], [BRANCH, t], ['Total Cabang', t]]
+}
+
+/** Rincian Faktur Penjualan: one block per invoice; lines print the item master name. */
+export function salesInvoiceDetail(d: SalesData, from: string, to: string): string[][] {
+  return d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(i => [
+    ['Nomor #', ':', i.number, 'Nama Biaya', ':'], ['Tanggal', ':', fmtDate(i.date), 'Sub Total', ':', formatIdr(i.total)],
+    ['Pelanggan', ':', d.customers.get(i.customer)!, 'Total Biaya', ':', '0'], ['Mata Uang', ':', CURRENCY, 'Total', ':', formatIdr(i.total)],
+    ['Kode #', 'Nama Barang', 'Kuantitas', '@Harga', 'Total Harga'],
+    ...(i.lines ?? []).map(l => [l.item, l.itemName, qty(l.qty), formatIdr(l.price), formatIdr(l.total)]),
+    [qty(tq(i.lines ?? [])), formatIdr(i.total)],
   ])
 }

@@ -1,24 +1,7 @@
 # Rata-rata Pembayaran Pelanggan (`OwingCollectionPerCustomerReport`)
 
-Group: Piutang. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/OwingCollectionPerCustomerReport.json`](captures/OwingCollectionPerCustomerReport.json), run with default parameters over the sandbox demo data.
+Group: Piutang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/sales-t2.json`](fixtures/sales-t2.json). ERP: `apps/api/src/reports/receivables.ts`; test: `apps/api/test/receivables.test.ts`.
 
-## Parameters
+Columns `Nama Pelanggan` | `Bayar (Hari)` | `Syarat Bayar (Hari)` | `Nunggak (Hari)`. Customers with invoices fully settled by a receipt dated in the range (partial payments do not count: customer A is absent). Bayar = average days from invoice date to the settling receipt (fixture: 20 Apr → 15 Jun = 56); Syarat = average payment-term days (0); Nunggak = Bayar − Syarat.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nama Pelanggan | Bayar (Hari) | Syarat Bayar (Hari) | Nunggak (Hari)`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Unverified: rounding of the averages with several invoices.
