@@ -30,7 +30,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Fokus Keuangan | `FinancialFocusReport` | report | ASOFYEAR | — | [spec](FinancialFocusReport.md) |
 | Laba Ditahan | `RetainedEarningReport` | report | ASOFYEAR | — | [verified](RetainedEarningReport.md) |
 | Perubahan Ekuitas Pemilik | `OwnerEquityChangedReport` | report | FROMTO | — | [verified](OwnerEquityChangedReport.md) |
-| Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | [spec](AccountValueCompareChartReport.md) |
+| Grafik Perbandingan Nilai Akun | `AccountValueCompareChartReport` | chart | FROMTO | — | [verified](AccountValueCompareChartReport.md) |
 | Grafik Pendapatan berbanding Biaya | `RevenueToExpenseComparisonChartReport` | chart | FROMTO | — | [verified](RevenueToExpenseComparisonChartReport.md) |
 | Grafik Harta Bersih | `NetWorthChartReport` | chart | PERIODFROMTO | — | [verified](NetWorthChartReport.md) |
 | Grafik Rasio Likuiditas | `LiquidityRatioChartReport` | chart | PERIODFROMTO | — | [verified](LiquidityRatioChartReport.md) |

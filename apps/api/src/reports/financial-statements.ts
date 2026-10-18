@@ -187,3 +187,21 @@ export function skontro(standardRows: string[][]): string[][] {
   const left = spaced(standardRows.slice(standardRows.findIndex(r => r[0] === 'ASET'), split)), right = spaced(standardRows.slice(split))
   return Array.from({ length: Math.max(left.length, right.length) }, (_, i) => [...(left[i] ?? []), ...(right[i] ?? [])]).filter(r => r.length)
 }
+
+/**
+ * Grafik Perbandingan Nilai Akun (unlabeled line chart, ADR-0011): one point per month with profit-and-loss activity,
+ * value = sum over revenue/expense accounts of |net movement in the month| (Feb 2031: revenue 2.000.000 + expense
+ * 1.000.000 = 3.000.000). Same movements the Laba/Rugi reports verify.
+ */
+// shortcut: inferred from the default (no account selection) over four months of NL-T1 data; an account filter is not captured.
+export function accountValueCompareChart(accounts: TbAccount[], balances: DailyBalance[], from: string, to: string) {
+  const pl = new Set(accounts.filter(a => PROFIT_LOSS_TYPES.has(a.type)).map(a => a.no))
+  const net = new Map<string, number>()
+  for (const b of balances.filter(b => pl.has(b.account) && b.date >= from && b.date <= to)) {
+    const k = `${b.date.slice(0, 7)}|${b.account}`
+    net.set(k, (net.get(k) ?? 0) + b.debit - b.credit)
+  }
+  const month = new Map<string, number>()
+  for (const [k, v] of net) month.set(k.slice(0, 7), (month.get(k.slice(0, 7)) ?? 0) + Math.abs(v))
+  return [...month].filter(([, v]) => v).sort().map(([m, value]) => ({ month: `${MONTHS[Number(m.slice(5)) - 1]} ${m.slice(0, 4)}`, value }))
+}

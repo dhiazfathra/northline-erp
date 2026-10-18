@@ -1380,5 +1380,46 @@
     "240.876.289,5"
    ]
   ]
- }
+ },
+ "AccountValueCompareChartReport": [
+  {
+   "from": "2031-01-01",
+   "to": "2031-02-28",
+   "image": "captures/charts/AccountValueCompareChartReport-t1-feb.png",
+   "points": [
+    [
+     "Jan 2031",
+     125000050
+    ],
+    [
+     "Feb 2031",
+     300000000
+    ]
+   ]
+  },
+  {
+   "from": "2030-12-01",
+   "to": "2032-03-31",
+   "image": "captures/charts/AccountValueCompareChartReport-t1-span.png",
+   "points": [
+    [
+     "Des 2030",
+     300000000
+    ],
+    [
+     "Jan 2031",
+     125000050
+    ],
+    [
+     "Feb 2031",
+     300000000
+    ],
+    [
+     "Mar 2032",
+     75000000
+    ]
+   ]
+  }
+ ],
+ "AccountValueCompareChartNote": "Unlabeled line charts (ADR-0011): x labels read exactly; values read off gridlines (Jan 2031 sits at 1.250.000) and equal to the NL-T1 P&L movements of trial-balance.json, which the Laba/Rugi reports verify."
 }

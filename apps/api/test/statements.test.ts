@@ -50,3 +50,9 @@ test('Neraca (Induk Skontro) 28 Feb 2031: two-column zip of the standard Neraca'
   const erp = F.balanceSheet(accounts, balances, settings, sk.asOf, o).map(F.formatLine)
   expect(pairs(F.skontro(erp))).toEqual(pairs(sk.rows))
 })
+
+test('Grafik Perbandingan Nilai Akun (ADR-0011): months with P&L activity at the sum of |movement|', async () => {
+  const { accounts, balances } = await load()
+  for (const c of (fs as any).AccountValueCompareChartReport)
+    expect(F.accountValueCompareChart(accounts, balances, c.from, c.to).map(p => [p.month, p.value])).toEqual(c.points)
+})
