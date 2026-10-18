@@ -1,21 +1,13 @@
 # Daftar Disposisi Aset Tetap (`FixedAssetDisposedListReport`)
 
-Group: Aset Tetap. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/FixedAssetDisposedListReport.json`](captures/FixedAssetDisposedListReport.json), run with default parameters over the sandbox demo data.
+Group: Aset Tetap. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture:
+[`fixtures/asset-disposal-t11.json`](fixtures/asset-disposal-t11.json). ERP: `disposedList` in `apps/api/src/reports/fixed-assets.ts`,
+`disposeFixedAsset` in `src/fixed-assets/service.ts`; test: `apps/api/test/fixed-assets.test.ts`.
 
-## Parameters
+Columns `Nomor #` | `Tanggal` | `Kode Aset` | `Nama Aset` | `Nama Akun Laba Rugi` | `Aset Dijual` (`Ya`/`Tidak`) | `Harga` |
+`Nama Akun Penjualan` | `Keterangan`, one row per disposal in range.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-First table row (columns): `Nomor # | Tanggal | Kode Aset | Nama Aset | Nama Akun Laba Rugi | Aset Dijual | Harga | Nama Akun Penjualan | Keterangan`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Posting (type "Disposisi Aset Tetap", `FAD.yyyy.mm.nnnnn`): Dr accumulated depreciation, Dr gain/loss for the book value,
+Cr asset at cost; then, if sold, Dr selling account / Cr gain/loss for the price, **not netted** (720006 appears twice).
+Depreciation is not run for the disposal month. After disposal, [Histori Aset](FixedAssetHistoryReport.md) prints the asset
+with empty header fields and no rows.

@@ -275,7 +275,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetEditedHistoryReport.md) |
 | Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [spec](FiscalFaTypeListReport.md) |
 | Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | [spec](FixedAssetEditedListReport.md) |
-| Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | [spec](FixedAssetDisposedListReport.md) |
+| Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | [verified](FixedAssetDisposedListReport.md) |
 
 ## Pajak (TAX_SUPPORT)
 

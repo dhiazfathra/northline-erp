@@ -31,3 +31,16 @@ export declare function runPeriodEnd(db: Db, input: {
 }): Promise<{
     number: string;
 }>;
+/** Disposisi Aset Tetap: book value written off to gain/loss, proceeds booked against it as a separate pair (not netted). */
+export declare function disposeFixedAsset(db: Db, raw: {
+    idempotencyKey: string;
+    number?: string;
+    asset: string;
+    date: string;
+    description?: string;
+    gainLossAccount: string;
+    price?: number;
+    sellingAccount?: string;
+}): Promise<{
+    number: string;
+}>;

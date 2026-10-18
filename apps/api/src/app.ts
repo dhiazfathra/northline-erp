@@ -11,7 +11,7 @@ import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
 import * as FA from './reports/fixed-assets'
 import * as I from './reports/inventory'
-import { createFixedAsset, runPeriodEnd } from './fixed-assets/service'
+import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment } from './inventory/adjustment'
 import * as P from './reports/payables'
@@ -137,10 +137,12 @@ export function createApp(db: Db) {
       return c.json(I.profitabilityByItem(d, sales, from, to))
     })
     .post('/fixed-assets', async c => c.json(await createFixedAsset(db, await c.req.json()), 201))
+    .post('/fixed-assets/disposals', async c => c.json(await disposeFixedAsset(db, await c.req.json()), 201))
     .post('/period-ends', async c => c.json(await runPeriodEnd(db, await c.req.json()), 201))
     .get('/reports/fixed-assets/:report{list|by-category|history|journal|detail}', async c => {
       const assets = await loadFixedAssets(db), q = c.req.query(), r = c.req.param('report')
       if (r === 'list' || r === 'by-category') { const asOf = balanceSheetQuery.parse(q).asOf; return c.json(r === 'list' ? FA.fixedAssetList(assets, asOf) : FA.fixedAssetByCategory(assets, asOf)) }
+      if (r === 'disposed') { const { from, to } = trialBalanceQuery.parse(q); return c.json(FA.disposedList(assets, from, to)) }
       const a = assets.find(x => x.number === q.asset)
       if (!a) return c.json({ error: 'asset not found' }, 404)
       if (r === 'history') { const { from, to } = trialBalanceQuery.parse(q); return c.json(FA.fixedAssetHistory(a, from, to)) }

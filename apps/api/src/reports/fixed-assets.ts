@@ -8,6 +8,7 @@ export interface Asset {
   expenseAccount: string; accumulatedAccount: string
   expenditures: { name: string; date: string; amount: number }[]
   depreciations: { period: string; date: string; jvNumber: string; periodEndNumber: string; amount: number }[]
+  disposal?: { number: string; date: string; description: string; gainLossName: string; sold: boolean; price: number; sellingName: string }
 }
 
 const METHOD = 'Metode Garis Lurus'
@@ -43,6 +44,9 @@ function byCategory(assets: Asset[], row: (a: Asset) => string[], total: (xs: As
 
 /** Histori Aset for one asset: acquisition and each depreciation with running book value. */
 export function fixedAssetHistory(a: Asset, from: string, to: string): string[][] {
+  // A disposed asset prints its header labels empty and no rows (fixtures/asset-disposal-t11.json).
+  if (a.disposal) return [[`Aset Tetap : ${a.description}`], ['Nomor #', ':', 'Umur (Tahun)', ':'], ['Tanggal', ':', 'Umur (Bulan)', ':'], ['Metode Penyusutan', ':'],
+    ['Tanggal', 'No.', 'Keterangan', 'Total Aset', 'Akumulasi Penyusutan', 'Nilai Buku', 'Biaya Penyusutan', 'Laba/Rugi']]
   const [years, months] = life(a)
   const out: string[][] = [[`Aset Tetap : ${a.description}`], ['Nomor #', ':', a.number, 'Umur (Tahun)', ':', years], ['Tanggal', ':', fmtDate(a.date), 'Umur (Bulan)', ':', months],
     ['Metode Penyusutan', ':', METHOD], ['Tanggal', 'No.', 'Keterangan', 'Total Aset', 'Akumulasi Penyusutan', 'Nilai Buku', 'Biaya Penyusutan', 'Laba/Rugi']]
@@ -73,4 +77,11 @@ export function fixedAssetDetail(a: Asset): string[][] {
   return [[`Aset Tetap : ${a.description}`], ['Kode Aset', ':', a.number, 'Umur (Tahun)', ':', years], ['Tanggal Beli', ':', fmtDate(a.date), 'Umur (Bulan)', ':', months], ['Metode Penyusutan', ':', METHOD],
     ['Nama Biaya', 'Tanggal', 'Tipe Transaksi', 'Jumlah', 'Kode Aset', 'Tanggal Beli', 'Metode Penyusutan', 'Umur (Tahun)', 'Umur (Bulan)'],
     ...a.expenditures.map(e => [e.name, fmtDate(e.date), 'Pengeluaran', formatIdr(e.amount), a.number, fmtDate(a.date), METHOD, years, months])]
+}
+
+/** Daftar Disposisi Aset Tetap */
+export function disposedList(assets: Asset[], from: string, to: string): string[][] {
+  return [['Nomor #', 'Tanggal', 'Kode Aset', 'Nama Aset', 'Nama Akun Laba Rugi', 'Aset Dijual', 'Harga', 'Nama Akun Penjualan', 'Keterangan'],
+    ...assets.filter(a => a.disposal && a.disposal.date >= from && a.disposal.date <= to).sort((a, b) => (a.disposal!.number < b.disposal!.number ? -1 : 1))
+      .map(a => { const d = a.disposal!; return [d.number, fmtDate(d.date), a.number, a.description, d.gainLossName, d.sold ? 'Ya' : 'Tidak', formatIdr(d.price), d.sellingName, d.description] })]
 }

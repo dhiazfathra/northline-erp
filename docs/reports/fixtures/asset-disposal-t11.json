@@ -1,0 +1,142 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. Builds on fixed-asset-t5.json: FAA.2034.01.00001 sold 15 Apr 2034 for 11.000.000 (book value 10.500.000 after Jan–Mar depreciation).",
+ "accounts": [
+  {
+   "no": "720006",
+   "name": "Laba/Rugi Disposisi Aset",
+   "type": "OTHER_EXPENSE"
+  }
+ ],
+ "disposal": {
+  "number": "FAD.2034.04.00001",
+  "asset": "FAA.2034.01.00001",
+  "date": "2034-04-15",
+  "description": "NL-T11-FD1",
+  "gainLossAccount": "720006",
+  "price": 11000000,
+  "sellingAccount": "NL-T1-1101"
+ },
+ "reports": {
+  "GeneralLedgerHistoryReport": {
+   "note": "April 2034 also holds other fixtures; compare FAD rows",
+   "rows": [
+    [
+     "Disposisi Aset Tetap",
+     "FAD.2034.04.00001",
+     "12000604",
+     "Akumulasi Penyusutan Inventaris Kantor",
+     "NL-T11-FD1",
+     "1.500.000",
+     "0"
+    ],
+    [
+     "Disposisi Aset Tetap",
+     "FAD.2034.04.00001",
+     "720006",
+     "Laba/Rugi Disposisi Aset",
+     "NL-T11-FD1",
+     "10.500.000",
+     "0"
+    ],
+    [
+     "Disposisi Aset Tetap",
+     "FAD.2034.04.00001",
+     "120005",
+     "Inventaris Kantor",
+     "NL-T11-FD1",
+     "0",
+     "12.000.000"
+    ],
+    [
+     "Disposisi Aset Tetap",
+     "FAD.2034.04.00001",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T11-FD1",
+     "11.000.000",
+     "0"
+    ],
+    [
+     "Disposisi Aset Tetap",
+     "FAD.2034.04.00001",
+     "720006",
+     "Laba/Rugi Disposisi Aset",
+     "NL-T11-FD1",
+     "0",
+     "11.000.000"
+    ]
+   ]
+  },
+  "FixedAssetDisposedListReport": {
+   "rows": [
+    [
+     "Daftar Disposisi Aset Tetap"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 30 Apr 2034"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama Aset",
+     "Nama Akun Laba Rugi",
+     "Aset Dijual",
+     "Harga",
+     "Nama Akun Penjualan",
+     "Keterangan"
+    ],
+    [
+     "FAD.2034.04.00001",
+     "15 Apr 2034",
+     "FAA.2034.01.00001",
+     "NL-T5 Mesin Uji",
+     "Laba/Rugi Disposisi Aset",
+     "Ya",
+     "11.000.000",
+     "NL-T1 Kas",
+     "NL-T11-FD1"
+    ]
+   ]
+  },
+  "FixedAssetHistoryReport": {
+   "rows": [
+    [
+     "Histori Aset"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 30 Apr 2034"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "Umur (Tahun)",
+     ":"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Umur (Bulan)",
+     ":"
+    ],
+    [
+     "Metode Penyusutan",
+     ":"
+    ],
+    [
+     "Tanggal",
+     "No.",
+     "Keterangan",
+     "Total Aset",
+     "Akumulasi Penyusutan",
+     "Nilai Buku",
+     "Biaya Penyusutan",
+     "Laba/Rugi"
+    ]
+   ]
+  }
+ }
+}

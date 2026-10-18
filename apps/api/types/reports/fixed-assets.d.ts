@@ -20,6 +20,15 @@ export interface Asset {
         periodEndNumber: string;
         amount: number;
     }[];
+    disposal?: {
+        number: string;
+        date: string;
+        description: string;
+        gainLossName: string;
+        sold: boolean;
+        price: number;
+        sellingName: string;
+    };
 }
 /** Daftar Aset Tetap: grouped by tangibility ("Berwujud"; intangible assets not modelled), cost, depreciation to date, book value; totals. */
 export declare function fixedAssetList(assets: Asset[], asOf: string): string[][];
@@ -31,3 +40,5 @@ export declare function fixedAssetHistory(a: Asset, from: string, to: string): s
 export declare function fixedAssetJournal(a: Asset): string[][];
 /** Detail Aset Tetap for one asset: its expenditures. */
 export declare function fixedAssetDetail(a: Asset): string[][];
+/** Daftar Disposisi Aset Tetap */
+export declare function disposedList(assets: Asset[], from: string, to: string): string[][];

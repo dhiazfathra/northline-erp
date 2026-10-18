@@ -91,3 +91,30 @@ export async function runPeriodEnd(db: Db, input: { idempotencyKey: string; peri
     return result
   })
 }
+
+/** Disposisi Aset Tetap: book value written off to gain/loss, proceeds booked against it as a separate pair (not netted). */
+export async function disposeFixedAsset(db: Db, raw: { idempotencyKey: string; number?: string; asset: string; date: string; description?: string; gainLossAccount: string; price?: number; sellingAccount?: string }) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const [a] = await tx.execute(sql`SELECT cost, asset_account, accumulated_account, (SELECT COALESCE(SUM(amount),0) FROM depreciations WHERE asset_number = ${raw.asset}) AS acc FROM fixed_assets WHERE number = ${raw.asset}`)
+    if (!a) throw new DomainError(`Aset ${raw.asset} tidak ditemukan`)
+    const cost = Number(a.cost), acc = Number(a.acc), price = Math.round((raw.price ?? 0) * 100), sold = price > 0
+    if (sold && !raw.sellingAccount) throw new DomainError('Akun penjualan harus diisi')
+    const number = raw.number ?? await nextNumber(tx, `FAD.${period(raw.date)}`)
+    const journalId = crypto.randomUUID()
+    await handleTx(tx, {
+      type: 'PostJournal', idempotencyKey: `${raw.idempotencyKey}:journal`, journalId, number, sourceType: 'FAD', date: raw.date, description: raw.description ?? '',
+      lines: [
+        ...(acc ? [{ account: a.accumulated_account as string, side: 'DEBIT' as const, amount: rupiah(acc) }] : []),
+        { account: raw.gainLossAccount, side: 'DEBIT' as const, amount: rupiah(cost - acc) },
+        { account: a.asset_account as string, side: 'CREDIT' as const, amount: rupiah(cost) },
+        ...(sold ? [{ account: raw.sellingAccount!, side: 'DEBIT' as const, amount: rupiah(price) }, { account: raw.gainLossAccount, side: 'CREDIT' as const, amount: rupiah(price) }] : []),
+      ].filter(l => Number(l.amount) > 0),
+    })
+    await tx.execute(sql`INSERT INTO fixed_asset_disposals VALUES (${number}, ${raw.asset}, ${raw.date}, ${raw.description ?? ''}, ${raw.gainLossAccount}, ${sold}, ${price}, ${raw.sellingAccount ?? null}, ${journalId})`)
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${raw.idempotencyKey}, 'DisposeFixedAsset', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}

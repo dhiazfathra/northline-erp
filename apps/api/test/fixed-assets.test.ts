@@ -40,3 +40,18 @@ test('month-end runs once per period; straight line ends at zero book value', as
   const total = Array.from({ length: 7 }, (_, i) => monthlyDepreciation(100, 7, i)).reduce((s, x) => s + x, 0)
   expect(total).toBe(100)
 })
+
+test('disposal: journal, Daftar Disposisi, history of a disposed asset (asset-disposal-t11.json)', async () => {
+  const t11 = (await import('../../../docs/reports/fixtures/asset-disposal-t11.json')).default
+  const { disposeFixedAsset } = await import('../src/fixed-assets/service')
+  for (const a of t11.accounts) await handle(f.db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  await catchUp(f.db, ledgerProjection)
+  await disposeFixedAsset(f.db, { idempotencyKey: 't11-dispose', ...t11.disposal, price: t11.disposal.price })
+  await catchUp(f.db, ledgerProjection)
+  const r = (p: string) => body((t11.reports as any)[p].rows)
+  const h = await queryGeneralLedger(f.db, 'history', { from: '2034-04-01', to: '2034-04-30', showZeroBalance: false, showParentAccount: true })
+  expect(h.filter(x => x[1] === t11.disposal.number)).toEqual((t11.reports as any).GeneralLedgerHistoryReport.rows)
+  const all = await loadFixedAssets(f.db)
+  expect(F.disposedList(all, '2034-01-01', '2034-04-30')).toEqual(r('FixedAssetDisposedListReport'))
+  expect(F.fixedAssetHistory(all.find(a => a.number === t11.disposal.asset)!, '2034-01-01', '2034-04-30')).toEqual(r('FixedAssetHistoryReport'))
+})
