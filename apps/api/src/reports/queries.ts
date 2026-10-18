@@ -289,10 +289,11 @@ export async function loadInstallments(db: Db): Promise<import('./receivables').
 
 export async function loadReconciliations(db: Db): Promise<import('./cash-bank').Reconciliation[]> {
   return (await db.execute(sql`SELECT b.bank_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS doc_date, r.number, r.amount, r.description,
-      to_char(b.statement_date,'YYYY-MM-DD') AS st_date, b.statement_description, b.reconciled_by
-    FROM bank_reconciliations b JOIN sales_receipts r ON r.number = b.doc_number JOIN accounts a ON a.no = b.bank_no ORDER BY r.date, r.number`))
+      to_char(b.statement_date,'YYYY-MM-DD') AS st_date, b.statement_description, b.reconciled_by, to_char(b.created_at,'YYYY-MM-DD') AS rec_date, c.name AS customer
+    FROM bank_reconciliations b JOIN sales_receipts r ON r.number = b.doc_number JOIN accounts a ON a.no = b.bank_no JOIN customers c ON c.no = r.customer_no ORDER BY r.date, r.number`))
     .map(r => ({ bank: r.bank_no as string, bankName: r.bank_name as string, docDate: r.doc_date as string, docType: 'Penerimaan Penjualan', docNumber: r.number as string,
-      side: 'Dr' as const, amount: Number(r.amount), docDescription: r.description as string, statementDate: r.st_date as string, statementDescription: r.statement_description as string, by: r.reconciled_by as string }))
+      side: 'Dr' as const, amount: Number(r.amount), docDescription: r.description as string, statementDate: r.st_date as string, statementDescription: r.statement_description as string, by: r.reconciled_by as string,
+      reconciledAt: r.rec_date as string, party: r.customer as string }))
 }
 
 export async function loadPurchaseExpenses(db: Db) {

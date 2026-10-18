@@ -105,6 +105,8 @@ test('bank reconciliation reports Nov-Dec 2035 (manual reconcile of R1)', async 
   expect(C.reconcileBookToStatement(rs, b.banks, b.from, b.to)).toEqual(b.rows)
   expect(C.reconcileStatementToBook(rs, b.banks, b.from, b.to)).toEqual(R.BankReconcileStatementToBookReport.rows)
   expect([...C.bankStatement(rs, { no: 'NL-T1-1101', name: 'NL-T1 Kas' }, b.from, b.to)]).toEqual(R.BankStatementReport.rows.slice(2))
+  // Transaksi Bank Terekonsiliasi filters on the day the reconciliation was done (18 Okt 2026), not the 2035 dates.
+  for (const c of (R as any).ReconciledBankReport) expect(C.reconciledBank(rs, { no: 'NL-T1-1101', name: 'NL-T1 Kas' }, c.from, c.to)).toEqual(c.rows.filter((r: string[]) => !(r.length === 1 && /^(Transaksi Bank|Dari )/.test(r[0]!))))
 })
 
 test('CashProjectionReport per 18 Okt 2026: T23 receivable/payable land in their due months', async () => {

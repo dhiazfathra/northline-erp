@@ -155,7 +155,7 @@ export function outstandingCheques(cheques: Cheque[], banks: string[], asOf: str
 }
 
 export interface Reconciliation { bank: string; bankName: string; docDate: string; docType: string; docNumber: string; side: 'Dr' | 'Cr'; amount: number
-  docDescription: string; statementDate: string; statementDescription: string; by: string }
+  docDescription: string; statementDate: string; statementDescription: string; by: string ; reconciledAt?: string; party?: string }
 const reconHead = (title: string, from: string, to: string) => [[title], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`]]
 const reconRows = (rs: Reconciliation[], banks: string[], from: string, to: string, row: (r: Reconciliation) => string[]) => {
   const out: string[][] = []
@@ -173,3 +173,19 @@ export const reconcileStatementToBook = (rs: Reconciliation[], banks: string[], 
   ...reconHead('Rekonsiliasi Bank (Rekening Koran terhadap Jurnal)', from, to),
   ['Tanggal Rekening Koran', 'Mutasi', 'Tipe Mutasi', 'Keterangan', 'Tgl Transaksi', 'Tipe Transaksi', 'No. Transaksi', 'Nilai', 'Keterangan Transaksi', 'Direkonsiliasi Oleh'],
   ...reconRows(rs, banks, from, to, r => [fmtDate(r.statementDate), formatIdr(r.amount), r.side, r.statementDescription, fmtDate(r.docDate), r.docType, r.docNumber, formatIdr(r.amount), r.docDescription, r.by])]
+
+/**
+ * Transaksi Bank Terekonsiliasi (docs/reports/ReconciledBankReport.md): per bank, entries grouped under the day they were
+ * reconciled, the window filtering on that day (not the transaction or statement date). Referensi = the party.
+ */
+export function reconciledBank(rs: Reconciliation[], bank: { no: string; name: string }, from: string, to: string): string[][] {
+  const xs = rs.filter(r => r.bank === bank.no && r.reconciledAt! >= from && r.reconciledAt! <= to)
+  const head = ['No. Trans #', 'Tipe Transaksi', 'Keterangan', 'Nilai', 'Referensi']
+  if (!xs.length) return [['Kode Perkiraan', ':'], ['Nama', ':'], head]
+  const out = [['Kode Perkiraan', ':', bank.no], ['Nama', ':', bank.name], head]
+  for (const day of [...new Set(xs.map(r => r.reconciledAt!))].sort()) {
+    out.push([fmtDate(day)])
+    for (const r of xs.filter(r => r.reconciledAt === day)) out.push([r.docNumber, r.docType, r.docDescription, formatIdr(r.amount), r.party ?? ''])
+  }
+  return out
+}

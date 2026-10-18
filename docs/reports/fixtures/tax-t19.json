@@ -1597,51 +1597,92 @@
     ]
    ]
   },
-  "ReconciledBankReport": {
-   "from": "2035-11-01",
-   "to": "2035-12-31",
-   "banks": [
-    "NL-T1-1101"
-   ],
-   "param": {
-    "startDate": "01/11/2035",
-    "endDate": "31/12/2035",
-    "selectedBranch": [
-     {
-      "name": "[Semua Cabang]",
-      "id": null
-     }
-    ],
-    "selectedBank": [
-     {
-      "id": 650
-     }
+  "ReconciledBankReport": [
+   {
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "param": {
+     "startDate": "01/10/2026",
+     "endDate": "31/10/2026",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Transaksi Bank Terekonsiliasi"
+     ],
+     [
+      "Dari 01 Okt 2026 s/d 31 Okt 2026"
+     ],
+     [
+      "Kode Perkiraan",
+      ":",
+      "NL-T1-1101"
+     ],
+     [
+      "Nama",
+      ":",
+      "NL-T1 Kas"
+     ],
+     [
+      "No. Trans #",
+      "Tipe Transaksi",
+      "Keterangan",
+      "Nilai",
+      "Referensi"
+     ],
+     [
+      "18 Okt 2026"
+     ],
+     [
+      "NL-T1-1101.2035.11.00002",
+      "Penerimaan Penjualan",
+      "NL-T19-R1",
+      "1.200.000",
+      "NL-T2 Pelanggan A"
+     ]
     ]
    },
-   "rows": [
-    [
-     "Transaksi Bank Terekonsiliasi"
-    ],
-    [
-     "Dari 01 Nov 2035 s/d 31 Des 2035"
-    ],
-    [
-     "Kode Perkiraan",
-     ":"
-    ],
-    [
-     "Nama",
-     ":"
-    ],
-    [
-     "No. Trans #",
-     "Tipe Transaksi",
-     "Keterangan",
-     "Nilai",
-     "Referensi"
+   {
+    "from": "2030-01-01",
+    "to": "2037-12-31",
+    "param": {
+     "startDate": "01/01/2030",
+     "endDate": "31/12/2037",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Transaksi Bank Terekonsiliasi"
+     ],
+     [
+      "Dari 01 Jan 2030 s/d 31 Des 2037"
+     ],
+     [
+      "Kode Perkiraan",
+      ":"
+     ],
+     [
+      "Nama",
+      ":"
+     ],
+     [
+      "No. Trans #",
+      "Tipe Transaksi",
+      "Keterangan",
+      "Nilai",
+      "Referensi"
+     ]
     ]
-   ]
-  },
+   }
+  ],
   "CashProjectionReport": {
    "today": "2026-10-18",
    "base": {
@@ -1900,7 +1941,8 @@
    "document": "NL-T1-1101.2035.11.00002",
    "statementDate": "2035-11-30",
    "statementDescription": "NL-T19 RK1",
-   "by": "[REDACTED]"
+   "by": "[REDACTED]",
+   "reconciledAt": "2026-10-18"
   }
  ]
 }

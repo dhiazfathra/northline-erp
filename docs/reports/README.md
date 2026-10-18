@@ -71,7 +71,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Histori Bank | `BankBookReport` | report | FROMTO | selectedBank= | [verified](BankBookReport.md) |
-| Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | [spec](ReconciledBankReport.md) |
+| Transaksi Bank Terekonsiliasi | `ReconciledBankReport` | report | FROMTO | selectedBank= | [verified](ReconciledBankReport.md) |
 | Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | [verified](UnreconciledBankReport.md) |
 | Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](PaymentByBankSummaryReport.md) |
 | Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](DepositByBankSummaryReport.md) |
