@@ -28,3 +28,8 @@ Captured payloads (`*.json`, `*.txt`) and `state.json` are gitignored: they hold
 Purchase invoice expense lines (Biaya tab): pass `extra.detailExpense: [{_status:'insert', seq, accountId, expenseAmount, expenseName, expenseNotes:'', allocateToItemCost:false}]` to `save-inv.mjs`. Account ids come from `/accurate/general-ledger/search-glaccount.do`.
 
 `save-param.mjs <path.do> '<flat param.* json>'` posts a new document without a captured template (used for Pencatatan Beban, `/accurate/general-ledger/save-expense-accrual.do`).
+
+`item-flat.mjs <id> <out>` serializes the item form as flat keys. It returns the blank new-item form, which is the template for `item-wire.json`.
+- **Stock items** created with `save-item.mjs` need explicit GL ids (copy them from `detail-item.do` of NL-T4-B1). Otherwise Accurate rejects the parent account.
+- **Services** need an expense account in `cogsGlAccountId`/`inventoryGlAccountId`.
+- **PPh:** `tax3Id` on a service did not persist (NL-T29-S2, id 401).

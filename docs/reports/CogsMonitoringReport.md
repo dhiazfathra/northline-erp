@@ -27,7 +27,9 @@ The report has no date parameter. It stayed empty (header row only) for branch U
 - A Harga Pemasok (vendor price, VPA) and a Penyesuaian Harga Jual (SPA) dated 2036.
 - A VPA and an SPA dated 1 Oct 2026, before the run date. These two were deleted after the check.
 
-So neither vendor prices nor selling price adjustments make an item appear. The likely trigger is the item master's own price fields (Harga Jual / Harga Beli on the item form). The scripted item save cannot set them yet (`_getSubmitData` fails on the item form).
+So neither vendor prices nor selling price adjustments make an item appear.
+
+A new stock item NL-T30-B1 (id 400) was created with the item master's own prices: `unitPrice` 25.000, `vendorPrice` 15.000, preferred vendor NL-T3-V1. The report was still empty, including after a purchase of 4 units dated 1 Oct 2026 (PI.2026.10.00007, deleted after the check). The trigger is still unknown; a sales invoice is the next thing to try.
 
 ## Open work
 
