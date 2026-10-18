@@ -267,3 +267,9 @@ export async function loadItemList(db: Db) {
 
 export const loadCreditLimits = async (db: Db) =>
   new Map((await db.execute(sql`SELECT no, credit_limit FROM customers WHERE credit_limit IS NOT NULL`)).map(r => [r.no as string, Number(r.credit_limit)]))
+
+export async function loadCheques(db: Db): Promise<import('./cash-bank').Cheque[]> {
+  return (await db.execute(sql`SELECT r.customer_no, r.bank_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS date, to_char(r.cheque_date,'YYYY-MM-DD') AS cheque_date, r.cheque_no, c.name AS party, r.amount
+    FROM sales_receipts r JOIN accounts a ON a.no = r.bank_no JOIN customers c ON c.no = r.customer_no WHERE r.payment_method = 'BANK_CHEQUE'`))
+    .map(r => ({ customer: r.customer_no as string, bank: r.bank_no as string, bankName: r.bank_name as string, date: r.date as string, chequeDate: r.cheque_date as string, chequeNo: r.cheque_no as string, party: r.party as string, amount: Number(r.amount) }))
+}

@@ -544,17 +544,20 @@ export function salesByBrand(d: SalesData, from: string, to: string): string[][]
 
 /**
  * Limit Piutang Pelanggan (docs/reports/CustomerLimitReport.md): customers with a credit limit, in the default category
- * block "Umum". Saldo = current receivable over all dates, printed per currency ("IDR 444.000, USD 0"); Sisa Limit =
- * limit - saldo - open orders - post-dated cheques (orders and cheques are 0 in the fixture).
+ * block "Umum". Saldo = current receivable over all dates (a cheque receipt already reduces it), printed per currency
+ * ("IDR 444.000, USD 0"; a zero balance prints only "IDR 0"). Giro Mundur = the customer's cheques not yet due.
+ * Sisa Limit = limit - saldo - open orders - giro mundur.
  */
-// shortcut: open sales orders and giro mundur are not subtracted yet (both 0 in tax-t19.json); add when either is modelled.
-export function customerLimit(d: SalesData, limits: Map<string, number>, currencies: string[]): string[][] {
+// shortcut: open sales orders are not modelled (0); the currency-list rule is inferred from two captures.
+export function customerLimit(d: SalesData, limits: Map<string, number>, currencies: string[], giro: Map<string, number> = new Map()): string[][] {
   const rows: string[][] = [['Limit Piutang Pelanggan'], ['Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang'], ['Nama', 'Saldo (Mata Uang)', 'Pesanan', 'Giro Mundur', 'Limit Piutang', 'Sisa Limit']]
   const custs = [...limits.keys()].sort(byName(d))
   if (custs.length) rows.push(['Umum'])
   for (const c of custs) {
     const saldo = movements(d, c).reduce((s, m) => s + m.amount, 0), limit = limits.get(c)!
-    rows.push([d.customers.get(c)!, currencies.map((cur, i) => `${cur} ${formatIdr(i === 0 ? saldo : 0)}`).join(', '), '0', '0', formatIdr(limit), formatIdr(limit - saldo)])
+    const g = giro.get(c) ?? 0
+    const saldoText = saldo ? currencies.map((cur, i) => `${cur} ${formatIdr(i === 0 ? saldo : 0)}`).join(', ') : `${currencies[0]} 0`
+    rows.push([d.customers.get(c)!, saldoText, '0', formatIdr(g), formatIdr(limit), formatIdr(limit - saldo - g)])
   }
   return rows
 }

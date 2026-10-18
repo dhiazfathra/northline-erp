@@ -1,4 +1,4 @@
-import { fmtDate, typeLabel, type Journal } from './general-ledger'
+import { fmtDate, fmtHeaderDate, typeLabel, type Journal } from './general-ledger'
 import { formatIdr, trialBalance, type DailyBalance, type LedgerSettings, type TbAccount } from './trial-balance'
 
 // Kas & Bank reports over journals; rules in docs/reports/BankBookReport.md, CashFlowbyAccountReport.md, CashBankAccountListReport.md.
@@ -131,3 +131,19 @@ export function unreconciledBank(ds: CashDoc[], accounts: TbAccount[], banks: st
 
 /** Rekening Koran: imported bank statements are not modelled; prints the empty header (verified when no statement exists). */
 export const bankStatement = () => [['Kode', ':'], ['Nama', ':'], ['Tanggal', 'Keterangan', 'Mutasi', 'Tipe Mutasi', 'Saldo']]
+
+/**
+ * Giro Mundur (Belum Jatuh Tempo) (docs/reports/OutstandingChequeReport.md): cheque receipts whose cheque date is after
+ * the as-of date, per selected bank account (name order). The transaction date does not matter: a cheque received
+ * on 30 Nov shows as of 29 Nov too. Terima = received amount; Bayar (cheque payments) is not modelled.
+ */
+export interface Cheque { customer: string; bank: string; bankName: string; date: string; chequeDate: string; chequeNo: string; party: string; amount: number }
+export function outstandingCheques(cheques: Cheque[], banks: string[], asOf: string): string[][] {
+  const rows: string[][] = [['Giro Mundur (Belum Jatuh Tempo)'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Tgl Transaksi', 'Tanggal Cek', 'Tipe Transaksi', 'No. Cek', 'Pelanggan/Pemasok', 'Terima', 'Bayar']]
+  const open = cheques.filter(c => banks.includes(c.bank) && c.chequeDate > asOf).sort((a, b) => a.bankName.localeCompare(b.bankName) || a.chequeDate.localeCompare(b.chequeDate))
+  for (const bank of [...new Set(open.map(c => c.bankName))]) {
+    const cs = open.filter(c => c.bankName === bank)
+    rows.push([bank], ...cs.map(c => [fmtDate(c.date), fmtDate(c.chequeDate), 'Penerimaan Penjualan', c.chequeNo, c.party, formatIdr(c.amount)]), [formatIdr(cs.reduce((s, c) => s + c.amount, 0))])
+  }
+  return rows
+}

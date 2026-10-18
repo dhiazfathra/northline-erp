@@ -75,7 +75,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Transaksi Bank belum Terekonsiliasi | `UnreconciledBankReport` | report | FROMTO | selectedBank= | [verified](UnreconciledBankReport.md) |
 | Ringkasan Pembayaran per Bank | `PaymentByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](PaymentByBankSummaryReport.md) |
 | Ringkasan Penerimaan per Bank | `DepositByBankSummaryReport` | crosstab | FROMTO | selectedBank= | [verified](DepositByBankSummaryReport.md) |
-| Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | [spec](OutstandingChequeReport.md) |
+| Giro Mundur (Belum Jatuh Tempo) | `OutstandingChequeReport` | report | ASOF | selectedBank= | [verified](OutstandingChequeReport.md) |
 | Arus Kas per Akun | `CashFlowbyAccountReport` | report | FROMTO | selectedBank= | [verified](CashFlowbyAccountReport.md) |
 | Rincian Pembayaran per Bank | `PaymentByBankDetailReport` | report | FROMTO | selectedBank= | [verified](PaymentByBankDetailReport.md) |
 | Rincian Penerimaan per Bank | `DepositByBankDetailReport` | report | FROMTO | selectedBank= | [verified](DepositByBankDetailReport.md) |

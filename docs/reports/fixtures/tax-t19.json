@@ -171,6 +171,25 @@
      "amount": 1110000
     }
    ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "ref": "NL-T19-R2",
+   "number": "NL-T1-1101.2035.11.00003",
+   "customer": "NL-T19-C1",
+   "bank": "NL-T1-1101",
+   "date": "2035-11-30",
+   "description": "NL-T19-R2 giro",
+   "cheque": {
+    "no": "NL-T19-G1",
+    "date": "2035-12-15"
+   },
+   "payments": [
+    {
+     "invoice": "SI.2035.11.00004",
+     "amount": 444000
+    }
+   ]
   }
  ],
  "notes": [
@@ -179,7 +198,10 @@
   "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors.",
   "I1 got its No. Faktur Pajak by re-saving the invoice; its document code stays Digunggung (customer default). Customer NL-T19-C1 is PKP (NPWP, document code Faktur Pajak), so I3 is CoreTax - Faktur Pajak. SPT Masa lists only show invoices reported in a saved SPT.",
   "NL-T19-C1 got Limit Piutang 1.000.000 (customerLimitAmount) after the invoices; CustomerLimitReport has no date parameter.",
-  "R1 receives 1.200.000 for SI.2035.11.00002 (1.110.000): saved with ignoreWarning ('Ada kelebihan bayar'); the 90.000 excess is the customer's credit. An earlier receipt/return pair (NL-T1-1101.2035.11.00001, SRT.2035.11.00001) was saved and deleted: a return on a paid invoice does not create Sisa Kredit."
+  "R1 receives 1.200.000 for SI.2035.11.00002 (1.110.000): saved with ignoreWarning ('Ada kelebihan bayar'); the 90.000 excess is the customer's credit. An earlier receipt/return pair (NL-T1-1101.2035.11.00001, SRT.2035.11.00001) was saved and deleted: a return on a paid invoice does not create Sisa Kredit.",
+  "R2 pays SI.2035.11.00004 by Cek/Giro (paymentMethod BANK_CHEQUE) dated 30 Nov 2035, cheque due 15 Dec 2035. OutstandingChequeReport needs selectedBank = [{id}] (NL-T1 Kas id 650); an empty list returns nothing.",
+  "A Cek/Giro receipt posts no journal on its transaction date; Accurate journals it on the cheque date (15 Dec 2035: Dr Kas / Cr Piutang 444.000).",
+  "CustomerLimitReport re-captured after R2: saldo IDR 0, Giro Mundur 444.000 (cheque not yet due at print date 18 Oct 2026), Sisa 556.000. before_cheque keeps the earlier capture (saldo IDR 444.000, USD 0)."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -810,13 +832,41 @@
     ],
     [
      "NL-T19 Pelanggan PKP",
+     "IDR 0",
+     "0",
+     "444.000",
+     "1.000.000",
+     "556.000"
+    ]
+   ],
+   "before_cheque": [
+    [
+     "Limit Piutang Pelanggan"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang"
+    ],
+    [
+     "Nama",
+     "Saldo (Mata Uang)",
+     "Pesanan",
+     "Giro Mundur",
+     "Limit Piutang",
+     "Sisa Limit"
+    ],
+    [
+     "Umum"
+    ],
+    [
+     "NL-T19 Pelanggan PKP",
      "IDR 444.000, USD 0",
      "0",
      "0",
      "1.000.000",
      "556.000"
     ]
-   ]
+   ],
+   "today": "2026-10-18"
   },
   "CustomerExistingCreditListReport": [
    {
@@ -881,7 +931,232 @@
      ]
     ]
    }
-  ]
+  ],
+  "OutstandingChequeReport": [
+   {
+    "asOf": "2035-11-29",
+    "banks": [
+     "NL-T1-1101"
+    ],
+    "param": {
+     "asOfDate": "29/11/2035",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Giro Mundur (Belum Jatuh Tempo)"
+     ],
+     [
+      "Per Tgl. 29 Nov 2035"
+     ],
+     [
+      "Tgl Transaksi",
+      "Tanggal Cek",
+      "Tipe Transaksi",
+      "No. Cek",
+      "Pelanggan/Pemasok",
+      "Terima",
+      "Bayar"
+     ],
+     [
+      "NL-T1 Kas"
+     ],
+     [
+      "30 Nov 2035",
+      "15 Des 2035",
+      "Penerimaan Penjualan",
+      "NL-T19-G1",
+      "NL-T19 Pelanggan PKP",
+      "444.000"
+     ],
+     [
+      "444.000"
+     ]
+    ]
+   },
+   {
+    "asOf": "2035-11-30",
+    "banks": [
+     "NL-T1-1101"
+    ],
+    "param": {
+     "asOfDate": "30/11/2035",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Giro Mundur (Belum Jatuh Tempo)"
+     ],
+     [
+      "Per Tgl. 30 Nov 2035"
+     ],
+     [
+      "Tgl Transaksi",
+      "Tanggal Cek",
+      "Tipe Transaksi",
+      "No. Cek",
+      "Pelanggan/Pemasok",
+      "Terima",
+      "Bayar"
+     ],
+     [
+      "NL-T1 Kas"
+     ],
+     [
+      "30 Nov 2035",
+      "15 Des 2035",
+      "Penerimaan Penjualan",
+      "NL-T19-G1",
+      "NL-T19 Pelanggan PKP",
+      "444.000"
+     ],
+     [
+      "444.000"
+     ]
+    ]
+   },
+   {
+    "asOf": "2035-12-14",
+    "banks": [
+     "NL-T1-1101"
+    ],
+    "param": {
+     "asOfDate": "14/12/2035",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Giro Mundur (Belum Jatuh Tempo)"
+     ],
+     [
+      "Per Tgl. 14 Des 2035"
+     ],
+     [
+      "Tgl Transaksi",
+      "Tanggal Cek",
+      "Tipe Transaksi",
+      "No. Cek",
+      "Pelanggan/Pemasok",
+      "Terima",
+      "Bayar"
+     ],
+     [
+      "NL-T1 Kas"
+     ],
+     [
+      "30 Nov 2035",
+      "15 Des 2035",
+      "Penerimaan Penjualan",
+      "NL-T19-G1",
+      "NL-T19 Pelanggan PKP",
+      "444.000"
+     ],
+     [
+      "444.000"
+     ]
+    ]
+   },
+   {
+    "asOf": "2035-12-15",
+    "banks": [
+     "NL-T1-1101"
+    ],
+    "param": {
+     "asOfDate": "15/12/2035",
+     "selectedBank": [
+      {
+       "id": 650
+      }
+     ]
+    },
+    "rows": [
+     [
+      "Giro Mundur (Belum Jatuh Tempo)"
+     ],
+     [
+      "Per Tgl. 15 Des 2035"
+     ],
+     [
+      "Tgl Transaksi",
+      "Tanggal Cek",
+      "Tipe Transaksi",
+      "No. Cek",
+      "Pelanggan/Pemasok",
+      "Terima",
+      "Bayar"
+     ]
+    ]
+   }
+  ],
+  "AllJournalReportDec": {
+   "param": {
+    "startDate": "01/12/2035",
+    "endDate": "31/12/2035",
+    "selectedBranch": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Keseluruhan Jurnal"
+    ],
+    [
+     "Dari 01 Des 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Des 2035",
+     "No. Trans #",
+     ":",
+     "NL-T1-1101.2035.11.00003"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Penerimaan Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T19-R2 giro"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "444.000",
+     "0"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "0",
+     "444.000"
+    ],
+    [
+     "444.000",
+     "444.000"
+    ]
+   ]
+  }
  },
  "vendors": [
   {

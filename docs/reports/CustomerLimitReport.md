@@ -14,7 +14,7 @@ Limit Piutang Pelanggan
 Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang
 Nama | Saldo (Mata Uang) | Pesanan | Giro Mundur | Limit Piutang | Sisa Limit
 Umum                                         <- customer category
-NL-T19 Pelanggan PKP | IDR 444.000, USD 0 | 0 | 0 | 1.000.000 | 556.000
+NL-T19 Pelanggan PKP | IDR 0 | 0 | 444.000 | 1.000.000 | 556.000   <- after a 444.000 giro; before it: IDR 444.000, USD 0 | 0 | 0
 ```
 
 ## Calculation rules
@@ -22,4 +22,6 @@ NL-T19 Pelanggan PKP | IDR 444.000, USD 0 | 0 | 0 | 1.000.000 | 556.000
 - Only customers with an amount limit (customer form: `customerLimitAmount` + `customerLimitAmountValue`). With no
   limits set the report is empty (default capture).
 - Saldo = the customer's receivable (invoices incl. PPN − receipts − returns), listed for every currency in the sandbox.
-- Sisa Limit = Limit − Saldo (− Pesanan − Giro Mundur, both 0 here; `shortcut:` in the code).
+- Giro Mundur = the customer's cheque receipts not yet due (they already reduce Saldo).
+- Sisa Limit = Limit − Saldo − Pesanan − Giro Mundur (Pesanan not modelled; 0).
+- A zero Saldo prints only "IDR 0"; a non-zero one lists every currency (inferred from two captures).

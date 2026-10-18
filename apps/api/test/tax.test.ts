@@ -24,7 +24,7 @@ beforeAll(async () => {
     if (d.kind === 'SalesInvoice')
       await createSalesInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, date: d.date, description: d.description,
         taxable: d.taxable, taxNumber: d.taxNumber, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
-    else if (d.kind === 'SalesReceipt') await createSalesReceipt(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, bank: d.bank, date: d.date, description: d.description, amount: d.amount, payments: d.payments })
+    else if (d.kind === 'SalesReceipt') await createSalesReceipt(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, bank: d.bank, date: d.date, description: d.description, amount: d.amount, cheque: d.cheque, payments: d.payments })
     else await createPurchaseInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, description: d.description, taxable: d.taxable, lines: d.lines })
   for (const s of t19.sptMasa) await reportSptMasa(f.db, s.from, s.to)
   await catchUp(f.db, ledgerProjection)
@@ -62,10 +62,21 @@ test('sales item views Nov 2035: Penjualan is the DPP (after line and invoice di
 
 test('CustomerLimitReport: customers with a limit, saldo per currency, sisa = limit - saldo', async () => {
   const R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries')
-  expect(R.customerLimit(await Q.loadSales(f.db), await Q.loadCreditLimits(f.db), t19.reports.CustomerLimitReport.currencies)).toEqual(t19.reports.CustomerLimitReport.rows)
+  const fx = t19.reports.CustomerLimitReport, giro = new Map<string, number>()
+  for (const c of await Q.loadCheques(f.db)) if (c.chequeDate > fx.today) giro.set(c.customer, (giro.get(c.customer) ?? 0) + c.amount)
+  expect(R.customerLimit(await Q.loadSales(f.db), await Q.loadCreditLimits(f.db), fx.currencies, giro)).toEqual(fx.rows)
 })
 
 test('CustomerExistingCreditListReport: an overpaying receipt leaves the excess as customer credit', async () => {
   const R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries'), d = await Q.loadSales(f.db)
   for (const c of t19.reports.CustomerExistingCreditListReport) expect(R.customerCredit(d, c.asOf)).toEqual(c.rows)
+})
+
+test('OutstandingChequeReport: cheques listed until their cheque date', async () => {
+  const C = await import('../src/reports/cash-bank'), Q = await import('../src/reports/queries'), cs = await Q.loadCheques(f.db)
+  for (const c of t19.reports.OutstandingChequeReport) expect(C.outstandingCheques(cs, c.banks, c.asOf)).toEqual(c.rows)
+})
+
+test('AllJournalReport Dec 2035: a cheque receipt is journaled on its cheque date', async () => {
+  expect(await queryGeneralLedger(f.db, 'all-journals', { from: '2035-12-01', to: '2035-12-31', showZeroBalance: false, showParentAccount: true })).toEqual(R.AllJournalReportDec.rows.slice(2))
 })

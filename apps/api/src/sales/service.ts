@@ -155,13 +155,14 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     const number = rc.number ?? await nextNumber(tx, `${rc.bank}.${period(rc.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
-      type: 'PostJournal', idempotencyKey: `${rc.idempotencyKey}:journal`, journalId, number, sourceType: 'SR', date: rc.date, description: rc.description,
+      type: 'PostJournal', idempotencyKey: `${rc.idempotencyKey}:journal`, journalId, number, sourceType: 'SR', date: rc.cheque?.date ?? rc.date, description: rc.description, // a cheque is journaled on its cheque date (giro mundur until then)
       lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) }, ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
         // the excess is credited to the receivable on its own line (Accurate does not merge it with the invoice payments)
         ...(amount > paid ? [{ account: arAcc!.ar_account as string, side: 'CREDIT' as const, amount: ((amount - paid) / 100).toFixed(2) }] : [])],
     })
     await tx.execute(sql`INSERT INTO sales_receipts (number, customer_no, bank_no, date, description, amount, journal_id)
       VALUES (${number}, ${rc.customer}, ${rc.bank}, ${rc.date}, ${rc.description}, ${amount}, ${journalId})`)
+    if (rc.cheque) await tx.execute(sql`UPDATE sales_receipts SET payment_method = 'BANK_CHEQUE', cheque_no = ${rc.cheque.no}, cheque_date = ${rc.cheque.date} WHERE number = ${number}`)
     for (const p of rc.payments)
       await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount) VALUES (${number}, ${p.invoice}, ${p.amount})`)
     const result = { number }

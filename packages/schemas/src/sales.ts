@@ -45,6 +45,8 @@ export const salesReceiptInput = z.object({
   payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
   /** Amount received; above the sum of payments the excess is a customer credit (kelebihan bayar). Omitted = sum of payments. */
   amount: amountToCents.optional(),
+  /** Cek/Giro: the cheque number and its due date (giro mundur until then). */
+  cheque: z.object({ no: z.string().min(1), date: isoDate }).optional(),
 })
 export type SalesReceiptInput = z.input<typeof salesReceiptInput>
 
