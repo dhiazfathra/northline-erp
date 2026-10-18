@@ -215,7 +215,7 @@ export function OverviewScreen() {
             </svg>
           </button>
         </div>
-        <div className={cn('mt-[22px] grid', isDesktop ? 'grid-cols-3 gap-[28px]' : isMobile ? 'grid-cols-1 gap-[24px]' : 'grid-cols-2 gap-[24px]')}>
+        <div className={cn('mt-[22px] grid', isDesktop ? 'grid-cols-[3fr_3fr_2fr] gap-[28px]' : isMobile ? 'grid-cols-1 gap-[26px]' : 'grid-cols-1 gap-[28px]')}>
           {data
             ? data.groups.map((g) => (
                 <div key={g.title.en} className="min-w-0">
@@ -234,7 +234,10 @@ export function OverviewScreen() {
                       </button>
                     )}
                   </div>
-                  <div className={cn('no-scrollbar mt-[10px] grid gap-[8px]', isMobile ? 'grid-cols-[repeat(3,minmax(140px,1fr))] overflow-x-auto' : 'grid-cols-3')}>
+                  <div
+                    className={cn('no-scrollbar mt-[10px] grid gap-[8px]', isMobile && 'overflow-x-auto')}
+                    style={{ gridTemplateColumns: `repeat(${g.tiles.length},${isMobile ? 'minmax(132px,1fr)' : 'minmax(0,1fr)'})` }}
+                  >
                     {g.tiles.map((tl) =>
                       tl.off && tl.feature && !enabled.has(tl.feature) ? (
                         <div

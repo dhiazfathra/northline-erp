@@ -1,7 +1,7 @@
-import { accounts, customers, idr, items, journals, profitAndLoss, taxes, vendors } from '@northline/schemas/fixtures'
+import { customers, idr, items, journals, profitAndLoss, taxes, vendors } from '@northline/schemas/fixtures'
 import type { DrawerRecord, ListRow, NewTxInput, Overview } from '@northline/schemas/overview'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { kindLabel, modules } from '@/lib/nav'
+import { modules } from '@/lib/nav'
 import { mock } from './mock'
 
 // Dashboard scope per design board: scenarios S0+S1+S3.
@@ -25,18 +25,6 @@ const rec = (kind: [string, string], title: string, value: string, note: [string
   lines: lines.map(([id, en, b]) => ({ a: { id, en }, b })),
   cta: { id: cta[0], en: cta[1] },
 })
-
-const masterCount: Record<string, number> = {
-  '/modules/customers': customers.length,
-  '/modules/vendors': vendors.length,
-  '/modules/items': items.length,
-  '/modules/taxes': taxes.length,
-  '/accounts': accounts.length,
-  '/docs/journal': journals.length,
-  '/fixed-assets': 1,
-}
-// Tile value = fixture documents for that menu (distinct source numbers), master-data record count, or "—".
-const docCount = (label: string) => new Set(journals.filter((j) => j.source === label).map((j) => j.no)).size
 
 const si2 = journals.find((j) => j.no === 'SI.2026.10.00002')!
 
@@ -77,18 +65,30 @@ const overview: Overview = {
     { name: { id: 'Modul', en: 'Modules' }, count: modules.length },
     { name: { id: 'Perlu ditinjau', en: 'Needs review' }, count: 2 },
   ],
-  groups: modules.map((m, mi) => {
-    const kinds = [...new Set(m.subs.map((s) => s.kind))].map((k) => kindLabel[k])
-    return {
-      title: m.name,
-      sub: { id: kinds.map((k) => k.id).join(', '), en: kinds.map((k) => k.en).join(', ') },
-      to: m.subs.find((s) => s.to)?.to,
-      tiles: m.subs.map((s, si) => {
-        const n = s.to ? (masterCount[s.to] ?? docCount(s.label.id)) : 0
-        return { label: s.label, v: n ? String(n) : '0', d: n ? NO_DELTA : '', bars: bars(mi * 7 + si), to: s.to, feature: s.feature, off: s.offNote }
-      }),
-    }
-  }),
+  // Reference overview groups (Selling / Buying / Payments) with its tile values.
+  groups: (
+    [
+      [['Penjualan', 'Selling'], ['Aktivitas penjualan terbuka pada periode ini', 'Open sales activity for the period'], '/modules/customers', [
+        [['Penawaran', 'Quotes'], '2', '+2', '/docs/sales-quotation'],
+        [['Pesanan', 'Orders'], '4', '-1', '/docs/sales-order'],
+        [['Faktur', 'Invoices'], '7', '+3', '/docs/sales-invoice'],
+      ]],
+      [['Pembelian', 'Buying'], ['Aktivitas pembelian terbuka dan pembayaran mendatang', 'Open purchase activity and upcoming payments'], '/modules/vendors', [
+        [['Pesanan pembelian', 'Purchase orders'], '5', '+2', '/docs/purchase-order'],
+        [['Tagihan belum dibayar', 'Unpaid bills'], '0', '0', '/docs/purchase-invoice'],
+        [['Jatuh tempo minggu depan', 'Due next week'], '5', '-1', '/docs/purchase-payment'],
+      ]],
+      [['Pembayaran', 'Payments'], ['Kas masuk dan keluar', 'Incoming and outgoing cash'], '/reports', [
+        [['Diterima', 'Received'], '5', '+2', '/docs/cash-receipt'],
+        [['Terjadwal', 'Scheduled'], '6', '+1', '/docs/cash-payment'],
+      ]],
+    ] as const
+  ).map(([title, sub, to, tiles], gi) => ({
+    title: { id: title[0], en: title[1] },
+    sub: { id: sub[0], en: sub[1] },
+    to,
+    tiles: tiles.map(([l, v, d, tt], ti) => ({ label: { id: l[0], en: l[1] }, v, d, bars: bars(gi * 7 + ti), to: tt })),
+  })),
 }
 
 // shortcut: per-partner balances need a customer/vendor on each journal; fixtures don't carry one, so balances show "—".

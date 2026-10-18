@@ -78,6 +78,8 @@ export function useRunMonthEnd() {
 
 let features: Feature[] = [
   { id: 'fx', group: 'Penjualan & Pembelian', name: 'Multi Mata Uang', on: true, oneWay: true },
+  { id: 'sqo', group: 'Penjualan & Pembelian', name: 'Penawaran dan Pesanan Penjualan', on: false },
+  { id: 'sret', group: 'Penjualan & Pembelian', name: 'Retur Penjualan', on: false },
   { id: 'dp', group: 'Penjualan & Pembelian', name: 'Uang Muka', on: true, hasData: true },
   { id: 'budget', group: 'Akuntansi', name: 'Anggaran', on: false },
   { id: 'fa', group: 'Akuntansi', name: 'Aset Tetap', on: true, hasData: true },
