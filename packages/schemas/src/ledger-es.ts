@@ -1,0 +1,101 @@
+import { z } from 'zod'
+
+// Contracts for the event-sourced ledger (ADR-0001). Amounts travel as integer cents (minor units) so
+// debit = credit is exact; the API accepts decimal strings/numbers and converts at the boundary.
+
+export const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Tanggal harus YYYY-MM-DD')
+export const periodId = z.string().regex(/^\d{4}-\d{2}$/, 'Periode harus YYYY-MM')
+export const side = z.enum(['DEBIT', 'CREDIT'])
+export const cents = z.number().int().positive()
+
+/** Decimal amount (max 2 places) → integer cents. */
+export const amountToCents = z
+  .union([z.number(), z.string()])
+  .transform(v => String(v).trim())
+  .refine(v => /^\d+(\.\d{1,2})?$/.test(v), 'Nilai maksimal 2 desimal')
+  .transform(v => {
+    const [i, f = ''] = v.split('.')
+    return Number(i) * 100 + Number(f.padEnd(2, '0'))
+  })
+  .pipe(cents)
+
+export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional() })
+export type JournalLine = z.infer<typeof journalLine>
+
+// ---- commands ----
+const commandBase = { idempotencyKey: z.string().min(8) }
+
+export const postJournalCommand = z.object({
+  ...commandBase,
+  type: z.literal('PostJournal'),
+  journalId: z.string().uuid(),
+  number: z.string().optional(),
+  date: isoDate,
+  description: z.string().default(''),
+  lines: z.array(journalLine.extend({ amount: amountToCents })).min(2),
+})
+export const reverseJournalCommand = z.object({
+  ...commandBase,
+  type: z.literal('ReverseJournal'),
+  journalId: z.string().uuid(),
+  reversalJournalId: z.string().uuid(),
+  date: isoDate,
+  reason: z.string().default(''),
+})
+export const closePeriodCommand = z.object({ ...commandBase, type: z.literal('ClosePeriod'), period: periodId })
+export const reopenPeriodCommand = z.object({ ...commandBase, type: z.literal('ReopenPeriod'), period: periodId })
+
+export const ledgerCommand = z.discriminatedUnion('type', [
+  postJournalCommand,
+  reverseJournalCommand,
+  closePeriodCommand,
+  reopenPeriodCommand,
+])
+export type LedgerCommand = z.output<typeof ledgerCommand>
+export type LedgerCommandInput = z.input<typeof ledgerCommand>
+
+// ---- events (payloads; envelope lives in the store) ----
+export const journalPosted = z.object({
+  journalId: z.string(),
+  number: z.string().optional(),
+  date: isoDate,
+  description: z.string(),
+  lines: z.array(journalLine).min(2),
+  /** Set when this journal is the reversal of another. */
+  reverses: z.string().optional(),
+})
+export const journalReversed = z.object({ journalId: z.string(), reversalJournalId: z.string(), date: isoDate, reason: z.string() })
+export const periodClosed = z.object({ period: periodId })
+export const periodReopened = z.object({ period: periodId })
+
+export const ledgerEvent = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('JournalPosted'), data: journalPosted }),
+  z.object({ type: z.literal('JournalReversed'), data: journalReversed }),
+  z.object({ type: z.literal('PeriodClosed'), data: periodClosed }),
+  z.object({ type: z.literal('PeriodReopened'), data: periodReopened }),
+])
+export type LedgerEvent = z.infer<typeof ledgerEvent>
+
+// ---- DTOs ----
+export const trialBalanceQuery = z.object({
+  from: isoDate,
+  to: isoDate,
+  showZeroBalance: z.union([z.boolean(), z.stringbool()]).default(false),
+  showParentAccount: z.union([z.boolean(), z.stringbool()]).default(true),
+})
+export type TrialBalanceQuery = z.infer<typeof trialBalanceQuery>
+
+/** One trial-balance row; amounts in cents, net columns already split to one side. */
+export const trialBalanceRow = z.object({
+  no: z.string(),
+  name: z.string(),
+  depth: z.number().int(),
+  isParent: z.boolean(),
+  openingDebit: z.number().int(),
+  openingCredit: z.number().int(),
+  debit: z.number().int(),
+  credit: z.number().int(),
+  closingDebit: z.number().int(),
+  closingCredit: z.number().int(),
+})
+export type TrialBalanceRow = z.infer<typeof trialBalanceRow>

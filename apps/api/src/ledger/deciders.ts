@@ -1,0 +1,59 @@
+import type { JournalLine, LedgerEvent } from '@northline/schemas/ledger-es'
+import type { Decider } from '../es/store'
+
+export class DomainError extends Error {}
+
+type PostCmd = { type: 'Post'; journalId: string; number?: string; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
+type ReverseCmd = { type: 'Reverse'; reversalJournalId: string; date: string; reason: string }
+
+export type JournalState =
+  | { status: 'none' }
+  | { status: 'posted' | 'reversed'; journalId: string; date: string; lines: JournalLine[] }
+
+export const journalDecider: Decider<JournalState, PostCmd | ReverseCmd, LedgerEvent> = {
+  initial: { status: 'none' },
+  evolve(s, e) {
+    if (e.type === 'JournalPosted') return { status: 'posted', journalId: e.data.journalId, date: e.data.date, lines: e.data.lines }
+    if (e.type === 'JournalReversed' && s.status !== 'none') return { ...s, status: 'reversed' }
+    return s
+  },
+  decide(s, c) {
+    if (c.type === 'Post') {
+      if (s.status !== 'none') throw new DomainError(`Jurnal ${c.journalId} sudah diposting`)
+      if (c.periodClosed) throw new DomainError(`Periode ${c.date.slice(0, 7)} sudah ditutup`)
+      const debit = c.lines.filter(l => l.side === 'DEBIT').reduce((a, l) => a + l.amount, 0)
+      const credit = c.lines.filter(l => l.side === 'CREDIT').reduce((a, l) => a + l.amount, 0)
+      if (debit !== credit) throw new DomainError(`Debit (${debit}) dan kredit (${credit}) tidak seimbang`)
+      if (debit === 0) throw new DomainError('Jurnal tanpa nilai')
+      return [{ type: 'JournalPosted', data: { journalId: c.journalId, number: c.number, date: c.date, description: c.description, lines: c.lines, reverses: c.reverses } }]
+    }
+    if (s.status === 'none') throw new DomainError('Jurnal tidak ditemukan')
+    if (s.status === 'reversed') throw new DomainError(`Jurnal ${s.journalId} sudah dibalik`)
+    return [{ type: 'JournalReversed', data: { journalId: s.journalId, reversalJournalId: c.reversalJournalId, date: c.date, reason: c.reason } }]
+  },
+}
+
+export type PeriodState = { closed: boolean }
+export const periodDecider: Decider<PeriodState, { type: 'Close' | 'Reopen'; period: string }, LedgerEvent> = {
+  initial: { closed: false },
+  evolve(s, e) {
+    if (e.type === 'PeriodClosed') return { closed: true }
+    if (e.type === 'PeriodReopened') return { closed: false }
+    return s
+  },
+  decide(s, c) {
+    if (c.type === 'Close') {
+      if (s.closed) throw new DomainError(`Periode ${c.period} sudah ditutup`)
+      return [{ type: 'PeriodClosed', data: { period: c.period } }]
+    }
+    if (!s.closed) throw new DomainError(`Periode ${c.period} belum ditutup`)
+    return [{ type: 'PeriodReopened', data: { period: c.period } }]
+  },
+}
+
+/** Lines that undo `lines`: same accounts and amounts, sides swapped. */
+export const reverseLines = (lines: JournalLine[]): JournalLine[] =>
+  lines.map(l => ({ ...l, side: l.side === 'DEBIT' ? 'CREDIT' : 'DEBIT' }))
+
+export const journalStream = (id: string) => `journal-${id}`
+export const periodStream = (period: string) => `period-${period}`
