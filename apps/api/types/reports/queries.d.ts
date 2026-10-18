@@ -32,3 +32,5 @@ export declare function loadSales(db: Db): Promise<import('./receivables').Sales
 /** Purchases in the shape the shared receivable/payable report functions use (parties = vendors, AP labels). */
 export declare function loadPurchases(db: Db): Promise<import('./receivables').SalesData>;
 export declare function loadInventory(db: Db): Promise<import('./inventory').InventoryData>;
+/** FIFO cost of goods per sales invoice (cents), from stock_moves. */
+export declare function cogsByInvoice(db: Db): Promise<(invoice: string) => number>;

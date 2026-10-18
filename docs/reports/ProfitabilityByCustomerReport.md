@@ -1,24 +1,9 @@
 # Profitabilitas per Pelanggan (`ProfitabilityByCustomerReport`)
 
-Group: Penjualan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ProfitabilityByCustomerReport.json`](captures/ProfitabilityByCustomerReport.json), run with default parameters over the sandbox demo data.
+Group: Penjualan. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture:
+[`fixtures/inventory-t4.json`](fixtures/inventory-t4.json). ERP: `profitabilityByCustomer` in `apps/api/src/reports/receivables.ts`
+with FIFO cost per invoice from `stock_moves`; test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `crosstab`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Pelanggan | Penjualan | BPP | Biaya Tambahan | Biaya Penerimaan | Laba setelah Biaya`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Pelanggan` | `Penjualan` | `BPP` | `Biaya Tambahan` | `Biaya Penerimaan` | `Laba setelah Biaya`. One row per customer with
+invoices in range (by name): invoice totals, FIFO cost of goods of those invoices (0 for services), margin; `Total Pelanggan`.
+Fixture: A 160.000 − 80.000, B 147.000 − 85.000.

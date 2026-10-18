@@ -66,3 +66,12 @@ test('InventoryAgingByWarehouseReport (header + NL-T4 row)', async () => {
   const e = rep('InventoryAgingByWarehouseReport').filter(r => !/^Cabang :/.test(r[0]!))
   expect(I.inventoryAgingByWarehouse(await loadInventory(f.db), '2033-11-30').slice(0, 2)).toEqual([e[0]!, e.find(NL)!])
 })
+
+test('Profitabilitas per Faktur / per Pelanggan with FIFO cost; Penjualan per Barang (Oct–Nov 2033)', async () => {
+  const { loadSales, cogsByInvoice } = await import('../src/reports/queries')
+  const R = await import('../src/reports/receivables')
+  const d = await loadSales(f.db), cogs = await cogsByInvoice(f.db)
+  expect(R.profitabilityByInvoice(d, W.from, W.to, cogs)).toEqual(rep('ProfitabilityBySalesInvoiceReport'))
+  expect(R.profitabilityByCustomer(d, W.from, W.to, cogs)).toEqual(rep('ProfitabilityByCustomerReport'))
+  expect(R.salesByItem(d, W.from, W.to)).toEqual(rep('ViewSalesByItemReport'))
+})

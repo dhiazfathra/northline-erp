@@ -341,3 +341,14 @@ export function profitabilityByInvoice(d: SalesData, from: string, to: string, c
     ...d.invoices.filter(i => inRange(i, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
       .map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, formatIdr(i.total), formatIdr(cogs(i.number)), '0', '0', formatIdr(i.total - cogs(i.number))])]
 }
+
+/** Profitabilitas per Pelanggan: per customer with invoices in range: sales, cost of goods, margin; total. */
+export function profitabilityByCustomer(d: SalesData, from: string, to: string, cogs: (invoice: string) => number = () => 0): string[][] {
+  const rows = activeCustomers(d, from, to).map(c => {
+    const inv = d.invoices.filter(i => i.customer === c && inRange(i, from, to))
+    return { c, s: inv.reduce((t, i) => t + i.total, 0), k: inv.reduce((t, i) => t + cogs(i.number), 0) }
+  }).filter(r => r.s)
+  const line = (n: string, s: number, k: number) => [n, formatIdr(s), formatIdr(k), '0', '0', formatIdr(s - k)]
+  const t = rows.reduce((a, r) => ({ s: a.s + r.s, k: a.k + r.k }), { s: 0, k: 0 })
+  return [['Pelanggan', 'Penjualan', 'BPP', 'Biaya Tambahan', 'Biaya Penerimaan', 'Laba setelah Biaya'], ...rows.map(r => line(d.customers.get(r.c)!, r.s, r.k)), line('Total Pelanggan', t.s, t.k)]
+}

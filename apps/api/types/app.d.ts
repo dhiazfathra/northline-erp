@@ -274,7 +274,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
         };
     };
 }) & {
-    "/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice}": {
+    "/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice|profitability-by-customer}": {
         $get: {
             output: string[][];
             outputFormat: "json";

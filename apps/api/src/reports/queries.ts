@@ -155,3 +155,9 @@ export async function loadInventory(db: Db): Promise<import('./inventory').Inven
     .map(r => ({ item: r.item_no as string, date: r.date as string, docType: r.doc_type as string, docNumber: r.doc_number as string, party: r.party as string, quantity: Number(r.quantity), value: Number(r.value) }))
   return { items, moves }
 }
+
+/** FIFO cost of goods per sales invoice (cents), from stock_moves. */
+export async function cogsByInvoice(db: Db): Promise<(invoice: string) => number> {
+  const m = new Map((await db.execute(sql`SELECT doc_number, -SUM(value) AS cost FROM stock_moves WHERE doc_type = 'SI' GROUP BY doc_number`)).map(r => [r.doc_number as string, Number(r.cost)]))
+  return n => m.get(n) ?? 0
+}

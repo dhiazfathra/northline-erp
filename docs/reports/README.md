@@ -151,7 +151,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Monitoring HPP | `CogsMonitoringReport` | report | NONE | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](CogsMonitoringReport.md) |
 | Profitabilitas per Faktur | `ProfitabilityBySalesInvoiceReport` | report | FROMTO | selectedBranch= | [verified](ProfitabilityBySalesInvoiceReport.md) |
 | Profitabilitas per Barang | `ProfitabilityByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByItemReport.md) |
-| Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | [spec](ProfitabilityByCustomerReport.md) |
+| Profitabilitas per Pelanggan | `ProfitabilityByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ProfitabilityByCustomerReport.md) |
 | Perubahan Harga Jual Per Barang | `SellingPriceAdjustmentHistoryReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentHistoryReport.md) |
 | Penyesuaian Harga Jual | `SellingPriceAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailReport.md) |
 | Penyesuaian Harga Jual per Kategori | `SellingPriceAdjustmentDetailPerCategoryReport` | crosstab | FROMTO | selectedBranch= | [spec](SellingPriceAdjustmentDetailPerCategoryReport.md) |

@@ -14,7 +14,7 @@ import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
 import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { cogsByInvoice, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -84,7 +84,7 @@ export function createApp(db: Db) {
         'by-item': P.purchaseByItem, 'by-item-detail': P.purchaseByItemDetail, 'by-vendor-detail': P.purchaseByVendorDetail, 'payment-detail': P.purchasePaymentDetail, 'invoice-detail': P.purchaseInvoiceDetail }[r]!
       return c.json(fn(d, from, to))
     })
-    .get('/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice}', async c => {
+    .get('/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice|profitability-by-customer}', async c => {
       const r = c.req.param('report'), q = c.req.query()
       if (r === 'customer-list' || r === 'vendor-list') {
         const asOf = balanceSheetQuery.parse(q).asOf
@@ -98,7 +98,10 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(q)
       if (r === 'purchase-flow') return c.json(R.flowHistory(await loadPurchases(db), from, to, false))
       const d = await loadSales(db)
-      return c.json(r === 'sales-flow' ? R.flowHistory(d, from, to, true) : r === 'selling-frequency' ? R.sellingItemFrequency(d, from, to) : R.profitabilityByInvoice(d, from, to))
+      if (r === 'sales-flow') return c.json(R.flowHistory(d, from, to, true))
+      if (r === 'selling-frequency') return c.json(R.sellingItemFrequency(d, from, to))
+      const cogs = await cogsByInvoice(db)
+      return c.json(r === 'profitability-by-customer' ? R.profitabilityByCustomer(d, from, to, cogs) : R.profitabilityByInvoice(d, from, to, cogs))
     })
     .get('/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item}', async c => {
       const d = await loadInventory(db), q = c.req.query(), r = c.req.param('report')

@@ -115,3 +115,5 @@ export declare function flowHistory(d: SalesData, from: string, to: string, sale
 export declare function sellingItemFrequency(d: SalesData, from: string, to: string): string[][];
 /** Profitabilitas per Faktur: sales − cost of goods (0 for services) − extra costs. */
 export declare function profitabilityByInvoice(d: SalesData, from: string, to: string, cogs?: (invoice: string) => number): string[][];
+/** Profitabilitas per Pelanggan: per customer with invoices in range: sales, cost of goods, margin; total. */
+export declare function profitabilityByCustomer(d: SalesData, from: string, to: string, cogs?: (invoice: string) => number): string[][];
