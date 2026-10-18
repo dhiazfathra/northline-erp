@@ -212,7 +212,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Penggunaan Uang Muka Pembelian](PurchaseInvoiceDownPaymentDetailReport.md) | `PurchaseInvoiceDownPaymentDetailReport` | Pembelian | Y | Y | done | Purchasing |  |
 | [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | done (out of scope) | Purchasing |  |
 | [Perubahan Harga Beli Per Barang](VendorPriceHistoryReport.md) | `VendorPriceHistoryReport` | Pembelian | Y | Y | done | Purchasing |  |
-| [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | partial | Purchasing | existing module; spec + verify |
+| [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | done | Purchasing | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | done | Inventory |  |
 | [Rincian Nilai Persediaan (CSV)](InventoryValuationDetailDownloadReport.md) | `InventoryValuationDetailDownloadReport` | Persediaan | Y | Y | done | Inventory |  |
 | [Ketersediaan Stok Penjualan](InventoryAnalysisReport.md) | `InventoryAnalysisReport` | Persediaan | Y | Y | done | Inventory |  |
@@ -235,17 +235,17 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Mutasi per Barang](ItemMutationByWarehouseReport.md) | `ItemMutationByWarehouseReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Mutasi per Gudang](WarehouseMutationByItemReport.md) | `WarehouseMutationByItemReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Ringkasan Mutasi Gudang](WarehouseMutationSummaryReport.md) | `WarehouseMutationSummaryReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| [Stok Nomor Seri/Produksi](SerialNumberStockReport.md) | `SerialNumberStockReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
-| [Stok Nomor Seri/Produksi per Gudang](SerialNumberStockPerWarehouseReport.md) | `SerialNumberStockPerWarehouseReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
-| [Stok Nomor Seri/Produksi per Barang](SerialNumberStockPerItemReport.md) | `SerialNumberStockPerItemReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
+| [Stok Nomor Seri/Produksi](SerialNumberStockReport.md) | `SerialNumberStockReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
+| [Stok Nomor Seri/Produksi per Gudang](SerialNumberStockPerWarehouseReport.md) | `SerialNumberStockPerWarehouseReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
+| [Stok Nomor Seri/Produksi per Barang](SerialNumberStockPerItemReport.md) | `SerialNumberStockPerItemReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Lembar Penghitungan Stok](PhysicalInventoryCountSheetReport.md) | `PhysicalInventoryCountSheetReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| [Rincian Pemindahan Barang](ItemTransferDetailReport.md) | `ItemTransferDetailReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
-| [Barang Diterima Sebagian](UncompletedItemTransferReport.md) | `UncompletedItemTransferReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
-| [Daftar Gudang](WarehouseListReport.md) | `WarehouseListReport` | Gudang | Y | Y | spec (Retail Demo) | Inventory (Warehouse) | existing module; spec + verify |
+| [Rincian Pemindahan Barang](ItemTransferDetailReport.md) | `ItemTransferDetailReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
+| [Barang Diterima Sebagian](UncompletedItemTransferReport.md) | `UncompletedItemTransferReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
+| [Daftar Gudang](WarehouseListReport.md) | `WarehouseListReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Mutasi Nomor Seri/Produksi](ReceivedDeliveredSerialNumberReport.md) | `ReceivedDeliveredSerialNumberReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| [Histori Nomor Seri/Produksi](SerialNumberMutationReport.md) | `SerialNumberMutationReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | existing module; spec + verify |
+| [Histori Nomor Seri/Produksi](SerialNumberMutationReport.md) | `SerialNumberMutationReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Sisa Umur Per Nomor Produksi](RemainingAgeSerialNumberDetailReport.md) | `RemainingAgeSerialNumberDetailReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
-| [Nomor Produksi Segera Kadaluarsa](SerialNumberExpiredSoonReport.md) | `SerialNumberExpiredSoonReport` | Gudang | Y | Y | partial | Inventory (Warehouse) | blocked: requires Serial expiry date |
+| [Nomor Produksi Segera Kadaluarsa](SerialNumberExpiredSoonReport.md) | `SerialNumberExpiredSoonReport` | Gudang | Y | Y | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Ringkasan Pemindahan Barang](ItemTransferListReport.md) | `ItemTransferListReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Pergerakan Stok per Barang](StockMovementByWarehouseReport.md) | `StockMovementByWarehouseReport` | Gudang | Y | Y | done | Inventory (Warehouse) |  |
 | [Bahan dan Biaya Pekerjaan per Bulan](JobCostingByMonthReport.md) | `JobCostingByMonthReport` | Pekerjaan Pesanan | N | Y | spec (Retail Demo) | Job Costing (out of scope, ADR-0010) | blocked: requires Job Costing (out of scope, ADR-0010) |
@@ -280,7 +280,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Selisih Saldo Akun Persediaan dengan Nilai Barang](ItemValueToAccountBalanceDifferenceReport.md) | `ItemValueToAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
-| [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | partial | Activity log | existing module; spec + verify |
+| [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | done | Activity log | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | partial | Activity log | blocked: requires Approval workflow |
 | [Selisih Akun Pembelian belum tertagih](UnbilledAccountBalanceDifferenceReport.md) | `UnbilledAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Daftar Mata Uang](CurrencyListReport.md) | `CurrencyListReport` | Lain-lain | Y | Y | done | Master data |  |

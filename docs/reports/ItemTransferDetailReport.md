@@ -2,7 +2,7 @@
 
 Group: Gudang. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/ItemTransferDetailReport.json`](captures/retail/ItemTransferDetailReport.json).
 
-Status: existing module; spec + verify. Fixture: [`fixtures/retail/ItemTransferDetailReport.json`](fixtures/retail/ItemTransferDetailReport.json) (Retail Demo).
+Status: **verified** (zero diff on the Retail Demo 2045 seed). Fixture: [`fixtures/retail/inventory-re.json`](fixtures/retail/inventory-re.json). ERP: `transferDetail` in `apps/api/src/reports/inventory.ts`; test: `apps/api/test/inventory-re.test.ts`.
 
 ## Purpose
 
@@ -39,6 +39,14 @@ Title lines: `Rincian Pemindahan Barang`, `Dari 01 Jan 2000 s/d 31 Des 2040`, `N
 
 - Verified: 22 blocks, per-pair quantities, partial receipt.
 - Unverified: multi-line blocks with more than 3 lines in other data, price/cost columns (none printed).
+
+## ERP verification (2045 seed, ADR-0024)
+
+Seed (Retail Demo, all 2045, prefix NL-RE): warehouses NL-RE Gudang A/B; items NL-RE-SN1 (unique serials) and NL-RE-BT1 (batch with expiry); PI.2045.01.00001 into Gudang A (S001-S003; B01 x6 exp 15 Mar 2045, B02 x4 exp 30 Jun 2045); IT.2045.02.00001 Kirim A->B (S001, S002, B01 x5) received by IT.2045.02.00002 with only S001 + B01 x5 (shortfall: S002 stays in transit); IT.2045.03.00001/00002 B->A B01 x2, fully received; Harga Pemasok VPA.2045.01.00001 and VPA.2045.04.00001 (end 30 Jun 2045).
+
+- One page per transfer in number order, Kirim and Terima separate; labels and values print as one-cell rows (Jasper layout).
+- `Gudang Tujuan/Dari` = reference warehouse; addresses are street lines + "city province zip" + country joined without separators.
+- A receive document prints its own received quantity (1 of 2 for the shortfall).
 
 ## Retail Demo variation
 

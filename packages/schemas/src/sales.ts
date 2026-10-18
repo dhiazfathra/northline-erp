@@ -71,7 +71,8 @@ export const purchaseInvoiceInput = z.object({
   dueDate: isoDate.optional(),
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents,
-    /** Unique serial numbers received (item with serial numbers), one unit each. */ serials: z.array(z.string().min(1)).default([]) })).min(1),
+    /** Unique serial numbers received (one unit each), or batch/production numbers with a quantity and optional expiry (ADR-0024). */
+    serials: z.array(z.union([z.string().min(1), z.object({ no: z.string().min(1), qty: z.number().positive(), expiry: isoDate.optional() })])).default([]) })).min(1),
   /** Receiving warehouse (serial-number stock is per warehouse). */
   warehouse: z.string().default('Utama'),
   /** PPN Masukan from each line's item default tax (ADR-0009). */

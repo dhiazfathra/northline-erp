@@ -204,6 +204,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDownPaymentDetailReport.md) |
 | Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [out of scope](TransferOrderListReport.md) |
 | Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [verified](VendorPriceHistoryReport.md) |
+| Penyesuaian Harga Beli | `VendorPriceAdjustmentDetailReport` | report | FROMTO | — | [verified](VendorPriceAdjustmentDetailReport.md) |
 
 ## Persediaan (INVENTORY)
 
@@ -240,6 +241,14 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [verified](ReceivedDeliveredSerialNumberReport.md) |
 | Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [verified](RemainingAgeSerialNumberDetailReport.md) |
 | Ringkasan Pemindahan Barang | `ItemTransferListReport` | report | FROMTO | — | [verified](ItemTransferListReport.md) |
+| Rincian Pemindahan Barang | `ItemTransferDetailReport` | report | FROMTO | — | [verified](ItemTransferDetailReport.md) |
+| Barang Diterima Sebagian | `UncompletedItemTransferReport` | report | FROMTO | — | [verified](UncompletedItemTransferReport.md) |
+| Daftar Gudang | `WarehouseListReport` | report | NONE | — | [verified](WarehouseListReport.md) |
+| Stok Nomor Seri/Produksi | `SerialNumberStockReport` | report | ASOF | selectedItem= | [verified](SerialNumberStockReport.md) |
+| Stok Nomor Seri/Produksi per Gudang | `SerialNumberStockPerWarehouseReport` | report | ASOF | selectedItem= | [verified](SerialNumberStockPerWarehouseReport.md) |
+| Stok Nomor Seri/Produksi per Barang | `SerialNumberStockPerItemReport` | report | ASOF | selectedWarehouse= | [verified](SerialNumberStockPerItemReport.md) |
+| Histori Nomor Seri/Produksi | `SerialNumberMutationReport` | report | NONE | selectedSerialnumber= | [verified](SerialNumberMutationReport.md) |
+| Nomor Produksi Segera Kadaluarsa | `SerialNumberExpiredSoonReport` | report | FROMTO | — | [verified](SerialNumberExpiredSoonReport.md) |
 | Pergerakan Stok per Barang | `StockMovementByWarehouseReport` | report | FROMTO | selectedWarehouse | [verified](StockMovementByWarehouseReport.md) |
 
 ## Pekerjaan Pesanan (JOB_ORDER)
@@ -295,6 +304,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 |---|---|---|---|---|---|
 | Selisih Saldo Akun Persediaan dengan Nilai Barang | `ItemValueToAccountBalanceDifferenceReport` | report | FROMTO | — | [verified](ItemValueToAccountBalanceDifferenceReport.md) |
 | Selisih Akun Pembelian belum tertagih | `UnbilledAccountBalanceDifferenceReport` | report | FROMTO | — | [verified](UnbilledAccountBalanceDifferenceReport.md) |
+| Perbedaan Persediaan Terkirim Pemindahan Barang | `DifferenceGoodsTransitItemTransferReport` | report | ASOF | — | [verified](DifferenceGoodsTransitItemTransferReport.md) |
 
 ## Lain-lain (OTHERS)
 

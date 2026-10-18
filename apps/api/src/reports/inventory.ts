@@ -364,3 +364,57 @@ export function itemValueDifference(accounts: { no: string; name: string; balanc
     ['Nilai barang'], ['Nilai barang', '-', 'Nilai barang Persediaan', f(-itemValue)], ['Total dari Nilai barang', f(-itemValue)],
     ['Total dari Selisih antara akun persediaan dengan nilai barang', f(total - itemValue)]]
 }
+
+// Retail Demo warehouse/transfer reports (ADR-0024; fixture fixtures/retail/inventory-re.json). Quantities print en-US, plain.
+export interface Warehouse { name: string; description: string; street: string; city: string; province: string; zipCode: string; country: string }
+export interface Transfer { number: string; date: string; direction: 'OUT' | 'IN'; warehouse: string; reference: string; from?: string; lines: { item: string; itemName: string; unit: string; qty: number }[] }
+const qtyEn = (q: number) => q.toLocaleString('en-US', { maximumFractionDigits: 2 })
+const TRANSIT_ROW = ['Transit (AOL System)', 'Barang dalam perjalanan pindah barang atau klaim ke pemasok'] // system warehouse, no address
+/** Address lines joined without separators: street lines, "city province zip", country. */
+export const fullAddress = (w?: Warehouse) => (w ? [...w.street.split('\n'), [w.city, w.province, w.zipCode].filter(Boolean).join(' '), w.country].filter(Boolean).join('') : '')
+
+/** Daftar Gudang: every warehouse by name, the transit warehouse included; blank cells drop. */
+export function warehouseList(ws: Warehouse[]): string[][] {
+  return [['Daftar Gudang'], ['Nama', 'Alamat Lengkap', 'Deskripsi'],
+    ...[...ws.map(w => [w.name, fullAddress(w), w.description].filter(c => c !== '')), TRANSIT_ROW].sort((a, b) => a[0]!.localeCompare(b[0]!))]
+}
+
+/** Rincian Pemindahan Barang: one page per transfer (number order); label cells and their values print one per row. */
+export function transferDetail(ts: Transfer[], ws: Warehouse[], from: string, to: string): string[][] {
+  const addr = (name: string) => fullAddress(ws.find(w => w.name === name))
+  return ts.filter(t => t.date >= from && t.date <= to).sort((a, b) => a.number.localeCompare(b.number)).flatMap(t => [
+    ['Rincian Pemindahan Barang'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`],
+    ['No. Pemindahan #'], ['Tanggal'], ['Proses Pemindahan Barang'], ['Gudang Tujuan/Dari'], [':'], [':'], [':'], [':'],
+    [t.number], [fmtDate(t.date)], [t.direction === 'OUT' ? 'Kirim Barang' : 'Terima Barang'], [t.reference],
+    ['Alamat Tujuan/Dari'], ['Gudang'], ['Alamat Gudang'], [':'], [':'], [':'],
+    ...[[addr(t.reference)], [t.warehouse], [addr(t.warehouse)]].filter(r => r[0] !== ''),
+    ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan'], ...t.lines.map(l => [l.item, l.itemName, qtyEn(l.qty), l.unit])])
+}
+
+/** Received quantity of each send line: receipts naming the send, matched by item. */
+const received = (ts: Transfer[], send: Transfer) => {
+  const ins = ts.filter(t => t.direction === 'IN' && t.from === send.number)
+  return { ins, of: (item: string) => ins.flatMap(t => t.lines).filter(l => l.item === item).reduce((s, l) => s + l.qty, 0) }
+}
+
+/** Barang Diterima Sebagian: sends with some but not all quantity received; every line prints with Kts Diterima and Sisa. */
+// shortcut: several receipts per send are joined with ", " in No. Terima # (only one receipt captured); upgrade when captured.
+export function uncompletedTransfers(ts: Transfer[], from: string, to: string): string[][] {
+  const rows: string[][] = []
+  for (const t of ts.filter(t => t.direction === 'OUT' && t.date >= from && t.date <= to).sort((a, b) => a.number.localeCompare(b.number))) {
+    const r = received(ts, t), got = t.lines.map(l => r.of(l.item))
+    if (!r.ins.length || t.lines.every((l, i) => got[i]! >= l.qty)) continue
+    rows.push(['Barang Diterima Sebagian'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`], ['Filter berdasarkan : Proses Pemindahan Barang, Status Pemindahan Barang'],
+      ['No. Pemindahan #', ':', t.number, 'Gudang Tujuan/Dari', ':', t.reference], ['Tanggal', ':', fmtDate(t.date), 'Gudang', ':', t.warehouse],
+      ['Proses Pemindahan Barang', ':', 'Kirim Barang', 'No. Terima #', ':', r.ins.map(x => x.number).join(', ')],
+      ['Kode Barang', 'Nama Barang', 'Kuantitas', 'Satuan', 'Kts Diterima', 'Sisa'],
+      ...t.lines.map((l, i) => [l.item, l.itemName, qtyEn(l.qty), l.unit, qtyEn(got[i]!), qtyEn(l.qty - got[i]!)]))
+  }
+  return rows
+}
+
+/** Perbedaan Persediaan Terkirim Pemindahan Barang: transfers whose goods-in-transit journal differs between send and receipt.
+ *  Transfers carry no value in this ERP (and Retail Demo posted no journal for the 2045 transfers), so no transfer can differ. */
+// shortcut: header only; add rows (Tanggal, No. Kirim #, No. Terima #, Selisih) once transfers post an in-transit value.
+export const transitDifference = (asOf: string): string[][] =>
+  [['Perbedaan Persediaan Terkirim Pemindahan Barang'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Tanggal', 'No. Kirim #', 'No. Terima #', 'Selisih']]

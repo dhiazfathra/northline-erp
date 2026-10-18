@@ -2,7 +2,7 @@
 
 Group: Gudang. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SerialNumberStockReport.json`](captures/retail/SerialNumberStockReport.json).
 
-Status: existing module; spec + verify.
+Status: **verified** (zero diff on the Retail Demo 2045 seed). Fixture: [`fixtures/retail/inventory-re.json`](fixtures/retail/inventory-re.json). ERP: `serialStock` in `apps/api/src/reports/serial-numbers.ts`; test: `apps/api/test/inventory-re.test.ts`.
 
 ## Purpose
 
@@ -41,6 +41,14 @@ Title lines: `Stok Nomor Seri/Produksi`, `Per Tgl. 31 Des 2040`, `Kode Barang :`
 
 - Verified: empty default; with selection: block structure and per-item serial counts.
 - Unverified: expiry columns with real dates, other 60 items (only first search page read), as-of dates in the past, why serial counts differ from stock.
+
+## ERP verification (2045 seed, ADR-0024)
+
+Seed (Retail Demo, all 2045, prefix NL-RE): warehouses NL-RE Gudang A/B; items NL-RE-SN1 (unique serials) and NL-RE-BT1 (batch with expiry); PI.2045.01.00001 into Gudang A (S001-S003; B01 x6 exp 15 Mar 2045, B02 x4 exp 30 Jun 2045); IT.2045.02.00001 Kirim A->B (S001, S002, B01 x5) received by IT.2045.02.00002 with only S001 + B01 x5 (shortfall: S002 stays in transit); IT.2045.03.00001/00002 B->A B01 x2, fully received; Harga Pemasok VPA.2045.01.00001 and VPA.2045.04.00001 (end 30 Jun 2045).
+
+- Selection required: `selectedItem=[]` prints nothing; captured with both NL-RE items at 31 Dec 2045 and 3 Feb 2045 (S001/S002 in transit still count).
+- One block per item in item-code order; serials in serial order; quantity = balance over all warehouses incl. `Transit (AOL System)`.
+- Expiry serial: `Tgl Kadaluarsa` = expiry, `Sisa Hari` = expiry - as-of in days (negative once expired: -291 at 31 Dec 2045). No expiry: date cell blank (dropped) and Sisa Hari `0`.
 
 ## Retail Demo variation
 

@@ -50,17 +50,29 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
 }
 
 export const TRANSIT = 'Transit (AOL System)'
-/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value. */
-export async function createItemTransfer(db: Db, t: { number?: string; date: string; direction: 'OUT' | 'IN'; warehouse: string; referenceWarehouse: string; description?: string; lines: { item: string; qty: number }[] }) {
+/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value.
+ *  A receipt names its send (`from`); serial/batch numbers move with their line (ADR-0024). */
+export async function createItemTransfer(db: Db, t: { number?: string; date: string; direction: 'OUT' | 'IN'; warehouse: string; referenceWarehouse: string; description?: string; from?: string
+  lines: { item: string; qty: number; serials?: { no: string; qty: number }[] }[] }) {
   return db.transaction(async tx => {
     const number = t.number ?? await nextNumber(tx, `IT.${period(t.date)}`)
-    await tx.execute(sql`INSERT INTO item_transfers VALUES (${number}, ${t.date}, ${t.direction}, ${t.warehouse}, ${t.referenceWarehouse}, ${t.description ?? ''})`)
+    await tx.execute(sql`INSERT INTO item_transfers (number, date, direction, warehouse, reference_warehouse, description, from_number)
+      VALUES (${number}, ${t.date}, ${t.direction}, ${t.warehouse}, ${t.referenceWarehouse}, ${t.description ?? ''}, ${t.from ?? null})`)
     const desc = t.direction === 'OUT' ? `Kirim ke ${t.referenceWarehouse}` : `Terima dari ${t.referenceWarehouse}`
-    for (const l of t.lines) {
-      const [from, to] = t.direction === 'OUT' ? [t.warehouse, TRANSIT] : [TRANSIT, t.warehouse]
+    const [from, to] = t.direction === 'OUT' ? [t.warehouse, TRANSIT] : [TRANSIT, t.warehouse]
+    for (const [i, l] of t.lines.entries()) {
+      await tx.execute(sql`INSERT INTO item_transfer_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
       await addMove(tx, { item: l.item, date: t.date, docType: 'IT', docNumber: number, description: desc, quantity: -l.qty, value: 0, warehouse: from })
       await addMove(tx, { item: l.item, date: t.date, docType: 'IT', docNumber: number, description: desc, quantity: l.qty, value: 0, warehouse: to })
+      for (const s of l.serials ?? []) for (const [w, q] of [[from, -s.qty], [to, s.qty]] as const)
+        await tx.execute(sql`INSERT INTO serial_numbers (item_no, serial, date, doc_type, doc_number, quantity, warehouse) VALUES (${l.item}, ${s.no}, ${t.date}, 'IT', ${number}, ${q}, ${w})`)
     }
     return { number }
   })
+}
+
+/** Gudang master (Daftar Gudang). */
+export async function upsertWarehouse(db: Db, w: { name: string; description?: string; street?: string; city?: string; province?: string; zipCode?: string; country?: string }) {
+  await db.execute(sql`INSERT INTO warehouses VALUES (${w.name}, ${w.description ?? ''}, ${w.street ?? ''}, ${w.city ?? ''}, ${w.province ?? ''}, ${w.zipCode ?? ''}, ${w.country ?? ''})
+    ON CONFLICT (name) DO UPDATE SET description = EXCLUDED.description, street = EXCLUDED.street, city = EXCLUDED.city, province = EXCLUDED.province, zip_code = EXCLUDED.zip_code, country = EXCLUDED.country`)
 }

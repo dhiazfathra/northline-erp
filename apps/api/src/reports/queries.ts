@@ -240,8 +240,16 @@ export async function loadDeliveries(db: Db): Promise<import('./receivables').De
 }
 
 export async function loadTransfers(db: Db) {
-  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, direction, warehouse, reference_warehouse FROM item_transfers`))
-    .map(r => ({ number: r.number as string, date: r.date as string, direction: r.direction as 'OUT' | 'IN', warehouse: r.warehouse as string, reference: r.reference_warehouse as string }))
+  const ls = await db.execute(sql`SELECT l.transfer_number, l.item_no, i.name, i.unit, l.quantity FROM item_transfer_lines l JOIN items i ON i.no = l.item_no ORDER BY l.transfer_number, l.seq`)
+  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, direction, warehouse, reference_warehouse, from_number FROM item_transfers`))
+    .map(r => ({ number: r.number as string, date: r.date as string, direction: r.direction as 'OUT' | 'IN', warehouse: r.warehouse as string, reference: r.reference_warehouse as string,
+      from: (r.from_number as string | null) ?? undefined,
+      lines: ls.filter(l => l.transfer_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity) })) }))
+}
+
+export async function loadWarehouses(db: Db): Promise<import('./inventory').Warehouse[]> {
+  return (await db.execute(sql`SELECT name, description, street, city, province, zip_code, country FROM warehouses`))
+    .map(r => ({ name: r.name as string, description: r.description as string, street: r.street as string, city: r.city as string, province: r.province as string, zipCode: r.zip_code as string, country: r.country as string }))
 }
 
 export async function loadExchanges(db: Db) {
@@ -310,9 +318,9 @@ export async function loadExpenseAccruals(db: Db): Promise<import('./expense-acc
 }
 
 export async function loadVendorPrices(db: Db) {
-  return (await db.execute(sql`SELECT p.number, v.name AS vendor, to_char(p.date,'YYYY-MM-DD') AS date, p.item_no, i.name AS item, i.unit, p.price
-    FROM vendor_prices p JOIN vendors v ON v.no = p.vendor_no JOIN items i ON i.no = p.item_no`))
-    .map(r => ({ number: r.number as string, vendorName: r.vendor as string, date: r.date as string, item: r.item_no as string, itemName: r.item as string, unit: r.unit as string, price: Number(r.price) }))
+  return (await db.execute(sql`SELECT p.number, v.name AS vendor, to_char(p.date,'YYYY-MM-DD') AS date, to_char(p.end_date,'YYYY-MM-DD') AS end_date, p.item_no, i.name AS item, i.unit, p.price
+    FROM vendor_prices p JOIN vendors v ON v.no = p.vendor_no JOIN items i ON i.no = p.item_no ORDER BY p.number, p.ctid`))
+    .map(r => ({ number: r.number as string, vendorName: r.vendor as string, date: r.date as string, endDate: (r.end_date as string | null) ?? undefined, item: r.item_no as string, itemName: r.item as string, unit: r.unit as string, price: Number(r.price) }))
 }
 
 export async function loadRealizedReceipts(db: Db) {
@@ -330,8 +338,13 @@ export async function loadItemGroups(db: Db) {
 }
 
 export async function loadSerialMoves(db: Db): Promise<import('./serial-numbers').SerialMove[]> {
-  return (await db.execute(sql`SELECT s.item_no, i.name, s.serial, to_char(s.date,'YYYY-MM-DD') AS date, s.doc_type, s.quantity, s.warehouse FROM serial_numbers s JOIN items i ON i.no = s.item_no`))
-    .map(r => ({ item: r.item_no as string, itemName: r.name as string, serial: r.serial as string, date: r.date as string, docType: r.doc_type as string, quantity: Number(r.quantity), warehouse: r.warehouse as string }))
+  return (await db.execute(sql`SELECT s.item_no, i.name, s.serial, to_char(s.date,'YYYY-MM-DD') AS date, s.doc_type, s.doc_number, s.quantity, s.warehouse,
+      (SELECT to_char(max(e.expiry),'YYYY-MM-DD') FROM serial_numbers e WHERE e.item_no = s.item_no AND e.serial = s.serial) AS expiry,
+      CASE s.doc_type WHEN 'PI' THEN 'Pembelian dari ' || v.name WHEN 'IT' THEN CASE t.direction WHEN 'OUT' THEN 'Kirim ke ' ELSE 'Terima dari ' END || t.reference_warehouse ELSE '' END AS description
+    FROM serial_numbers s JOIN items i ON i.no = s.item_no LEFT JOIN purchase_invoices p ON s.doc_type = 'PI' AND p.number = s.doc_number LEFT JOIN vendors v ON v.no = p.vendor_no
+    LEFT JOIN item_transfers t ON s.doc_type = 'IT' AND t.number = s.doc_number ORDER BY s.id`))
+    .map(r => ({ item: r.item_no as string, itemName: r.name as string, serial: r.serial as string, date: r.date as string, docType: r.doc_type as string, quantity: Number(r.quantity), warehouse: r.warehouse as string,
+      docNumber: r.doc_number as string, description: r.description as string, expiry: (r.expiry as string | null) ?? undefined }))
 }
 
 /** Foreign invoices with their IDR owing at `asOf` (receipts dated by then). */

@@ -1,4 +1,4 @@
-import { fmtDate } from './general-ledger'
+import { fmtDate, fmtHeaderDate } from './general-ledger'
 import { BUCKETS, openInvoices, spread, type SalesData } from './receivables'
 import { formatIdr } from './trial-balance'
 
@@ -203,6 +203,19 @@ export function purchaseByExpense(expenses: { date: string; account: string; acc
  * Tanggal Berakhir is empty (no end date set), so the cell is dropped.
  */
 // shortcut: IDR only, end-effective dates not modelled.
+/** Penyesuaian Harga Beli (fixtures/retail/inventory-re.json): one titled block per Harga Pemasok document dated in range, lines in
+ *  entry order with the new price in en-US format; a blank Tanggal Berakhir drops its cell. */
+// shortcut: IDR only (Mata Uang prints the currency name); add a currency per document when foreign vendors price items.
+export function vendorPriceAdjustmentDetail(prices: { number: string; vendorName: string; date: string; endDate?: string; item: string; itemName: string; price: number }[], from: string, to: string): string[][] {
+  const docs = [...new Set(prices.filter(p => p.date >= from && p.date <= to).sort((a, b) => a.date.localeCompare(b.date) || a.number.localeCompare(b.number)).map(p => p.number))]
+  return docs.flatMap(n => {
+    const ls = prices.filter(p => p.number === n), d = ls[0]!
+    return [['Penyesuaian Harga Beli'], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`], ['Nomor #', ':', n, 'Mata Uang', ':', 'Indonesian Rupiah'],
+      ['Mulai Berlaku', ':', fmtDate(d.date), 'Tanggal Berakhir', ':', ...(d.endDate ? [fmtDate(d.endDate)] : [])], ['Pemasok', ':', d.vendorName],
+      ['Kode #', 'Nama Barang', 'Harga Baru'], ...ls.map(l => [l.item, l.itemName, (l.price / 100).toLocaleString('en-US', { maximumFractionDigits: 2 })])]
+  })
+}
+
 export function vendorPriceHistory(prices: { number: string; vendorName: string; date: string; item: string; itemName: string; unit: string; price: number }[], items: string[], asOf: string): string[][] {
   const rows: string[][] = [['Mulai Berlaku', 'Tanggal Berakhir', 'Pemasok', 'Mata Uang', 'Harga Lama', 'Harga Baru', 'Satuan']]
   for (const item of items) {

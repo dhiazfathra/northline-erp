@@ -79,8 +79,10 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO purchase_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
     for (const l of lines) {
-      if (l.serials.length && l.serials.length !== l.qty) throw new DomainError(`Jumlah nomor seri ${l.item} harus sama dengan kuantitas`)
-      for (const sn of l.serials) await tx.execute(sql`INSERT INTO serial_numbers (item_no, serial, date, doc_type, doc_number, quantity, warehouse) VALUES (${l.item}, ${sn}, ${inv.date}, 'PI', ${number}, 1, ${inv.warehouse})`)
+      const sns = l.serials.map(s => (typeof s === 'string' ? { no: s, qty: 1, expiry: undefined } : s))
+      if (sns.length && sns.reduce((t, s) => t + s.qty, 0) !== l.qty) throw new DomainError(`Jumlah nomor seri ${l.item} harus sama dengan kuantitas`)
+      for (const sn of sns) await tx.execute(sql`INSERT INTO serial_numbers (item_no, serial, date, doc_type, doc_number, quantity, warehouse, expiry)
+        VALUES (${l.item}, ${sn.no}, ${inv.date}, 'PI', ${number}, ${sn.qty}, ${inv.warehouse}, ${sn.expiry ?? null})`)
     }
     for (const [i, e] of inv.expenses.entries())
       await tx.execute(sql`INSERT INTO purchase_invoice_expenses (invoice_number, seq, account_no, name, amount) VALUES (${number}, ${i + 1}, ${e.account}, ${e.name}, ${e.amount})`)
@@ -217,10 +219,10 @@ export async function reportSptMasa(db: Db, from: string, to: string) {
 }
 
 /** Harga Pemasok (VPA.yyyy.mm.nnnnn): a vendor's purchase price per item from the date on; no journal. */
-export async function createVendorPrice(db: Db, v: { number?: string; vendor: string; date: string; lines: { item: string; price: number }[] }) {
+export async function createVendorPrice(db: Db, v: { number?: string; vendor: string; date: string; endDate?: string; lines: { item: string; price: number }[] }) {
   return db.transaction(async tx => {
     const number = v.number ?? await nextNumber(tx, `VPA.${period(v.date)}`)
-    for (const l of v.lines) await tx.execute(sql`INSERT INTO vendor_prices VALUES (${number}, ${v.vendor}, ${v.date}, ${l.item}, ${Math.round(l.price * 100)})`)
+    for (const l of v.lines) await tx.execute(sql`INSERT INTO vendor_prices VALUES (${number}, ${v.vendor}, ${v.date}, ${l.item}, ${Math.round(l.price * 100)}, ${v.endDate ?? null})`)
     return { number }
   })
 }

@@ -2,7 +2,7 @@
 
 Group: Gudang. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/SerialNumberExpiredSoonReport.json`](captures/retail/SerialNumberExpiredSoonReport.json).
 
-Status: blocked: requires Serial expiry date.
+Status: **verified** (zero diff on the Retail Demo 2045 seed). Fixture: [`fixtures/retail/inventory-re.json`](fixtures/retail/inventory-re.json). ERP: `serialExpiredSoon` in `apps/api/src/reports/serial-numbers.ts`; test: `apps/api/test/inventory-re.test.ts`.
 
 ## Purpose
 
@@ -32,6 +32,13 @@ Title lines: `Nomor Produksi Segera Kadaluarsa`, `Dari 01 Jan 2000 s/d 31 Des 20
 
 - Verified: layout of the empty report (title, header cells where printed, footer).
 - Unverified: all behavior.
+
+## ERP verification (2045 seed, ADR-0024)
+
+Seed (Retail Demo, all 2045, prefix NL-RE): warehouses NL-RE Gudang A/B; items NL-RE-SN1 (unique serials) and NL-RE-BT1 (batch with expiry); PI.2045.01.00001 into Gudang A (S001-S003; B01 x6 exp 15 Mar 2045, B02 x4 exp 30 Jun 2045); IT.2045.02.00001 Kirim A->B (S001, S002, B01 x5) received by IT.2045.02.00002 with only S001 + B01 x5 (shortfall: S002 stays in transit); IT.2045.03.00001/00002 B->A B01 x2, fully received; Harga Pemasok VPA.2045.01.00001 and VPA.2045.04.00001 (end 30 Jun 2045).
+
+- Lists batches whose expiry date is within [start, end] and that still have stock; serials without expiry never appear.
+- Sisa Hari counts whole days from the print moment (not the report dates): printed 19 Oct 2026 03:52 WIB, 15 Mar 2045 shows 6721 (calendar difference 6722 minus the part day). The fixture stores `printedAt` and the test passes it as `now`.
 
 ## Retail Demo variation
 

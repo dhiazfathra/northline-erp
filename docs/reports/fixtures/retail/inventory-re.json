@@ -1,0 +1,1833 @@
+{
+ "dataUsaha": "Retail Demo",
+ "source": "Accurate Online, Retail Demo sandbox (ACC_DB=retail), seeded and captured 2026-10-19 by tools/accurate session steps. Everything dated 2045 and prefixed NL-RE: warehouses NL-RE Gudang A (id 101850) / B (101900); items NL-RE-SN1 (101950, serial UNIQUE) and NL-RE-BT1 (102000, serial BATCH with expiry); PI.2045.01.00001 (vendor CV Alam Lestari, no tax) into Gudang A; transfers IT.2045.02.00001 (Kirim A->B) / IT.2045.02.00002 (Terima, 1 of 2 serials: shortfall), IT.2045.03.00001 / IT.2045.03.00002 (B->A, fully received); Harga Pemasok VPA.2045.01.00001 and VPA.2045.04.00001 (end date 30 Jun 2045). Serial ids for SerialNumberMutationReport: S001 118900, S002 118901, S003 118902, B01 118903, B02 118904. Transfers post no journal here. Report rows exclude the per-page footer (ACCURATE Accounting System Report / Tercetak pada / Halaman); ExpiredSoon keeps its print time as printedAt.",
+ "accounts": [
+  {
+   "no": "115.000-01",
+   "name": "Persediaan Handphone",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "211.101-01",
+   "name": "Hutang Usaha Jakarta - IDR",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "411.000-01",
+   "name": "Penjualan Handphone",
+   "type": "REVENUE"
+  },
+  {
+   "no": "511.000-01",
+   "name": "Beban Pokok  Penjualan Handphone",
+   "type": "COGS"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "VJKT-0009",
+   "name": "CV Alam Lestari",
+   "apAccount": "211.101-01"
+  }
+ ],
+ "warehouses": [
+  {
+   "name": "GD. JAKARTA",
+   "description": "GUDANG JAKARTA",
+   "street": "Jl. Pluit Karang Cantik Blok B4 No.39\nPenjaringan, Jakarta Utara – 14450",
+   "city": "Jakarta",
+   "province": "DKI Jakarta",
+   "zipCode": "14450",
+   "country": "Indonesia"
+  },
+  {
+   "name": "GD. SURABAYA",
+   "description": "GUDANG SURABAYA",
+   "street": "Gedung Pawitra Lt. 2 No. 203\nJl. Kalijudan No. 98A",
+   "city": "Surabaya",
+   "province": "Jawa Timur",
+   "zipCode": "60114",
+   "country": "Indonesia"
+  },
+  {
+   "name": "NL-RE Gudang A",
+   "description": "NL-RE GUDANG A",
+   "street": "Jl. NL-RE A No. 1",
+   "city": "Jakarta",
+   "province": "DKI Jakarta",
+   "zipCode": "10110",
+   "country": "Indonesia"
+  },
+  {
+   "name": "NL-RE Gudang B",
+   "description": "NL-RE GUDANG B",
+   "street": "Jl. NL-RE B No. 2",
+   "city": "Surabaya",
+   "province": "Jawa Timur",
+   "zipCode": "60111",
+   "country": "Indonesia"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-RE-SN1",
+   "name": "NL-RE Barang Seri",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "411.000-01",
+   "inventoryAccount": "115.000-01",
+   "cogsAccount": "511.000-01"
+  },
+  {
+   "no": "NL-RE-BT1",
+   "name": "NL-RE Barang Batch",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "411.000-01",
+   "inventoryAccount": "115.000-01",
+   "cogsAccount": "511.000-01"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2045.01.00001",
+   "vendor": "VJKT-0009",
+   "bill": "NL-RE-PI1",
+   "date": "2045-01-10",
+   "description": "NL-RE-PI1",
+   "warehouse": "NL-RE Gudang A",
+   "lines": [
+    {
+     "item": "NL-RE-SN1",
+     "qty": 3,
+     "price": 1000000,
+     "serials": [
+      "NL-RE-S001",
+      "NL-RE-S002",
+      "NL-RE-S003"
+     ]
+    },
+    {
+     "item": "NL-RE-BT1",
+     "qty": 10,
+     "price": 20000,
+     "serials": [
+      {
+       "no": "NL-RE-B01",
+       "qty": 6,
+       "expiry": "2045-03-15"
+      },
+      {
+       "no": "NL-RE-B02",
+       "qty": 4,
+       "expiry": "2045-06-30"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "ItemTransfer",
+   "number": "IT.2045.02.00001",
+   "date": "2045-02-01",
+   "direction": "OUT",
+   "warehouse": "NL-RE Gudang A",
+   "referenceWarehouse": "NL-RE Gudang B",
+   "description": "NL-RE-IT1",
+   "lines": [
+    {
+     "item": "NL-RE-SN1",
+     "qty": 2,
+     "serials": [
+      {
+       "no": "NL-RE-S001",
+       "qty": 1
+      },
+      {
+       "no": "NL-RE-S002",
+       "qty": 1
+      }
+     ]
+    },
+    {
+     "item": "NL-RE-BT1",
+     "qty": 5,
+     "serials": [
+      {
+       "no": "NL-RE-B01",
+       "qty": 5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "ItemTransfer",
+   "number": "IT.2045.02.00002",
+   "date": "2045-02-05",
+   "direction": "IN",
+   "warehouse": "NL-RE Gudang B",
+   "referenceWarehouse": "NL-RE Gudang A",
+   "from": "IT.2045.02.00001",
+   "description": "NL-RE-IT2",
+   "lines": [
+    {
+     "item": "NL-RE-SN1",
+     "qty": 1,
+     "serials": [
+      {
+       "no": "NL-RE-S001",
+       "qty": 1
+      }
+     ]
+    },
+    {
+     "item": "NL-RE-BT1",
+     "qty": 5,
+     "serials": [
+      {
+       "no": "NL-RE-B01",
+       "qty": 5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "ItemTransfer",
+   "number": "IT.2045.03.00001",
+   "date": "2045-03-01",
+   "direction": "OUT",
+   "warehouse": "NL-RE Gudang B",
+   "referenceWarehouse": "NL-RE Gudang A",
+   "description": "NL-RE-IT3",
+   "lines": [
+    {
+     "item": "NL-RE-BT1",
+     "qty": 2,
+     "serials": [
+      {
+       "no": "NL-RE-B01",
+       "qty": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "ItemTransfer",
+   "number": "IT.2045.03.00002",
+   "date": "2045-03-03",
+   "direction": "IN",
+   "warehouse": "NL-RE Gudang A",
+   "referenceWarehouse": "NL-RE Gudang B",
+   "from": "IT.2045.03.00001",
+   "description": "NL-RE-IT4",
+   "lines": [
+    {
+     "item": "NL-RE-BT1",
+     "qty": 2,
+     "serials": [
+      {
+       "no": "NL-RE-B01",
+       "qty": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "VendorPrice",
+   "number": "VPA.2045.01.00001",
+   "vendor": "VJKT-0009",
+   "date": "2045-01-05",
+   "lines": [
+    {
+     "item": "NL-RE-SN1",
+     "price": 1050000
+    },
+    {
+     "item": "NL-RE-BT1",
+     "price": 21500
+    }
+   ]
+  },
+  {
+   "kind": "VendorPrice",
+   "number": "VPA.2045.04.00001",
+   "vendor": "VJKT-0009",
+   "date": "2045-04-01",
+   "endDate": "2045-06-30",
+   "lines": [
+    {
+     "item": "NL-RE-BT1",
+     "price": 22750.5
+    }
+   ]
+  }
+ ],
+ "ids": {
+  "items": {
+   "101950": "NL-RE-SN1",
+   "102000": "NL-RE-BT1"
+  },
+  "warehouses": {
+   "101850": "NL-RE Gudang A",
+   "101900": "NL-RE Gudang B"
+  },
+  "serials": {
+   "118900": [
+    "NL-RE-SN1",
+    "NL-RE-S001"
+   ],
+   "118901": [
+    "NL-RE-SN1",
+    "NL-RE-S002"
+   ],
+   "118902": [
+    "NL-RE-SN1",
+    "NL-RE-S003"
+   ],
+   "118903": [
+    "NL-RE-BT1",
+    "NL-RE-B01"
+   ],
+   "118904": [
+    "NL-RE-BT1",
+    "NL-RE-B02"
+   ]
+  }
+ },
+ "reports": {
+  "SerialNumberStockReport": {
+   "param": {
+    "asOfDate": "31/12/2045",
+    "selectedItem": [
+     {
+      "id": 101950
+     },
+     {
+      "id": 102000
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Stok Nomor Seri/Produksi"
+    ],
+    [
+     "Per Tgl. 31 Des 2045"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-BT1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Batch"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE-B01",
+     "6",
+     "15 Mar 2045",
+     "-291"
+    ],
+    [
+     "NL-RE-B02",
+     "4",
+     "30 Jun 2045",
+     "-184"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-SN1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Seri"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE-S001",
+     "1",
+     "0"
+    ],
+    [
+     "NL-RE-S002",
+     "1",
+     "0"
+    ],
+    [
+     "NL-RE-S003",
+     "1",
+     "0"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "03/02/2045",
+      "selectedItem": [
+       {
+        "id": 101950
+       },
+       {
+        "id": 102000
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Stok Nomor Seri/Produksi"
+      ],
+      [
+       "Per Tgl. 03 Feb 2045"
+      ],
+      [
+       "Kode Barang",
+       ":",
+       "NL-RE-BT1"
+      ],
+      [
+       "Nama Barang",
+       ":",
+       "NL-RE Barang Batch"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE-B01",
+       "6",
+       "15 Mar 2045",
+       "40"
+      ],
+      [
+       "NL-RE-B02",
+       "4",
+       "30 Jun 2045",
+       "147"
+      ],
+      [
+       "Kode Barang",
+       ":",
+       "NL-RE-SN1"
+      ],
+      [
+       "Nama Barang",
+       ":",
+       "NL-RE Barang Seri"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE-S001",
+       "1",
+       "0"
+      ],
+      [
+       "NL-RE-S002",
+       "1",
+       "0"
+      ],
+      [
+       "NL-RE-S003",
+       "1",
+       "0"
+      ]
+     ]
+    }
+   ]
+  },
+  "SerialNumberStockPerWarehouseReport": {
+   "param": {
+    "asOfDate": "31/12/2045",
+    "selectedItem": [
+     {
+      "id": 101950
+     },
+     {
+      "id": 102000
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Stok Nomor Seri/Produksi per Gudang"
+    ],
+    [
+     "Per Tgl. 31 Des 2045"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-BT1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Batch"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "NL-RE-B01",
+     "3",
+     "15 Mar 2045",
+     "-291"
+    ],
+    [
+     "NL-RE-B02",
+     "4",
+     "30 Jun 2045",
+     "-184"
+    ],
+    [
+     "7"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "NL-RE-B01",
+     "3",
+     "15 Mar 2045",
+     "-291"
+    ],
+    [
+     "3"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-SN1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Seri"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "NL-RE-S003",
+     "1",
+     "0"
+    ],
+    [
+     "1"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "NL-RE-S001",
+     "1",
+     "0"
+    ],
+    [
+     "1"
+    ],
+    [
+     "Transit (AOL System)"
+    ],
+    [
+     "NL-RE-S002",
+     "1",
+     "0"
+    ],
+    [
+     "1"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "03/02/2045",
+      "selectedItem": [
+       {
+        "id": 101950
+       },
+       {
+        "id": 102000
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Stok Nomor Seri/Produksi per Gudang"
+      ],
+      [
+       "Per Tgl. 03 Feb 2045"
+      ],
+      [
+       "Kode Barang",
+       ":",
+       "NL-RE-BT1"
+      ],
+      [
+       "Nama Barang",
+       ":",
+       "NL-RE Barang Batch"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE Gudang A"
+      ],
+      [
+       "NL-RE-B01",
+       "1",
+       "15 Mar 2045",
+       "40"
+      ],
+      [
+       "NL-RE-B02",
+       "4",
+       "30 Jun 2045",
+       "147"
+      ],
+      [
+       "5"
+      ],
+      [
+       "Transit (AOL System)"
+      ],
+      [
+       "NL-RE-B01",
+       "5",
+       "15 Mar 2045",
+       "40"
+      ],
+      [
+       "5"
+      ],
+      [
+       "Kode Barang",
+       ":",
+       "NL-RE-SN1"
+      ],
+      [
+       "Nama Barang",
+       ":",
+       "NL-RE Barang Seri"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE Gudang A"
+      ],
+      [
+       "NL-RE-S003",
+       "1",
+       "0"
+      ],
+      [
+       "1"
+      ],
+      [
+       "Transit (AOL System)"
+      ],
+      [
+       "NL-RE-S001",
+       "1",
+       "0"
+      ],
+      [
+       "NL-RE-S002",
+       "1",
+       "0"
+      ],
+      [
+       "2"
+      ]
+     ]
+    }
+   ]
+  },
+  "SerialNumberStockPerItemReport": {
+   "param": {
+    "asOfDate": "31/12/2045",
+    "selectedWarehouse": [
+     {
+      "id": 101850
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Stok Nomor Seri/Produksi per Barang"
+    ],
+    [
+     "Per Tgl. 31 Des 2045"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "NL-RE Barang Batch"
+    ],
+    [
+     "NL-RE-B01",
+     "3",
+     "15 Mar 2045",
+     "-291"
+    ],
+    [
+     "NL-RE-B02",
+     "4",
+     "30 Jun 2045",
+     "-184"
+    ],
+    [
+     "7"
+    ],
+    [
+     "NL-RE Barang Seri"
+    ],
+    [
+     "NL-RE-S003",
+     "1",
+     "0"
+    ],
+    [
+     "1"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "asOfDate": "31/12/2045",
+      "selectedWarehouse": [
+       {
+        "id": 101900
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Stok Nomor Seri/Produksi per Barang"
+      ],
+      [
+       "Per Tgl. 31 Des 2045"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE Gudang B"
+      ],
+      [
+       "NL-RE Barang Batch"
+      ],
+      [
+       "NL-RE-B01",
+       "3",
+       "15 Mar 2045",
+       "-291"
+      ],
+      [
+       "3"
+      ],
+      [
+       "NL-RE Barang Seri"
+      ],
+      [
+       "NL-RE-S001",
+       "1",
+       "0"
+      ],
+      [
+       "1"
+      ]
+     ]
+    },
+    {
+     "param": {
+      "asOfDate": "03/02/2045",
+      "selectedWarehouse": [
+       {
+        "id": 101850
+       },
+       {
+        "id": 101900
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Stok Nomor Seri/Produksi per Barang"
+      ],
+      [
+       "Per Tgl. 03 Feb 2045"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE Gudang A"
+      ],
+      [
+       "NL-RE Barang Batch"
+      ],
+      [
+       "NL-RE-B01",
+       "1",
+       "15 Mar 2045",
+       "40"
+      ],
+      [
+       "NL-RE-B02",
+       "4",
+       "30 Jun 2045",
+       "147"
+      ],
+      [
+       "5"
+      ],
+      [
+       "NL-RE Barang Seri"
+      ],
+      [
+       "NL-RE-S003",
+       "1",
+       "0"
+      ],
+      [
+       "1"
+      ]
+     ]
+    }
+   ]
+  },
+  "SerialNumberMutationReport": {
+   "param": {
+    "selectedSerialnumber": [
+     {
+      "id": 118900
+     },
+     {
+      "id": 118901
+     },
+     {
+      "id": 118902
+     },
+     {
+      "id": 118903
+     },
+     {
+      "id": 118904
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Nomor Seri/Produksi"
+    ],
+    [
+     "Nomor Seri/Produksi",
+     ":",
+     "NL-RE-B01",
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Batch"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-BT1"
+    ],
+    [
+     "Tgl Transaksi",
+     "No. Transaksi Rincian Stok",
+     "Tipe Transaksi",
+     "Keterangan Rincian Stok",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "10 Jan 2045",
+     "PI.2045.01.00001",
+     "Faktur Pembelian",
+     "Pembelian dari CV Alam Lestari",
+     "6",
+     "0",
+     "6"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "0",
+     "5",
+     "1"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "5",
+     "0",
+     "6"
+    ],
+    [
+     "05 Feb 2045",
+     "IT.2045.02.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang A",
+     "0",
+     "5",
+     "1"
+    ],
+    [
+     "05 Feb 2045",
+     "IT.2045.02.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang A",
+     "5",
+     "0",
+     "6"
+    ],
+    [
+     "01 Mar 2045",
+     "IT.2045.03.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang A",
+     "0",
+     "2",
+     "4"
+    ],
+    [
+     "01 Mar 2045",
+     "IT.2045.03.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang A",
+     "2",
+     "0",
+     "6"
+    ],
+    [
+     "03 Mar 2045",
+     "IT.2045.03.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang B",
+     "0",
+     "2",
+     "4"
+    ],
+    [
+     "03 Mar 2045",
+     "IT.2045.03.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang B",
+     "2",
+     "0",
+     "6"
+    ],
+    [
+     "20",
+     "14"
+    ],
+    [
+     "Histori Nomor Seri/Produksi"
+    ],
+    [
+     "Nomor Seri/Produksi",
+     ":",
+     "NL-RE-B02",
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Batch"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-BT1"
+    ],
+    [
+     "Tgl Transaksi",
+     "No. Transaksi Rincian Stok",
+     "Tipe Transaksi",
+     "Keterangan Rincian Stok",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "10 Jan 2045",
+     "PI.2045.01.00001",
+     "Faktur Pembelian",
+     "Pembelian dari CV Alam Lestari",
+     "4",
+     "0",
+     "4"
+    ],
+    [
+     "4",
+     "0"
+    ],
+    [
+     "Histori Nomor Seri/Produksi"
+    ],
+    [
+     "Nomor Seri/Produksi",
+     ":",
+     "NL-RE-S001",
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Seri"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-SN1"
+    ],
+    [
+     "Tgl Transaksi",
+     "No. Transaksi Rincian Stok",
+     "Tipe Transaksi",
+     "Keterangan Rincian Stok",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "10 Jan 2045",
+     "PI.2045.01.00001",
+     "Faktur Pembelian",
+     "Pembelian dari CV Alam Lestari",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "05 Feb 2045",
+     "IT.2045.02.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang A",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "05 Feb 2045",
+     "IT.2045.02.00002",
+     "Pemindahan Barang",
+     "Terima dari NL-RE Gudang A",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "Histori Nomor Seri/Produksi"
+    ],
+    [
+     "Nomor Seri/Produksi",
+     ":",
+     "NL-RE-S002",
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Seri"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-SN1"
+    ],
+    [
+     "Tgl Transaksi",
+     "No. Transaksi Rincian Stok",
+     "Tipe Transaksi",
+     "Keterangan Rincian Stok",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "10 Jan 2045",
+     "PI.2045.01.00001",
+     "Faktur Pembelian",
+     "Pembelian dari CV Alam Lestari",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "0",
+     "1",
+     "0"
+    ],
+    [
+     "01 Feb 2045",
+     "IT.2045.02.00001",
+     "Pemindahan Barang",
+     "Kirim ke NL-RE Gudang B",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "Histori Nomor Seri/Produksi"
+    ],
+    [
+     "Nomor Seri/Produksi",
+     ":",
+     "NL-RE-S003",
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Seri"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-SN1"
+    ],
+    [
+     "Tgl Transaksi",
+     "No. Transaksi Rincian Stok",
+     "Tipe Transaksi",
+     "Keterangan Rincian Stok",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "10 Jan 2045",
+     "PI.2045.01.00001",
+     "Faktur Pembelian",
+     "Pembelian dari CV Alam Lestari",
+     "1",
+     "0",
+     "1"
+    ],
+    [
+     "1",
+     "0"
+    ]
+   ]
+  },
+  "SerialNumberExpiredSoonReport": {
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/12/2045"
+   },
+   "rows": [
+    [
+     "Nomor Produksi Segera Kadaluarsa"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-RE-BT1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-RE Barang Batch"
+    ],
+    [
+     "No Seri/Produksi",
+     "Kuantitas",
+     "Tgl Kadaluarsa",
+     "Sisa Hari(Kadaluarsa)"
+    ],
+    [
+     "NL-RE-B01",
+     "6",
+     "15 Mar 2045",
+     "6721"
+    ],
+    [
+     "NL-RE-B02",
+     "4",
+     "30 Jun 2045",
+     "6828"
+    ]
+   ],
+   "printedAt": "19 October 2026 - 04:04",
+   "variants": [
+    {
+     "param": {
+      "startDate": "01/01/2045",
+      "endDate": "31/03/2045"
+     },
+     "rows": [
+      [
+       "Nomor Produksi Segera Kadaluarsa"
+      ],
+      [
+       "Dari 01 Jan 2045 s/d 31 Mar 2045"
+      ],
+      [
+       "Kode Barang",
+       ":",
+       "NL-RE-BT1"
+      ],
+      [
+       "Nama Barang",
+       ":",
+       "NL-RE Barang Batch"
+      ],
+      [
+       "No Seri/Produksi",
+       "Kuantitas",
+       "Tgl Kadaluarsa",
+       "Sisa Hari(Kadaluarsa)"
+      ],
+      [
+       "NL-RE-B01",
+       "6",
+       "15 Mar 2045",
+       "6721"
+      ]
+     ],
+     "printedAt": "19 October 2026 - 04:04"
+    }
+   ]
+  },
+  "ItemTransferDetailReport": {
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/12/2045"
+   },
+   "rows": [
+    [
+     "Rincian Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "No. Pemindahan #"
+    ],
+    [
+     "Tanggal"
+    ],
+    [
+     "Proses Pemindahan Barang"
+    ],
+    [
+     "Gudang Tujuan/Dari"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "IT.2045.02.00001"
+    ],
+    [
+     "01 Feb 2045"
+    ],
+    [
+     "Kirim Barang"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "Alamat Tujuan/Dari"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Alamat Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Jl. NL-RE B No. 2Surabaya Jawa Timur 60111Indonesia"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "Jl. NL-RE A No. 1Jakarta DKI Jakarta 10110Indonesia"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-RE-SN1",
+     "NL-RE Barang Seri",
+     "2",
+     "PCS"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "5",
+     "PCS"
+    ],
+    [
+     "Rincian Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "No. Pemindahan #"
+    ],
+    [
+     "Tanggal"
+    ],
+    [
+     "Proses Pemindahan Barang"
+    ],
+    [
+     "Gudang Tujuan/Dari"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "IT.2045.02.00002"
+    ],
+    [
+     "05 Feb 2045"
+    ],
+    [
+     "Terima Barang"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "Alamat Tujuan/Dari"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Alamat Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Jl. NL-RE A No. 1Jakarta DKI Jakarta 10110Indonesia"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "Jl. NL-RE B No. 2Surabaya Jawa Timur 60111Indonesia"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-RE-SN1",
+     "NL-RE Barang Seri",
+     "1",
+     "PCS"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "5",
+     "PCS"
+    ],
+    [
+     "Rincian Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "No. Pemindahan #"
+    ],
+    [
+     "Tanggal"
+    ],
+    [
+     "Proses Pemindahan Barang"
+    ],
+    [
+     "Gudang Tujuan/Dari"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "IT.2045.03.00001"
+    ],
+    [
+     "01 Mar 2045"
+    ],
+    [
+     "Kirim Barang"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "Alamat Tujuan/Dari"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Alamat Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Jl. NL-RE A No. 1Jakarta DKI Jakarta 10110Indonesia"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "Jl. NL-RE B No. 2Surabaya Jawa Timur 60111Indonesia"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "2",
+     "PCS"
+    ],
+    [
+     "Rincian Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "No. Pemindahan #"
+    ],
+    [
+     "Tanggal"
+    ],
+    [
+     "Proses Pemindahan Barang"
+    ],
+    [
+     "Gudang Tujuan/Dari"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "IT.2045.03.00002"
+    ],
+    [
+     "03 Mar 2045"
+    ],
+    [
+     "Terima Barang"
+    ],
+    [
+     "NL-RE Gudang B"
+    ],
+    [
+     "Alamat Tujuan/Dari"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Alamat Gudang"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     ":"
+    ],
+    [
+     "Jl. NL-RE B No. 2Surabaya Jawa Timur 60111Indonesia"
+    ],
+    [
+     "NL-RE Gudang A"
+    ],
+    [
+     "Jl. NL-RE A No. 1Jakarta DKI Jakarta 10110Indonesia"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "2",
+     "PCS"
+    ]
+   ]
+  },
+  "UncompletedItemTransferReport": {
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/12/2045"
+   },
+   "rows": [
+    [
+     "Barang Diterima Sebagian"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "Filter berdasarkan : Proses Pemindahan Barang, Status Pemindahan Barang"
+    ],
+    [
+     "No. Pemindahan #",
+     ":",
+     "IT.2045.02.00001",
+     "Gudang Tujuan/Dari",
+     ":",
+     "NL-RE Gudang B"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Feb 2045",
+     "Gudang",
+     ":",
+     "NL-RE Gudang A"
+    ],
+    [
+     "Proses Pemindahan Barang",
+     ":",
+     "Kirim Barang",
+     "No. Terima #",
+     ":",
+     "IT.2045.02.00002"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan",
+     "Kts Diterima",
+     "Sisa"
+    ],
+    [
+     "NL-RE-SN1",
+     "NL-RE Barang Seri",
+     "2",
+     "PCS",
+     "1",
+     "1"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "5",
+     "PCS",
+     "5",
+     "0"
+    ]
+   ]
+  },
+  "DifferenceGoodsTransitItemTransferReport": {
+   "param": {
+    "asOfDate": "31/12/2045"
+   },
+   "rows": [
+    [
+     "Perbedaan Persediaan Terkirim Pemindahan Barang"
+    ],
+    [
+     "Per Tgl. 31 Des 2045"
+    ],
+    [
+     "Tanggal",
+     "No. Kirim #",
+     "No. Terima #",
+     "Selisih"
+    ]
+   ]
+  },
+  "WarehouseListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Gudang"
+    ],
+    [
+     "Nama",
+     "Alamat Lengkap",
+     "Deskripsi"
+    ],
+    [
+     "GD. JAKARTA",
+     "Jl. Pluit Karang Cantik Blok B4 No.39Penjaringan, Jakarta Utara – 14450Jakarta DKI Jakarta 14450Indonesia",
+     "GUDANG JAKARTA"
+    ],
+    [
+     "GD. SURABAYA",
+     "Gedung Pawitra Lt. 2 No. 203Jl. Kalijudan No. 98ASurabaya Jawa Timur 60114Indonesia",
+     "GUDANG SURABAYA"
+    ],
+    [
+     "NL-RE Gudang A",
+     "Jl. NL-RE A No. 1Jakarta DKI Jakarta 10110Indonesia",
+     "NL-RE GUDANG A"
+    ],
+    [
+     "NL-RE Gudang B",
+     "Jl. NL-RE B No. 2Surabaya Jawa Timur 60111Indonesia",
+     "NL-RE GUDANG B"
+    ],
+    [
+     "Transit (AOL System)",
+     "Barang dalam perjalanan pindah barang atau klaim ke pemasok"
+    ]
+   ]
+  },
+  "VendorPriceAdjustmentDetailReport": {
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/12/2045"
+   },
+   "rows": [
+    [
+     "Penyesuaian Harga Beli"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "VPA.2045.01.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Mulai Berlaku",
+     ":",
+     "05 Jan 2045",
+     "Tanggal Berakhir",
+     ":"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "CV Alam Lestari"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Harga Baru"
+    ],
+    [
+     "NL-RE-SN1",
+     "NL-RE Barang Seri",
+     "1,050,000"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "21,500"
+    ],
+    [
+     "Penyesuaian Harga Beli"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Des 2045"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "VPA.2045.04.00001",
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah"
+    ],
+    [
+     "Mulai Berlaku",
+     ":",
+     "01 Apr 2045",
+     "Tanggal Berakhir",
+     ":",
+     "30 Jun 2045"
+    ],
+    [
+     "Pemasok",
+     ":",
+     "CV Alam Lestari"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Harga Baru"
+    ],
+    [
+     "NL-RE-BT1",
+     "NL-RE Barang Batch",
+     "22,750.5"
+    ]
+   ]
+  }
+ }
+}
