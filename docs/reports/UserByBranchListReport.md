@@ -1,6 +1,6 @@
 # Daftar Pengguna per Cabang (`UserByBranchListReport`)
 
-Group: Lain-lain. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Lain-lain. **Status: out of scope** (ADR-0010; spec captured, not verified) (no seeded fixture or ERP implementation yet).
 Capture: [`captures/UserByBranchListReport.json`](captures/UserByBranchListReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

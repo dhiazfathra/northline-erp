@@ -24,7 +24,7 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 1. **Tax**: Keluaran, Masukan and Rekonsiliasi verified (T19). PPN needs the item's default tax (`tax1Id`); item `NL-T19-S1` (id 301) has PPN 11%. Purchase invoices save only via `bg-save-purchase-invoice.do` (background job, polled); `save-purchase-invoice.do` errors. SPT Masa lists verified: rows appear only after an SPT PPN/PPNBM is saved (`tools/accurate/spt-masa.mjs <from> <to> save`); an SPT for Nov 2035 now exists in the sandbox. Customer `NL-T19-C1` (id 452) is PKP.
 2. UI-capture-first items: bank reconciliation / post-dated cheques, loan installment schedule, stock opname (order lists don't save via script), serial numbers, price/discount adjustments, sales targets, installments.
 3. Remaining charts/projections: export PNG (`EXPORT=xls`), transcribe labels into `fixtures/charts.json`.
-4. Scope decision pending from user: payroll, manufacturing, job orders, audit/users/access (~25 reports) — likely out of reach or out of scope. CSV download reports (4) return files, not tables.
+4. Scope decided (ADR-0010): payroll, job orders, manufacturing, activity log/users/access (18 reports) are out of scope. CSV download reports (4) return files, not tables.
 
 ## Gotchas
 

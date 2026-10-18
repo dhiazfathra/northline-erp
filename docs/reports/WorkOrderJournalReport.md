@@ -1,6 +1,6 @@
 # Jurnal Perintah Kerja (`WorkOrderJournalReport`)
 
-Group: Manufaktur. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Manufaktur. **Status: out of scope** (ADR-0010; spec captured, not verified) (no seeded fixture or ERP implementation yet).
 Capture: [`captures/WorkOrderJournalReport.json`](captures/WorkOrderJournalReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

@@ -1,6 +1,6 @@
 # Rincian Gaji Karyawan per Bulan (`EmployeePaymentByEmployeeReport`)
 
-Group: Buku Besar. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Buku Besar. **Status: out of scope** (ADR-0010; spec captured, not verified) (no seeded fixture or ERP implementation yet).
 Capture: [`captures/EmployeePaymentByEmployeeReport.json`](captures/EmployeePaymentByEmployeeReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

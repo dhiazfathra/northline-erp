@@ -1,6 +1,6 @@
 # Rincian Penambahan Bahan Baku (`MaterialAdjustmentDetailReport`)
 
-Group: Pekerjaan Pesanan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Pekerjaan Pesanan. **Status: out of scope** (ADR-0010; spec captured, not verified) (no seeded fixture or ERP implementation yet).
 Capture: [`captures/MaterialAdjustmentDetailReport.json`](captures/MaterialAdjustmentDetailReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters

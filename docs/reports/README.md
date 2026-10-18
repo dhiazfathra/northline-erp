@@ -1,7 +1,7 @@
 # Accurate Daftar Laporan — catalog
 
 Captured 2026-10-18 from Accurate Online v1.0.1#4970 (sandbox Data Usaha) via `/accurate/report/init-report.do`.
-Spec column: **verified** = zero-diff ERP test against an Accurate fixture; **spec** = parameters/layout captured, not yet verified.
+Spec column: **verified** = zero-diff ERP test against an Accurate fixture; **spec** = parameters/layout captured, not yet verified; **out of scope** = spec kept, not part of the accounting module (ADR-0010).
 This is the acceptance-spec index: each report gets its own `docs/reports/<planId>.md` once reverse-engineered.
 
 Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (month/year), ASOFYEAR, COMPAREFROMTO, DATECOMPARE, YEARTODATE, NONE.
@@ -58,11 +58,11 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
 | Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
 | Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | [verified](GlAccountListReport.md) |
-| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | [spec](EmployeePaymentByEmployeeReport.md) |
-| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | [spec](EmployeePaymentYearlyByEmployeeReport.md) |
-| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [spec](EmployeePphReport.md) |
-| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [spec](EmployeeSalaryProportionReport.md) |
-| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [spec](EmployeeSalaryPerYearReport.md) |
+| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | [out of scope](EmployeePaymentByEmployeeReport.md) |
+| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | [out of scope](EmployeePaymentYearlyByEmployeeReport.md) |
+| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [out of scope](EmployeePphReport.md) |
+| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [out of scope](EmployeeSalaryProportionReport.md) |
+| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [out of scope](EmployeeSalaryPerYearReport.md) |
 | Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualSummaryReport.md) |
 | Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | [spec](ExpenseAccrualDetailReport.md) |
 
@@ -246,20 +246,20 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [spec](MaterialAdjustmentDetailReport.md) |
-| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | [spec](RollOverItemDetailReport.md) |
-| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | [spec](RollOverAccountDetailReport.md) |
-| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [spec](JobOrderListReport.md) |
-| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [spec](RollOverListReport.md) |
-| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [spec](MaterialAdjustmentListReport.md) |
+| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [out of scope](MaterialAdjustmentDetailReport.md) |
+| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | [out of scope](RollOverItemDetailReport.md) |
+| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | [out of scope](RollOverAccountDetailReport.md) |
+| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [out of scope](JobOrderListReport.md) |
+| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [out of scope](RollOverListReport.md) |
+| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [out of scope](MaterialAdjustmentListReport.md) |
 
 ## Manufaktur (FABRICATION)
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Jurnal Perintah Kerja | `WorkOrderJournalReport` | report | NONE | selectedWorkOrder= | [spec](WorkOrderJournalReport.md) |
-| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | [spec](AdjustmentCOGSManufactureReport.md) |
-| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | [spec](PurchaseCOGSManufactureReport.md) |
+| Jurnal Perintah Kerja | `WorkOrderJournalReport` | report | NONE | selectedWorkOrder= | [out of scope](WorkOrderJournalReport.md) |
+| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | [out of scope](AdjustmentCOGSManufactureReport.md) |
+| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | [out of scope](PurchaseCOGSManufactureReport.md) |
 
 ## Aset Tetap (FIXED_ASSET)
 
@@ -305,7 +305,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Pajak | `TaxListReport` | report | NONE | — | [verified](TaxListReport.md) |
 | Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [verified](ShipmentListReport.md) |
 | Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [verified](SalesmanListReport.md) |
-| Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [spec](AuditListReport.md) |
-| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [spec](UserByBranchListReport.md) |
-| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [spec](AccessGroupPrivilegeListReport.md) |
-| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [spec](AccessPrivilegeByUserListReport.md) |
+| Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [out of scope](AuditListReport.md) |
+| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [out of scope](UserByBranchListReport.md) |
+| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [out of scope](AccessGroupPrivilegeListReport.md) |
+| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [out of scope](AccessPrivilegeByUserListReport.md) |

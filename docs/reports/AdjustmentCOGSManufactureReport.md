@@ -1,6 +1,6 @@
 # Penyesuaian Bahan (Harga Pokok Produksi) (`AdjustmentCOGSManufactureReport`)
 
-Group: Manufaktur. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
+Group: Manufaktur. **Status: out of scope** (ADR-0010; spec captured, not verified) (no seeded fixture or ERP implementation yet).
 Capture: [`captures/AdjustmentCOGSManufactureReport.json`](captures/AdjustmentCOGSManufactureReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters
