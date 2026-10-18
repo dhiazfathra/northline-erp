@@ -1,0 +1,93 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18 (employee loans enabled). One loan saved without installment schedule or disbursement. List also holds other sandbox loans? compare header + NL-T17 row.",
+ "employee": {
+  "no": "NL-T17-E1",
+  "name": "NL-T17 Karyawan A"
+ },
+ "loan": {
+  "number": "NL-T17-L1",
+  "employee": "NL-T17-E1",
+  "date": "2034-12-01",
+  "amount": 1200000
+ },
+ "reports": {
+  "EmployeeLoanListReport": {
+   "rows": [
+    [
+     "Daftar Piutang Karyawan"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Nama Karyawan",
+     "Angsuran Pokok",
+     "Angsuran Bunga",
+     "Total Angsuran",
+     "Suku Bunga",
+     "Bunga",
+     "Terbayar",
+     "Sisa Angsuran"
+    ],
+    [
+     "Kantor Pusat"
+    ],
+    [
+     "NL-T17-L1",
+     "01 Des 2034",
+     "NL-T17 Karyawan A",
+     "Tanpa Bunga",
+     "0.0%"
+    ]
+   ]
+  },
+  "EmployeeLoanInstallmentByEmployeeReport": {
+   "rows": [
+    [
+     "Angsuran Pinjaman per Karyawan"
+    ],
+    [
+     "Pinjaman Karyawan : NL-T17-L1"
+    ],
+    [
+     "Tanggal",
+     "Angsuran Pokok",
+     "Angsuran Bunga",
+     "Total Angsuran",
+     "Pembayaran Pokok",
+     "Pembayaran Bunga",
+     "Total Pembayaran",
+     "Sisa Pokok Pinjaman",
+     "Nomor Pembayaran"
+    ]
+   ]
+  },
+  "EmployeeLoanHistoryReport": {
+   "rows": [
+    [
+     "History Peminjaman per Karyawan"
+    ],
+    [
+     "Pinjaman Karyawan : NL-T17-L1"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "NL-T17-L1 - NL-T17 Karyawan A"
+    ],
+    [
+     "NL-T17-L1",
+     "01 Des 2034",
+     "Pinjaman Karyawan",
+     "1.200.000"
+    ]
+   ]
+  }
+ }
+}

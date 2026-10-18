@@ -1,24 +1,5 @@
 # Daftar Piutang Karyawan (`EmployeeLoanListReport`)
 
-Group: Kas & Bank. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/EmployeeLoanListReport.json`](captures/EmployeeLoanListReport.json), run with default parameters over the sandbox demo data.
+Group: Kas & Bank. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox, employee loans enabled), 2026-10-18. Fixture: [`fixtures/employee-loan-t17.json`](fixtures/employee-loan-t17.json) (NL-T17-L1, 1.200.000, no interest). ERP: `apps/api/src/payroll/loans.ts`; test: `apps/api/test/loans.test.ts`. **Verified only for a loan saved without an installment schedule or disbursement** (Accurate builds the schedule client-side; installments, disbursement and payments are not covered yet).
 
-## Parameters
-
-Date parameter kind: `NONE`; request param used: `{"selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-
-## Layout
-
-View: `report`. Header lines: "Cabang : [Semua Cabang]".
-
-
-First table row (columns): `Nomor # | Tanggal | Nama Karyawan | Angsuran Pokok | Angsuran Bunga | Total Angsuran | Suku Bunga | Bunga | Terbayar | Sisa Angsuran`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Nomor #` | `Tanggal` | `Nama Karyawan` | `Angsuran Pokok` | `Angsuran Bunga` | `Total Angsuran` | `Suku Bunga` | `Bunga` | `Terbayar` | `Sisa Angsuran`, grouped by branch (`Kantor Pusat`). Without a schedule the amount cells print nothing; the type prints `Tanpa Bunga` and the rate `0.0%` (dot decimal).

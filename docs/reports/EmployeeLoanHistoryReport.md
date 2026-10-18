@@ -1,24 +1,5 @@
 # History Peminjaman per Karyawan (`EmployeeLoanHistoryReport`)
 
-Group: Kas & Bank. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/EmployeeLoanHistoryReport.json`](captures/EmployeeLoanHistoryReport.json), run with default parameters over the sandbox demo data.
+Group: Kas & Bank. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox, employee loans enabled), 2026-10-18. Fixture: [`fixtures/employee-loan-t17.json`](fixtures/employee-loan-t17.json) (NL-T17-L1, 1.200.000, no interest). ERP: `apps/api/src/payroll/loans.ts`; test: `apps/api/test/loans.test.ts`. **Verified only for a loan saved without an installment schedule or disbursement** (Accurate builds the schedule client-side; installments, disbursement and payments are not covered yet).
 
-## Parameters
-
-Date parameter kind: `NONE`; request param used: `{"selectedEmployeeLoan":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedEmployeeLoan` | EMPLOYEE_LOAN | [] | No Pinjaman |
-
-
-## Layout
-
-View: `report`. Header lines: —.
-
-
-First table row (columns): `Nomor # | Tanggal | Keterangan | Nilai`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `selectedEmployeeLoan`. `Pinjaman Karyawan : <no>`, header `Nomor #` | `Tanggal` | `Keterangan` | `Nilai`, `<no> - <employee>`, then `<no> | <date> | Pinjaman Karyawan | <amount>`.

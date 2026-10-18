@@ -1,3 +1,4 @@
+import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z, ZodError } from 'zod'
@@ -74,6 +75,14 @@ export function createApp(db: Db) {
     .get('/reports/exchange-invoices', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json(R.exchangeDetail(await loadSales(db), await loadExchanges(db), from, to, new Date().toISOString().slice(0, 10)))
+    })
+    .post('/employees', async c => { await upsertEmployee(db, await c.req.json()); return c.json({ ok: true }) })
+    .post('/employee-loans', async c => c.json(await createEmployeeLoan(db, await c.req.json()), 201))
+    .get('/reports/employee-loans/:report{list|installments|history}', async c => {
+      const ls = await loadLoans(db), r = c.req.param('report')
+      if (r === 'list') return c.json(loanList(ls))
+      const l = ls.find(x => x.number === c.req.query('loan'))
+      return l ? c.json(r === 'history' ? loanHistory(l) : loanInstallments(l)) : c.json({ error: 'loan not found' }, 404)
     })
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
     .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {

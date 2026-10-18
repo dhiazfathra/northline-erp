@@ -86,9 +86,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Beban Pembayaran | `PaymentLoadReport` | report | FROMTO | selectedBank= | [spec](PaymentLoadReport.md) |
 | Rekonsiliasi Bank (Jurnal terhadap Rekening Koran) | `BankReconcileBookToStatementReport` | report | FROMTO | selectedBank= | [spec](BankReconcileBookToStatementReport.md) |
 | Rekonsiliasi Bank (Rekening Koran terhadap Jurnal) | `BankReconcileStatementToBookReport` | report | FROMTO | selectedBank= | [spec](BankReconcileStatementToBookReport.md) |
-| Daftar Piutang Karyawan | `EmployeeLoanListReport` | report | NONE | selectedBranch= | [spec](EmployeeLoanListReport.md) |
-| Angsuran Pinjaman per Karyawan | `EmployeeLoanInstallmentByEmployeeReport` | report | NONE | selectedEmployeeLoan= | [spec](EmployeeLoanInstallmentByEmployeeReport.md) |
-| History Peminjaman per Karyawan | `EmployeeLoanHistoryReport` | report | NONE | selectedEmployeeLoan= | [spec](EmployeeLoanHistoryReport.md) |
+| Daftar Piutang Karyawan | `EmployeeLoanListReport` | report | NONE | selectedBranch= | [verified](EmployeeLoanListReport.md) |
+| Angsuran Pinjaman per Karyawan | `EmployeeLoanInstallmentByEmployeeReport` | report | NONE | selectedEmployeeLoan= | [verified](EmployeeLoanInstallmentByEmployeeReport.md) |
+| History Peminjaman per Karyawan | `EmployeeLoanHistoryReport` | report | NONE | selectedEmployeeLoan= | [verified](EmployeeLoanHistoryReport.md) |
 
 ## Piutang (AR_CUSTOMER)
 
