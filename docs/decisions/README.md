@@ -25,3 +25,4 @@
 | [0021](0021-retail-report-module-dependencies.md) | Module dependencies surfaced by Retail Demo reports; proposed build order | Accepted |
 | [0022](0022-branch-department-project-dimensions.md) | Branch on journal, department and project on journal line | Accepted |
 | [0024](0024-batch-serials-transfers-warehouses.md) | Batch serials with expiry, transfer lines and receipts, warehouse master, vendor price end date | Accepted |
+| [0026](0026-job-costing.md) | Job costing: job orders, expenses and roll-over (Pekerjaan Pesanan) | Accepted |

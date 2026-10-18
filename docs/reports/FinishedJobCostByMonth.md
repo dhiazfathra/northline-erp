@@ -2,7 +2,7 @@
 
 Group: Pekerjaan Pesanan. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/FinishedJobCostByMonth.json`](captures/retail/FinishedJobCostByMonth.json).
 
-Status: blocked: requires Job Costing (out of scope, ADR-0010). Fixture: [`fixtures/retail/FinishedJobCostByMonth.json`](fixtures/retail/FinishedJobCostByMonth.json) (Retail Demo).
+Status: **verified** (zero diff on the Retail Demo 2047 seed; ADR-0026). Fixture: [`fixtures/retail/jobcosting-rg.json`](fixtures/retail/jobcosting-rg.json). ERP: `finishedJobCostByMonth` in `apps/api/src/reports/job-costing.ts`; test: `apps/api/test/job-costing.test.ts`.
 
 ## Purpose
 
@@ -32,6 +32,11 @@ Title lines: `Penyelesaian Barang/Biaya per Bulan`, `Dari 01 Jan 2000 s/d 31 Des
 - Finished value differs from material cost in [JobCostingByMonthReport](JobCostingByMonthReport.md) (Jan: 942,126,946.31 vs 635,720,816.89): unverified why.
 
 ## Verified / unverified
+
+NL-RG seed (2047, fixture above):
+- Rows are dated by the Penyelesaian Pesanan date (Feb 2047 for NL-RG-RO1, while the job order is Jan 2047); value = allocated job total (checked: 55,000).
+
+Demo capture:
 
 - Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
 - Unverified: valuation method of finished goods.

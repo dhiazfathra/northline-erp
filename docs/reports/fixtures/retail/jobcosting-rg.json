@@ -1,0 +1,798 @@
+{
+ "dataUsaha": "Retail Demo",
+ "source": "Accurate Online, Retail Demo sandbox (ACC_DB=retail), seeded and captured 2026-10-19 by tools/accurate session steps. Everything dated 2047 and prefixed NL-RG: items NL-RG-M1 / NL-RG-M2 (materials) and NL-RG-FG1 (finished good), all on 115.000-01; PI.2047.01.00001 (bill NL-RG-PI1, vendor CV Alam Lestari, no tax) stocks the materials; job order JC.2047.01.00001 (NL-RG-JC1: M1 3, M2 4, expense NL-RG Ongkos Kerja 15,000 on 511.000-04) finished by RO.2047.02.00001 (NL-RG-RO1: FG1 2 at 100%); JC.2047.02.00001 (NL-RG-JC2: M1 2, M2 5, expense 7,500) left open. WIP account 115.000-98, difference account 711.000-97 (unused). Rows are as captured, page furniture included; JobCostingJournalDetailReport has no date parameter and also prints the two demo job orders of 2016/2017.",
+ "accounts": [
+  {
+   "no": "115.000-01",
+   "name": "Persediaan Handphone",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "115.000-98",
+   "name": "Persediaan Dalam Proses",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "211.101-01",
+   "name": "Hutang Usaha Jakarta - IDR",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "411.000-01",
+   "name": "Penjualan Handphone",
+   "type": "REVENUE"
+  },
+  {
+   "no": "511.000-01",
+   "name": "Beban Pokok  Penjualan Handphone",
+   "type": "COGS"
+  },
+  {
+   "no": "511.000-04",
+   "name": "Beban Perakitan",
+   "type": "COGS"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "VJKT-0009",
+   "name": "CV Alam Lestari",
+   "apAccount": "211.101-01"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-RG-M1",
+   "name": "NL-RG Bahan A",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "411.000-01",
+   "inventoryAccount": "115.000-01",
+   "cogsAccount": "511.000-01"
+  },
+  {
+   "no": "NL-RG-M2",
+   "name": "NL-RG Bahan B",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "411.000-01",
+   "inventoryAccount": "115.000-01",
+   "cogsAccount": "511.000-01"
+  },
+  {
+   "no": "NL-RG-FG1",
+   "name": "NL-RG Barang Jadi",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "411.000-01",
+   "inventoryAccount": "115.000-01",
+   "cogsAccount": "511.000-01"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2047.01.00001",
+   "vendor": "VJKT-0009",
+   "bill": "NL-RG-PI1",
+   "date": "2047-01-05",
+   "description": "NL-RG-PI1",
+   "lines": [
+    {
+     "item": "NL-RG-M1",
+     "qty": 10,
+     "price": 10000
+    },
+    {
+     "item": "NL-RG-M2",
+     "qty": 20,
+     "price": 2500
+    }
+   ]
+  },
+  {
+   "kind": "JobOrder",
+   "number": "JC.2047.01.00001",
+   "date": "2047-01-10",
+   "description": "NL-RG-JC1",
+   "wipAccount": "115.000-98",
+   "materials": [
+    {
+     "item": "NL-RG-M1",
+     "qty": 3
+    },
+    {
+     "item": "NL-RG-M2",
+     "qty": 4
+    }
+   ],
+   "expenses": [
+    {
+     "account": "511.000-04",
+     "name": "NL-RG Ongkos Kerja",
+     "amount": 15000
+    }
+   ]
+  },
+  {
+   "kind": "RollOver",
+   "number": "RO.2047.02.00001",
+   "job": "JC.2047.01.00001",
+   "date": "2047-02-20",
+   "description": "NL-RG-RO1",
+   "lines": [
+    {
+     "item": "NL-RG-FG1",
+     "qty": 2,
+     "portion": 100
+    }
+   ]
+  },
+  {
+   "kind": "JobOrder",
+   "number": "JC.2047.02.00001",
+   "date": "2047-02-15",
+   "description": "NL-RG-JC2",
+   "wipAccount": "115.000-98",
+   "materials": [
+    {
+     "item": "NL-RG-M1",
+     "qty": 2
+    },
+    {
+     "item": "NL-RG-M2",
+     "qty": 5
+    }
+   ],
+   "expenses": [
+    {
+     "account": "511.000-04",
+     "name": "NL-RG Ongkos Kerja",
+     "amount": 7500
+    }
+   ]
+  }
+ ],
+ "ids": {
+  "items": {
+   "102150": "NL-RG-M1",
+   "102200": "NL-RG-M2",
+   "102250": "NL-RG-FG1"
+  },
+  "purchaseInvoice": 102200,
+  "jobOrders": {
+   "100250": "JC.2047.01.00001",
+   "100251": "JC.2047.02.00001"
+  },
+  "rollOver": 100250
+ },
+ "reports": {
+  "JobCostingByMonthReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Bahan dan Biaya Pekerjaan per Bulan"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Bahan dan Biaya",
+     "Jan 2047",
+     "Feb 2047",
+     "Total Bulan"
+    ],
+    [
+     "Kuantitas",
+     "Biaya",
+     "Kuantitas",
+     "Biaya",
+     "Kuantitas",
+     "Biaya"
+    ],
+    [
+     "NL-RG Bahan A",
+     "3",
+     "30,000",
+     "2",
+     "20,000",
+     "5",
+     "50,000"
+    ],
+    [
+     "NL-RG Bahan B",
+     "4",
+     "10,000",
+     "5",
+     "12,500",
+     "9",
+     "22,500"
+    ],
+    [
+     "NL-RG Ongkos Kerja",
+     "1",
+     "15,000",
+     "1",
+     "7,500",
+     "2",
+     "22,500"
+    ],
+    [
+     "Total Bahan dan Biaya",
+     "8",
+     "55,000",
+     "8",
+     "40,000",
+     "16",
+     "95,000"
+    ]
+   ],
+   "variants": [
+    {
+     "param": {
+      "startDate": "01/01/2047",
+      "endDate": "31/01/2047",
+      "selectedBranch": [
+       {
+        "name": "[Semua Cabang]",
+        "id": null
+       }
+      ]
+     },
+     "rows": [
+      [
+       "Bahan dan Biaya Pekerjaan per Bulan"
+      ],
+      [
+       "Dari 01 Jan 2047 s/d 31 Jan 2047"
+      ],
+      [
+       "Cabang : [Semua Cabang]"
+      ],
+      [
+       "Bahan dan Biaya",
+       "Jan 2047",
+       "Total Bulan"
+      ],
+      [
+       "Kuantitas",
+       "Biaya",
+       "Kuantitas",
+       "Biaya"
+      ],
+      [
+       "NL-RG Bahan A",
+       "3",
+       "30,000",
+       "3",
+       "30,000"
+      ],
+      [
+       "NL-RG Bahan B",
+       "4",
+       "10,000",
+       "4",
+       "10,000"
+      ],
+      [
+       "NL-RG Ongkos Kerja",
+       "1",
+       "15,000",
+       "1",
+       "15,000"
+      ],
+      [
+       "Total Bahan dan Biaya",
+       "8",
+       "55,000",
+       "8",
+       "55,000"
+      ]
+     ]
+    }
+   ]
+  },
+  "JobCostingHistoryDetailReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Pekerjaan Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Batch No.",
+     ":",
+     "JC.2047.01.00001",
+     "Status",
+     ":",
+     "Selesai"
+    ],
+    [
+     "Tanggal Pekerjaan",
+     ":",
+     "10 Jan 2047",
+     "Keterangan",
+     ":",
+     "NL-RG-JC1"
+    ],
+    [
+     "Tanggal Selesai",
+     ":",
+     "20 Feb 2047",
+     "Total Pesanan",
+     ":",
+     "55,000"
+    ],
+    [
+     "Tanggal",
+     "Kode",
+     "Bahan dan Biaya",
+     "Kuantitas",
+     "Unit",
+     "Alokasi (%)",
+     "Biaya",
+     "Tipe Transaksi"
+    ],
+    [
+     "10 Jan 2047",
+     "511.000-04",
+     "NL-RG Ongkos Kerja",
+     "1",
+     "15,000",
+     "Pengeluaran Barang"
+    ],
+    [
+     "10 Jan 2047",
+     "NL-RG-M2",
+     "NL-RG Bahan B",
+     "4",
+     "PCS",
+     "10,000",
+     "Pengeluaran Barang"
+    ],
+    [
+     "10 Jan 2047",
+     "NL-RG-M1",
+     "NL-RG Bahan A",
+     "3",
+     "PCS",
+     "30,000",
+     "Pengeluaran Barang"
+    ],
+    [
+     "20 Feb 2047",
+     "NL-RG-FG1",
+     "NL-RG Barang Jadi",
+     "2",
+     "PCS",
+     "100",
+     "55,000",
+     "Penyelesaian Pesanan"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:54"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Histori Pekerjaan Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Batch No.",
+     ":",
+     "JC.2047.02.00001",
+     "Status",
+     ":",
+     "Sedang diproses"
+    ],
+    [
+     "Tanggal Pekerjaan",
+     ":",
+     "15 Feb 2047",
+     "Keterangan",
+     ":",
+     "NL-RG-JC2"
+    ],
+    [
+     "Tanggal Selesai",
+     ":",
+     "Total Pesanan",
+     ":",
+     "40,000"
+    ],
+    [
+     "Tanggal",
+     "Kode",
+     "Bahan dan Biaya",
+     "Kuantitas",
+     "Unit",
+     "Alokasi (%)",
+     "Biaya",
+     "Tipe Transaksi"
+    ],
+    [
+     "15 Feb 2047",
+     "511.000-04",
+     "NL-RG Ongkos Kerja",
+     "1",
+     "7,500",
+     "Pengeluaran Barang"
+    ],
+    [
+     "15 Feb 2047",
+     "NL-RG-M1",
+     "NL-RG Bahan A",
+     "2",
+     "PCS",
+     "20,000",
+     "Pengeluaran Barang"
+    ],
+    [
+     "15 Feb 2047",
+     "NL-RG-M2",
+     "NL-RG Bahan B",
+     "5",
+     "PCS",
+     "12,500",
+     "Pengeluaran Barang"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:54"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "FinishedJobCostByMonth": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penyelesaian Barang/Biaya per Bulan"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Keterangan",
+     "Feb 2047",
+     "Total Bulan"
+    ],
+    [
+     "Kuantitas",
+     "Nilai Total",
+     "Kuantitas",
+     "Nilai Total"
+    ],
+    [
+     "NL-RG Barang Jadi",
+     "2",
+     "55,000",
+     "2",
+     "55,000"
+    ],
+    [
+     "Total Keterangan",
+     "2",
+     "55,000",
+     "2",
+     "55,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:55"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "JobCostingJournalDetailReport": {
+   "param": {},
+   "rows": [
+    [
+     "Rincian Jurnal Pekerjaan Pesanan"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "07 Des 2016",
+     "Keterangan",
+     ":"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "JC.2016.12.00001"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Debit",
+     "Kredit",
+     "Keterangan"
+    ],
+    [
+     "Pekerjaan Pesanan JC.2016.12.00001"
+    ],
+    [
+     "115.000-98",
+     "Persediaan Dalam Proses",
+     "6,486,947.11",
+     "0"
+    ],
+    [
+     "115.000-03",
+     "Persediaan Assesoris Handphone",
+     "0",
+     "47,500"
+    ],
+    [
+     "115.000-01",
+     "Persediaan Handphone",
+     "0",
+     "6,439,447.11"
+    ],
+    [
+     "6,486,947.11",
+     "6,486,947.11"
+    ],
+    [
+     "6,486,947.11",
+     "6,486,947.11"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "02 Jan 2017",
+     "Keterangan",
+     ":"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "JC.2017.01.00001"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Debit",
+     "Kredit",
+     "Keterangan"
+    ],
+    [
+     "Pekerjaan Pesanan JC.2017.01.00001"
+    ],
+    [
+     "115.000-98",
+     "Persediaan Dalam Proses",
+     "635,720,816.89",
+     "0"
+    ],
+    [
+     "115.000-01",
+     "Persediaan Handphone",
+     "0",
+     "631,065,816.89"
+    ],
+    [
+     "115.000-03",
+     "Persediaan Assesoris Handphone",
+     "0",
+     "4,655,000"
+    ],
+    [
+     "635,720,816.89",
+     "635,720,816.89"
+    ],
+    [
+     "635,720,816.89",
+     "635,720,816.89"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2047",
+     "Keterangan",
+     ":",
+     "NL-RG-JC1"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "JC.2047.01.00001"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Debit",
+     "Kredit",
+     "Keterangan"
+    ],
+    [
+     "Pekerjaan Pesanan JC.2047.01.00001"
+    ],
+    [
+     "115.000-98",
+     "Persediaan Dalam Proses",
+     "55,000",
+     "0",
+     "NL-RG-JC1"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:55"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Rincian Jurnal Pekerjaan Pesanan"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2047",
+     "Keterangan",
+     ":",
+     "NL-RG-JC1"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "JC.2047.01.00001"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Debit",
+     "Kredit",
+     "Keterangan"
+    ],
+    [
+     "115.000-01",
+     "Persediaan Handphone",
+     "0",
+     "40,000",
+     "NL-RG-JC1"
+    ],
+    [
+     "511.000-04",
+     "Beban Perakitan",
+     "0",
+     "15,000",
+     "NL-RG-JC1"
+    ],
+    [
+     "55,000",
+     "55,000"
+    ],
+    [
+     "55,000",
+     "55,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Feb 2047",
+     "Keterangan",
+     ":",
+     "NL-RG-JC2"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "JC.2047.02.00001"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Debit",
+     "Kredit",
+     "Keterangan"
+    ],
+    [
+     "Pekerjaan Pesanan JC.2047.02.00001"
+    ],
+    [
+     "115.000-98",
+     "Persediaan Dalam Proses",
+     "40,000",
+     "0",
+     "NL-RG-JC2"
+    ],
+    [
+     "115.000-01",
+     "Persediaan Handphone",
+     "0",
+     "32,500",
+     "NL-RG-JC2"
+    ],
+    [
+     "511.000-04",
+     "Beban Perakitan",
+     "0",
+     "7,500",
+     "NL-RG-JC2"
+    ],
+    [
+     "40,000",
+     "40,000"
+    ],
+    [
+     "40,000",
+     "40,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 05:55"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  }
+ }
+}
