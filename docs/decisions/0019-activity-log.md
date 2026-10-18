@@ -1,4 +1,4 @@
-# ADR-0018: Log Aktifitas (activity log) is in scope, written with every change
+# ADR-0019: Log Aktifitas (activity log) is in scope, written with every change
 
 ## Status
 Accepted (supersedes [ADR-0010](0010-report-scope.md) for `AuditListReport` only; the user/access reports

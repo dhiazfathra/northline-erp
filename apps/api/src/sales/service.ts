@@ -5,26 +5,52 @@ import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
+import { logActivity } from '../activity/log'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
   const c = customerInput.parse(input)
-  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit, currency, realized_gain_account, unrealized_gain_account) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null}, ${c.currency}, ${c.realizedGainAccount ?? null}, ${c.unrealizedGainAccount ?? null})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit, currency = EXCLUDED.currency, realized_gain_account = EXCLUDED.realized_gain_account, unrealized_gain_account = EXCLUDED.unrealized_gain_account`)
+  await db.transaction(async tx => {
+    const [row] = await tx.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit, currency, realized_gain_account, unrealized_gain_account) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null}, ${c.currency}, ${c.realizedGainAccount ?? null}, ${c.unrealizedGainAccount ?? null})
+      ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit, currency = EXCLUDED.currency, realized_gain_account = EXCLUDED.realized_gain_account, unrealized_gain_account = EXCLUDED.unrealized_gain_account
+      RETURNING (xmax = 0) AS inserted`)
+    // Accurate saves a customer as a Kontak and a Pelanggan, both logged under the customer's name (Kontak first).
+    const action = row!.inserted ? 'CREATE' : 'UPDATE'
+    await logActivity(tx, { action, entity: 'CTC', reference: c.name })
+    await logActivity(tx, { action, entity: 'CST', reference: c.name })
+  })
 }
+
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
   if (i.type === 'INVENTORY' && (!i.inventoryAccount || !i.cogsAccount)) throw new DomainError(`Barang persediaan ${i.no} butuh akun persediaan dan HPP`)
-  await db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account, expense_account, inventory_account, cogs_account, sales_return_account)
-    VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount}, ${i.expenseAccount ?? null}, ${i.inventoryAccount ?? null}, ${i.cogsAccount ?? null}, ${i.salesReturnAccount ?? null})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account,
-      expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account), inventory_account = COALESCE(EXCLUDED.inventory_account, items.inventory_account),
-      cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)`)
-  if (i.deliveredAccount) await db.execute(sql`UPDATE items SET delivered_account = ${i.deliveredAccount} WHERE no = ${i.no}`)
-  if (i.tax || i.salesDiscountAccount) await db.execute(sql`UPDATE items SET tax_name = ${i.tax ?? null}, sales_discount_account = ${i.salesDiscountAccount ?? null} WHERE no = ${i.no}`)
-  if (i.type === 'GROUP') {
-    await db.execute(sql`DELETE FROM item_group_components WHERE group_no = ${i.no}`)
-    for (const [n, c] of i.components.entries()) await db.execute(sql`INSERT INTO item_group_components VALUES (${i.no}, ${n + 1}, ${c.item}, ${c.qty})`)
-  }
+  await db.transaction(async tx => {
+    const [row] = await tx.execute(sql`INSERT INTO items (no, name, type, unit, sales_account, expense_account, inventory_account, cogs_account, sales_return_account)
+      VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount}, ${i.expenseAccount ?? null}, ${i.inventoryAccount ?? null}, ${i.cogsAccount ?? null}, ${i.salesReturnAccount ?? null})
+      ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account,
+        expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account), inventory_account = COALESCE(EXCLUDED.inventory_account, items.inventory_account),
+        cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)
+      RETURNING (xmax = 0) AS inserted`)
+    if (i.deliveredAccount) await tx.execute(sql`UPDATE items SET delivered_account = ${i.deliveredAccount} WHERE no = ${i.no}`)
+    if (i.tax || i.salesDiscountAccount) await tx.execute(sql`UPDATE items SET tax_name = ${i.tax ?? null}, sales_discount_account = ${i.salesDiscountAccount ?? null} WHERE no = ${i.no}`)
+    if (i.type === 'GROUP') {
+      await tx.execute(sql`DELETE FROM item_group_components WHERE group_no = ${i.no}`)
+      for (const [n, c] of i.components.entries()) await tx.execute(sql`INSERT INTO item_group_components VALUES (${i.no}, ${n + 1}, ${c.item}, ${c.qty})`)
+    }
+    await logActivity(tx, { action: row!.inserted ? 'CREATE' : 'UPDATE', entity: 'ITM', reference: i.name })
+  })
+}
+
+/** Deletes a customer or item no document uses, logged under its name (a customer: Pelanggan, then Kontak — Accurate's order). */
+export async function deleteMaster(db: Db, kind: 'customer' | 'item', no: string) {
+  const table = kind === 'customer' ? 'customers' : 'items'
+  await db.transaction(async tx => {
+    const [row] = await tx.execute(sql`DELETE FROM ${sql.identifier(table)} WHERE no = ${no} RETURNING name`).catch(e => {
+      throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`${no} sudah dipakai transaksi lain`) : e
+    })
+    if (!row) throw new DomainError(`${no} tidak ditemukan`)
+    const reference = row.name as string
+    for (const entity of kind === 'customer' ? (['CST', 'CTC'] as const) : (['ITM'] as const)) await logActivity(tx, { action: 'DELETE', entity, reference })
+  })
 }
 
 export async function nextNumber(tx: Tx, prefix: string) {
@@ -40,7 +66,8 @@ export function merge(lines: { account: string; amount: number }[]) {
   return [...m].map(([account, amount]) => ({ account, amount }))
 }
 
-export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
+/** `db` may be a transaction (edits re-create the invoice inside theirs); `action` is what Log Aktifitas records. */
+export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, action: 'CREATE' | 'UPDATE' = 'CREATE') {
   const parsed = salesInvoiceInput.parse(input)
   // Foreign invoice: everything below works in IDR (price x rate); the rate is kept for receipts (ADR-0012).
   const inv = { ...parsed, lines: parsed.lines.map(l => ({ ...l, price: Math.round(l.price * parsed.rate) })) }
@@ -136,9 +163,47 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
       await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct)
         VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO sales_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
+    await logActivity(tx, { action, entity: 'SI', reference: number, docDate: inv.date })
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${inv.idempotencyKey}, 'CreateSalesInvoice', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+/** Takes back everything an invoice wrote (lines, taxes, installments, DP usages, stock moves, journal); refused once another document uses it. */
+async function removeSalesInvoice(tx: Tx, number: string, idempotencyKey: string) {
+  const [si] = await tx.execute(sql`SELECT journal_id, to_char(date, 'YYYY-MM-DD') AS date, spt_masa_id FROM sales_invoices WHERE number = ${number} AND kind = 'SI' FOR UPDATE`)
+  if (!si) throw new DomainError(`Faktur ${number} tidak ditemukan`)
+  if (si.spt_masa_id) throw new DomainError(`Faktur ${number} sudah masuk SPT Masa`)
+  for (const t of ['sales_invoice_lines', 'sales_invoice_taxes', 'sales_invoice_installments', 'sales_dp_usages'])
+    await tx.execute(sql`DELETE FROM ${sql.identifier(t)} WHERE invoice_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'SI' AND doc_number = ${number}`)
+  // receipts, returns and exchange invoices reference the invoice by foreign key
+  await tx.execute(sql`DELETE FROM sales_invoices WHERE number = ${number}`).catch(e => {
+    throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`Faktur ${number} sudah dipakai transaksi lain`) : e
+  })
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: si.journal_id as string })
+  return si.date as string
+}
+
+export async function deleteSalesInvoice(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const date = await removeSalesInvoice(tx, number, idempotencyKey)
+    await logActivity(tx, { action: 'DELETE', entity: 'SI', reference: number, docDate: date })
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteSalesInvoice', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Accurate edits an invoice in place: the old one is taken back and the new content saved, under the new number if one is given. */
+export async function editSalesInvoice(db: Db, number: string, input: SalesInvoiceInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesInvoice(tx, number, input.idempotencyKey)
+    return createSalesInvoice(tx, { ...input, number: input.number ?? number }, 'UPDATE')
   })
 }
 

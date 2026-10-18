@@ -25,21 +25,21 @@ export const ledgerProjection: Projection = {
       await tx.execute(sql`UPDATE accounts SET name = ${e.data.name}, updated_at = now() WHERE no = ${e.data.no}`)
     } else if (e.type === 'AccountSuspended') {
       await tx.execute(sql`UPDATE accounts SET suspended = true, updated_at = now() WHERE no = ${e.data.no}`)
+    } else if (e.type === 'AccountDeleted') {
+      // journal lines are projected asynchronously, so a line the command could not see yet keeps the row
+      await tx.execute(sql`DELETE FROM accounts a WHERE a.no = ${e.data.no} AND NOT EXISTS (SELECT 1 FROM journal_lines WHERE account_no = a.no)`)
     } else if (e.type === 'JournalPosted') {
       const d = e.data
       await tx.execute(sql`INSERT INTO journals (journal_id, number, source_type, date, description, reverses, global_position)
         VALUES (${d.journalId}, ${d.number ?? null}, ${d.sourceType ?? 'JV'}, ${d.date}, ${d.description}, ${d.reverses ?? null}, ${e.globalPosition})`)
-      let total = 0
-      for (const [i, l] of d.lines.entries()) {
-        const debit = l.side === 'DEBIT' ? l.amount : 0, credit = l.side === 'CREDIT' ? l.amount : 0
-        total += debit
-        await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo)
-          VALUES (${d.journalId}, ${i + 1}, ${d.date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null})`)
-        await tx.execute(sql`INSERT INTO account_daily_balances (account_no, date, debit, credit) VALUES (${l.account}, ${day(d.date)}, ${debit}, ${credit})
-          ON CONFLICT (account_no, date) DO UPDATE SET debit = account_daily_balances.debit + EXCLUDED.debit, credit = account_daily_balances.credit + EXCLUDED.credit`)
-      }
-      await tx.execute(sql`INSERT INTO period_summaries (period, debit, credit, journals) VALUES (${period(d.date)}, ${total}, ${total}, 1)
-        ON CONFLICT (period) DO UPDATE SET debit = period_summaries.debit + EXCLUDED.debit, credit = period_summaries.credit + EXCLUDED.credit, journals = period_summaries.journals + 1`)
+      await postLines(tx, d.journalId, d.date, d.lines)
+    } else if (e.type === 'JournalEdited') {
+      await unpostLines(tx, e.data.journalId)
+      await tx.execute(sql`UPDATE journals SET number = ${e.data.number ?? null}, date = ${e.data.date}, description = ${e.data.description} WHERE journal_id = ${e.data.journalId}`)
+      await postLines(tx, e.data.journalId, e.data.date, e.data.lines)
+    } else if (e.type === 'JournalDeleted') {
+      await unpostLines(tx, e.data.journalId)
+      await tx.execute(sql`DELETE FROM journals WHERE journal_id = ${e.data.journalId}`)
     } else if (e.type === 'JournalReversed') {
       await tx.execute(sql`UPDATE journals SET reversed_by = ${e.data.reversalJournalId} WHERE journal_id = ${e.data.journalId}`)
     } else if (e.type === 'PeriodClosed' || e.type === 'PeriodReopened') {
@@ -47,6 +47,30 @@ export const ledgerProjection: Projection = {
         ON CONFLICT (period) DO UPDATE SET closed = EXCLUDED.closed`)
     }
   },
+}
+
+/** Adds a journal's lines to journal_lines and the daily/period totals. */
+async function postLines(tx: Tx, journalId: string, date: string, lines: { account: string; side: string; amount: number; memo?: string }[]) {
+  let total = 0
+  for (const [i, l] of lines.entries()) {
+    const debit = l.side === 'DEBIT' ? l.amount : 0, credit = l.side === 'CREDIT' ? l.amount : 0
+    total += debit
+    await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo)
+      VALUES (${journalId}, ${i + 1}, ${date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null})`)
+    await tx.execute(sql`INSERT INTO account_daily_balances (account_no, date, debit, credit) VALUES (${l.account}, ${day(date)}, ${debit}, ${credit})
+      ON CONFLICT (account_no, date) DO UPDATE SET debit = account_daily_balances.debit + EXCLUDED.debit, credit = account_daily_balances.credit + EXCLUDED.credit`)
+  }
+  await tx.execute(sql`INSERT INTO period_summaries (period, debit, credit, journals) VALUES (${period(date)}, ${total}, ${total}, 1)
+    ON CONFLICT (period) DO UPDATE SET debit = period_summaries.debit + EXCLUDED.debit, credit = period_summaries.credit + EXCLUDED.credit, journals = period_summaries.journals + 1`)
+}
+
+/** Removes a journal's lines and takes them back out of the daily/period totals. */
+async function unpostLines(tx: Tx, journalId: string) {
+  const lines = await tx.execute(sql`DELETE FROM journal_lines WHERE journal_id = ${journalId} RETURNING to_char(date, 'YYYY-MM-DD') AS date, account_no, debit, credit`)
+  for (const l of lines) await tx.execute(sql`UPDATE account_daily_balances SET debit = debit - ${l.debit}, credit = credit - ${l.credit} WHERE account_no = ${l.account_no} AND date = ${l.date}`)
+  if (!lines.length) return
+  const total = lines.reduce((s, l) => s + Number(l.debit), 0)
+  await tx.execute(sql`UPDATE period_summaries SET debit = debit - ${total}, credit = credit - ${total}, journals = journals - 1 WHERE period = ${period(lines[0]!.date as string)}`)
 }
 
 export const projections: Projection[] = [ledgerProjection]

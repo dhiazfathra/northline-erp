@@ -3,12 +3,14 @@ import { createCashDocument } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import { sql } from 'drizzle-orm'
-import { Hono } from 'hono'
+import { Hono, type Context } from 'hono'
 import { z, ZodError } from 'zod'
 import { balanceSheetQuery, trialBalanceQuery } from '@northline/schemas/ledger-es'
 import type { Db } from './db'
 import { authRoutes, requireSession, type AuthEnv } from './auth'
 import { serveSpa } from './spa'
+import { withActor } from './activity/log'
+import { auditList, loadActivity } from './reports/activity-log'
 import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
@@ -21,8 +23,14 @@ import { createItemAdjustment, createItemTransfer } from './inventory/adjustment
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
+import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+
+/** Socket address under Bun; on Workers the edge's cf-connecting-ip (a client-sent header is never trusted under Bun). */
+function clientIp(c: Context): string | null {
+  const server = c.env as { requestIP?: (r: Request) => { address: string } | null } | undefined
+  return typeof server?.requestIP === 'function' ? server.requestIP(c.req.raw)?.address ?? null : c.req.header('cf-connecting-ip') ?? null
+}
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -35,10 +43,12 @@ export function createApp(db: Db) {
     })
     .route('/auth', authRoutes(db))
     .use('*', requireSession(db))
+    // every change made by this request is logged with its user and client IP (ADR-0019)
+    .use('*', (c, next) => withActor({ userId: c.get('userId'), ip: clientIp(c) }, next))
     .get('/me', c => c.json({ userId: c.get('userId') }))
     .post('/ledger/commands', async c => {
       // handle() owns parsing (amounts → cents); parsing here too would convert twice
-      const result = await handle(db, await c.req.json(), { requestId: c.req.header('x-request-id'), userId: c.get('userId') })
+      const result = await handle(db, await c.req.json(), { requestId: c.req.header('x-request-id'), userId: c.get('userId'), ip: clientIp(c) })
       return c.json(result, 202)
     })
     .get('/reports/trial-balance', async c => {
@@ -46,6 +56,10 @@ export function createApp(db: Db) {
       const after = Number(c.req.query('after') ?? 0)
       if (after) await waitFor(db, after)
       return c.json(await queryTrialBalance(db, q))
+    })
+    .get('/reports/activity-log', async c => {
+      const q = trialBalanceQuery.pick({ from: true, to: true }).parse(c.req.query())
+      return c.json(auditList(await loadActivity(db, q.from, q.to), q.from, q.to))
     })
     .get('/reports/profit-loss', async c => c.json(await queryProfitLoss(db, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/general-ledger/:report{journal-list|all-journals|history|summary|detail|account-journal-detail|account-list}', async c =>
@@ -66,7 +80,10 @@ export function createApp(db: Db) {
     .get('/reports/cash-bank/cash-list', async c => c.json(await queryCashAccountList(db, balanceSheetQuery.parse(c.req.query()).asOf)))
     .post('/sales/customers', async c => { await upsertCustomer(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
+    .delete('/sales/:kind{customers|items}/:no', async c => { await deleteMaster(db, c.req.param('kind') === 'customers' ? 'customer' : 'item', c.req.param('no')); return c.json({ ok: true }) })
     .post('/sales/invoices', async c => c.json(await createSalesInvoice(db, await c.req.json()), 201))
+    .put('/sales/invoices/:number', async c => c.json(await editSalesInvoice(db, c.req.param('number'), await c.req.json())))
+    .delete('/sales/invoices/:number', async c => c.json(await deleteSalesInvoice(db, c.req.param('number'), z.object({ idempotencyKey: z.string().min(8) }).parse(await c.req.json()).idempotencyKey)))
     .post('/sales/down-payments', async c => c.json(await createSalesDownPayment(db, await c.req.json()), 201))
     .post('/sales/orders', async c => c.json(await createSalesOrder(db, await c.req.json()), 201))
     .post('/sales/deliveries', async c => c.json(await createDeliveryOrder(db, await c.req.json()), 201))

@@ -47,6 +47,17 @@ export const reverseJournalCommand = z.object({
   date: isoDate,
   reason: z.string().default(''),
 })
+/** Jurnal Umum edited in place (Accurate keeps one document): full replacement of number, date, description and lines. */
+export const editJournalCommand = z.object({
+  ...commandBase,
+  type: z.literal('EditJournal'),
+  journalId: z.string().uuid(),
+  number: z.string().optional(),
+  date: isoDate,
+  description: z.string().default(''),
+  lines: z.array(journalLine.extend({ amount: amountToCents })).min(2),
+})
+export const deleteJournalCommand = z.object({ ...commandBase, type: z.literal('DeleteJournal'), journalId: z.string().uuid() })
 export const closePeriodCommand = z.object({ ...commandBase, type: z.literal('ClosePeriod'), period: periodId })
 export const reopenPeriodCommand = z.object({ ...commandBase, type: z.literal('ReopenPeriod'), period: periodId })
 
@@ -58,13 +69,17 @@ const accountNo = z.string().trim().min(1).max(40)
 export const openAccountCommand = z.object({ ...commandBase, type: z.literal('OpenAccount'), no: accountNo, name: z.string().trim().min(1), accountType, parentNo: accountNo.optional() })
 export const renameAccountCommand = z.object({ ...commandBase, type: z.literal('RenameAccount'), no: accountNo, name: z.string().trim().min(1) })
 export const suspendAccountCommand = z.object({ ...commandBase, type: z.literal('SuspendAccount'), no: accountNo })
+export const deleteAccountCommand = z.object({ ...commandBase, type: z.literal('DeleteAccount'), no: accountNo })
 
 export const ledgerCommand = z.discriminatedUnion('type', [
   openAccountCommand,
   renameAccountCommand,
   suspendAccountCommand,
+  deleteAccountCommand,
   postJournalCommand,
   reverseJournalCommand,
+  editJournalCommand,
+  deleteJournalCommand,
   closePeriodCommand,
   reopenPeriodCommand,
 ])
@@ -84,19 +99,25 @@ export const journalPosted = z.object({
   reverses: z.string().optional(),
 })
 export const journalReversed = z.object({ journalId: z.string(), reversalJournalId: z.string(), date: isoDate, reason: z.string() })
+export const journalEdited = z.object({ journalId: z.string(), number: z.string().optional(), date: isoDate, description: z.string(), lines: z.array(journalLine).min(2) })
+export const journalDeleted = z.object({ journalId: z.string() })
 export const periodClosed = z.object({ period: periodId })
 export const periodReopened = z.object({ period: periodId })
 
 export const accountOpened = z.object({ no: z.string(), name: z.string(), accountType, parentNo: z.string().optional() })
 export const accountRenamed = z.object({ no: z.string(), name: z.string() })
 export const accountSuspended = z.object({ no: z.string() })
+export const accountDeleted = z.object({ no: z.string() })
 
 export const ledgerEvent = z.discriminatedUnion('type', [
   z.object({ type: z.literal('AccountOpened'), data: accountOpened }),
   z.object({ type: z.literal('AccountRenamed'), data: accountRenamed }),
   z.object({ type: z.literal('AccountSuspended'), data: accountSuspended }),
+  z.object({ type: z.literal('AccountDeleted'), data: accountDeleted }),
   z.object({ type: z.literal('JournalPosted'), data: journalPosted }),
   z.object({ type: z.literal('JournalReversed'), data: journalReversed }),
+  z.object({ type: z.literal('JournalEdited'), data: journalEdited }),
+  z.object({ type: z.literal('JournalDeleted'), data: journalDeleted }),
   z.object({ type: z.literal('PeriodClosed'), data: periodClosed }),
   z.object({ type: z.literal('PeriodReopened'), data: periodReopened }),
 ])

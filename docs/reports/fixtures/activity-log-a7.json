@@ -1,0 +1,222 @@
+{
+ "from": "2026-10-19",
+ "to": "2026-10-19",
+ "rows": [
+  [
+   "Daftar Log Aktifitas"
+  ],
+  [
+   "Dari 19 Okt 2026 s/d 19 Okt 2026"
+  ],
+  [
+   "No/Nama Referensi",
+   "Tgl Transaksi",
+   "Tipe Tindakan",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Pengguna",
+   "Email",
+   "Alamat IP"
+  ],
+  [
+   "NL-A7-SI2",
+   "21 Apr 2038",
+   "Hapus",
+   "Faktur Penjualan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-SI2",
+   "21 Apr 2038",
+   "Ubah",
+   "Faktur Penjualan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-SI1",
+   "20 Apr 2038",
+   "Ubah",
+   "Faktur Penjualan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-SI1",
+   "20 Apr 2038",
+   "Buat",
+   "Faktur Penjualan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-JV2",
+   "21 Apr 2038",
+   "Hapus",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-JV2",
+   "21 Apr 2038",
+   "Ubah",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-JV1",
+   "20 Apr 2038",
+   "Ubah",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7-JV1",
+   "20 Apr 2038",
+   "Buat",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Barang diubah",
+   "",
+   "Hapus",
+   "Barang & Jasa",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Barang diubah",
+   "",
+   "Ubah",
+   "Barang & Jasa",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Barang",
+   "",
+   "Buat",
+   "Barang & Jasa",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan diubah",
+   "",
+   "Hapus",
+   "Kontak",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan diubah",
+   "",
+   "Hapus",
+   "Pelanggan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan diubah",
+   "",
+   "Ubah",
+   "Pelanggan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan diubah",
+   "",
+   "Ubah",
+   "Kontak",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan",
+   "",
+   "Buat",
+   "Pelanggan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Pelanggan",
+   "",
+   "Buat",
+   "Kontak",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Akun diubah",
+   "",
+   "Hapus",
+   "Akun Perkiraan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Akun diubah",
+   "",
+   "Ubah",
+   "Akun Perkiraan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-A7 Akun",
+   "",
+   "Buat",
+   "Akun Perkiraan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ]
+ ]
+}
