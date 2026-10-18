@@ -270,9 +270,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | [verified](FixedAssetHistoryReport.md) |
 | Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | [verified](FixedAssetJournalReport.md) |
 | Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | [spec](DifferentIntermDepreciationReport.md) |
-| Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [spec](AssetLocationHistoryReport.md) |
+| Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [verified](AssetLocationHistoryReport.md) |
 | Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [verified](FixedAssetDetailReport.md) |
-| Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetEditedHistoryReport.md) |
+| Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [verified](FixedAssetEditedHistoryReport.md) |
 | Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [verified](FiscalFaTypeListReport.md) |
 | Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | [spec](FixedAssetEditedListReport.md) |
 | Daftar Disposisi Aset Tetap | `FixedAssetDisposedListReport` | report | FROMTO | — | [verified](FixedAssetDisposedListReport.md) |

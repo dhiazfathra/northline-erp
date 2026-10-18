@@ -1,24 +1,25 @@
 # Histori Lokasi Aset (`AssetLocationHistoryReport`)
 
-Group: Aset Tetap. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/AssetLocationHistoryReport.json`](captures/AssetLocationHistoryReport.json), run with default parameters over the sandbox demo data.
+Group: Aset Tetap. **Status: verified** (zero diff, T5 asset after the T11 disposal). Fixture: [`fixtures/asset-disposal-t11.json`](fixtures/asset-disposal-t11.json) (`reports.AssetLocationHistoryReport`).
+ERP: `apps/api/src/reports/fixed-assets.ts` (`assetLocationHistory`); test: `apps/api/test/fixed-assets.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `NONE`; request param used: `{"selectedAsset":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedAsset` | FIXED_ASSET_MULTI | [] | Aset Tetap |
-
+No date. `selectedAsset` = array of `{id}` (FAA.2034.01.00001 = 150). With `[]` only the label rows print.
 
 ## Layout
 
-View: `report`. Header lines: —.
+Per asset: `Nomor # : <no> | Umur (Tahun) : <y>`, `Tanggal : <purchase date> | Umur (Bulan) : <m>`,
+`Metode Penyusutan : <method> | Nama Lokasi Awal Aset : <branch>`, then
+`Tanggal | No. | Keterangan | Kuantitas | Lokasi Aset | Alamat Asal`.
 
+## Calculation rules
 
-First table row (columns): `Nomor # | : | Umur (Tahun) | :`
+- Acquisition row: purchase date, asset number, asset description, quantity `1`, initial location (branch, "Kantor Pusat").
+- Disposal row: disposal date and number, disposal description, quantity `-1`, same location.
+- Umur = useful life split into whole years and remaining months (24 months = 2 / 0).
+- Alamat Asal is empty (the trailing cell is dropped).
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Asset location transfers are not modelled (`shortcut:` in the code); every asset sits at the default branch.

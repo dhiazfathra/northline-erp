@@ -85,3 +85,29 @@ export function disposedList(assets: Asset[], from: string, to: string): string[
     ...assets.filter(a => a.disposal && a.disposal.date >= from && a.disposal.date <= to).sort((a, b) => (a.disposal!.number < b.disposal!.number ? -1 : 1))
       .map(a => { const d = a.disposal!; return [d.number, fmtDate(d.date), a.number, a.description, d.gainLossName, d.sold ? 'Ya' : 'Tidak', formatIdr(d.price), d.sellingName, d.description] })]
 }
+
+// shortcut: every asset sits at the default branch (no location transfers modelled); add moves when asset transfers exist.
+const LOCATION = 'Kantor Pusat'
+
+/** Histori Lokasi Aset: acquisition (+1) and disposal (-1) at the asset's location; Alamat Asal empty (trailing cell dropped). */
+export function assetLocationHistory(a: Asset): string[][] {
+  const [y, m] = life(a)
+  return [['Nomor #', ':', a.number, 'Umur (Tahun)', ':', y], ['Tanggal', ':', fmtDate(a.date), 'Umur (Bulan)', ':', m],
+    ['Metode Penyusutan', ':', METHOD, 'Nama Lokasi Awal Aset', ':', LOCATION],
+    ['Tanggal', 'No.', 'Keterangan', 'Kuantitas', 'Lokasi Aset', 'Alamat Asal'],
+    [fmtDate(a.date), a.number, a.description, '1', LOCATION],
+    ...(a.disposal ? [[fmtDate(a.disposal.date), a.disposal.number, a.disposal.description, '-1', LOCATION]] : [])]
+}
+
+/**
+ * Histori Perubahan Aset: disposals (and asset edits, not modelled) dated in the window. Keterangan is generated:
+ * "Disposisi 1, dijual senilai <price, en-US grouping>"; the asset columns show its data after the change.
+ */
+export function fixedAssetEditedHistory(a: Asset, from: string, to: string): string[][] {
+  const [y, m] = life(a), d = a.disposal
+  return [['Kode Aset', ':', a.number, 'Umur (Tahun)', ':', y], ['Tanggal Beli', ':', fmtDate(a.date), 'Umur (Bulan)', ':', m],
+    ['Metode Penyusutan', ':', METHOD],
+    ['Tanggal', 'Nomor #', 'Tipe', 'Keterangan', 'Kode Aset', 'Tanggal Beli', 'Metode Penyusutan', 'Umur (Tahun)', 'Umur (Bulan)'],
+    ...(d && d.date >= from && d.date <= to ? [[fmtDate(d.date), d.number, 'Disposisi',
+      `Disposisi 1, ${d.sold ? `dijual senilai ${(d.price / 100).toLocaleString('en-US')}` : 'tidak dijual' /* shortcut: unsold wording not captured */}`, a.number, fmtDate(a.date), METHOD, y, m]] : [])]
+}

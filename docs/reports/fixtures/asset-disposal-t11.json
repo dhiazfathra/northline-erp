@@ -137,6 +137,194 @@
      "Laba/Rugi"
     ]
    ]
+  },
+  "AssetLocationHistoryReport": {
+   "param": {
+    "selectedAsset": [
+     {
+      "id": 150
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Lokasi Aset"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "FAA.2034.01.00001",
+     "Umur (Tahun)",
+     ":",
+     "2"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2034",
+     "Umur (Bulan)",
+     ":",
+     "0"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nama Lokasi Awal Aset",
+     ":",
+     "Kantor Pusat"
+    ],
+    [
+     "Tanggal",
+     "No.",
+     "Keterangan",
+     "Kuantitas",
+     "Lokasi Aset",
+     "Alamat Asal"
+    ],
+    [
+     "15 Jan 2034",
+     "FAA.2034.01.00001",
+     "NL-T5 Mesin Uji",
+     "1",
+     "Kantor Pusat"
+    ],
+    [
+     "15 Apr 2034",
+     "FAD.2034.04.00001",
+     "NL-T11-FD1",
+     "-1",
+     "Kantor Pusat"
+    ]
+   ]
+  },
+  "FixedAssetEditedHistoryReport": {
+   "param": {
+    "startDate": "01/01/2034",
+    "endDate": "31/12/2034",
+    "selectedAsset": [
+     {
+      "id": 150
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Histori Perubahan Aset"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Des 2034"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2034.01.00001",
+     "Umur (Tahun)",
+     ":",
+     "2"
+    ],
+    [
+     "Tanggal Beli",
+     ":",
+     "15 Jan 2034",
+     "Umur (Bulan)",
+     ":",
+     "0"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tanggal",
+     "Nomor #",
+     "Tipe",
+     "Keterangan",
+     "Kode Aset",
+     "Tanggal Beli",
+     "Metode Penyusutan",
+     "Umur (Tahun)",
+     "Umur (Bulan)"
+    ],
+    [
+     "15 Apr 2034",
+     "FAD.2034.04.00001",
+     "Disposisi",
+     "Disposisi 1, dijual senilai 11,000,000",
+     "FAA.2034.01.00001",
+     "15 Jan 2034",
+     "Metode Garis Lurus",
+     "2",
+     "0"
+    ]
+   ]
+  },
+  "FixedAssetEditedListReport": {
+   "param": {
+    "startDate": "01/01/2034",
+    "endDate": "31/12/2034"
+   },
+   "rows": [
+    [
+     "Daftar Perubahan Aset Tetap"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Des 2034"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama",
+     "Tipe",
+     "Keterangan",
+     "Pengeluaran"
+    ]
+   ]
+  },
+  "DifferentIntermDepreciationReport": {
+   "param": {
+    "asOfYear": 2034,
+    "selectedAsset": [
+     {
+      "id": 150
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2034"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "Perkiraan Umur",
+     ":",
+     "Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Total Aset",
+     ":"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Nilai Sisa",
+     ":"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ]
+   ]
   }
  }
 }

@@ -1,24 +1,24 @@
 # Histori Perubahan Aset (`FixedAssetEditedHistoryReport`)
 
-Group: Aset Tetap. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/FixedAssetEditedHistoryReport.json`](captures/FixedAssetEditedHistoryReport.json), run with default parameters over the sandbox demo data.
+Group: Aset Tetap. **Status: verified** (zero diff, T5 asset with the T11 disposal, 2034). Fixture: [`fixtures/asset-disposal-t11.json`](fixtures/asset-disposal-t11.json) (`reports.FixedAssetEditedHistoryReport`).
+ERP: `apps/api/src/reports/fixed-assets.ts` (`fixedAssetEditedHistory`); test: `apps/api/test/fixed-assets.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedAsset":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedAsset` | FIXED_ASSET_MULTI | [] | Aset Tetap |
-
+`startDate` / `endDate` (dd/MM/yyyy) + `selectedAsset` = array of `{id}`.
 
 ## Layout
 
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
+`Kode Aset : <no> | Umur (Tahun) : <y>`, `Tanggal Beli : <date> | Umur (Bulan) : <m>`, `Metode Penyusutan : <method>`, then
+`Tanggal | Nomor # | Tipe | Keterangan | Kode Aset | Tanggal Beli | Metode Penyusutan | Umur (Tahun) | Umur (Bulan)`.
 
+## Calculation rules
 
-First table row (columns): `Kode Aset | : | Umur (Tahun) | :`
+- One row per change document dated in the window. A disposal prints Tipe `Disposisi` and a generated Keterangan
+  `Disposisi 1, dijual senilai <price>` with en-US digit grouping (`11,000,000`), not the disposal's own description.
+- The asset columns repeat the asset's data after the change (code, purchase date, method, life).
+- The acquisition itself is not a change and does not print.
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Unsold-disposal wording and asset edits (Ubah Aset) are not captured.

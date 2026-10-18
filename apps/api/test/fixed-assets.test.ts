@@ -54,4 +54,7 @@ test('disposal: journal, Daftar Disposisi, history of a disposed asset (asset-di
   const all = await loadFixedAssets(f.db)
   expect(F.disposedList(all, '2034-01-01', '2034-04-30')).toEqual(r('FixedAssetDisposedListReport'))
   expect(F.fixedAssetHistory(all.find(a => a.number === t11.disposal.asset)!, '2034-01-01', '2034-04-30')).toEqual(r('FixedAssetHistoryReport'))
+  const disposed = all.find(a => a.number === t11.disposal.asset)!
+  expect(F.assetLocationHistory(disposed)).toEqual(r('AssetLocationHistoryReport'))
+  expect(F.fixedAssetEditedHistory(disposed, '2034-01-01', '2034-12-31')).toEqual(r('FixedAssetEditedHistoryReport'))
 })
