@@ -20,6 +20,15 @@ View: `report`. Header lines: "Cabang : [Semua Cabang]".
 
 First table row (columns): `Nama Barang | Harga Jual | Satuan Jual | Harga Beli | Satuan Beli | HPP (%)`
 
+## Findings so far (2026-10-18)
+
+The report has no date parameter. It stayed empty (header row only) for branch Utama and [Semua Cabang] in all of these states:
+- NL-T4-B1 with purchase invoices only.
+- A Harga Pemasok (vendor price, VPA) and a Penyesuaian Harga Jual (SPA) dated 2036.
+- A VPA and an SPA dated 1 Oct 2026, before the run date. These two were deleted after the check.
+
+So neither vendor prices nor selling price adjustments make an item appear. The likely trigger is the item master's own price fields (Harga Jual / Harga Beli on the item form). The scripted item save cannot set them yet (`_getSubmitData` fails on the item form).
+
 ## Open work
 
 - Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
