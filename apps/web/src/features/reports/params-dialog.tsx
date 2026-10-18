@@ -52,7 +52,7 @@ export function ParamsDialog({ report, onClose }: { report: Report | null; onClo
 
   return (
     <Dialog open={!!report} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent showCloseButton={false} className={cn(modal, 'flex max-h-[calc(100%-32px)] w-[min(560px,calc(100%-32px))] flex-col gap-0 overflow-y-auto', isMobile ? 'p-5' : 'p-7')} data-screen-label="Report parameters">
+      <DialogContent showCloseButton={false} className={cn(modal, 'flex max-h-[calc(100%-32px)] w-[min(560px,calc(100%-32px))] flex-col gap-0 overflow-y-auto', isMobile ? 'p-[22px]' : 'p-7')} data-screen-label="Report parameters">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="text-[11px] uppercase tracking-[.5px] opacity-60">{L.rpParams}</div>
@@ -76,7 +76,7 @@ export function ParamsDialog({ report, onClose }: { report: Report | null; onClo
               {dateF.map((f) => (
                 <label key={f.name} className="flex flex-col gap-1.5 text-[11px]">
                   {f.label}
-                  <input type="date" {...register(f.name)} className="rounded-[14px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-3.5 py-[11px] text-[13px] text-(--ink) outline-none [color-scheme:dark] in-data-[mode=light]:[color-scheme:light]" />
+                  <input type="date" {...register(f.name)} className="h-[42px] rounded-[14px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-3.5 py-[11px] text-[13px] text-(--ink) outline-none [color-scheme:dark] in-data-[mode=light]:[color-scheme:light]" />
                 </label>
               ))}
             </div>
