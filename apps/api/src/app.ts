@@ -103,10 +103,15 @@ export function createApp(db: Db) {
     .get('/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item}', async c => {
       const d = await loadInventory(db), q = c.req.query(), r = c.req.param('report')
       if (r === 'aging') return c.json(I.inventoryAging(d, balanceSheetQuery.parse(q).asOf))
+      if (r === 'quantity-by-warehouse') return c.json(I.quantityByWarehouse(d, balanceSheetQuery.parse(q).asOf))
+      if (r === 'aging-by-warehouse') return c.json(I.inventoryAgingByWarehouse(d, balanceSheetQuery.parse(q).asOf))
       const { from, to } = trialBalanceQuery.parse(q), items = c.req.queries('item') ?? []
       if (r === 'valuation') return c.json(I.inventoryValuation(d, from, to))
       if (r === 'stock-card') return c.json(I.stockCard(d, items, from, to))
       if (r === 'valuation-detail') return c.json(I.valuationDetail(d, items, from, to))
+      if (r === 'item-mutation') return c.json(I.itemMutationByWarehouse(d, items, from, to))
+      if (r === 'warehouse-mutation') return c.json(I.warehouseMutationByItem(d, from, to))
+      if (r === 'warehouse-summary') return c.json(I.warehouseMutationSummary(d, from, to))
       const sales = (await db.execute(sql`SELECT l.item_no, to_char(i.date,'YYYY-MM-DD') AS date, l.total FROM sales_invoice_lines l JOIN sales_invoices i ON i.number = l.invoice_number`))
         .map(x => ({ item: x.item_no as string, date: x.date as string, total: Number(x.total) }))
       return c.json(I.profitabilityByItem(d, sales, from, to))

@@ -213,7 +213,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Nilai Persediaan (CSV) | `InventoryValuationDetailDownloadReport` | download | FROMTO | — sel:ITEM_CATEGORY_ALL | [spec](InventoryValuationDetailDownloadReport.md) |
 | Ketersediaan Stok Penjualan | `InventoryAnalysisReport` | report | ASOF | selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryAnalysisReport.md) |
 | Umur Persediaan | `InventoryAgingReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingReport.md) |
-| Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [spec](InventoryAgingByWarehouseReport.md) |
+| Umur Persediaan per Gudang | `InventoryAgingByWarehouseReport` | crosstab | ASOF | selectedWarehouse=, selectedBranch= sel:ITEM_CATEGORY_ALL | [verified](InventoryAgingByWarehouseReport.md) |
 | Rincian Nilai Persediaan | `InventoryValuationDetailReport` | report | FROMTO | selectedItem= | [verified](InventoryValuationDetailReport.md) |
 | Rincian Ketersediaan Stok Penjualan | `InventoryAnalysisDetailReport` | report | ASOF | selectedItem= | [spec](InventoryAnalysisDetailReport.md) |
 | Rincian Umur Persediaan | `InventoryAgingDetailReport` | report | ASOF | selectedItem=, selectedWarehouse= | [spec](InventoryAgingDetailReport.md) |
@@ -232,10 +232,10 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Kuantitas Barang per Gudang | `QuantityItemByWarehouseReport` | crosstab | ASOF | selectedBranch=, selectedWarehouse= sel:ITEM_CATEGORY_ALL | [spec](QuantityItemByWarehouseReport.md) |
-| Mutasi per Barang | `ItemMutationByWarehouseReport` | report | FROMTO | selectedItem= | [spec](ItemMutationByWarehouseReport.md) |
-| Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | [spec](WarehouseMutationByItemReport.md) |
-| Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | [spec](WarehouseMutationSummaryReport.md) |
+| Kuantitas Barang per Gudang | `QuantityItemByWarehouseReport` | crosstab | ASOF | selectedBranch=, selectedWarehouse= sel:ITEM_CATEGORY_ALL | [verified](QuantityItemByWarehouseReport.md) |
+| Mutasi per Barang | `ItemMutationByWarehouseReport` | report | FROMTO | selectedItem= | [verified](ItemMutationByWarehouseReport.md) |
+| Mutasi per Gudang | `WarehouseMutationByItemReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationByItemReport.md) |
+| Ringkasan Mutasi Gudang | `WarehouseMutationSummaryReport` | report | FROMTO | selectedWarehouse= | [verified](WarehouseMutationSummaryReport.md) |
 | Lembar Penghitungan Stok | `PhysicalInventoryCountSheetReport` | report | ASOF | selectedWarehouse, selectedBranch= | [spec](PhysicalInventoryCountSheetReport.md) |
 | Mutasi Nomor Seri/Produksi | `ReceivedDeliveredSerialNumberReport` | report | FROMTO | selectedItem= | [spec](ReceivedDeliveredSerialNumberReport.md) |
 | Sisa Umur Per Nomor Produksi | `RemainingAgeSerialNumberDetailReport` | report | ASOF | selectedItem= | [spec](RemainingAgeSerialNumberDetailReport.md) |

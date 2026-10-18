@@ -1,24 +1,5 @@
 # Ringkasan Mutasi Gudang (`WarehouseMutationSummaryReport`)
 
-Group: Gudang . **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/WarehouseMutationSummaryReport.json`](captures/WarehouseMutationSummaryReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan / Gudang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18, with `selectedWarehouse` = [Utama] / `selectedItem` = [NL-T4-B1]. Fixture: [`fixtures/inventory-t4.json`](fixtures/inventory-t4.json). ERP: `apps/api/src/reports/inventory.ts` (single warehouse "Utama"); test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedWarehouse":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedWarehouse` | WAREHOUSE_MULTI_WITH_ALL_WAREHOUSE | [] | Gudang |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-First table row (columns): `Nama Barang Barang & Jasa | Saldo Awal | Masuk | Keluar | Saldo Akhir`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Columns `Nama Barang Barang & Jasa` | `Saldo Awal` | `Masuk` | `Keluar` | `Saldo Akhir` (quantities) under the warehouse name; items with movements in the range only; totals row.

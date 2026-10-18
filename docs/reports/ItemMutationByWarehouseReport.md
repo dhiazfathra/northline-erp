@@ -1,24 +1,5 @@
 # Mutasi per Barang (`ItemMutationByWarehouseReport`)
 
-Group: Gudang . **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ItemMutationByWarehouseReport.json`](captures/ItemMutationByWarehouseReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan / Gudang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18, with `selectedWarehouse` = [Utama] / `selectedItem` = [NL-T4-B1]. Fixture: [`fixtures/inventory-t4.json`](fixtures/inventory-t4.json). ERP: `apps/api/src/reports/inventory.ts` (single warehouse "Utama"); test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedItem":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedItem` | ITEM_INVENTORY_MULTI | [] | Barang & Jasa |
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-First table row (columns): `Kode Barang Barang & Jasa | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Per selected item: `Barang : <name>`, `Kode Barang Barang & Jasa : <no>`, `Nama Barang : <name>`, header `Nomor #` | `Tanggal` | `Deskripsi` | `Masuk` | `Keluar` | `Saldo`, then per warehouse: its name, `Saldo Barang per <day before> | 0 | 0 | <qty>`, movements with generated descriptions and running quantity, in/out totals.

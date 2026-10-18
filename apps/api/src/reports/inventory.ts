@@ -97,3 +97,54 @@ export function profitabilityByItem(d: InventoryData, sales: { item: string; dat
   const line = (n: string, s: number, c: number) => [n, formatIdr(s), formatIdr(c), '0', '0', formatIdr(s - c)]
   return [['Nama Barang', 'Penjualan', 'BPP', 'Biaya Tambahan', 'Biaya Penerimaan', 'Laba setelah Biaya'], ...rows.map(r => line(r.name, r.s, r.c)), line('Total Nama Barang', t.s, t.c)]
 }
+
+// ---- warehouse views (single warehouse "Utama") ----
+const moveDesc = (m: StockMove) => (m.docType === 'PI' ? `Pembelian dari ${m.party}` : `Penjualan ke ${m.party}`)
+const active = (d: InventoryData, from: string, to: string) =>
+  [...d.items].sort((a, b) => (a.name < b.name ? -1 : 1)).filter(i => movesOf(d, i.no).some(m => m.date >= from && m.date <= to))
+
+function mutationBlock(d: InventoryData, no: string, from: string, to: string): string[][] {
+  const ms = movesOf(d, no), within = ms.filter(m => m.date >= from && m.date <= to)
+  let bal = sum(ms.filter(m => m.date < from), m => m.quantity)
+  const rows: string[][] = [[`Saldo Barang per ${fmtDate(dayBefore(from))}`, '0', '0', qty(bal)]]
+  for (const m of within) { bal += m.quantity; rows.push([m.docNumber, fmtDate(m.date), moveDesc(m), qty(Math.max(m.quantity, 0)), qty(Math.max(-m.quantity, 0)), qty(bal)]) }
+  rows.push([qty(sum(within.filter(m => m.quantity > 0), m => m.quantity)), qty(-sum(within.filter(m => m.quantity < 0), m => m.quantity))])
+  return rows
+}
+
+/** Mutasi per Barang: per selected item, its movements under each warehouse. */
+export function itemMutationByWarehouse(d: InventoryData, itemNos: string[], from: string, to: string): string[][] {
+  return itemNos.flatMap(no => { const it = d.items.find(i => i.no === no)!
+    return [[`Barang : ${it.name}`], ['Kode Barang Barang & Jasa', ':', it.no], ['Nama Barang', ':', it.name], ['Nomor #', 'Tanggal', 'Deskripsi', 'Masuk', 'Keluar', 'Saldo'], [WAREHOUSE], ...mutationBlock(d, no, from, to)] })
+}
+
+/** Mutasi per Gudang: per warehouse, every item with movements; warehouse total of in/out last. */
+export function warehouseMutationByItem(d: InventoryData, from: string, to: string): string[][] {
+  const items = active(d, from, to), within = d.moves.filter(m => m.date >= from && m.date <= to)
+  return [[`Gudang : ${WAREHOUSE}`], ['Gudang'], ['Deskripsi'], [':'], [':'], [WAREHOUSE], ['Nomor #', 'Tanggal', 'Deskripsi', 'Masuk', 'Keluar', 'Saldo'],
+    ...items.flatMap(i => [[i.name], ...mutationBlock(d, i.no, from, to)]),
+    [qty(sum(within.filter(m => m.quantity > 0), m => m.quantity)), qty(-sum(within.filter(m => m.quantity < 0), m => m.quantity))]]
+}
+
+/** Ringkasan Mutasi Gudang: per item with movements: opening, in, out, closing quantity; totals. */
+export function warehouseMutationSummary(d: InventoryData, from: string, to: string): string[][] {
+  const rows = active(d, from, to).map(i => {
+    const ms = movesOf(d, i.no), w = ms.filter(m => m.date >= from && m.date <= to)
+    const o = sum(ms.filter(m => m.date < from), m => m.quantity), inn = sum(w.filter(m => m.quantity > 0), m => m.quantity), out = -sum(w.filter(m => m.quantity < 0), m => m.quantity)
+    return { name: i.name, r: [o, inn, out, o + inn - out] }
+  })
+  const t = rows.reduce((a, x) => a.map((v, k) => v + x.r[k]!), [0, 0, 0, 0])
+  return [[`Gudang : ${WAREHOUSE}`], ['Nama Barang Barang & Jasa', 'Saldo Awal', 'Masuk', 'Keluar', 'Saldo Akhir'], [WAREHOUSE], ...rows.map(x => [x.name, ...x.r.map(qty)]), t.map(qty)]
+}
+
+/** Kuantitas Barang per Gudang: quantity and FIFO value per item, per warehouse and total. */
+export function quantityByWarehouse(d: InventoryData, asOf: string): string[][] {
+  return [['Nama Barang', WAREHOUSE, 'Total Nama Gudang'], ['Kuantitas', 'Total Biaya', 'Kuantitas', 'Total Biaya'],
+    ...[...d.items].sort((a, b) => (a.name < b.name ? -1 : 1)).map(i => { const ms = movesOf(d, i.no).filter(m => m.date <= asOf), q = qty(sum(ms, m => m.quantity)), v = formatIdr(sum(ms, m => m.value)); return [i.name, q, v, q, v] })]
+}
+
+/** Umur Persediaan per Gudang: as Umur Persediaan with the warehouse name column. */
+export function inventoryAgingByWarehouse(d: InventoryData, asOf: string): string[][] {
+  const [head, ...rows] = inventoryAging(d, asOf)
+  return [[head![0]!, 'Nama Gudang', ...head!.slice(1)], ...rows.map(r => [r[0]!, WAREHOUSE, ...r.slice(1)])]
+}

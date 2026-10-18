@@ -54,3 +54,15 @@ test('ProfitabilityByItemReport Oct–Nov 2033', async () => {
 test('selling more than in stock is rejected', async () => {
   await expect(createSalesInvoice(f.db, { idempotencyKey: 't4-oversell', customer: 'NL-T2-C1', date: '2033-12-01', lines: [{ item: 'NL-T4-B1', name: 'x', qty: 11, price: 1 }] })).rejects.toThrow('Stok tidak cukup')
 })
+
+test('ItemMutationByWarehouseReport NL-T4-B1', async () => expect(I.itemMutationByWarehouse(await loadInventory(f.db), ['NL-T4-B1'], W.from, W.to)).toEqual(rep('ItemMutationByWarehouseReport')))
+test('WarehouseMutationByItemReport Utama', async () => expect(I.warehouseMutationByItem(await loadInventory(f.db), W.from, W.to)).toEqual(rep('WarehouseMutationByItemReport')))
+test('WarehouseMutationSummaryReport Utama', async () => expect(I.warehouseMutationSummary(await loadInventory(f.db), W.from, W.to)).toEqual(rep('WarehouseMutationSummaryReport')))
+test('QuantityItemByWarehouseReport (headers + NL-T4 row)', async () => {
+  const e = rep('QuantityItemByWarehouseReport').filter(r => !/^Cabang :/.test(r[0]!))
+  expect(I.quantityByWarehouse(await loadInventory(f.db), '2033-11-30').slice(0, 3)).toEqual([e[0]!, e[1]!, e.find(NL)!])
+})
+test('InventoryAgingByWarehouseReport (header + NL-T4 row)', async () => {
+  const e = rep('InventoryAgingByWarehouseReport').filter(r => !/^Cabang :/.test(r[0]!))
+  expect(I.inventoryAgingByWarehouse(await loadInventory(f.db), '2033-11-30').slice(0, 2)).toEqual([e[0]!, e.find(NL)!])
+})

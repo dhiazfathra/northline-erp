@@ -926,14 +926,8 @@
   },
   "InventoryAgingByWarehouseReport": {
    "param": {
-    "asOfDate": "30/11/2033",
-    "selectedWarehouse": [],
-    "selectedBranch": [
-     {
-      "name": "[Semua Cabang]",
-      "id": null
-     }
-    ]
+    "selectedItem": "NL-T4-B1",
+    "selectedWarehouse": "Utama"
    },
    "rows": [
     [
@@ -943,7 +937,7 @@
      "Per Tgl. 30 Nov 2033"
     ],
     [
-     "Cabang : [Semua Cabang]"
+     "Cabang : [Semua Cabang], Gudang : Utama"
     ],
     [
      "Nama Barang",
@@ -1172,7 +1166,7 @@
      "Per Tgl. 30 Nov 2033"
     ],
     [
-     "Cabang : [Semua Cabang]"
+     "Cabang : [Semua Cabang], Gudang : Utama"
     ],
     [
      "Nama Barang",
@@ -1215,6 +1209,26 @@
      "265"
     ],
     [
+     "Visor Yamaha Aerox",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Visor Yamaha NMAX",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
      "ZZ-R01-Barang A",
      "Utama",
      "0",
@@ -1236,6 +1250,16 @@
     ],
     [
      "ZZ-R03-Barang A",
+     "Utama",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B",
      "Utama",
      "0",
      "0",
@@ -3098,9 +3122,8 @@
   },
   "ItemMutationByWarehouseReport": {
    "param": {
-    "startDate": "01/10/2033",
-    "endDate": "30/11/2033",
-    "selectedItem": []
+    "selectedItem": "NL-T4-B1",
+    "selectedWarehouse": "Utama"
    },
    "rows": [
     [
@@ -3110,12 +3133,17 @@
      "Dari 01 Okt 2033 s/d 30 Nov 2033"
     ],
     [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
      "Kode Barang Barang & Jasa",
-     ":"
+     ":",
+     "NL-T4-B1"
     ],
     [
      "Nama Barang",
-     ":"
+     ":",
+     "NL-T4 Barang A"
     ],
     [
      "Nomor #",
@@ -3124,6 +3152,59 @@
      "Masuk",
      "Keluar",
      "Saldo"
+    ],
+    [
+     "Utama"
+    ],
+    [
+     "Saldo Barang per 30 Sep 2033",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.10.00001",
+     "03 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "10"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "20"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "Penjualan ke NL-T2 Pelanggan A",
+     "0",
+     "8",
+     "12"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok B",
+     "5",
+     "0",
+     "17"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "Penjualan ke NL-T2 Pelanggan B",
+     "0",
+     "7",
+     "10"
+    ],
+    [
+     "25",
+     "15"
     ]
    ]
   },
@@ -3493,14 +3574,8 @@
   },
   "QuantityItemByWarehouseReport": {
    "param": {
-    "asOfDate": "30/11/2033",
-    "selectedBranch": [
-     {
-      "name": "[Semua Cabang]",
-      "id": null
-     }
-    ],
-    "selectedWarehouse": []
+    "selectedItem": "NL-T4-B1",
+    "selectedWarehouse": "Utama"
    },
    "rows": [
     [
@@ -3510,7 +3585,221 @@
      "Per Tgl. 30 Nov 2033"
     ],
     [
-     "Cabang : [Semua Cabang]"
+     "Cabang : [Semua Cabang], Gudang : Utama"
+    ],
+    [
+     "Nama Barang",
+     "Utama",
+     "Total Nama Gudang"
+    ],
+    [
+     "Kuantitas",
+     "Total Biaya",
+     "Kuantitas",
+     "Total Biaya"
+    ],
+    [
+     "Actuator",
+     "175",
+     "12.250.000",
+     "175",
+     "12.250.000"
+    ],
+    [
+     "Adjuster",
+     "5",
+     "100.000",
+     "5",
+     "100.000"
+    ],
+    [
+     "Basecoat",
+     "2",
+     "30.000",
+     "2",
+     "30.000"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "70",
+     "2.450.000",
+     "70",
+     "2.450.000"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "55",
+     "3.575.000",
+     "55",
+     "3.575.000"
+    ],
+    [
+     "Bulb Umber",
+     "75",
+     "750.000",
+     "75",
+     "750.000"
+    ],
+    [
+     "Cat",
+     "177",
+     "10.755.000",
+     "177",
+     "10.755.000"
+    ],
+    [
+     "Cover",
+     "195",
+     "390.000",
+     "195",
+     "390.000"
+    ],
+    [
+     "Grommet",
+     "195",
+     "9.750.000",
+     "195",
+     "9.750.000"
+    ],
+    [
+     "Hard Coating",
+     "422",
+     "20.410.000",
+     "422",
+     "20.410.000"
+    ],
+    [
+     "Harness",
+     "55",
+     "30.250",
+     "55",
+     "30.250"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "100",
+     "37.760.000",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "95",
+     "35.872.000",
+     "95",
+     "35.872.000"
+    ],
+    [
+     "NG Goods",
+     "5",
+     "1.888.000",
+     "5",
+     "1.888.000"
+    ],
+    [
+     "NL-T4 Barang A",
+     "10",
+     "138.000",
+     "10",
+     "138.000"
+    ],
+    [
+     "Pivot",
+     "185",
+     "92.500",
+     "185",
+     "92.500"
+    ],
+    [
+     "Polybutylene",
+     "50",
+     "250.000",
+     "50",
+     "250.000"
+    ],
+    [
+     "Polycarbonat",
+     "50",
+     "400.000",
+     "50",
+     "400.000"
+    ],
+    [
+     "Polypropylene",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "100",
+     "37.760.000",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "50",
+     "18.880.000",
+     "50",
+     "18.880.000"
+    ],
+    [
+     "Screw",
+     "425",
+     "85.000",
+     "425",
+     "85.000"
+    ],
+    [
+     "Socket",
+     "245",
+     "1.225.000",
+     "245",
+     "1.225.000"
+    ],
+    [
+     "Spring",
+     "265",
+     "265.000",
+     "265",
+     "265.000"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "1",
+     "150.000",
+     "1",
+     "150.000"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "1",
+     "150.000",
+     "1",
+     "150.000"
+    ],
+    [
+     "Total Nama Barang",
+     "3.008",
+     "195.405.750",
+     "3.008",
+     "195.405.750"
     ]
    ]
   },
@@ -4785,9 +5074,8 @@
   },
   "WarehouseMutationByItemReport": {
    "param": {
-    "startDate": "01/10/2033",
-    "endDate": "30/11/2033",
-    "selectedWarehouse": []
+    "selectedItem": "NL-T4-B1",
+    "selectedWarehouse": "Utama"
    },
    "rows": [
     [
@@ -4797,14 +5085,22 @@
      "Dari 01 Okt 2033 s/d 30 Nov 2033"
     ],
     [
-     "Gudang",
-     ":",
-     "Alamat",
+     "Gudang : Utama"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Deskripsi"
+    ],
+    [
      ":"
     ],
     [
-     "Deskripsi",
      ":"
+    ],
+    [
+     "Utama"
     ],
     [
      "Nomor #",
@@ -4813,14 +5109,70 @@
      "Masuk",
      "Keluar",
      "Saldo"
+    ],
+    [
+     "NL-T4 Barang A"
+    ],
+    [
+     "Saldo Barang per 30 Sep 2033",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2033.10.00001",
+     "03 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "10"
+    ],
+    [
+     "PI.2033.10.00002",
+     "10 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok A",
+     "10",
+     "0",
+     "20"
+    ],
+    [
+     "SI.2033.10.00001",
+     "15 Okt 2033",
+     "Penjualan ke NL-T2 Pelanggan A",
+     "0",
+     "8",
+     "12"
+    ],
+    [
+     "PI.2033.10.00003",
+     "20 Okt 2033",
+     "Pembelian dari NL-T3 Pemasok B",
+     "5",
+     "0",
+     "17"
+    ],
+    [
+     "SI.2033.11.00001",
+     "05 Nov 2033",
+     "Penjualan ke NL-T2 Pelanggan B",
+     "0",
+     "7",
+     "10"
+    ],
+    [
+     "25",
+     "15"
+    ],
+    [
+     "25",
+     "15"
     ]
    ]
   },
   "WarehouseMutationSummaryReport": {
    "param": {
-    "startDate": "01/10/2033",
-    "endDate": "30/11/2033",
-    "selectedWarehouse": []
+    "selectedItem": "NL-T4-B1",
+    "selectedWarehouse": "Utama"
    },
    "rows": [
     [
@@ -4830,11 +5182,30 @@
      "Dari 01 Okt 2033 s/d 30 Nov 2033"
     ],
     [
+     "Gudang : Utama"
+    ],
+    [
      "Nama Barang Barang & Jasa",
      "Saldo Awal",
      "Masuk",
      "Keluar",
      "Saldo Akhir"
+    ],
+    [
+     "Utama"
+    ],
+    [
+     "NL-T4 Barang A",
+     "0",
+     "25",
+     "15",
+     "10"
+    ],
+    [
+     "0",
+     "25",
+     "15",
+     "10"
     ]
    ]
   },

@@ -1,24 +1,5 @@
 # Kuantitas Barang per Gudang (`QuantityItemByWarehouseReport`)
 
-Group: Gudang . **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/QuantityItemByWarehouseReport.json`](captures/QuantityItemByWarehouseReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan / Gudang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18, with `selectedWarehouse` = [Utama] / `selectedItem` = [NL-T4-B1]. Fixture: [`fixtures/inventory-t4.json`](fixtures/inventory-t4.json). ERP: `apps/api/src/reports/inventory.ts` (single warehouse "Utama"); test: `apps/api/test/inventory.test.ts`.
 
-## Parameters
-
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}],"selectedWarehouse":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-| `selectedWarehouse` | WAREHOUSE_MULTI | [] | Gudang |
-
-Selection: `ITEM_CATEGORY_ALL`.
-
-## Layout
-
-View: `crosstab`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
-
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `asOfDate`, `selectedWarehouse`, branch. Two header rows: `Nama Barang` | <warehouse> | `Total Nama Gudang`, then `Kuantitas` | `Total Biaya` per column group. Every stock item (zero included) with quantity and FIFO value at `asOfDate`.

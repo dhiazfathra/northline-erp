@@ -30,3 +30,13 @@ export declare function profitabilityByItem(d: InventoryData, sales: {
     date: string;
     total: number;
 }[], from: string, to: string): string[][];
+/** Mutasi per Barang: per selected item, its movements under each warehouse. */
+export declare function itemMutationByWarehouse(d: InventoryData, itemNos: string[], from: string, to: string): string[][];
+/** Mutasi per Gudang: per warehouse, every item with movements; warehouse total of in/out last. */
+export declare function warehouseMutationByItem(d: InventoryData, from: string, to: string): string[][];
+/** Ringkasan Mutasi Gudang: per item with movements: opening, in, out, closing quantity; totals. */
+export declare function warehouseMutationSummary(d: InventoryData, from: string, to: string): string[][];
+/** Kuantitas Barang per Gudang: quantity and FIFO value per item, per warehouse and total. */
+export declare function quantityByWarehouse(d: InventoryData, asOf: string): string[][];
+/** Umur Persediaan per Gudang: as Umur Persediaan with the warehouse name column. */
+export declare function inventoryAgingByWarehouse(d: InventoryData, asOf: string): string[][];
