@@ -1,7 +1,7 @@
 // usage: KIND=si|pi node save-inv.mjs '<spec json>'  spec: {partyId,date,dueDate,description,taxable,inclusiveTax,lines:[{itemId,unitId,name,qty,price,discPct?,useTax1}]}
 // Builds a NEW sales/purchase invoice from the captured wire template (<kind>-wire.json) and saves it in the sandbox.
 const KIND = process.env.KIND ?? 'si';
-const K = { si: { file: './si-wire.json', save: '/accurate/customer/save-sales-invoice.do', party: 'customerId', parent: 'salesInvoiceId' },
+const K = { si: { file: './si-wire.json', save: '/accurate/customer/bg-save-sales-invoice.do', party: 'customerId', parent: 'salesInvoiceId' },
   pi: { file: './pi-wire.json', save: '/accurate/vendor/bg-save-purchase-invoice.do', party: 'vendorId', parent: 'purchaseInvoiceId' } }[KIND];
 import { openSandbox, assertSandbox, log } from './acc.mjs';
 import { call } from './call.mjs';
@@ -17,6 +17,7 @@ Object.assign(p, {
   description: spec.description, taxable: spec.taxable, inclusiveTax: spec.inclusiveTax ?? false,
   cashDiscount: spec.cashDiscount ?? 0, cashDiscPercent: spec.cashDiscPercent ?? '',
 });
+Object.assign(p, spec.extra ?? {}) // raw header fields, e.g. taxNumber/taxAutoNumber/documentCode
 // An edit-form template lacks the auto-number scheme a fresh form carries; without it purchase saves fail server-side (NPE).
 if (KIND === 'pi') { delete p.journalId; delete p.paymentHistoryId; Object.assign(p, { typeAutoNumber: spec.typeAutoNumber ?? 62, countAutoNumber: 1 }); }
 p.detailItem = spec.lines.map((l, i) => {

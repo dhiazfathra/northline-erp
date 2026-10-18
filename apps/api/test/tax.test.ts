@@ -3,7 +3,7 @@ import { sql } from 'drizzle-orm'
 import t19 from '../../../docs/reports/fixtures/tax-t19.json'
 import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
-import { createPurchaseInvoice, upsertVendor } from '../src/purchases/service'
+import { createPurchaseInvoice, reportSptMasa, upsertVendor } from '../src/purchases/service'
 import { queryGeneralLedger } from '../src/reports/queries'
 import * as T from '../src/reports/tax'
 import { createSalesInvoice, upsertCustomer, upsertItem } from '../src/sales/service'
@@ -23,8 +23,9 @@ beforeAll(async () => {
   for (const d of t19.documents as any[])
     if (d.kind === 'SalesInvoice')
       await createSalesInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, customer: d.customer, date: d.date, description: d.description,
-        taxable: d.taxable, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
+        taxable: d.taxable, taxNumber: d.taxNumber, discPct: d.discPct ?? 0, discountAccount: t19.invoiceDiscountAccount, lines: d.lines })
     else await createPurchaseInvoice(f.db, { idempotencyKey: `t19-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, description: d.description, taxable: d.taxable, lines: d.lines })
+  for (const s of t19.sptMasa) await reportSptMasa(f.db, s.from, s.to)
   await catchUp(f.db, ledgerProjection)
 })
 afterAll(() => f.close())
@@ -42,7 +43,7 @@ const lines = async () => [...DEMO, ...await T.loadTaxLines(f.db)]
 test('TaxationOutReport Nov 2035', async () => expect(T.taxationOut(await lines(), W.from, W.to)).toEqual(R.TaxationOutReport.rows))
 test('TaxationInReport Nov 2035', async () => expect(T.taxationIn(await lines(), W.from, W.to)).toEqual(R.TaxationInReport.rows))
 test('TaxationInOutReport Nov 2035: Keluaran − Masukan', async () => expect(T.taxationInOut(await lines(), W.from, W.to)).toEqual(R.TaxationInOutReport.rows))
-test('SPT Masa PPN lists Nov 2035: invoices without an e-Faktur number are not listed', async () => {
+test('SPT Masa PPN lists Nov 2035: reported invoices by transaction type and document code', async () => {
   expect(T.salesInvoiceSpt(await lines(), W.from, W.to)).toEqual(R.SalesInvoiceSPTListReport.rows)
   expect(T.purchaseInvoiceSpt(await lines(), W.from, W.to)).toEqual(R.PurchaseInvoiceSPTListReport.rows)
 })

@@ -1,28 +1,38 @@
 # Faktur Pembelian SPT Masa PPN (`PurchaseInvoiceSPTListReport`)
 
-Group: Pajak. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/PurchaseInvoiceSPTListReport.json`](captures/PurchaseInvoiceSPTListReport.json), run with default parameters over the sandbox demo data.
+Group: Pajak. **Status: verified** (zero diff). Fixture: [`fixtures/tax-t19.json`](fixtures/tax-t19.json).
+ERP: `apps/api/src/reports/tax.ts` (`purchaseInvoiceSpt`); test: `apps/api/test/tax.test.ts`.
+Default-params capture: [`captures/PurchaseInvoiceSPTListReport.json`](captures/PurchaseInvoiceSPTListReport.json) (empty: no demo invoice was ever reported).
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
+`FROMTO`: `{"startDate":"dd/MM/yyyy","endDate":"dd/MM/yyyy"}`.
 
 ## Layout
 
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
+Columns `Nomor # | Tanggal | No. Faktur Pajak | Tgl Faktur Pajak | Pemasok | Nilai Pajak`. Groups:
 
+```
+Digunggung                                  <- retail document code; no transaction-type heading
+SI.2035.11.00003 | 20 Nov 2035 | 20 Nov 2035 | NL-T2 Pelanggan A | 70.538      <- no tax number: cell dropped
+SI.2035.11.00002 | 05 Nov 2035 | 010.035-35.00000001 | 05 Nov 2035 | ... | 110.000
+180.538
+01 - kepada selain Pemungut PPN             <- transaction type (party default)
+CoreTax - Faktur Pajak                      <- document code (party default)
+SI.2035.11.00004 | 25 Nov 2035 | 010.035-35.00000002 | 25 Nov 2035 | NL-T19 Pelanggan PKP | 44.000
+44.000
+```
 
-First table row (columns): `Nomor # | Tanggal | No. Faktur Pajak | Tgl Faktur Pajak | Pemasok | Nilai Pajak`
+## Calculation rules
 
-## Findings
-
-- Fixture [`fixtures/tax-t19.json`](fixtures/tax-t19.json): a taxed purchase invoice without an e-Faktur number gives an **empty**
-  report. ERP `purchaseInvoiceSpt` reproduces the empty case and refuses rows with a tax number until captured.
+- Only invoices **reported in a saved SPT Masa** (Daftar Laporan > SPT PPN / PPNBM, `sptMasaId` set) with tax date in
+  range appear. Taxed invoices alone are not enough: before the SPT was saved this report was empty.
+- Document code and transaction type come from the customer/vendor tax settings at invoice time (customer default
+  Digunggung; PKP customer with NPWP gives "CoreTax - Faktur Pajak"; vendors default to Faktur Pajak, 01).
+- Groups: Digunggung first, then by transaction type and document code. Rows by No. Faktur Pajak (blank first), then
+  number. Nilai Pajak = the invoice's PPN; each group ends with its sum. No grand total.
 
 ## Open work
 
-- Capture an invoice with a No. Faktur Pajak.
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Other transaction types/document codes (exports, Pemungut PPN, Dokumen FP) and their labels; group order with more
+  than one CoreTax group (`shortcut:` comment in `sptList`).

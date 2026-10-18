@@ -55,6 +55,13 @@
    "no": "NL-T2-C1",
    "name": "NL-T2 Pelanggan A",
    "arAccount": "110301"
+  },
+  {
+   "no": "NL-T19-C1",
+   "name": "NL-T19 Pelanggan PKP",
+   "arAccount": "110301",
+   "taxDocumentCode": "CTAS_INVOICE",
+   "taxType": "CTAS_KEPADA_SELAIN_PEMUNGUT_PPN"
   }
  ],
  "items": [
@@ -86,7 +93,8 @@
      "qty": 10,
      "price": 100000
     }
-   ]
+   ],
+   "taxNumber": "010.035-35.00000001"
   },
   {
    "kind": "SalesInvoice",
@@ -123,12 +131,31 @@
      "price": 150000
     }
    ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-T19-I3",
+   "number": "SI.2035.11.00004",
+   "customer": "NL-T19-C1",
+   "date": "2035-11-25",
+   "description": "NL-T19 faktur PPN 3",
+   "taxable": true,
+   "taxNumber": "010.035-35.00000002",
+   "lines": [
+    {
+     "item": "NL-T19-S1",
+     "name": "NL-T19 Jasa Kena PPN",
+     "qty": 2,
+     "price": 200000
+    }
+   ]
   }
  ],
  "notes": [
   "SI.2035.11.00001 was saved untaxed (item had no default tax) and deleted; Accurate does not reuse the number.",
   "Accurate amounts per invoice: I1 subtotal 1.000.000, DPP 1.000.000, PPN 110.000, total 1.110.000; I2 gross 750.000, line disc 75.000, subtotal 675.000, invoice disc 5% 33.750, DPP 641.250, PPN 70.537,5 -> 70.538, total 711.788.",
-  "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors."
+  "PI1: 4 x 150.000 = DPP 600.000, PPN 66.000, total 666.000. Purchase invoices save through bg-save-purchase-invoice.do (background job); save-purchase-invoice.do errors.",
+  "I1 got its No. Faktur Pajak by re-saving the invoice; its document code stays Digunggung (customer default). Customer NL-T19-C1 is PKP (NPWP, document code Faktur Pajak), so I3 is CoreTax - Faktur Pajak. SPT Masa lists only show invoices reported in a saved SPT."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -171,6 +198,7 @@
      "05 Nov 2035",
      "05 Nov 2035",
      "SI.2035.11.00002",
+     "010.035-35.00000001",
      "110.000"
     ],
     [
@@ -180,11 +208,18 @@
      "70.538"
     ],
     [
-     "180.538"
+     "25 Nov 2035",
+     "25 Nov 2035",
+     "SI.2035.11.00004",
+     "010.035-35.00000002",
+     "44.000"
+    ],
+    [
+     "224.538"
     ],
     [
      "Total dari PPN Keluaran",
-     "808.638"
+     "852.638"
     ]
    ]
   },
@@ -207,6 +242,44 @@
      "Tgl Faktur Pajak",
      "Pelanggan",
      "Nilai Pajak"
+    ],
+    [
+     "Digunggung"
+    ],
+    [
+     "SI.2035.11.00003",
+     "20 Nov 2035",
+     "20 Nov 2035",
+     "NL-T2 Pelanggan A",
+     "70.538"
+    ],
+    [
+     "SI.2035.11.00002",
+     "05 Nov 2035",
+     "010.035-35.00000001",
+     "05 Nov 2035",
+     "NL-T2 Pelanggan A",
+     "110.000"
+    ],
+    [
+     "180.538"
+    ],
+    [
+     "01 - kepada selain Pemungut PPN"
+    ],
+    [
+     "CoreTax - Faktur Pajak"
+    ],
+    [
+     "SI.2035.11.00004",
+     "25 Nov 2035",
+     "010.035-35.00000002",
+     "25 Nov 2035",
+     "NL-T19 Pelanggan PKP",
+     "44.000"
+    ],
+    [
+     "44.000"
     ]
    ]
   },
@@ -370,6 +443,50 @@
     [
      "820.538",
      "820.538"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "25 Nov 2035",
+     "No. Trans #",
+     ":",
+     "SI.2035.11.00004"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-T19 faktur PPN 3"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "444.000",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "0",
+     "44.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "400.000"
+    ],
+    [
+     "444.000",
+     "444.000"
     ]
    ]
   },
@@ -443,6 +560,22 @@
      "Tgl Faktur Pajak",
      "Pemasok",
      "Nilai Pajak"
+    ],
+    [
+     "01 - kepada selain Pemungut PPN"
+    ],
+    [
+     "CoreTax - Faktur Pajak"
+    ],
+    [
+     "PI.2035.11.00001",
+     "12 Nov 2035",
+     "12 Nov 2035",
+     "NL-T3 Pemasok A",
+     "66.000"
+    ],
+    [
+     "66.000"
     ]
    ]
   },
@@ -517,6 +650,7 @@
      "05 Nov 2035",
      "05 Nov 2035",
      "SI.2035.11.00002",
+     "010.035-35.00000001",
      "110.000"
     ],
     [
@@ -526,15 +660,22 @@
      "70.538"
     ],
     [
-     "180.538"
+     "25 Nov 2035",
+     "25 Nov 2035",
+     "SI.2035.11.00004",
+     "010.035-35.00000002",
+     "44.000"
+    ],
+    [
+     "224.538"
     ],
     [
      "Total dari PPN Keluaran",
-     "808.638"
+     "852.638"
     ],
     [
      "Total dari Pajak Keluaran",
-     "808.638"
+     "852.638"
     ],
     [
      "Pajak Masukan"
@@ -564,7 +705,7 @@
     ],
     [
      "Total dari PPN Lebih/Kurang Bayar",
-     "522.638"
+     "566.638"
     ]
    ]
   }
@@ -574,6 +715,13 @@
    "no": "NL-T3-V1",
    "name": "NL-T3 Pemasok A",
    "apAccount": "210101"
+  }
+ ],
+ "sptMasa": [
+  {
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "note": "SPT PPN / PPNBM saved for Nov 2035 with all listed documents ticked (module accurate__report__spt-masa, tools/accurate/spt-masa.mjs)"
   }
  ]
 }

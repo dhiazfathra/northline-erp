@@ -22,7 +22,7 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${inv.idempotencyKey}`)
     if (done) return done.result as { number: string }
-    const [vendor] = await tx.execute(sql`SELECT ap_account FROM vendors WHERE no = ${inv.vendor}`)
+    const [vendor] = await tx.execute(sql`SELECT ap_account, tax_document_code, tax_type FROM vendors WHERE no = ${inv.vendor}`)
     if (!vendor) throw new DomainError(`Pemasok ${inv.vendor} tidak ditemukan`)
     const [dup] = await tx.execute(sql`SELECT 1 FROM purchase_invoices WHERE vendor_no = ${inv.vendor} AND bill_number = ${inv.bill}`)
     if (dup) throw new DomainError(`No Faktur "${inv.bill}" sudah ada untuk pemasok ${inv.vendor}`)
@@ -73,6 +73,7 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     })
     await tx.execute(sql`INSERT INTO purchase_invoices (number, vendor_no, bill_number, date, due_date, description, total, journal_id, tax_date)
       VALUES (${number}, ${inv.vendor}, ${inv.bill}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${inv.taxable ? inv.date : null})`)
+    if (inv.taxable) await tx.execute(sql`UPDATE purchase_invoices SET document_code = ${vendor.tax_document_code as string}, tax_type = ${vendor.tax_type as string} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO purchase_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO purchase_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
@@ -180,5 +181,15 @@ export async function createPurchaseRequisition(db: Db, r: { number?: string; da
     await tx.execute(sql`INSERT INTO purchase_requisitions VALUES (${number}, ${r.date}, ${r.description ?? ''})`)
     for (const [i, l] of r.lines.entries()) await tx.execute(sql`INSERT INTO purchase_requisition_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.requiredDate ?? null})`)
     return { number }
+  })
+}
+
+/** Lapor SPT Masa PPN: every taxable sales/purchase invoice with tax date in the period not yet reported joins a new SPT. */
+export async function reportSptMasa(db: Db, from: string, to: string) {
+  return db.transaction(async tx => {
+    const [spt] = await tx.execute(sql`INSERT INTO spt_masa (from_date, to_date) VALUES (${from}, ${to}) RETURNING id`)
+    for (const t of ['sales_invoices', 'purchase_invoices'])
+      await tx.execute(sql`UPDATE ${sql.identifier(t)} SET spt_masa_id = ${spt!.id} WHERE spt_masa_id IS NULL AND tax_date BETWEEN ${from} AND ${to}`)
+    return { id: Number(spt!.id) }
   })
 }

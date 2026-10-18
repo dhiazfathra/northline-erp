@@ -8,8 +8,8 @@ import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
   const c = customerInput.parse(input)
-  await db.execute(sql`INSERT INTO customers (no, name, ar_account) VALUES (${c.no}, ${c.name}, ${c.arAccount})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account`)
+  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type`)
 }
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
@@ -41,7 +41,7 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${inv.idempotencyKey}`)
     if (done) return done.result as { number: string }
-    const [cust] = await tx.execute(sql`SELECT ar_account FROM customers WHERE no = ${inv.customer}`)
+    const [cust] = await tx.execute(sql`SELECT ar_account, tax_document_code, tax_type FROM customers WHERE no = ${inv.customer}`)
     if (!cust) throw new DomainError(`Pelanggan ${inv.customer} tidak ditemukan`)
     const items = new Map((await tx.execute(sql`SELECT no, sales_account FROM items`)).map(r => [r.no as string, r.sales_account as string]))
     const itemTax = new Map((await tx.execute(sql`SELECT i.no, i.sales_discount_account, t.name, t.rate, t.sales_account FROM items i LEFT JOIN taxes t ON t.name = i.tax_name`))
@@ -118,6 +118,7 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
     await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id, discount, tax_date)
       VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${discount}, ${inv.taxable ? inv.date : null})`)
+    if (inv.taxable) await tx.execute(sql`UPDATE sales_invoices SET tax_number = ${inv.taxNumber ?? null}, document_code = ${cust.tax_document_code as string}, tax_type = ${cust.tax_type as string | null} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO sales_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
     if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)

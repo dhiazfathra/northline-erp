@@ -33,3 +33,6 @@ The Pajak reports (Daftar PPN/PPnBM Keluaran, SPT Masa PPN, Rekonsiliasi PPN) ne
 - Multi-line, multi-tax rounding is not yet observed; the pro-rata discount split is marked with a `shortcut:` comment.
 - Purchase invoices follow the same rule (migration 0023: `taxes.purchase_account`, `purchase_invoice_taxes`); the journal
   debits PPN Masukan after the expense lines. Purchase discounts and PPh 23 are not modelled yet.
+- SPT Masa: a taxable invoice carries its party's tax document code / transaction type and an optional No. Faktur
+  Pajak; `reportSptMasa` attaches a period's invoices to an `spt_masa` row (migration 0024). The SPT lists read only
+  reported invoices, as Accurate does.

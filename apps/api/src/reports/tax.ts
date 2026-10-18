@@ -7,16 +7,21 @@ import { formatIdr } from './trial-balance'
 // TaxationInOutReport.md (fixture: fixtures/tax-t19.json).
 
 /** OUT = PPN Keluaran (sales invoices), IN = PPN Masukan (purchase invoices). */
-export interface TaxLine { side: 'OUT' | 'IN'; number: string; date: string; taxDate: string; taxNumber: string; tax: string; rate: number; amount: number }
+export interface TaxLine { side: 'OUT' | 'IN'; number: string; date: string; taxDate: string; taxNumber: string; tax: string; rate: number; amount: number
+  /** party name, tax document code (DIGUNGGUNG / CTAS_INVOICE), transaction type, reported in an SPT Masa */
+  party?: string; documentCode?: string; taxType?: string; reported?: boolean }
 
 export async function loadTaxLines(db: Db): Promise<TaxLine[]> {
   const q = (side: 'OUT' | 'IN', rows: Record<string, unknown>[]) => rows.map(r => ({ side, number: r.number as string, date: r.date as string, taxDate: r.tax_date as string,
-    taxNumber: r.tax_number as string, tax: r.tax_name as string, rate: Number(r.rate), amount: Number(r.amount) }))
+    taxNumber: r.tax_number as string, tax: r.tax_name as string, rate: Number(r.rate), amount: Number(r.amount),
+    party: r.party as string, documentCode: (r.document_code as string) ?? '', taxType: (r.tax_type as string) ?? '', reported: r.spt_masa_id != null }))
   return [
     ...q('OUT', await db.execute(sql`SELECT i.number, to_char(i.date,'YYYY-MM-DD') AS date, to_char(COALESCE(i.tax_date, i.date),'YYYY-MM-DD') AS tax_date,
-      COALESCE(i.tax_number, '') AS tax_number, t.tax_name, t.rate, t.amount FROM sales_invoice_taxes t JOIN sales_invoices i ON i.number = t.invoice_number`)),
+      COALESCE(i.tax_number, '') AS tax_number, t.tax_name, t.rate, t.amount, c.name AS party, i.document_code, i.tax_type, i.spt_masa_id
+      FROM sales_invoice_taxes t JOIN sales_invoices i ON i.number = t.invoice_number JOIN customers c ON c.no = i.customer_no`)),
     ...q('IN', await db.execute(sql`SELECT i.number, to_char(i.date,'YYYY-MM-DD') AS date, to_char(COALESCE(i.tax_date, i.date),'YYYY-MM-DD') AS tax_date,
-      COALESCE(i.tax_number, '') AS tax_number, t.tax_name, t.rate, t.amount FROM purchase_invoice_taxes t JOIN purchase_invoices i ON i.number = t.invoice_number`)),
+      COALESCE(i.tax_number, '') AS tax_number, t.tax_name, t.rate, t.amount, v.name AS party, i.document_code, i.tax_type, i.spt_masa_id
+      FROM purchase_invoice_taxes t JOIN purchase_invoices i ON i.number = t.invoice_number JOIN vendors v ON v.no = i.vendor_no`)),
   ]
 }
 
@@ -84,11 +89,35 @@ export function taxationInOut(lines: TaxLine[], from: string, to: string): strin
   return rows
 }
 
-/** Faktur Penjualan / Pembelian SPT Masa PPN: only invoices carrying an e-Faktur number (No. Faktur Pajak); none in the fixture. */
+const TAX_TYPE: Record<string, string> = { CTAS_KEPADA_SELAIN_PEMUNGUT_PPN: '01 - kepada selain Pemungut PPN' }
+const DOC_CODE: Record<string, string> = { CTAS_INVOICE: 'CoreTax - Faktur Pajak', DIGUNGGUNG: 'Digunggung' }
+
+/**
+ * Faktur Penjualan / Pembelian SPT Masa PPN: invoices reported in an SPT Masa with tax date in range, grouped by
+ * transaction type then document code; Digunggung has no transaction-type heading and comes first. Rows within a group
+ * sort by No. Faktur Pajak (blank first), then number. Empty cells (no tax number) are dropped like Accurate's HTML.
+ */
+// shortcut: group/row order inferred from one capture (Digunggung + one CoreTax group); confirm with more tax types.
 function sptList(lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string): string[][] {
-  if (lines.some(l => l.side === side && l.taxNumber && l.taxDate >= from && l.taxDate <= to)) throw new Error('SPT Masa PPN rows with a tax number are not reverse-engineered yet')
-  return [[side === 'OUT' ? 'Faktur Penjualan SPT Masa PPN' : 'Faktur Pembelian SPT Masa PPN'], range(from, to),
+  const rows: string[][] = [[side === 'OUT' ? 'Faktur Penjualan SPT Masa PPN' : 'Faktur Pembelian SPT Masa PPN'], range(from, to),
     ['Nomor #', 'Tanggal', 'No. Faktur Pajak', 'Tgl Faktur Pajak', side === 'OUT' ? 'Pelanggan' : 'Pemasok', 'Nilai Pajak']]
+  const docs = new Map<string, TaxLine>()
+  for (const l of lines.filter(l => l.side === side && l.reported && l.taxDate >= from && l.taxDate <= to)) {
+    const d = docs.get(l.number)
+    docs.set(l.number, d ? { ...d, amount: d.amount + l.amount } : { ...l })
+  }
+  const key = (l: TaxLine) => (l.documentCode === 'DIGUNGGUNG' ? '' : `${l.taxType}|${l.documentCode}`)
+  let lastType: string | undefined
+  for (const g of [...new Set([...docs.values()].map(key))].sort()) {
+    const block = [...docs.values()].filter(l => key(l) === g).sort((a, b) => a.taxNumber.localeCompare(b.taxNumber) || a.number.localeCompare(b.number))
+    const first = block[0]!
+    if (g && first.taxType !== lastType) rows.push([TAX_TYPE[first.taxType!] ?? first.taxType!])
+    lastType = g ? first.taxType : undefined
+    rows.push([DOC_CODE[first.documentCode!] ?? first.documentCode!])
+    for (const l of block) rows.push([l.number, fmtDate(l.date), l.taxNumber, fmtDate(l.taxDate), l.party ?? '', formatIdr(l.amount)].filter(c => c !== ''))
+    rows.push([formatIdr(sum(block))])
+  }
+  return rows
 }
 export const salesInvoiceSpt = (lines: TaxLine[], from: string, to: string) => sptList(lines, 'OUT', from, to)
 export const purchaseInvoiceSpt = (lines: TaxLine[], from: string, to: string) => sptList(lines, 'IN', from, to)

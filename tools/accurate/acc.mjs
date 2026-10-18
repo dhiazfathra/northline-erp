@@ -24,7 +24,7 @@ export async function open({ headless = true } = {}) {
 }
 
 export async function login(page) {
-  await page.goto('https://account.accurate.id/', { waitUntil: 'networkidle' });
+  await page.goto('https://account.accurate.id/', { waitUntil: 'networkidle', timeout: 90000 });
   const u = page.locator('input#account:visible').first();
   if (await u.count()) {
     await u.fill(env.ACCURATE_USER);

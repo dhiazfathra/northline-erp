@@ -284,8 +284,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar PPN/PPnBM Keluaran | `TaxationOutReport` | report | FROMTO | — | [verified](TaxationOutReport.md) |
 | Daftar PPN/PPnBM Masukan | `TaxationInReport` | report | FROMTO | — | [verified](TaxationInReport.md) |
 | Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | [verified](TaxationInOutReport.md) |
-| Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [spec](SalesInvoiceSPTListReport.md) |
-| Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | [spec](PurchaseInvoiceSPTListReport.md) |
+| Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [verified](SalesInvoiceSPTListReport.md) |
+| Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | [verified](PurchaseInvoiceSPTListReport.md) |
 | Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [spec](PurchasePaymentPPhReport.md) |
 | Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [spec](SalesReceiptPPhReport.md) |
 
