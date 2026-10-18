@@ -161,3 +161,14 @@ export async function cogsByInvoice(db: Db): Promise<(invoice: string) => number
   const m = new Map((await db.execute(sql`SELECT doc_number, -SUM(value) AS cost FROM stock_moves WHERE doc_type = 'SI' GROUP BY doc_number`)).map(r => [r.doc_number as string, Number(r.cost)]))
   return n => m.get(n) ?? 0
 }
+
+export async function loadFixedAssets(db: Db): Promise<import('./fixed-assets').Asset[]> {
+  const ex = await db.execute(sql`SELECT asset_number, name, to_char(date,'YYYY-MM-DD') AS date, amount FROM fixed_asset_expenditures ORDER BY asset_number, seq`)
+  const dep = await db.execute(sql`SELECT d.asset_number, d.period, to_char(d.date,'YYYY-MM-DD') AS date, d.jv_number, p.number AS pe_number, d.amount
+    FROM depreciations d JOIN period_ends p ON p.period = d.period ORDER BY d.asset_number, d.date`)
+  return (await db.execute(sql`SELECT number, description, category, to_char(date,'YYYY-MM-DD') AS date, to_char(usage_date,'YYYY-MM-DD') AS usage, life_months, cost, expense_account, accumulated_account FROM fixed_assets`))
+    .map(r => ({ number: r.number as string, description: r.description as string, category: r.category as string, date: r.date as string, usageDate: r.usage as string,
+      lifeMonths: Number(r.life_months), cost: Number(r.cost), expenseAccount: r.expense_account as string, accumulatedAccount: r.accumulated_account as string,
+      expenditures: ex.filter(e => e.asset_number === r.number).map(e => ({ name: e.name as string, date: e.date as string, amount: Number(e.amount) })),
+      depreciations: dep.filter(d => d.asset_number === r.number).map(d => ({ period: d.period as string, date: d.date as string, jvNumber: d.jv_number as string, periodEndNumber: d.pe_number as string, amount: Number(d.amount) })) }))
+}

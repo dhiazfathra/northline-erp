@@ -9,12 +9,14 @@ import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
 import { waitFor } from './projections'
+import * as FA from './reports/fixed-assets'
 import * as I from './reports/inventory'
+import { createFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
 import { createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { cogsByInvoice, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -118,6 +120,16 @@ export function createApp(db: Db) {
       const sales = (await db.execute(sql`SELECT l.item_no, to_char(i.date,'YYYY-MM-DD') AS date, l.total FROM sales_invoice_lines l JOIN sales_invoices i ON i.number = l.invoice_number`))
         .map(x => ({ item: x.item_no as string, date: x.date as string, total: Number(x.total) }))
       return c.json(I.profitabilityByItem(d, sales, from, to))
+    })
+    .post('/fixed-assets', async c => c.json(await createFixedAsset(db, await c.req.json()), 201))
+    .post('/period-ends', async c => c.json(await runPeriodEnd(db, await c.req.json()), 201))
+    .get('/reports/fixed-assets/:report{list|by-category|history|journal|detail}', async c => {
+      const assets = await loadFixedAssets(db), q = c.req.query(), r = c.req.param('report')
+      if (r === 'list' || r === 'by-category') { const asOf = balanceSheetQuery.parse(q).asOf; return c.json(r === 'list' ? FA.fixedAssetList(assets, asOf) : FA.fixedAssetByCategory(assets, asOf)) }
+      const a = assets.find(x => x.number === q.asset)
+      if (!a) return c.json({ error: 'asset not found' }, 404)
+      if (r === 'history') { const { from, to } = trialBalanceQuery.parse(q); return c.json(FA.fixedAssetHistory(a, from, to)) }
+      return c.json(r === 'journal' ? FA.fixedAssetJournal(a) : FA.fixedAssetDetail(a))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).

@@ -1,5 +1,5 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -292,6 +292,52 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
             output: string[][];
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/fixed-assets": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {};
+        };
+    };
+}) & {
+    "/period-ends": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/fixed-assets/:report{list|by-category|history|journal|detail}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        } | {
+            output: {
+                error: string;
+            };
+            outputFormat: "json";
+            status: 404;
             input: {
                 param: {
                     report: string;

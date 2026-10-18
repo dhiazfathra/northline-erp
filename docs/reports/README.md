@@ -265,13 +265,13 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Daftar Aset Tetap | `FixedAssetListReport` | report | NONE | — | [spec](FixedAssetListReport.md) |
-| Aset Tetap per Kategori | `FixedAssetByCategoryReport` | report | ASOF | — | [spec](FixedAssetByCategoryReport.md) |
-| Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetHistoryReport.md) |
-| Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | [spec](FixedAssetJournalReport.md) |
+| Daftar Aset Tetap | `FixedAssetListReport` | report | NONE | — | [verified](FixedAssetListReport.md) |
+| Aset Tetap per Kategori | `FixedAssetByCategoryReport` | report | ASOF | — | [verified](FixedAssetByCategoryReport.md) |
+| Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | [verified](FixedAssetHistoryReport.md) |
+| Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | [verified](FixedAssetJournalReport.md) |
 | Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | [spec](DifferentIntermDepreciationReport.md) |
 | Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [spec](AssetLocationHistoryReport.md) |
-| Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [spec](FixedAssetDetailReport.md) |
+| Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [verified](FixedAssetDetailReport.md) |
 | Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [spec](FixedAssetEditedHistoryReport.md) |
 | Daftar Kategori Aset Tetap Pajak | `FiscalFaTypeListReport` | report | NONE | — | [spec](FiscalFaTypeListReport.md) |
 | Daftar Perubahan Aset Tetap | `FixedAssetEditedListReport` | report | FROMTO | — | [spec](FixedAssetEditedListReport.md) |

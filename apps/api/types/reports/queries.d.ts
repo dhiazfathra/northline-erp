@@ -34,3 +34,4 @@ export declare function loadPurchases(db: Db): Promise<import('./receivables').S
 export declare function loadInventory(db: Db): Promise<import('./inventory').InventoryData>;
 /** FIFO cost of goods per sales invoice (cents), from stock_moves. */
 export declare function cogsByInvoice(db: Db): Promise<(invoice: string) => number>;
+export declare function loadFixedAssets(db: Db): Promise<import('./fixed-assets').Asset[]>;

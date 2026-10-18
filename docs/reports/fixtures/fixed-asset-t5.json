@@ -1,0 +1,849 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18. One asset bought 15 Jan 2034, month-end depreciation run for Jan–Mar 2034. Lists include other sandbox assets; compare NL-T5 rows.",
+ "accounts": [
+  {
+   "no": "120005",
+   "name": "Inventaris Kantor",
+   "type": "FIXED_ASSET"
+  },
+  {
+   "no": "12000604",
+   "name": "Akumulasi Penyusutan Inventaris Kantor",
+   "type": "ACCUMULATED_DEPRECIATION"
+  },
+  {
+   "no": "600024",
+   "name": "Beban Penyusutan Inventaris Kantor",
+   "type": "EXPENSE"
+  }
+ ],
+ "asset": {
+  "number": "FAA.2034.01.00001",
+  "description": "NL-T5 Mesin Uji",
+  "date": "2034-01-15",
+  "usageDate": "2034-01-15",
+  "lifeMonths": 24,
+  "method": "STRAIGHTLINE",
+  "category": "ZZ-R03-Elektronik C",
+  "assetAccount": "120005",
+  "accumulatedAccount": "12000604",
+  "expenseAccount": "600024",
+  "expenditures": [
+   {
+    "name": "NL-T5 perolehan",
+    "date": "2034-01-15",
+    "amount": 12000000,
+    "account": "NL-T1-3001"
+   }
+  ]
+ },
+ "monthEnds": [
+  "2034-01",
+  "2034-02",
+  "2034-03"
+ ],
+ "reports": {
+  "AssetLocationHistoryReport": {
+   "param": {
+    "selectedAsset": "FAA.2034.01.00001"
+   },
+   "rows": [
+    [
+     "Histori Lokasi Aset"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "FAA.2034.01.00001",
+     "Umur (Tahun)",
+     ":",
+     "2"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2034",
+     "Umur (Bulan)",
+     ":",
+     "0"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nama Lokasi Awal Aset",
+     ":",
+     "Kantor Pusat"
+    ],
+    [
+     "Tanggal",
+     "No.",
+     "Keterangan",
+     "Kuantitas",
+     "Lokasi Aset",
+     "Alamat Asal"
+    ],
+    [
+     "15 Jan 2034",
+     "FAA.2034.01.00001",
+     "NL-T5 Mesin Uji",
+     "1",
+     "Kantor Pusat"
+    ]
+   ]
+  },
+  "DifferentIntermDepreciationReport": {
+   "param": {
+    "selectedAsset": "FAA.2034.01.00001"
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2034"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "Perkiraan Umur",
+     ":",
+     "Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "Total Aset",
+     ":"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Nilai Sisa",
+     ":"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ]
+   ]
+  },
+  "FiscalFaTypeListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Kategori Aset Tetap Pajak"
+    ],
+    [
+     "Nama",
+     "Tarif Penyusutan (%)",
+     "Perkiraan Umur (tahun)",
+     "Metode Penyusutan"
+    ],
+    [
+     "Bangunan Permanen",
+     "5 %",
+     "20 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Bangunan Semi Permanen",
+     "10 %",
+     "10 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Gol 1 [Garis Lurus]",
+     "25 %",
+     "4 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Gol 1 [Saldo Menurun]",
+     "50 %",
+     "4 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Gol 2 [Garis Lurus]",
+     "12,5 %",
+     "8 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Gol 2 [Saldo Menurun]",
+     "25 %",
+     "8 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Gol 3 [Garis Lurus]",
+     "6,25 %",
+     "16 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Gol 3 [Saldo Menurun]",
+     "12,5 %",
+     "16 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Gol 4 [Garis Lurus]",
+     "5 %",
+     "20 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Gol 4 [Saldo Menurun]",
+     "10 %",
+     "20 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Tidak Berwujud 1 [Garis Lurus]",
+     "25 %",
+     "4 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tidak Berwujud 1 [Saldo Menurun]",
+     "50 %",
+     "4 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Tidak Berwujud 2 [Garis Lurus]",
+     "12,5 %",
+     "8 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tidak Berwujud 2 [Saldo Menurun]",
+     "25 %",
+     "8 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Tidak Berwujud 3 [Garis Lurus]",
+     "6,25 %",
+     "16 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tidak Berwujud 3 [Saldo Menurun]",
+     "12,5 %",
+     "16 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Tidak Berwujud 4 [Garis Lurus]",
+     "5 %",
+     "20 Tahun",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tidak Berwujud 4 [Saldo Menurun]",
+     "10 %",
+     "20 Tahun",
+     "Metode Saldo Menurun"
+    ],
+    [
+     "Tidak Disusutkan",
+     "0 %",
+     "0 Tahun",
+     "Tidak Terdepresiasi"
+    ]
+   ]
+  },
+  "FixedAssetByCategoryReport": {
+   "param": {
+    "asOfDate": "31/03/2034"
+   },
+   "rows": [
+    [
+     "Aset Tetap per Kategori"
+    ],
+    [
+     "Per Tgl. 31 Mar 2034"
+    ],
+    [
+     "Nomor #",
+     "Nama Aset",
+     "Total Aset",
+     "Penyusutan",
+     "Penyusutan Tahun ini",
+     "Nilai Buku",
+     "Tanggal Pakai",
+     "Tanggal Beli"
+    ],
+    [
+     "ZZ-R01-Elektronik"
+    ],
+    [
+     "FAA.2026.09.00001",
+     "ZZ-R01-Laptop Uji",
+     "0",
+     "0",
+     "0",
+     "0",
+     "01 Sep 2026",
+     "01 Sep 2026"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Elektronik B"
+    ],
+    [
+     "FAA.2026.09.00002",
+     "ZZ-R03-Laptop Uji",
+     "0",
+     "0",
+     "0",
+     "0",
+     "01 Sep 2026",
+     "01 Sep 2026"
+    ],
+    [
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Elektronik C"
+    ],
+    [
+     "FAA.2026.11.00001",
+     "ZZ-R03-Laptop Uji 2",
+     "0",
+     "0",
+     "0",
+     "0",
+     "01 Nov 2026",
+     "01 Nov 2026"
+    ],
+    [
+     "FAA.2034.01.00001",
+     "NL-T5 Mesin Uji",
+     "12.000.000",
+     "1.500.000",
+     "1.500.000",
+     "10.500.000",
+     "15 Jan 2034",
+     "15 Jan 2034"
+    ],
+    [
+     "12.000.000",
+     "1.500.000",
+     "1.500.000",
+     "10.500.000"
+    ]
+   ]
+  },
+  "FixedAssetDetailReport": {
+   "param": {
+    "selectedAsset": "FAA.2034.01.00001"
+   },
+   "rows": [
+    [
+     "Detail Aset Tetap"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2034.01.00001",
+     "Umur (Tahun)",
+     ":",
+     "2"
+    ],
+    [
+     "Tanggal Beli",
+     ":",
+     "15 Jan 2034",
+     "Umur (Bulan)",
+     ":",
+     "0"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Nama Biaya",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Jumlah",
+     "Kode Aset",
+     "Tanggal Beli",
+     "Metode Penyusutan",
+     "Umur (Tahun)",
+     "Umur (Bulan)"
+    ],
+    [
+     "NL-T5 perolehan",
+     "15 Jan 2034",
+     "Pengeluaran",
+     "12.000.000",
+     "FAA.2034.01.00001",
+     "15 Jan 2034",
+     "Metode Garis Lurus",
+     "2",
+     "0"
+    ]
+   ]
+  },
+  "FixedAssetDisposedListReport": {
+   "param": {
+    "startDate": "01/01/2034",
+    "endDate": "31/03/2034"
+   },
+   "rows": [
+    [
+     "Daftar Disposisi Aset Tetap"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Mar 2034"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama Aset",
+     "Nama Akun Laba Rugi",
+     "Aset Dijual",
+     "Harga",
+     "Nama Akun Penjualan",
+     "Keterangan"
+    ]
+   ]
+  },
+  "FixedAssetEditedHistoryReport": {
+   "param": {
+    "startDate": "01/01/2034",
+    "endDate": "31/03/2034",
+    "selectedAsset": []
+   },
+   "rows": [
+    [
+     "Histori Perubahan Aset"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Mar 2034"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "Umur (Tahun)",
+     ":"
+    ],
+    [
+     "Tanggal Beli",
+     ":",
+     "Umur (Bulan)",
+     ":"
+    ],
+    [
+     "Metode Penyusutan",
+     ":"
+    ],
+    [
+     "Tanggal",
+     "Nomor #",
+     "Tipe",
+     "Keterangan",
+     "Kode Aset",
+     "Tanggal Beli",
+     "Metode Penyusutan",
+     "Umur (Tahun)",
+     "Umur (Bulan)"
+    ]
+   ]
+  },
+  "FixedAssetEditedListReport": {
+   "param": {
+    "startDate": "01/01/2034",
+    "endDate": "31/03/2034"
+   },
+   "rows": [
+    [
+     "Daftar Perubahan Aset Tetap"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Mar 2034"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kode Aset",
+     "Nama",
+     "Tipe",
+     "Keterangan",
+     "Pengeluaran"
+    ]
+   ]
+  },
+  "FixedAssetHistoryReport": {
+   "param": {
+    "selectedAsset": "FAA.2034.01.00001"
+   },
+   "rows": [
+    [
+     "Histori Aset"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 31 Mar 2034"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "FAA.2034.01.00001",
+     "Umur (Tahun)",
+     ":",
+     "2"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2034",
+     "Umur (Bulan)",
+     ":",
+     "0"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus"
+    ],
+    [
+     "Tanggal",
+     "No.",
+     "Keterangan",
+     "Total Aset",
+     "Akumulasi Penyusutan",
+     "Nilai Buku",
+     "Biaya Penyusutan",
+     "Laba/Rugi"
+    ],
+    [
+     "31 Des 2033",
+     "Saldo Awal",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "15 Jan 2034",
+     "FAA.2034.01.00001",
+     "Aset Tetap",
+     "12.000.000",
+     "0",
+     "12.000.000",
+     "0",
+     "0"
+    ],
+    [
+     "31 Jan 2034",
+     "JV.2034.01.00002",
+     "Penyusutan Aset FAA.2034.01.00001, 15/01/2034 sampai 31/01/2034",
+     "0",
+     "500.000",
+     "11.500.000",
+     "-500.000",
+     "0"
+    ],
+    [
+     "28 Feb 2034",
+     "JV.2034.02.00001",
+     "Penyusutan Aset FAA.2034.01.00001, 31/01/2034 sampai 28/02/2034",
+     "0",
+     "500.000",
+     "11.000.000",
+     "-500.000",
+     "0"
+    ],
+    [
+     "31 Mar 2034",
+     "JV.2034.03.00001",
+     "Penyusutan Aset FAA.2034.01.00001, 28/02/2034 sampai 31/03/2034",
+     "0",
+     "500.000",
+     "10.500.000",
+     "-500.000",
+     "0"
+    ]
+   ]
+  },
+  "FixedAssetJournalReport": {
+   "param": {
+    "selectedAsset": "FAA.2034.01.00001"
+   },
+   "rows": [
+    [
+     "Jurnal Aset"
+    ],
+    [
+     "Aset Tetap : NL-T5 Mesin Uji"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2034.01.00001",
+     "Tanggal Pakai",
+     ":",
+     "15 Jan 2034"
+    ],
+    [
+     "Tanggal Beli",
+     ":",
+     "15 Jan 2034"
+    ],
+    [
+     "Tanggal",
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Kode Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "31 Jan 2034",
+     "Januari 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "600024",
+     "500.000",
+     "0"
+    ],
+    [
+     "31 Jan 2034",
+     "Januari 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "12000604",
+     "0",
+     "500.000"
+    ],
+    [
+     "28 Feb 2034",
+     "Februari 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "600024",
+     "500.000",
+     "0"
+    ],
+    [
+     "28 Feb 2034",
+     "Februari 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "12000604",
+     "0",
+     "500.000"
+    ],
+    [
+     "31 Mar 2034",
+     "Maret 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "600024",
+     "500.000",
+     "0"
+    ],
+    [
+     "31 Mar 2034",
+     "Maret 2034",
+     "Proses Akhir Bulan (Penyusutan)",
+     "12000604",
+     "0",
+     "500.000"
+    ]
+   ]
+  },
+  "FixedAssetListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Aset Tetap"
+    ],
+    [
+     "Nomor #",
+     "Nama Aset",
+     "Total Aset",
+     "Penyusutan",
+     "Nilai Buku",
+     "Tanggal Pakai",
+     "Tanggal Beli"
+    ],
+    [
+     "Berwujud"
+    ],
+    [
+     "FAA.2026.09.00001",
+     "ZZ-R01-Laptop Uji",
+     "0",
+     "0",
+     "0",
+     "01 Sep 2026",
+     "01 Sep 2026"
+    ],
+    [
+     "FAA.2026.09.00002",
+     "ZZ-R03-Laptop Uji",
+     "0",
+     "0",
+     "0",
+     "01 Sep 2026",
+     "01 Sep 2026"
+    ],
+    [
+     "FAA.2026.11.00001",
+     "ZZ-R03-Laptop Uji 2",
+     "0",
+     "0",
+     "0",
+     "01 Nov 2026",
+     "01 Nov 2026"
+    ],
+    [
+     "FAA.2034.01.00001",
+     "NL-T5 Mesin Uji",
+     "12.000.000",
+     "1.500.000",
+     "10.500.000",
+     "15 Jan 2034",
+     "15 Jan 2034"
+    ],
+    [
+     "12.000.000",
+     "1.500.000",
+     "10.500.000"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2034 s/d 30 Apr 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "15 Jan 2034"
+    ],
+    [
+     "Aset Tetap",
+     "FAA.2034.01.00001",
+     "120005",
+     "Inventaris Kantor",
+     "NL-T5 Mesin Uji",
+     "12.000.000",
+     "0"
+    ],
+    [
+     "Aset Tetap",
+     "FAA.2034.01.00001",
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "NL-T5 Mesin Uji",
+     "0",
+     "12.000.000"
+    ],
+    [
+     "31 Jan 2034"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Januari 2034",
+     "600024",
+     "Beban Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Januari, 2034)",
+     "500.000",
+     "0"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Januari 2034",
+     "12000604",
+     "Akumulasi Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Januari, 2034)",
+     "0",
+     "500.000"
+    ],
+    [
+     "28 Feb 2034"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Februari 2034",
+     "600024",
+     "Beban Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Februari, 2034)",
+     "500.000",
+     "0"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Februari 2034",
+     "12000604",
+     "Akumulasi Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Februari, 2034)",
+     "0",
+     "500.000"
+    ],
+    [
+     "31 Mar 2034"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Maret 2034",
+     "600024",
+     "Beban Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Maret, 2034)",
+     "500.000",
+     "0"
+    ],
+    [
+     "Proses Akhir Bulan (Penyusutan)",
+     "Maret 2034",
+     "12000604",
+     "Akumulasi Penyusutan Inventaris Kantor",
+     "Proses Akhir Bulan (Maret, 2034)",
+     "0",
+     "500.000"
+    ]
+   ]
+  }
+ }
+}

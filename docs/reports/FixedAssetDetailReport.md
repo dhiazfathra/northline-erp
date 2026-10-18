@@ -1,24 +1,5 @@
 # Detail Aset Tetap (`FixedAssetDetailReport`)
 
-Group: Aset Tetap. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/FixedAssetDetailReport.json`](captures/FixedAssetDetailReport.json), run with default parameters over the sandbox demo data.
+Group: Aset Tetap. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox), 2026-10-18. Fixture: [`fixtures/fixed-asset-t5.json`](fixtures/fixed-asset-t5.json) (one asset bought 15 Jan 2034, 12.000.000, 24 months, month-end Jan–Mar). ERP: `apps/api/src/reports/fixed-assets.ts`, `src/fixed-assets/service.ts` (ADR-0007); test: `apps/api/test/fixed-assets.test.ts`.
 
-## Parameters
-
-Date parameter kind: `NONE`; request param used: `{"selectedAsset":[]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedAsset` | FIXED_ASSET_MULTI | [] | Aset Tetap |
-
-
-## Layout
-
-View: `report`. Header lines: —.
-
-
-First table row (columns): `Kode Aset | : | Umur (Tahun) | :`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Params: `selectedAsset`. Header as Histori Aset; one row per expenditure: `Nama Biaya` | `Tanggal` | `Pengeluaran` | amount | asset no | purchase date | method | life years | life months.
