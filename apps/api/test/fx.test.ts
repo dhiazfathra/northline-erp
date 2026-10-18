@@ -31,3 +31,16 @@ test('RealizeGainLossReport (2 windows)', async () => {
   const ls = await loadRealizedReceipts(f.db)
   for (const c of t31.RealizeGainLossReport) expect(realizedGainLoss(ls, c.from, c.to)).toEqual(body(c.rows))
 })
+
+test('CSV downloads: Keseluruhan Jurnal, Histori Buku Besar, Rincian Buku Besar, Rincian Jurnal Akun (T31, Oct 2036)', async () => {
+  const G = await import('../src/reports/general-ledger'), Q = await import('../src/reports/queries')
+  const W = { from: '2036-10-01', to: '2036-10-31' }, d = t31.downloads as any
+  const js = await Q.loadJournals(f.db, W.from, W.to), { accounts, balances, settings } = await Q.loadLedger(f.db, W.to)
+  expect(G.allJournalsCsv(js, accounts)).toEqual(d.AllJournalDownloadReport.rows)
+  expect(G.glHistoryCsv(js, accounts)).toEqual(d.GeneralLedgerHistoryDownloadReport.rows)
+  expect(G.journalDetailListCsv(accounts, balances, settings, js, W.from, W.to)).toEqual(d.JournalDetailListDownloadReport.rows)
+  // Kas carries other history in both databases: compare its balances relative to each side's opening row.
+  const rel = (rows: string[][]) => { const c = (v: string) => Math.round(Number(v.replace(',', '.')) * 100), o = c(rows.find(r => r[0] === 'NL-T1-1101')![8]!)
+    return rows.map(r => r[0] === 'NL-T1-1101' ? [...r.slice(0, 8), String(c(r[8]!) - o)] : r) }
+  expect(rel(G.glDetailCsv(accounts, balances, settings, js, W.from, W.to))).toEqual(rel(d.GeneralLedgerDetailDownloadReport.rows))
+})

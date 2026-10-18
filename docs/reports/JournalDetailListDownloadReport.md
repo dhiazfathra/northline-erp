@@ -1,22 +1,24 @@
 # Rincian Jurnal Akun (CSV) (`JournalDetailListDownloadReport`)
 
-Group: Buku Besar. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/JournalDetailListDownloadReport.json`](captures/JournalDetailListDownloadReport.json), run with default parameters over the sandbox demo data.
+Group: Buku Besar. **Status: verified** (zero diff, Oct 2036 over the T31 journals). Fixture: [`fixtures/fx-t31.json`](fixtures/fx-t31.json) (`downloads.JournalDetailListDownloadReport`).
+ERP: `apps/api/src/reports/general-ledger.ts` (`journalDetailListCsv`); test: `apps/api/test/fx.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
+`startDate` / `endDate` (+ `selectedBranch` or `showOnlyHasTransaction` as the printed report). View `download`: the
+background job yields a download page (`report-output-html.do?reportView=download`) whose `contentData.preview` holds the
+columns and rows; `computed.downloadLink` serves the zipped CSV. Calling `export-report.do` after that page finds the cache
+expired. `runReport(..., { view: 'csv' })` returns the page.
 
 ## Layout
 
-View: `download`. No HTML output (download/CSV report or empty with default params).
+`Kode Perkiraan, Nama, Tipe Akun, No. Trans #, Tipe Transaksi, Tanggal, Nilai (Dinormalkan)`: [Rincian Jurnal Akun](JournalDetailListReport.md) flattened, one row per account line with its normalized amount and no block totals.
 
+## Calculation rules
+
+- Same journals, order and amounts as the printed report. Dates are ISO (`2036-10-01`). Amounts are plain rupiah without
+  grouping, with a decimal comma when needed (`17493999,5`).
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Only one month with two journals is captured; multi-line journals with memos are not.

@@ -45,14 +45,14 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Keseluruhan Jurnal | `AllJournalReport` | report | FROMTO | selectedBranch= | [verified](AllJournalReport.md) |
-| Keseluruhan Jurnal (CSV) | `AllJournalDownloadReport` | download | FROMTO | selectedBranch= | [spec](AllJournalDownloadReport.md) |
+| Keseluruhan Jurnal (CSV) | `AllJournalDownloadReport` | download | FROMTO | selectedBranch= | [verified](AllJournalDownloadReport.md) |
 | Ringkasan Buku Besar | `GeneralLedgerSummaryReport` | report | FROMTO | showZeroBalance=false | [verified](GeneralLedgerSummaryReport.md) |
 | Histori Buku Besar | `GeneralLedgerHistoryReport` | report | FROMTO | selectedBranch= | [verified](GeneralLedgerHistoryReport.md) |
-| Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | [spec](GeneralLedgerHistoryDownloadReport.md) |
+| Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | [verified](GeneralLedgerHistoryDownloadReport.md) |
 | Rincian Buku Besar | `GeneralLedgerDetailReport` | report | FROMTO | showOnlyHasTransaction=true | [verified](GeneralLedgerDetailReport.md) |
-| Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | [spec](GeneralLedgerDetailDownloadReport.md) |
+| Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | [verified](GeneralLedgerDetailDownloadReport.md) |
 | Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | [verified](JournalDetailListReport.md) |
-| Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | [spec](JournalDetailListDownloadReport.md) |
+| Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | [verified](JournalDetailListDownloadReport.md) |
 | Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | [verified](RealizeGainLossReport.md) |
 | Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | [spec](UnRealizeGainLossReport.md) |
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |

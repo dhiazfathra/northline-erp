@@ -135,3 +135,47 @@ export function glAccountList(accounts: TbAccount[], balances: DailyBalance[], s
     }),
   ]
 }
+
+// CSV downloads (docs/reports/*DownloadReport.md): Accurate's preview of the zipped CSV. Dates ISO, amounts plain rupiah
+// with a decimal comma (17493999,5), no grouping; same rows and order as the printed reports.
+const csvNum = (cents: number) => String(cents / 100).replace('.', ',')
+
+/** Keseluruhan Jurnal (CSV): one row per journal line. */
+export function allJournalsCsv(journals: Journal[], accounts: TbAccount[]): string[][] {
+  const name = new Map(accounts.map(a => [a.no, a.name]))
+  return [['Kode Perkiraan', 'Nama Perkiraan', 'No. Trans #', 'Tanggal', 'Tipe Transaksi', 'Deskripsi', 'Debit', 'Kredit'],
+    ...[...journals].sort(byDateNumber).flatMap(j => j.lines.map(l => [l.account, name.get(l.account)!, j.number, j.date, typeLabel(j), j.description, csvNum(l.debit), csvNum(l.credit)]))]
+}
+
+/** Histori Buku Besar (CSV): the date moves into each line. */
+export function glHistoryCsv(journals: Journal[], accounts: TbAccount[]): string[][] {
+  const name = new Map(accounts.map(a => [a.no, a.name]))
+  return [['Tanggal', 'Tipe Transaksi Jurnal', 'No Bukti #', 'Kode #', 'Nama Perkiraan', 'Keterangan Jurnal', 'Debit', 'Kredit'],
+    ...[...journals].sort(byDateNumber).flatMap(j => j.lines.map(l => [j.date, typeLabel(j), j.number, l.account, name.get(l.account)!, j.description, csvNum(l.debit), csvNum(l.credit)]))]
+}
+
+/** Rincian Buku Besar (CSV): per account with lines, an opening row dated the day before (empty type/debit/credit), then lines with the running normalized balance; no total row. */
+export function glDetailCsv(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][] {
+  const open = openings(accounts, balances, settings, from, to), prev = dayBefore(from)
+  const out: string[][] = [['Kode Perkiraan', 'Nama', 'Tipe Akun', 'Tanggal', 'Tipe Transaksi', 'Keterangan', 'Debit', 'Kredit', 'Saldo Akhir']]
+  for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
+    const ls = [...journals].sort(byDateNumber).flatMap(j => j.lines.filter(l => l.account === r.no).map(l => ({ j, l })))
+    if (!ls.length) continue
+    const t = accounts.find(a => a.no === r.no)!.type, head = [r.no, r.name, ACCOUNT_TYPE_LABEL[t]]
+    let bal = normalized(t, open.get(r.no)!.opening)
+    out.push([...head, prev, '', `Saldo per ${fmtHeaderDate(prev)}`, '', '', csvNum(bal)])
+    for (const { j, l } of ls) { bal += normalized(t, l.debit - l.credit); out.push([...head, j.date, typeLabel(j), l.memo ?? j.description, csvNum(l.debit), csvNum(l.credit), csvNum(bal)]) }
+  }
+  return out
+}
+
+/** Rincian Jurnal Akun (CSV): one row per account line with its normalized amount; no block totals. */
+export function journalDetailListCsv(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][] {
+  const out: string[][] = [['Kode Perkiraan', 'Nama', 'Tipe Akun', 'No. Trans #', 'Tipe Transaksi', 'Tanggal', 'Nilai (Dinormalkan)']]
+  for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
+    const t = accounts.find(a => a.no === r.no)!.type
+    for (const j of [...journals].sort(byDateNumber)) for (const l of j.lines.filter(l => l.account === r.no))
+      out.push([r.no, r.name, ACCOUNT_TYPE_LABEL[t], j.number, typeLabel(j), j.date, csvNum(normalized(t, l.debit - l.credit))])
+  }
+  return out
+}

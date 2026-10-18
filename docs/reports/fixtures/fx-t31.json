@@ -9,7 +9,7 @@
   {
    "no": "720102",
    "name": "Laba/Rugi Terealisasi USD",
-   "type": "OTHER_INCOME"
+   "type": "OTHER_EXPENSE"
   },
   {
    "no": "400001",
@@ -234,5 +234,347 @@
     ]
    ]
   }
- ]
+ ],
+ "downloads": {
+  "AllJournalDownloadReport": {
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "31/10/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "title": "Keseluruhan Jurnal (CSV)",
+   "rows": [
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "No. Trans #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Deskripsi",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "SI.2036.10.00001",
+     "2036-10-01",
+     "Faktur Penjualan",
+     "NL-T31-S1",
+     "1500000",
+     "0"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "SI.2036.10.00001",
+     "2036-10-01",
+     "Faktur Penjualan",
+     "NL-T31-S1",
+     "0",
+     "1500000"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T1-1101.2036.10.00001",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "1550000",
+     "0"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "NL-T1-1101.2036.10.00001",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "0",
+     "1500000"
+    ],
+    [
+     "720102",
+     "Laba/Rugi Terealisasi USD",
+     "NL-T1-1101.2036.10.00001",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "0",
+     "50000"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryDownloadReport": {
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "31/10/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "title": "Histori Buku Besar (CSV)",
+   "rows": [
+    [
+     "Tanggal",
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "2036-10-01",
+     "Faktur Penjualan",
+     "SI.2036.10.00001",
+     "110303",
+     "Piutang Usaha USD",
+     "NL-T31-S1",
+     "1500000",
+     "0"
+    ],
+    [
+     "2036-10-01",
+     "Faktur Penjualan",
+     "SI.2036.10.00001",
+     "400001",
+     "Penjualan",
+     "NL-T31-S1",
+     "0",
+     "1500000"
+    ],
+    [
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T1-1101.2036.10.00001",
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "NL-T31-R1",
+     "1550000",
+     "0"
+    ],
+    [
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T1-1101.2036.10.00001",
+     "110303",
+     "Piutang Usaha USD",
+     "NL-T31-R1",
+     "0",
+     "1500000"
+    ],
+    [
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T1-1101.2036.10.00001",
+     "720102",
+     "Laba/Rugi Terealisasi USD",
+     "NL-T31-R1",
+     "0",
+     "50000"
+    ]
+   ]
+  },
+  "GeneralLedgerDetailDownloadReport": {
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "31/10/2036",
+    "showOnlyHasTransaction": true
+   },
+   "title": "Rincian Buku Besar (CSV)",
+   "rows": [
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Tipe Akun",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Debit",
+     "Kredit",
+     "Saldo Akhir"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "Piutang Usaha",
+     "2036-09-30",
+     "",
+     "Saldo per 30 Sep 2036",
+     "",
+     "",
+     "0"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "Piutang Usaha",
+     "2036-10-01",
+     "Faktur Penjualan",
+     "NL-T31-S1",
+     "1500000",
+     "0",
+     "1500000"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "Piutang Usaha",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "0",
+     "1500000",
+     "0"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "Pendapatan",
+     "2036-09-30",
+     "",
+     "Saldo per 30 Sep 2036",
+     "",
+     "",
+     "0"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "Pendapatan",
+     "2036-10-01",
+     "Faktur Penjualan",
+     "NL-T31-S1",
+     "0",
+     "1500000",
+     "1500000"
+    ],
+    [
+     "720102",
+     "Laba/Rugi Terealisasi USD",
+     "Beban Lainnya",
+     "2036-09-30",
+     "",
+     "Saldo per 30 Sep 2036",
+     "",
+     "",
+     "0"
+    ],
+    [
+     "720102",
+     "Laba/Rugi Terealisasi USD",
+     "Beban Lainnya",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "0",
+     "50000",
+     "-50000"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "Kas & Bank",
+     "2036-09-30",
+     "",
+     "Saldo per 30 Sep 2036",
+     "",
+     "",
+     "17493999,5"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "Kas & Bank",
+     "2036-10-15",
+     "Penerimaan Penjualan",
+     "NL-T31-R1",
+     "1550000",
+     "0",
+     "19043999,5"
+    ]
+   ]
+  },
+  "JournalDetailListDownloadReport": {
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "31/10/2036",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "title": "Rincian Jurnal Akun (CSV)",
+   "rows": [
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Tipe Akun",
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "Piutang Usaha",
+     "SI.2036.10.00001",
+     "Faktur Penjualan",
+     "2036-10-01",
+     "1500000"
+    ],
+    [
+     "110303",
+     "Piutang Usaha USD",
+     "Piutang Usaha",
+     "NL-T1-1101.2036.10.00001",
+     "Penerimaan Penjualan",
+     "2036-10-15",
+     "-1500000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "Pendapatan",
+     "SI.2036.10.00001",
+     "Faktur Penjualan",
+     "2036-10-01",
+     "1500000"
+    ],
+    [
+     "720102",
+     "Laba/Rugi Terealisasi USD",
+     "Beban Lainnya",
+     "NL-T1-1101.2036.10.00001",
+     "Penerimaan Penjualan",
+     "2036-10-15",
+     "-50000"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "Kas & Bank",
+     "NL-T1-1101.2036.10.00001",
+     "Penerimaan Penjualan",
+     "2036-10-15",
+     "1550000"
+    ]
+   ]
+  }
+ },
+ "downloadsNote": "CSV previews (contentData.preview of the download page). NL-T1 Kas carries earlier NL-T1 history in the sandbox (opening 17493999,5); the test seeds only T31, so the Kas rows of Rincian Buku Besar (CSV) are compared after removing the opening offset."
 }
