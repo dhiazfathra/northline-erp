@@ -9,7 +9,9 @@ export interface StockItem { no: string; name: string; unit: string }
 export interface InventoryData { items: StockItem[]; moves: StockMove[] }
 
 const WAREHOUSE = 'Utama' // single default warehouse
-const DOC_LABEL: Record<string, string> = { PI: 'Faktur Pembelian', SI: 'Faktur Penjualan' }
+const DOC_LABEL: Record<string, string> = { PI: 'Faktur Pembelian', SI: 'Faktur Penjualan', SRT: 'Retur Penjualan', PRT: 'Retur Pembelian' }
+/** Generated movement description ("Pembelian dari <vendor>", "Retur ke <vendor>", …). */
+const DESC: Record<string, string> = { PI: 'Pembelian dari', SI: 'Penjualan ke', SRT: 'Retur dari', PRT: 'Retur ke' }
 const dayBefore = (iso: string) => new Date(Date.parse(iso + 'T00:00:00Z') - 86_400_000).toISOString().slice(0, 10)
 const qty = (q: number) => formatIdr(Math.round(q * 100))
 const days = (from: string, to: string) => Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000)
@@ -42,13 +44,14 @@ export function stockCard(d: InventoryData, itemNos: string[], from: string, to:
     const prev = fmtDate(dayBefore(from)), within = ms.filter(m => m.date >= from && m.date <= to)
     out.push([`Barang : ${it.name}`], ['Kode Barang', ':', it.no], ['Nama Barang', ':', it.name],
       ['Tanggal', 'Tipe Transaksi', 'Nomor #', 'Deskripsi', 'Kts Masuk', 'Kts Keluar', 'Kts Akhir', 'Gudang'],
-      [prev, 'Saldo Awal', `Saldo Awal ${prev}`, '0', '0', qty(bal)])
+      [prev, 'Saldo Awal', `Saldo Awal ${prev}`, qty(bal), '0', qty(bal)])
     for (const m of within) {
       bal += m.quantity
-      const desc = m.docType === 'PI' ? `Pembelian dari ${m.party}` : `Penjualan ke ${m.party}`
+      const desc = `${DESC[m.docType]} ${m.party}`
       out.push([fmtDate(m.date), DOC_LABEL[m.docType]!, m.docNumber, desc, qty(Math.max(m.quantity, 0)), qty(Math.max(-m.quantity, 0)), qty(bal), WAREHOUSE])
     }
-    out.push([qty(sum(within.filter(m => m.quantity > 0), m => m.quantity)), qty(-sum(within.filter(m => m.quantity < 0), m => m.quantity))])
+    // like the opening row, the totals count the opening balance as an inflow
+    out.push([qty(sum(ms.filter(m => m.date < from), m => m.quantity) + sum(within.filter(m => m.quantity > 0), m => m.quantity)), qty(-sum(within.filter(m => m.quantity < 0), m => m.quantity))])
   }
   return out
 }
@@ -62,14 +65,15 @@ export function valuationDetail(d: InventoryData, itemNos: string[], from: strin
     let q = sum(before, m => m.quantity), v = sum(before, m => m.value)
     out.push([`Barang : ${it.name}`], ['Kode Barang', ':', it.no], ['Nama Barang', ':', it.name],
       ['Nomor #', 'Tanggal', 'Kts Masuk', 'Nilai Masuk', 'Kts Keluar', 'Nilai Keluar', 'Kts Akhir', 'Nilai Akhir'],
-      [fmtDate(dayBefore(from)), '0', '0', '0', '0', qty(q), formatIdr(v)])
+      [fmtDate(dayBefore(from)), qty(q), formatIdr(v), '0', '0', qty(q), formatIdr(v)])
     for (const m of within) {
       q += m.quantity; v += m.value
       const inn = m.quantity > 0
       out.push([m.docNumber, fmtDate(m.date), qty(inn ? m.quantity : 0), formatIdr(inn ? m.value : 0), qty(inn ? 0 : -m.quantity), formatIdr(inn ? 0 : -m.value), qty(q), formatIdr(v)])
     }
+    // totals count the opening balance as an inflow, like the opening row
     const ins = within.filter(m => m.quantity > 0), outs = within.filter(m => m.quantity < 0)
-    out.push([qty(sum(ins, m => m.quantity)), formatIdr(sum(ins, m => m.value)), qty(-sum(outs, m => m.quantity)), formatIdr(-sum(outs, m => m.value))])
+    out.push([qty(sum(before, m => m.quantity) + sum(ins, m => m.quantity)), formatIdr(sum(before, m => m.value) + sum(ins, m => m.value)), qty(-sum(outs, m => m.quantity)), formatIdr(-sum(outs, m => m.value))])
   }
   return out
 }
@@ -99,7 +103,7 @@ export function profitabilityByItem(d: InventoryData, sales: { item: string; dat
 }
 
 // ---- warehouse views (single warehouse "Utama") ----
-const moveDesc = (m: StockMove) => (m.docType === 'PI' ? `Pembelian dari ${m.party}` : `Penjualan ke ${m.party}`)
+const moveDesc = (m: StockMove) => `${DESC[m.docType]} ${m.party}`
 const active = (d: InventoryData, from: string, to: string) =>
   [...d.items].sort((a, b) => (a.name < b.name ? -1 : 1)).filter(i => movesOf(d, i.no).some(m => m.date >= from && m.date <= to))
 

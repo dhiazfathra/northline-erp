@@ -14,11 +14,11 @@ export async function upsertCustomer(db: Db, input: z.input<typeof customerInput
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
   if (i.type === 'INVENTORY' && (!i.inventoryAccount || !i.cogsAccount)) throw new DomainError(`Barang persediaan ${i.no} butuh akun persediaan dan HPP`)
-  await db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account, expense_account, inventory_account, cogs_account)
-    VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount}, ${i.expenseAccount ?? null}, ${i.inventoryAccount ?? null}, ${i.cogsAccount ?? null})
+  await db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account, expense_account, inventory_account, cogs_account, sales_return_account)
+    VALUES (${i.no}, ${i.name}, ${i.type}, ${i.unit}, ${i.salesAccount}, ${i.expenseAccount ?? null}, ${i.inventoryAccount ?? null}, ${i.cogsAccount ?? null}, ${i.salesReturnAccount ?? null})
     ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, type = EXCLUDED.type, unit = EXCLUDED.unit, sales_account = EXCLUDED.sales_account,
       expense_account = COALESCE(EXCLUDED.expense_account, items.expense_account), inventory_account = COALESCE(EXCLUDED.inventory_account, items.inventory_account),
-      cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account)`)
+      cogs_account = COALESCE(EXCLUDED.cogs_account, items.cogs_account), sales_return_account = COALESCE(EXCLUDED.sales_return_account, items.sales_return_account)`)
 }
 
 export async function nextNumber(tx: Tx, prefix: string) {

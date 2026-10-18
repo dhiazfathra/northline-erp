@@ -129,7 +129,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Penjualan per Barang | `ViewSalesByItemDetailReport` | report | FROMTO | selectedBranch= | [verified](ViewSalesByItemDetailReport.md) |
 | Penjualan per Cabang | `ViewSalesByBranchReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByBranchReport.md) |
 | Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByBranchReport.md) |
-| Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](SalesReturnByItemReport.md) |
+| Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesReturnByItemReport.md) |
 | Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [spec](AnnualSalesChartReport.md) |
 | Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesCustomerChartReport.md) |
 | Porsi Penjualan per Barang | `TopSalesItemChartReport` | chart | FROMTO | selectedBranch= | [spec](TopSalesItemChartReport.md) |
@@ -143,8 +143,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Faktur Penjualan | `SalesInvoiceListReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceListReport.md) |
 | Rincian Faktur Penjualan | `SalesInvoiceDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesInvoiceDetailReport.md) |
 | Grafik Penjualan | `SalesInvoiceChartReport` | chart | YEARTODATE | selectedBranch= | [spec](SalesInvoiceChartReport.md) |
-| Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [spec](SalesReturnListReport.md) |
-| Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesReturnDetailReport.md) |
+| Daftar Retur Penjualan | `SalesReturnListReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnListReport.md) |
+| Rincian Retur Penjualan | `SalesReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesReturnDetailReport.md) |
 | Penggunaan Uang Muka Penjualan | `SalesInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](SalesInvoiceDownPaymentDetailReport.md) |
 | Pembayaran Cicilan | `SalesInvoicePaidInstallmentListReport` | report | FROMTO | — | [spec](SalesInvoicePaidInstallmentListReport.md) |
 | Cicilan Belum Terbayar | `SalesInvoiceUnpaidInstallmentListReport` | report | ASOF | — | [spec](SalesInvoiceUnpaidInstallmentListReport.md) |
@@ -190,7 +190,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Proses Pembelian | `PurchaseFlowHistoryReport` | report | FROMTO | — | [verified](PurchaseFlowHistoryReport.md) |
 | Rincian Pembelian per Pemasok | `PurchaseByVendorDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseByVendorDetailReport.md) |
 | Rincian Pembelian per Barang | `PurchaseByItemDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseByItemDetailReport.md) |
-| Retur Pembelian per Barang | `PurchaseReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseReturnByItemReport.md) |
+| Retur Pembelian per Barang | `PurchaseReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](PurchaseReturnByItemReport.md) |
 | Pesanan per Pemasok (Belum Proses) | `PurchaseOrderByVendorReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseOrderByVendorReport.md) |
 | Pesanan per Barang (Belum Proses) | `PurchaseOrderByItemReport` | crosstab | FROMTO | selectedBranch= | [spec](PurchaseOrderByItemReport.md) |
 | Daftar Pesanan Pembelian | `PurchaseOrderListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseOrderListReport.md) |
@@ -199,8 +199,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rincian Penerimaan Barang | `ReceiveItemDetailReport` | report | FROMTO | selectedBranch= | [spec](ReceiveItemDetailReport.md) |
 | Daftar Faktur Pembelian | `PurchaseInvoiceListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceListReport.md) |
 | Rincian Faktur Pembelian | `PurchaseInvoiceDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDetailReport.md) |
-| Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnListReport.md) |
-| Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseReturnDetailReport.md) |
+| Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnListReport.md) |
+| Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnDetailReport.md) |
 | Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [spec](PurchaseInvoiceDownPaymentDetailReport.md) |
 | Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [spec](TransferOrderListReport.md) |
 | Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [spec](VendorPriceHistoryReport.md) |

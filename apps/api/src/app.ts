@@ -12,6 +12,7 @@ import { waitFor } from './projections'
 import * as FA from './reports/fixed-assets'
 import * as I from './reports/inventory'
 import { createFixedAsset, runPeriodEnd } from './fixed-assets/service'
+import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseInvoice, createPurchasePayment, upsertVendor } from './purchases/service'
@@ -130,6 +131,12 @@ export function createApp(db: Db) {
       if (!a) return c.json({ error: 'asset not found' }, 404)
       if (r === 'history') { const { from, to } = trialBalanceQuery.parse(q); return c.json(FA.fixedAssetHistory(a, from, to)) }
       return c.json(r === 'journal' ? FA.fixedAssetJournal(a) : FA.fixedAssetDetail(a))
+    })
+    .post('/sales/returns', async c => c.json(await createSalesReturn(db, await c.req.json()), 201))
+    .post('/purchases/returns', async c => c.json(await createPurchaseReturn(db, await c.req.json()), 201))
+    .get('/reports/returns/:side{sales|purchase}/:report{list|detail|by-item}', async c => {
+      const d = c.req.param('side') === 'sales' ? await loadSales(db) : await loadPurchases(db), { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ list: R.returnList, detail: R.returnDetail, 'by-item': R.returnByItem }[c.req.param('report')](d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
   // Single origin: /api plus the embedded SPA (client-side routes fall back to index.html).

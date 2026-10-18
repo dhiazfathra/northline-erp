@@ -124,7 +124,7 @@ export async function loadSales(db: Db): Promise<import('./receivables').SalesDa
   const receipts = (await db.execute(sql`SELECT r.number, r.customer_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS date, r.description, r.amount FROM sales_receipts r JOIN accounts a ON a.no = r.bank_no`))
     .map(r => ({ number: r.number as string, customer: r.customer_no as string, bankName: r.bank_name as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),
       payments: lines.filter(l => l.receipt_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
-  return { customers, invoices, receipts }
+  return { customers, invoices, receipts, returns: await loadReturns(db, 'sales') }
 }
 
 /** Purchases in the shape the shared receivable/payable report functions use (parties = vendors, AP labels). */
@@ -140,17 +140,19 @@ export async function loadPurchases(db: Db): Promise<import('./receivables').Sal
   const receipts = (await db.execute(sql`SELECT p.number, p.vendor_no, a.name AS bank_name, to_char(p.date,'YYYY-MM-DD') AS date, p.description, p.amount FROM purchase_payments p JOIN accounts a ON a.no = p.bank_no`))
     .map(r => ({ number: r.number as string, customer: r.vendor_no as string, bankName: r.bank_name as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),
       payments: lines.filter(l => l.payment_number === r.number).map(l => ({ invoice: l.invoice_number as string, amount: Number(l.amount) })) }))
-  return { customers, invoices, receipts, labels: AP }
+  return { customers, invoices, receipts, returns: await loadReturns(db, 'purchase'), labels: AP }
 }
 
 export async function loadInventory(db: Db): Promise<import('./inventory').InventoryData> {
   const items = (await db.execute(sql`SELECT no, name, unit FROM items WHERE type = 'INVENTORY'`)).map(r => ({ no: r.no as string, name: r.name as string, unit: r.unit as string }))
   const moves = (await db.execute(sql`
     SELECT m.item_no, to_char(m.date,'YYYY-MM-DD') AS date, m.doc_type, m.doc_number, m.quantity, m.value,
-           COALESCE(v.name, c.name, '') AS party
+           COALESCE(v.name, c.name, cr.name, vr.name, '') AS party
     FROM stock_moves m
     LEFT JOIN purchase_invoices pi ON m.doc_type = 'PI' AND pi.number = m.doc_number LEFT JOIN vendors v ON v.no = pi.vendor_no
     LEFT JOIN sales_invoices si ON m.doc_type = 'SI' AND si.number = m.doc_number LEFT JOIN customers c ON c.no = si.customer_no
+    LEFT JOIN sales_returns sr ON m.doc_type = 'SRT' AND sr.number = m.doc_number LEFT JOIN customers cr ON cr.no = sr.customer_no
+    LEFT JOIN purchase_returns pr ON m.doc_type = 'PRT' AND pr.number = m.doc_number LEFT JOIN vendors vr ON vr.no = pr.vendor_no
     ORDER BY m.date, m.id`))
     .map(r => ({ item: r.item_no as string, date: r.date as string, docType: r.doc_type as string, docNumber: r.doc_number as string, party: r.party as string, quantity: Number(r.quantity), value: Number(r.value) }))
   return { items, moves }
@@ -171,4 +173,15 @@ export async function loadFixedAssets(db: Db): Promise<import('./fixed-assets').
       lifeMonths: Number(r.life_months), cost: Number(r.cost), expenseAccount: r.expense_account as string, accumulatedAccount: r.accumulated_account as string,
       expenditures: ex.filter(e => e.asset_number === r.number).map(e => ({ name: e.name as string, date: e.date as string, amount: Number(e.amount) })),
       depreciations: dep.filter(d => d.asset_number === r.number).map(d => ({ period: d.period as string, date: d.date as string, jvNumber: d.jv_number as string, periodEndNumber: d.pe_number as string, amount: Number(d.amount) })) }))
+}
+
+async function loadReturns(db: Db, kind: 'sales' | 'purchase'): Promise<import('./receivables').Return[]> {
+  const head = kind === 'sales'
+    ? await db.execute(sql`SELECT number, customer_no AS party, invoice_number, to_char(date,'YYYY-MM-DD') AS date, description, total FROM sales_returns`)
+    : await db.execute(sql`SELECT number, vendor_no AS party, invoice_number, to_char(date,'YYYY-MM-DD') AS date, description, total FROM purchase_returns`)
+  const ls = kind === 'sales'
+    ? await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, l.quantity, l.unit_price, l.total FROM sales_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
+    : await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, l.quantity, l.unit_price, l.total FROM purchase_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
+  return head.map(r => ({ number: r.number as string, customer: r.party as string, invoice: r.invoice_number as string, date: r.date as string, description: r.description as string, total: Number(r.total),
+    lines: ls.filter(l => l.return_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) })) }))
 }

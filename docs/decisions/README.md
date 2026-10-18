@@ -9,3 +9,4 @@
 | [0005](0005-sales-documents-post-through-the-ledger.md) | Sales documents are plain tables that post through the ledger | Accepted |
 | [0006](0006-fifo-inventory-costing.md) | FIFO inventory costing from stock movements | Accepted |
 | [0007](0007-fixed-assets-and-month-end.md) | Fixed assets and the month-end depreciation process | Accepted |
+| [0008](0008-return-costing.md) | Sales and purchase returns follow the sandbox's costing | Accepted |

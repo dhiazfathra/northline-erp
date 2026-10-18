@@ -7,3 +7,5 @@ Columns `Nama Pelanggan` | `Saldo Awal` | `Faktur` | `Pembayaran` | `Retur` | `U
 1. Only customers with a movement in the range are listed (sandbox customers with an opening balance but no movement are absent).
 2. Saldo Awal = invoices − receipts before `startDate`; Saldo Akhir = awal + faktur − pembayaran (− retur − uang muka ± jurnal, unverified).
 3. Last row: column totals.
+
+Returns (verified with `returns-t6.json`): the `Retur` column holds sales returns in range; Saldo Akhir = awal + faktur − pembayaran − retur.

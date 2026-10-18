@@ -5,3 +5,5 @@ Group: Utang / Pembelian. Reverse-engineered from Accurate Online v1.0.1#4970 (s
 Same layout and rules as [Buku Besar Pembantu Piutang](ARLedgerReport.md) with payable wording: Pemasok / Nama Pemasok, Utang, Faktur Pembelian, Pembayaran Pembelian.
 
 Source journals: purchase invoice Dr item expense account (merged per account, listed first) / Cr vendor payable; payment Dr payable / Cr bank.
+
+Returns (verified with `returns-t6.json`): the `Retur` column holds purchase returns in range.

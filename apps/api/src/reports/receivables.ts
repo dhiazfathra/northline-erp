@@ -6,12 +6,13 @@ import { formatIdr } from './trial-balance'
 export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
 export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
-export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; labels?: Labels }
+export interface Return { number: string; customer: string; invoice: string; date: string; description: string; total: number; lines: InvoiceLine[] }
+export interface SalesData { customers: Map<string, string>; invoices: Invoice[]; receipts: Receipt[]; returns?: Return[]; labels?: Labels }
 
 /** Words that differ between the receivable (Piutang) and payable (Utang) versions of the same report. */
-export interface Labels { party: string; partyName: string; balance: string; invoice: string; payment: string; docNo: string; sales: string; historyValue: string }
-export const AR: Labels = { party: 'Pelanggan', partyName: 'Nama Pelanggan', balance: 'Piutang', invoice: 'Faktur Penjualan', payment: 'Penerimaan Penjualan', docNo: 'Nomor #', sales: 'Penjualan', historyValue: 'Nilai' }
-export const AP: Labels = { party: 'Pemasok', partyName: 'Nama Pemasok', balance: 'Utang', invoice: 'Faktur Pembelian', payment: 'Pembayaran Pembelian', docNo: 'No Form #', sales: 'Pembelian', historyValue: 'Utang' }
+export interface Labels { party: string; partyName: string; balance: string; invoice: string; payment: string; docNo: string; sales: string; historyValue: string; ret: string }
+export const AR: Labels = { party: 'Pelanggan', partyName: 'Nama Pelanggan', balance: 'Piutang', invoice: 'Faktur Penjualan', payment: 'Penerimaan Penjualan', docNo: 'Nomor #', sales: 'Penjualan', historyValue: 'Nilai', ret: 'Retur Penjualan' }
+export const AP: Labels = { party: 'Pemasok', partyName: 'Nama Pemasok', balance: 'Utang', invoice: 'Faktur Pembelian', payment: 'Pembayaran Pembelian', docNo: 'No Form #', sales: 'Pembelian', historyValue: 'Utang', ret: 'Retur Pembelian' }
 const L = (d: SalesData) => d.labels ?? AR
 
 const CURRENCY = 'Indonesian Rupiah'
@@ -25,6 +26,7 @@ function movements(d: SalesData, customer: string) {
   return [
     ...d.invoices.filter(i => i.customer === customer).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total })),
     ...d.receipts.filter(r => r.customer === customer).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount })),
+    ...(d.returns ?? []).filter(r => r.customer === customer).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.total })),
   ].sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
 const balanceBefore = (d: SalesData, c: string, date: string) => movements(d, c).filter(m => m.date < date).reduce((s, m) => s + m.amount, 0)
@@ -58,7 +60,8 @@ export function arLedger(d: SalesData, from: string, to: string): string[][] {
     const open = balanceBefore(d, c, from)
     const inv = d.invoices.filter(i => i.customer === c && inRange(i, from, to)).reduce((s, i) => s + i.total, 0)
     const pay = d.receipts.filter(r => r.customer === c && inRange(r, from, to)).reduce((s, r) => s + r.amount, 0)
-    return [d.customers.get(c)!, open, inv, pay, 0, 0, 0, open + inv - pay] as const
+    const ret = (d.returns ?? []).filter(r => r.customer === c && inRange(r, from, to)).reduce((s, r) => s + r.total, 0)
+    return [d.customers.get(c)!, open, inv, pay, ret, 0, 0, open + inv - pay - ret] as const
   })
   const sum = (i: number) => rows.reduce((s, r) => s + (r[i] as number), 0)
   return [[L(d).partyName, 'Saldo Awal', 'Faktur', 'Pembayaran', 'Retur', 'Uang Muka', 'Jurnal Umum', 'Saldo Akhir'], [CURRENCY],
@@ -122,7 +125,8 @@ const bucket = (age: number) => (age <= 0 ? 0 : age <= 30 ? 1 : age <= 60 ? 2 : 
 
 export function openInvoices(d: SalesData, asOf: string, customer: string) {
   const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
-  return d.invoices.filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number), age: days(i.dueDate, asOf) }))
+  const ret = (n: string) => (d.returns ?? []).filter(r => r.invoice === n && r.date <= asOf).reduce((s, r) => s + r.total, 0)
+  return d.invoices.filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - paid(i.number) - ret(i.number), age: days(i.dueDate, asOf) }))
     .filter(i => i.owing > 0).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
 export const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
@@ -160,6 +164,7 @@ export function arLedgerDetail(d: SalesData, from: string, to: string): string[]
     const groups: [string, { number: string; date: string; description: string; amount: number }[]][] = [
       [L(d).invoice, d.invoices.filter(i => i.customer === c && inRange(i, from, to)).map(i => ({ number: i.number, date: i.date, description: i.description, amount: i.total }))],
       [L(d).payment, d.receipts.filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.amount }))],
+      [L(d).ret, (d.returns ?? []).filter(r => r.customer === c && inRange(r, from, to)).map(r => ({ number: r.number, date: r.date, description: r.description, amount: -r.total }))],
     ]
     for (const [label, docs] of groups) {
       if (!docs.length) continue
@@ -351,4 +356,28 @@ export function profitabilityByCustomer(d: SalesData, from: string, to: string, 
   const line = (n: string, s: number, k: number) => [n, formatIdr(s), formatIdr(k), '0', '0', formatIdr(s - k)]
   const t = rows.reduce((a, r) => ({ s: a.s + r.s, k: a.k + r.k }), { s: 0, k: 0 })
   return [['Pelanggan', 'Penjualan', 'BPP', 'Biaya Tambahan', 'Biaya Penerimaan', 'Laba setelah Biaya'], ...rows.map(r => line(d.customers.get(r.c)!, r.s, r.k)), line('Total Pelanggan', t.s, t.k)]
+}
+
+// ---- returns ----
+/** Daftar Retur Penjualan / Pembelian */
+export function returnList(d: SalesData, from: string, to: string): string[][] {
+  return [['Nomor #', 'Tanggal', L(d).party, 'Total'], ...(d.returns ?? []).filter(r => inRange(r, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+    .map(r => [r.number, fmtDate(r.date), d.customers.get(r.customer)!, formatIdr(r.total)])]
+}
+
+/** Rincian Retur: one block per return. The sales version adds an empty "Nama Biaya :" line; the purchase version does not. */
+export function returnDetail(d: SalesData, from: string, to: string): string[][] {
+  return (d.returns ?? []).filter(r => inRange(r, from, to)).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).flatMap(r => [
+    ['Nomor #', ':', r.number, 'Mata Uang', ':', CURRENCY], ['Tanggal', ':', fmtDate(r.date), 'Sub Total', ':', formatIdr(r.total)],
+    [L(d).party, ':', d.customers.get(r.customer)!, 'Total', ':', formatIdr(r.total)], ...(d.labels ? [] : [['Nama Biaya', ':']]),
+    ['Kode #', 'Nama Barang', 'Kuantitas', '@Harga', 'Total Harga'], ...r.lines.map(l => [l.item, l.itemName, qty(l.qty), formatIdr(l.price), formatIdr(l.total)]),
+    [qty(r.lines.reduce((s, l) => s + l.qty, 0)), formatIdr(r.total)],
+  ])
+}
+
+/** Retur Penjualan/Pembelian per Barang */
+export function returnByItem(d: SalesData, from: string, to: string): string[][] {
+  const ls = (d.returns ?? []).filter(r => inRange(r, from, to)).flatMap(r => r.lines)
+  const label = d.labels ? ['Nama Barang Barang & Jasa', 'Nilai Retur'] : ['Nama Barang & Jasa', 'Nilai Retur (Faktur)']
+  return [label, ...sortBy([...group(ls, l => l.item).values()], xs => xs[0]!.itemName).map(xs => [xs[0]!.itemName, formatIdr(tv(xs))]), [`Total ${label[0]}`, formatIdr(tv(ls))]]
 }
