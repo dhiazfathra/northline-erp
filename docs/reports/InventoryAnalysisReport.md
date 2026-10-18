@@ -1,25 +1,33 @@
 # Ketersediaan Stok Penjualan (`InventoryAnalysisReport`)
 
-Group: Persediaan. **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/InventoryAnalysisReport.json`](captures/InventoryAnalysisReport.json), run with default parameters over the sandbox demo data.
+Group: Persediaan. **Status: verified** (zero diff on header, Umum block and NL rows, 5 dates). Fixture: [`fixtures/stock-movement.json`](fixtures/stock-movement.json) (`InventoryAnalysisReport`).
+ERP: `apps/api/src/reports/inventory.ts` (`inventoryAnalysis`), loader `loadItemList`; test: `apps/api/test/adjustments.test.ts`.
 
 ## Parameters
 
-Date parameter kind: `ASOF`; request param used: `{"asOfDate":"18/10/2026","selectedBranch":[{"name":"[Semua Cabang]","id":null}]}`.
-
-| Name | Type | Default | Label |
-|---|---|---|---|
-| `selectedBranch` | BRANCH_MULTI_WITH_ALL_BRANCH | [] | Cabang |
-
-Selection: `ITEM_CATEGORY_ALL`.
+`ASOF` + `selectedBranch` (`[{"name":"[Semua Cabang]","id":null}]`).
 
 ## Layout
 
-View: `report`. Header lines: "Per Tgl. 18 Okt 2026", "Cabang : [Semua Cabang]".
+`Nama Barang | Satuan | Stok Gudang | Dipesan | Dijual | Stok dapat dijual | Jual/Minggu`, stock items in category
+blocks in creation order (as [Daftar Barang dan Jasa](ItemListReport.md)); services are not listed.
 
+## Calculation rules
 
-First table row (columns): `Nama Barang | Satuan | Stok Gudang | Dipesan | Dijual | Stok dapat dijual | Jual/Minggu`
+- Stok Gudang = quantity on hand in all warehouses as of the date; Stok dapat dijual = Stok Gudang - Dipesan - Dijual
+  (both 0 in every capture).
+- **Jual/Minggu** = net quantity sold up to the date (sales invoices and delivery orders, less sales returns) divided by
+  weeks, where weeks = floor(days from the item's first sale to the as-of date / 7) + 1. Two decimals, trailing zeros
+  dropped.
+
+| As of | Days since first sale (15 Okt 2033) | Weeks | Net sold | Jual/Minggu |
+|---|---|---|---|---|
+| 15 Nov 2033 | 31 | 5 | 15 | 3 |
+| 30 Nov 2033 | 46 | 7 | 15 | 2,14 |
+| 10 Des 2033 | 56 | 9 | 13 (return of 2) | 1,44 |
+| 23 Des 2033 | 69 | 10 | 13 | 1,3 |
+| 31 Des 2033 | 77 | 12 | 13 | 1,08 |
 
 ## Open work
 
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+- Dipesan / Dijual (open orders, sold not yet delivered) are 0 in all captures (`shortcut:` in the code).

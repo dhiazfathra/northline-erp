@@ -253,3 +253,28 @@ export function analysisValuation(d: InventoryData, from: string, to: string): s
   }
   return rows
 }
+
+/**
+ * Ketersediaan Stok Penjualan (docs/reports/InventoryAnalysisReport.md): stock items in category blocks (creation order,
+ * as Daftar Barang), Stok Gudang = all warehouses as of the date. Jual/Minggu = net sold (sales - sales returns, up to
+ * the date) / weeks, weeks = floor(days since the item's first sale / 7) + 1; two decimals, trailing zeros dropped.
+ */
+// shortcut: Dipesan (open sales orders) and Dijual (sold, not delivered) print 0 in every capture; not modelled yet.
+export function inventoryAnalysis(items: { no: string; name: string; type: string; unit: string }[], moves: { item: string; date: string; quantity: number; docType?: string }[], asOf: string): string[][] {
+  const rows: string[][] = [['Ketersediaan Stok Penjualan'], [`Per Tgl. ${fmtHeaderDate(asOf)}`], ['Cabang : [Semua Cabang]'],
+    ['Nama Barang', 'Satuan', 'Stok Gudang', 'Dipesan', 'Dijual', 'Stok dapat dijual', 'Jual/Minggu']]
+  const stock = items.filter(i => i.type === 'INVENTORY')
+  if (stock.length) rows.push(['Umum'])
+  for (const i of stock) {
+    const ms = moves.filter(m => m.item === i.no && m.date <= asOf)
+    const qty = ms.reduce((s, m) => s + m.quantity, 0)
+    const sales = ms.filter(m => m.docType === 'SI' || m.docType === 'DO' || m.docType === 'SRT')
+    const first = sales.filter(m => m.docType !== 'SRT').map(m => m.date).sort()[0]
+    const sold = -sales.reduce((s, m) => s + m.quantity, 0)
+    const weeks = first ? Math.floor((Date.parse(asOf) - Date.parse(first)) / 86_400_000 / 7) + 1 : 0
+    const perWeek = weeks ? String(Math.round(sold / weeks * 100) / 100).replace('.', ',') : '0'
+    const f = (n: number) => formatIdr(Math.round(n * 100))
+    rows.push([i.name, i.unit, f(qty), '0', '0', f(qty), perWeek])
+  }
+  return rows
+}

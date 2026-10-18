@@ -260,8 +260,8 @@ export async function loadItemList(db: Db) {
   const items = (await db.execute(sql`SELECT i.no, i.name, i.type, i.unit FROM items i
     ORDER BY (SELECT min(id) FROM audit_log a WHERE a.table_name = 'items' AND a.row_key = i.no AND a.op = 'INSERT')`))
     .map(r => ({ no: r.no as string, name: r.name as string, type: r.type as string, unit: r.unit as string }))
-  const moves = (await db.execute(sql`SELECT item_no, to_char(date,'YYYY-MM-DD') AS date, quantity, warehouse FROM stock_moves`))
-    .map(r => ({ item: r.item_no as string, date: r.date as string, quantity: Number(r.quantity), warehouse: (r.warehouse as string) ?? undefined }))
+  const moves = (await db.execute(sql`SELECT item_no, to_char(date,'YYYY-MM-DD') AS date, quantity, warehouse, doc_type FROM stock_moves`))
+    .map(r => ({ item: r.item_no as string, date: r.date as string, quantity: Number(r.quantity), warehouse: (r.warehouse as string) ?? undefined, docType: r.doc_type as string }))
   return { items, moves }
 }
 

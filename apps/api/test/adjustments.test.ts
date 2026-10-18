@@ -117,3 +117,11 @@ test('AnalysisInventoryValuationReport over the T4..T15 chain (stock-movement.js
   const d = await Q.loadInventory(f.db), keep = (r: string[], i: number) => i < 5 || r[0]!.startsWith('NL-')
   for (const c of fx.AnalysisInventoryValuationReport) expect(I.analysisValuation(d, c.from, c.to).filter(keep)).toEqual(c.rows.filter(keep))
 })
+
+test('InventoryAnalysisReport (Jual/Minggu = net sold / (floor(days since first sale / 7) + 1))', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/stock-movement.json')).default as any, Q = await import('../src/reports/queries')
+  const { items, moves } = await Q.loadItemList(f.db), stock = new Set(items.filter(i => i.type === 'INVENTORY').map(i => i.no))
+  const names = new Set(items.filter(i => stock.has(i.no)).map(i => i.name))
+  const keep = (r: string[], i: number) => i < 4 || (r.length === 1 && r[0] === 'Umum') || (r.length > 1 && names.has(r[0]!))
+  for (const c of fx.InventoryAnalysisReport) expect(I.inventoryAnalysis(items, moves, c.asOf)).toEqual(c.rows.filter(keep))
+})
