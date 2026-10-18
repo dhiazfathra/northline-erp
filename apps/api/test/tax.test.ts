@@ -51,3 +51,10 @@ test('AllJournalReport Nov 2035: taxed invoices post discounts, PPN and gross sa
   // title + date range are page chrome in the GL query's output
   expect(await queryGeneralLedger(f.db, 'all-journals', { from: W.from, to: W.to, showZeroBalance: false, showParentAccount: true })).toEqual(R.AllJournalReport.rows.slice(2))
 })
+
+test('sales item views Nov 2035: Penjualan is the DPP (after line and invoice discounts, without PPN)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/sales-views.json')).default
+  const R = await import('../src/reports/receivables'), { loadSales } = await import('../src/reports/queries'), d = await loadSales(f.db)
+  const fns = { ViewSalesItemByWarehouseReport: R.salesItemByWarehouse, ViewSalesItemByBranchReport: R.salesItemByBranch, ViewSalesByBrandReport: R.salesByBrand }
+  for (const [id, fn] of Object.entries(fns)) for (const w of (fx as any)[id].filter((w: any) => w.from === W.from)) expect(fn(d, w.from, w.to)).toEqual(w.rows)
+})

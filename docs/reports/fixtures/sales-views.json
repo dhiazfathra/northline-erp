@@ -1,0 +1,480 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, captured 2026-10-18. Windows: T2 Apr-Jun 2033 (services), T4 Oct-Nov 2033, T6 Dec 2033 (sales return), T14 Oct 2034 (SO->DO->SI), T19 Nov 2035 (discounts + PPN). No demo sales fall in these windows.",
+ "ViewSalesItemByWarehouseReport": [
+  {
+   "from": "2033-10-01",
+   "to": "2033-11-30",
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Gudang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "Utama",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Gudang",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Nama Barang",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-12-01",
+   "to": "2033-12-31",
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Des 2033 s/d 31 Des 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Gudang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "Utama",
+     "-2",
+     "-42.000"
+    ],
+    [
+     "Total Gudang",
+     "-2",
+     "-42.000"
+    ],
+    [
+     "Total Nama Barang",
+     "-2",
+     "-42.000"
+    ]
+   ]
+  },
+  {
+   "from": "2034-10-01",
+   "to": "2034-10-31",
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Gudang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "Utama",
+     "4",
+     "88.000"
+    ],
+    [
+     "Total Gudang",
+     "4",
+     "88.000"
+    ],
+    [
+     "Total Nama Barang",
+     "4",
+     "88.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-04-01",
+   "to": "2033-06-30",
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Apr 2033 s/d 30 Jun 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  {
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "rows": [
+    [
+     "Penjualan Barang per Gudang"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  }
+ ],
+ "ViewSalesItemByBranchReport": [
+  {
+   "from": "2033-10-01",
+   "to": "2033-11-30",
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "15",
+     "307.000",
+     "15",
+     "307.000"
+    ],
+    [
+     "Total Barang & Jasa",
+     "15",
+     "307.000",
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-12-01",
+   "to": "2033-12-31",
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Des 2033 s/d 31 Des 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "-2",
+     "-42.000",
+     "-2",
+     "-42.000"
+    ],
+    [
+     "Total Barang & Jasa",
+     "-2",
+     "-42.000",
+     "-2",
+     "-42.000"
+    ]
+   ]
+  },
+  {
+   "from": "2034-10-01",
+   "to": "2034-10-31",
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T4 Barang A",
+     "PCS",
+     "4",
+     "88.000",
+     "4",
+     "88.000"
+    ],
+    [
+     "Total Barang & Jasa",
+     "4",
+     "88.000",
+     "4",
+     "88.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-04-01",
+   "to": "2033-06-30",
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Apr 2033 s/d 30 Jun 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T2 Jasa Konsultasi",
+     "Jam",
+     "21",
+     "3.550.000",
+     "21",
+     "3.550.000"
+    ],
+    [
+     "Total Barang & Jasa",
+     "21",
+     "3.550.000",
+     "21",
+     "3.550.000"
+    ]
+   ]
+  },
+  {
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "rows": [
+    [
+     "Penjualan Barang per Cabang"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Barang & Jasa",
+     "Satuan",
+     "Kantor Pusat",
+     "Total Nama Cabang"
+    ],
+    [
+     "Kuantitas",
+     "Penjualan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-T19 Jasa Kena PPN",
+     "Jam",
+     "15",
+     "2.041.250",
+     "15",
+     "2.041.250"
+    ],
+    [
+     "Total Barang & Jasa",
+     "15",
+     "2.041.250",
+     "15",
+     "2.041.250"
+    ]
+   ]
+  }
+ ],
+ "ViewSalesByBrandReport": [
+  {
+   "from": "2033-10-01",
+   "to": "2033-11-30",
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Okt 2033 s/d 30 Nov 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "15",
+     "307.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-12-01",
+   "to": "2033-12-31",
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Des 2033 s/d 31 Des 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "-2",
+     "-42.000"
+    ]
+   ]
+  },
+  {
+   "from": "2034-10-01",
+   "to": "2034-10-31",
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Okt 2034 s/d 31 Okt 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "4",
+     "88.000"
+    ]
+   ]
+  },
+  {
+   "from": "2033-04-01",
+   "to": "2033-06-30",
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Apr 2033 s/d 30 Jun 2033"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "21",
+     "3.550.000"
+    ]
+   ]
+  },
+  {
+   "from": "2035-11-01",
+   "to": "2035-11-30",
+   "rows": [
+    [
+     "Penjualan per Merek"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 30 Nov 2035"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Merk Barang",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "15",
+     "2.041.250"
+    ]
+   ]
+  }
+ ]
+}

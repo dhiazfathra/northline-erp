@@ -103,3 +103,11 @@ test('PhysicalInventoryCountSheetReport per 30 Nov 2034 per warehouse (count-she
   for (const c of fx.PhysicalInventoryCountSheetReport)
     expect(I.countSheet(items, moves, c.warehouse, c.asOf)).toEqual(c.rows.filter((r, i) => i < 4 || (r.length === 1 && r[0] === 'Umum') || (r.length > 1 && seeded.has(r[0]!))))
 })
+
+test('sales item views over the T4..T14 chain (sales-views.json: per gudang, per cabang, per merek)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/sales-views.json')).default
+  const R = await import('../src/reports/receivables'), Q = await import('../src/reports/queries'), d = await Q.loadSales(f.db)
+  const fns = { ViewSalesItemByWarehouseReport: R.salesItemByWarehouse, ViewSalesItemByBranchReport: R.salesItemByBranch, ViewSalesByBrandReport: R.salesByBrand }
+  for (const [id, fn] of Object.entries(fns))
+    for (const w of (fx as any)[id].filter((w: any) => w.from >= '2033-10-01' && w.to <= '2034-12-31')) expect(fn(d, w.from, w.to)).toEqual(w.rows)
+})

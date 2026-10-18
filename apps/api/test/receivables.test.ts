@@ -105,3 +105,9 @@ test('Grafik Umur Piutang and Rata-rata Pembayaran (series transcribed from Accu
   expect(R.agingChart(d, '2033-07-15') as string[][]).toEqual(ch.AgingReceivableChartReport.bars.filter(b => b[0] !== '&gt; 120'))
   expect(R.collectionDaysChart(d, '2033-04-01', '2033-06-30') as string[][]).toEqual(ch.OwingCollectionGraphReport.bars)
 })
+
+test('sales item views Apr–Jun 2033 (sales-views.json, T2 services)', async () => {
+  const fx = (await import('../../../docs/reports/fixtures/sales-views.json')).default, d = await loadSales(f.db)
+  const fns = { ViewSalesItemByWarehouseReport: R.salesItemByWarehouse, ViewSalesItemByBranchReport: R.salesItemByBranch, ViewSalesByBrandReport: R.salesByBrand }
+  for (const [id, fn] of Object.entries(fns)) for (const w of (fx as any)[id].filter((w: any) => w.from === W.from)) expect(fn(d, w.from, w.to)).toEqual(w.rows)
+})

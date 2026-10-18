@@ -1,10 +1,10 @@
-import { fmtDate } from './general-ledger'
+import { fmtDate, fmtHeaderDate } from './general-ledger'
 import { formatIdr } from './trial-balance'
 
 // Piutang / Penjualan reports over the sales tables; rules in docs/reports/<planId>.md (fixture: fixtures/sales-t2.json).
 
-export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number }
-export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string
+export interface InvoiceLine { item: string; itemName: string; unit: string; qty: number; price: number; total: number; /** item type (SERVICE / INVENTORY / NON_INVENTORY) */ type?: string }
+export interface Invoice { number: string; customer: string; date: string; dueDate: string; description: string; total: number; /** invoice discount (cents) */ discount?: number; lines?: InvoiceLine[]; /** vendor's own number (purchases) */ bill?: string
   /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */ delivery?: string; order?: string; exchange?: string; /** down payments deducted on this invoice */ dpUses?: { dp: string; amount: number }[] }
 export interface Receipt { number: string; customer: string; bankName?: string; date: string; description: string; amount: number; payments: { invoice: string; amount: number }[] }
 export interface Return { number: string; customer: string; invoice: string; date: string; description: string; total: number; lines: InvoiceLine[] }
@@ -491,4 +491,53 @@ export function exchangeDetail(d: SalesData, xs: { number: string; date: string;
       ...invs.map(i => [i.number, fmtDate(i.date), d.customers.get(i.customer)!, fmtDate(i.dueDate), formatIdr(i.total), formatIdr(owing(i)), formatIdr(days(i.dueDate, today) * 100)]),
       [formatIdr(invs.reduce((s, i) => s + i.total, 0))]]
   })
+}
+
+/**
+ * Sales lines for the item views: invoice lines at DPP (line total less its pro-rata share of the invoice discount, no PPN)
+ * and sales-return lines negative, dated in [from, to] (fixtures/sales-views.json: T19 Penjualan 2.041.250 = sum of DPPs).
+ */
+function itemSales(d: SalesData, from: string, to: string) {
+  const out: { line: InvoiceLine; qty: number; value: number }[] = []
+  for (const i of regular(d).filter(i => inRange(i, from, to))) {
+    const sub = (i.lines ?? []).reduce((s, l) => s + l.total, 0)
+    for (const l of i.lines ?? []) out.push({ line: l, qty: l.qty, value: l.total - (sub && i.discount ? Math.round(i.discount * l.total / sub) : 0) })
+  }
+  for (const r of (d.returns ?? []).filter(r => inRange(r, from, to))) for (const l of r.lines) out.push({ line: l, qty: -l.qty, value: -l.total })
+  return out
+}
+const groupSales = (xs: { line: InvoiceLine; qty: number; value: number }[]) => {
+  const m = new Map<string, { line: InvoiceLine; qty: number; value: number }>()
+  for (const x of xs) { const g = m.get(x.line.item); if (g) { g.qty += x.qty; g.value += x.value } else m.set(x.line.item, { ...x }) }
+  return [...m.values()].sort((a, b) => a.line.itemName.localeCompare(b.line.itemName))
+}
+const qtyFmt = (q: number) => formatIdr(Math.round(q * 100))
+const viewHead = (title: string, from: string, to: string) => [[title], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`], ['Cabang : [Semua Cabang]']]
+
+/** Penjualan Barang per Gudang: stock items only (services have no warehouse); every line from the default warehouse. */
+// shortcut: the ERP does not store a warehouse per invoice line; all fixture sales ship from Utama. Store it when sales from other warehouses exist.
+export function salesItemByWarehouse(d: SalesData, from: string, to: string): string[][] {
+  const gs = groupSales(itemSales(d, from, to).filter(x => x.line.type === 'INVENTORY'))
+  // no rows → Accurate prints no column header either
+  const rows = [...viewHead('Penjualan Barang per Gudang', from, to), ...(gs.length ? [['Nama Barang', 'Gudang', 'Kuantitas', 'Penjualan']] : [])]
+  for (const g of gs) rows.push([g.line.itemName, 'Utama', qtyFmt(g.qty), formatIdr(g.value)], ['Total Gudang', qtyFmt(g.qty), formatIdr(g.value)])
+  if (gs.length) rows.push(['Total Nama Barang', qtyFmt(gs.reduce((s, g) => s + g.qty, 0)), formatIdr(gs.reduce((s, g) => s + g.value, 0))])
+  return rows
+}
+
+/** Penjualan Barang per Cabang: every item incl. services, one branch column (Kantor Pusat) plus the all-branch total. */
+export function salesItemByBranch(d: SalesData, from: string, to: string): string[][] {
+  const gs = groupSales(itemSales(d, from, to))
+  const rows = [...viewHead('Penjualan Barang per Cabang', from, to), ['Barang & Jasa', 'Satuan', 'Kantor Pusat', 'Total Nama Cabang'], ['Kuantitas', 'Penjualan', 'Kuantitas', 'Penjualan']]
+  for (const g of gs) rows.push([g.line.itemName, g.line.unit, qtyFmt(g.qty), formatIdr(g.value), qtyFmt(g.qty), formatIdr(g.value)])
+  if (gs.length) { const q = qtyFmt(gs.reduce((s, g) => s + g.qty, 0)), v = formatIdr(gs.reduce((s, g) => s + g.value, 0)); rows.push(['Total Barang & Jasa', q, v, q, v]) }
+  return rows
+}
+
+/** Penjualan per Merek: one row per brand; the ERP has no brands, so all sales fall in the blank brand (its name cell drops out). */
+export function salesByBrand(d: SalesData, from: string, to: string): string[][] {
+  const xs = itemSales(d, from, to)
+  const rows = [...viewHead('Penjualan per Merek', from, to), ['Merk Barang', 'Kuantitas', 'Penjualan']]
+  if (xs.length) rows.push([qtyFmt(xs.reduce((s, x) => s + x.qty, 0)), formatIdr(xs.reduce((s, x) => s + x.value, 0))])
+  return rows
 }

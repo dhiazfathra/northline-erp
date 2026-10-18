@@ -115,13 +115,13 @@ export async function queryCashAccountList(db: Db, asOf: string) {
 export async function loadSales(db: Db): Promise<import('./receivables').SalesData> {
   const customers = new Map((await db.execute(sql`SELECT no, name FROM customers`)).map(r => [r.no as string, r.name as string]))
   const uses = await db.execute(sql`SELECT invoice_number, dp_number, amount FROM sales_dp_usages`)
-  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, delivery_number, (SELECT order_number FROM delivery_orders d WHERE d.number = sales_invoices.delivery_number) AS order_number, (SELECT exchange_number FROM exchange_invoice_lines x WHERE x.invoice_number = sales_invoices.number LIMIT 1) AS exchange_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total FROM sales_invoices`))
-    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', delivery: (r.delivery_number as string) ?? undefined, order: (r.order_number as string) ?? undefined, exchange: (r.exchange_number as string) ?? undefined, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total),
+  const invoices = (await db.execute(sql`SELECT number, customer_no, kind, delivery_number, (SELECT order_number FROM delivery_orders d WHERE d.number = sales_invoices.delivery_number) AS order_number, (SELECT exchange_number FROM exchange_invoice_lines x WHERE x.invoice_number = sales_invoices.number LIMIT 1) AS exchange_number, to_char(date,'YYYY-MM-DD') AS date, to_char(due_date,'YYYY-MM-DD') AS due, description, total, discount FROM sales_invoices`))
+    .map(r => ({ number: r.number as string, customer: r.customer_no as string, kind: r.kind as 'SI' | 'DP', delivery: (r.delivery_number as string) ?? undefined, order: (r.order_number as string) ?? undefined, exchange: (r.exchange_number as string) ?? undefined, date: r.date as string, dueDate: r.due as string, description: r.description as string, total: Number(r.total), discount: Number(r.discount ?? 0),
       dpUses: uses.filter(u => u.invoice_number === r.number).map(u => ({ dp: u.dp_number as string, amount: Number(u.amount) })) }))
-  const invLines = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, l.quantity, l.unit_price, l.total
+  const invLines = await db.execute(sql`SELECT l.invoice_number, l.item_no, i.name AS item_name, i.unit, i.type, l.quantity, l.unit_price, l.total
     FROM sales_invoice_lines l JOIN items i ON i.no = l.item_no ORDER BY l.invoice_number, l.seq`)
   for (const inv of invoices) (inv as any).lines = invLines.filter(l => l.invoice_number === inv.number).map(l => ({
-    item: l.item_no as string, itemName: l.item_name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) }))
+    item: l.item_no as string, itemName: l.item_name as string, unit: l.unit as string, type: l.type as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) }))
   const lines = await db.execute(sql`SELECT receipt_number, invoice_number, amount FROM sales_receipt_lines`)
   const receipts = (await db.execute(sql`SELECT r.number, r.customer_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS date, r.description, r.amount FROM sales_receipts r JOIN accounts a ON a.no = r.bank_no`))
     .map(r => ({ number: r.number as string, customer: r.customer_no as string, bankName: r.bank_name as string, date: r.date as string, description: r.description as string, amount: Number(r.amount),
@@ -187,10 +187,10 @@ async function loadReturns(db: Db, kind: 'sales' | 'purchase'): Promise<import('
     ? await db.execute(sql`SELECT number, customer_no AS party, invoice_number, to_char(date,'YYYY-MM-DD') AS date, description, total FROM sales_returns`)
     : await db.execute(sql`SELECT number, vendor_no AS party, invoice_number, to_char(date,'YYYY-MM-DD') AS date, description, total FROM purchase_returns`)
   const ls = kind === 'sales'
-    ? await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, l.quantity, l.unit_price, l.total FROM sales_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
-    : await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, l.quantity, l.unit_price, l.total FROM purchase_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
+    ? await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, i.type, l.quantity, l.unit_price, l.total FROM sales_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
+    : await db.execute(sql`SELECT l.return_number, l.item_no, i.name, i.unit, i.type, l.quantity, l.unit_price, l.total FROM purchase_return_lines l JOIN items i ON i.no = l.item_no ORDER BY l.return_number, l.seq`)
   return head.map(r => ({ number: r.number as string, customer: r.party as string, invoice: r.invoice_number as string, date: r.date as string, description: r.description as string, total: Number(r.total),
-    lines: ls.filter(l => l.return_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) })) }))
+    lines: ls.filter(l => l.return_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, type: l.type as string, qty: Number(l.quantity), price: Number(l.unit_price), total: Number(l.total) })) }))
 }
 
 /** Finance charts over calendar months [from, to], from our own Neraca / Laba-Rugi totals. */

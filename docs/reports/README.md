@@ -120,15 +120,15 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 |---|---|---|---|---|---|
 | Penjualan per Pelanggan | `ViewSalesByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByCustomerReport.md) |
 | Penjualan per Barang | `ViewSalesByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByItemReport.md) |
-| Penjualan per Merek | `ViewSalesByBrandReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesByBrandReport.md) |
+| Penjualan per Merek | `ViewSalesByBrandReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByBrandReport.md) |
 | Penjualan Barang per Pelanggan | `ViewSalesItemByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesItemByCustomerReport.md) |
-| Penjualan Barang per Gudang | `ViewSalesItemByWarehouseReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByWarehouseReport.md) |
+| Penjualan Barang per Gudang | `ViewSalesItemByWarehouseReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesItemByWarehouseReport.md) |
 | Penjualan Pelanggan per Barang | `ViewSalesCustomerByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesCustomerByItemReport.md) |
 | Histori Proses Penjualan | `SalesFlowHistoryReport` | report | FROMTO | — | [verified](SalesFlowHistoryReport.md) |
 | Rincian Penjualan per Pelanggan | `ViewSalesByCustomerDetailReport` | report | FROMTO | selectedBranch= | [verified](ViewSalesByCustomerDetailReport.md) |
 | Rincian Penjualan per Barang | `ViewSalesByItemDetailReport` | report | FROMTO | selectedBranch= | [verified](ViewSalesByItemDetailReport.md) |
 | Penjualan per Cabang | `ViewSalesByBranchReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesByBranchReport.md) |
-| Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | [spec](ViewSalesItemByBranchReport.md) |
+| Penjualan Barang per Cabang | `ViewSalesItemByBranchReport` | crosstab | FROMTO | selectedBranch= | [verified](ViewSalesItemByBranchReport.md) |
 | Retur Penjualan per Barang | `SalesReturnByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesReturnByItemReport.md) |
 | Grafik Penjualan Bulanan | `AnnualSalesChartReport` | chart | FROMTO | selectedBranch= | [verified](AnnualSalesChartReport.md) |
 | Porsi Penjualan per Pelanggan | `TopSalesCustomerChartReport` | chart | FROMTO | selectedBranch= | [verified](TopSalesCustomerChartReport.md) |
