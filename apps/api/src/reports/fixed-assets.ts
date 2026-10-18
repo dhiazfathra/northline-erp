@@ -9,6 +9,7 @@ export interface Asset {
   expenditures: { name: string; date: string; amount: number }[]
   depreciations: { period: string; date: string; jvNumber: string; periodEndNumber: string; amount: number }[]
   disposal?: { number: string; date: string; description: string; gainLossName: string; sold: boolean; price: number; sellingName: string }
+  fiscalLifeMonths?: number
   edits?: { number: string; date: string; description: string; oldLifeMonths: number; newLifeMonths: number }[]
 }
 
@@ -123,4 +124,24 @@ const lifeChange = (e: { oldLifeMonths: number; newLifeMonths: number }) => `Per
 export function fixedAssetEditedList(assets: Asset[], from: string, to: string): string[][] {
   const rows = assets.flatMap(a => (a.edits ?? []).filter(e => e.date >= from && e.date <= to).map(e => ({ e, a }))).sort((x, y) => x.e.date.localeCompare(y.e.date) || x.e.number.localeCompare(y.e.number))
   return [['Nomor #', 'Tanggal', 'Kode Aset', 'Nama', 'Tipe', 'Keterangan', 'Pengeluaran'], ...rows.map(({ e, a }) => [e.number, fmtDate(e.date), a.number, a.description, 'Data', e.description])]
+}
+
+/**
+ * Perbedaan Penyusutan (docs/reports/DifferentIntermDepreciationReport.md), per fiscal asset up to `year`: per calendar
+ * year the months in use (from the acquisition month), fiscal (PPh) = cost / fiscal life x months, accounting = cost /
+ * life x months, Koreksi Pajak = PPh - accounting. Rows stop at the year the fiscal life ends.
+ */
+// shortcut: straight-line fiscal categories only; declining-balance groups (Gol x [Saldo Menurun]) are not captured.
+export function differentDepreciation(assets: Asset[], year: number): string[][] {
+  return assets.filter(a => a.fiscalLifeMonths).flatMap(a => {
+    const f = a.fiscalLifeMonths!, start = Number(a.date.slice(0, 4)) * 12 + Number(a.date.slice(5, 7)) - 1
+    const inYear = (life: number, y: number) => Math.max(0, Math.min(start + life, (y + 1) * 12) - Math.max(start, y * 12))
+    const rows: string[][] = [['Kode Aset', ':', a.number, 'Perkiraan Umur', ':', `${f / 12} Tahun`], ['Tanggal', ':', fmtDate(a.date), 'Total Aset', ':', formatIdr(a.cost)],
+      ['Metode Penyusutan', ':', METHOD, 'Nilai Sisa', ':', '0'], ['Tahun', 'PPh', 'Koreksi Pajak', 'Penyusutan Akuntansi']]
+    for (let y = Math.floor(start / 12); y <= year && inYear(f, y); y++) {
+      const pph = Math.round(a.cost / f * inYear(f, y)), acc = Math.round(a.cost / a.lifeMonths * inYear(a.lifeMonths, y))
+      rows.push([String(y), formatIdr(pph), formatIdr(pph - acc), formatIdr(acc)])
+    }
+    return rows
+  })
 }

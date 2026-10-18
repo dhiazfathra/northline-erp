@@ -269,7 +269,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Aset Tetap per Kategori | `FixedAssetByCategoryReport` | report | ASOF | — | [verified](FixedAssetByCategoryReport.md) |
 | Histori Aset | `FixedAssetHistoryReport` | report | FROMTO | selectedAsset= | [verified](FixedAssetHistoryReport.md) |
 | Jurnal Aset | `FixedAssetJournalReport` | report | NONE | selectedAsset= | [verified](FixedAssetJournalReport.md) |
-| Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | [spec](DifferentIntermDepreciationReport.md) |
+| Perbedaan Penyusutan | `DifferentIntermDepreciationReport` | report | ASOFYEAR | selectedAsset= | [verified](DifferentIntermDepreciationReport.md) |
 | Histori Lokasi Aset | `AssetLocationHistoryReport` | report | NONE | selectedAsset= | [verified](AssetLocationHistoryReport.md) |
 | Detail Aset Tetap | `FixedAssetDetailReport` | report | NONE | selectedAsset= | [verified](FixedAssetDetailReport.md) |
 | Histori Perubahan Aset | `FixedAssetEditedHistoryReport` | report | FROMTO | selectedAsset= | [verified](FixedAssetEditedHistoryReport.md) |

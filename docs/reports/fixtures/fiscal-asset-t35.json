@@ -1,0 +1,403 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T35: two fiscal assets (Aset Fiskal, category Gol 1 [Garis Lurus], 4 years / 25%). FAA.2037.01.00001 8.000.000 on 1 Jan 2037, 2-year accounting life; FAA.2037.07.00001 4.800.000 on 1 Jul 2037, 3-year accounting life. No month-end process run: the report computes the schedule.",
+ "assets": [
+  {
+   "category": "ZZ-R03-Elektronik C",
+   "method": "STRAIGHTLINE",
+   "assetAccount": "120005",
+   "accumulatedAccount": "12000604",
+   "expenseAccount": "600024",
+   "fiscalLifeMonths": 48,
+   "number": "FAA.2037.01.00001",
+   "description": "NL-T35 Mesin Fiskal",
+   "date": "2037-01-01",
+   "lifeMonths": 24,
+   "expenditures": [
+    {
+     "name": "NL-T35 perolehan",
+     "date": "2037-01-01",
+     "amount": 8000000,
+     "account": "NL-T1-3001"
+    }
+   ]
+  },
+  {
+   "category": "ZZ-R03-Elektronik C",
+   "method": "STRAIGHTLINE",
+   "assetAccount": "120005",
+   "accumulatedAccount": "12000604",
+   "expenseAccount": "600024",
+   "fiscalLifeMonths": 48,
+   "number": "FAA.2037.07.00001",
+   "description": "NL-T35 Mesin Fiskal B",
+   "date": "2037-07-01",
+   "lifeMonths": 36,
+   "expenditures": [
+    {
+     "name": "NL-T35 perolehan B",
+     "date": "2037-07-01",
+     "amount": 4800000,
+     "account": "NL-T1-3001"
+    }
+   ]
+  }
+ ],
+ "DifferentIntermDepreciationReport": [
+  {
+   "year": 2037,
+   "assets": [
+    "FAA.2037.01.00001"
+   ],
+   "param": {
+    "asOfYear": 2037,
+    "selectedAsset": [
+     {
+      "id": 201
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2037"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2037.01.00001",
+     "Perkiraan Umur",
+     ":",
+     "4 Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jan 2037",
+     "Total Aset",
+     ":",
+     "8.000.000"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nilai Sisa",
+     ":",
+     "0"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ],
+    [
+     "2037",
+     "2.000.000",
+     "-2.000.000",
+     "4.000.000"
+    ]
+   ]
+  },
+  {
+   "year": 2040,
+   "assets": [
+    "FAA.2037.01.00001"
+   ],
+   "param": {
+    "asOfYear": 2040,
+    "selectedAsset": [
+     {
+      "id": 201
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2040"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2037.01.00001",
+     "Perkiraan Umur",
+     ":",
+     "4 Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jan 2037",
+     "Total Aset",
+     ":",
+     "8.000.000"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nilai Sisa",
+     ":",
+     "0"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ],
+    [
+     "2037",
+     "2.000.000",
+     "-2.000.000",
+     "4.000.000"
+    ],
+    [
+     "2038",
+     "2.000.000",
+     "-2.000.000",
+     "4.000.000"
+    ],
+    [
+     "2039",
+     "2.000.000",
+     "2.000.000",
+     "0"
+    ],
+    [
+     "2040",
+     "2.000.000",
+     "2.000.000",
+     "0"
+    ]
+   ]
+  },
+  {
+   "year": 2041,
+   "assets": [
+    "FAA.2037.07.00001"
+   ],
+   "param": {
+    "asOfYear": 2041,
+    "selectedAsset": [
+     {
+      "id": 202
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2041"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2037.07.00001",
+     "Perkiraan Umur",
+     ":",
+     "4 Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jul 2037",
+     "Total Aset",
+     ":",
+     "4.800.000"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nilai Sisa",
+     ":",
+     "0"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ],
+    [
+     "2037",
+     "600.000",
+     "-200.000",
+     "800.000"
+    ],
+    [
+     "2038",
+     "1.200.000",
+     "-400.000",
+     "1.600.000"
+    ],
+    [
+     "2039",
+     "1.200.000",
+     "-400.000",
+     "1.600.000"
+    ],
+    [
+     "2040",
+     "1.200.000",
+     "400.000",
+     "800.000"
+    ],
+    [
+     "2041",
+     "600.000",
+     "600.000",
+     "0"
+    ]
+   ]
+  },
+  {
+   "year": 2042,
+   "assets": [
+    "FAA.2037.01.00001",
+    "FAA.2037.07.00001"
+   ],
+   "param": {
+    "asOfYear": 2042,
+    "selectedAsset": [
+     {
+      "id": 201
+     },
+     {
+      "id": 202
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Perbedaan Penyusutan"
+    ],
+    [
+     "per 2042"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2037.01.00001",
+     "Perkiraan Umur",
+     ":",
+     "4 Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jan 2037",
+     "Total Aset",
+     ":",
+     "8.000.000"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nilai Sisa",
+     ":",
+     "0"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ],
+    [
+     "2037",
+     "2.000.000",
+     "-2.000.000",
+     "4.000.000"
+    ],
+    [
+     "2038",
+     "2.000.000",
+     "-2.000.000",
+     "4.000.000"
+    ],
+    [
+     "2039",
+     "2.000.000",
+     "2.000.000",
+     "0"
+    ],
+    [
+     "2040",
+     "2.000.000",
+     "2.000.000",
+     "0"
+    ],
+    [
+     "Kode Aset",
+     ":",
+     "FAA.2037.07.00001",
+     "Perkiraan Umur",
+     ":",
+     "4 Tahun"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Jul 2037",
+     "Total Aset",
+     ":",
+     "4.800.000"
+    ],
+    [
+     "Metode Penyusutan",
+     ":",
+     "Metode Garis Lurus",
+     "Nilai Sisa",
+     ":",
+     "0"
+    ],
+    [
+     "Tahun",
+     "PPh",
+     "Koreksi Pajak",
+     "Penyusutan Akuntansi"
+    ],
+    [
+     "2037",
+     "600.000",
+     "-200.000",
+     "800.000"
+    ],
+    [
+     "2038",
+     "1.200.000",
+     "-400.000",
+     "1.600.000"
+    ],
+    [
+     "2039",
+     "1.200.000",
+     "-400.000",
+     "1.600.000"
+    ],
+    [
+     "2040",
+     "1.200.000",
+     "400.000",
+     "800.000"
+    ],
+    [
+     "2041",
+     "600.000",
+     "600.000",
+     "0"
+    ]
+   ]
+  }
+ ]
+}

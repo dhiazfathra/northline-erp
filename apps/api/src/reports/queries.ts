@@ -175,11 +175,12 @@ export async function loadFixedAssets(db: Db): Promise<import('./fixed-assets').
   const disp = await db.execute(sql`SELECT d.number, d.asset_number, to_char(d.date,'YYYY-MM-DD') AS date, d.description, g.name AS gl, d.sold, d.price, COALESCE(s.name, '') AS sname
     FROM fixed_asset_disposals d JOIN accounts g ON g.no = d.gain_loss_account LEFT JOIN accounts s ON s.no = d.selling_account`)
   const ed = await db.execute(sql`SELECT number, asset_number, to_char(date,'YYYY-MM-DD') AS date, description, old_life_months, new_life_months FROM fixed_asset_edits ORDER BY date, number`)
-  return (await db.execute(sql`SELECT number, description, category, to_char(date,'YYYY-MM-DD') AS date, to_char(usage_date,'YYYY-MM-DD') AS usage, life_months, cost, expense_account, accumulated_account FROM fixed_assets`))
+  return (await db.execute(sql`SELECT number, description, category, to_char(date,'YYYY-MM-DD') AS date, to_char(usage_date,'YYYY-MM-DD') AS usage, life_months, cost, expense_account, accumulated_account, fiscal_life_months FROM fixed_assets ORDER BY number`))
     .map(r => ({ number: r.number as string, description: r.description as string, category: r.category as string, date: r.date as string, usageDate: r.usage as string,
       lifeMonths: Number(r.life_months), cost: Number(r.cost), expenseAccount: r.expense_account as string, accumulatedAccount: r.accumulated_account as string,
       expenditures: ex.filter(e => e.asset_number === r.number).map(e => ({ name: e.name as string, date: e.date as string, amount: Number(e.amount) })),
       depreciations: dep.filter(d => d.asset_number === r.number).map(d => ({ period: d.period as string, date: d.date as string, jvNumber: d.jv_number as string, periodEndNumber: d.pe_number as string, amount: Number(d.amount) })),
+      fiscalLifeMonths: r.fiscal_life_months == null ? undefined : Number(r.fiscal_life_months),
       edits: ed.filter(e => e.asset_number === r.number).map(e => ({ number: e.number as string, date: e.date as string, description: e.description as string, oldLifeMonths: Number(e.old_life_months), newLifeMonths: Number(e.new_life_months) })),
       disposal: disp.filter(d => d.asset_number === r.number).map(d => ({ number: d.number as string, date: d.date as string, description: d.description as string, gainLossName: d.gl as string, sold: d.sold as boolean, price: Number(d.price), sellingName: d.sname as string }))[0] }))
 }

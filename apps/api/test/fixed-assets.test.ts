@@ -72,3 +72,10 @@ test('asset edit (T34): no journal, Daftar Perubahan Aset Tetap, Histori Perubah
   expect(F.fixedAssetEditedHistory(a, t34.FixedAssetEditedHistoryReport.from, t34.FixedAssetEditedHistoryReport.to)).toEqual(body(t34.FixedAssetEditedHistoryReport.rows))
   expect(F.assetLocationHistory(a)).toEqual(body(t34.AssetLocationHistoryReport.rows))
 })
+
+test('DifferentIntermDepreciationReport: fiscal vs accounting depreciation per year (T35)', async () => {
+  const t35 = (await import('../../../docs/reports/fixtures/fiscal-asset-t35.json')).default
+  for (const a of t35.assets) await createFixedAsset(f.db, { idempotencyKey: `t35-${a.number}`, ...a })
+  const all = await loadFixedAssets(f.db)
+  for (const c of t35.DifferentIntermDepreciationReport) expect(F.differentDepreciation(all.filter(a => c.assets.includes(a.number)), c.year)).toEqual(body(c.rows).filter(r => !(r.length === 1 && (/^per \d{4}$/.test(r[0]!) || r[0] === 'Perbedaan Penyusutan'))))
+})

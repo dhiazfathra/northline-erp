@@ -22,6 +22,8 @@ export const fixedAssetInput = z.object({
   lifeMonths: z.number().int().positive(),
   assetAccount: z.string(), accumulatedAccount: z.string(), expenseAccount: z.string(),
   expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string() })).min(1),
+  /** Fiscal category (Aset Fiskal), e.g. Gol 1 [Garis Lurus] = 48 months straight line (docs/reports/DifferentIntermDepreciationReport.md). */
+  fiscalLifeMonths: z.number().int().positive().optional(),
 })
 
 export async function createFixedAsset(db: Db, input: z.input<typeof fixedAssetInput>) {
@@ -40,6 +42,7 @@ export async function createFixedAsset(db: Db, input: z.input<typeof fixedAssetI
     })
     await tx.execute(sql`INSERT INTO fixed_assets (number, description, category, date, usage_date, life_months, method, asset_account, accumulated_account, expense_account, cost, journal_id)
       VALUES (${number}, ${a.description}, ${a.category}, ${a.date}, ${a.usageDate ?? a.date}, ${a.lifeMonths}, 'STRAIGHTLINE', ${a.assetAccount}, ${a.accumulatedAccount}, ${a.expenseAccount}, ${cost}, ${journalId})`)
+    if (a.fiscalLifeMonths) await tx.execute(sql`UPDATE fixed_assets SET fiscal_life_months = ${a.fiscalLifeMonths} WHERE number = ${number}`)
     for (const [i, e] of a.expenditures.entries())
       await tx.execute(sql`INSERT INTO fixed_asset_expenditures (asset_number, seq, name, date, amount, account) VALUES (${number}, ${i + 1}, ${e.name}, ${e.date}, ${e.amount}, ${e.account})`)
     const result = { number }
