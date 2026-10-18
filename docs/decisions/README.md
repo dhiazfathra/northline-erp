@@ -10,3 +10,4 @@
 | [0006](0006-fifo-inventory-costing.md) | FIFO inventory costing from stock movements | Accepted |
 | [0007](0007-fixed-assets-and-month-end.md) | Fixed assets and the month-end depreciation process | Accepted |
 | [0008](0008-return-costing.md) | Sales and purchase returns follow the sandbox's costing | Accepted |
+- [ADR-0012](0012-foreign-currency-sales.md): Foreign-currency sales post in IDR at the document's rate

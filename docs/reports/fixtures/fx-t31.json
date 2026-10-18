@@ -1,0 +1,238 @@
+{
+ "source": "Accurate Online sandbox, 2026-10-18. T31: USD sales invoice to demo customer C.00002 (USD, AR 110303) for 100 USD at 15.000, received 15 Oct 2036 into NL-T1 Kas (IDR) at 15.500.",
+ "accounts": [
+  {
+   "no": "110303",
+   "name": "Piutang Usaha USD",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "720102",
+   "name": "Laba/Rugi Terealisasi USD",
+   "type": "OTHER_INCOME"
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "NL-T1-1101",
+   "name": "NL-T1 Kas",
+   "type": "CASH_BANK"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE"
+  }
+ ],
+ "customer": {
+  "no": "C.00002",
+  "name": "C.00002 USD",
+  "arAccount": "110303",
+  "currency": "USD",
+  "realizedGainAccount": "720102"
+ },
+ "item": {
+  "no": "NL-T2-S1",
+  "name": "NL-T2 Jasa Konsultasi",
+  "type": "SERVICE",
+  "unit": "Jam",
+  "salesAccount": "400001",
+  "expenseAccount": "600020"
+ },
+ "invoice": {
+  "number": "SI.2036.10.00001",
+  "customer": "C.00002",
+  "date": "2036-10-01",
+  "description": "NL-T31-S1",
+  "rate": 15000,
+  "lines": [
+   {
+    "item": "NL-T2-S1",
+    "name": "NL-T2 Jasa Konsultasi",
+    "qty": 1,
+    "price": 100
+   }
+  ]
+ },
+ "receipt": {
+  "number": "NL-T1-1101.2036.10.00001",
+  "customer": "C.00002",
+  "bank": "NL-T1-1101",
+  "date": "2036-10-15",
+  "description": "NL-T31-R1",
+  "rate": 15500,
+  "payments": [
+   {
+    "invoice": "SI.2036.10.00001",
+    "amount": 100
+   }
+  ]
+ },
+ "GeneralLedgerHistoryReport": [
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 01 Okt 2036 s/d 01 Okt 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "01 Okt 2036"
+   ],
+   [
+    "Faktur Penjualan",
+    "SI.2036.10.00001",
+    "110303",
+    "Piutang Usaha USD",
+    "NL-T31-S1",
+    "1.500.000",
+    "0"
+   ],
+   [
+    "Faktur Penjualan",
+    "SI.2036.10.00001",
+    "400001",
+    "Penjualan",
+    "NL-T31-S1",
+    "0",
+    "1.500.000"
+   ]
+  ],
+  [
+   [
+    "Histori Buku Besar"
+   ],
+   [
+    "Dari 15 Okt 2036 s/d 15 Okt 2036"
+   ],
+   [
+    "Cabang : [Semua Cabang]"
+   ],
+   [
+    "Tipe Transaksi Jurnal",
+    "No Bukti #",
+    "Kode #",
+    "Nama Perkiraan",
+    "Keterangan Jurnal",
+    "Debit",
+    "Kredit"
+   ],
+   [
+    "15 Okt 2036"
+   ],
+   [
+    "Penerimaan Penjualan",
+    "NL-T1-1101.2036.10.00001",
+    "NL-T1-1101",
+    "NL-T1 Kas",
+    "NL-T31-R1",
+    "1.550.000",
+    "0"
+   ],
+   [
+    "Penerimaan Penjualan",
+    "NL-T1-1101.2036.10.00001",
+    "110303",
+    "Piutang Usaha USD",
+    "NL-T31-R1",
+    "0",
+    "1.500.000"
+   ],
+   [
+    "Penerimaan Penjualan",
+    "NL-T1-1101.2036.10.00001",
+    "720102",
+    "Laba/Rugi Terealisasi USD",
+    "NL-T31-R1",
+    "0",
+    "50.000"
+   ]
+  ]
+ ],
+ "RealizeGainLossReport": [
+  {
+   "from": "2036-10-01",
+   "to": "2036-10-31",
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "31/10/2036"
+   },
+   "rows": [
+    [
+     "Laba/Rugi Terealisasi"
+    ],
+    [
+     "Dari 01 Okt 2036 s/d 31 Okt 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Bayar (Kurs Faktur)",
+     "Bayar (Kurs Cek)",
+     "Untung/Rugi"
+    ],
+    [
+     "US Dollar"
+    ],
+    [
+     "Penerimaan Penjualan"
+    ],
+    [
+     "NL-T1-1101.2036.10.00001",
+     "15 Okt 2036",
+     "1.500.000",
+     "1.550.000",
+     "50.000"
+    ],
+    [
+     "1.500.000",
+     "1.550.000",
+     "50.000"
+    ],
+    [
+     "1.500.000",
+     "1.550.000",
+     "50.000"
+    ]
+   ]
+  },
+  {
+   "from": "2036-10-01",
+   "to": "2036-10-14",
+   "param": {
+    "startDate": "01/10/2036",
+    "endDate": "14/10/2036"
+   },
+   "rows": [
+    [
+     "Laba/Rugi Terealisasi"
+    ],
+    [
+     "Dari 01 Okt 2036 s/d 14 Okt 2036"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Bayar (Kurs Faktur)",
+     "Bayar (Kurs Cek)",
+     "Untung/Rugi"
+    ]
+   ]
+  }
+ ]
+}

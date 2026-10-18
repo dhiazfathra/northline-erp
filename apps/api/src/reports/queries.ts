@@ -310,3 +310,9 @@ export async function loadVendorPrices(db: Db) {
     FROM vendor_prices p JOIN vendors v ON v.no = p.vendor_no JOIN items i ON i.no = p.item_no`))
     .map(r => ({ number: r.number as string, vendorName: r.vendor as string, date: r.date as string, item: r.item_no as string, itemName: r.item as string, unit: r.unit as string, price: Number(r.price) }))
 }
+
+export async function loadRealizedReceipts(db: Db) {
+  return (await db.execute(sql`SELECT r.number, to_char(r.date,'YYYY-MM-DD') AS date, c.currency, l.amount, COALESCE(l.amount_at_receipt, l.amount) AS at_receipt
+    FROM sales_receipt_lines l JOIN sales_receipts r ON r.number = l.receipt_number JOIN customers c ON c.no = r.customer_no`))
+    .map(r => ({ receipt: r.number as string, date: r.date as string, currency: r.currency as string, atInvoice: Number(r.amount), atReceipt: Number(r.at_receipt) }))
+}

@@ -607,3 +607,22 @@ export function paidInstallments(d: SalesData, is: Installment[], from: string, 
   for (const i of is.filter(i => i.paidDate && i.paidDate >= from && i.paidDate <= to)) rows.push([d.customers.get(i.customer)!, i.invoice, fmtDate(i.date), i.name, formatIdr(i.amount), formatIdr(i.paid), fmtDate(i.paidDate!)])
   return rows
 }
+
+const CURRENCY_NAME: Record<string, string> = { USD: 'US Dollar' }
+/**
+ * Laba/Rugi Terealisasi (docs/reports/RealizeGainLossReport.md): foreign receipts dated in the window, grouped by currency
+ * then document type. Bayar (Kurs Faktur) = payment at the invoice rate, Bayar (Kurs Cek) = at the receipt rate,
+ * Untung/Rugi = the difference; a subtotal row per type and per currency.
+ */
+// shortcut: sales receipts only; purchase payments in foreign currency are not modelled.
+export function realizedGainLoss(lines: { receipt: string; date: string; currency: string; atInvoice: number; atReceipt: number }[], from: string, to: string): string[][] {
+  const rows: string[][] = [['Nomor #', 'Tanggal', 'Bayar (Kurs Faktur)', 'Bayar (Kurs Cek)', 'Untung/Rugi']]
+  const ls = lines.filter(l => l.currency !== 'IDR' && l.date >= from && l.date <= to).sort((a, b) => a.date.localeCompare(b.date) || a.receipt.localeCompare(b.receipt))
+  const sum = (xs: typeof ls) => [formatIdr(xs.reduce((s, x) => s + x.atInvoice, 0)), formatIdr(xs.reduce((s, x) => s + x.atReceipt, 0)), formatIdr(xs.reduce((s, x) => s + x.atReceipt - x.atInvoice, 0))]
+  for (const cur of [...new Set(ls.map(l => l.currency))].sort()) {
+    const xs = ls.filter(l => l.currency === cur)
+    rows.push([CURRENCY_NAME[cur] ?? cur], ['Penerimaan Penjualan'],
+      ...xs.map(x => [x.receipt, fmtDate(x.date), formatIdr(x.atInvoice), formatIdr(x.atReceipt), formatIdr(x.atReceipt - x.atInvoice)]), sum(xs), sum(xs))
+  }
+  return rows
+}

@@ -8,8 +8,8 @@ import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
   const c = customerInput.parse(input)
-  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null})
-    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit`)
+  await db.execute(sql`INSERT INTO customers (no, name, ar_account, tax_document_code, tax_type, credit_limit, currency, realized_gain_account) VALUES (${c.no}, ${c.name}, ${c.arAccount}, ${c.taxDocumentCode ?? 'DIGUNGGUNG'}, ${c.taxType ?? null}, ${c.creditLimit ?? null}, ${c.currency}, ${c.realizedGainAccount ?? null})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, ar_account = EXCLUDED.ar_account, tax_document_code = EXCLUDED.tax_document_code, tax_type = EXCLUDED.tax_type, credit_limit = EXCLUDED.credit_limit, currency = EXCLUDED.currency, realized_gain_account = EXCLUDED.realized_gain_account`)
 }
 export async function upsertItem(db: Db, input: z.input<typeof itemInput>) {
   const i = itemInput.parse(input)
@@ -37,7 +37,9 @@ export function merge(lines: { account: string; amount: number }[]) {
 }
 
 export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
-  const inv = salesInvoiceInput.parse(input)
+  const parsed = salesInvoiceInput.parse(input)
+  // Foreign invoice: everything below works in IDR (price x rate); the rate is kept for receipts (ADR-0012).
+  const inv = { ...parsed, lines: parsed.lines.map(l => ({ ...l, price: Math.round(l.price * parsed.rate) })) }
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${inv.idempotencyKey}`)
     if (done) return done.result as { number: string }
@@ -124,6 +126,7 @@ export async function createSalesInvoice(db: Db, input: SalesInvoiceInput) {
     if (inv.taxable) await tx.execute(sql`UPDATE sales_invoices SET tax_number = ${inv.taxNumber ?? null}, document_code = ${cust.tax_document_code as string}, tax_type = ${cust.tax_type as string | null} WHERE number = ${number}`)
     for (const t of taxes.values())
       await tx.execute(sql`INSERT INTO sales_invoice_taxes (invoice_number, tax_name, rate, dpp, amount) VALUES (${number}, ${t.name}, ${t.rate}, ${t.dpp}, ${t.amount})`)
+    if (inv.rate !== 1) await tx.execute(sql`UPDATE sales_invoices SET rate = ${inv.rate} WHERE number = ${number}`)
     if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)
     for (const l of lines)
       await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct)
@@ -142,34 +145,43 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     if (done) return done.result as { number: string }
     const [bank] = await tx.execute(sql`SELECT type FROM accounts WHERE no = ${rc.bank}`)
     if (bank?.type !== 'CASH_BANK') throw new DomainError(`${rc.bank} bukan akun Kas & Bank`)
-    const credits: { account: string; amount: number }[] = []
+    const credits: { account: string; amount: number }[] = [], fx: { invoice: string; atInvoice: number; atReceipt: number }[] = []
     for (const p of rc.payments) {
       const [inv] = await tx.execute(sql`
-        SELECT i.customer_no, c.ar_account, i.total - COALESCE((SELECT SUM(amount) FROM sales_receipt_lines WHERE invoice_number = i.number), 0) AS owing
+        SELECT i.customer_no, c.ar_account, i.rate, i.total - COALESCE((SELECT SUM(amount) FROM sales_receipt_lines WHERE invoice_number = i.number), 0) AS owing
         FROM sales_invoices i JOIN customers c ON c.no = i.customer_no WHERE i.number = ${p.invoice} FOR UPDATE OF i`)
       if (!inv) throw new DomainError(`Faktur ${p.invoice} tidak ditemukan`)
       if (inv.customer_no !== rc.customer) throw new DomainError(`Faktur ${p.invoice} bukan milik pelanggan ${rc.customer}`)
-      if (p.amount > Number(inv.owing)) throw new DomainError(`Pembayaran ${p.invoice} melebihi sisa piutang`)
-      credits.push({ account: inv.ar_account as string, amount: p.amount })
+      // foreign payment: the receivable leaves at the invoice rate, the bank receives at the receipt rate
+      const atInvoice = Math.round(p.amount * Number(inv.rate)), atReceipt = Math.round(p.amount * rc.rate)
+      if (atInvoice > Number(inv.owing)) throw new DomainError(`Pembayaran ${p.invoice} melebihi sisa piutang`)
+      credits.push({ account: inv.ar_account as string, amount: atInvoice })
+      fx.push({ invoice: p.invoice, atInvoice, atReceipt })
     }
-    const paid = rc.payments.reduce((s, p) => s + p.amount, 0), amount = rc.amount ?? paid
+    const gain = fx.reduce((s, x) => s + x.atReceipt - x.atInvoice, 0)
+    const paid = fx.reduce((s, x) => s + x.atReceipt, 0), amount = rc.amount === undefined ? paid : Math.round(rc.amount * rc.rate)
     if (amount < paid) throw new DomainError('Jumlah penerimaan kurang dari total pembayaran faktur')
-    const [arAcc] = await tx.execute(sql`SELECT ar_account FROM customers WHERE no = ${rc.customer}`)
+    const [arAcc] = await tx.execute(sql`SELECT ar_account, realized_gain_account FROM customers WHERE no = ${rc.customer}`)
+    if (gain && !arAcc!.realized_gain_account) throw new DomainError(`Pelanggan ${rc.customer} belum punya akun laba/rugi terealisasi`)
     const number = rc.number ?? await nextNumber(tx, `${rc.bank}.${period(rc.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${rc.idempotencyKey}:journal`, journalId, number, sourceType: 'SR', date: rc.cheque?.date ?? rc.date, description: rc.description, // a cheque is journaled on its cheque date (giro mundur until then)
       lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) }, ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
         // the excess is credited to the receivable on its own line (Accurate does not merge it with the invoice payments)
-        ...(amount > paid ? [{ account: arAcc!.ar_account as string, side: 'CREDIT' as const, amount: ((amount - paid) / 100).toFixed(2) }] : [])],
+        ...(amount > paid ? [{ account: arAcc!.ar_account as string, side: 'CREDIT' as const, amount: ((amount - paid) / 100).toFixed(2) }] : []),
+        // realized exchange difference last (fixtures/fx-t31.json): gain credited, loss debited
+        ...(gain ? [{ account: arAcc!.realized_gain_account as string, side: (gain > 0 ? 'CREDIT' : 'DEBIT') as 'CREDIT' | 'DEBIT', amount: (Math.abs(gain) / 100).toFixed(2) }] : [])],
     })
     await tx.execute(sql`INSERT INTO sales_receipts (number, customer_no, bank_no, date, description, amount, journal_id)
       VALUES (${number}, ${rc.customer}, ${rc.bank}, ${rc.date}, ${rc.description}, ${amount}, ${journalId})`)
+    if (rc.rate !== 1) await tx.execute(sql`UPDATE sales_receipts SET rate = ${rc.rate} WHERE number = ${number}`)
     if (rc.cheque) await tx.execute(sql`UPDATE sales_receipts SET payment_method = 'BANK_CHEQUE', cheque_no = ${rc.cheque.no}, cheque_date = ${rc.cheque.date} WHERE number = ${number}`)
     for (const p of rc.payments) {
       const [inst] = p.installment ? await tx.execute(sql`SELECT seq FROM sales_invoice_installments WHERE invoice_number = ${p.invoice} AND name = ${p.installment}`) : []
       if (p.installment && !inst) throw new DomainError(`Cicilan ${p.installment} tidak ada di faktur ${p.invoice}`)
-      await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount, installment_seq) VALUES (${number}, ${p.invoice}, ${p.amount}, ${inst?.seq ?? null})`)
+      const x = fx.find(x => x.invoice === p.invoice)!
+      await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount, installment_seq, amount_at_receipt) VALUES (${number}, ${p.invoice}, ${x.atInvoice}, ${inst?.seq ?? null}, ${x.atReceipt})`)
     }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rc.idempotencyKey}, 'CreateSalesReceipt', ${JSON.stringify(result)}::jsonb)`)

@@ -6,7 +6,8 @@ import { amountToCents, isoDate } from './ledger-es'
 const code = z.string().trim().min(1).max(60)
 
 /** taxDocumentCode: DIGUNGGUNG (retail, default) or CTAS_INVOICE (Faktur Pajak); taxType e.g. CTAS_KEPADA_SELAIN_PEMUNGUT_PPN. */
-export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code, taxDocumentCode: z.string().optional(), taxType: z.string().optional(), /** Limit Piutang */ creditLimit: amountToCents.optional() })
+export const customerInput = z.object({ no: code, name: z.string().trim().min(1), arAccount: code, taxDocumentCode: z.string().optional(), taxType: z.string().optional(), /** Limit Piutang */ creditLimit: amountToCents.optional(),
+  /** Foreign-currency customer (ADR-0012): ISO code and the Laba/Rugi Terealisasi account for its receipts. */ currency: z.string().length(3).default('IDR'), realizedGainAccount: code.optional() })
 export const itemInput = z.object({ no: code, name: z.string().trim().min(1), type: z.enum(['SERVICE', 'INVENTORY', 'NON_INVENTORY']), unit: z.string().min(1), salesAccount: code, expenseAccount: code.optional(), inventoryAccount: code.optional(), cogsAccount: code.optional(), salesReturnAccount: code.optional(), deliveredAccount: code.optional(),
   /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional() })
 
@@ -33,6 +34,8 @@ export const salesInvoiceInput = z.object({
   downPayments: z.array(z.object({ invoice: code, amount: amountToCents })).default([]),
   /** Delivery order this invoice bills: stock already left at delivery, the invoice moves its cost to HPP. */
   delivery: code.optional(),
+  /** Exchange rate to IDR (ADR-0012); line prices are in the customer's currency. */
+  rate: z.number().positive().default(1),
 })
 export type SalesInvoiceInput = z.input<typeof salesInvoiceInput>
 
@@ -49,6 +52,8 @@ export const salesReceiptInput = z.object({
   amount: amountToCents.optional(),
   /** Cek/Giro: the cheque number and its due date (giro mundur until then). */
   cheque: z.object({ no: z.string().min(1), date: isoDate }).optional(),
+  /** Exchange rate on the receipt (ADR-0012); payment amounts are in the invoice currency, the bank is IDR. */
+  rate: z.number().positive().default(1),
 })
 export type SalesReceiptInput = z.input<typeof salesReceiptInput>
 
