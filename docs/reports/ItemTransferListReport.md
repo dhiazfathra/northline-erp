@@ -1,21 +1,10 @@
 # Ringkasan Pemindahan Barang (`ItemTransferListReport`)
 
-Group: Gudang . **Status: spec captured, not yet verified** (no seeded fixture or ERP implementation yet).
-Capture: [`captures/ItemTransferListReport.json`](captures/ItemTransferListReport.json), run with default parameters over the sandbox demo data.
+Group: Gudang. Reverse-engineered from Accurate Online v1.0.1#4970 (sandbox, multi-warehouse enabled), 2026-10-18. Fixture:
+[`fixtures/transfer-t15.json`](fixtures/transfer-t15.json) (IT.2034.11.00001 Kirim Utama → NL-Gudang B, IT.2034.11.00002 Terima).
+ERP: `transferList` in `apps/api/src/reports/inventory.ts`, `createItemTransfer`; test: `apps/api/test/adjustments.test.ts`.
 
-## Parameters
+Columns `Tanggal` | `No. Pemindahan #` | `Proses` (`Kirim Barang` / `Terima Barang`) | `Gudang` | `Gudang Tujuan/Dari`.
 
-Date parameter kind: `FROMTO`; request param used: `{"startDate":"01/01/2026","endDate":"18/10/2026"}`.
-
-
-
-## Layout
-
-View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
-
-
-First table row (columns): `Tanggal | No. Pemindahan # | Proses | Gudang | Gudang Tujuan/Dari`
-
-## Open work
-
-- Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
+Transfers post **no journal**. Sending moves stock from the source warehouse into `Transit (AOL System)`; receiving moves it
+from transit into the destination. Stock card rows: type `Pemindahan Barang`, descriptions `Kirim ke <wh>` / `Terima dari <wh>`.

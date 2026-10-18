@@ -37,11 +37,11 @@ export function fifoCost(ls: Layer[], qty: number): number {
 }
 
 export async function loadMoves(tx: Tx, item: string, upTo: string) {
-  return (await tx.execute(sql`SELECT to_char(date,'YYYY-MM-DD') AS date, quantity, value FROM stock_moves WHERE item_no = ${item} AND date <= ${upTo} ORDER BY date, id`))
+  return (await tx.execute(sql`SELECT to_char(date,'YYYY-MM-DD') AS date, quantity, value FROM stock_moves WHERE item_no = ${item} AND date <= ${upTo} AND doc_type <> 'IT' ORDER BY date, id`))
     .map(r => ({ date: r.date as string, quantity: Number(r.quantity), value: Number(r.value) }))
 }
 
-export async function addMove(tx: Tx, m: { item: string; date: string; docType: string; docNumber: string; description: string; quantity: number; value: number }) {
-  await tx.execute(sql`INSERT INTO stock_moves (item_no, date, doc_type, doc_number, description, quantity, value)
-    VALUES (${m.item}, ${m.date}, ${m.docType}, ${m.docNumber}, ${m.description}, ${m.quantity}, ${m.value})`)
+export async function addMove(tx: Tx, m: { item: string; date: string; docType: string; docNumber: string; description: string; quantity: number; value: number; warehouse?: string }) {
+  await tx.execute(sql`INSERT INTO stock_moves (item_no, date, doc_type, doc_number, description, quantity, value, warehouse)
+    VALUES (${m.item}, ${m.date}, ${m.docType}, ${m.docNumber}, ${m.description}, ${m.quantity}, ${m.value}, ${m.warehouse ?? 'Utama'})`)
 }

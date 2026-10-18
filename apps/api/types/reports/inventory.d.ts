@@ -6,6 +6,8 @@ export interface StockMove {
     party: string;
     quantity: number;
     value: number;
+    warehouse?: string;
+    description?: string;
 }
 export interface StockItem {
     no: string;
@@ -30,16 +32,24 @@ export declare function profitabilityByItem(d: InventoryData, sales: {
     date: string;
     total: number;
 }[], from: string, to: string): string[][];
-/** Mutasi per Barang: per selected item, its movements under each warehouse. */
+/** Mutasi per Barang: per selected item, a block per warehouse it ever touched (transit included), by warehouse name. */
 export declare function itemMutationByWarehouse(d: InventoryData, itemNos: string[], from: string, to: string): string[][];
-/** Mutasi per Gudang: per warehouse, every item with movements; warehouse total of in/out last. */
-export declare function warehouseMutationByItem(d: InventoryData, from: string, to: string): string[][];
-/** Ringkasan Mutasi Gudang: per item with movements: opening, in, out, closing quantity; totals. */
-export declare function warehouseMutationSummary(d: InventoryData, from: string, to: string): string[][];
-/** Kuantitas Barang per Gudang: quantity and FIFO value per item, per warehouse and total. */
-export declare function quantityByWarehouse(d: InventoryData, asOf: string): string[][];
+/** Mutasi per Gudang (selected warehouses): items with movements, then the warehouse in/out totals. */
+export declare function warehouseMutationByItem(d: InventoryData, from: string, to: string, warehouses?: string[]): string[][];
+/** Ringkasan Mutasi Gudang: per selected warehouse (by name), items with movements: opening, in, out, closing; warehouse totals. */
+export declare function warehouseMutationSummary(d: InventoryData, from: string, to: string, warehouses?: string[]): string[][];
+/** Kuantitas Barang per Gudang: per warehouse quantity and value; an item's value is split across warehouses by quantity. */
+export declare function quantityByWarehouse(d: InventoryData, asOf: string, warehouses?: string[]): string[][];
 /** Umur Persediaan per Gudang: as Umur Persediaan with the warehouse name column. */
 export declare function inventoryAgingByWarehouse(d: InventoryData, asOf: string): string[][];
+/** Ringkasan Pemindahan Barang */
+export declare function transferList(ts: {
+    number: string;
+    date: string;
+    direction: 'OUT' | 'IN';
+    warehouse: string;
+    reference: string;
+}[], from: string, to: string): string[][];
 /** Penyesuaian Stok Barang: one block per adjustment (title lines repeat). */
 export declare function adjustmentDetail(adjs: {
     number: string;

@@ -13,12 +13,12 @@ import * as FA from './reports/fixed-assets'
 import * as I from './reports/inventory'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
-import { createItemAdjustment } from './inventory/adjustment'
+import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
 import { createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, upsertCustomer, upsertItem } from './sales/service'
-import { loadAdjustments, loadDeliveries, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
+import { loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 export function createApp(db: Db) {
   const api = new Hono<AuthEnv>()
@@ -99,6 +99,8 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ list: P.requisitionList, detail: P.requisitionDetail, 'by-item': P.requisitionByItem, 'order-status': P.requisitionOrderStatus }[c.req.param('report') as 'list'](await loadRequisitions(db), from, to))
     })
+    .post('/inventory/transfers', async c => c.json(await createItemTransfer(db, await c.req.json()), 201))
+    .get('/reports/inventory/transfers', async c => { const { from, to } = trialBalanceQuery.parse(c.req.query()); return c.json(I.transferList(await loadTransfers(db), from, to)) })
     .post('/purchases/payments', async c => c.json(await createPurchasePayment(db, await c.req.json()), 201))
     .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month|down-payments|down-payment-usage}', async c => {
       const d = await loadPurchases(db), q = c.req.query(), r = c.req.param('report')
@@ -134,15 +136,16 @@ export function createApp(db: Db) {
     .get('/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item}', async c => {
       const d = await loadInventory(db), q = c.req.query(), r = c.req.param('report')
       if (r === 'aging') return c.json(I.inventoryAging(d, balanceSheetQuery.parse(q).asOf))
-      if (r === 'quantity-by-warehouse') return c.json(I.quantityByWarehouse(d, balanceSheetQuery.parse(q).asOf))
+      const whs = c.req.queries('warehouse')
+      if (r === 'quantity-by-warehouse') return c.json(I.quantityByWarehouse(d, balanceSheetQuery.parse(q).asOf, whs))
       if (r === 'aging-by-warehouse') return c.json(I.inventoryAgingByWarehouse(d, balanceSheetQuery.parse(q).asOf))
       const { from, to } = trialBalanceQuery.parse(q), items = c.req.queries('item') ?? []
       if (r === 'valuation') return c.json(I.inventoryValuation(d, from, to))
       if (r === 'stock-card') return c.json(I.stockCard(d, items, from, to))
       if (r === 'valuation-detail') return c.json(I.valuationDetail(d, items, from, to))
       if (r === 'item-mutation') return c.json(I.itemMutationByWarehouse(d, items, from, to))
-      if (r === 'warehouse-mutation') return c.json(I.warehouseMutationByItem(d, from, to))
-      if (r === 'warehouse-summary') return c.json(I.warehouseMutationSummary(d, from, to))
+      if (r === 'warehouse-mutation') return c.json(I.warehouseMutationByItem(d, from, to, whs))
+      if (r === 'warehouse-summary') return c.json(I.warehouseMutationSummary(d, from, to, whs))
       const sales = (await db.execute(sql`SELECT l.item_no, to_char(i.date,'YYYY-MM-DD') AS date, l.total FROM sales_invoice_lines l JOIN sales_invoices i ON i.number = l.invoice_number`))
         .map(x => ({ item: x.item_no as string, date: x.date as string, total: Number(x.total) }))
       return c.json(I.profitabilityByItem(d, sales, from, to))

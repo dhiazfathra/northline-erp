@@ -70,3 +70,10 @@ export declare function loadAdjustments(db: Db): Promise<{
 }[]>;
 export declare function loadRequisitions(db: Db): Promise<import('./payables').Requisition[]>;
 export declare function loadDeliveries(db: Db): Promise<import('./receivables').Delivery[]>;
+export declare function loadTransfers(db: Db): Promise<{
+    number: string;
+    date: string;
+    direction: 'OUT' | 'IN';
+    warehouse: string;
+    reference: string;
+}[]>;

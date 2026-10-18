@@ -19,4 +19,20 @@ declare const input: z.ZodObject<{
 export declare function createItemAdjustment(db: Db, raw: z.input<typeof input>): Promise<{
     number: string;
 }>;
+export declare const TRANSIT = "Transit (AOL System)";
+/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value. */
+export declare function createItemTransfer(db: Db, t: {
+    number?: string;
+    date: string;
+    direction: 'OUT' | 'IN';
+    warehouse: string;
+    referenceWarehouse: string;
+    description?: string;
+    lines: {
+        item: string;
+        qty: number;
+    }[];
+}): Promise<{
+    number: string;
+}>;
 export {};

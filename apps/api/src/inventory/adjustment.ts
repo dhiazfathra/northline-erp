@@ -48,3 +48,19 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
     return result
   })
 }
+
+export const TRANSIT = 'Transit (AOL System)'
+/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value. */
+export async function createItemTransfer(db: Db, t: { number?: string; date: string; direction: 'OUT' | 'IN'; warehouse: string; referenceWarehouse: string; description?: string; lines: { item: string; qty: number }[] }) {
+  return db.transaction(async tx => {
+    const number = t.number ?? await nextNumber(tx, `IT.${period(t.date)}`)
+    await tx.execute(sql`INSERT INTO item_transfers VALUES (${number}, ${t.date}, ${t.direction}, ${t.warehouse}, ${t.referenceWarehouse}, ${t.description ?? ''})`)
+    const desc = t.direction === 'OUT' ? `Kirim ke ${t.referenceWarehouse}` : `Terima dari ${t.referenceWarehouse}`
+    for (const l of t.lines) {
+      const [from, to] = t.direction === 'OUT' ? [t.warehouse, TRANSIT] : [TRANSIT, t.warehouse]
+      await addMove(tx, { item: l.item, date: t.date, docType: 'IT', docNumber: number, description: desc, quantity: -l.qty, value: 0, warehouse: from })
+      await addMove(tx, { item: l.item, date: t.date, docType: 'IT', docNumber: number, description: desc, quantity: l.qty, value: 0, warehouse: to })
+    }
+    return { number }
+  })
+}

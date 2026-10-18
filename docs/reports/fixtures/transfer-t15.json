@@ -1,0 +1,619 @@
+{
+ "source": "Accurate Online v1.0.1#4970 sandbox, 2026-10-18 (multi-warehouse enabled, warehouse NL-Gudang B added). Builds on sales-order-t14.json (NL-T4-B1 opens Nov 2034 at 18 units / 196.000). Window Nov 2034. Transfers post no journal.",
+ "warehouses": [
+  "NL-Gudang B",
+  "Utama"
+ ],
+ "transfers": [
+  {
+   "number": "IT.2034.11.00001",
+   "date": "2034-11-05",
+   "direction": "OUT",
+   "warehouse": "Utama",
+   "referenceWarehouse": "NL-Gudang B",
+   "description": "NL-T15-IT1",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5
+    }
+   ]
+  },
+  {
+   "number": "IT.2034.11.00002",
+   "date": "2034-11-08",
+   "direction": "IN",
+   "warehouse": "NL-Gudang B",
+   "referenceWarehouse": "Utama",
+   "description": "NL-T15-IT2",
+   "lines": [
+    {
+     "item": "NL-T4-B1",
+     "qty": 5
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "WarehouseMutationSummaryReport": {
+   "rows": [
+    [
+     "Ringkasan Mutasi Gudang"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Gudang : Utama, NL-Gudang B"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "NL-Gudang B"
+    ],
+    [
+     "NL-T4 Barang A",
+     "0",
+     "5",
+     "0",
+     "5"
+    ],
+    [
+     "0",
+     "5",
+     "0",
+     "5"
+    ],
+    [
+     "Utama"
+    ],
+    [
+     "NL-T4 Barang A",
+     "18",
+     "0",
+     "5",
+     "13"
+    ],
+    [
+     "18",
+     "0",
+     "5",
+     "13"
+    ]
+   ]
+  },
+  "ItemMutationByWarehouseReport": {
+   "rows": [
+    [
+     "Mutasi per Barang"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang Barang & Jasa",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Deskripsi",
+     "Masuk",
+     "Keluar",
+     "Saldo"
+    ],
+    [
+     "NL-Gudang B"
+    ],
+    [
+     "Saldo Barang per 31 Oct 2034",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "IT.2034.11.00002",
+     "08 Nov 2034",
+     "Terima dari Utama",
+     "5",
+     "0",
+     "5"
+    ],
+    [
+     "5",
+     "0"
+    ],
+    [
+     "Transit (AOL System)"
+    ],
+    [
+     "Saldo Barang per 31 Oct 2034",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "IT.2034.11.00001",
+     "05 Nov 2034",
+     "Kirim ke NL-Gudang B",
+     "5",
+     "0",
+     "5"
+    ],
+    [
+     "IT.2034.11.00002",
+     "08 Nov 2034",
+     "Terima dari Utama",
+     "0",
+     "5",
+     "0"
+    ],
+    [
+     "5",
+     "5"
+    ],
+    [
+     "Utama"
+    ],
+    [
+     "Saldo Barang per 31 Oct 2034",
+     "18",
+     "0",
+     "18"
+    ],
+    [
+     "IT.2034.11.00001",
+     "05 Nov 2034",
+     "Kirim ke NL-Gudang B",
+     "0",
+     "5",
+     "13"
+    ],
+    [
+     "18",
+     "5"
+    ]
+   ]
+  },
+  "ItemTransferListReport": {
+   "rows": [
+    [
+     "Ringkasan Pemindahan Barang"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Tanggal",
+     "No. Pemindahan #",
+     "Proses",
+     "Gudang",
+     "Gudang Tujuan/Dari"
+    ],
+    [
+     "05 Nov 2034",
+     "IT.2034.11.00001",
+     "Kirim Barang",
+     "Utama",
+     "NL-Gudang B"
+    ],
+    [
+     "08 Nov 2034",
+     "IT.2034.11.00002",
+     "Terima Barang",
+     "NL-Gudang B",
+     "Utama"
+    ]
+   ]
+  },
+  "QuantityItemByWarehouseReport": {
+   "rows": [
+    [
+     "Kuantitas Barang per Gudang"
+    ],
+    [
+     "Per Tgl. 30 Nov 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang], Gudang : Utama, NL-Gudang B"
+    ],
+    [
+     "Nama Barang",
+     "NL-Gudang B",
+     "Utama",
+     "Total Nama Gudang"
+    ],
+    [
+     "Kuantitas",
+     "Total Biaya",
+     "Kuantitas",
+     "Total Biaya",
+     "Kuantitas",
+     "Total Biaya"
+    ],
+    [
+     "Actuator",
+     "0",
+     "0",
+     "175",
+     "12.250.000",
+     "175",
+     "12.250.000"
+    ],
+    [
+     "Adjuster",
+     "0",
+     "0",
+     "5",
+     "100.000",
+     "5",
+     "100.000"
+    ],
+    [
+     "Basecoat",
+     "0",
+     "0",
+     "2",
+     "30.000",
+     "2",
+     "30.000"
+    ],
+    [
+     "Bulb Halogen (H4)",
+     "0",
+     "0",
+     "70",
+     "2.450.000",
+     "70",
+     "2.450.000"
+    ],
+    [
+     "Bulb Senja (T10)",
+     "0",
+     "0",
+     "55",
+     "3.575.000",
+     "55",
+     "3.575.000"
+    ],
+    [
+     "Bulb Umber",
+     "0",
+     "0",
+     "75",
+     "750.000",
+     "75",
+     "750.000"
+    ],
+    [
+     "Cat",
+     "0",
+     "0",
+     "177",
+     "10.755.000",
+     "177",
+     "10.755.000"
+    ],
+    [
+     "Cover",
+     "0",
+     "0",
+     "195",
+     "390.000",
+     "195",
+     "390.000"
+    ],
+    [
+     "Grommet",
+     "0",
+     "0",
+     "195",
+     "9.750.000",
+     "195",
+     "9.750.000"
+    ],
+    [
+     "Hard Coating",
+     "0",
+     "0",
+     "422",
+     "20.410.000",
+     "422",
+     "20.410.000"
+    ],
+    [
+     "Harness",
+     "0",
+     "0",
+     "55",
+     "30.250",
+     "55",
+     "30.250"
+    ],
+    [
+     "Head Lamp Daihatsu Xenia",
+     "0",
+     "0",
+     "100",
+     "37.760.000",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Head Lamp Honda Brio",
+     "0",
+     "0",
+     "95",
+     "35.872.000",
+     "95",
+     "35.872.000"
+    ],
+    [
+     "NG Goods",
+     "0",
+     "0",
+     "5",
+     "1.888.000",
+     "5",
+     "1.888.000"
+    ],
+    [
+     "NL-T4 Barang A",
+     "5",
+     "54.444,44",
+     "13",
+     "141.555,56",
+     "18",
+     "196.000"
+    ],
+    [
+     "Pivot",
+     "0",
+     "0",
+     "185",
+     "92.500",
+     "185",
+     "92.500"
+    ],
+    [
+     "Polybutylene",
+     "0",
+     "0",
+     "50",
+     "250.000",
+     "50",
+     "250.000"
+    ],
+    [
+     "Polycarbonat",
+     "0",
+     "0",
+     "50",
+     "400.000",
+     "50",
+     "400.000"
+    ],
+    [
+     "Polypropylene",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Rear Lamp Daihatsu Xenia",
+     "0",
+     "0",
+     "100",
+     "37.760.000",
+     "100",
+     "37.760.000"
+    ],
+    [
+     "Rear Lamp Honda Brio",
+     "0",
+     "0",
+     "50",
+     "18.880.000",
+     "50",
+     "18.880.000"
+    ],
+    [
+     "Screw",
+     "0",
+     "0",
+     "425",
+     "85.000",
+     "425",
+     "85.000"
+    ],
+    [
+     "Socket",
+     "0",
+     "0",
+     "245",
+     "1.225.000",
+     "245",
+     "1.225.000"
+    ],
+    [
+     "Spring",
+     "0",
+     "0",
+     "265",
+     "265.000",
+     "265",
+     "265.000"
+    ],
+    [
+     "ZZ-R01-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R01-Barang B",
+     "0",
+     "0",
+     "1",
+     "150.000",
+     "1",
+     "150.000"
+    ],
+    [
+     "ZZ-R03-Barang A",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ZZ-R03-Barang B2",
+     "0",
+     "0",
+     "1",
+     "150.000",
+     "1",
+     "150.000"
+    ],
+    [
+     "Total Nama Barang",
+     "5",
+     "54.444,44",
+     "3.011",
+     "195.409.305,56",
+     "3.016",
+     "195.463.750"
+    ]
+   ]
+  },
+  "InventoryStockCardReport": {
+   "rows": [
+    [
+     "Kartu Stok Persediaan"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Barang : NL-T4 Barang A"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-T4-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-T4 Barang A"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor #",
+     "Deskripsi",
+     "Kts Masuk",
+     "Kts Keluar",
+     "Kts Akhir",
+     "Gudang"
+    ],
+    [
+     "31 Okt 2034",
+     "Saldo Awal",
+     "Saldo Awal 31 Oct 2034",
+     "18",
+     "0",
+     "18"
+    ],
+    [
+     "05 Nov 2034",
+     "Pemindahan Barang",
+     "IT.2034.11.00001",
+     "Kirim ke NL-Gudang B",
+     "0",
+     "5",
+     "13",
+     "Utama"
+    ],
+    [
+     "05 Nov 2034",
+     "Pemindahan Barang",
+     "IT.2034.11.00001",
+     "Kirim ke NL-Gudang B",
+     "5",
+     "0",
+     "18",
+     "Transit (AOL System)"
+    ],
+    [
+     "08 Nov 2034",
+     "Pemindahan Barang",
+     "IT.2034.11.00002",
+     "Terima dari Utama",
+     "0",
+     "5",
+     "13",
+     "Transit (AOL System)"
+    ],
+    [
+     "08 Nov 2034",
+     "Pemindahan Barang",
+     "IT.2034.11.00002",
+     "Terima dari Utama",
+     "5",
+     "0",
+     "18",
+     "NL-Gudang B"
+    ],
+    [
+     "28",
+     "10"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "rows": [
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Nov 2034 s/d 30 Nov 2034"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ]
+   ]
+  }
+ }
+}

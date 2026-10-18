@@ -67,3 +67,17 @@ test('linked sales order → delivery → invoice (sales-order-t14.json)', async
   expect(R.deliveryHistory(d, ds, O.from, O.to)).toEqual(r('DeliveryOrderHistorySummaryReport'))
   expect(R.flowHistory(d, O.from, O.to, true)).toEqual(r('SalesFlowHistoryReport'))
 })
+
+test('item transfers between warehouses via transit (transfer-t15.json)', async () => {
+  const t15 = (await import('../../../docs/reports/fixtures/transfer-t15.json')).default
+  const { createItemTransfer } = await import('../src/inventory/adjustment'), Q = await import('../src/reports/queries')
+  for (const t of t15.transfers) await createItemTransfer(f.db, t as any)
+  const r = (p: string) => body((t15.reports as any)[p].rows).filter(x => !/^Cabang :/.test(x[0]!)), O = { from: '2034-11-01', to: '2034-11-30' }
+  const d = await Q.loadInventory(f.db), NL = (x: string[]) => /^(NL-T4|Nama Barang$|Kuantitas)/.test(x[0]!)
+  expect(I.stockCard(d, ['NL-T4-B1'], O.from, O.to)).toEqual(r('InventoryStockCardReport'))
+  expect(I.itemMutationByWarehouse(d, ['NL-T4-B1'], O.from, O.to)).toEqual(r('ItemMutationByWarehouseReport'))
+  expect(I.warehouseMutationSummary(d, O.from, O.to, ['Utama', 'NL-Gudang B'])).toEqual(r('WarehouseMutationSummaryReport'))
+  expect(I.transferList(await Q.loadTransfers(f.db), O.from, O.to)).toEqual(r('ItemTransferListReport'))
+  expect(I.quantityByWarehouse(d, '2034-11-30', t15.warehouses).filter(NL)).toEqual(r('QuantityItemByWarehouseReport').filter(NL))
+  expect(await queryGeneralLedger(f.db, 'history', { ...O, showZeroBalance: false, showParentAccount: true })).toEqual(r('GeneralLedgerHistoryReport'))
+})

@@ -25,4 +25,5 @@ export declare function addMove(tx: Tx, m: {
     description: string;
     quantity: number;
     value: number;
+    warehouse?: string;
 }): Promise<void>;

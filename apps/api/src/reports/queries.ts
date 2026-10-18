@@ -150,7 +150,7 @@ export async function loadPurchases(db: Db): Promise<import('./receivables').Sal
 export async function loadInventory(db: Db): Promise<import('./inventory').InventoryData> {
   const items = (await db.execute(sql`SELECT no, name, unit FROM items WHERE type = 'INVENTORY'`)).map(r => ({ no: r.no as string, name: r.name as string, unit: r.unit as string }))
   const moves = (await db.execute(sql`
-    SELECT m.item_no, to_char(m.date,'YYYY-MM-DD') AS date, m.doc_type, m.doc_number, m.quantity, m.value,
+    SELECT m.item_no, to_char(m.date,'YYYY-MM-DD') AS date, m.doc_type, m.doc_number, m.quantity, m.value, m.warehouse, m.description,
            COALESCE(v.name, c.name, cr.name, vr.name, '') AS party
     FROM stock_moves m
     LEFT JOIN purchase_invoices pi ON m.doc_type = 'PI' AND pi.number = m.doc_number LEFT JOIN vendors v ON v.no = pi.vendor_no
@@ -158,7 +158,7 @@ export async function loadInventory(db: Db): Promise<import('./inventory').Inven
     LEFT JOIN sales_returns sr ON m.doc_type = 'SRT' AND sr.number = m.doc_number LEFT JOIN customers cr ON cr.no = sr.customer_no
     LEFT JOIN purchase_returns pr ON m.doc_type = 'PRT' AND pr.number = m.doc_number LEFT JOIN vendors vr ON vr.no = pr.vendor_no
     ORDER BY m.date, m.id`))
-    .map(r => ({ item: r.item_no as string, date: r.date as string, docType: r.doc_type as string, docNumber: r.doc_number as string, party: r.party as string, quantity: Number(r.quantity), value: Number(r.value) }))
+    .map(r => ({ item: r.item_no as string, date: r.date as string, docType: r.doc_type as string, docNumber: r.doc_number as string, party: r.party as string, quantity: Number(r.quantity), value: Number(r.value), warehouse: r.warehouse as string, description: r.description as string }))
   return { items, moves }
 }
 
@@ -234,4 +234,9 @@ export async function loadDeliveries(db: Db): Promise<import('./receivables').De
   const ls = await db.execute(sql`SELECT l.delivery_number, l.item_no, i.name, i.unit, l.quantity FROM delivery_order_lines l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
   return (await db.execute(sql`SELECT number, customer_no, to_char(date,'YYYY-MM-DD') AS date FROM delivery_orders`)).map(r => ({ number: r.number as string, customer: r.customer_no as string, date: r.date as string,
     lines: ls.filter(l => l.delivery_number === r.number).map(l => ({ item: l.item_no as string, itemName: l.name as string, unit: l.unit as string, qty: Number(l.quantity) })) }))
+}
+
+export async function loadTransfers(db: Db) {
+  return (await db.execute(sql`SELECT number, to_char(date,'YYYY-MM-DD') AS date, direction, warehouse, reference_warehouse FROM item_transfers`))
+    .map(r => ({ number: r.number as string, date: r.date as string, direction: r.direction as 'OUT' | 'IN', warehouse: r.warehouse as string, reference: r.reference_warehouse as string }))
 }
