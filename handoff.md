@@ -4,8 +4,8 @@ Date: 2026-10-18. Goal: every Accurate report reproduced by the ERP at zero diff
 
 ## Status
 
-- **171 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
-- `apps/api`: 194/194 `bun test` pass, typecheck clean, everything pushed to `main`.
+- **173 / 229 verified** (18 out of scope, ADR-0010) (zero-diff test against an Accurate fixture). 82 at "spec" (params/layout captured only). Index: `docs/reports/README.md`.
+- `apps/api`: 195/195 `bun test` pass, typecheck clean, everything pushed to `main`.
 - ADRs 0001–0009 in `docs/decisions/` (ES ledger, hand-rolled store, report rules, Account aggregate, documents post via ledger, FIFO, fixed assets/month-end, returns, PPN on sales invoices).
 - Fokus Keuangan: unverified (Modal Kerja `%` does not reconcile).
 
@@ -27,6 +27,8 @@ Rebuilt and committed 2026-10-18 after the scratchpad copy was lost. `report.mjs
 4. Scope decided (ADR-0010): payroll, job orders, manufacturing, activity log/users/access (18 reports) are out of scope. CSV download reports (4) return files, not tables.
 
 ## Gotchas
+
+- Report cells can contain the login user ("Direkonsiliasi Oleh"). `report.mjs` now scrubs every row with `red` before returning; never print raw capture JSON written by older scripts.
 
 - `rtk` wraps `git` in this shell and truncates long output: use `rtk proxy git show ... > file` when capturing file contents.
 - Python helpers that append to a file must read before opening for write (an `open(p,'w').write(open(p).read()...)` one-liner truncates the file first).

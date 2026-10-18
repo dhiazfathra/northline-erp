@@ -19,6 +19,11 @@ View: `report`. Header lines: "Dari 01 Jan 2026 s/d 18 Okt 2026".
 
 First table row (columns): `Kode Perkiraan | :`
 
+## Findings
+
+- Still prints only the empty header (`Kode Perkiraan :`, `Nama :`, columns) after the T19 manual reconciliation
+  with `selectedBank: [{id:650}]`, Nov-Dec 2035. It likely needs a different bank parameter or an imported statement.
+
 ## Open work
 
 - Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.

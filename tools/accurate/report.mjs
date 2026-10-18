@@ -1,5 +1,5 @@
 // usage: node report.mjs <planId> '<param json>' <out.json>
-import { openSandbox, assertSandbox, log } from './acc.mjs';
+import { openSandbox, assertSandbox, log, red } from './acc.mjs';
 import { writeFileSync } from 'node:fs';
 
 export async function runReport(app, planId, param) {
@@ -31,7 +31,8 @@ export async function runReport(app, planId, param) {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       return [...doc.querySelectorAll('tr')].filter((tr) => !tr.querySelector('tr')).map((tr) => [...tr.querySelectorAll('td,th')].map((c) => c.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean)).filter((r) => r.length);
     }, html);
-    return { meta: 'ok', rows };
+    // Secrets (e.g. the login shown in 'Direkonsiliasi Oleh') never leave the runner: scrubbed before any caller sees rows.
+    return { meta: 'ok', rows: rows.map((r) => r.map(red)) };
   });
 }
 

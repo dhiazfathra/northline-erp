@@ -283,3 +283,11 @@ export async function loadInstallments(db: Db): Promise<import('./receivables').
     GROUP BY s.invoice_number, i.customer_no, s.seq, s.name, s.due_date, s.amount ORDER BY s.due_date, s.invoice_number, s.seq`))
     .map(r => ({ customer: r.customer_no as string, invoice: r.invoice_number as string, name: r.name as string, date: r.due as string, amount: Number(r.amount), paid: Number(r.paid), paidDate: (r.paid_date as string) ?? undefined }))
 }
+
+export async function loadReconciliations(db: Db): Promise<import('./cash-bank').Reconciliation[]> {
+  return (await db.execute(sql`SELECT b.bank_no, a.name AS bank_name, to_char(r.date,'YYYY-MM-DD') AS doc_date, r.number, r.amount, r.description,
+      to_char(b.statement_date,'YYYY-MM-DD') AS st_date, b.statement_description, b.reconciled_by
+    FROM bank_reconciliations b JOIN sales_receipts r ON r.number = b.doc_number JOIN accounts a ON a.no = b.bank_no ORDER BY r.date, r.number`))
+    .map(r => ({ bank: r.bank_no as string, bankName: r.bank_name as string, docDate: r.doc_date as string, docType: 'Penerimaan Penjualan', docNumber: r.number as string,
+      side: 'Dr' as const, amount: Number(r.amount), docDescription: r.description as string, statementDate: r.st_date as string, statementDescription: r.statement_description as string, by: r.reconciled_by as string }))
+}

@@ -97,3 +97,12 @@ test('installment reports (T22): paid list by receipt date, unpaid list = due an
   expect(R.paidInstallments(d, is, p.from, p.to)).toEqual(p.rows)
   for (const u of t19.reports.SalesInvoiceUnpaidInstallmentListReport) expect(R.unpaidInstallments(d, is, u.asOf)).toEqual(u.rows)
 })
+
+test('bank reconciliation reports Nov-Dec 2035 (manual reconcile of R1)', async () => {
+  const { reconcileBankEntry } = await import('../src/cash-bank/reconcile'), C = await import('../src/reports/cash-bank'), Q = await import('../src/reports/queries')
+  for (const r of t19.bankReconciliations) await reconcileBankEntry(f.db, r)
+  const rs = await Q.loadReconciliations(f.db), b = R.BankReconcileBookToStatementReport
+  expect(C.reconcileBookToStatement(rs, b.banks, b.from, b.to)).toEqual(b.rows)
+  expect(C.reconcileStatementToBook(rs, b.banks, b.from, b.to)).toEqual(R.BankReconcileStatementToBookReport.rows)
+  expect([...C.bankStatement(rs, { no: 'NL-T1-1101', name: 'NL-T1 Kas' }, b.from, b.to)]).toEqual(R.BankStatementReport.rows.slice(2))
+})

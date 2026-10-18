@@ -129,8 +129,14 @@ export function unreconciledBank(ds: CashDoc[], accounts: TbAccount[], banks: st
       ...xs.map(x => [fmtDate(x.date), `${x.number} - ${x.kind === 'PAY' ? 'Pembayaran' : 'Penerimaan'} : ${x.description}`, formatIdr(v(x))]), [formatIdr(xs.reduce((s, x) => s + v(x), 0))]] })
 }
 
-/** Rekening Koran: imported bank statements are not modelled; prints the empty header (verified when no statement exists). */
-export const bankStatement = () => [['Kode', ':'], ['Nama', ':'], ['Tanggal', 'Keterangan', 'Mutasi', 'Tipe Mutasi', 'Saldo']]
+/** Rekening Koran: statement lines of one bank (only lines created by manual reconciliation exist); empty header when none. */
+// shortcut: Saldo is blank in the only capture (one line); a running balance needs a multi-line capture.
+export function bankStatement(rs: Reconciliation[] = [], bank?: { no: string; name: string }, from = '', to = '9999-12-31'): string[][] {
+  const lines = rs.filter(r => r.bank === bank?.no && r.statementDate >= from && r.statementDate <= to)
+  if (!bank || !lines.length) return [['Kode', ':'], ['Nama', ':'], ['Tanggal', 'Keterangan', 'Mutasi', 'Tipe Mutasi', 'Saldo']]
+  return [['Kode', ':', bank.no], ['Nama', ':', bank.name], ['Tanggal', 'Keterangan', 'Mutasi', 'Tipe Mutasi', 'Saldo'],
+    ...lines.map(r => [fmtDate(r.statementDate), r.statementDescription, formatIdr(r.amount), r.side === 'Dr' ? 'Masuk' : 'Keluar'])]
+}
 
 /**
  * Giro Mundur (Belum Jatuh Tempo) (docs/reports/OutstandingChequeReport.md): cheque receipts whose cheque date is after
@@ -147,3 +153,23 @@ export function outstandingCheques(cheques: Cheque[], banks: string[], asOf: str
   }
   return rows
 }
+
+export interface Reconciliation { bank: string; bankName: string; docDate: string; docType: string; docNumber: string; side: 'Dr' | 'Cr'; amount: number
+  docDescription: string; statementDate: string; statementDescription: string; by: string }
+const reconHead = (title: string, from: string, to: string) => [[title], [`Dari ${fmtHeaderDate(from)} s/d ${fmtHeaderDate(to)}`]]
+const reconRows = (rs: Reconciliation[], banks: string[], from: string, to: string, row: (r: Reconciliation) => string[]) => {
+  const out: string[][] = []
+  const sel = rs.filter(r => banks.includes(r.bank) && r.docDate >= from && r.docDate <= to)
+  for (const name of [...new Set(sel.map(r => r.bankName))].sort()) out.push([name], ...sel.filter(r => r.bankName === name).map(row))
+  return out
+}
+/** Rekonsiliasi Bank (Jurnal terhadap Rekening Koran): reconciled book entries dated in range, per bank, with their statement line. */
+export const reconcileBookToStatement = (rs: Reconciliation[], banks: string[], from: string, to: string) => [
+  ...reconHead('Rekonsiliasi Bank (Jurnal terhadap Rekening Koran)', from, to),
+  ['Tgl Transaksi', 'Tipe Transaksi', 'No. Transaksi', 'Tipe Mutasi', 'Nilai', 'Keterangan Transaksi', 'Tanggal Rekening Koran', 'Mutasi', 'Keterangan', 'Direkonsiliasi Oleh'],
+  ...reconRows(rs, banks, from, to, r => [fmtDate(r.docDate), r.docType, r.docNumber, r.side, formatIdr(r.amount), r.docDescription, fmtDate(r.statementDate), formatIdr(r.amount), r.statementDescription, r.by])]
+/** Rekonsiliasi Bank (Rekening Koran terhadap Jurnal): the same pairs, statement side first. */
+export const reconcileStatementToBook = (rs: Reconciliation[], banks: string[], from: string, to: string) => [
+  ...reconHead('Rekonsiliasi Bank (Rekening Koran terhadap Jurnal)', from, to),
+  ['Tanggal Rekening Koran', 'Mutasi', 'Tipe Mutasi', 'Keterangan', 'Tgl Transaksi', 'Tipe Transaksi', 'No. Transaksi', 'Nilai', 'Keterangan Transaksi', 'Direkonsiliasi Oleh'],
+  ...reconRows(rs, banks, from, to, r => [fmtDate(r.statementDate), formatIdr(r.amount), r.side, r.statementDescription, fmtDate(r.docDate), r.docType, r.docNumber, formatIdr(r.amount), r.docDescription, r.by])]

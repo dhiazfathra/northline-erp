@@ -260,7 +260,8 @@
   "R2 pays SI.2035.11.00004 by Cek/Giro (paymentMethod BANK_CHEQUE) dated 30 Nov 2035, cheque due 15 Dec 2035. OutstandingChequeReport needs selectedBank = [{id}] (NL-T1 Kas id 650); an empty list returns nothing.",
   "A Cek/Giro receipt posts no journal on its transaction date; Accurate journals it on the cheque date (15 Dec 2035: Dr Kas / Cr Piutang 444.000).",
   "CustomerLimitReport re-captured after R2: saldo IDR 0, Giro Mundur 444.000 (cheque not yet due at print date 18 Oct 2026), Sisa 556.000. before_cheque keeps the earlier capture (saldo IDR 444.000, USD 0).",
-  "T22: payment term 'NL-T22 Cicilan' (installmentTerm, id 150); SI.2035.12.00001 carries detailSchedulePayment (installmentName/Date/Amount); the receipt line names the installment (invoiceInstallmentId) or Accurate refuses ('Cicilan harus diisi')."
+  "T22: payment term 'NL-T22 Cicilan' (installmentTerm, id 150); SI.2035.12.00001 carries detailSchedulePayment (installmentName/Date/Amount); the receipt line names the installment (invoiceInstallmentId) or Accurate refuses ('Cicilan harus diisi').",
+  "Bank reconciliation (accurate__cash-bank__bank-reconcile): R1 reconciled manually on statement date 30 Nov 2035 via add-exist-in-bankstatement.do + save-bank-reconcile.do (tools/accurate/reconcile.mjs). 'Direkonsiliasi Oleh' prints the login user; the capture stores it as [REDACTED] and the ERP test reconciles as that name."
  ],
  "reports": {
   "TaxationOutReport": {
@@ -1391,7 +1392,219 @@
      ]
     ]
    }
-  ]
+  ],
+  "BankReconcileBookToStatementReport": {
+   "from": "2035-11-01",
+   "to": "2035-12-31",
+   "banks": [
+    "NL-T1-1101"
+   ],
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "31/12/2035",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedBank": [
+     {
+      "id": 650
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rekonsiliasi Bank (Jurnal terhadap Rekening Koran)"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Tgl Transaksi",
+     "Tipe Transaksi",
+     "No. Transaksi",
+     "Tipe Mutasi",
+     "Nilai",
+     "Keterangan Transaksi",
+     "Tanggal Rekening Koran",
+     "Mutasi",
+     "Keterangan",
+     "Direkonsiliasi Oleh"
+    ],
+    [
+     "NL-T1 Kas"
+    ],
+    [
+     "28 Nov 2035",
+     "Penerimaan Penjualan",
+     "NL-T1-1101.2035.11.00002",
+     "Dr",
+     "1.200.000",
+     "NL-T19-R1",
+     "30 Nov 2035",
+     "1.200.000",
+     "NL-T19 RK1",
+     "[REDACTED]"
+    ]
+   ]
+  },
+  "BankReconcileStatementToBookReport": {
+   "from": "2035-11-01",
+   "to": "2035-12-31",
+   "banks": [
+    "NL-T1-1101"
+   ],
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "31/12/2035",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedBank": [
+     {
+      "id": 650
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rekonsiliasi Bank (Rekening Koran terhadap Jurnal)"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Tanggal Rekening Koran",
+     "Mutasi",
+     "Tipe Mutasi",
+     "Keterangan",
+     "Tgl Transaksi",
+     "Tipe Transaksi",
+     "No. Transaksi",
+     "Nilai",
+     "Keterangan Transaksi",
+     "Direkonsiliasi Oleh"
+    ],
+    [
+     "NL-T1 Kas"
+    ],
+    [
+     "30 Nov 2035",
+     "1.200.000",
+     "Dr",
+     "NL-T19 RK1",
+     "28 Nov 2035",
+     "Penerimaan Penjualan",
+     "NL-T1-1101.2035.11.00002",
+     "1.200.000",
+     "NL-T19-R1",
+     "[REDACTED]"
+    ]
+   ]
+  },
+  "BankStatementReport": {
+   "from": "2035-11-01",
+   "to": "2035-12-31",
+   "banks": [
+    "NL-T1-1101"
+   ],
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "31/12/2035",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedBank": [
+     {
+      "id": 650
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rekening Koran"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Kode",
+     ":",
+     "NL-T1-1101"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "Tanggal",
+     "Keterangan",
+     "Mutasi",
+     "Tipe Mutasi",
+     "Saldo"
+    ],
+    [
+     "30 Nov 2035",
+     "NL-T19 RK1",
+     "1.200.000",
+     "Masuk"
+    ]
+   ]
+  },
+  "ReconciledBankReport": {
+   "from": "2035-11-01",
+   "to": "2035-12-31",
+   "banks": [
+    "NL-T1-1101"
+   ],
+   "param": {
+    "startDate": "01/11/2035",
+    "endDate": "31/12/2035",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ],
+    "selectedBank": [
+     {
+      "id": 650
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Transaksi Bank Terekonsiliasi"
+    ],
+    [
+     "Dari 01 Nov 2035 s/d 31 Des 2035"
+    ],
+    [
+     "Kode Perkiraan",
+     ":"
+    ],
+    [
+     "Nama",
+     ":"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Nilai",
+     "Referensi"
+    ]
+   ]
+  }
  },
  "vendors": [
   {
@@ -1405,6 +1618,15 @@
    "from": "2035-11-01",
    "to": "2035-11-30",
    "note": "SPT PPN / PPNBM saved for Nov 2035 with all listed documents ticked (module accurate__report__spt-masa, tools/accurate/spt-masa.mjs)"
+  }
+ ],
+ "bankReconciliations": [
+  {
+   "bank": "NL-T1-1101",
+   "document": "NL-T1-1101.2035.11.00002",
+   "statementDate": "2035-11-30",
+   "statementDescription": "NL-T19 RK1",
+   "by": "[REDACTED]"
   }
  ]
 }
