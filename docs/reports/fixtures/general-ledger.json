@@ -760,5 +760,227 @@
     ]
    ]
   }
+ },
+ "JournalDetailListReport": {
+  "feb": {
+   "from": "2031-02-01",
+   "to": "2031-02-28",
+   "rows": [
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-1101",
+     "Tipe Akun",
+     ":",
+     "Kas & Bank"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Kas"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2031.02.00001",
+     "Jurnal Umum",
+     "05 Feb 2031",
+     "2.000.000"
+    ],
+    [
+     "JV.2031.02.00002",
+     "Jurnal Umum",
+     "10 Feb 2031",
+     "-15.000.000"
+    ],
+    [
+     "-13.000.000"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-1201",
+     "Tipe Akun",
+     ":",
+     "Aset Lancar Lainnya"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Peralatan"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2031.02.00002",
+     "Jurnal Umum",
+     "10 Feb 2031",
+     "15.000.000"
+    ],
+    [
+     "15.000.000"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-2101",
+     "Tipe Akun",
+     ":",
+     "Liabilitas Jangka Pendek"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Utang Lain"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2031.02.00003",
+     "Jurnal Umum",
+     "28 Feb 2031",
+     "1.000.000"
+    ],
+    [
+     "1.000.000"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-4001",
+     "Tipe Akun",
+     ":",
+     "Pendapatan"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Pendapatan"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2031.02.00001",
+     "Jurnal Umum",
+     "05 Feb 2031",
+     "2.000.000"
+    ],
+    [
+     "2.000.000"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "NL-T1-6001",
+     "Tipe Akun",
+     ":",
+     "Beban"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-T1 Beban"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2031.02.00003",
+     "Jurnal Umum",
+     "28 Feb 2031",
+     "333.333,33"
+    ],
+    [
+     "JV.2031.02.00003",
+     "Jurnal Umum",
+     "28 Feb 2031",
+     "333.333,33"
+    ],
+    [
+     "JV.2031.02.00003",
+     "Jurnal Umum",
+     "28 Feb 2031",
+     "333.333,34"
+    ],
+    [
+     "1.000.000"
+    ]
+   ]
+  }
+ },
+ "GlAccountListReport": {
+  "note": "all sandbox accounts print; compare NL-T1 rows and the Laba Ditahan delta",
+  "feb": {
+   "asOf": "2031-02-28",
+   "header": [
+    "Kode Perkiraan",
+    "Nama",
+    "Tipe Akun",
+    "Saldo"
+   ],
+   "rows": [
+    [
+     "300002",
+     "Laba Ditahan",
+     "Modal",
+     "-31.002.596"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "Kas & Bank",
+     "-1.250.000,5"
+    ],
+    [
+     "NL-T1-1201",
+     "NL-T1 Peralatan",
+     "Aset Lancar Lainnya",
+     "15.000.000"
+    ],
+    [
+     "NL-T1-2101",
+     "NL-T1 Utang Lain",
+     "Liabilitas Jangka Pendek",
+     "1.000.000"
+    ],
+    [
+     "NL-T1-3001",
+     "NL-T1 Modal",
+     "Modal",
+     "10.000.000"
+    ],
+    [
+     "NL-T1-4001",
+     "NL-T1 Pendapatan",
+     "Pendapatan",
+     "2.000.000"
+    ],
+    [
+     "NL-T1-6001",
+     "NL-T1 Beban",
+     "Beban",
+     "2.250.000,5"
+    ]
+   ]
+  }
  }
 }

@@ -94,3 +94,39 @@ export function glDetail(accounts: TbAccount[], balances: DailyBalance[], settin
 }
 
 const sum = (j: Journal, k: 'debit' | 'credit') => j.lines.reduce((s, l) => s + l[k], 0)
+
+export const ACCOUNT_TYPE_LABEL: Record<AccountType, string> = {
+  CASH_BANK: 'Kas & Bank', ACCOUNT_RECEIVABLE: 'Piutang Usaha', INVENTORY: 'Persediaan', OTHER_CURRENT_ASSET: 'Aset Lancar Lainnya',
+  FIXED_ASSET: 'Aset Tetap', ACCUMULATED_DEPRECIATION: 'Akumulasi Penyusutan', OTHER_ASSET: 'Aset Lainnya', ACCOUNT_PAYABLE: 'Utang Usaha',
+  OTHER_CURRENT_LIABILITY: 'Liabilitas Jangka Pendek', LONG_TERM_LIABILITY: 'Liabilitas Jangka Panjang', EQUITY: 'Modal',
+  REVENUE: 'Pendapatan', COGS: 'Beban Pokok Penjualan', EXPENSE: 'Beban', OTHER_INCOME: 'Pendapatan Lainnya', OTHER_EXPENSE: 'Beban Lainnya',
+}
+
+/** Rincian Jurnal Akun: per account with lines in range, each line's normalized amount, then the block total. */
+export function journalDetailList(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][] {
+  const lines = new Map<string, { number: string; date: string; net: number }[]>()
+  for (const j of [...journals].sort(byDateNumber))
+    for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { number: j.number, date: j.date, net: l.debit - l.credit }])
+  const out: string[][] = []
+  for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
+    const ls = lines.get(r.no)
+    if (!ls) continue
+    const t = accounts.find(a => a.no === r.no)!.type
+    out.push(['Kode Perkiraan', ':', r.no, 'Tipe Akun', ':', ACCOUNT_TYPE_LABEL[t]], ['Nama', ':', r.name], ['No. Trans #', 'Tipe Transaksi', 'Tanggal', 'Nilai (Dinormalkan)'])
+    for (const l of ls) out.push([l.number, TYPE_LABEL, fmtDate(l.date), formatIdr(normalized(t, l.net))])
+    out.push([formatIdr(normalized(t, ls.reduce((s, l) => s + l.net, 0)))])
+  }
+  return out
+}
+
+/** Daftar Akun Perkiraan: every account (zero included) with its normalized balance at `asOf`. */
+export function glAccountList(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, asOf: string): string[][] {
+  const type = new Map(accounts.map(a => [a.no, a.type]))
+  return [
+    ['Kode Perkiraan', 'Nama', 'Tipe Akun', 'Saldo'],
+    ...trialBalance(accounts, balances, settings, { from: asOf, to: asOf, showZeroBalance: true, showParentAccount: true }).map(r => {
+      const t = type.get(r.no)!
+      return [r.no, r.name, ACCOUNT_TYPE_LABEL[t], formatIdr(normalized(t, r.closingDebit - r.closingCredit))]
+    }),
+  ]
+}

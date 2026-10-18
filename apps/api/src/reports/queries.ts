@@ -3,7 +3,7 @@ import type { BalanceSheetQuery, TrialBalanceQuery } from '@northline/schemas/le
 import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, profitLoss } from './financial-statements'
-import { allJournals, glDetail, glHistory, glSummary, journalList, type Journal } from './general-ledger'
+import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
 
 /** Reads only projections + master data, never the event store. */
 async function loadLedger(db: Db, to: string) {
@@ -46,15 +46,17 @@ async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]
   return [...byId.values()]
 }
 
-export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail'
+export type GlReport = 'journal-list' | 'all-journals' | 'history' | 'summary' | 'detail' | 'account-journal-detail' | 'account-list'
 export async function queryGeneralLedger(db: Db, report: GlReport, q: TrialBalanceQuery): Promise<string[][]> {
   const { accounts, balances, settings } = await loadLedger(db, q.to)
   if (report === 'summary') return glSummary(accounts, balances, settings, q.from, q.to, q.showZeroBalance)
+  if (report === 'account-list') return glAccountList(accounts, balances, settings, q.to)
   const journals = await loadJournals(db, q.from, q.to)
   switch (report) {
     case 'journal-list': return journalList(journals)
     case 'all-journals': return allJournals(journals, accounts)
     case 'history': return glHistory(journals, accounts)
     case 'detail': return glDetail(accounts, balances, settings, journals, q.from, q.to)
+    case 'account-journal-detail': return journalDetailList(accounts, balances, settings, journals, q.from, q.to)
   }
 }

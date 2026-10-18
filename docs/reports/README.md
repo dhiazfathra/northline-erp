@@ -50,13 +50,13 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Histori Buku Besar (CSV) | `GeneralLedgerHistoryDownloadReport` | download | FROMTO | selectedBranch= | |
 | Rincian Buku Besar | `GeneralLedgerDetailReport` | report | FROMTO | showOnlyHasTransaction=true | [verified](GeneralLedgerDetailReport.md) |
 | Rincian Buku Besar (CSV) | `GeneralLedgerDetailDownloadReport` | download | FROMTO | showOnlyHasTransaction=true | |
-| Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | |
+| Rincian Jurnal Akun | `JournalDetailListReport` | report | FROMTO | selectedBranch= | [verified](JournalDetailListReport.md) |
 | Rincian Jurnal Akun (CSV) | `JournalDetailListDownloadReport` | download | FROMTO | selectedBranch= | |
 | Laba/Rugi Terealisasi | `RealizeGainLossReport` | report | FROMTO | — | |
 | Laba/Rugi Tidak Terealisasi | `UnRealizeGainLossReport` | report | PERIODFROMTO | — | |
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
 | Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
-| Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | |
+| Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | [verified](GlAccountListReport.md) |
 | Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | |
 | Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | |
 | Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | |

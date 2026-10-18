@@ -151,7 +151,7 @@ test('Neraca: JUMLAH ASET = JUMLAH LIABILITAS DAN EKUITAS', async () => {
 describe('Buku Besar listings match Accurate', async () => {
   const gl = (await import('../../../docs/reports/fixtures/general-ledger.json')).default
   const { queryGeneralLedger } = await import('../src/reports/queries')
-  const cases = [['JournalListReport', 'journal-list'], ['AllJournalReport', 'all-journals'], ['GeneralLedgerHistoryReport', 'history'], ['GeneralLedgerDetailReport', 'detail']] as const
+  const cases = [['JournalListReport', 'journal-list'], ['AllJournalReport', 'all-journals'], ['GeneralLedgerHistoryReport', 'history'], ['GeneralLedgerDetailReport', 'detail'], ['JournalDetailListReport', 'account-journal-detail']] as const
   for (const [planId, report] of cases)
     for (const [p, e] of Object.entries(gl[planId] as Record<string, { from: string; to: string; rows: string[][] }>))
       test(`${planId} ${p}`, async () => {
@@ -165,4 +165,14 @@ describe('Buku Besar listings match Accurate', async () => {
       const re = e.from < '2031-01-01' ? [] : [['300002', 'Laba Ditahan', '3.000.000', '0', '0', '3.000.000']]
       expect(rows.filter(r => /^NL-T1|^300002$/.test(r[0]!))).toEqual([...re, ...e.rows.filter(r => r[0] !== '300002')])
     })
+})
+
+test('GlAccountListReport (Daftar Akun Perkiraan) feb', async () => {
+  const gl = (await import('../../../docs/reports/fixtures/general-ledger.json')).default
+  const { queryGeneralLedger } = await import('../src/reports/queries')
+  const e = gl.GlAccountListReport.feb
+  const rows = await queryGeneralLedger(db, 'account-list', { from: e.asOf, to: e.asOf, showZeroBalance: true, showParentAccount: true })
+  expect(rows[0]).toEqual(e.header)
+  // Sandbox Laba Ditahan carries unrelated history (34.002.596 D); ours only the fixture's closed-year income.
+  expect(rows.filter(r => /^NL-T1|^300002$/.test(r[0]!))).toEqual(e.rows.map(r => (r[0] === '300002' ? ['300002', 'Laba Ditahan', 'Modal', '3.000.000'] : r)))
 })
