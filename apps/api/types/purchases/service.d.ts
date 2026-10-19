@@ -26,7 +26,8 @@ declare const orderInput: z.ZodObject<{
 export declare function createPurchaseOrder(db: Db, input: z.input<typeof orderInput>): Promise<{
     number: string;
 }>;
-/** Penerimaan Barang: quantities only; stock value arrives with the purchase invoice.
+export declare const UNBILLED_ACCOUNT = "210203";
+/** Penerimaan Barang: unpriced (unlinked) receipts add quantity only; priced receipts also journal to the unbilled account.
  *  shortcut: receipt does not move stock here; stock moves on the invoice (matches the unlinked sandbox case), link receipts to invoices when GRNI is modelled. */
 export declare function createReceiveItem(db: Db, input: z.input<typeof orderInput> & {
     receiveNumber: string;
@@ -42,6 +43,23 @@ export declare function createPurchaseRequisition(db: Db, r: {
         item: string;
         qty: number;
         requiredDate?: string;
+    }[];
+}): Promise<{
+    number: string;
+}>;
+/** Lapor SPT Masa PPN: every taxable sales/purchase invoice with tax date in the period not yet reported joins a new SPT. */
+export declare function reportSptMasa(db: Db, from: string, to: string): Promise<{
+    id: number;
+}>;
+/** Harga Pemasok (VPA.yyyy.mm.nnnnn): a vendor's purchase price per item from the date on; no journal. */
+export declare function createVendorPrice(db: Db, v: {
+    number?: string;
+    vendor: string;
+    date: string;
+    endDate?: string;
+    lines: {
+        item: string;
+        price: number;
     }[];
 }): Promise<{
     number: string;

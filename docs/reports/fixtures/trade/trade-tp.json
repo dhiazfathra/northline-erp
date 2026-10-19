@@ -613,7 +613,8 @@
    "unit": "PCS",
    "salesAccount": "400001",
    "inventoryAccount": "110401",
-   "cogsAccount": "5101"
+   "cogsAccount": "5101",
+   "salesReturnAccount": "400003"
   }
  ],
  "documents": [
@@ -701,6 +702,56 @@
      "item": "NL-TP-B1",
      "qty": 3,
      "price": 200000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-TP-P4",
+   "number": "PI.2045.05.00002",
+   "vendor": "V.00000",
+   "bill": "NL-TP-P4",
+   "date": "2045-05-04",
+   "dueDate": "2045-06-03",
+   "description": "NL-TP-P4 pembelian (uji retur rata-rata)",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 1,
+     "price": 130000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "SalesReturn",
+   "ref": "NL-TP-SR1",
+   "number": "SRT.2045.05.00001",
+   "invoice": "SI.2045.05.00001",
+   "date": "2045-05-05",
+   "description": "NL-TP-SR1 retur (uji harga pokok retur rata-rata)",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 1,
+     "price": 200000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseReturn",
+   "ref": "NL-TP-PR1",
+   "number": "PRT.2045.05.00001",
+   "invoice": "PI.2045.05.00002",
+   "date": "2045-05-06",
+   "description": "NL-TP-PR1 retur pembelian (uji harga pokok retur rata-rata)",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 1,
+     "price": 130000,
      "name": "NL-TP-B1 Barang Uji Trade"
     }
    ]
@@ -2419,7 +2470,8 @@
     ]
    ]
   },
-  "InventoryValuationDetailReport:rounding": {
+  "InventoryValuationDetailReport:may": {
+   "dataUsaha": "Trade Portal Demo",
    "planId": "InventoryValuationDetailReport",
    "param": {
     "startDate": "01/03/2045",
@@ -2525,23 +2577,754 @@
      "325.000"
     ],
     [
-     "21",
-     "2.300.000",
-     "18",
-     "1.975.000"
+     "PI.2045.05.00002",
+     "04 Mei 2045",
+     "1",
+     "130.000",
+     "0",
+     "0",
+     "4",
+     "455.000"
+    ],
+    [
+     "SRT.2045.05.00001",
+     "05 Mei 2045",
+     "1",
+     "108.333,33",
+     "0",
+     "0",
+     "5",
+     "563.333,33"
+    ],
+    [
+     "PRT.2045.05.00001",
+     "06 Mei 2045",
+     "0",
+     "0",
+     "1",
+     "112.666,67",
+     "4",
+     "450.666,67"
+    ],
+    [
+     "23",
+     "2.538.333,33",
+     "19",
+     "2.087.666,67"
     ],
     [
      "ACCURATE Accounting System Report"
     ],
     [
-     "Tercetak pada 19 October 2026 - 11:07"
+     "Tercetak pada 19 October 2026 - 11:20"
     ],
     [
      "Halaman 1",
      "dari 1"
     ]
-   ],
-   "dataUsaha": "Trade Portal Demo"
+   ]
+  },
+  "ProfitLossStandardReport:may": {
+   "dataUsaha": "Trade Portal Demo",
+   "planId": "ProfitLossStandardReport",
+   "param": {
+    "startDate": "01/05/2045",
+    "endDate": "31/05/2045",
+    "selectedBranch": [],
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Laba/Rugi (Standar)"
+    ],
+    [
+     "Dari 01 Mei 2045 s/d 31 Mei 2045"
+    ],
+    [
+     "Deskripsi",
+     "1 - 31 Mei 2045"
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "400.000"
+    ],
+    [
+     "Penjualan",
+     "600.000"
+    ],
+    [
+     "Retur Penjualan",
+     "-200.000"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "400.000"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "199.333,33"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "199.333,33"
+    ],
+    [
+     "LABA KOTOR",
+     "200.666,67"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "200.666,67"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0"
+    ],
+    [
+     "LABA BERSIH",
+     "200.666,67"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:21"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "FinancialRatioReport:2045": {
+   "dataUsaha": "Trade Portal Demo",
+   "planId": "FinancialRatioReport",
+   "param": {
+    "asOfYear": 2045
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rasio Keuangan (Per Tahun)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Jenis Rasio",
+     "Rasio",
+     "Tahun Sebelumnya",
+     "Satuan"
+    ],
+    [
+     "Rasio Likuiditas"
+    ],
+    [
+     "Current Ratio",
+     "2.199,53",
+     "0",
+     "Kali"
+    ],
+    [
+     "Quick Ratio",
+     "4,23",
+     "0",
+     "Kali"
+    ],
+    [
+     "Cash Ratio",
+     "301,79",
+     "0",
+     "%"
+    ],
+    [
+     "Cash Turnover",
+     "317,16",
+     "0",
+     "%"
+    ],
+    [
+     "Inventory to Net Working Capital",
+     "99,85",
+     "100",
+     "%"
+    ],
+    [
+     "Rasio Solvabilitas"
+    ],
+    [
+     "Debt to Asset Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Debt to Equity Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Long Term Liability to Equity Ratio",
+     "0,1",
+     "0",
+     "Kali"
+    ],
+    [
+     "Equity Multiplier",
+     "1",
+     "1",
+     "Kali"
+    ],
+    [
+     "Rasio Aktifitas"
+    ],
+    [
+     "Total Asset Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Receivable Turnover",
+     "7,88",
+     "0",
+     "Kali"
+    ],
+    [
+     "Payable Turnover",
+     "2",
+     "0",
+     "Kali"
+    ],
+    [
+     "Average Collection Period",
+     "46,31",
+     "0",
+     "Hari"
+    ],
+    [
+     "Inventory Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Working Capital Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Days of Receivable",
+     "46,31",
+     "0",
+     "Hari"
+    ],
+    [
+     "Days of Inventory",
+     "1.213.084,61",
+     "0",
+     "Hari"
+    ],
+    [
+     "Fixed Asset Turnover",
+     "6,7",
+     "0",
+     "Kali"
+    ],
+    [
+     "Rasio Profitabilitas"
+    ],
+    [
+     "Gross Profit Margin",
+     "86,2",
+     "0",
+     "%"
+    ],
+    [
+     "Operating Profit Margin",
+     "67,5",
+     "0",
+     "%"
+    ],
+    [
+     "Net Profit Margin",
+     "73,1",
+     "0",
+     "%"
+    ],
+    [
+     "Return On Asset",
+     "0,2",
+     "0",
+     "%"
+    ],
+    [
+     "Return On Equity",
+     "0,2",
+     "0",
+     "%"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:25"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "FinancialFocusReport:2045": {
+   "dataUsaha": "Trade Portal Demo",
+   "planId": "FinancialFocusReport",
+   "param": {
+    "asOfYear": 2045
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "14.650.000",
+     "0",
+     "100"
+    ],
+    [
+     "Pendapatan Operasi",
+     "9.050.666,67",
+     "0",
+     "100"
+    ],
+    [
+     "Laba/Rugi",
+     "9.800.666,67",
+     "0",
+     "100"
+    ],
+    [
+     "Modal Kerja",
+     "6.155.570.666,67",
+     "6.146.070.000",
+     "0,25"
+    ],
+    [
+     "Rasio Lancar",
+     "2.199,42",
+     "100",
+     "2.099,42"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "4.000.000",
+     "0",
+     "100"
+    ],
+    [
+     "Modal",
+     "6.155.870.666,67",
+     "6.146.070.000",
+     "0,16"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "BalanceSheetMultiYearReport:2045": {
+   "dataUsaha": "Trade Portal Demo",
+   "planId": "BalanceSheetMultiYearReport",
+   "param": {
+    "asOfYear": 2045,
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Year)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Deskripsi",
+     "2043 (IDR)",
+     "2044 (IDR)",
+     "2045 (IDR)"
+    ],
+    [
+     "ASET"
+    ],
+    [
+     "ASET LANCAR"
+    ],
+    [
+     "Kas dan Setara Kas"
+    ],
+    [
+     "Kas & Bank",
+     "0",
+     "0",
+     "8.450.000"
+    ],
+    [
+     "Kas Kecil",
+     "0",
+     "0",
+     "-500.000"
+    ],
+    [
+     "Bank",
+     "0",
+     "0",
+     "8.950.000"
+    ],
+    [
+     "Jumlah Kas dan Setara Kas",
+     "0",
+     "0",
+     "8.450.000"
+    ],
+    [
+     "Piutang Usaha"
+    ],
+    [
+     "Piutang Usaha",
+     "0",
+     "0",
+     "3.400.000"
+    ],
+    [
+     "Piutang Usaha IDR",
+     "0",
+     "0",
+     "3.400.000"
+    ],
+    [
+     "Jumlah Piutang Usaha",
+     "0",
+     "0",
+     "3.400.000"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.520.666,67"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.520.666,67"
+    ],
+    [
+     "Jumlah Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.520.666,67"
+    ],
+    [
+     "Aset Lancar Lainnya"
+    ],
+    [
+     "Aset Lancar Lainnya",
+     "0",
+     "0",
+     "300.000"
+    ],
+    [
+     "PPN Masukan",
+     "0",
+     "0",
+     "300.000"
+    ],
+    [
+     "Jumlah Aset Lancar Lainnya",
+     "0",
+     "0",
+     "300.000"
+    ],
+    [
+     "Jumlah Aset Lancar",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.158.670.666,67"
+    ],
+    [
+     "ASET TIDAK LANCAR"
+    ],
+    [
+     "Nilai Histori"
+    ],
+    [
+     "Aset Tetap",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Peralatan",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Nilai Histori",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Akumulasi Penyusutan"
+    ],
+    [
+     "Jumlah Akumulasi Penyusutan",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Aset Tidak Lancar",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Aset Lainnya"
+    ],
+    [
+     "Jumlah Aset Lainnya",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "JUMLAH ASET",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.162.670.666,67"
+    ],
+    [
+     "LIABILITAS DAN EKUITAS"
+    ],
+    [
+     "LIABILITAS"
+    ],
+    [
+     "LIABILITAS JANGKA PENDEK"
+    ],
+    [
+     "Utang Usaha"
+    ],
+    [
+     "Utang Usaha",
+     "0",
+     "0",
+     "2.300.000"
+    ],
+    [
+     "Utang Usaha IDR",
+     "0",
+     "0",
+     "2.300.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Year)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Deskripsi",
+     "2043 (IDR)",
+     "2044 (IDR)",
+     "2045 (IDR)"
+    ],
+    [
+     "Jumlah Utang",
+     "0",
+     "0",
+     "2.300.000"
+    ],
+    [
+     "Kewajiban Jangka Pendek Lainnya"
+    ],
+    [
+     "Kewajiban Jangka Pendek Lainnya",
+     "0",
+     "0",
+     "500.000"
+    ],
+    [
+     "PPN Keluaran",
+     "0",
+     "0",
+     "500.000"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek Lainnya",
+     "0",
+     "0",
+     "500.000"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek",
+     "0",
+     "0",
+     "2.800.000"
+    ],
+    [
+     "LIABILITAS JANGKA PANJANG"
+    ],
+    [
+     "Hutang Jangka Panjang",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Panjang",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban",
+     "0",
+     "0",
+     "6.800.000"
+    ],
+    [
+     "EKUITAS"
+    ],
+    [
+     "Modal",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Equitas Saldo Awal",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Laba Tahun Ini",
+     "0",
+     "0",
+     "9.800.666,67"
+    ],
+    [
+     "Jumlah Ekuitas",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.155.870.666,67"
+    ],
+    [
+     "JUMLAH LIABILITAS DAN EKUITAS",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.162.670.666,67"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
   }
  },
  "ledgerQ1": {

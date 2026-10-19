@@ -43,8 +43,8 @@ export declare function queryOwnerEquityChange(db: Db, q: TrialBalanceQuery): Pr
 export type CashFlowReport = 'direct' | 'indirect' | 'indirect-detail';
 /** `monthly` splits [from, to] into calendar-month columns (the Multi Period variants). */
 export declare function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBalanceQuery, monthly?: boolean): Promise<string[][]>;
-/** Rasio Keuangan: `month` given → per month (vs previous month), else per year (vs previous year). */
 export declare function queryFinancialRatios(db: Db, year: number, month?: number): Promise<string[][]>;
+export declare function queryFinancialFocus(db: Db, year: number): Promise<string[][]>;
 export declare function queryBankBook(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryCashFlowByAccount(db: Db, banks: string[], q: TrialBalanceQuery): Promise<string[][]>;
 export declare function queryCashAccountList(db: Db, asOf: string): Promise<string[][]>;
@@ -96,7 +96,15 @@ export declare function loadTransfers(db: Db): Promise<{
     direction: 'OUT' | 'IN';
     warehouse: string;
     reference: string;
+    from: string | undefined;
+    lines: {
+        item: string;
+        itemName: string;
+        unit: string;
+        qty: number;
+    }[];
 }[]>;
+export declare function loadWarehouses(db: Db): Promise<import('./inventory').Warehouse[]>;
 export declare function loadExchanges(db: Db): Promise<{
     number: string;
     date: string;
@@ -105,3 +113,68 @@ export declare function loadExchanges(db: Db): Promise<{
     invoices: string[];
 }[]>;
 export declare function loadCashDocs(db: Db): Promise<import('./cash-bank').CashDoc[]>;
+/** Items in creation order (first audit insert) and raw stock moves, for Daftar Barang dan Jasa. */
+export declare function loadItemList(db: Db): Promise<{
+    items: {
+        no: string;
+        name: string;
+        type: string;
+        unit: string;
+    }[];
+    moves: {
+        item: string;
+        date: string;
+        quantity: number;
+        warehouse: string;
+        docType: string;
+    }[];
+}>;
+export declare const loadCreditLimits: (db: Db) => Promise<Map<string, number>>;
+export declare function loadCheques(db: Db): Promise<import('./cash-bank').Cheque[]>;
+/** Installments with what receipts paid on them and the last payment date. */
+export declare function loadInstallments(db: Db): Promise<import('./receivables').Installment[]>;
+export declare function loadReconciliations(db: Db): Promise<import('./cash-bank').Reconciliation[]>;
+export declare function loadPurchaseExpenses(db: Db): Promise<{
+    date: string;
+    account: string;
+    accountName: string;
+    amount: number;
+}[]>;
+export declare function loadExpenseAccruals(db: Db): Promise<import('./expense-accrual').ExpenseAccrual[]>;
+export declare function loadVendorPrices(db: Db): Promise<{
+    number: string;
+    vendorName: string;
+    date: string;
+    endDate: string | undefined;
+    item: string;
+    itemName: string;
+    unit: string;
+    price: number;
+}[]>;
+export declare function loadRealizedReceipts(db: Db): Promise<{
+    receipt: string;
+    date: string;
+    currency: string;
+    atInvoice: number;
+    atReceipt: number;
+}[]>;
+export declare function loadItemGroups(db: Db): Promise<{
+    no: string;
+    name: string;
+    unit: string;
+    components: {
+        no: string;
+        name: string;
+        qty: number;
+        unit: string;
+    }[];
+}[]>;
+export declare function loadSerialMoves(db: Db): Promise<import('./serial-numbers').SerialMove[]>;
+/** Foreign invoices with their IDR owing at `asOf` (receipts dated by then). */
+export declare function loadForeignOwing(db: Db, asOf: string): Promise<{
+    account: string;
+    accountName: string;
+    currency: string;
+    rate: number;
+    owing: number;
+}[]>;

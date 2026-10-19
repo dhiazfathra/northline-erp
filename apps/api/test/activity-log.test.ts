@@ -85,3 +85,13 @@ test('login locks after repeated failures; responses carry security headers', as
   expect(r.status).toBe(429)
   expect(r.headers.get('x-content-type-options')).toBe('nosniff')
 })
+
+test('costing method: FIFO by default, settable over the API before stock moves, logged as Preferensi (ADR-0031)', async () => {
+  expect(await (await call('GET', '/settings/costing-method')).json()).toEqual({ method: 'FIFO' })
+  await call('PUT', '/settings/costing-method', { method: 'AVERAGE' })
+  expect(await (await call('GET', '/settings/costing-method')).json()).toEqual({ method: 'AVERAGE' })
+  const [a] = await f.db.execute(sql`SELECT entity, reference, user_id FROM activity_log ORDER BY id DESC LIMIT 1`)
+  expect([a!.entity, a!.reference, a!.user_id !== null]).toEqual(['PRF', 'Metode persediaan AVERAGE', true])
+  await f.db.execute(sql`INSERT INTO stock_moves (item_no, date, doc_type, doc_number, description, quantity, value) VALUES ('NL-T2-S1', '2045-01-01', 'IA', 'X', 'x', 1, 1)`)
+  await expect(call('PUT', '/settings/costing-method', { method: 'FIFO' })).rejects.toThrow('409')
+})

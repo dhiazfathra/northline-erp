@@ -30,7 +30,7 @@ test('finance charts: net worth, liquidity, ROA, ROE from Accurate statement tot
   const ch = (await import('../../../docs/reports/fixtures/charts.json')).default
   const F = await import('../src/reports/financial-ratios')
   const ends = ['2030-12-31', '2031-01-31', '2031-02-28'].map(d => bs[d]!)
-  const pls = [{ revenue: 3000000, cogs: 0, operating: 3000000, net: 3000000 }, pl['2031-01']!, pl['2031-02']!]
+  const pls = [{ revenue: 3000000, cogs: 0, operating: 3000000, net: 3000000, otherIncome: 0, purchases: 0 }, pl['2031-01']!, pl['2031-02']!]
   expect(F.netWorthChart(ends)).toEqual(ch.NetWorthChartReport.series)
   expect(F.liquidityChart(ends)).toEqual(ch.LiquidityRatioChartReport.series)
   expect(F.returnOnAssetChart(ends, pls)).toEqual(ch.ReturnOnAssetChartReport.series)

@@ -8,17 +8,22 @@ chart-of-accounts templates and UI (steps 3-5) remain Proposed.
 - `ledger_settings.costing_method` (`FIFO` | `AVERAGE`, default `FIFO`), migration `0048_costing_method.sql`. Kept on
   `ledger_settings` instead of a new `company_settings` table until steps 3-5 need more columns.
 - The seam is `layers(moves, method)` in `inventory/fifo.ts`: FIFO returns its layers; AVERAGE returns one layer at
-  (value on hand) / (qty on hand), where outbound moves carry their booked cost. `fifoCost` then costs either.
+  (value on hand) / (qty on hand), where outbound moves carry their booked cost. `costOut(layers, qty, method)` then costs either.
   Sales, delivery orders, returns, adjustments and job costing read `costingMethod(tx)`. Umur Persediaan keeps FIFO
   layers for aging.
-- `setCostingMethod(tx, method)` refuses once any stock move exists (`DomainError`). A plain settings update,
-  not a ledger event, for now.
+- `setCostingMethod(tx, method)` refuses once any stock move exists (`DomainError`). Logged in Log Aktifitas (`PRF`).
 - Rounding settled against Trade Portal: per line. NL-TP-P3 (1 @ 100.000 onto 5 @ 110.000, average 108.333,33),
   NL-TP-S2 sells 3: Accurate books 325.000 (per unit would be 324.999).
 - Verified zero diff on Trade Portal under AVERAGE: Profitabilitas per Barang, Nilai Persediaan (NL-TP-B1 row),
   Rincian Nilai Persediaan (Mar and Mar-May), the tax reports carrying the sale's HPP. All FIFO tests unchanged.
-- Still open: whether returns re-enter at the original cost or the current average (not probed on Trade Portal;
-  the ERP uses the current costing method's layers, as for FIFO).
+- Returns, settled on Trade Portal (NL-TP-P4, NL-TP-SR1, NL-TP-PR1): a sales return re-enters at the unit cost its
+  invoice booked (108.333,33; FIFO keeps the latest-purchase rule); a purchase return leaves at the current average.
+- Precision: average stock values keep fractions of a cent (`stock_moves.value` numeric, migration 0049), since Accurate
+  carries them (Nilai Akhir 450.666,67). Journals post whole cents. Accurate's ledger also keeps the fractions, so its
+  May HPP is 199.333,33 where the ERP posts 199.333,34. Accepted: a 0,01 divergence per affected period, pinned in
+  the tests; a sub-cent ledger was rejected as too invasive for a one-cent display difference.
+- Setting: `GET`/`PUT /api/settings/costing-method`; a change is logged in Log Aktifitas as `PRF` (Preferensi).
+- Yearly reports re-verified 2045: Rasio (Per Tahun), Fokus Keuangan, Neraca (Multi Year); rule fixes in their specs.
 
 ## Date
 2026-10-19
@@ -87,5 +92,4 @@ still be changed. A profile is a starting point; the settings are what the code 
 ## Consequences
 - Trade Portal HPP, profitability and inventory valuation reports are verified under AVERAGE since step 2 landed.
 - Feature flags add a branch to many endpoints; keep them at the router level, not inside report code.
-- Open questions: average-cost rounding; whether returns re-enter at the original cost or the current average
-  (to settle against Trade Portal fixtures).
+- Rounding and returns were settled against Trade Portal (see Implementation).

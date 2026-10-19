@@ -67,25 +67,33 @@
    "revenue": 3000000,
    "cogs": 0,
    "operating": 3000000,
-   "net": 3000000
+   "net": 3000000,
+   "otherIncome": 0,
+   "purchases": 0
   },
   "2031": {
    "revenue": 2000000,
    "cogs": 0,
    "operating": -250000.5,
-   "net": -250000.5
+   "net": -250000.5,
+   "otherIncome": 0,
+   "purchases": 0
   },
   "2031-01": {
    "revenue": 0,
    "cogs": 0,
    "operating": -1250000.5,
-   "net": -1250000.5
+   "net": -1250000.5,
+   "otherIncome": 0,
+   "purchases": 0
   },
   "2031-02": {
    "revenue": 2000000,
    "cogs": 0,
    "operating": 1000000,
-   "net": 1000000
+   "net": 1000000,
+   "otherIncome": 0,
+   "purchases": 0
   }
  },
  "FinancialRatioPerMonthReport": {

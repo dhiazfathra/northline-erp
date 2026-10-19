@@ -18,6 +18,7 @@ export declare const fixedAssetInput: z.ZodObject<{
         amount: z.ZodPipe<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>, z.ZodTransform<number, string | number>>;
         account: z.ZodString;
     }, z.core.$strip>>;
+    fiscalLifeMonths: z.ZodOptional<z.ZodNumber>;
 }, z.core.$strip>;
 export declare function createFixedAsset(db: Db, input: z.input<typeof fixedAssetInput>): Promise<{
     number: string;
@@ -41,6 +42,16 @@ export declare function disposeFixedAsset(db: Db, raw: {
     gainLossAccount: string;
     price?: number;
     sellingAccount?: string;
+}): Promise<{
+    number: string;
+}>;
+/** Perubahan Aset Tetap (FAE.yyyy.mm.nnnnn), useful-life change only: no journal (fixtures/asset-edit-t34.json). */
+export declare function editFixedAsset(db: Db, e: {
+    number?: string;
+    asset: string;
+    date: string;
+    description?: string;
+    lifeMonths: number;
 }): Promise<{
     number: string;
 }>;

@@ -4,7 +4,8 @@ export interface InvoiceLine {
     unit: string;
     qty: number;
     price: number;
-    total: number;
+    total: number; /** item type (SERVICE / INVENTORY / NON_INVENTORY) */
+    type?: string;
 }
 export interface Invoice {
     number: string;
@@ -12,7 +13,8 @@ export interface Invoice {
     date: string;
     dueDate: string;
     description: string;
-    total: number;
+    total: number; /** invoice discount (cents) */
+    discount?: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
     /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
@@ -82,13 +84,16 @@ export declare function customerStatement(d: SalesData, from: string, to: string
 /** Faktur Belum Lunas: per customer (by name), unpaid invoices at `asOf` with age in days from the due date. */
 export declare function outstandingInvoices(d: SalesData, asOf: string): string[][];
 export declare const BUCKETS: string[];
-export declare function openInvoices(d: SalesData, asOf: string, customer: string): {
+/** Age from the due date (Manufaktur/Retail Demo) or the invoice date (Trade Portal Demo preference, ADR-0029 finding 7). */
+export type AgingBasis = 'DUE_DATE' | 'INVOICE_DATE';
+export declare function openInvoices(d: SalesData, asOf: string, customer: string, basis?: AgingBasis): {
     number: string;
     customer: string;
     date: string;
     dueDate: string;
     description: string;
-    total: number;
+    total: number; /** invoice discount (cents) */
+    discount?: number;
     lines?: InvoiceLine[]; /** vendor's own number (purchases) */
     bill?: string;
     /** 'DP' = down-payment invoice */ kind?: 'SI' | 'DP'; /** linked delivery / order */
@@ -107,7 +112,7 @@ export declare const spread: (xs: {
     age: number;
 }[]) => number[];
 /** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
-export declare function agingReceivable(d: SalesData, asOf: string): string[][];
+export declare function agingReceivable(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Rincian Umur Piutang */
 export declare function agingReceivableDetail(d: SalesData, asOf: string): string[][];
 /** Rincian Buku Besar Pembantu Piutang: per customer, opening, then documents grouped by type with subtotals. */
@@ -157,6 +162,14 @@ export declare function returnDetail(d: SalesData, from: string, to: string): st
 export declare function returnByItem(d: SalesData, from: string, to: string): string[][];
 /** Grafik Penjualan Bulanan: one bar per month with invoices in range, labelled "<Mon yyyy>" and the amount. */
 export declare function monthlySalesChart(d: SalesData, from: string, to: string): [string, string][];
+/**
+ * Grafik Penjualan (unlabeled line chart, ADR-0011): one point per month with invoices, plotted on the month's first day,
+ * value = that month's sales, the series monthlySalesChart verifies against the labeled Grafik Penjualan Bulanan.
+ */
+export declare function salesInvoiceChartPoints(d: SalesData, from: string, to: string): {
+    date: string;
+    value: number;
+}[];
 /** Porsi Penjualan per Pelanggan */
 export declare const customerShareChart: (d: SalesData, from: string, to: string) => string[];
 /** Porsi Penjualan per Barang */
@@ -194,3 +207,82 @@ export declare function exchangeDetail(d: SalesData, xs: {
     dueDate: string;
     invoices: string[];
 }[], from: string, to: string, today: string): string[][];
+/**
+ * Sales lines for the item views: invoice lines at DPP (line total less its pro-rata share of the invoice discount, no PPN)
+ * and sales-return lines negative, dated in [from, to] (fixtures/sales-views.json: T19 Penjualan 2.041.250 = sum of DPPs).
+ */
+export declare function itemSales(d: SalesData, from: string, to: string): {
+    line: InvoiceLine;
+    qty: number;
+    value: number;
+}[];
+/** Penjualan Barang per Gudang: stock items only (services have no warehouse); every line from the default warehouse. */
+export declare function salesItemByWarehouse(d: SalesData, from: string, to: string): string[][];
+/** Penjualan Barang per Cabang: every item incl. services, one branch column (Kantor Pusat) plus the all-branch total. */
+export declare function salesItemByBranch(d: SalesData, from: string, to: string): string[][];
+/** Penjualan per Merek: one row per brand; the ERP has no brands, so all sales fall in the blank brand (its name cell drops out). */
+export declare function salesByBrand(d: SalesData, from: string, to: string): string[][];
+/**
+ * Limit Piutang Pelanggan (docs/reports/CustomerLimitReport.md): customers with a credit limit, in the default category
+ * block "Umum". Saldo = current receivable over all dates (a cheque receipt already reduces it), printed per currency
+ * ("IDR 444.000, USD 0"; a zero balance prints only "IDR 0"). Giro Mundur = the customer's cheques not yet due.
+ * Sisa Limit = limit - saldo - open orders - giro mundur.
+ */
+export declare function customerLimit(d: SalesData, limits: Map<string, number>, currencies: string[], giro?: Map<string, number>): string[][];
+/**
+ * Sisa Kredit Pelanggan (docs/reports/CustomerExistingCreditListReport.md): customers with unused credit as of the date.
+ * Credit = receipts above the invoices they pay (kelebihan bayar); nothing in the ERP consumes credit yet.
+ */
+export declare function customerCredit(d: SalesData, asOf: string): string[][];
+export interface Installment {
+    customer: string;
+    invoice: string;
+    name: string;
+    date: string;
+    amount: number;
+    paid: number;
+    paidDate?: string;
+}
+/**
+ * Cicilan Belum Terbayar: installments due on or before the date that are still unpaid now (payment status is current,
+ * not as-of: an installment paid on 12 Dec is gone even as of 11 Dec). Bayar = paid so far; Tanggal Bayar blank.
+ */
+export declare function unpaidInstallments(d: SalesData, is: Installment[], asOf: string): string[][];
+/** Pembayaran Cicilan: installment payments whose receipt date is in range, with the receipt date as Tanggal Bayar. */
+export declare function paidInstallments(d: SalesData, is: Installment[], from: string, to: string): string[][];
+/**
+ * Laba/Rugi Terealisasi (docs/reports/RealizeGainLossReport.md): foreign receipts dated in the window, grouped by currency
+ * then document type. Bayar (Kurs Faktur) = payment at the invoice rate, Bayar (Kurs Cek) = at the receipt rate,
+ * Untung/Rugi = the difference; a subtotal row per type and per currency.
+ */
+export declare function realizedGainLoss(lines: {
+    receipt: string;
+    date: string;
+    currency: string;
+    atInvoice: number;
+    atReceipt: number;
+}[], from: string, to: string): string[][];
+export interface ForeignOpen {
+    account: string;
+    accountName: string;
+    currency: string;
+    foreign: number;
+    domestic: number;
+}
+/**
+ * Open foreign receivables at a month end, per AR account: foreign = sum of (IDR owing / invoice rate), domestic = IDR owing; both in cents.
+ * Used by the month-end revaluation and Laba/Rugi Tidak Terealisasi.
+ */
+export declare function foreignOpenReceivables(invoices: {
+    account: string;
+    accountName: string;
+    currency: string;
+    rate: number;
+    owing: number;
+}[]): ForeignOpen[];
+/** Laba/Rugi Tidak Terealisasi (docs/reports/UnRealizeGainLossReport.md): one row per revalued account and month, then a total row. */
+export declare function unrealizedGainLoss(months: {
+    month: string;
+    rates: Record<string, number>;
+    open: ForeignOpen[];
+}[]): string[][];

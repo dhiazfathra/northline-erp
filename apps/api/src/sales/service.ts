@@ -4,7 +4,7 @@ import type { z } from 'zod'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
-import { addMove, costingMethod, fifoCost, layers, loadMoves } from '../inventory/fifo'
+import { addMove, costingMethod, costOut, layers, loadMoves } from '../inventory/fifo'
 import { logActivity } from '../activity/log'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
@@ -110,7 +110,7 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
     const total = subTotal - discount + taxTotal
     const number = inv.number ?? await nextNumber(tx, `SI.${period(inv.date)}`)
     // Stock items: FIFO cost now, booked Dr HPP / Cr Persediaan after the sales lines (Accurate's order).
-    const costs: { item: string; qty: number; cost: number; cogs: string; inv: string; delivered?: boolean }[] = []
+    const costs: { item: string; qty: number; cost: number; exact?: number; cogs: string; inv: string; delivered?: boolean }[] = []
     for (const l of lines) {
       const st = stock.get(l.item)
       if (!st) continue
@@ -121,8 +121,9 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
         continue
       }
       const prior = costs.filter(c => c.item === l.item)
-      const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -c.cost }))], await costingMethod(tx))
-      costs.push({ item: l.item, qty: l.qty, cost: fifoCost(ls, l.qty), cogs: st.cogs, inv: st.inv })
+      const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -(c.exact ?? c.cost) }))], await costingMethod(tx))
+      const exact = costOut(ls, l.qty, await costingMethod(tx))
+      costs.push({ item: l.item, qty: l.qty, cost: Math.round(exact), exact, cogs: st.cogs, inv: st.inv })
     }
     // Down payments used: the receivable is debited net, the DP liability for the amount used (Accurate's line order).
     const dps: { dp: string; amount: number; account: string }[] = []
@@ -150,7 +151,7 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
         ...merge(costs.map(c => ({ account: c.inv, amount: c.cost }))).filter(c => c.amount).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
       ],
     })
-    for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -c.cost })
+    for (const c of costs.filter(c => !c.delivered)) await addMove(tx, { item: c.item, date: inv.date, docType: 'SI', docNumber: number, description: inv.description, quantity: -c.qty, value: -(c.exact ?? c.cost) })
     await tx.execute(sql`INSERT INTO sales_invoices (number, customer_no, date, due_date, description, total, journal_id, discount, tax_date)
       VALUES (${number}, ${inv.customer}, ${inv.date}, ${inv.dueDate ?? inv.date}, ${inv.description}, ${total}, ${journalId}, ${discount}, ${inv.taxable ? inv.date : null})`)
     if (inv.installments.length && inv.installments.reduce((s, i) => s + i.amount, 0) !== total) throw new DomainError('Jumlah cicilan harus sama dengan total faktur')
@@ -309,11 +310,12 @@ export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; n
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const number = d.number ?? await nextNumber(tx, `DO.${period(d.date)}`)
-    const costed: { item: string; qty: number; cost: number; inv: string; dlv: string }[] = []
+    const costed: { item: string; qty: number; cost: number; exact: number; inv: string; dlv: string }[] = []
     for (const l of d.lines) {
       const [it] = await tx.execute(sql`SELECT inventory_account, delivered_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
       if (!it?.delivered_account) throw new DomainError(`Barang ${l.item} belum punya akun persediaan terkirim`)
-      costed.push({ item: l.item, qty: l.qty, cost: fifoCost(layers(await loadMoves(tx, l.item, d.date), await costingMethod(tx)), l.qty), inv: it.inventory_account as string, dlv: it.delivered_account as string })
+      const m = await costingMethod(tx), exact = costOut(layers(await loadMoves(tx, l.item, d.date), m), l.qty, m)
+      costed.push({ item: l.item, qty: l.qty, cost: Math.round(exact), exact, inv: it.inventory_account as string, dlv: it.delivered_account as string })
     }
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
@@ -324,7 +326,7 @@ export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; n
     await tx.execute(sql`INSERT INTO delivery_orders VALUES (${number}, ${d.customer}, ${d.order ?? null}, ${d.date}, ${d.description ?? ''}, ${journalId})`)
     for (const [i, c] of costed.entries()) {
       await tx.execute(sql`INSERT INTO delivery_order_lines VALUES (${number}, ${i + 1}, ${c.item}, ${c.qty}, ${c.cost})`)
-      await addMove(tx, { item: c.item, date: d.date, docType: 'DO', docNumber: number, description: d.description ?? '', quantity: -c.qty, value: -c.cost })
+      await addMove(tx, { item: c.item, date: d.date, docType: 'DO', docNumber: number, description: d.description ?? '', quantity: -c.qty, value: -c.exact })
     }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateDeliveryOrder', ${JSON.stringify(result)}::jsonb)`)

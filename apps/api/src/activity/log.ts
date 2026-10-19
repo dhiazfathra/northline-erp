@@ -12,7 +12,7 @@ export const currentActor = (): Actor => actors.getStore() ?? { userId: null, ip
 
 /** Accurate's Tipe Transaksi per entity code (the codes `search-audit.do` reports). */
 export const ENTITY = {
-  JV: 'Jurnal Umum', SI: 'Faktur Penjualan', ACC: 'Akun Perkiraan', ANT: 'Penomoran', ITM: 'Barang & Jasa', CST: 'Pelanggan', CTC: 'Kontak',
+  JV: 'Jurnal Umum', SI: 'Faktur Penjualan', ACC: 'Akun Perkiraan', ANT: 'Penomoran', ITM: 'Barang & Jasa', CST: 'Pelanggan', CTC: 'Kontak', PRF: 'Preferensi',
 } as const
 export type Entity = keyof typeof ENTITY
 export type Activity = { action: 'CREATE' | 'UPDATE' | 'DELETE'; entity: Entity; reference: string; docDate?: string | null }

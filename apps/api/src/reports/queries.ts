@@ -4,7 +4,7 @@ import type { Db } from '../db'
 import { trialBalance, type AccountType } from './trial-balance'
 import { balanceSheet, months, profitLoss } from './financial-statements'
 import { ownerEquityChange, retainedEarnings } from './equity'
-import { bsTotals, financialRatios, plTotals } from './financial-ratios'
+import { bsTotals, financialFocus, financialRatios, plTotals } from './financial-ratios'
 import { bankBook, cashAccountList, cashFlowByAccount } from './cash-bank'
 import { cashFlowDirect, cashFlowIndirect, cashFlowIndirectDetail, formatCashFlow } from './cash-flow'
 import { allJournals, glAccountList, glDetail, glHistory, glSummary, journalDetailList, journalList, type Journal } from './general-ledger'
@@ -87,16 +87,30 @@ export async function queryCashFlow(db: Db, report: CashFlowReport, q: TrialBala
 }
 
 /** Rasio Keuangan: `month` given → per month (vs previous month), else per year (vs previous year). */
+/** Purchase invoices less purchase returns dated in the range, in rupiah (Payable Turnover). */
+async function netPurchases(db: Db, from: string, to: string) {
+  const [r] = await db.execute(sql`SELECT (SELECT COALESCE(SUM(total), 0) FROM purchase_invoices WHERE date BETWEEN ${from} AND ${to})
+    - (SELECT COALESCE(SUM(total), 0) FROM purchase_returns WHERE date BETWEEN ${from} AND ${to}) AS v`)
+  return Number(r!.v) / 100
+}
+
 export async function queryFinancialRatios(db: Db, year: number, month?: number) {
   const end = (y: number, m: number) => new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10)
   const { accounts, balances, settings } = await loadLedger(db, month ? end(year, month) : `${year}-12-31`)
   const o = { showZeroBalance: true, showParentAccount: true }
   const bs = (d: string) => bsTotals(balanceSheet(accounts, balances, settings, d, o))
-  const col = (from: string, to: string) => ({ start: bs(end(Number(from.slice(0, 4)), Number(from.slice(5, 7)) - 1)), end: bs(to), pl: plTotals(profitLoss(accounts, balances, from, to, o)) })
-  if (!month) return financialRatios(col(`${year}-01-01`, `${year}-12-31`), col(`${year - 1}-01-01`, `${year - 1}-12-31`), false)
+  const col = async (from: string, to: string) => ({ start: bs(end(Number(from.slice(0, 4)), Number(from.slice(5, 7)) - 1)), end: bs(to), pl: plTotals(profitLoss(accounts, balances, from, to, o), await netPurchases(db, from, to)) })
+  if (!month) return financialRatios(await col(`${year}-01-01`, `${year}-12-31`), await col(`${year - 1}-01-01`, `${year - 1}-12-31`), false)
   const [py, pm] = month === 1 ? [year - 1, 12] : [year, month - 1]
   const first = (y: number, m: number) => `${y}-${String(m).padStart(2, '0')}-01`
-  return financialRatios(col(first(year, month), end(year, month)), col(first(py, pm), end(py, pm)), true)
+  return financialRatios(await col(first(year, month), end(year, month)), await col(first(py, pm), end(py, pm)), true)
+}
+
+export async function queryFinancialFocus(db: Db, year: number) {
+  const { accounts, balances, settings } = await loadLedger(db, `${year}-12-31`)
+  const o = { showZeroBalance: true, showParentAccount: true }
+  const bs = (d: string) => bsTotals(balanceSheet(accounts, balances, settings, d, o)), pl = (y: number) => plTotals(profitLoss(accounts, balances, `${y}-01-01`, `${y}-12-31`, o))
+  return financialFocus(bs(`${year}-12-31`), bs(`${year - 1}-12-31`), pl(year), pl(year - 1))
 }
 
 export async function queryBankBook(db: Db, banks: string[], q: TrialBalanceQuery) {

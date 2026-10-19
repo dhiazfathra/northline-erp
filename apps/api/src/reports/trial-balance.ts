@@ -85,6 +85,7 @@ function toRow(a: TbAccount, depth: number, isParent: boolean, s: Sums): TrialBa
 
 /** Accurate's id-ID number style: `1.250.000,5`, `0` (rule 10). */
 export function formatIdr(cents: number): string {
+  cents = Math.round(cents) // average-cost stock values keep fractions of a cent (ADR-0031)
   const neg = cents < 0, abs = Math.abs(cents)
   const int = Math.floor(abs / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   const frac = String(abs % 100).padStart(2, '0').replace(/0+$/, '')

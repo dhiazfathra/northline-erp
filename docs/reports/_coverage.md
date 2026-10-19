@@ -31,7 +31,7 @@ reports zero-diff; 3 cost-dependent reports (Profitabilitas per Barang, Nilai Pe
 zero-diff with costing method AVERAGE (ADR-0031); still verified under FIFO (default) on Manufaktur Demo.
 Data only in Trade Portal: 38 Trade reports carry amounts; 24 have none in the earlier sandboxes' captures. Followed up:
 ledger listings, Neraca Multi Periode, Perubahan Ekuitas, Daftar Akun Kas & Bank, Rasio per Bulan and Daftar PPN Keluaran
-zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year unblocked by average costing (ADR-0031), not yet re-captured; Daftar PPN Masukan/Keluaran and Rekonsiliasi PPN zero-diff over four windows; the
+zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year 2045 zero-diff under AVERAGE except a pinned 0,01 ledger-precision gap (ADR-0031); Daftar PPN Masukan/Keluaran and Rekonsiliasi PPN zero-diff over four windows; the
 demo's price/discount adjustments and opening stock traced to their documents in the specs.
 Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
@@ -42,7 +42,7 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Multi Year)](ProfitLossMultiYearReport.md) | `ProfitLossMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
+| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: verified 2045 under AVERAGE, 0,01 ledger-precision gap pinned (ADR-0031) |
 | [Arus Kas (Tak Langsung)](CashFlowIndirectReport.md) | `CashFlowIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Proyeksi Ketersediaan Kas](CashAvailabilityChartReport.md) | `CashAvailabilityChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Proyeksi Kas per Bulan](CashProjectionReport.md) | `CashProjectionReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
@@ -54,9 +54,9 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Arus Kas (Tak Langsung)](CashFlowDetailIndirectReport.md) | `CashFlowDetailIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
+| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: verified 2045 under AVERAGE, 0,01 ledger-precision gap pinned (ADR-0031) |
 | [Rasio Keuangan (Per Bulan)](FinancialRatioPerMonthReport.md) | `FinancialRatioPerMonthReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
-| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
+| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: verified 2045 under AVERAGE, 0,01 ledger-precision gap pinned (ADR-0031) |
 | [Laba Ditahan](RetainedEarningReport.md) | `RetainedEarningReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Perubahan Ekuitas Pemilik](OwnerEquityChangedReport.md) | `OwnerEquityChangedReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Grafik Perbandingan Nilai Akun](AccountValueCompareChartReport.md) | `AccountValueCompareChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |

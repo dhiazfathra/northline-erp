@@ -35,3 +35,10 @@ row's percentage is the plain change. The user accepted verifying the other cell
 ## Trade Portal Demo variation (2026-10-19)
 
 Source: Trade Portal Demo (PT Automotive Shop). As Rasio Keuangan (Per Tahun): yearly 2045 figures include the March HPP; blocked on average costing for Trade Portal, rules verified on Manufaktur Demo. See ADR-0029.
+
+Re-verified 2045 on Trade Portal Demo after average costing (ADR-0031), capture `FinancialFocusReport:2045` in
+[fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json), test `apps/api/test/trade-portal-trade.test.ts`. Rules learned:
+Total Pendapatan includes Pendapatan Non Operasional (13.400.000 + 1.250.000 = 14.650.000); Penambahan (%) is 100 when last
+year is 0 and this year is not; Rasio Lancar prints 100 when there are no current liabilities (2044), so its change is
+(2.199,42 - 100) / 100 = 2.099,42; thousands separators. Modal Kerja % still unexplained (0,25 vs plain change 0,15; ADR-0013).
+The 0,01 ledger-precision gap of ADR-0031 shows on Pendapatan Operasi, Laba/Rugi, Modal Kerja and Modal.

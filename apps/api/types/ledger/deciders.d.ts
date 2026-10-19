@@ -6,7 +6,8 @@ type PostCmd = {
     type: 'Post';
     journalId: string;
     number?: string;
-    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD';
+    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP' | 'JC' | 'RO';
+    branch?: string;
     date: string;
     description: string;
     lines: JournalLine[];
@@ -19,15 +20,31 @@ type ReverseCmd = {
     date: string;
     reason: string;
 };
+type EditCmd = {
+    type: 'Edit';
+    number?: string;
+    branch?: string;
+    date: string;
+    description: string;
+    lines: JournalLine[];
+    periodClosed: boolean;
+};
+type DeleteCmd = {
+    type: 'Delete';
+    periodClosed: boolean;
+};
 export type JournalState = {
     status: 'none';
 } | {
-    status: 'posted' | 'reversed';
+    status: 'posted' | 'reversed' | 'deleted';
     journalId: string;
+    number?: string;
+    branch?: string;
+    sourceType: string;
     date: string;
     lines: JournalLine[];
 };
-export declare const journalDecider: Decider<JournalState, PostCmd | ReverseCmd, LedgerEvent>;
+export declare const journalDecider: Decider<JournalState, PostCmd | ReverseCmd | EditCmd | DeleteCmd, LedgerEvent>;
 export type PeriodState = {
     closed: boolean;
 };
@@ -51,6 +68,9 @@ type AccountCmd = {
     name: string;
 } | {
     type: 'Suspend';
+} | {
+    type: 'Delete';
+    used: boolean;
 };
 export type AccountState = {
     status: 'none';

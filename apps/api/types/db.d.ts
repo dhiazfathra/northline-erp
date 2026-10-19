@@ -1,5 +1,5 @@
 import postgres from 'postgres';
-export declare function connect(url?: string | undefined): {
+export declare function connect(url?: string | undefined, opts?: postgres.Options<{}>): {
     client: postgres.Sql<{}>;
     db: import("drizzle-orm/postgres-js").PostgresJsDatabase<Record<string, never>> & {
         $client: postgres.Sql<{}>;

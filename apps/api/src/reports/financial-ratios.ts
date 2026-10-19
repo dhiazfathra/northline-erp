@@ -6,7 +6,8 @@ export interface BsTotals {
   cash: number; receivable: number; inventory: number; currentAssets: number; fixedAssets: number; assets: number
   payable: number; currentLiabilities: number; longTermLiabilities: number; equity: number
 }
-export interface PlTotals { revenue: number; cogs: number; operating: number; net: number }
+/** `otherIncome`: Pendapatan Non Operasional; `purchases`: net purchase invoices (less returns) of the period. */
+export interface PlTotals { revenue: number; cogs: number; operating: number; net: number; otherIncome: number; purchases: number }
 /** One ratio column: balances at the start and end of the period, P&L for the period. */
 export interface RatioInput { start: BsTotals; end: BsTotals; pl: PlTotals }
 
@@ -34,7 +35,8 @@ const defs: ([string] | Def)[] = [
   ['Rasio Aktifitas'],
   ['Total Asset Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.revenue, avg(start.assets, end.assets))],
   ['Receivable Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.revenue, avg(start.receivable, end.receivable))],
-  ['Payable Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.cogs, avg(start.payable, end.payable))],
+  // net purchases, not COGS (Trade Portal 2045: 2.300.000 / avg(0, 2.300.000) prints 2)
+  ['Payable Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.purchases, avg(start.payable, end.payable))],
   ['Average Collection Period', 'Hari', 2, x => div(DAYS, div(x.pl.revenue, avg(x.start.receivable, x.end.receivable)))],
   ['Inventory Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.cogs, avg(start.inventory, end.inventory))],
   ['Working Capital Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.revenue, avg(workingCapital(start), workingCapital(end)))],
@@ -43,13 +45,14 @@ const defs: ([string] | Def)[] = [
   ['Fixed Asset Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.revenue, avg(start.fixedAssets, end.fixedAssets))],
   ['Rasio Profitabilitas'],
   ['Gross Profit Margin', '%', 2, ({ pl }) => div(pl.revenue - pl.cogs, pl.revenue) * 100],
-  ['Operating Profit Margin', '%', 2, ({ pl }) => div(pl.operating, pl.revenue) * 100],
-  ['Net Profit Margin', '%', 2, ({ pl }) => div(pl.net, pl.revenue) * 100],
+  ['Operating Profit Margin', '%', 1, ({ pl }) => div(pl.operating, pl.revenue) * 100],
+  ['Net Profit Margin', '%', 1, ({ pl }) => div(pl.net, pl.revenue) * 100],
   ['Return On Asset', '%', 1, ({ end, pl }) => div(pl.net, end.assets) * 100],
   ['Return On Equity', '%', 1, ({ end, pl }) => div(pl.net, end.equity) * 100],
 ]
 
-const fmt = (v: number) => String(v).replace('.', ',')
+/** Indonesian number: thousands '.', decimal ',' (Trade Portal 2045 Current Ratio 2.199,53). */
+const fmt = (v: number) => { const [i, f] = String(Math.abs(v)).split('.'); return (v < 0 ? '-' : '') + i!.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (f ? ',' + f : '') }
 
 /** `current` and `previous` are the report period and the one before it (previous month, or previous year). */
 export function financialRatios(current: RatioInput, previous: RatioInput, monthly: boolean): string[][] {
@@ -70,8 +73,9 @@ export const bsTotals = (l: StatementLine[]): BsTotals => ({
   longTermLiabilities: pick(l, 'Jumlah Kewajiban Jangka Panjang'), equity: pick(l, 'Jumlah Ekuitas'),
 })
 /** Totals from our own Laba/Rugi (Standar) lines, in rupiah. */
-export const plTotals = (l: StatementLine[]): PlTotals => ({
+export const plTotals = (l: StatementLine[], purchases = 0): PlTotals => ({
   revenue: pick(l, 'Jumlah Pendapatan'), cogs: pick(l, 'Jumlah Beban Pokok Penjualan'), operating: pick(l, 'PENDAPATAN OPERASIONAL'), net: pick(l, 'LABA BERSIH'),
+  otherIncome: pick(l, 'Jumlah Pendapatan Non Operasional'), purchases,
 })
 
 // ---- finance charts (Accurate renders PNGs; these return the labelled series) ----
@@ -91,17 +95,18 @@ export const revenueVsExpenseChart = (pls: { revenue: number; expense: number }[
 /**
  * Fokus Keuangan (docs/reports/FinancialFocusReport.md), this year vs last from statement totals at 31 Dec and the year's
  * P&L. Penambahan (%) = (this - last) / last x 100 (signed denominator: 750.000 vs -250.000,5 prints -400), 2 decimals,
- * on unrounded values; 0 when last is 0.
+ * on unrounded values; when last is 0: 100, or 0 if this is 0 too. Total Pendapatan includes Pendapatan Non Operasional,
+ * and Rasio Lancar is 100 with no current liabilities (Trade Portal 2045).
  */
 // shortcut: Accurate's Modal Kerja % follows no rule found across six years (ADR-0013); this prints the plain change there.
 export function financialFocus(end: BsTotals, prevEnd: BsTotals, pl: PlTotals, prevPl: PlTotals): string[][] {
   const money = (v: number) => { const c = Math.round(v * 100), s = c < 0 ? '-' : '', a = Math.abs(c)
     return s + String(Math.floor(a / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (a % 100 ? ',' + String(a % 100).padStart(2, '0').replace(/0$/, '') : '') }
-  const pct = (a: number, b: number) => fmt(round(b === 0 ? 0 : (a - b) / b * 100, 2))
-  const current = (b: BsTotals) => div(b.cash + b.receivable + b.inventory, b.currentLiabilities)
+  const pct = (a: number, b: number) => fmt(round(b === 0 ? (a === 0 ? 0 : 100) : (a - b) / b * 100, 2))
+  const current = (b: BsTotals) => (b.currentLiabilities === 0 && b.cash + b.receivable + b.inventory > 0 ? 100 : div(b.cash + b.receivable + b.inventory, b.currentLiabilities))
   const row = (label: string, a: number, b: number, show = money) => [label, show(a), show(b), pct(a, b)]
   return [['Keterangan', 'Tahun ini', 'Tahun Lalu', 'Penambahan (%)'],
-    row('Total Pendapatan', pl.revenue, prevPl.revenue), row('Pendapatan Operasi', pl.operating, prevPl.operating), row('Laba/Rugi', pl.net, prevPl.net),
+    row('Total Pendapatan', pl.revenue + pl.otherIncome, prevPl.revenue + prevPl.otherIncome), row('Pendapatan Operasi', pl.operating, prevPl.operating), row('Laba/Rugi', pl.net, prevPl.net),
     row('Modal Kerja', workingCapital(end), workingCapital(prevEnd)),
     row('Rasio Lancar', current(end), current(prevEnd), v => fmt(round(v, 2))),
     row('Liabilitas Jangka Panjang', end.longTermLiabilities, prevEnd.longTermLiabilities), row('Modal', end.equity, prevEnd.equity)]

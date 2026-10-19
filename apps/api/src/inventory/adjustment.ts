@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { Db } from '../db'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
-import { addMove, costingMethod, fifoCost, layers, loadMoves } from './fifo'
+import { addMove, costingMethod, costOut, layers, loadMoves } from './fifo'
 
 // Penyesuaian Persediaan (fixtures/adjustment-t10.json): increases at the given unit cost, decreases at FIFO cost,
 // offset to the chosen adjustment account. Journal type "Penyesuaian Persediaan", number IA.yyyy.mm.nnnnn.
@@ -19,12 +19,13 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const number = a.number ?? await nextNumber(tx, `IA.${period(a.date)}`)
-    const costed: { item: string; dir: 'IN' | 'OUT'; qty: number; cost: number; inv: string }[] = []
+    const costed: { item: string; dir: 'IN' | 'OUT'; qty: number; cost: number; exact: number; inv: string }[] = []
     for (const l of a.lines) {
       const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
       if (!it) throw new Error(`Barang persediaan ${l.item} tidak ditemukan`)
-      const cost = l.direction === 'IN' ? Math.round(l.qty * l.unitCost * 100) : fifoCost(layers(await loadMoves(tx, l.item, a.date), await costingMethod(tx)), l.qty)
-      costed.push({ item: l.item, dir: l.direction, qty: l.qty, cost, inv: it.inventory_account as string })
+      const m = await costingMethod(tx)
+      const exact = l.direction === 'IN' ? Math.round(l.qty * l.unitCost * 100) : costOut(layers(await loadMoves(tx, l.item, a.date), m), l.qty, m)
+      costed.push({ item: l.item, dir: l.direction, qty: l.qty, cost: Math.round(exact), exact, inv: it.inventory_account as string })
     }
     const ins = costed.filter(c => c.dir === 'IN'), outs = costed.filter(c => c.dir === 'OUT')
     const sum = (xs: typeof costed) => xs.reduce((s, c) => s + c.cost, 0)
@@ -41,7 +42,7 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
     await tx.execute(sql`INSERT INTO item_adjustments VALUES (${number}, ${a.date}, ${a.description}, ${a.account}, ${sum(costed)}, ${journalId})`)
     for (const [i, c] of costed.entries()) {
       await tx.execute(sql`INSERT INTO item_adjustment_lines VALUES (${number}, ${i + 1}, ${c.item}, ${c.dir}, ${c.qty}, ${c.cost})`)
-      await addMove(tx, { item: c.item, date: a.date, docType: 'IA', docNumber: number, description: a.description, quantity: c.dir === 'IN' ? c.qty : -c.qty, value: c.dir === 'IN' ? c.cost : -c.cost })
+      await addMove(tx, { item: c.item, date: a.date, docType: 'IA', docNumber: number, description: a.description, quantity: c.dir === 'IN' ? c.qty : -c.qty, value: c.dir === 'IN' ? c.exact : -c.exact })
     }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${a.idempotencyKey}, 'CreateItemAdjustment', ${JSON.stringify(result)}::jsonb)`)

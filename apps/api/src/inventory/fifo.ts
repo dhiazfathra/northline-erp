@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm'
 import type { Tx } from '../db'
+import { logActivity } from '../activity/log'
 import { DomainError } from '../ledger/deciders'
 
 // FIFO costing as the sandbox does it (fixtures/inventory-t4.json: S2 cost 2×10.000 + 5×13.000).
@@ -44,6 +45,15 @@ export function fifoCost(ls: Layer[], qty: number): number {
   return cost
 }
 
+/** Cost (cents) of taking `qty` out. FIFO: whole cents per layer. AVERAGE: exact (fractions of a cent kept on the
+ * stock move, as Accurate does); journals post Math.round of it. */
+export function costOut(ls: Layer[], qty: number, method: CostingMethod): number {
+  if (method === 'FIFO') return fifoCost(ls, qty)
+  const l = ls[0]
+  if (!l || l.qty < qty - 1e-9) throw new DomainError(`Stok tidak cukup (kurang ${qty - (l?.qty ?? 0)})`)
+  return qty * l.unitCost
+}
+
 export async function costingMethod(tx: Tx): Promise<CostingMethod> {
   const [r] = await tx.execute(sql`SELECT costing_method FROM ledger_settings`)
   return (r?.costing_method as CostingMethod | undefined) ?? 'FIFO'
@@ -55,6 +65,7 @@ export async function setCostingMethod(tx: Tx, method: CostingMethod) {
   if (m) throw new DomainError('Metode persediaan tidak dapat diubah setelah ada transaksi persediaan')
   const r = await tx.execute(sql`UPDATE ledger_settings SET costing_method = ${method} RETURNING 1`)
   if (!r.length) throw new DomainError('ledger_settings not configured')
+  await logActivity(tx, { action: 'UPDATE', entity: 'PRF', reference: `Metode persediaan ${method}` })
 }
 
 export async function loadMoves(tx: Tx, item: string, upTo: string) {

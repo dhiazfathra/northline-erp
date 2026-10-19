@@ -26,6 +26,7 @@ import * as DIM from './reports/dimensions'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
+import { costingMethod, setCostingMethod } from './inventory/fifo'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
@@ -89,6 +90,11 @@ export function createApp(db: Db) {
       return c.json(c.req.param('report') === 'bank-book' ? await queryBankBook(db, banks, q) : await queryCashFlowByAccount(db, banks, q))
     })
     .get('/reports/cash-bank/cash-list', async c => c.json(await queryCashAccountList(db, balanceSheetQuery.parse(c.req.query()).asOf)))
+    .get('/settings/costing-method', async c => c.json({ method: await costingMethod(db as any) }))
+    .put('/settings/costing-method', async c => {
+      const { method } = z.object({ method: z.enum(['FIFO', 'AVERAGE']) }).parse(await c.req.json())
+      await db.transaction(tx => setCostingMethod(tx, method)); return c.json({ method })
+    })
     .post('/sales/customers', async c => { await upsertCustomer(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
     .delete('/sales/:kind{customers|items}/:no', async c => { await deleteMaster(db, c.req.param('kind') === 'customers' ? 'customer' : 'item', c.req.param('no')); return c.json({ ok: true }) })

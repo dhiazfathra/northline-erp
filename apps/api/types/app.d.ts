@@ -1,5 +1,5 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<import("hono/types").BlankEnv, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -18,6 +18,13 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
             };
             outputFormat: "json";
             status: 401;
+            input: {};
+        } | {
+            output: {
+                error: string;
+            };
+            outputFormat: "json";
+            status: 429;
             input: {};
         } | {
             output: {
@@ -77,6 +84,24 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
                 closingDebit: number;
                 closingCredit: number;
             }[];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/activity-log": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/approvals": {
+        $get: {
+            output: string[][];
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {};
@@ -171,6 +196,28 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
         };
     };
 }) & {
+    "/settings/costing-method": {
+        $get: {
+            output: {
+                method: import("./inventory/fifo").CostingMethod;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/settings/costing-method": {
+        $put: {
+            output: {
+                method: "AVERAGE" | "FIFO";
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
     "/sales/customers": {
         $post: {
             output: {
@@ -193,6 +240,23 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
         };
     };
 }) & {
+    "/sales/:kind{customers|items}/:no": {
+        $delete: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    kind: string;
+                } & {
+                    no: string;
+                };
+            };
+        };
+    };
+}) & {
     "/sales/invoices": {
         $post: {
             output: {
@@ -204,7 +268,48 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
         };
     };
 }) & {
+    "/sales/invoices/:number": {
+        $put: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    number: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/sales/invoices/:number": {
+        $delete: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    number: string;
+                };
+            };
+        };
+    };
+}) & {
     "/sales/down-payments": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {};
+        };
+    };
+}) & {
+    "/sales/quotations": {
         $post: {
             output: {
                 number: string;
@@ -294,20 +399,20 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
 }) & {
     "/reports/employee-loans/:report{list|installments|history}": {
         $get: {
-            output: string[][];
+            output: {
+                error: string;
+            };
             outputFormat: "json";
-            status: import("hono/utils/http-status").ContentfulStatusCode;
+            status: 404;
             input: {
                 param: {
                     report: string;
                 };
             };
         } | {
-            output: {
-                error: string;
-            };
+            output: string[][];
             outputFormat: "json";
-            status: 404;
+            status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {
                 param: {
                     report: string;
@@ -328,6 +433,43 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
     };
 }) & {
     "/reports/cash-bank/:report{payment-list|deposit-list|payment-by-bank|deposit-by-bank|payment-by-bank-detail|deposit-by-bank-detail|payment-load|unreconciled|statement}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/master/:kind{branches|departments|projects}": {
+        $post: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    kind: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/master/departments": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/dimensions/:report{by-branch|by-department|department-multi-period|compare-department|compare-project|analysis-department}": {
         $get: {
             output: string[][];
             outputFormat: "json";
@@ -594,20 +736,20 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<imp
 }) & {
     "/reports/fixed-assets/:report{list|by-category|history|journal|detail}": {
         $get: {
-            output: string[][];
+            output: {
+                error: string;
+            };
             outputFormat: "json";
-            status: import("hono/utils/http-status").ContentfulStatusCode;
+            status: 404;
             input: {
                 param: {
                     report: string;
                 };
             };
         } | {
-            output: {
-                error: string;
-            };
+            output: string[][];
             outputFormat: "json";
-            status: 404;
+            status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {
                 param: {
                     report: string;

@@ -12,6 +12,8 @@ export interface Journal {
     }[];
 }
 export declare const fmtDate: (iso: string) => string;
+/** Period headers ("Dari … s/d …", "Per Tgl. …") spell August "Agu". */
+export declare const fmtHeaderDate: (iso: string) => string;
 /** Tipe Transaksi printed for a journal's source document. */
 export declare const typeLabel: (j: Pick<Journal, 'sourceType'>) => string;
 /** Jurnal Umum: one row per journal; Nilai = total debit. */
@@ -29,3 +31,11 @@ export declare const ACCOUNT_TYPE_LABEL: Record<AccountType, string>;
 export declare function journalDetailList(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][];
 /** Daftar Akun Perkiraan: every account (zero included) with its normalized balance at `asOf`. */
 export declare function glAccountList(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, asOf: string): string[][];
+/** Keseluruhan Jurnal (CSV): one row per journal line. */
+export declare function allJournalsCsv(journals: Journal[], accounts: TbAccount[]): string[][];
+/** Histori Buku Besar (CSV): the date moves into each line. */
+export declare function glHistoryCsv(journals: Journal[], accounts: TbAccount[]): string[][];
+/** Rincian Buku Besar (CSV): per account with lines, an opening row dated the day before (empty type/debit/credit), then lines with the running normalized balance; no total row. */
+export declare function glDetailCsv(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][];
+/** Rincian Jurnal Akun (CSV): one row per account line with its normalized amount; no block totals. */
+export declare function journalDetailListCsv(accounts: TbAccount[], balances: DailyBalance[], settings: LedgerSettings, journals: Journal[], from: string, to: string): string[][];

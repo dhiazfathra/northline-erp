@@ -45,3 +45,18 @@ export declare const quarters: (y: number) => {
     label: string;
 }[];
 export declare const perDateEn: (iso: string) => string;
+/**
+ * Neraca (Induk Skontro): the standard Neraca rows in two columns, ASET on the left and LIABILITAS DAN EKUITAS on the
+ * right, zipped row by row. Each side keeps Accurate's blank spacer rows (after a "Jumlah ..." row unless the next row is
+ * another "Jumlah ..."), which decide the pairing; rows blank on both sides drop out (docs/reports/BalanceSheetParentScontroReport.md).
+ */
+export declare function skontro(standardRows: string[][]): string[][];
+/**
+ * Grafik Perbandingan Nilai Akun (unlabeled line chart, ADR-0011): one point per month with profit-and-loss activity,
+ * value = sum over revenue/expense accounts of |net movement in the month| (Feb 2031: revenue 2.000.000 + expense
+ * 1.000.000 = 3.000.000). Same movements the Laba/Rugi reports verify.
+ */
+export declare function accountValueCompareChart(accounts: TbAccount[], balances: DailyBalance[], from: string, to: string): {
+    month: string;
+    value: number;
+}[];

@@ -11,11 +11,14 @@ export interface BsTotals {
     longTermLiabilities: number;
     equity: number;
 }
+/** `otherIncome`: Pendapatan Non Operasional; `purchases`: net purchase invoices (less returns) of the period. */
 export interface PlTotals {
     revenue: number;
     cogs: number;
     operating: number;
     net: number;
+    otherIncome: number;
+    purchases: number;
 }
 /** One ratio column: balances at the start and end of the period, P&L for the period. */
 export interface RatioInput {
@@ -28,7 +31,7 @@ export declare function financialRatios(current: RatioInput, previous: RatioInpu
 /** Totals from our own Neraca (Standar) lines, in rupiah. */
 export declare const bsTotals: (l: StatementLine[]) => BsTotals;
 /** Totals from our own Laba/Rugi (Standar) lines, in rupiah. */
-export declare const plTotals: (l: StatementLine[]) => PlTotals;
+export declare const plTotals: (l: StatementLine[], purchases?: number) => PlTotals;
 /** Per period end: Total Aset, Total Kewajiban, Harta Bersih (Grafik Harta Bersih). */
 export declare const netWorthChart: (ends: BsTotals[]) => {
     'Total Aset': string[];
@@ -58,3 +61,10 @@ export declare const revenueVsExpenseChart: (pls: {
     'Total Pendapatan': string[];
     'Total Biaya': string[];
 };
+/**
+ * Fokus Keuangan (docs/reports/FinancialFocusReport.md), this year vs last from statement totals at 31 Dec and the year's
+ * P&L. Penambahan (%) = (this - last) / last x 100 (signed denominator: 750.000 vs -250.000,5 prints -400), 2 decimals,
+ * on unrounded values; when last is 0: 100, or 0 if this is 0 too. Total Pendapatan includes Pendapatan Non Operasional,
+ * and Rasio Lancar is 100 with no current liabilities (Trade Portal 2045).
+ */
+export declare function financialFocus(end: BsTotals, prevEnd: BsTotals, pl: PlTotals, prevPl: PlTotals): string[][];

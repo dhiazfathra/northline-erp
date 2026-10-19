@@ -8,4 +8,4 @@ Fixture: 2032 column includes J7–J9 (Modal 13.500.000, Laba Tahun Ini 750.000)
 
 ## Trade Portal Demo variation (2026-10-19)
 
-Source: Trade Portal Demo (PT Automotive Shop). Year end 2045 includes the March stock movement valued at average cost; blocked on average costing for Trade Portal. Month-end Neraca verified on Trade Portal (Neraca Multi Periode, Standar, Perbandingan Periode). See ADR-0029.
+Source: Trade Portal Demo (PT Automotive Shop). Year end 2045 includes the March stock movement valued at average cost; verified 2043-2045 under AVERAGE (`BalanceSheetMultiYearReport:2045`), except the 0,01 ledger-precision gap on Persediaan and its totals (ADR-0031). Month-end Neraca verified on Trade Portal (Neraca Multi Periode, Standar, Perbandingan Periode). See ADR-0029.

@@ -20,7 +20,8 @@ export declare function createItemAdjustment(db: Db, raw: z.input<typeof input>)
     number: string;
 }>;
 export declare const TRANSIT = "Transit (AOL System)";
-/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value. */
+/** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value.
+ *  A receipt names its send (`from`); serial/batch numbers move with their line (ADR-0024). */
 export declare function createItemTransfer(db: Db, t: {
     number?: string;
     date: string;
@@ -28,11 +29,26 @@ export declare function createItemTransfer(db: Db, t: {
     warehouse: string;
     referenceWarehouse: string;
     description?: string;
+    from?: string;
     lines: {
         item: string;
         qty: number;
+        serials?: {
+            no: string;
+            qty: number;
+        }[];
     }[];
 }): Promise<{
     number: string;
 }>;
+/** Gudang master (Daftar Gudang). */
+export declare function upsertWarehouse(db: Db, w: {
+    name: string;
+    description?: string;
+    street?: string;
+    city?: string;
+    province?: string;
+    zipCode?: string;
+    country?: string;
+}): Promise<void>;
 export {};

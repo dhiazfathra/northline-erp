@@ -1,5 +1,7 @@
 import { type MiddlewareHandler } from 'hono';
 import type { Db } from './db';
+export declare function hashPassword(password: string): Promise<string>;
+export declare function verifyPassword(password: string, stored: string): Promise<any>;
 export declare function createUser(db: Db, email: string, password: string): Promise<void>;
 export type AuthEnv = {
     Variables: {
@@ -9,6 +11,13 @@ export type AuthEnv = {
 export declare function authRoutes(db: Db): import("hono/hono-base").HonoBase<AuthEnv, {
     "/login": {
         $post: {
+            output: {
+                error: string;
+            };
+            outputFormat: "json";
+            status: 429;
+            input: {};
+        } | {
             output: {
                 error: string;
             };

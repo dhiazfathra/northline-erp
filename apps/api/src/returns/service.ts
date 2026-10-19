@@ -3,7 +3,7 @@ import { returnInput, type ReturnInput } from '@northline/schemas/sales'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
-import { addMove, costingMethod, fifoCost, layers, loadMoves } from '../inventory/fifo'
+import { addMove, costingMethod, costOut, layers, loadMoves } from '../inventory/fifo'
 import { merge, nextNumber, period } from '../sales/service'
 
 // Retur Penjualan / Retur Pembelian against one invoice, as posted by the sandbox (fixtures/returns-t6.json):
@@ -27,6 +27,12 @@ async function latestPurchaseCost(tx: Tx, item: string, date: string) {
   return Number(r.value) / Number(r.quantity)
 }
 
+async function invoiceUnitCost(tx: Tx, invoice: string, item: string) {
+  const [r] = await tx.execute(sql`SELECT SUM(value) AS v, SUM(quantity) AS q FROM stock_moves WHERE doc_type = 'SI' AND doc_number = ${invoice} AND item_no = ${item}`)
+  if (!r || !Number(r.q)) throw new DomainError(`Faktur ${invoice} tidak mengeluarkan ${item}; harga pokok retur tidak diketahui`)
+  return Number(r.v) / Number(r.q)
+}
+
 export async function createSalesReturn(db: Db, input: ReturnInput) {
   const rt = returnInput.parse(input)
   return db.transaction(async tx => {
@@ -44,9 +50,11 @@ export async function createSalesReturn(db: Db, input: ReturnInput) {
       const t = Math.round(l.qty * l.price); total += t
       posting.push({ account: (it!.sales_return_account ?? it!.sales_account) as string, side: 'DEBIT', amount: t })
       if (it!.type === 'INVENTORY') {
-        const cost = Math.round(l.qty * await latestPurchaseCost(tx, l.item, rt.date))
+        // AVERAGE: back at the unit cost the invoice booked (Trade Portal SRT.2045.05.00001: 108.333,33, not the average 113.750)
+        const avg = await costingMethod(tx) === 'AVERAGE', exact = l.qty * (avg ? await invoiceUnitCost(tx, rt.invoice, l.item) : await latestPurchaseCost(tx, l.item, rt.date))
+        const cost = Math.round(exact)
         stockLines.push({ account: it!.inventory_account as string, side: 'DEBIT', amount: cost }, { account: it!.cogs_account as string, side: 'CREDIT', amount: cost })
-        await addMove(tx, { item: l.item, date: rt.date, docType: 'SRT', docNumber: number, description: rt.description, quantity: l.qty, value: cost })
+        await addMove(tx, { item: l.item, date: rt.date, docType: 'SRT', docNumber: number, description: rt.description, quantity: l.qty, value: avg ? exact : cost })
       }
     }
     const journalId = crypto.randomUUID()
@@ -81,9 +89,9 @@ export async function createPurchaseReturn(db: Db, input: ReturnInput) {
       const [it] = await tx.execute(sql`SELECT type, inventory_account, cogs_account, expense_account FROM items WHERE no = ${l.item}`)
       const t = Math.round(l.qty * l.price); total += t
       if (it!.type !== 'INVENTORY') { credits.push({ account: it!.expense_account as string, side: 'CREDIT', amount: t }); continue }
-      const cost = fifoCost(layers(await loadMoves(tx, l.item, rt.date), await costingMethod(tx)), l.qty)
+      const m = await costingMethod(tx), exact = costOut(layers(await loadMoves(tx, l.item, rt.date), m), l.qty, m), cost = Math.round(exact)
       credits.push({ account: it!.cogs_account as string, side: t >= cost ? 'CREDIT' : 'DEBIT', amount: Math.abs(t - cost) }, { account: it!.inventory_account as string, side: 'CREDIT', amount: cost })
-      await addMove(tx, { item: l.item, date: rt.date, docType: 'PRT', docNumber: number, description: rt.description, quantity: -l.qty, value: -cost })
+      await addMove(tx, { item: l.item, date: rt.date, docType: 'PRT', docNumber: number, description: rt.description, quantity: -l.qty, value: -exact })
     }
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
