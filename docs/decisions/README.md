@@ -29,3 +29,4 @@
 | [0025](0025-budgets.md) | Budgets (Anggaran) per month and scope; budget-vs-actual Laba/Rugi | Accepted |
 | [0026](0026-job-costing.md) | Job costing: job orders, expenses and roll-over (Pekerjaan Pesanan) | Accepted |
 | [0027](0027-sales-quotations.md) | Sales quotations; processed quantities from line links (quotation -> order -> invoice) | Accepted |
+| [0028](0028-approval-workflow.md) | Approval workflow: rules, document approval state and approver steps | Accepted |

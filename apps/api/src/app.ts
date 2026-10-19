@@ -15,6 +15,7 @@ import { openApiSpec } from './openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import { withActor } from './activity/log'
 import { auditList, loadActivity } from './reports/activity-log'
+import { approvalList, loadApprovals } from './reports/approvals'
 import { ConcurrencyError } from './es/store'
 import { handle } from './ledger/handler'
 import { DomainError } from './ledger/deciders'
@@ -66,6 +67,10 @@ export function createApp(db: Db) {
     .get('/reports/activity-log', async c => {
       const q = trialBalanceQuery.pick({ from: true, to: true }).parse(c.req.query())
       return c.json(auditList(await loadActivity(db, q.from, q.to), q.from, q.to))
+    })
+    .get('/reports/approvals', async c => {
+      const q = trialBalanceQuery.pick({ from: true, to: true }).parse(c.req.query())
+      return c.json(approvalList(await loadApprovals(db), q.from, q.to))
     })
     .get('/reports/profit-loss', async c => c.json(await queryProfitLoss(db, trialBalanceQuery.parse(c.req.query()))))
     .get('/reports/general-ledger/:report{journal-list|all-journals|history|summary|detail|account-journal-detail|account-list}', async c =>

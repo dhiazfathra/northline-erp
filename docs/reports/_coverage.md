@@ -8,9 +8,8 @@ ERP module dependency is the module the report reads. The ERP already event-sour
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals: 275 reports, 243 done (14 Tenaga Penjual reports verified under ADR-0023), 46 new in this pass (19 partial)
-(33 blocked, 0 buildable on Journal/Period/Account,
-13 on existing modules).
+Totals: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
+(ADR-0022 to ADR-0028); SalesCheckInPerSalesmanReport and ApprovalListReport on their empty layout only (see specs).
 
 Retail re-check: every done row was verified against Manufaktur Demo fixtures. Retail Demo carries data Manufaktur Demo
 lacked (salesmen, departments, branches, job costing). Where a report behaves differently there, its spec gets a
@@ -281,7 +280,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Selisih Saldo Akun Persediaan dengan Nilai Barang](ItemValueToAccountBalanceDifferenceReport.md) | `ItemValueToAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | done | Activity log | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
-| [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | partial | Activity log | blocked: requires Approval workflow |
+| [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | done | Approval workflow | verified on Retail Demo (empty layout only: one-user sandbox auto-approves); test: `apps/api/test/approvals.test.ts`, fixture `fixtures/retail/approval-rf.json` (ADR-0028) |
 | [Selisih Akun Pembelian belum tertagih](UnbilledAccountBalanceDifferenceReport.md) | `UnbilledAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Daftar Mata Uang](CurrencyListReport.md) | `CurrencyListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar FOB](FreeOnBoardListReport.md) | `FreeOnBoardListReport` | Lain-lain | Y | Y | done | Master data |  |
