@@ -188,7 +188,7 @@ Five parallel lanes, run on **your own** seats (see Week 0):
 
 Prompts to start with:
 
-- *"Read docs/business/northline-business-brief.md and the timeline. Produce a pilot-ready backlog for the Trade profile: every mock module in apps/web/src/api, the API route it needs, and an estimate in evening-hours."*
+- *"Read docs/business/v1-mid-market-saas/northline-business-brief.md and the timeline. Produce a pilot-ready backlog for the Trade profile: every mock module in apps/web/src/api, the API route it needs, and an estimate in evening-hours."*
 - *"Roast this brief as an Indonesian CFO of a 3-branch distributor. What makes you refuse to switch off Accurate, and what proof would change your mind?"*
 - *"Draft a WhatsApp and email outreach sequence in Bahasa Indonesia for tax consultants offering a free Parallel Close for one of their clients, with a 20% recurring referral share."*
 

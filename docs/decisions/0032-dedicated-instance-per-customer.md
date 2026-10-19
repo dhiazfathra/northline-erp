@@ -2,7 +2,7 @@
 
 ## Status
 Proposed (2026-10-19), awaiting the owner's review. Driven by the go-to-market plan in
-`docs/business/northline-business-brief.md`.
+`docs/business/v1-mid-market-saas/northline-business-brief.md`.
 
 ## Date
 2026-10-19

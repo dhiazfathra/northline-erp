@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline Enterprise Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --page:#fbfbfc; --ink:#0f1222; --body:#3b4152; --muted:#8a90a0; --line:#e7e8ee; --soft:#f6f7f9;
+  --green:#15803d; --green-bg:#f1fbf5; --green-line:#c9eed6;
+  --blue:#1d4ed8; --blue-bg:#f3f6ff; --indigo:#5b5bf0; --violet:#7c3aed; --violet-bg:#faf8ff;
+  --orange:#ea580c; --quote-bg:#fdfbf6; --quote-line:#f6d8a8;
+  --red:#e11d48; --red-bg:#fff8f8; --red-line:#fbd5dc; --amber-bg:#fffaf0; --amber-line:#f5dfb0;
+  --serif:"Instrument Serif",Georgia,serif; --sans:"Nunito Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}}
+:root[data-theme="dark"]{
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--body);font:16px/1.65 var(--sans)}
+a{color:var(--blue);text-decoration:none;font-weight:700}
+a:hover{text-decoration:underline}
+h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-.01em;margin:0}
+.eyebrow{font:800 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.eyebrow.green{color:var(--green)} .eyebrow.blue{color:var(--blue)} .eyebrow.violet{color:var(--violet)}
+.eyebrow.orange{color:var(--orange)} .eyebrow.red{color:var(--red)} .eyebrow.indigo{color:var(--indigo)}
+.mono{font-family:var(--mono)}
+.badge{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--bg);white-space:nowrap}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:28px}
+.more{display:inline-flex;gap:6px;align-items:center;margin-top:14px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1220px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+.crumb{color:var(--muted);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.pill{background:var(--indigo);color:#fff;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;white-space:nowrap}
+.theme{border:1px solid var(--line);background:var(--bg);color:var(--body);border-radius:10px;padding:6px 10px;cursor:pointer;font:600 13px var(--sans)}
+
+.wrap{max-width:1220px;margin:0 auto;padding:24px 16px 80px}
+
+/* hero */
+.hero{background:var(--bg);border:1px solid var(--line);border-radius:28px;padding:36px 36px 22px}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.02em;max-width:30ch}
+.mock .cap{margin-top:auto}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;color:var(--muted);font-size:17px;margin:14px 0 26px}
+.meta .dot{opacity:.5}
+.heat{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+.heat i{display:block;width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--orange) 0 62%,var(--line) 62%)}
+.hgrid{display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.hgrid>*,.h3col>*,.layout>*,.two>*,.players>*,.agents>*,.demands>*{min-width:0}
+.mock{grid-row:span 2;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.tile{border:1px solid var(--line);border-radius:18px;padding:22px}
+.tile.reality{background:var(--green-bg)} .tile.against{background:var(--amber-bg)}
+.big{font-family:var(--serif);font-size:54px;line-height:1;color:var(--ink);margin:6px 0 14px}
+.tile p{margin:0;font-size:15px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0}
+.kv span{font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kv b{font:700 18px var(--mono);color:var(--ink);text-align:right}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:12px 14px;align-items:center;font-size:15px}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--indigo);border-radius:6px}
+.bars .n{font:700 13px var(--mono);color:var(--ink)}
+.against h3{font-size:34px;margin:4px 0 8px}
+
+/* mock document */
+.doc{background:#fffdf8;color:#1d2433;border:1px solid #e8e2d4;border-radius:6px;padding:14px 16px;font:11px/1.4 var(--mono);box-shadow:0 8px 24px -16px rgba(0,0,0,.4)}
+.doc .dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1.5px solid #1d2433;padding-bottom:8px;margin-bottom:10px}
+.doc .logo{font:800 15px var(--sans);letter-spacing:.04em}
+.doc .logo small{display:block;font:600 8px var(--sans);letter-spacing:.14em;color:#6b7280}
+.doc .stamp{border:1.5px solid #15803d;color:#15803d;border-radius:4px;padding:3px 6px;font-weight:700;transform:rotate(-4deg);font-size:10px;text-align:center}
+.doc .sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.doc .sum div{background:#f4f1e8;border-radius:4px;padding:6px 8px}
+.doc .sum b{display:block;font:400 22px var(--serif);color:#0f1222}
+.doc table{width:100%;border-collapse:collapse}
+.doc th{text-align:left;font-size:9px;letter-spacing:.08em;color:#6b7280;border-bottom:1px solid #d9d3c4;padding:4px 4px}
+.doc td{padding:4px;border-bottom:1px dashed #e5dfd0;white-space:nowrap}
+.doc td.r,.doc th.r{text-align:right}
+.doc .ok{color:#15803d;font-weight:700}
+.doc .foot{display:flex;justify-content:space-between;color:#6b7280;font-size:9px;margin-top:8px}
+.mock .cap{font:800 12px var(--sans);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+.h3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;margin-top:34px}
+.h3col p{margin:0 0 18px;font-size:16px}
+.h3col .eyebrow{color:var(--ink);font-size:12px}
+.glance .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.glance .row b{color:var(--ink);text-align:right}
+.green-t{color:var(--green);font-weight:800}
+.hfoot{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);margin-top:10px;padding-top:18px;flex-wrap:wrap}
+.thumbs{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.thumbs button{background:var(--bg);border:0;padding:8px 12px;cursor:pointer;font-size:16px;color:var(--body)}
+.thumbs button+button{border-left:1px solid var(--line)}
+.thumbs button[aria-pressed="true"]{background:var(--blue-bg)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 18px;font-weight:800}
+.btn:hover{text-decoration:none;opacity:.92}
+
+/* body layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:48px;margin-top:56px}
+.aside{position:sticky;top:76px;align-self:start;display:flex;flex-direction:column;gap:18px}
+section{margin-bottom:64px}
+section > h2{font-size:clamp(32px,4vw,46px);line-height:1.05;margin-bottom:18px}
+section > p{font-size:17px;margin:0 0 16px;max-width:70ch}
+.sources{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:14px;margin:8px 0 6px}
+.sources a{color:var(--body);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.sources .eyebrow{margin:0}
+
+.quote{background:var(--quote-bg);border-left:3px solid var(--quote-line);border-radius:0 12px 12px 0;padding:16px 20px;margin:12px 0}
+.quote p{font-family:var(--serif);font-size:22px;line-height:1.3;color:var(--ink);margin:0}
+.quote small{display:block;color:var(--muted);margin-top:8px;font-size:14px}
+.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.cardhead .eyebrow{margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.serif-lg{font-family:var(--serif);font-size:24px;line-height:1.3;color:var(--ink);margin:10px 0 0}
+.wedge{background:var(--violet-bg)}
+.note{background:var(--soft);border:1px dashed var(--line);border-radius:12px;padding:12px 16px;font-size:14px;margin-top:14px}
+
+ul.dots{list-style:none;padding:0;margin:8px 0 0}
+ul.dots li{position:relative;padding-left:26px;margin:0 0 16px;font-size:16.5px}
+ul.dots li::before{content:"";position:absolute;left:4px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+ul.dots.g li::before{background:var(--green)} ul.dots.r li::before{background:var(--red)}
+ul.dots .src{display:block;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+.players{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.player{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--soft)}
+.player b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+.player p{margin:0;font-size:14.5px}
+
+.build{background:var(--green-bg);border-color:var(--green-line)}
+.nobuild{background:var(--red-bg);border-color:var(--red-line);margin-top:16px}
+
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;margin:6px 0 22px;font-size:16.5px}
+.fit div{display:flex;gap:10px;align-items:baseline}
+.fit .y{color:var(--green);font-weight:800} .fit .x{color:var(--muted)}
+.demands{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin:22px 0}
+
+.gate{background:linear-gradient(120deg,var(--blue-bg),var(--bg) 60%);border:1px solid var(--line);border-radius:22px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+.gate .ico{width:84px;height:104px;border-radius:10px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:400 40px var(--serif);transform:rotate(-3deg)}
+.gate h3{font-size:30px;line-height:1.1;margin-bottom:6px}
+.gate ol{margin:8px 0 0;padding-left:20px}
+.gate li{margin-bottom:8px}
+
+.ladder{list-style:none;padding:0;margin:26px 0 0}
+.ladder li{display:grid;grid-template-columns:44px 1fr;gap:16px;margin-bottom:26px}
+.ladder .num{width:40px;height:40px;border-radius:50%;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font:800 18px var(--sans)}
+.ladder .tier{font:600 14px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ladder b{color:var(--ink);font-size:20px;font-weight:700}
+.ladder .price{color:var(--muted);font-size:15px}
+.ladder p{margin:4px 0 0}
+
+.tl{position:relative;margin-top:8px}
+.tl .step{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.tl .when{font:700 13px var(--mono);color:var(--ink)}
+.tl .when small{display:block;font:600 12px var(--sans);color:var(--muted);margin-top:2px}
+.tl h4{margin:0 0 4px;color:var(--ink);font-size:16.5px}
+.tl p{margin:0;font-size:15px}
+.tl .exit{display:inline-block;margin-top:8px;font-size:13.5px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.tl .step.key .when{color:var(--green)}
+.tl .step.key .exit{background:var(--green-bg);border-color:var(--green-line);color:var(--green);font-weight:700}
+
+.napkin .ln{display:flex;align-items:baseline;gap:10px;font:15px var(--mono);padding:9px 0;color:var(--ink)}
+.napkin .ln::after{content:none}
+.napkin .ln .fill{flex:1;border-bottom:1px dotted var(--muted);opacity:.5;transform:translateY(-4px);min-width:20px}
+.napkin .ln b{white-space:nowrap}
+.napkin .lbl{min-width:0}
+.ceiling{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--green-bg);border-radius:14px;padding:20px 24px;margin-top:18px;flex-wrap:wrap}
+.ceiling .eyebrow{margin:0;color:var(--green)}
+.ceiling b{font:700 28px var(--mono);color:var(--green)}
+
+.start{background:linear-gradient(135deg,var(--blue-bg),var(--bg));border-color:color-mix(in srgb,var(--blue) 30%,var(--line))}
+.tag{display:inline-block;font:800 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blue);border:1px solid color-mix(in srgb,var(--blue) 35%,var(--line));border-radius:999px;padding:6px 12px}
+.agents{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.agent{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg)}
+.agent h4{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--ink);margin:0 0 4px}
+.agent p{margin:0 0 10px;font-size:14.5px}
+.prompt{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px;font:13px/1.5 var(--mono);color:var(--body)}
+.copy{float:right;margin:-2px -2px 4px 8px;border:1px solid var(--line);background:var(--bg);color:var(--blue);border-radius:8px;font:700 12px var(--sans);padding:4px 8px;cursor:pointer}
+
+/* aside */
+.brief{background:linear-gradient(180deg,var(--red-bg),var(--bg));border:1px solid var(--red-line);border-radius:22px;padding:22px;text-align:center}
+.brief .status{font:800 11px var(--sans);letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+.brief .status::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px}
+.brief h3{font-size:30px;line-height:1.08;margin:12px 0 14px}
+.brief h3 em{color:var(--blue)}
+.brief .try{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;min-height:120px}
+.brief .try .eyebrow{color:var(--blue);font-size:11px;margin:0 0 8px;display:flex;justify-content:space-between}
+.brief .try p{margin:0;font:13.5px/1.5 var(--mono)}
+.dotsnav{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.dotsnav button{width:8px;height:8px;border-radius:8px;border:0;background:var(--line);padding:0;cursor:pointer}
+.dotsnav button[aria-current="true"]{width:22px;background:var(--muted)}
+.lanes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lanes span{border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:13px;background:var(--bg);font-weight:600}
+.poll{background:var(--green-bg);border:1px solid var(--green-line);border-radius:22px;padding:22px}
+.poll h3{font-size:24px;margin-bottom:12px}
+.poll button{display:flex;width:100%;gap:10px;align-items:center;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;color:var(--ink);font:600 15px var(--sans);text-align:left}
+.poll button[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 25%,transparent)}
+.poll small{color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+
+
+/* v2 additions: catalog chips, co-build terms, AI layers */
+.cat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.cat>*,.layers>*,.terms>*{min-width:0}
+.cat .group{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--bg)}
+.cat .group b{display:block;color:var(--ink);font-size:16px;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 13px var(--sans);border-radius:999px;padding:4px 10px;border:1px solid var(--line);background:var(--soft);color:var(--body)}
+.chip.ok{background:var(--green-bg);border-color:var(--green-line);color:var(--green)}
+.chip.part{background:var(--amber-bg);border-color:var(--amber-line);color:var(--orange)}
+.chip.no{background:var(--red-bg);border-color:var(--red-line);color:var(--red);text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13.5px;color:var(--muted);margin-top:10px}
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.layer{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg)}
+.layer .n{font:400 40px var(--serif);color:var(--indigo);line-height:1}
+.layer h4{margin:6px 0 6px;color:var(--ink);font-size:17px}
+.layer p{margin:0 0 10px;font-size:14.5px}
+.layer .st{display:inline-block;font:800 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;border-radius:8px;padding:4px 8px}
+.st.ok{background:var(--green-bg);color:var(--green)} .st.part{background:var(--amber-bg);color:var(--orange)}
+.terms{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.term{border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.term.co{background:var(--violet-bg);border-color:color-mix(in srgb,var(--violet) 30%,var(--line))}
+.term h4{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--ink);margin:0 0 2px}
+.term .px{font:700 15px var(--mono);color:var(--ink);margin:0 0 10px}
+.term ul{margin:0;padding-left:18px;font-size:14.5px}
+.term li{margin-bottom:6px}
+.doc .co{color:#7c3aed;font-weight:700}
+.doc td.strike{color:#9ca3af;text-decoration:line-through}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:1fr}
+  .aside{position:static;order:2}
+  .hgrid{grid-template-columns:1fr 1fr}
+  .mock{grid-column:1/-1;grid-row:auto}
+  .layers{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .hero{padding:24px 18px 18px;border-radius:22px}
+  .hgrid,.h3col,.two,.players,.fit,.demands,.agents,.cat,.terms{grid-template-columns:1fr}
+  .h3col{gap:8px}
+  .tl .step{grid-template-columns:1fr;gap:6px}
+  .gate{grid-template-columns:1fr}
+  .gate .ico{display:none}
+  .card{padding:20px}
+  .doc{overflow-x:auto}
+  .doc .dh{flex-wrap:wrap}
+  .meta{font-size:15px}
+  .napkin .ln{font-size:13px;flex-wrap:wrap}
+  .napkin .ln .fill{display:none}
+  .napkin .ln b{margin-left:auto}
+  .heat{margin-left:0}
+  .pill{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="crumb">Ideas &nbsp;›&nbsp; <b>Northline Enterprise</b></span>
+    <span class="sp"></span>
+    <button class="theme" id="theme" type="button" aria-label="Toggle colour theme">◐ Theme</button>
+    <span class="pill">Day 0 · 19 Oct 2026</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<article class="hero">
+  <p class="eyebrow green">Founder brief · Northline · v2 enterprise</p>
+  <h1>A tailor-made, AI-native ERP for Indonesian enterprises, priced for what AI made it cost to build</h1>
+  <div class="meta">
+    <span>◎ Northline Index 6.4</span><span class="dot">·</span><span>Product-backed custom builds</span><span class="dot">·</span><span>B2B enterprise Indonesia</span><span class="dot">·</span><span>US$3–8M revenue ceiling</span>
+    <span class="heat" title="Founder readiness: build engine proven, enterprise sales not started">readiness <i style="background:linear-gradient(90deg,var(--orange) 0 45%,var(--line) 45%)"></i></span>
+  </div>
+
+  <div class="hgrid">
+    <figure class="mock" style="margin:0">
+      <div class="doc" role="img" aria-label="Concept mockup of a co-build proposal: catalog modules licensed, new modules discounted 40% because Northline keeps the generic IP">
+        <div class="dh">
+          <div class="logo">◤ NORTHLINE<small>CO-BUILD PROPOSAL</small></div>
+          <div style="font-size:10px;color:#6b7280">CLIENT<br><b style="color:#1d2433">PT Contoh Pangan Nusantara</b></div>
+          <div style="font-size:10px;color:#6b7280">SCOPE<br><b style="color:#1d2433">3 PT · 1.200 staf</b></div>
+          <div class="stamp" style="border-color:#7c3aed;color:#7c3aed">CO-BUILD<br>−40% NEW</div>
+        </div>
+        <div class="sum">
+          <div>FROM CATALOG<b>5</b></div>
+          <div>CO-BUILT<b style="color:#7c3aed">3</b></div>
+          <div>GO-LIVE<b>16 wk</b></div>
+        </div>
+        <table>
+          <thead><tr><th>MODUL</th><th>SUMBER</th><th class="r">LIST</th><th class="r">BAYAR</th></tr></thead>
+          <tbody>
+            <tr><td>Akuntansi &amp; konsolidasi</td><td>Katalog</td><td class="r">120</td><td class="r">120</td></tr>
+            <tr><td>Persediaan FIFO · 4 gudang</td><td>Katalog</td><td class="r">85</td><td class="r">85</td></tr>
+            <tr><td>Penjualan &amp; piutang</td><td>Katalog</td><td class="r">70</td><td class="r">70</td></tr>
+            <tr><td>Pembelian &amp; hutang</td><td>Katalog</td><td class="r">65</td><td class="r">65</td></tr>
+            <tr><td>AI: invoice intake, close check</td><td>Katalog</td><td class="r">80</td><td class="r">80</td></tr>
+            <tr><td>Central kitchen planning</td><td class="co">Co-build</td><td class="r strike">260</td><td class="r co">156</td></tr>
+            <tr><td>Batch &amp; kedaluwarsa</td><td class="co">Co-build</td><td class="r strike">180</td><td class="r co">108</td></tr>
+            <tr><td>Resep &amp; HPP per outlet</td><td class="co">Co-build</td><td class="r strike">220</td><td class="r co">132</td></tr>
+          </tbody>
+        </table>
+        <div class="foot"><span>Rp juta · list 1.080 · bayar 816</span><span>IP modul generik: Northline</span></div>
+      </div>
+      <figcaption class="cap">Concept mockup · fictional client</figcaption>
+    </figure>
+
+    <div class="tile">
+      <p class="eyebrow">AI-native build speed</p>
+      <div class="big">170 / 48h</div>
+      <p>AI-authored commits on 18–19 Oct 2026, reproducing 205 of Accurate's 229 Manufaktur reports at zero diff (repo)</p>
+    </div>
+    <div class="tile">
+      <p class="eyebrow">What it demands</p>
+      <div class="bars">
+        <span>Sales</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Trust</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Delivery</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Domain depth</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Build</span><span class="bar"><i style="width:50%"></i></span><span class="n">5</span>
+        <span>Capital</span><span class="bar"><i style="width:50%"></i></span><span class="n">5</span>
+      </div>
+    </div>
+    <div class="tile reality">
+      <p class="eyebrow">The reality</p>
+      <div class="kv"><span>First revenue</span><b>75–105 days</b></div>
+      <div class="kv"><span>First project</span><b>~6 months</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 50–150M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Very hard</b></div>
+    </div>
+    <div class="tile against">
+      <p class="eyebrow">Up against</p>
+      <h3>HashMicro ↗</h3>
+      <p>Custom-priced local ERP with a large outbound sales team, roughly Rp 150M per module on-premise (a competitor's estimate), and the Hashy AI assistant since 2025.</p>
+      <p style="margin-top:14px;color:var(--muted);font-weight:700">+ 7 more mapped</p>
+    </div>
+  </div>
+
+  <div class="h3col">
+    <div>
+      <p class="eyebrow">The pitch</p>
+      <p>A food group with three PTs, 1,200 staff and a central kitchen has two options. SAP quotes Rp 2B and 18 months. An Odoo partner will bend their recipes and batches into a generic module. Northline shows them <b>their own ERP running on their own data in five working days</b>. It quotes a fixed price after a paid blueprint and goes live in 12–20 weeks. Catalog modules are licensed as they are. New modules are co-built at up to 40% off, because Northline keeps the generic IP and resells it.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Who it's for</p>
+      <p>Indonesian groups with 200–3,000 staff, often several PTs, whose processes don't fit a package: food production, distribution, manufacturing, textile and project-based firms. Their budget is Rp 290M to Rp 1B and up.</p>
+      <p class="eyebrow">The gap</p>
+      <p>Packages make you bend your processes to fit them. Software houses hand over code nobody maintains. Nobody sells a custom build that is also a maintained product.</p>
+      <p class="eyebrow">Why now</p>
+      <p>AI cut the cost of building software, but vendor price lists haven't caught up. Companies are setting their 2027 budgets now.</p>
+    </div>
+    <div class="glance">
+      <p class="eyebrow">At a glance</p>
+      <div class="row"><span>Project size</span><b>Rp 290M–1B+</b></div>
+      <div class="row"><span>Recurring</span><b>15–20% / year</b></div>
+      <div class="row"><span>Year one</span><b>~Rp 820M collected</b></div>
+      <div class="row"><span>Ceiling</span><b>US$3–8M / year</b></div>
+      <p class="eyebrow" style="margin-top:20px">What you sell</p>
+      <p>Northline Enterprise <span class="green-t">fixed-price build + annual support, co-build discount for IP</span></p>
+      <p class="eyebrow">Biggest risk</p>
+      <p>The biggest risk is your employer: this is the exact category it is buying right now. The second is being available in the day, because enterprise workshops happen at 10am on weekdays.</p>
+    </div>
+  </div>
+
+  <div class="hfoot">
+    <span>Interested?</span>
+    <span class="thumbs" role="group" aria-label="Interested?">
+      <button type="button" data-vote="up" aria-pressed="false" aria-label="Yes">👍</button><button type="button" data-vote="down" aria-pressed="false" aria-label="No">👎</button>
+    </span>
+    <span class="sp" style="flex:1"></span>
+    <a href="northline-enterprise-brief.md">Markdown version</a>
+    <a href="../v1-mid-market-saas/northline-business-brief.html">v1: mid-market SaaS</a>
+    <a class="btn" href="#plan">See the timeline →</a>
+  </div>
+</article>
+
+<div class="layout">
+<div>
+
+<!-- ============ WHY NOW ============ -->
+<section id="why">
+  <p class="eyebrow">Why now</p>
+  <h2>AI made custom software cheap to build, but nobody has repriced it yet</h2>
+  <p>Three things happened at once. The first is that the price of a custom build is still set by headcount. Indonesian software houses quote Rp 250M to Rp 2B+ for an enterprise system, taking 20–52 weeks with Rp 15–40M per developer per month. SAP-class projects start around Rp 2B and take 12–24 months. Those prices assume a team of eight to fifteen people. This repo shows one architect directing agents: 170 commits in two days and a ledger that matches a commercial product report for report. You can undercut every quote on the table and still earn a better margin than the vendors quoting.</p>
+  <p>Second, "AI-native ERP" became a headline without much behind it. Impact puts it on its homepage and HashMicro launched Hashy, but both bolt AI onto a packaged core. An event-sourced ledger is a better base for agents. Every change is an event with an actor, so an agent's proposal can go through the same approval workflow as a human's and be audited in the same log.</p>
+  <p>Third, enterprises have reasons to revisit their systems. Coretax reset tax integrations in 2025. The personal data protection law (UU PDP) has been fully in force since October 2024. And Q4 is when groups set next year's budgets. A conversation in November becomes a line item in the 2027 budget. A conversation in March waits for 2028.</p>
+  <div class="sources"><span class="eyebrow">Sources</span>
+    <a href="https://majapahit.id/blog/2026/07/01/berapa-biaya-jasa-software-house-indonesia-2026/" target="_blank" rel="noopener">majapahit.id ↗</a>
+    <a href="https://next-it.co.id/blog/berapa-biaya-implementasi-erp-panduan-budget-untuk-ukm-dan-enterprise" target="_blank" rel="noopener">next-it.co.id ↗</a>
+    <a href="https://www.impactfirst.co/" target="_blank" rel="noopener">impactfirst.co ↗</a>
+    <a href="https://en.wikipedia.org/wiki/HashMicro" target="_blank" rel="noopener">HashMicro ↗</a>
+  </div>
+</section>
+
+<!-- ============ AI-NATIVE ============ -->
+<section id="ai">
+  <p class="eyebrow indigo">AI-native</p>
+  <h2>AI-native in three layers, and honest about which ones exist.</h2>
+  <p>Most "AI-native" claims stop at a chat box. Northline is AI-native in how it is built, how it runs and how it is priced. Only the first layer is proven today.</p>
+  <div class="layers">
+    <div class="layer"><div class="n">1</div><h4>Built by agents</h4><p>One architect plus coding agents, working against acceptance tests (zero-diff against reference reports). Change requests take days, where vendors take sprints. The cost advantage comes from here.</p><span class="st ok">Proven in repo</span></div>
+    <div class="layer"><div class="n">2</div><h4>Runs with agents</h4><p>Agents ask questions of reports, turn supplier PDFs into draft invoices, run close checks and handle approvals over WhatsApp. Each agent action is a proposed command. The approval rules (ADR-0028) gate it, and the activity log records the actor.</p><span class="st part">Report Q&amp;A UI exists, on mock data</span></div>
+    <div class="layer"><div class="n">3</div><h4>Priced for AI</h4><p>The client gets a fixed price from the blueprint, not time and materials. AI usage is billed at cost plus a margin, with a cap. Each company can switch off cross-border model calls under UU PDP.</p><span class="st part">Contract templates to draft</span></div>
+  </div>
+</section>
+
+<!-- ============ RECEIPTS ============ -->
+<section id="receipts">
+  <p class="eyebrow">Market snapshot</p>
+  <h2>The receipts.</h2>
+
+  <div class="card">
+    <div class="cardhead"><p class="eyebrow orange">Pain</p><span class="badge">8/10 severity · provisional</span></div>
+    <div class="quote"><p>Only 50.6% of ERP projects finished on budget in Panorama's 2026 report. An audit of 640 projects found a median overrun of 47%, and only 27% went live on the planned date.</p><small>Panorama Consulting 2026; DataVirtualizer audit (vendor-published)</small></div>
+    <div class="quote"><p>Super Indo, with 186 outlets and 800+ staff, replaced an in-house HR system that was "too complicated and no longer serves current needs".</p><small>Impact case study · quoted</small></div>
+    <div class="quote"><p>Enterprise ERP like SAP starts around Rp 2 billion and takes 12 to 24 months. A custom build for a mid-size company runs Rp 200–800 million over 3–6 months.</p><small>Next IT budget guide, 2026 · paraphrased</small></div>
+    <div class="note"><b>Receipts still missing:</b> there are no direct quotes from Indonesian CFOs, COOs or IT heads yet. Collect seven in weeks 1–4. Severity stays provisional until then.</div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <div class="cardhead"><p class="eyebrow violet">Whitespace</p><span class="badge">Market gap</span></div>
+      <p class="serif-lg">Enterprises can bend to a package, or bet on a software house and inherit code nobody maintains. Nobody sells a custom build that is also a maintained product, priced at what AI made it cost.</p>
+    </div>
+    <div class="card wedge">
+      <p class="eyebrow violet">The wedge</p>
+      <p class="serif-lg">The prospect sees their own ERP running on their own data in five working days, before any purchase order. Then they get a fixed price, with up to 40% off new modules if Northline keeps the generic IP.</p>
+      <p style="margin:14px 0 0;color:var(--muted)">The incumbent to beat: <b style="color:var(--ink)">HashMicro and the Odoo partners</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow blue">Proof &amp; signals</p>
+    <ul class="dots">
+      <li>Indonesia has 50,034 large and 809,344 medium businesses (Ministry of MSMEs data, August 2025). Twenty projects a year is 0.04% of the large tier alone.<span class="src"><a href="https://databoks.katadata.co.id/ekonomi-makro/statistik/6acf639d12f03/jumlah-usaha-mikro-kecil-menengah-dan-besar-di-indonesia-pada-2025" target="_blank" rel="noopener">Databoks ↗</a></span></li>
+      <li>Impact (PT Neo Multi Servindo) shows the model works locally. It sells one modular suite across about 15 industries plus consulting, appears to build on Odoo, and serves clients up to ~3,000 staff (GDSK). It publishes no prices.<span class="src"><a href="https://www.impactfirst.co/" target="_blank" rel="noopener">impactfirst.co ↗</a></span></li>
+      <li>Software houses charge 15–25% of the build cost each year for maintenance. That is the market rate for your recurring line.<span class="src"><a href="https://majapahit.id/blog/2026/07/01/berapa-biaya-jasa-software-house-indonesia-2026/" target="_blank" rel="noopener">Majapahit ↗</a></span></li>
+      <li>Under UU 28/2014 Pasal 36, copyright in work made to order belongs to its maker unless the contract says otherwise. Enterprise contracts usually say otherwise, and the co-build discount is what you pay to keep it.<span class="src"><a href="https://www.dgip.go.id/artikel/detail-artikel-berita/hak-cipta-karya-pekerja-atau-freelancer-milik-siapa?kategori=agenda-ki" target="_blank" rel="noopener">DGIP ↗</a> &nbsp; <a href="https://peraturan.bpk.go.id/Download/28018/UU%20Nomor%2028%20Tahun%202014.pdf" target="_blank" rel="noopener">UU 28/2014 ↗</a></span></li>
+      <li>Gartner's widely quoted figure is that 55–75% of ERP projects fail to meet their objectives. Prosci's narrower definition gives 11–31%. Either way, buyers have been burned, so a prototype before the PO is worth a lot.<span class="src"><a href="https://godlan.com/erp-failure-rate/" target="_blank" rel="noopener">Godlan ↗</a></span></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><p class="eyebrow violet">Who you're up against</p><span class="badge">8 players</span></div>
+    <div class="players">
+      <div class="player"><b>HashMicro</b><p>Custom pricing. A competitor estimates ~Rp 150M per module on-premise. Large outbound sales team, Hashy AI assistant since 2025.</p></div>
+      <div class="player"><b>Impact (impactfirst.co)</b><p>A modular suite plus transformation consulting. "AI-native ERP" headline, apparently Odoo-based. The model to copy and to beat on speed.</p></div>
+      <div class="player"><b>Odoo partners</b><p>About 42 local partners charge Rp 230–600M in the first year for 20–50 users. Quality varies widely, and their custom modules tie the client to the partner.</p></div>
+      <div class="player"><b>SAP Business One partners</b><p>Rp 500M–2B. The default choice for mid-size manufacturers with a budget, and the system your discovery calls will hear quoted.</p></div>
+      <div class="player"><b>SAP S/4HANA · Oracle</b><p>From ~Rp 2B and 12–24 months. Chosen by listed companies and multinationals, and out of your reach for now.</p></div>
+      <div class="player"><b>Dynamics 365 · NetSuite partners</b><p>Global brands with local partners. Strong for multinationals' Indonesian subsidiaries.</p></div>
+      <div class="player"><b>Local software houses</b><p>Rp 250M–2B+ over 20–52 weeks. The client owns the code but often can't maintain it after handover.</p></div>
+      <div class="player"><b>The client's in-house IT</b><p>The quiet competitor: "we'll build it ourselves." Sell to them as an accelerator, not a replacement.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CATALOG ============ -->
+<section id="catalog">
+  <p class="eyebrow">Products, industries, services</p>
+  <h2>The full catalog, with honest status.</h2>
+  <p>Same breadth as Impact. The difference is that every chip marked built is backed by API code and tests in this repo. Every chip marked co-build is a module a client will pay to bring into existence, after which you own it. The web UI is still mostly mock (9 of 11 data modules).</p>
+  <div class="legend"><span class="chip ok">Built (API + tests)</span><span class="chip part">Partial</span><span class="chip">Co-build</span><span class="chip no">Blocked</span></div>
+  <div class="cat">
+    <div class="group"><b>Core ERP</b><div class="chips"><span class="chip ok">Accounting &amp; GL</span><span class="chip ok">Sales &amp; invoicing</span><span class="chip ok">Purchasing</span><span class="chip ok">Inventory FIFO / average</span><span class="chip ok">Cash &amp; bank</span><span class="chip ok">Fixed assets</span><span class="chip ok">Approvals</span><span class="chip ok">Returns</span><span class="chip ok">200+ reports</span><span class="chip part">Quotations / orders</span><span class="chip part">Multi-company &amp; consolidation</span><span class="chip">Mobile</span></div></div>
+    <div class="group"><b>Supply chain</b><div class="chips"><span class="chip part">Multi-warehouse transfers</span><span class="chip">WMS</span><span class="chip">Logistics &amp; TMS</span><span class="chip">Fleet</span><span class="chip">Barcode</span></div></div>
+    <div class="group"><b>Manufacturing</b><div class="chips"><span class="chip ok">Job orders &amp; job costing</span><span class="chip">MRP planning</span><span class="chip">MES</span><span class="chip">PLM</span><span class="chip">Quality</span><span class="chip">Maintenance (CMMS)</span><span class="chip">Batch &amp; expiry</span></div></div>
+    <div class="group"><b>CRM &amp; omnichannel</b><div class="chips"><span class="chip ok">Customers, salesmen, commissions</span><span class="chip ok">Price adjustments</span><span class="chip">CRM pipeline</span><span class="chip">POS</span><span class="chip">eCommerce &amp; marketplace</span></div></div>
+    <div class="group"><b>People</b><div class="chips"><span class="chip part">Employees &amp; loans</span><span class="chip part">Expense accruals</span><span class="chip">Payroll PPh 21 / BPJS</span><span class="chip">Attendance &amp; shifts</span><span class="chip">Recruitment</span><span class="chip">LMS</span></div></div>
+    <div class="group"><b>AI agents &amp; compliance</b><div class="chips"><span class="chip part">Report Q&amp;A (UI)</span><span class="chip ok">Activity log with actor</span><span class="chip">Invoice intake</span><span class="chip">Close checks</span><span class="chip">WhatsApp approvals</span><span class="chip">Coretax via PJAP</span></div></div>
+    <div class="group"><b>Industries</b><div class="chips"><span class="chip ok">Distribution &amp; trade</span><span class="chip ok">Manufacturing</span><span class="chip part">Retail &amp; wholesale</span><span class="chip part">Contractor &amp; project</span><span class="chip">Food production &amp; central kitchen</span><span class="chip">Textile &amp; garment</span><span class="chip">Logistics</span><span class="chip">Pharmacy</span><span class="chip">Rental</span><span class="chip">Real estate &amp; construction</span><span class="chip">Nonprofit</span><span class="chip">Energy &amp; resources</span><span class="chip no">Healthcare &amp; clinics</span></div></div>
+    <div class="group"><b>Services</b><div class="chips"><span class="chip">Process blueprint &amp; gap analysis</span><span class="chip">Transformation roadmap</span><span class="chip part">Zero-diff data migration</span><span class="chip">Integrations (bank, marketplace, PJAP)</span><span class="chip">Data &amp; analytics</span><span class="chip">AI agent design</span><span class="chip">Training &amp; change</span><span class="chip">Support &amp; managed hosting</span></div></div>
+  </div>
+  <div class="note">Healthcare and clinics stay blocked until you've left your employer. Industry profiles beyond Trade, Manufaktur and Retail are ADR-0031 presets you don't have yet; each one should arrive through a paid co-build.</div>
+</section>
+
+<!-- ============ VERDICT ============ -->
+<section id="verdict">
+  <p class="eyebrow">The verdict</p>
+  <h2>Should you build this?</h2>
+  <div class="card build">
+    <p class="eyebrow green">Reasons to build</p>
+    <ul class="dots g">
+      <li>One project pays more than v1's whole first year: Rp 290M–1B+ per signature, against Rp 245M from five SaaS customers.</li>
+      <li>AI changed your cost but not your buyer's price expectations. You can quote 30–50% under a software house and still keep a 60%+ margin.</li>
+      <li>Co-builds turn client money into product. Each new module is funded once and resold at catalog price, so services revenue builds IP instead of just headcount.</li>
+      <li>Your résumé fits what enterprise buyers check. You lead a multi-brand ERP replatform and serve as ISO 27001 management representative, and they want both.</li>
+      <li>You no longer fight Accurate on price. Enterprise buyers compare you with SAP and HashMicro quotes, where your price looks cheap.</li>
+    </ul>
+  </div>
+  <div class="card nobuild">
+    <p class="eyebrow red">Reasons to not build</p>
+    <ul class="dots r">
+      <li>Your employer is replatforming its own enterprise ERP with an outside vendor. A side business that sells enterprise ERP is the sharpest possible conflict. Without written consent, stop.</li>
+      <li>Enterprises buy from firms, not individuals. Vendor registration wants a PT, tax status, references and often company age. A three-month-old PT with no case study fails some procurement desks outright.</li>
+      <li>Delivery happens in the daytime. Blueprint workshops, UAT and go-live support run 9 to 5. A solo founder with a full-time job can't staff that, so you need a daytime functional consultant from the first deal.</li>
+      <li>Fixed-price custom work is how ERP vendors go broke. A loose blueprint or a scope creep clause you skipped eats the margin. Price risk is now yours, not the client's.</li>
+      <li>Services can trap you in project work. If co-built modules never get generalized and resold, you've built a software house, not a product company.</li>
+    </ul>
+    <a class="more" href="#agents" style="color:var(--red)">Roast it with your agent →</a>
+  </div>
+</section>
+
+<!-- ============ FOUNDER FIT ============ -->
+<section id="fit">
+  <p class="eyebrow">Founder fit</p>
+  <h2>Not every good idea is good <em style="color:var(--blue)">for you</em>.</h2>
+  <p class="eyebrow">Who it's best for</p>
+  <div class="fit">
+    <div><span class="y">✓</span>Engineers who have led an enterprise ERP replatform</div>
+    <div class="x"><span>✕</span>Founders who can't be in a client's room on a weekday</div>
+    <div><span class="y">✓</span>Founders with a CFO, COO or IT-head network</div>
+    <div class="x"><span>✕</span>Day job in the same category without written consent</div>
+  </div>
+  <p>You have the credibility half: you've led an ERP replatform, run ISO 27001 and proven that agents can write most of the code. What you lack is the firm half. That means a legal entity enterprises will register, a first reference, and someone available at 10am on a Tuesday. Borrow trust where it already exists. Public accounting firms (KAP) and tax consultants find ERP gaps in every audit. Transformation consultancies like Impact need build capacity they can resell. Companies burned by a failed Odoo or SAP project want a second opinion. A white-label subcontract can be your first reference before your own brand is.</p>
+  <div class="demands">
+    <div class="card">
+      <p class="eyebrow indigo">What it demands</p>
+      <div class="bars" style="margin-top:14px">
+        <span>Sales</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Trust</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Delivery</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Domain depth</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Build</span><span class="bar"><i style="width:50%"></i></span><span class="n">5</span>
+        <span>Capital</span><span class="bar"><i style="width:50%"></i></span><span class="n">5</span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow green">The reality</p>
+      <div class="kv"><span>First revenue</span><b>75–105 days</b></div>
+      <div class="kv"><span>First project</span><b>~6 months</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 50–150M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Very hard</b></div>
+    </div>
+  </div>
+  <h3 style="font-size:30px;margin-bottom:8px">So, is it good for you?</h3>
+  <p>Only with written consent from your employer and a daytime partner. If you get both, this is the better use of your evening hours than v1: fewer customers, ten times the ticket.</p>
+</section>
+
+<!-- ============ WEEK 0 GATE ============ -->
+<section id="gate">
+  <div class="gate">
+    <div class="ico" aria-hidden="true">0</div>
+    <div>
+      <p class="eyebrow indigo">Week 0 gate</p>
+      <h3>Clear these before the first sales call.</h3>
+      <ol>
+        <li><b>Employment contract and written consent.</b> Pasal 36 makes the maker the default copyright owner, but employment contracts usually override it. Enterprise ERP is the category your employer is buying now, so get consent in writing or stop. Keep its vendors, its customers and the healthcare vertical out.</li>
+        <li><b>Your own tools.</b> Use your own Claude subscription and your own model API key, on personal accounts and hardware. Never use the employer's five Team seats.</li>
+        <li><b>A firm enterprises can register.</b> You need a PT with NIB and NPWP. Plan for PKP (VAT registration) early, because enterprise buyers need a tax invoice. A PT Perorangan works to start, but check with your first prospect's procurement team before relying on it. For a regular PT with your wife at 1%, ask a notary about joint marital property first.</li>
+        <li><b>Contract templates reviewed by an IP lawyer.</b> The MSA needs the co-build IP clause, a perpetual licence, source escrow, a 12-month exclusivity window, change-request pricing and a UU PDP data-processing addendum. Budget Rp 10–30M for the review.</li>
+        <li><b>A daytime partner.</b> Name the functional consultant or accountant who attends workshops and UAT. Pay them per project from the down payment.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE LADDER ============ -->
+<section id="ladder">
+  <p class="eyebrow">What you'd sell</p>
+  <h2>The value ladder.</h2>
+  <p>The model follows Impact: a free look, a paid blueprint, a fixed-price build, then annual support. Two things are different. You own every line of code, so there is no Odoo licence underneath. And when the client needs something that doesn't exist yet, you build it at a discount in exchange for the right to resell it.</p>
+  <ol class="ladder">
+    <li><span class="num">1</span><div><span class="tier">Lead magnet</span><br><b>Your ERP on your data, in five days</b> <span class="price">(Rp 0)</span><p>One critical workflow, built by agents on the prospect's own Excel exports, demoed on a throwaway instance (ADR-0032). This replaces the generic demo every competitor runs.</p></div></li>
+    <li><span class="num">2</span><div><span class="tier">Frontend</span><br><b>Paid blueprint</b> <span class="price">(Rp 35–75M, credited to the project)</span><p>Three to four weeks of process mapping, gap analysis against the catalog, a migration dry run and a fixed-price proposal. The blueprint is the client's to keep even if they walk away.</p></div></li>
+    <li><span class="num">3</span><div><span class="tier">Core</span><br><b>Configure · Extend · Co-build</b> <span class="price">(Rp 290M–1B+)</span><p><b>Configure</b> (Rp 290–450M): catalog modules, migration, training, go-live. <b>Extend</b> (Rp 450–750M): adds client-specific workflows and integrations. <b>Co-build</b> (list Rp 1B+): new modules at 30–50% off when Northline keeps the generic IP. Paid in milestones of 30 / 40 / 30.</p></div></li>
+    <li><span class="num">4</span><div><span class="tier">Continuity</span><br><b>Support, hosting and agents</b> <span class="price">(15–20% of project value / year)</span><p>A dedicated instance, backups and restore drills, upgrades, an SLA, AI agents with usage capped, and quarterly improvement sprints. On-premise is available as a premium tier.</p></div></li>
+    <li><span class="num">5</span><div><span class="tier">Flywheel</span><br><b>Vertical packs, resold</b> <span class="price">(at Configure price, ~75%+ margin)</span><p>Each co-built module is generalized into a catalog pack: central kitchen, batch and expiry, textile costing. The next client in that industry pays Configure price for something that cost you nothing to build twice.</p></div></li>
+  </ol>
+
+  <div class="terms">
+    <div class="term">
+      <h4>Full ownership</h4>
+      <p class="px">List price · e.g. Rp 1.08B</p>
+      <ul>
+        <li>Generic module copyright assigned to the client</li>
+        <li>Full source code handed over</li>
+        <li>Northline cannot resell the module</li>
+        <li>Support optional, at 20% / year</li>
+      </ul>
+    </div>
+    <div class="term co">
+      <h4>Co-build (default)</h4>
+      <p class="px">30–50% off new modules · e.g. Rp 816M</p>
+      <ul>
+        <li>Northline keeps the generic module's IP (Pasal 36 default, confirmed in the MSA)</li>
+        <li>Client gets a perpetual, royalty-free licence and source escrow</li>
+        <li>Client owns its data, configuration and client-specific extensions; none of it enters the product</li>
+        <li>Not resold to named direct competitors for 12 months</li>
+        <li>Resale credit: 5% of each resale goes to the client's support bill for 3 years</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">Code that clients pay to have built only becomes resellable if the codebase keeps the generic module separate from client-specific code. <a href="../../decisions/0033-core-and-client-extensions.md">ADR-0033</a> proposes how.</div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <p class="eyebrow">The plan</p>
+  <h2>If you started today.</h2>
+
+  <div class="card">
+    <h3 style="font-size:30px;margin-bottom:10px">First up.</h3>
+    <p style="margin:0">Enterprises don't find custom ERP vendors through search. They hear about them from their auditor, their consultant or a peer CFO. Your first paid work comes through borrowed trust: an introduction from a KAP partner or tax consultant, or a white-label subcontract from a transformation consultancy. The five-day prototype then turns the introduction into a blueprint. Get those conversations into 2027 budgets before December.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">The timeline.</h3><span class="badge">~12–15 h/week + a daytime partner</span></div>
+    <p style="color:var(--muted);margin:4px 0 6px">Realistic for evenings and weekends until the first down payment. Ambitious because it targets a paid blueprint by the end of January and a signed project by the end of April.</p>
+    <div class="tl">
+      <div class="step"><div class="when">Wk 0<small>19–25 Oct 2026</small></div><div><h4>Clearance gate</h4><p>Contract, written consent, your own tools, PT route, an IP lawyer engaged, and a named daytime partner.</p><span class="exit">Exit: go/no-go in writing</span></div></div>
+      <div class="step"><div class="when">Wk 1–4<small>26 Oct – 22 Nov</small></div><div><h4>Proof kit</h4><p>A five-day prototype pipeline: a throwaway instance per prospect, Excel import, and the AI report panel wired to a real model for three questions. Co-build MSA drafted, plus a security pack and the catalog page.</p><span class="exit">Exit: prototype on a stranger's data in 5 working days</span></div></div>
+      <div class="step"><div class="when">Wk 1–10<small>26 Oct – 3 Jan</small></div><div><h4>Pipeline, in parallel</h4><p>Sixty warm conversations from four sources: your own network (outside your employer's industry and vendors), KAP and tax firms with enterprise clients, transformation consultancies needing build capacity, and companies after a failed implementation. Record seven pain quotes.</p><span class="exit">Exit: 15 qualified, 6–8 prototype slots booked</span></div></div>
+      <div class="step"><div class="when">Wk 4–12<small>Nov – Dec 2026</small></div><div><h4>Prototypes on their data</h4><p>Six to eight free five-day prototypes. Each one ends with a blueprint proposal and a budget line for 2027.</p><span class="exit">Exit: 2–4 prospects ask for a blueprint</span></div></div>
+      <div class="step key"><div class="when">Wk 10–15<small>January 2027</small></div><div><h4>First paid blueprint</h4><p>Rp 35–75M, three to four weeks, credited to the project. Stretch goal: a white-label subcontract signed in December.</p><span class="exit">Target: blueprint signed and paid by 31 Jan 2027 (~day 104)</span></div></div>
+      <div class="step key"><div class="when">Feb–Apr<small>2027</small></div><div><h4>First project contract</h4><p>Blueprint, then a fixed-price proposal (Configure, Extend or Co-build), then a 30% down payment. The daytime partner goes on contract from that payment.</p><span class="exit">Target: Rp 290M+ signed, down payment received by 30 Apr 2027 (~day 193)</span></div></div>
+      <div class="step"><div class="when">May–Oct<small>2027</small></div><div><h4>Deliver and generalize</h4><p>Go-live in 12–20 weeks. A generalization pass turns the co-built module into a catalog pack. Sign the second project, ideally a resale of that pack.</p><span class="exit">Exit: one live reference, two projects signed</span></div></div>
+      <div class="step"><div class="when">Q4<small>2027</small></div><div><h4>Quit-job gate</h4><p>Leave when signed backlog covers 12 months of take-home pay, with six months of runway and a partner running client contact. It may come earlier than in v1, because enterprise work needs daytime presence.</p><span class="exit">Exit: decision in writing</span></div></div>
+      <div class="step"><div class="when">2028+</div><div><h4>The catalog compounds</h4><p>Vertical packs resold at Configure price. HR, payroll and LMS added as modules. Healthcare only after you've left your employer.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card napkin" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">Year one, on a napkin.</h3><span class="badge">Napkin math</span></div>
+    <p style="color:var(--muted);margin:4px 0 14px">What the first push looks like if the assumptions hold. The ceiling below answers a different question: what this becomes at scale.</p>
+    <div class="ln"><span class="lbl">Warm conversations (Oct–Mar)</span><span class="fill"></span><b>60</b></div>
+    <div class="ln"><span class="lbl">Qualified: budget ≥ Rp 290M, sponsor, pain (assumption)</span><span class="fill"></span><b>25% = 15</b></div>
+    <div class="ln"><span class="lbl">Take the free 5-day prototype (assumption)</span><span class="fill"></span><b>50% ≈ 8</b></div>
+    <div class="ln"><span class="lbl">Buy a blueprint at Rp 50M (assumption)</span><span class="fill"></span><b>40% ≈ 3</b></div>
+    <div class="ln"><span class="lbl">Sign a project, average Rp 550M (assumption)</span><span class="fill"></span><b>2 of 3</b></div>
+    <div class="ln"><span class="lbl">Contract value (1 × 50M + 2 × 550M)</span><span class="fill"></span><b>Rp 1.15B</b></div>
+    <div class="ln"><span class="lbl">Collected in year one (milestones ~70%)</span><span class="fill"></span><b>~Rp 820M</b></div>
+    <div class="ln"><span class="lbl">Delivery cost: partner, AI, hosting, legal</span><span class="fill"></span><b>~Rp 210M</b></div>
+    <div class="ln"><span class="lbl">Year-two revenue (5 new, 2 resales + support)</span><span class="fill"></span><b>~Rp 3.5B</b></div>
+    <p style="color:var(--muted);margin:14px 0 0">Year one buys a reference, a partner and the first vertical pack. USD at an assumed Rp 18,000: ~US$46K collected in year one, ~US$34K after delivery cost, then ~US$195K in year two.</p>
+    <div class="ceiling"><p class="eyebrow">The ceiling if it compounds</p><b>US$3–8M / year</b></div>
+    <p style="color:var(--muted);font-size:14px;margin:10px 0 0">60 projects a year × Rp 750M ≈ Rp 45B, plus 250 installed clients × Rp 120M a year in support ≈ Rp 30B. That totals ~Rp 75B ≈ US$4.2M. Services revenue grows with people; the resold packs are what lift the margin.</p>
+  </div>
+</section>
+
+<!-- ============ AGENTS ============ -->
+<section id="agents">
+  <p class="eyebrow">The agents</p>
+  <h2>Jam on it with your agents.</h2>
+  <p>Five parallel lanes, run on your own seats. Paste any prompt into Claude Code in this repo.</p>
+
+  <div class="card start">
+    <span class="tag">Start here</span>
+    <h3 style="font-size:34px;margin:12px 0 6px">Build the five-day prototype kit.</h3>
+    <div class="prompt"><button class="copy" type="button">Copy</button>Read docs/business/v2-enterprise-custom/northline-enterprise-brief.md. Build the five-day prototype kit: a script that provisions a throwaway instance (ADR-0032), loads a prospect's Excel masters and one month of transactions, and maps their top three workflows to catalog modules, marking each gap as a co-build candidate.</div>
+  </div>
+
+  <div class="agents">
+    <div class="agent"><h4>Roast this idea</h4><p>The objections a group CFO will raise.</p><div class="prompt"><button class="copy" type="button">Copy</button>Roast this brief as the CFO of a 1,200-staff Indonesian food group holding an SAP Business One quote. Why would you refuse a solo-founded vendor, and what proof would change your mind?</div></div>
+    <div class="agent"><h4>Co-build contract</h4><p>The IP clause that makes resale legal.</p><div class="prompt"><button class="copy" type="button">Copy</button>Draft MSA clauses in Bahasa Indonesia and English: IP retention for generic modules under UU 28/2014 Pasal 16 and 36, a perpetual licence, source escrow, 12-month exclusivity, change-request pricing and a UU PDP addendum. Flag every clause for lawyer review.</div></div>
+    <div class="agent"><h4>AI agent lane</h4><p>Make layer 2 real.</p><div class="prompt"><button class="copy" type="button">Copy</button>Wire apps/web/src/features/reports AiPanel to a real model through a server-side API route: read-only report tools, actor logging through the activity log, a usage cap, and a per-company switch that blocks cross-border model calls.</div></div>
+    <div class="agent"><h4>Partner outreach</h4><p>Borrow trust from auditors and consultancies.</p><div class="prompt"><button class="copy" type="button">Copy</button>Draft Bahasa Indonesia outreach for KAP partners, tax consultants and transformation consultancies, offering white-label AI-native build capacity and a referral fee of 10% of project value.</div></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ============ ASIDE ============ -->
+<aside class="aside" aria-label="Brief your agent">
+  <div class="brief">
+    <span class="status">Consent not yet in writing</span>
+    <h3>The prompts that brief your agent <em>on this idea</em></h3>
+    <div class="try">
+      <p class="eyebrow"><span>Try asking</span><button class="copy" type="button" style="float:none;margin:0" id="tryCopy">Copy</button></p>
+      <p id="tryText"></p>
+    </div>
+    <div class="dotsnav" id="tryDots"></div>
+    <div class="lanes"><span>Prototype</span><span>Contract</span><span>AI agents</span><span>GTM</span><span>Review</span></div>
+  </div>
+  <div class="poll">
+    <h3>What's your call?</h3>
+    <button type="button" data-call="v2" aria-pressed="false">🏢 Go enterprise (v2), after week 0</button>
+    <button type="button" data-call="v1" aria-pressed="false">🧾 Stay mid-market SaaS (v1)</button>
+    <button type="button" data-call="hybrid" aria-pressed="false">🔀 v2 sales, v1 Parallel Close as the migration tool</button>
+    <button type="button" data-call="no" aria-pressed="false">✋ Not this idea</button>
+    <small>Saved in this browser only.</small>
+  </div>
+</aside>
+</div>
+
+<footer>Northline enterprise brief (v2) · 19 Oct 2026 · Figures are sourced or marked as assumptions; USD at an assumed Rp 18,000. Not legal or tax advice.</footer>
+</main>
+
+<script>
+(function(){
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var root=document.documentElement, t=store.get('nl-theme'); if(t) root.setAttribute('data-theme',t);
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    var next=dark?'light':'dark'; root.setAttribute('data-theme',next); store.set('nl-theme',next);
+  });
+  function copy(text,btn){
+    var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o},1200)};
+    if(navigator.clipboard) navigator.clipboard.writeText(text).then(done,done); else done();
+  }
+  document.querySelectorAll('.prompt .copy').forEach(function(b){
+    b.addEventListener('click',function(){copy(b.parentNode.textContent.replace(/^Copy/,'').trim(),b)});
+  });
+  var prompts=[
+    "What has to be true for a 1,200-staff group to pay for a blueprint by 31 January 2027? List the risks in order.",
+    "Which catalog modules are API-complete, and which would a central-kitchen food group need co-built?",
+    "List 30 KAP firms, tax consultants and transformation consultancies in Jabodetabek that serve enterprise clients.",
+    "Re-run the year-one napkin math with Rp 400M average projects and a 30% blueprint conversion."
+  ], i=0, txt=document.getElementById('tryText'), dots=document.getElementById('tryDots');
+  prompts.forEach(function(_,n){var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Prompt '+(n+1));d.addEventListener('click',function(){show(n)});dots.appendChild(d)});
+  function show(n){i=n;txt.textContent=prompts[n];[].forEach.call(dots.children,function(d,k){d.setAttribute('aria-current',k===n)})}
+  show(0); setInterval(function(){show((i+1)%prompts.length)},6000);
+  document.getElementById('tryCopy').addEventListener('click',function(e){copy(prompts[i],e.target)});
+  function group(sel,attr,key){
+    var btns=document.querySelectorAll(sel), saved=store.get(key);
+    btns.forEach(function(b){
+      if(b.getAttribute(attr)===saved) b.setAttribute('aria-pressed','true');
+      b.addEventListener('click',function(){btns.forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');store.set(key,b.getAttribute(attr))});
+    });
+  }
+  group('.poll button','data-call','nl-call-v2'); group('.thumbs button','data-vote','nl-vote-v2');
+})();
+</script>
+</body>
+</html>
