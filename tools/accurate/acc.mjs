@@ -54,7 +54,7 @@ export async function openSandbox() {
   const [np] = await Promise.all([o.ctx.waitForEvent('page', { timeout: 20000 }).catch(() => null), hits.first().click()]);
   o.app = np ?? o.page;
   await o.app.waitForLoadState('networkidle');
-  await o.app.waitForSelector('span.first-name', { timeout: 30000 });
+  await o.app.waitForSelector('span.first-name', { timeout: 60000 });
   await assertSandbox(o.app);
   await o.save();
   return o;

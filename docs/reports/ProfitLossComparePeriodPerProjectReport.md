@@ -47,3 +47,7 @@ Seed (Retail Demo, 2041, all `NL-RA`): departments NL-RA-D1/D2, project NL-RA-P1
 - Dates print as `dd MMM yyyy` with Indonesian month abbreviations (`Des`, `Okt`); footer print timestamp uses an English month (`19 October 2026`).
 - The capture omits empty cells, so a row can be shorter than its header (for example a blank `No. PO`).
 
+
+## Kontraktor Demo variation
+- Kontraktor Demo prints the standard statement: one `LABA BERSIH` and id-ID numbers (`-6.265.433`, `-83,54 %`); Retail's split LABA BERSIH and en-US formatting are not used. ERP: `profitLossComparePeriodBy(.., STANDARD)` (ADR-0035).
+- Verified: zero diff, Q1 vs Apr-Des 2047, NL-K-P1 ([`fixtures/contractor/projects-k.json`](fixtures/contractor/projects-k.json), test `apps/api/test/contractor-projects.test.ts`).

@@ -136,7 +136,7 @@ export function createApp(db: Db) {
     .post('/master/:kind{branches|departments|projects}', async c => {
       const k = c.req.param('kind'), b = z.object({ name: z.string().trim().min(1), description: z.string().default(''), no: z.string().trim().min(1).optional(), isDefault: z.boolean().default(false) }).parse(await c.req.json())
       if (k === 'departments') await db.execute(sql`INSERT INTO departments (name, description) VALUES (${b.name}, ${b.description}) ON CONFLICT (name) DO UPDATE SET description = EXCLUDED.description`)
-      else if (k === 'projects') await db.execute(sql`INSERT INTO projects (name, no) VALUES (${b.name}, ${b.no ?? b.name}) ON CONFLICT (name) DO UPDATE SET no = EXCLUDED.no`)
+      else if (k === 'projects') await db.execute(sql`INSERT INTO projects (name, no, description) VALUES (${b.name}, ${b.no ?? b.name}, ${b.description}) ON CONFLICT (name) DO UPDATE SET no = EXCLUDED.no, description = EXCLUDED.description`)
       else await db.transaction(async tx => {
         if (b.isDefault) await tx.execute(sql`UPDATE branches SET is_default = false`)
         await tx.execute(sql`INSERT INTO branches (name, is_default) VALUES (${b.name}, ${b.isDefault}) ON CONFLICT (name) DO UPDATE SET is_default = EXCLUDED.is_default`)
@@ -144,24 +144,27 @@ export function createApp(db: Db) {
       return c.json({ ok: true })
     })
     .get('/reports/master/departments', async c => c.json(await DIM.departmentList(db)))
-    .get('/reports/dimensions/:report{by-branch|by-department|department-multi-period|compare-department|compare-project|analysis-department}', async c => {
+    .get('/reports/master/projects', async c => c.json(await DIM.projectList(db)))
+    .get('/reports/dimensions/:report{by-branch|by-department|by-project|department-multi-period|project-multi-period|compare-department|compare-project|analysis-department|analysis-project}', async c => {
       const q = c.req.query(), r = c.req.param('report'), list = (k: string) => c.req.queries(k) ?? []
       const o = { showZeroBalance: q.showZeroBalance === 'true', showParentAccount: q.showParentAccount !== 'false' }
       const accounts = (await loadLedger(db, '9999-12-31')).accounts, lines = await DIM.loadDimLines(db)
-      const d = isoDate
+      const d = isoDate, st = q.style === 'standard' ? DIM.STANDARD : DIM.RETAIL // standard = Kontraktor Demo layout (ADR-0035)
       if (r === 'by-branch') {
         const bs = await db.execute(sql`SELECT name, is_default FROM branches ORDER BY name`)
         const all = bs.map(b => b.name as string), def = (bs.find(b => b.is_default)?.name as string) ?? all[0]!
         return c.json(DIM.profitLossByBranch(accounts, lines, list('branch').length ? list('branch') : all, def, d.parse(q.from), d.parse(q.to), o))
       }
       if (r === 'by-department') return c.json(DIM.profitLossByDepartment(accounts, lines, list('department'), d.parse(q.from), d.parse(q.to), o))
+      if (r === 'by-project') return c.json(DIM.profitLossByDim(accounts, lines, 'project', list('project'), d.parse(q.from), d.parse(q.to), o, st))
       if (r === 'analysis-department') return c.json(DIM.analysisProfitLossDepartment(accounts, lines, d.parse(q.from), d.parse(q.to)))
-      if (r === 'department-multi-period') {
+      if (r === 'analysis-project') return c.json(DIM.analysisProfitLossProject(accounts, lines, await DIM.loadProjectNos(db), d.parse(q.from), d.parse(q.to)))
+      const dim = r.includes('project') ? 'project' : 'department'
+      if (r.endsWith('multi-period')) {
         const [sy, sm] = d.parse(q.from).split('-').map(Number), [ey, em] = d.parse(q.to).split('-').map(Number)
-        return c.json(DIM.profitLossDepartmentMultiPeriod(accounts, lines, z.string().min(1).parse(q.department), sy!, sm!, ey!, em!, o))
+        return c.json(DIM.profitLossMultiPeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), sy!, sm!, ey!, em!, o, st))
       }
-      const dim = r === 'compare-project' ? 'project' : 'department'
-      return c.json(DIM.profitLossComparePeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), { from: d.parse(q.from), to: d.parse(q.to) }, { from: d.parse(q.compareFrom), to: d.parse(q.compareTo) }, o))
+      return c.json(DIM.profitLossComparePeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), { from: d.parse(q.from), to: d.parse(q.to) }, { from: d.parse(q.compareFrom), to: d.parse(q.compareTo) }, o, st))
     })
     .get('/reports/master/:list{currencies|fob|taxes|shipments|employees|fiscal-fa-types}', async c =>
       c.json(await ({ currencies: ML.currencyList, fob: ML.fobList, taxes: ML.taxList, shipments: ML.shipmentList, employees: ML.employeeList, 'fiscal-fa-types': ML.fiscalFaTypeList }[c.req.param('list') as 'fob'])(db)))

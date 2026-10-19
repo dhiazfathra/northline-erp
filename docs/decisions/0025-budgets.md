@@ -29,3 +29,4 @@ seeded with NL-RB data in 2042 (`docs/reports/fixtures/retail/budget-rb.json`) a
 ## Consequences
 - No API endpoint or UI for budgets yet; rows are inserted directly (tests do this).
 - Per Proyek budgets and branch-scoped budgets are not modelled (the Retail Demo form offers only Umum / Per Departemen).
+  Update 2026-10-19: Kontraktor Demo offers Per Proyek; modelled in ADR-0035 (migration 0050).

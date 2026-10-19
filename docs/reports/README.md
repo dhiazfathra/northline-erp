@@ -367,3 +367,26 @@ Tenaga Penjual (Retail Demo, ADR-0023; fixture [fixtures/retail/salesman-rc.json
 | Ringkasan Komisi (Dihitung per Periode) | `SalesmanCommissionByPeriodSummaryReport` | report | PERIOD | — | [verified](SalesmanCommissionByPeriodSummaryReport.md) |
 | Daftar Komisi Penjual | `SalesmanCommissionListReport` | report | NONE | — | [verified](SalesmanCommissionListReport.md) |
 | Check In per Karyawan | `SalesCheckInPerSalesmanReport` | report | FROMTO | selectedBranch= | [verified](SalesCheckInPerSalesmanReport.md) |
+
+## Kontraktor Demo only (2026-10-19)
+
+Read from **Kontraktor Demo**; see [_coverage.md](_coverage.md).
+
+| Report | planId | View | Date param | Category | Spec |
+|---|---|---|---|---|---|
+| Laba/Rugi Proyek | `ProfitLossByProjectReport` | financialstatement | FROMTO | Pusat Laba & Biaya | [verified](ProfitLossByProjectReport.md) |
+| Laba/Rugi Proyek (Perbandingan Anggaran) | `ProfitLossCompareBudgetProjectReport` | financialstatement | PERIODFROMTO | Pusat Laba & Biaya | [verified](ProfitLossCompareBudgetProjectReport.md) |
+| Laba/Rugi Proyek (Multi Periode) | `ProfitLossProjectMultiPeriodReport` | financialstatement | PERIODFROMTO | Pusat Laba & Biaya | [verified](ProfitLossProjectMultiPeriodReport.md) |
+| Analisa Laba/Rugi Proyek | `AnalysisProfitLossProjectReport` | crosstab | FROMTO | Pusat Laba & Biaya | [verified](AnalysisProfitLossProjectReport.md) |
+| Laba/Rugi Proyek Kontraktor | `ProfitLossByProjectContractorReport` | financialstatement | NONE | Proyek Kontraktor | [partial](ProfitLossByProjectContractorReport.md) |
+| Progres Proyek  | `ProjectContractorProgressReport` | report | ASOF | Proyek Kontraktor | [spec (blocked)](ProjectContractorProgressReport.md) |
+| Daftar Proyek Kontraktor | `ProjectContractorListReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](ProjectContractorListReport.md) |
+| Daftar Survei Proyek | `SurveyListReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](SurveyListReport.md) |
+| Daftar Anggaran | `ContractorBudgetPlanReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](ContractorBudgetPlanReport.md) |
+| Daftar Bahan Baku Terpakai | `MaterialEquipmentReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](MaterialEquipmentReport.md) |
+| Rincian Survei Proyek | `ContractorSurveyDetailReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](ContractorSurveyDetailReport.md) |
+| Rincian Bahan Baku Terpakai | `MaterialEquipmentDetailReport` | report | FROMTO | Proyek Kontraktor | [spec (blocked)](MaterialEquipmentDetailReport.md) |
+| Anggaran & Realisasi Proyek  | `ProjectBudgetComparisonReport` | report | NONE | Proyek Kontraktor | [spec (blocked)](ProjectBudgetComparisonReport.md) |
+| Jurnal Proyek Dalam Proses | `ProjectContractorJournalReport` | report | NONE | Proyek Kontraktor | [spec (blocked)](ProjectContractorJournalReport.md) |
+| Mutasi Bank per Proyek | `BankMutationByProjectContractorReport` | report | NONE | Proyek Kontraktor | [spec (blocked)](BankMutationByProjectContractorReport.md) |
+| Daftar Proyek | `ProjectListReport` | report | NONE | Lain-lain | [verified](ProjectListReport.md) |

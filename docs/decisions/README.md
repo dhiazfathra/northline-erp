@@ -35,3 +35,5 @@
 | [0031](0031-business-profiles-and-costing-method.md) | Business profiles (Manufaktur, Retail, Trade Portal) and configurable FIFO/average costing | Costing accepted; profiles proposed |
 | [0032](0032-dedicated-instance-per-customer.md) | One dedicated instance (Worker + Neon project) per paying customer before multi-tenancy | Proposed (review) |
 | [0033](0033-core-and-client-extensions.md) | Generic modules in core, client-specific code in per-client extensions (co-build resale) | Proposed (review) |
+| [0034](0034-kontraktor-module-dependencies.md) | Module dependencies surfaced by Kontraktor Demo (Contractor Projects), proposed build order | Proposed (review) |
+| [0035](0035-kontraktor-demo-divergences.md) | Kontraktor Demo divergences: standard-style project P&L, Per Proyek budgets, Daftar Proyek | Accepted |

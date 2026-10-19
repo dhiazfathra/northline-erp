@@ -1,0 +1,2025 @@
+{
+ "dataUsaha": "Kontraktor Demo",
+ "source": "Accurate Online, Kontraktor Demo sandbox, captured 2026-10-19 over 2047 (NL-K journals JV.2047.*, NL-K Per Proyek Anggaran)",
+ "accounts": [
+  {
+   "no": "1101",
+   "name": "Kas & Bank",
+   "type": "CASH_BANK",
+   "parentNo": null
+  },
+  {
+   "no": "110101",
+   "name": "Kas Kecil",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "110102",
+   "name": "Bank",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "110103",
+   "name": "BCA a/c 1234567891",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "1103",
+   "name": "Piutang Usaha",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": null
+  },
+  {
+   "no": "110301",
+   "name": "Piutang Usaha IDR",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": "1103"
+  },
+  {
+   "no": "110302",
+   "name": "Uang Muka Pembelian IDR",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": "1103"
+  },
+  {
+   "no": "1104",
+   "name": "Persediaan",
+   "type": "INVENTORY",
+   "parentNo": null
+  },
+  {
+   "no": "110401",
+   "name": "Persediaan",
+   "type": "INVENTORY",
+   "parentNo": "1104"
+  },
+  {
+   "no": "110402",
+   "name": "Persediaan Terkirim",
+   "type": "INVENTORY",
+   "parentNo": "1104"
+  },
+  {
+   "no": "110403",
+   "name": "Persediaan Dalam Proses",
+   "type": "INVENTORY",
+   "parentNo": "1104"
+  },
+  {
+   "no": "1105",
+   "name": "Aset Lancar Lainnya",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": null
+  },
+  {
+   "no": "110501",
+   "name": "Perlengkapan Kantor",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110502",
+   "name": "Sewa Gedung Dibayar Dimuka",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110503",
+   "name": "Asuransi Dibayar Dimuka",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110504",
+   "name": "PPN Masukan",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110505",
+   "name": "PPh 23 Penjualan",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110506",
+   "name": "Proyek Dalam Proses",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "1200",
+   "name": "Aset Tetap",
+   "type": "FIXED_ASSET",
+   "parentNo": null
+  },
+  {
+   "no": "120001",
+   "name": "Tanah",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120002",
+   "name": "Gedung",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120003",
+   "name": "Kendaraan",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120004",
+   "name": "Peralatan",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120005",
+   "name": "Inventaris Kantor",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120006",
+   "name": "Akumulasi Depresiasi Aset Tetap",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": null
+  },
+  {
+   "no": "12000601",
+   "name": "Akumulasi Penyusutan Gedung",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000602",
+   "name": "Akumulasi Penyusutan Kendaraan",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000603",
+   "name": "Akumulasi Penyusutan Peralatan",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000604",
+   "name": "Akumulasi Penyusutan Inventaris Kantor",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "2101",
+   "name": "Utang Usaha",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": null
+  },
+  {
+   "no": "210101",
+   "name": "Utang Usaha IDR",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": "2101"
+  },
+  {
+   "no": "210102",
+   "name": "Uang Muka Penjualan IDR",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": "2101"
+  },
+  {
+   "no": "210103",
+   "name": "Pendapatan Dimuka Proyek",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": "2101"
+  },
+  {
+   "no": "2102",
+   "name": "Kewajiban Jangka Pendek Lainnya",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": null
+  },
+  {
+   "no": "210201",
+   "name": "PPN Keluaran",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "210202",
+   "name": "PPh 23 Pembelian",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "210203",
+   "name": "Hutang Pembelian Belum Ditagih",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "2201",
+   "name": "Hutang Jangka Panjang",
+   "type": "LONG_TERM_LIABILITY",
+   "parentNo": null
+  },
+  {
+   "no": "3000",
+   "name": "Modal",
+   "type": "EQUITY",
+   "parentNo": null
+  },
+  {
+   "no": "300001",
+   "name": "Equitas Saldo Awal",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "300002",
+   "name": "Laba Ditahan",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "300003",
+   "name": "Modal Saham",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "4000",
+   "name": "Pendapatan Operasional",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400002",
+   "name": "Pendapatan Jasa",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400003",
+   "name": "Retur Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400004",
+   "name": "Diskon Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400005",
+   "name": "Pendapatan Proyek",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "4401",
+   "name": "Diskon Penjualan",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "440101",
+   "name": "Diskon Penjualan IDR",
+   "type": "REVENUE",
+   "parentNo": "4401"
+  },
+  {
+   "no": "5101",
+   "name": "Beban Pokok",
+   "type": "COGS",
+   "parentNo": null
+  },
+  {
+   "no": "5101.01",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS",
+   "parentNo": "5101"
+  },
+  {
+   "no": "5101.02",
+   "name": "Beban Pokok Proyek",
+   "type": "COGS",
+   "parentNo": "5101"
+  },
+  {
+   "no": "6000",
+   "name": "Beban Operasional",
+   "type": "EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "600001",
+   "name": "Beban Iklan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600002",
+   "name": "Beban Komisi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600003",
+   "name": "Beban Bensin, Parkir, Tol Kendaraan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600004",
+   "name": "Beban Gaji, Upah & Honorer",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600005",
+   "name": "Beban Bonus, Pesangon & Kompensasi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600006",
+   "name": "Beban Transportasi Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600007",
+   "name": "Beban Katering & Makan Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600008",
+   "name": "Beban Tunjangan Kesehatan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600009",
+   "name": "Beban Asuransi Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600010",
+   "name": "Beban THR",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600011",
+   "name": "Beban Listrik",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600012",
+   "name": "Beban PAM",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600013",
+   "name": "Beban Telekomunikasi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600014",
+   "name": "Beban Ekspedisi, Pos & Materai",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600015",
+   "name": "Beban Perjalanan Dinas",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600016",
+   "name": "Beban Perlengkapan Kantor",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600017",
+   "name": "Beban Pajak Penghasilan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600018",
+   "name": "Beban Retribusi & Sumbangan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600019",
+   "name": "Beban Sewa Gedung",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600021",
+   "name": "Beban Penyusutan Gedung",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600022",
+   "name": "Beban Penyusutan Kendaraan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600023",
+   "name": "Beban Penyusutan Peralatan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600024",
+   "name": "Beban Penyusutan Inventaris Kantor",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "7100",
+   "name": "Pendapatan Diluar Usaha",
+   "type": "OTHER_INCOME",
+   "parentNo": null
+  },
+  {
+   "no": "710001",
+   "name": "Pendapatan Jasa Giro",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710002",
+   "name": "Pendapatan Bunga Deposito",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710003",
+   "name": "Penjualan Persediaan / Perlengkapan",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710004",
+   "name": "Laba/Rugi Revaluasi Aset",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710005",
+   "name": "Pendapatan Diluar Usaha Lainnya",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "7200",
+   "name": "Beban Diluar Usaha",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720001",
+   "name": "Beban Bunga Pinjaman",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720002",
+   "name": "Beban Adm. Bank & Buku Cek/Giro",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720003",
+   "name": "Pajak Jasa Giro",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720004",
+   "name": "Laba/Rugi Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720005",
+   "name": "Laba/Rugi Belum Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720006",
+   "name": "Laba/Rugi Disposisi Aset",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720007",
+   "name": "Beban Diluar Usaha Lainnya",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "7201",
+   "name": "Laba/Rugi Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720101",
+   "name": "Laba/Rugi Terealisasi IDR",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7201"
+  },
+  {
+   "no": "7202",
+   "name": "Laba/Rugi Belum Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720201",
+   "name": "Laba/Rugi Belum Terealisasi IDR",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7202"
+  }
+ ],
+ "projects": [
+  {
+   "no": "NL-K-P1",
+   "name": "NL-K-P1",
+   "description": "Proyek uji NL-K 1"
+  },
+  {
+   "no": "NL-K-P2",
+   "name": "NL-K-P2",
+   "description": "Proyek uji NL-K 2"
+  }
+ ],
+ "journals": [
+  {
+   "ref": "JV.2047.01.00001",
+   "date": "2047-01-10",
+   "description": "NL-K J1 pendapatan P1",
+   "lines": [
+    {
+     "account": "110103",
+     "side": "DEBIT",
+     "amount": "10000000"
+    },
+    {
+     "account": "400001",
+     "side": "CREDIT",
+     "amount": "10000000",
+     "project": "NL-K-P1"
+    }
+   ]
+  },
+  {
+   "ref": "JV.2047.02.00001",
+   "date": "2047-02-15",
+   "description": "NL-K J2 beban P1",
+   "lines": [
+    {
+     "account": "600001",
+     "side": "DEBIT",
+     "amount": "2500000",
+     "project": "NL-K-P1"
+    },
+    {
+     "account": "110103",
+     "side": "CREDIT",
+     "amount": "2500000"
+    }
+   ]
+  },
+  {
+   "ref": "JV.2047.03.00001",
+   "date": "2047-03-20",
+   "description": "NL-K J3 pendapatan P2",
+   "lines": [
+    {
+     "account": "110103",
+     "side": "DEBIT",
+     "amount": "6000000"
+    },
+    {
+     "account": "400002",
+     "side": "CREDIT",
+     "amount": "6000000",
+     "project": "NL-K-P2"
+    }
+   ]
+  },
+  {
+   "ref": "JV.2047.03.00002",
+   "date": "2047-03-25",
+   "description": "NL-K J4 HPP P2 dan beban tanpa proyek",
+   "lines": [
+    {
+     "account": "5101.01",
+     "side": "DEBIT",
+     "amount": "1500000",
+     "project": "NL-K-P2"
+    },
+    {
+     "account": "600002",
+     "side": "DEBIT",
+     "amount": "400000"
+    },
+    {
+     "account": "110103",
+     "side": "CREDIT",
+     "amount": "1900000"
+    }
+   ]
+  },
+  {
+   "ref": "JV.2047.04.00001",
+   "date": "2047-04-05",
+   "description": "NL-K J5 pendapatan lain P1",
+   "lines": [
+    {
+     "account": "110103",
+     "side": "DEBIT",
+     "amount": "1234567"
+    },
+    {
+     "account": "710002",
+     "side": "CREDIT",
+     "amount": "1234567",
+     "project": "NL-K-P1"
+    }
+   ]
+  }
+ ],
+ "budgets": [
+  {
+   "ref": "B1",
+   "year": 2047,
+   "month": 1,
+   "project": "NL-K-P1",
+   "notes": "NL-K-B1 P1 Jan",
+   "lines": [
+    {
+     "account": "400001",
+     "amount": "8000000"
+    }
+   ]
+  },
+  {
+   "ref": "B2",
+   "year": 2047,
+   "month": 3,
+   "project": "NL-K-P2",
+   "notes": "NL-K-B2 P2 Mar",
+   "lines": [
+    {
+     "account": "400002",
+     "amount": "5000000"
+    },
+    {
+     "account": "5101.01",
+     "amount": "1000000"
+    }
+   ]
+  },
+  {
+   "ref": "B3",
+   "year": 2047,
+   "month": 4,
+   "project": "NL-K-P2",
+   "notes": "NL-K-B3 P2 Apr",
+   "lines": [
+    {
+     "account": "600001",
+     "amount": "300000.5"
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "ProfitLossByProjectReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedProject": [
+     {
+      "id": 100,
+      "name": "NL-K-P1"
+     },
+     {
+      "id": 150,
+      "name": "NL-K-P2"
+     }
+    ],
+    "selectedBranch": [],
+    "selectedDepartment": [],
+    "selectedDataClassification1": [],
+    "selectedDataClassification2": [],
+    "selectedDataClassification3": [],
+    "selectedDataClassification4": [],
+    "selectedDataClassification5": [],
+    "selectedDataClassification6": [],
+    "selectedDataClassification7": [],
+    "selectedDataClassification8": [],
+    "selectedDataClassification9": [],
+    "selectedDataClassification10": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Proyek : NL-K-P1, NL-K-P2"
+    ],
+    [
+     "Deskripsi",
+     "NL-K-P1",
+     "NL-K-P2",
+     "Total"
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "10.000.000",
+     "6.000.000",
+     "16.000.000"
+    ],
+    [
+     "Penjualan",
+     "10.000.000",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "Pendapatan Jasa",
+     "0",
+     "6.000.000",
+     "6.000.000"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10.000.000",
+     "6.000.000",
+     "16.000.000"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok",
+     "0",
+     "1.500.000",
+     "1.500.000"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "0",
+     "1.500.000",
+     "1.500.000"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "1.500.000",
+     "1.500.000"
+    ],
+    [
+     "LABA KOTOR",
+     "10.000.000",
+     "4.500.000",
+     "14.500.000"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "Beban Iklan",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "7.500.000",
+     "4.500.000",
+     "12.000.000"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "1.234.567",
+     "0",
+     "1.234.567"
+    ],
+    [
+     "Pendapatan Bunga Deposito",
+     "1.234.567",
+     "0",
+     "1.234.567"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "1.234.567",
+     "0",
+     "1.234.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Proyek : NL-K-P1, NL-K-P2"
+    ],
+    [
+     "Deskripsi",
+     "NL-K-P1",
+     "NL-K-P2",
+     "Total"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "1.234.567",
+     "0",
+     "1.234.567"
+    ],
+    [
+     "LABA BERSIH",
+     "8.734.567",
+     "4.500.000",
+     "13.234.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "ProfitLossProjectMultiPeriodReport": {
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2047,
+    "periodEndMonth": "4",
+    "periodEndYear": 2047,
+    "selectedProject": [
+     {
+      "id": 100,
+      "name": "NL-K-P1"
+     }
+    ],
+    "selectedBranch": [],
+    "selectedDepartment": [],
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi NL-K-P1 (Multi Periode)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d April 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "Januari",
+     "Februari",
+     "Maret",
+     "April",
+     "Total"
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "Penjualan",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "LABA KOTOR",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "0",
+     "2.500.000",
+     "0",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "Beban Iklan",
+     "0",
+     "2.500.000",
+     "0",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0",
+     "2.500.000",
+     "0",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "10.000.000",
+     "-2.500.000",
+     "0",
+     "0",
+     "7.500.000"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "0",
+     "0",
+     "0",
+     "1.234.567",
+     "1.234.567"
+    ],
+    [
+     "Pendapatan Bunga Deposito",
+     "0",
+     "0",
+     "0",
+     "1.234.567",
+     "1.234.567"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "0",
+     "0",
+     "1.234.567",
+     "1.234.567"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "1.234.567",
+     "1.234.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi NL-K-P1 (Multi Periode)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d April 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "Januari",
+     "Februari",
+     "Maret",
+     "April",
+     "Total"
+    ],
+    [
+     "LABA BERSIH",
+     "10.000.000",
+     "-2.500.000",
+     "0",
+     "1.234.567",
+     "8.734.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "AnalysisProfitLossProjectReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Analisa Laba/Rugi Proyek"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Proyek",
+     "Nomor Proyek",
+     "Pendapatan",
+     "BPP",
+     "Beban",
+     "Laba/Rugi"
+    ],
+    [
+     "NL-K-P1",
+     "NL-K-P1",
+     "11.234.567",
+     "0",
+     "2.500.000",
+     "8.734.567"
+    ],
+    [
+     "NL-K-P2",
+     "NL-K-P2",
+     "6.000.000",
+     "1.500.000",
+     "0",
+     "4.500.000"
+    ],
+    [
+     "[Tanpa Proyek]",
+     "-",
+     "0",
+     "0",
+     "400.000",
+     "-400.000"
+    ],
+    [
+     "Total Nama Proyek",
+     "17.234.567",
+     "1.500.000",
+     "2.900.000",
+     "12.834.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ProfitLossComparePeriodPerProjectReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/03/2047",
+    "startDateCompare": "01/04/2047",
+    "endDateCompare": "31/12/2047",
+    "selectedProject": [
+     {
+      "id": 100,
+      "name": "NL-K-P1"
+     }
+    ],
+    "selectedBranch": [],
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Periode)"
+    ],
+    [
+     "Tanggal 01 Jan 2047 - 31 Mar 2047 dan 01 Apr 2047 - 31 Des 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "1 Jan - 31 Mar 2047",
+     "1 Apr - 31 Des 2047",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "10.000.000",
+     "0",
+     "-10.000.000",
+     "-100 %"
+    ],
+    [
+     "Penjualan",
+     "10.000.000",
+     "0",
+     "-10.000.000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10.000.000",
+     "0",
+     "-10.000.000",
+     "-100 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "LABA KOTOR",
+     "10.000.000",
+     "0",
+     "-10.000.000",
+     "-100 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "2.500.000",
+     "0",
+     "-2.500.000",
+     "-100 %"
+    ],
+    [
+     "Beban Iklan",
+     "2.500.000",
+     "0",
+     "-2.500.000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2.500.000",
+     "0",
+     "-2.500.000",
+     "-100 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "7.500.000",
+     "0",
+     "-7.500.000",
+     "-100 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "0",
+     "1.234.567",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Pendapatan Bunga Deposito",
+     "0",
+     "1.234.567",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "1.234.567",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0",
+     "1.234.567",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Periode)"
+    ],
+    [
+     "Tanggal 01 Jan 2047 - 31 Mar 2047 dan 01 Apr 2047 - 31 Des 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "1 Jan - 31 Mar 2047",
+     "1 Apr - 31 Des 2047",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "LABA BERSIH",
+     "7.500.000",
+     "1.234.567",
+     "-6.265.433",
+     "-83,54 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "ProfitLossCompareBudgetProjectReport": {
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2047,
+    "periodEndMonth": "12",
+    "periodEndYear": 2047,
+    "selectedProject": [
+     {
+      "id": 150,
+      "name": "NL-K-P2"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d Desember 2047"
+    ],
+    [
+     "Proyek : NL-K-P2"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "6.000.000",
+     "5.000.000",
+     "1.000.000",
+     "20 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6.000.000",
+     "5.000.000",
+     "1.000.000",
+     "20 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "6.000.000",
+     "5.000.000",
+     "1.000.000",
+     "20 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok",
+     "1.500.000",
+     "1.000.000",
+     "500.000",
+     "50 %"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "1.500.000",
+     "1.000.000",
+     "500.000",
+     "50 %"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "1.500.000",
+     "1.000.000",
+     "500.000",
+     "50 %"
+    ],
+    [
+     "LABA KOTOR",
+     "4.500.000",
+     "4.000.000",
+     "500.000",
+     "12,5 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "0",
+     "300.000,5",
+     "-300.000,5",
+     "-100 %"
+    ],
+    [
+     "Beban Iklan",
+     "0",
+     "300.000,5",
+     "-300.000,5",
+     "-100 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0",
+     "300.000,5",
+     "-300.000,5",
+     "-100 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "4.500.000",
+     "3.699.999,5",
+     "800.000,5",
+     "21,62 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:08"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d Desember 2047"
+    ],
+    [
+     "Proyek : NL-K-P2"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "LABA BERSIH",
+     "4.500.000",
+     "3.699.999,5",
+     "800.000,5",
+     "21,62 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:08"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "ProjectListReport": {
+   "param": {},
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Daftar Proyek"
+    ],
+    [
+     "Nama",
+     "Keterangan"
+    ],
+    [
+     "NL-K-P1",
+     "Proyek uji NL-K 1"
+    ],
+    [
+     "NL-K-P2",
+     "Proyek uji NL-K 2"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ProfitLossStandardReport": {
+   "param": {
+    "startDate": "01/01/2047",
+    "endDate": "31/12/2047",
+    "selectedBranch": [],
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi (Standar)"
+    ],
+    [
+     "Dari 01 Jan 2047 s/d 31 Des 2047"
+    ],
+    [
+     "Deskripsi",
+     "1 Jan - 31 Des 2047"
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "16.000.000"
+    ],
+    [
+     "Penjualan",
+     "10.000.000"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6.000.000"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "16.000.000"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok",
+     "1.500.000"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "1.500.000"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "1.500.000"
+    ],
+    [
+     "LABA KOTOR",
+     "14.500.000"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "2.900.000"
+    ],
+    [
+     "Beban Iklan",
+     "2.500.000"
+    ],
+    [
+     "Beban Komisi",
+     "400.000"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2.900.000"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "11.600.000"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "1.234.567"
+    ],
+    [
+     "Pendapatan Bunga Deposito",
+     "1.234.567"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "1.234.567"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "1.234.567"
+    ],
+    [
+     "LABA BERSIH",
+     "12.834.567"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ProfitLossCompareBudgetProjectReport#P1": {
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2047,
+    "periodEndMonth": "4",
+    "periodEndYear": 2047,
+    "selectedProject": [
+     {
+      "id": 100,
+      "name": "NL-K-P1"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d April 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "10.000.000",
+     "8.000.000",
+     "2.000.000",
+     "25 %"
+    ],
+    [
+     "Penjualan",
+     "10.000.000",
+     "8.000.000",
+     "2.000.000",
+     "25 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10.000.000",
+     "8.000.000",
+     "2.000.000",
+     "25 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "LABA KOTOR",
+     "10.000.000",
+     "8.000.000",
+     "2.000.000",
+     "25 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban Operasional",
+     "2.500.000",
+     "0",
+     "2.500.000",
+     "100 %"
+    ],
+    [
+     "Beban Iklan",
+     "2.500.000",
+     "0",
+     "2.500.000",
+     "100 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2.500.000",
+     "0",
+     "2.500.000",
+     "100 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "7.500.000",
+     "8.000.000",
+     "-500.000",
+     "-6,25 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "1.234.567",
+     "0",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Pendapatan Bunga Deposito",
+     "1.234.567",
+     "0",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "1.234.567",
+     "0",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "1.234.567",
+     "0",
+     "1.234.567",
+     "100 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:08"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Solar Energy Indonesia"
+    ],
+    [
+     "Laba/Rugi Proyek (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2047 s/d April 2047"
+    ],
+    [
+     "Proyek : NL-K-P1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "LABA BERSIH",
+     "8.734.567",
+     "8.000.000",
+     "734.567",
+     "9,18 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 12:08"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  }
+ }
+}
