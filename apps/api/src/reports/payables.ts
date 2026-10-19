@@ -10,14 +10,14 @@ const days = (from: string, to: string) => Math.round((Date.parse(to) - Date.par
 const vendorsByName = (d: SalesData) => [...d.customers.keys()].sort((a, b) => (d.customers.get(a)! < d.customers.get(b)! ? -1 : 1))
 
 /** Faktur Belum Lunas (Utang): column header before the currency line; vendor name rows carry no "Sisa Kredit". */
-export function outstandingPurchases(d: SalesData, asOf: string): string[][] {
+export function outstandingPurchases(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
   const out: string[][] = [['Nomor #', 'Tanggal', 'Jatuh Tempo', 'Total', 'Utang', 'Utang Pajak', 'Umur (hr)'], [CURRENCY]]
   let gt = 0, go = 0
   for (const v of vendorsByName(d)) {
-    const xs = openInvoices(d, asOf, v)
+    const xs = openInvoices(d, asOf, v, basis)
     if (!xs.length) continue
     const t = xs.reduce((s, x) => s + x.total, 0), o = xs.reduce((s, x) => s + x.owing, 0)
-    out.push([d.customers.get(v)!], ...xs.map(x => [x.number, fmtDate(x.date), fmtDate(x.dueDate), formatIdr(x.total), formatIdr(x.owing), '0', formatIdr(days(x.dueDate, asOf) * 100)]),
+    out.push([d.customers.get(v)!], ...xs.map(x => [x.number, fmtDate(x.date), fmtDate(x.dueDate), formatIdr(x.total), formatIdr(x.owing), '0', formatIdr(x.age * 100)]),
       [formatIdr(t), formatIdr(o), '0'])
     gt += t; go += o
   }

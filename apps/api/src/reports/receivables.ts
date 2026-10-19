@@ -111,14 +111,15 @@ export function customerStatement(d: SalesData, from: string, to: string): strin
 }
 
 /** Faktur Belum Lunas: per customer (by name), unpaid invoices at `asOf` with age in days from the due date. */
-export function outstandingInvoices(d: SalesData, asOf: string): string[][] {
+/** Umur (hr) follows the company's aging basis (Trade Portal capture of 30 Apr 2045, ADR-0037). */
+export function outstandingInvoices(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
   const out: string[][] = [[CURRENCY]]
   let gt = 0, go = 0
   for (const c of [...d.customers.keys()].sort(byName(d))) {
-    const open = openInvoices(d, asOf, c) // net of payments, returns and down payments used
+    const open = openInvoices(d, asOf, c, basis) // net of payments, returns and down payments used
     if (!open.length) continue
     out.push([d.customers.get(c)!, 'Sisa Kredit', ':', '0'], ['Nomor #', 'Tanggal', 'Jatuh Tempo', 'Total', 'Piutang', 'Piutang Pajak', 'Umur (hr)'],
-      ...open.map(i => [i.number, fmtDate(i.date), fmtDate(i.dueDate), formatIdr(i.total), formatIdr(i.owing), '0', formatIdr(days(i.dueDate, asOf) * 100)]))
+      ...open.map(i => [i.number, fmtDate(i.date), fmtDate(i.dueDate), formatIdr(i.total), formatIdr(i.owing), '0', formatIdr(i.age * 100)]))
     const t = open.reduce((s, i) => s + i.total, 0), o = open.reduce((s, i) => s + i.owing, 0)
     out.push([formatIdr(t), formatIdr(o), '0']); gt += t; go += o
   }

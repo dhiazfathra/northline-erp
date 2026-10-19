@@ -64,6 +64,7 @@ const sales: [string, (d: R.SalesData) => string[][]][] = [
   ['ViewSalesByCustomerReport', d => R.salesByCustomer(d, W.from, W.to)],
   ['AgingReceivableReport', d => R.agingReceivable(d, AS_OF, 'INVOICE_DATE')],
   ['OutstandingSalesInvoicePerCustomerReport', d => R.outstandingPerCustomer(d, AS_OF)],
+  ['OutstandingSalesInvoiceReport', d => R.outstandingInvoices(d, AS_OF, 'INVOICE_DATE')],
 ]
 for (const [p, fn] of sales) test(`${p} (Trade Portal, March 2045)`, async () => expect(dec(fn(await loadSales(db)))).toEqual(rep(p)))
 
@@ -72,6 +73,7 @@ const purchases: [string, (d: any) => string[][]][] = [
   ['PurchaseInvoiceListReport', d => R.salesInvoiceList(d, W.from, W.to)],
   ['AgingPayableReport', d => P.agingPayable(d, AS_OF, 'INVOICE_DATE')],
   ['OutstandingPurchaseInvoicePerVendorReport', d => P.outstandingPerVendor(d, AS_OF)],
+  ['OutstandingPurchaseInvoiceReport', d => P.outstandingPurchases(d, AS_OF, 'INVOICE_DATE')],
 ]
 for (const [p, fn] of purchases) test(`${p} (Trade Portal, March 2045)`, async () => expect(dec(fn(await loadPurchases(db)))).toEqual(rep(p)))
 
@@ -181,6 +183,7 @@ test('HTTP: aging reports follow the company aging basis (ADR-0037), basis= over
   expect(put.status).toBe(200)
   expect(dec(await get(ar))).toEqual(rep('AgingReceivableReport'))
   expect(dec(await get(ap))).toEqual(rep('AgingPayableReport'))
+  expect(dec(await get(`/reports/receivables/outstanding?asOf=${AS_OF}`))).toEqual(rep('OutstandingSalesInvoiceReport'))
   expect(dec(await get(ar + '&basis=DUE_DATE'))).toEqual(dec(R.agingReceivable(await loadSales(db), AS_OF, 'DUE_DATE')))
   const [log] = await db.execute(sql`SELECT reference FROM activity_log WHERE entity = 'PRF' ORDER BY id DESC LIMIT 1`)
   expect(log!.reference).toBe('Umur INVOICE_DATE, gaya laporan RETAIL')

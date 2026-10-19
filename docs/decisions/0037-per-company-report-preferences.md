@@ -34,6 +34,9 @@ Store both on the company, next to the costing method (ADR-0031 steps 1-2):
   can later set these columns as part of its template.
 
 ## Consequences
-- Outstanding reports' `Umur (hr)` column still counts from the due date; no capture shows otherwise.
-- Trade Portal's project P&L style is unverified (no capture); it keeps `RETAIL`.
-- No settings screen yet: change via the API.
+- Outstanding reports' `Umur (hr)` column follows the same basis: Trade Portal's Faktur Belum Lunas per 30 Apr 2045
+  prints 41 days for SI.2045.03.00001 (20 Mar, due 19 Apr) and 56 for PI.2045.03.00003 (5 Mar, due 4 Apr), i.e. from
+  the invoice date. Fixture entries in `fixtures/trade/trade-tp.json`, tests in `trade-portal-trade.test.ts`.
+- Trade Portal's style needs no evidence: its Daftar Laporan has no department or project P&L (`_coverage.md`), so
+  `report_style` reaches no Trade Portal report; it keeps the default.
+- Settings screen: Preferensi > Lainnya, saved on each change.

@@ -3325,6 +3325,156 @@
      "dari 2"
     ]
    ]
+  },
+  "OutstandingSalesInvoiceReport": {
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Faktur Belum Lunas"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Andika Motor",
+     "Sisa Kredit",
+     ":",
+     "0"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Piutang",
+     "Piutang Pajak",
+     "Umur (hr)"
+    ],
+    [
+     "SI.2045.03.00001",
+     "20 Mar 2045",
+     "19 Apr 2045",
+     "3.000.000",
+     "3.000.000",
+     "0",
+     "41"
+    ],
+    [
+     "3.000.000",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "3.000.000",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 15:06"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "OutstandingPurchaseInvoiceReport": {
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Faktur Belum Lunas"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Jatuh Tempo",
+     "Total",
+     "Utang",
+     "Utang Pajak",
+     "Umur (hr)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "Supplier Umum"
+    ],
+    [
+     "PI.2045.03.00003",
+     "05 Mar 2045",
+     "04 Apr 2045",
+     "1.000.000",
+     "1.000.000",
+     "0",
+     "56"
+    ],
+    [
+     "PI.2045.03.00004",
+     "12 Mar 2045",
+     "11 Apr 2045",
+     "1.200.000",
+     "1.200.000",
+     "0",
+     "49"
+    ],
+    [
+     "2.200.000",
+     "2.200.000",
+     "0"
+    ],
+    [
+     "2.200.000",
+     "2.200.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 15:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
   }
  },
  "ledgerQ1": {
