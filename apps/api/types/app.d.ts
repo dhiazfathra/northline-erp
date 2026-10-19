@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -420,6 +420,36 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
             outputFormat: "json";
             status: 201;
             input: {};
+        };
+    };
+}) & {
+    "/payroll/runs": {
+        $post: {
+            output: {
+                number: string;
+                lines: {
+                    income: number;
+                    paid: number;
+                    pph: number;
+                    employee: string;
+                }[];
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/payroll/:report{monthly|yearly|pph|share|per-year}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
         };
     };
 }) & {

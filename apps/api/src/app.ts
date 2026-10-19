@@ -2,6 +2,7 @@ import * as ML from './master/lists'
 import { createCashDocument } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
+import * as PAY from './payroll/payroll'
 import { sql } from 'drizzle-orm'
 import { Hono, type Context } from 'hono'
 import { bodyLimit } from 'hono/body-limit'
@@ -136,6 +137,13 @@ export function createApp(db: Db) {
     })
     .post('/employees', async c => { await upsertEmployee(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/employee-loans', async c => c.json(await createEmployeeLoan(db, await c.req.json()), 201))
+    // Pencatatan Gaji and its 5 reports (P3.6): PPh 21 TER, December true-up.
+    .post('/payroll/runs', async c => c.json(await PAY.createPayrollRun(db, await c.req.json()), 201))
+    .get('/reports/payroll/:report{monthly|yearly|pph|share|per-year}', async c => {
+      const ls = await PAY.loadPayroll(db), y = Number(c.req.query('year')), m = Number(c.req.query('month'))
+      return c.json({ monthly: () => PAY.monthlyPayroll(ls, y, m), yearly: () => PAY.yearlyPayroll(ls, y), pph: () => PAY.pphByMonth(ls, y),
+        share: () => PAY.salaryShareChart(ls, y), 'per-year': () => PAY.salaryPerYearChart(ls) }[c.req.param('report') as 'pph']())
+    })
     .get('/reports/employee-loans/:report{list|installments|history}', async c => {
       const ls = await loadLoans(db), r = c.req.param('report')
       if (r === 'list') return c.json(loanList(ls))

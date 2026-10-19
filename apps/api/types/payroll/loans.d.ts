@@ -2,6 +2,7 @@ import type { Db } from '../db';
 export declare function upsertEmployee(db: Db, e: {
     no: string;
     name: string;
+    taxStatus?: string;
 }): Promise<void>;
 export declare function createEmployeeLoan(db: Db, l: {
     number: string;

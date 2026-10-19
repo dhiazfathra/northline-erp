@@ -71,11 +71,11 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Neraca Percobaan | `TrialBalanceReport` | report | FROMTO | showZeroBalance=false, showParentAccount=true | [verified](TrialBalanceReport.md) |
 | Jurnal Umum | `JournalListReport` | report | FROMTO | selectedBranch= | [verified](JournalListReport.md) |
 | Daftar Akun Perkiraan | `GlAccountListReport` | report | ASOF | — | [verified](GlAccountListReport.md) |
-| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | [out of scope](EmployeePaymentByEmployeeReport.md) |
-| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | [out of scope](EmployeePaymentYearlyByEmployeeReport.md) |
-| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [out of scope](EmployeePphReport.md) |
-| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [out of scope](EmployeeSalaryProportionReport.md) |
-| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [out of scope](EmployeeSalaryPerYearReport.md) |
+| Rincian Gaji Karyawan per Bulan | `EmployeePaymentByEmployeeReport` | crosstab | PERIOD | selectedBranch= | [verified](EmployeePaymentByEmployeeReport.md) |
+| Rincian Gaji Karyawan per Tahun | `EmployeePaymentYearlyByEmployeeReport` | crosstab | ASOFYEAR | selectedBranch= | [verified](EmployeePaymentYearlyByEmployeeReport.md) |
+| Pajak Penghasilan Karyawan | `EmployeePphReport` | crosstab | ASOFYEAR | selectedBranch= | [verified](EmployeePphReport.md) |
+| Porsi Gaji Karyawan | `EmployeeSalaryProportionReport` | chart | ASOFYEAR | selectedBranch= | [verified](EmployeeSalaryProportionReport.md) |
+| Gaji Karyawan per Tahun | `EmployeeSalaryPerYearReport` | chart | NONE | selectedBranch= | [verified](EmployeeSalaryPerYearReport.md) |
 | Ringkasan Pencatatan Beban | `ExpenseAccrualSummaryReport` | report | FROMTO | selectedBranch= | [verified](ExpenseAccrualSummaryReport.md) |
 | Rincian Pencatatan Beban | `ExpenseAccrualDetailReport` | report | FROMTO | selectedBranch= | [verified](ExpenseAccrualDetailReport.md) |
 

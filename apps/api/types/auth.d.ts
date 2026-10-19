@@ -15,14 +15,14 @@ export declare function authRoutes(db: Db): import("hono/hono-base").HonoBase<Au
                 error: string;
             };
             outputFormat: "json";
-            status: 401;
+            status: 429;
             input: {};
         } | {
             output: {
                 error: string;
             };
             outputFormat: "json";
-            status: 429;
+            status: 401;
             input: {};
         } | {
             output: {

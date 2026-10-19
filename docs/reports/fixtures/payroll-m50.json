@@ -1,0 +1,854 @@
+{
+ "dataUsaha": "Manufaktur Demo",
+ "source": "Accurate Online sandbox (ACC_DB=manufaktur), seeded and captured 2026-10-19 (P3.6). Pencatatan Gaji (accurate__cash-bank__employee-payment) EPY.2050.01/02/03/12.00001 for placeholder employees NL-PY50-E1 (TK0), E2 (K1), E3 (K3), joined 01/01/2050, placeholder NPWP 0000000000000000. Line amounts come from Accurate's own calculate-employee-payment.do (the form's server-side calculation), saved through save-employee-payment.do. PPh 21: Jan-Nov TER (PP 58/2023) on gross less Pengurangan Gaji, rounded; December recomputes the year with Pasal 17 and withholds the difference (negative = Kelebihan Pajak). TER tables A/B/C were checked against calculate-employee-payment.do at both ends and the middle of every bracket (375 probes, 0 mismatches), the annual rules with 11 December probes (PTKP, biaya jabatan 5% capped 6.000.000, iuran pensiun pekerja, Pengurangan Gaji, JKM, Pasal 17 up to 35%). Fees used: only those with an expense account in the demo master (Tunjangan Jabatan, JKM and Iuran Bulanan have none and cannot be saved); pension and health payables posted to 210206. NL-PY50-D1 masks the demo data payment EPY.2021.06.00001 (demo employee E.00001, manual PPh under pre-TER rules); it only feeds the Gaji Karyawan per Tahun 2021 bar. Accurate's pphAmount/exceedPphAmount are stored here as one signed pph.",
+ "employees": [
+  {
+   "no": "NL-PY50-E1",
+   "name": "NL-PY50 Karyawan A",
+   "taxStatus": "TK0"
+  },
+  {
+   "no": "NL-PY50-E2",
+   "name": "NL-PY50 Karyawan B",
+   "taxStatus": "K1"
+  },
+  {
+   "no": "NL-PY50-E3",
+   "name": "NL-PY50 Karyawan C",
+   "taxStatus": "K3"
+  },
+  {
+   "no": "NL-PY50-D1",
+   "name": "NL-PY50 Karyawan Demo",
+   "taxStatus": "TK0"
+  }
+ ],
+ "runs": [
+  {
+   "number": "NL-PY50-D1-2021",
+   "date": "2021-06-24",
+   "year": 2021,
+   "month": 6,
+   "lines": [
+    {
+     "employee": "NL-PY50-D1",
+     "fees": {
+      "Gaji Pokok": 25000000
+     },
+     "pph": 2164286,
+     "accurate": {
+      "income": 25000000,
+      "paid": 22835714,
+      "pph": 2164286
+     }
+    }
+   ]
+  },
+  {
+   "number": "EPY.2050.01.00001",
+   "date": "2050-01-31",
+   "year": 2050,
+   "month": 1,
+   "lines": [
+    {
+     "employee": "NL-PY50-E1",
+     "fees": {
+      "Gaji Pokok": 10000000,
+      "Tunjangan Transportasi": 1000000
+     },
+     "accurate": {
+      "income": 11000000,
+      "paid": 10670000,
+      "pph": 330000
+     }
+    },
+    {
+     "employee": "NL-PY50-E2",
+     "fees": {
+      "Gaji Pokok": 15000000,
+      "Tunjangan Makan": 500000
+     },
+     "accurate": {
+      "income": 15500000,
+      "paid": 14570000,
+      "pph": 930000
+     }
+    }
+   ]
+  },
+  {
+   "number": "EPY.2050.02.00001",
+   "date": "2050-02-28",
+   "year": 2050,
+   "month": 2,
+   "lines": [
+    {
+     "employee": "NL-PY50-E1",
+     "fees": {
+      "Gaji Pokok": 10000000,
+      "Pengurangan Gaji": 100000,
+      "Iuran Pensiun/THT/JHT": 200000
+     },
+     "accurate": {
+      "income": 10000000,
+      "paid": 9502000,
+      "pph": 198000
+     }
+    },
+    {
+     "employee": "NL-PY50-E2",
+     "fees": {
+      "Gaji Pokok": 15000000,
+      "Tunjangan Bonus": 5000000,
+      "Potongan Premi Kesehatan": 150000
+     },
+     "accurate": {
+      "income": 20000000,
+      "paid": 18250000,
+      "pph": 1600000
+     }
+    }
+   ]
+  },
+  {
+   "number": "EPY.2050.03.00001",
+   "date": "2050-03-31",
+   "year": 2050,
+   "month": 3,
+   "lines": [
+    {
+     "employee": "NL-PY50-E3",
+     "fees": {
+      "Gaji Pokok": 12000000,
+      "Tunjangan Makan": 300000
+     },
+     "accurate": {
+      "income": 12300000,
+      "paid": 11931000,
+      "pph": 369000
+     }
+    }
+   ]
+  },
+  {
+   "number": "EPY.2050.12.00001",
+   "date": "2050-12-31",
+   "year": 2050,
+   "month": 12,
+   "lines": [
+    {
+     "employee": "NL-PY50-E1",
+     "fees": {
+      "Gaji Pokok": 10000000
+     },
+     "accurate": {
+      "income": 10000000,
+      "paid": 10000000,
+      "pph": -528000
+     }
+    },
+    {
+     "employee": "NL-PY50-E2",
+     "fees": {
+      "Gaji Pokok": 15000000,
+      "Tunjangan Bonus": 100000000
+     },
+     "accurate": {
+      "income": 115000000,
+      "paid": 111305000,
+      "pph": 3695000
+     }
+    },
+    {
+     "employee": "NL-PY50-E3",
+     "fees": {
+      "Gaji Pokok": 12000000
+     },
+     "accurate": {
+      "income": 12000000,
+      "paid": 12000000,
+      "pph": -369000
+     }
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "EmployeePaymentByEmployeeReport-1": {
+   "param": {
+    "periodMonth": "1",
+    "periodYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Bulan"
+    ],
+    [
+     "Per Januari 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Tipe Pembayaran",
+     "Karyawan",
+     "Gaji Pokok",
+     "Gaji dibayarkan",
+     "Pajak Penghasilan",
+     "Tunjangan Makan",
+     "Tunjangan Transportasi"
+    ],
+    [
+     "Kantor Pusat",
+     "Bulanan",
+     "NL-PY50 Karyawan A",
+     "10.000.000",
+     "10.670.000",
+     "330.000",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "NL-PY50 Karyawan B",
+     "15.000.000",
+     "14.570.000",
+     "930.000",
+     "500.000",
+     "0"
+    ],
+    [
+     "Total Karyawan",
+     "25.000.000",
+     "25.240.000",
+     "1.260.000",
+     "500.000",
+     "1.000.000"
+    ],
+    [
+     "Total Cabang",
+     "25.000.000",
+     "25.240.000",
+     "1.260.000",
+     "500.000",
+     "1.000.000"
+    ]
+   ]
+  },
+  "EmployeePaymentByEmployeeReport-2": {
+   "param": {
+    "periodMonth": "2",
+    "periodYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Bulan"
+    ],
+    [
+     "Per Februari 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Tipe Pembayaran",
+     "Karyawan",
+     "Gaji Pokok",
+     "Gaji dibayarkan",
+     "Iuran Pensiun/THT/JHT",
+     "Pajak Penghasilan",
+     "Pengurangan Gaji",
+     "Potongan Premi Kesehatan",
+     "Tunjangan Bonus"
+    ],
+    [
+     "Kantor Pusat",
+     "Bulanan",
+     "NL-PY50 Karyawan A",
+     "10.000.000",
+     "9.502.000",
+     "200.000",
+     "198.000",
+     "100.000",
+     "0",
+     "0"
+    ],
+    [
+     "NL-PY50 Karyawan B",
+     "15.000.000",
+     "18.250.000",
+     "0",
+     "1.600.000",
+     "0",
+     "150.000",
+     "5.000.000"
+    ],
+    [
+     "Total Karyawan",
+     "25.000.000",
+     "27.752.000",
+     "200.000",
+     "1.798.000",
+     "100.000",
+     "150.000",
+     "5.000.000"
+    ],
+    [
+     "Total Cabang",
+     "25.000.000",
+     "27.752.000",
+     "200.000",
+     "1.798.000",
+     "100.000",
+     "150.000",
+     "5.000.000"
+    ]
+   ]
+  },
+  "EmployeePaymentByEmployeeReport-3": {
+   "param": {
+    "periodMonth": "3",
+    "periodYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Bulan"
+    ],
+    [
+     "Per Maret 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Tipe Pembayaran",
+     "Karyawan",
+     "Gaji Pokok",
+     "Gaji dibayarkan",
+     "Pajak Penghasilan",
+     "Tunjangan Makan"
+    ],
+    [
+     "Kantor Pusat",
+     "Bulanan",
+     "NL-PY50 Karyawan C",
+     "12.000.000",
+     "11.931.000",
+     "369.000",
+     "300.000"
+    ],
+    [
+     "Total Karyawan",
+     "12.000.000",
+     "11.931.000",
+     "369.000",
+     "300.000"
+    ],
+    [
+     "Total Cabang",
+     "12.000.000",
+     "11.931.000",
+     "369.000",
+     "300.000"
+    ]
+   ]
+  },
+  "EmployeePaymentByEmployeeReport-11": {
+   "param": {
+    "periodMonth": "11",
+    "periodYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Bulan"
+    ],
+    [
+     "Per November 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "EmployeePaymentByEmployeeReport-12": {
+   "param": {
+    "periodMonth": "12",
+    "periodYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Bulan"
+    ],
+    [
+     "Per Desember 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Tipe Pembayaran",
+     "Karyawan",
+     "Gaji Pokok",
+     "Gaji dibayarkan",
+     "Kelebihan Pajak",
+     "Pajak Penghasilan",
+     "Tunjangan Bonus"
+    ],
+    [
+     "Kantor Pusat",
+     "Bulanan",
+     "NL-PY50 Karyawan A",
+     "10.000.000",
+     "10.000.000",
+     "528.000",
+     "-528.000",
+     "0"
+    ],
+    [
+     "NL-PY50 Karyawan B",
+     "15.000.000",
+     "111.305.000",
+     "0",
+     "3.695.000",
+     "100.000.000"
+    ],
+    [
+     "NL-PY50 Karyawan C",
+     "12.000.000",
+     "12.000.000",
+     "369.000",
+     "-369.000",
+     "0"
+    ],
+    [
+     "Total Karyawan",
+     "37.000.000",
+     "133.305.000",
+     "897.000",
+     "2.798.000",
+     "100.000.000"
+    ],
+    [
+     "Total Cabang",
+     "37.000.000",
+     "133.305.000",
+     "897.000",
+     "2.798.000",
+     "100.000.000"
+    ]
+   ]
+  },
+  "EmployeePaymentYearlyByEmployeeReport": {
+   "param": {
+    "asOfYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Gaji Karyawan per Tahun"
+    ],
+    [
+     "per 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Karyawan",
+     "Gaji Pokok",
+     "Gaji dibayarkan",
+     "Iuran Pensiun/THT/JHT",
+     "Kelebihan Pajak",
+     "Pajak Penghasilan",
+     "Pengurangan Gaji",
+     "Potongan Premi Kesehatan",
+     "Tunjangan Bonus",
+     "Tunjangan Makan",
+     "Tunjangan Transportasi"
+    ],
+    [
+     "Kantor Pusat",
+     "NL-PY50 Karyawan A",
+     "30.000.000",
+     "30.172.000",
+     "200.000",
+     "528.000",
+     "0",
+     "100.000",
+     "0",
+     "0",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "NL-PY50 Karyawan B",
+     "45.000.000",
+     "144.125.000",
+     "0",
+     "0",
+     "6.225.000",
+     "0",
+     "150.000",
+     "105.000.000",
+     "500.000",
+     "0"
+    ],
+    [
+     "NL-PY50 Karyawan C",
+     "24.000.000",
+     "23.931.000",
+     "0",
+     "369.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "300.000",
+     "0"
+    ],
+    [
+     "Total Karyawan",
+     "99.000.000",
+     "198.228.000",
+     "200.000",
+     "897.000",
+     "6.225.000",
+     "100.000",
+     "150.000",
+     "105.000.000",
+     "800.000",
+     "1.000.000"
+    ],
+    [
+     "Total Cabang",
+     "99.000.000",
+     "198.228.000",
+     "200.000",
+     "897.000",
+     "6.225.000",
+     "100.000",
+     "150.000",
+     "105.000.000",
+     "800.000",
+     "1.000.000"
+    ]
+   ]
+  },
+  "EmployeePphReport": {
+   "param": {
+    "asOfYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pajak Penghasilan Karyawan"
+    ],
+    [
+     "per 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Cabang",
+     "Karyawan",
+     "Januari",
+     "Februari",
+     "Maret",
+     "Desember",
+     "Total Bulan"
+    ],
+    [
+     "Kantor Pusat",
+     "NL-PY50 Karyawan A",
+     "330.000",
+     "198.000",
+     "0",
+     "-528.000",
+     "0"
+    ],
+    [
+     "NL-PY50 Karyawan B",
+     "930.000",
+     "1.600.000",
+     "0",
+     "3.695.000",
+     "6.225.000"
+    ],
+    [
+     "NL-PY50 Karyawan C",
+     "0",
+     "0",
+     "369.000",
+     "-369.000",
+     "0"
+    ],
+    [
+     "Total Karyawan",
+     "1.260.000",
+     "1.798.000",
+     "369.000",
+     "2.798.000",
+     "6.225.000"
+    ],
+    [
+     "Total Cabang",
+     "1.260.000",
+     "1.798.000",
+     "369.000",
+     "2.798.000",
+     "6.225.000"
+    ]
+   ]
+  },
+  "EmployeeSalaryProportionReport": {
+   "param": {
+    "asOfYear": 2050,
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Porsi Gaji Karyawan"
+    ],
+    [
+     "per 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  },
+  "EmployeeSalaryPerYearReport": {
+   "param": {
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Gaji Karyawan per Tahun"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ]
+   ]
+  }
+ },
+ "charts": {
+  "source": "Chart reports render a PNG only; values transcribed from the PNG labels.",
+  "EmployeeSalaryProportionReport": {
+   "year": 2050,
+   "image": "captures/charts/EmployeeSalaryProportionReport-py50.png",
+   "legend": [
+    "NL-PY50 Karyawan A - 31.000.000 (15%)",
+    "NL-PY50 Karyawan B - 150.500.000 (73%)",
+    "NL-PY50 Karyawan C - 24.300.000 (12%)"
+   ]
+  },
+  "EmployeeSalaryPerYearReport": {
+   "image": "captures/charts/EmployeeSalaryPerYearReport-py50.png",
+   "bars": [
+    [
+     "2021",
+     "22.835.714"
+    ],
+    [
+     "2050",
+     "198.228.000"
+    ]
+   ],
+   "axes": {
+    "x": "Tahun Pencatatan Gaji",
+    "y": "Gaji dibayarkan"
+   }
+  }
+ },
+ "probes": {
+  "source": "calculate-employee-payment.do answers (nothing saved). ter: March 2050 Gaji Pokok only, per TER category (A=NL-PY50-E1 TK0, B=E2 K1, C=E3 K3): [gross, pph]. december: E3 (K3) with no earlier 2050 pay, December alone: [fees, pph].",
+  "ter": {
+   "A": [
+    [
+     5400000,
+     0
+    ],
+    [
+     5400001,
+     13500
+    ],
+    [
+     10000000,
+     200000
+    ],
+    [
+     10000333,
+     200007
+    ],
+    [
+     10000777,
+     200016
+    ],
+    [
+     11000000,
+     330000
+    ],
+    [
+     1400000001,
+     476000000
+    ]
+   ],
+   "B": [
+    [
+     15500000,
+     930000
+    ],
+    [
+     20000000,
+     1600000
+    ],
+    [
+     6200000,
+     0
+    ],
+    [
+     6200001,
+     15500
+    ]
+   ],
+   "C": [
+    [
+     12300000,
+     369000
+    ],
+    [
+     11625007,
+     232500
+    ]
+   ]
+  },
+  "december": [
+   [
+    {
+     "Gaji Pokok": 100000000
+    },
+    1150000
+   ],
+   [
+    {
+     "Gaji Pokok": 400000000
+    },
+    49500000
+   ],
+   [
+    {
+     "Gaji Pokok": 700000000
+    },
+    130600000
+   ],
+   [
+    {
+     "Gaji Pokok": 6000000000
+    },
+    1766700000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000000,
+     "Iuran Pensiun/THT/JHT": 2000000
+    },
+    1050000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000000,
+     "Pengurangan Gaji": 2000000
+    },
+    1055000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000000,
+     "Potongan Premi Kesehatan": 2000000
+    },
+    1150000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000000,
+     "Tunjangan Program JKM": 2000000
+    },
+    1245000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000000,
+     "Tunjangan Pensiun/THT/JHT": 2000000
+    },
+    1150000
+   ],
+   [
+    {
+     "Gaji Pokok": 100000555
+    },
+    1150000
+   ],
+   [
+    {
+     "Gaji Pokok": 60000000
+    },
+    0
+   ]
+  ]
+ }
+}

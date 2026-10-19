@@ -6,8 +6,9 @@ import { formatIdr } from '../reports/trial-balance'
 // Pinjaman Karyawan (fixtures/employee-loan-t17.json). Only a loan without installment schedule or disbursement is verified:
 // shortcut: no schedule, disbursement, installments or journals yet; add them when those reports are captured with a disbursed loan.
 
-export async function upsertEmployee(db: Db, e: { no: string; name: string }) {
-  await db.execute(sql`INSERT INTO employees VALUES (${e.no}, ${e.name}) ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name`)
+export async function upsertEmployee(db: Db, e: { no: string; name: string; taxStatus?: string }) {
+  await db.execute(sql`INSERT INTO employees (no, name, tax_status) VALUES (${e.no}, ${e.name}, ${e.taxStatus ?? 'TK0'})
+    ON CONFLICT (no) DO UPDATE SET name = EXCLUDED.name, tax_status = EXCLUDED.tax_status`)
 }
 export async function createEmployeeLoan(db: Db, l: { number: string; employee: string; date: string; amount: number; interestRate?: number; description?: string }) {
   await db.execute(sql`INSERT INTO employee_loans VALUES (${l.number}, ${l.employee}, ${l.date}, ${Math.round(l.amount * 100)}, ${l.interestRate ?? 0}, ${l.description ?? ''})`)
