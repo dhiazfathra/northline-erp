@@ -8,7 +8,7 @@ ERP module dependency is the module the report reads. The ERP already event-sour
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals (counted by `bun apps/api/scripts/coverage.ts`, asserted in `apps/api/test/coverage.test.ts`): 291 rows; 277 done, 14 done (out of scope), 0 blocked (the 11 Proyek Kontraktor rows closed in P2, ADR-0038; the 6 Job Costing list/detail rows in P3.1; Daftar Perintah Pembayaran and the two Harga Pokok Produksi rows in P3.2/P3.3). At the Retail pass: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
+Totals: counted by `bun apps/api/scripts/coverage.ts` and asserted in `apps/api/test/coverage.test.ts`. Status `accepted divergence (ADR-0039)` = could not be captured, not built, not counted as done. At the Retail pass: 275 reports, 275 done.
 (ADR-0022 to ADR-0028); SalesCheckInPerSalesmanReport and ApprovalListReport on their empty layout only (see specs).
 
 Retail re-check: every done row was verified against Manufaktur Demo fixtures. Retail Demo carries data Manufaktur Demo
@@ -187,7 +187,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Penggunaan Uang Muka Penjualan](SalesInvoiceDownPaymentDetailReport.md) | `SalesInvoiceDownPaymentDetailReport` | Penjualan | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Pembayaran Cicilan](SalesInvoicePaidInstallmentListReport.md) | `SalesInvoicePaidInstallmentListReport` | Penjualan | Y | Y | Y | data | Y | empty | done | Sales |  |
 | [Cicilan Belum Terbayar](SalesInvoiceUnpaidInstallmentListReport.md) | `SalesInvoiceUnpaidInstallmentListReport` | Penjualan | Y | Y | Y | data | Y | empty | done | Sales |  |
-| [Monitoring HPP](CogsMonitoringReport.md) | `CogsMonitoringReport` | Penjualan | Y | Y | Y | empty | Y | empty | done (out of scope) | Sales |  |
+| [Monitoring HPP](CogsMonitoringReport.md) | `CogsMonitoringReport` | Penjualan | Y | Y | Y | empty | Y | empty | accepted divergence (ADR-0039) | Sales |  |
 | [Profitabilitas per Faktur](ProfitabilityBySalesInvoiceReport.md) | `ProfitabilityBySalesInvoiceReport` | Penjualan | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Profitabilitas per Barang](ProfitabilityByItemReport.md) | `ProfitabilityByItemReport` | Penjualan | Y | Y | Y | data | Y | data | done | Sales | Trade Portal Demo: verified with costing method AVERAGE (ADR-0031) |
 | [Profitabilitas per Pelanggan](ProfitabilityByCustomerReport.md) | `ProfitabilityByCustomerReport` | Penjualan | Y | Y | Y | data | Y | data | done | Sales |  |
@@ -292,7 +292,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Daftar Pekerjaan Pesanan ](JobOrderListReport.md) | `JobOrderListReport` | Pekerjaan Pesanan | Y | Y | Y | data | Y | empty | done | Job Costing | verified on Manufaktur Demo 2049 seed (P3.1); test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/jobcosting-m49.json` |
 | [Daftar Penyelesaian Pesanan](RollOverListReport.md) | `RollOverListReport` | Pekerjaan Pesanan | Y | Y | Y | data | Y | empty | done | Job Costing | verified on Manufaktur Demo 2049 seed (P3.1); test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/jobcosting-m49.json` |
 | [Daftar Penambahan Bahan Baku](MaterialAdjustmentListReport.md) | `MaterialAdjustmentListReport` | Pekerjaan Pesanan | Y | Y | Y | data | Y | empty | done | Job Costing | verified on Manufaktur Demo 2049 seed (P3.1); test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/jobcosting-m49.json` |
-| [Jurnal Perintah Kerja](WorkOrderJournalReport.md) | `WorkOrderJournalReport` | Manufaktur | Y | Y | Y | data | Y | empty | done (out of scope) | Manufacturing |  |
+| [Jurnal Perintah Kerja](WorkOrderJournalReport.md) | `WorkOrderJournalReport` | Manufaktur | Y | Y | Y | data | Y | empty | accepted divergence (ADR-0039) | Manufacturing |  |
 | [Penyesuaian Bahan (Harga Pokok Produksi)](AdjustmentCOGSManufactureReport.md) | `AdjustmentCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done | Manufacturing | verified on Manufaktur Demo 2049 seed, Jan-Mar (P3.3); test: `apps/api/test/manufacturing.test.ts`, fixture `fixtures/manufacturing-m49.json` |
 | [Pembelian (Harga Pokok Produksi)](PurchaseCOGSManufactureReport.md) | `PurchaseCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done | Manufacturing | verified on Manufaktur Demo 2049 seed, Jan-Mar (P3.3); test: `apps/api/test/manufacturing.test.ts`, fixture `fixtures/manufacturing-m49.json` |
 | [Daftar Aset Tetap](FixedAssetListReport.md) | `FixedAssetListReport` | Aset Tetap | Y | Y | Y | empty | Y | empty | done | Fixed Assets |  |

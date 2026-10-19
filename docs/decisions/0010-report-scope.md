@@ -1,6 +1,7 @@
 # ADR-0010: Payroll, job orders, manufacturing and access reports are out of scope
 
 ## Status
+Superseded by [ADR-0039](0039-out-of-scope-reports-reopened.md) for the 23 reports it covered.
 Accepted; superseded for `AuditListReport` by [ADR-0019](0019-activity-log.md)
 
 ## Date

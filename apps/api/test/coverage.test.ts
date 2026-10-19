@@ -3,5 +3,5 @@ import { coverageCounts } from '../scripts/coverage'
 
 // Update these as parity phases close rows (docs/goals/full-parity-v2.md).
 test('_coverage.md status counts', () => {
-  expect(coverageCounts()).toEqual({ total: 291, done: 277, outOfScope: 14, blocked: 0 })
+  expect(coverageCounts()).toEqual({ total: 291, done: 277, outOfScope: 12, blocked: 0, acceptedDivergence: 2 })
 })

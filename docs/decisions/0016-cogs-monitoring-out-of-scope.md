@@ -1,6 +1,7 @@
 # ADR-0016: Monitoring HPP stays at spec
 
 ## Status
+Superseded by [ADR-0039](0039-out-of-scope-reports-reopened.md) for the 23 reports it covered.
 Accepted (extends [ADR-0010](0010-report-scope.md))
 
 ## Date

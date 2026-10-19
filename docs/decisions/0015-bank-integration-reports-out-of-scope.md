@@ -1,6 +1,7 @@
 # ADR-0015: Bank-integration reports stay at spec
 
 ## Status
+Corrected by [ADR-0039](0039-out-of-scope-reports-reopened.md): Daftar Perintah Pembayaran needs no bank connection and is built.
 Accepted (extends [ADR-0010](0010-report-scope.md))
 
 ## Date

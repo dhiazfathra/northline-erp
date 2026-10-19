@@ -11,13 +11,13 @@
 | [0007](0007-fixed-assets-and-month-end.md) | Fixed assets and the month-end depreciation process | Accepted |
 | [0008](0008-return-costing.md) | Sales and purchase returns follow the sandbox's costing | Accepted |
 | [0009](0009-ppn-on-sales-invoices.md) | PPN on sales invoices comes from the item's default tax | Accepted |
-| [0010](0010-report-scope.md) | Payroll, job orders, manufacturing and access reports are out of scope | Accepted |
+| [0010](0010-report-scope.md) | Payroll, job orders, manufacturing and access reports are out of scope | Superseded by [0039](0039-out-of-scope-reports-reopened.md) for the 23 reports |
 | [0011](0011-unlabeled-chart-verification.md) | Unlabeled charts are verified through their backing table report | Accepted |
 | [0012](0012-foreign-currency-sales.md) | Foreign-currency sales post in IDR at the document's rate | Accepted |
 | [0013](0013-demo-inclusive-totals.md) | Reports that total the whole sandbox are verified on our own movement | Accepted |
-| [0014](0014-pph-reports-out-of-scope.md) | PPh withholding reports stay at spec | Accepted |
-| [0015](0015-bank-integration-reports-out-of-scope.md) | Bank-integration reports stay at spec | Accepted |
-| [0016](0016-cogs-monitoring-out-of-scope.md) | Monitoring HPP stays at spec | Accepted |
+| [0014](0014-pph-reports-out-of-scope.md) | PPh withholding reports stay at spec | Superseded by [0039](0039-out-of-scope-reports-reopened.md) for the 23 reports |
+| [0015](0015-bank-integration-reports-out-of-scope.md) | Bank-integration reports stay at spec | Accepted; corrected for Daftar Perintah Pembayaran by [0039](0039-out-of-scope-reports-reopened.md) |
+| [0016](0016-cogs-monitoring-out-of-scope.md) | Monitoring HPP stays at spec | Superseded by [0039](0039-out-of-scope-reports-reopened.md) for the 23 reports |
 | [0017](0017-cloudflare-workers-and-neon-free-tier.md) | Production on Cloudflare Workers + Neon, sized for both free tiers | Accepted |
 | [0018](0018-local-default-on-demand-production.md) | Local Postgres is the default; production deploys only on demand | Accepted |
 | [0019](0019-activity-log.md) | Log Aktifitas (activity log) is in scope, written with every change | Accepted |
@@ -40,3 +40,4 @@
 | [0036](0036-one-neon-branch-per-profile.md) | Production demo: one Neon branch per Data Usaha, one Worker repointed between them | Accepted |
 | [0037](0037-per-company-report-preferences.md) | Per-company report preferences: aging basis and P&L style in `ledger_settings` | Accepted |
 | [0038](0038-contractor-projects-design.md) | Contractor Projects module design; RAB and receipts reconciled | Accepted |
+| [0039](0039-out-of-scope-reports-reopened.md) | 23 out-of-scope reports reopened; Jurnal Perintah Kerja and Monitoring HPP accepted divergences | Accepted |

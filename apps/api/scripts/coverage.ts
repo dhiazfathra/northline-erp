@@ -9,6 +9,8 @@ export function coverageCounts(md = readFileSync(new URL('../../../docs/reports/
     done: n((s) => s === 'done'),
     outOfScope: n((s) => s.startsWith('done (out of scope')),
     blocked: n((s) => s.includes('blocked')),
+    // Not built, not counted as done: no capture could be taken (ADR-0039).
+    acceptedDivergence: n((s) => s.startsWith('accepted divergence')),
   }
 }
 

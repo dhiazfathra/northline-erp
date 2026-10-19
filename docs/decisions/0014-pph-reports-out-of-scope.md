@@ -1,6 +1,7 @@
 # ADR-0014: PPh withholding reports stay at spec
 
 ## Status
+Superseded by [ADR-0039](0039-out-of-scope-reports-reopened.md) for the 23 reports it covered.
 Accepted (extends [ADR-0010](0010-report-scope.md))
 
 ## Date
