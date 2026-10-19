@@ -1,0 +1,153 @@
+{
+ "planId": "ProfitLossCompareBudgetReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Laba/Rugi (Perbandingan Anggaran)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Deskripsi",
+   "Aktual (IDR)",
+   "Anggaran",
+   "Variance",
+   "% Var."
+  ],
+  [
+   "PENDAPATAN"
+  ],
+  [
+   "Pendapatan Operasional",
+   "196.066.600",
+   "0",
+   "196.066.600",
+   "100 %"
+  ],
+  [
+   "Pendapatan Proyek",
+   "196.066.600",
+   "0",
+   "196.066.600",
+   "100 %"
+  ],
+  [
+   "Jumlah Pendapatan",
+   "196.066.600",
+   "0",
+   "196.066.600",
+   "100 %"
+  ],
+  [
+   "BEBAN POKOK PENJUALAN"
+  ],
+  [
+   "Beban Pokok",
+   "168.395.700",
+   "0",
+   "168.395.700",
+   "100 %"
+  ],
+  [
+   "Beban Pokok Proyek",
+   "168.395.700",
+   "0",
+   "168.395.700",
+   "100 %"
+  ],
+  [
+   "Jumlah Beban Pokok Penjualan",
+   "168.395.700",
+   "0",
+   "168.395.700",
+   "100 %"
+  ],
+  [
+   "LABA KOTOR",
+   "27.670.900",
+   "0",
+   "27.670.900",
+   "100 %"
+  ],
+  [
+   "BEBAN OPERASIONAL"
+  ],
+  [
+   "Jumlah Beban Operasional",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "PENDAPATAN OPERASIONAL",
+   "27.670.900",
+   "0",
+   "27.670.900",
+   "100 %"
+  ],
+  [
+   "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+  ],
+  [
+   "Pendapatan Non Operasional"
+  ],
+  [
+   "Jumlah Pendapatan Non Operasional",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Beban Non Operasional"
+  ],
+  [
+   "Jumlah Beban Non Operasional",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Pendapatan dan Beban Non Operasional",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "LABA BERSIH",
+   "27.670.900",
+   "0",
+   "27.670.900",
+   "100 %"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:45"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

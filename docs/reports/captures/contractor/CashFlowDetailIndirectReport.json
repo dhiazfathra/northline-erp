@@ -1,0 +1,131 @@
+{
+ "planId": "CashFlowDetailIndirectReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "showZeroBalance": false
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Arus Kas (Tak Langsung)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Keterangan",
+   "Nilai"
+  ],
+  [
+   "Aktifitas Operasi"
+  ],
+  [
+   "Laba/Rugi",
+   "27.670.900"
+  ],
+  [
+   "Tambah"
+  ],
+  [
+   "Akumulasi Penyusutan"
+  ],
+  [
+   "Total Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "Selain Penyusutan"
+  ],
+  [
+   "Total Selain Penyusutan",
+   "0"
+  ],
+  [
+   "Total Tambah",
+   "0"
+  ],
+  [
+   "Kurang"
+  ],
+  [
+   "Selain Penyusutan"
+  ],
+  [
+   "Persediaan",
+   "-58.404.300"
+  ],
+  [
+   "Total Selain Penyusutan",
+   "-58.404.300"
+  ],
+  [
+   "Total Kurang",
+   "-58.404.300"
+  ],
+  [
+   "Total Aktifitas Operasi",
+   "-30.733.400"
+  ],
+  [
+   "Investasi"
+  ],
+  [
+   "Kurang"
+  ],
+  [
+   "Total Kurang",
+   "0"
+  ],
+  [
+   "Total Investasi",
+   "0"
+  ],
+  [
+   "Pendanaan"
+  ],
+  [
+   "Tambah"
+  ],
+  [
+   "Equitas Saldo Awal",
+   "59.400.000"
+  ],
+  [
+   "Total Tambah",
+   "59.400.000"
+  ],
+  [
+   "Total Pendanaan",
+   "59.400.000"
+  ],
+  [
+   "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+   "28.666.600"
+  ],
+  [
+   "Kas & Setara Kas di Awal period",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Akhir period",
+   "28.666.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:46"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

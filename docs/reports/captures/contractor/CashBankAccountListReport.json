@@ -1,0 +1,66 @@
+{
+ "planId": "CashBankAccountListReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Daftar Kas"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama",
+   "Saldo (per Mata Uang)",
+   "Saldo (IDR)"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "1101",
+   "Kas & Bank",
+   "28.666.600",
+   "28.666.600"
+  ],
+  [
+   "110101",
+   "Kas Kecil",
+   "0",
+   "0"
+  ],
+  [
+   "110102",
+   "Bank",
+   "0",
+   "0"
+  ],
+  [
+   "110103",
+   "BCA a/c 1234567891",
+   "28.666.600",
+   "28.666.600"
+  ],
+  [
+   "28.666.600",
+   "28.666.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:49"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

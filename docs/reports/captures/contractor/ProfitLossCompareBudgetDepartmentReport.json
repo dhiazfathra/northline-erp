@@ -1,0 +1,34 @@
+{
+ "planId": "ProfitLossCompareBudgetDepartmentReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "selectedDepartment": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"S9VNLKnQnKbHpzCdQO8BVuhjCrjWqNlaAAABoVKGf9Y=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Departemen harus ditentukan!\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "S9VNLKnQnKbHpzCdQO8BVuhjCrjWqNlaAAABoVKGf9Y=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Departemen harus ditentukan!"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

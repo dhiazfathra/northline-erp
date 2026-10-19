@@ -1,0 +1,261 @@
+{
+ "planId": "VendorStatementReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Pernyataan Utang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Pemasok",
+   ":",
+   "PD Bahan Baku Material",
+   "Email",
+   ":"
+  ],
+  [
+   "Handphone",
+   ":",
+   "Alamat",
+   ":"
+  ],
+  [
+   "Faximili",
+   ":"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Deskripsi",
+   "Bertambah",
+   "Berkurang",
+   "Saldo"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "Saldo Utang per 31 Dec 1999",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "110103.2026.05.00008",
+   "04 Mei 2026",
+   "Pembelian Bahan rangka panel",
+   "0",
+   "2.850.000",
+   "-2.850.000"
+  ],
+  [
+   "PI.2026.05.00002",
+   "04 Mei 2026",
+   "Pembelian bahan untuk rangka solar panel",
+   "2.850.000",
+   "0",
+   "0"
+  ],
+  [
+   "2.850.000",
+   "2.850.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:53"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Pernyataan Utang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Pemasok",
+   ":",
+   "PT Energy Solusindo Utama",
+   "Email",
+   ":"
+  ],
+  [
+   "Handphone",
+   ":",
+   "Alamat",
+   ":"
+  ],
+  [
+   "Faximili",
+   ":"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Deskripsi",
+   "Bertambah",
+   "Berkurang",
+   "Saldo"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "Saldo Utang per 31 Dec 1999",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "PI.2026.05.00006",
+   "14 Mei 2026",
+   "Pembelian Battery lifePO4 12 Pack",
+   "72.000.000",
+   "0",
+   "72.000.000"
+  ],
+  [
+   "110103.2026.05.00009",
+   "14 Mei 2026",
+   "Pembayaran Pembelian Battery 12 Pack 100A",
+   "0",
+   "72.000.000",
+   "0"
+  ],
+  [
+   "72.000.000",
+   "72.000.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:53"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Pernyataan Utang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Pemasok",
+   ":",
+   "PT Panel Surya Indonesia",
+   "Email",
+   ":"
+  ],
+  [
+   "Handphone",
+   ":",
+   "Alamat",
+   ":"
+  ],
+  [
+   "Faximili",
+   ":"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Deskripsi",
+   "Bertambah",
+   "Berkurang",
+   "Saldo"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "Saldo Utang per 31 Dec 1999",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "110103.2026.05.00004",
+   "05 Mei 2026",
+   "Pembayaran panel 32 lembar",
+   "0",
+   "64.000.000",
+   "-64.000.000"
+  ],
+  [
+   "PI.2026.05.00004",
+   "05 Mei 2026",
+   "Pembelian PV 32 lembar panel 550 Wp",
+   "64.000.000",
+   "0",
+   "0"
+  ],
+  [
+   "110103.2026.05.00006",
+   "11 Mei 2026",
+   "Pembayaran Inverter dan SCC",
+   "0",
+   "26.450.000",
+   "-26.450.000"
+  ],
+  [
+   "PI.2026.05.00005",
+   "11 Mei 2026",
+   "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+   "26.450.000",
+   "0",
+   "0"
+  ],
+  [
+   "90.450.000",
+   "90.450.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:53"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

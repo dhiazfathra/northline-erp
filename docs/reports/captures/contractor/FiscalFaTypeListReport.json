@@ -1,0 +1,144 @@
+{
+ "planId": "FiscalFaTypeListReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {},
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Daftar Kategori Aset Tetap Pajak"
+  ],
+  [
+   "Nama",
+   "Tarif Penyusutan (%)",
+   "Perkiraan Umur (tahun)",
+   "Metode Penyusutan"
+  ],
+  [
+   "Bangunan Permanen",
+   "5 %",
+   "20 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Bangunan Semi Permanen",
+   "10 %",
+   "10 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Gol 1 [Garis Lurus]",
+   "25 %",
+   "4 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Gol 1 [Saldo Menurun]",
+   "50 %",
+   "4 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Gol 2 [Garis Lurus]",
+   "12,5 %",
+   "8 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Gol 2 [Saldo Menurun]",
+   "25 %",
+   "8 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Gol 3 [Garis Lurus]",
+   "6,25 %",
+   "16 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Gol 3 [Saldo Menurun]",
+   "12,5 %",
+   "16 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Gol 4 [Garis Lurus]",
+   "5 %",
+   "20 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Gol 4 [Saldo Menurun]",
+   "10 %",
+   "20 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Tidak Berwujud 1 [Garis Lurus]",
+   "25 %",
+   "4 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Tidak Berwujud 1 [Saldo Menurun]",
+   "50 %",
+   "4 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Tidak Berwujud 2 [Garis Lurus]",
+   "12,5 %",
+   "8 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Tidak Berwujud 2 [Saldo Menurun]",
+   "25 %",
+   "8 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Tidak Berwujud 3 [Garis Lurus]",
+   "6,25 %",
+   "16 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Tidak Berwujud 3 [Saldo Menurun]",
+   "12,5 %",
+   "16 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Tidak Berwujud 4 [Garis Lurus]",
+   "5 %",
+   "20 Tahun",
+   "Metode Garis Lurus"
+  ],
+  [
+   "Tidak Berwujud 4 [Saldo Menurun]",
+   "10 %",
+   "20 Tahun",
+   "Metode Saldo Menurun"
+  ],
+  [
+   "Tidak Disusutkan",
+   "0 %",
+   "0 Tahun",
+   "Tidak Terdepresiasi"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:56"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

@@ -1,0 +1,191 @@
+{
+ "planId": "AnalysisInventoryValuationReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Analisa Nilai Persediaan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Saldo Awal",
+   "Penjualan",
+   "Pembelian",
+   "Produksi",
+   "Penyesuaian",
+   "Lainnya",
+   "Saldo Akhir"
+  ],
+  [
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai",
+   "Kuantitas",
+   "Nilai"
+  ],
+  [
+   "Draining Clip (Plastik)",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "1.000",
+   "4.100.000",
+   "-54",
+   "-246.000",
+   "946",
+   "3.854.000"
+  ],
+  [
+   "Kabel Battery 2x25mm DC",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "125",
+   "5.500.000",
+   "-3",
+   "-132.000",
+   "122",
+   "5.368.000"
+  ],
+  [
+   "Kabel Listrik NYM 3x2.5mm",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "2.000",
+   "18.000.000",
+   "-10",
+   "-90.000",
+   "1.990",
+   "17.910.000"
+  ],
+  [
+   "Kabel Solar Panel Slocable 4mm",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "500",
+   "9.700.000",
+   "0",
+   "0",
+   "500",
+   "9.700.000"
+  ],
+  [
+   "Kabel Solar Panel Slocable 6mm",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "600",
+   "17.400.000",
+   "0",
+   "0",
+   "600",
+   "17.400.000"
+  ],
+  [
+   "MCB TOMZ 2P AC - 50A",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "20",
+   "1.700.000",
+   "-4",
+   "-340.000",
+   "16",
+   "1.360.000"
+  ],
+  [
+   "MCB TOMZ 2P DC - 125 A",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "30",
+   "3.000.000",
+   "-2",
+   "-200.000",
+   "28",
+   "2.800.000"
+  ],
+  [
+   "Total Nama Barang",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "4.275",
+   "59.400.000",
+   "-73",
+   "-1.008.000",
+   "4.202",
+   "58.392.000"
+  ]
+ ]
+}

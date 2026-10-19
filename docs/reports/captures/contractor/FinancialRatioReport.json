@@ -1,0 +1,185 @@
+{
+ "planId": "FinancialRatioReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfYear": 2026
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rasio Keuangan (Per Tahun)"
+  ],
+  [
+   "per 2026"
+  ],
+  [
+   "Jenis Rasio",
+   "Rasio",
+   "Tahun Sebelumnya",
+   "Satuan"
+  ],
+  [
+   "Rasio Likuiditas"
+  ],
+  [
+   "Current Ratio",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Quick Ratio",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Cash Ratio",
+   "0",
+   "0",
+   "%"
+  ],
+  [
+   "Cash Turnover",
+   "1.367,91",
+   "0",
+   "%"
+  ],
+  [
+   "Inventory to Net Working Capital",
+   "67,08",
+   "0",
+   "%"
+  ],
+  [
+   "Rasio Solvabilitas"
+  ],
+  [
+   "Debt to Asset Ratio",
+   "0",
+   "0",
+   "%"
+  ],
+  [
+   "Debt to Equity Ratio",
+   "0",
+   "0",
+   "%"
+  ],
+  [
+   "Long Term Liability to Equity Ratio",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Equity Multiplier",
+   "1",
+   "0",
+   "Kali"
+  ],
+  [
+   "Rasio Aktifitas"
+  ],
+  [
+   "Total Asset Turnover",
+   "4,5",
+   "0",
+   "Kali"
+  ],
+  [
+   "Receivable Turnover",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Payable Turnover",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Average Collection Period",
+   "0",
+   "0",
+   "Hari"
+  ],
+  [
+   "Inventory Turnover",
+   "5,77",
+   "0",
+   "Kali"
+  ],
+  [
+   "Working Capital Turnover",
+   "4,5",
+   "0",
+   "Kali"
+  ],
+  [
+   "Days of Receivable",
+   "0",
+   "0",
+   "Hari"
+  ],
+  [
+   "Days of Inventory",
+   "63,3",
+   "0",
+   "Hari"
+  ],
+  [
+   "Fixed Asset Turnover",
+   "0",
+   "0",
+   "Kali"
+  ],
+  [
+   "Rasio Profitabilitas"
+  ],
+  [
+   "Gross Profit Margin",
+   "14,1",
+   "0",
+   "%"
+  ],
+  [
+   "Operating Profit Margin",
+   "14,1",
+   "0",
+   "%"
+  ],
+  [
+   "Net Profit Margin",
+   "14,1",
+   "0",
+   "%"
+  ],
+  [
+   "Return On Asset",
+   "31,8",
+   "0",
+   "%"
+  ],
+  [
+   "Return On Equity",
+   "31,8",
+   "0",
+   "%"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:46"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

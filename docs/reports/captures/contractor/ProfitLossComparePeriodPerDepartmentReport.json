@@ -1,0 +1,36 @@
+{
+ "planId": "ProfitLossComparePeriodPerDepartmentReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2025",
+  "endDate": "31/12/2025",
+  "startDateCompare": "01/01/2026",
+  "endDateCompare": "31/12/2026",
+  "selectedBranch": [],
+  "selectedDepartment": [],
+  "selectedCurrency": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"GBsEYKBRYVs3ZjEXB1vjUipK2cm6xoX3AAABoVKGUmM=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Departemen harus diisi\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "GBsEYKBRYVs3ZjEXB1vjUipK2cm6xoX3AAABoVKGUmM=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Departemen harus diisi"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

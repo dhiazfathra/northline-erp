@@ -1,0 +1,44 @@
+{
+ "planId": "ProfitLossByDepartmentReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [],
+  "selectedDepartment": [],
+  "selectedProject": [],
+  "selectedDataClassification1": [],
+  "selectedDataClassification2": [],
+  "selectedDataClassification3": [],
+  "selectedDataClassification4": [],
+  "selectedDataClassification5": [],
+  "selectedDataClassification6": [],
+  "selectedDataClassification7": [],
+  "selectedDataClassification8": [],
+  "selectedDataClassification9": [],
+  "selectedDataClassification10": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"KZOf08Uqg7jQjOsc6ui5r5j4VTSJk2w1AAABoVKGyNI=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Departemen harus diisi\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "KZOf08Uqg7jQjOsc6ui5r5j4VTSJk2w1AAABoVKGyNI=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Departemen harus diisi"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

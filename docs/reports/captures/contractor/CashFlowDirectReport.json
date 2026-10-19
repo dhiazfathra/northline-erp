@@ -1,0 +1,104 @@
+{
+ "planId": "CashFlowDirectReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "selectedBranch": []
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Arus Kas (Langsung)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Keterangan",
+   "Nilai"
+  ],
+  [
+   "Aktifitas Operasi"
+  ],
+  [
+   "Kas dari Penjualan",
+   "196.066.600"
+  ],
+  [
+   "Kas untuk Pembelian",
+   "-165.300.000"
+  ],
+  [
+   "Laba(Rugi) Operasi sebelum berubah di Operasi Aset dan Liabilitas",
+   "30.766.600"
+  ],
+  [
+   "Berkurang(Bertambah) pada Operasi Aset"
+  ],
+  [
+   "Aset Lancar Lainnya",
+   "-2.100.000"
+  ],
+  [
+   "Proyek Dalam Proses",
+   "-2.100.000"
+  ],
+  [
+   "Total Berkurang(Bertambah) pada Operasi Aset",
+   "-2.100.000"
+  ],
+  [
+   "Berkurang(Bertambah) pada Operasi Liabilitas"
+  ],
+  [
+   "Total Berkurang(Bertambah) pada Operasi Liabilitas",
+   "0"
+  ],
+  [
+   "Total Kas bersih (dipakai)/ dihasilkan oleh Aktivitas Operasi",
+   "28.666.600"
+  ],
+  [
+   "Aktifitas Investasi"
+  ],
+  [
+   "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Investasi",
+   "0"
+  ],
+  [
+   "Aktifitas Pendanaan"
+  ],
+  [
+   "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Pendanaan",
+   "0"
+  ],
+  [
+   "Kas bersih dihasilkan oleh / (dipakai) di Period ini",
+   "28.666.600"
+  ],
+  [
+   "Kas & Setara Kas di Awal period",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Akhir period",
+   "28.666.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

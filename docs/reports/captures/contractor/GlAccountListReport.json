@@ -1,0 +1,664 @@
+{
+ "planId": "GlAccountListReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Daftar Akun Perkiraan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama",
+   "Tipe Akun",
+   "Saldo"
+  ],
+  [
+   "1101",
+   "Kas & Bank",
+   "Kas & Bank",
+   "28.666.600"
+  ],
+  [
+   "110101",
+   "Kas Kecil",
+   "Kas & Bank",
+   "0"
+  ],
+  [
+   "110102",
+   "Bank",
+   "Kas & Bank",
+   "0"
+  ],
+  [
+   "110103",
+   "BCA a/c 1234567891",
+   "Kas & Bank",
+   "28.666.600"
+  ],
+  [
+   "1103",
+   "Piutang Usaha",
+   "Piutang Usaha",
+   "0"
+  ],
+  [
+   "110301",
+   "Piutang Usaha IDR",
+   "Piutang Usaha",
+   "0"
+  ],
+  [
+   "110302",
+   "Uang Muka Pembelian IDR",
+   "Piutang Usaha",
+   "0"
+  ],
+  [
+   "1104",
+   "Persediaan",
+   "Persediaan",
+   "58.404.300"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "Persediaan",
+   "58.404.300"
+  ],
+  [
+   "110402",
+   "Persediaan Terkirim",
+   "Persediaan",
+   "0"
+  ],
+  [
+   "110403",
+   "Persediaan Dalam Proses",
+   "Persediaan",
+   "0"
+  ],
+  [
+   "1105",
+   "Aset Lancar Lainnya",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110501",
+   "Perlengkapan Kantor",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110502",
+   "Sewa Gedung Dibayar Dimuka",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110503",
+   "Asuransi Dibayar Dimuka",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110504",
+   "PPN Masukan",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110505",
+   "PPh 23 Penjualan",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "110506",
+   "Proyek Dalam Proses",
+   "Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "1200",
+   "Aset Tetap",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120001",
+   "Tanah",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120002",
+   "Gedung",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120003",
+   "Kendaraan",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120004",
+   "Peralatan",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120005",
+   "Inventaris Kantor",
+   "Aset Tetap",
+   "0"
+  ],
+  [
+   "120006",
+   "Akumulasi Depresiasi Aset Tetap",
+   "Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "12000601",
+   "Akumulasi Penyusutan Gedung",
+   "Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "12000602",
+   "Akumulasi Penyusutan Kendaraan",
+   "Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "12000603",
+   "Akumulasi Penyusutan Peralatan",
+   "Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "12000604",
+   "Akumulasi Penyusutan Inventaris Kantor",
+   "Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "2101",
+   "Utang Usaha",
+   "Utang Usaha",
+   "0"
+  ],
+  [
+   "210101",
+   "Utang Usaha IDR",
+   "Utang Usaha",
+   "0"
+  ],
+  [
+   "210102",
+   "Uang Muka Penjualan IDR",
+   "Utang Usaha",
+   "0"
+  ],
+  [
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "Utang Usaha",
+   "0"
+  ],
+  [
+   "2102",
+   "Kewajiban Jangka Pendek Lainnya",
+   "Liabilitas Jangka Pendek",
+   "0"
+  ],
+  [
+   "210201",
+   "PPN Keluaran",
+   "Liabilitas Jangka Pendek",
+   "0"
+  ],
+  [
+   "210202",
+   "PPh 23 Pembelian",
+   "Liabilitas Jangka Pendek",
+   "0"
+  ],
+  [
+   "210203",
+   "Hutang Pembelian Belum Ditagih",
+   "Liabilitas Jangka Pendek",
+   "0"
+  ],
+  [
+   "2201",
+   "Hutang Jangka Panjang",
+   "Liabilitas Jangka Panjang",
+   "0"
+  ],
+  [
+   "3000",
+   "Modal",
+   "Modal",
+   "87.070.900"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Daftar Akun Perkiraan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama",
+   "Tipe Akun",
+   "Saldo"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "Modal",
+   "59.400.000"
+  ],
+  [
+   "300002",
+   "Laba Ditahan",
+   "Modal",
+   "27.670.900"
+  ],
+  [
+   "300003",
+   "Modal Saham",
+   "Modal",
+   "0"
+  ],
+  [
+   "4000",
+   "Pendapatan Operasional",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "400001",
+   "Penjualan",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "400002",
+   "Pendapatan Jasa",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "400003",
+   "Retur Penjualan",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "400004",
+   "Diskon Penjualan",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "400005",
+   "Pendapatan Proyek",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "4401",
+   "Diskon Penjualan",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "440101",
+   "Diskon Penjualan IDR",
+   "Pendapatan",
+   "0"
+  ],
+  [
+   "5101",
+   "Beban Pokok",
+   "Beban Pokok Penjualan",
+   "0"
+  ],
+  [
+   "5101.01",
+   "Beban Pokok Penjualan",
+   "Beban Pokok Penjualan",
+   "0"
+  ],
+  [
+   "5101.02",
+   "Beban Pokok Proyek",
+   "Beban Pokok Penjualan",
+   "0"
+  ],
+  [
+   "6000",
+   "Beban Operasional",
+   "Beban",
+   "0"
+  ],
+  [
+   "600001",
+   "Beban Iklan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600002",
+   "Beban Komisi",
+   "Beban",
+   "0"
+  ],
+  [
+   "600003",
+   "Beban Bensin, Parkir, Tol Kendaraan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600004",
+   "Beban Gaji, Upah & Honorer",
+   "Beban",
+   "0"
+  ],
+  [
+   "600005",
+   "Beban Bonus, Pesangon & Kompensasi",
+   "Beban",
+   "0"
+  ],
+  [
+   "600006",
+   "Beban Transportasi Karyawan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600007",
+   "Beban Katering & Makan Karyawan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600008",
+   "Beban Tunjangan Kesehatan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600009",
+   "Beban Asuransi Karyawan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600010",
+   "Beban THR",
+   "Beban",
+   "0"
+  ],
+  [
+   "600011",
+   "Beban Listrik",
+   "Beban",
+   "0"
+  ],
+  [
+   "600012",
+   "Beban PAM",
+   "Beban",
+   "0"
+  ],
+  [
+   "600013",
+   "Beban Telekomunikasi",
+   "Beban",
+   "0"
+  ],
+  [
+   "600014",
+   "Beban Ekspedisi, Pos & Materai",
+   "Beban",
+   "0"
+  ],
+  [
+   "600015",
+   "Beban Perjalanan Dinas",
+   "Beban",
+   "0"
+  ],
+  [
+   "600016",
+   "Beban Perlengkapan Kantor",
+   "Beban",
+   "0"
+  ],
+  [
+   "600017",
+   "Beban Pajak Penghasilan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600018",
+   "Beban Retribusi & Sumbangan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600019",
+   "Beban Sewa Gedung",
+   "Beban",
+   "0"
+  ],
+  [
+   "600020",
+   "Beban Operasional Lainnya",
+   "Beban",
+   "0"
+  ],
+  [
+   "600021",
+   "Beban Penyusutan Gedung",
+   "Beban",
+   "0"
+  ],
+  [
+   "600022",
+   "Beban Penyusutan Kendaraan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600023",
+   "Beban Penyusutan Peralatan",
+   "Beban",
+   "0"
+  ],
+  [
+   "600024",
+   "Beban Penyusutan Inventaris",
+   "Beban",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Daftar Akun Perkiraan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama",
+   "Tipe Akun",
+   "Saldo"
+  ],
+  [
+   "Kantor"
+  ],
+  [
+   "7100",
+   "Pendapatan Diluar Usaha",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "710001",
+   "Pendapatan Jasa Giro",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "710002",
+   "Pendapatan Bunga Deposito",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "710003",
+   "Penjualan Persediaan / Perlengkapan",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "710004",
+   "Laba/Rugi Revaluasi Aset",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "710005",
+   "Pendapatan Diluar Usaha Lainnya",
+   "Pendapatan Lainnya",
+   "0"
+  ],
+  [
+   "7200",
+   "Beban Diluar Usaha",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720001",
+   "Beban Bunga Pinjaman",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720002",
+   "Beban Adm. Bank & Buku Cek/Giro",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720003",
+   "Pajak Jasa Giro",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720004",
+   "Laba/Rugi Terealisasi",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720005",
+   "Laba/Rugi Belum Terealisasi",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720006",
+   "Laba/Rugi Disposisi Aset",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720007",
+   "Beban Diluar Usaha Lainnya",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "7201",
+   "Laba/Rugi Terealisasi",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720101",
+   "Laba/Rugi Terealisasi IDR",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "7202",
+   "Laba/Rugi Belum Terealisasi",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "720201",
+   "Laba/Rugi Belum Terealisasi IDR",
+   "Beban Lainnya",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

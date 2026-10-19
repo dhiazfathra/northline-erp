@@ -1,0 +1,128 @@
+{
+ "planId": "PhysicalInventoryCountSheetReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedWarehouse": [
+   {
+    "name": "Utama",
+    "id": 50
+   }
+  ],
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Lembar Penghitungan Stok"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan",
+   "Hitung #1",
+   "Hitung #2"
+  ],
+  [
+   "Asesoris"
+  ],
+  [
+   "100003",
+   "Draining Clip (Plastik)",
+   "946",
+   "PCS"
+  ],
+  [
+   "Kabel Battery"
+  ],
+  [
+   "100005",
+   "Kabel Battery 2x25mm DC",
+   "122",
+   "Meter"
+  ],
+  [
+   "Kabel Listrik AC"
+  ],
+  [
+   "100004",
+   "Kabel Listrik NYM 3x2.5mm",
+   "1.990",
+   "Meter"
+  ],
+  [
+   "Kabel Solar Panel"
+  ],
+  [
+   "100001",
+   "Kabel Solar Panel Slocable 4mm",
+   "500",
+   "Meter"
+  ],
+  [
+   "100002",
+   "Kabel Solar Panel Slocable 6mm",
+   "600",
+   "Meter"
+  ],
+  [
+   "Panel & Eletrikal"
+  ],
+  [
+   "100006",
+   "MCB TOMZ 2P DC - 125 A",
+   "28",
+   "PCS"
+  ],
+  [
+   "100007",
+   "MCB TOMZ 2P AC - 50A",
+   "16",
+   "PCS"
+  ],
+  [
+   "Umum"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "0"
+  ],
+  [
+   "100009",
+   "Jasa Proyek",
+   "0"
+  ],
+  [
+   "100010",
+   "Jasa Tukang (Langsung)",
+   "0",
+   "Hari"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

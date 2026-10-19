@@ -1,0 +1,913 @@
+{
+ "planId": "JournalDetailListReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "110103",
+   "Tipe Akun",
+   ":",
+   "Kas & Bank"
+  ],
+  [
+   "Nama",
+   ":",
+   "BCA a/c 1234567891"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "110103.2026.05.00008",
+   "Pembayaran Pembelian",
+   "04 Mei 2026",
+   "-2.850.000"
+  ],
+  [
+   "110103.2026.05.00002",
+   "Penerimaan Penjualan",
+   "04 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "110103.2026.05.00004",
+   "Pembayaran Pembelian",
+   "05 Mei 2026",
+   "-64.000.000"
+  ],
+  [
+   "110103.2026.05.00010",
+   "Pembayaran",
+   "09 Mei 2026",
+   "-2.100.000"
+  ],
+  [
+   "110103.2026.05.00005",
+   "Penerimaan Penjualan",
+   "10 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "110103.2026.05.00006",
+   "Pembayaran Pembelian",
+   "11 Mei 2026",
+   "-26.450.000"
+  ],
+  [
+   "110103.2026.05.00007",
+   "Penerimaan Penjualan",
+   "13 Mei 2026",
+   "30.000.000"
+  ],
+  [
+   "110103.2026.05.00009",
+   "Pembayaran Pembelian",
+   "14 Mei 2026",
+   "-72.000.000"
+  ],
+  [
+   "110103.2026.05.00011",
+   "Penerimaan Penjualan",
+   "15 Mei 2026",
+   "6.066.600"
+  ],
+  [
+   "28.666.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 1",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "110301",
+   "Tipe Akun",
+   ":",
+   "Piutang Usaha"
+  ],
+  [
+   "Nama",
+   ":",
+   "Piutang Usaha IDR"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "SI.2026.05.00002",
+   "Uang Muka Penjualan",
+   "04 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "110103.2026.05.00002",
+   "Penerimaan Penjualan",
+   "04 Mei 2026",
+   "-80.000.000"
+  ],
+  [
+   "SI.2026.05.00004",
+   "Uang Muka Penjualan",
+   "10 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "110103.2026.05.00005",
+   "Penerimaan Penjualan",
+   "10 Mei 2026",
+   "-80.000.000"
+  ],
+  [
+   "SI.2026.05.00005",
+   "Faktur Penjualan",
+   "10 Mei 2026",
+   "0"
+  ],
+  [
+   "SI.2026.06.00002",
+   "Faktur Penjualan",
+   "12 Mei 2026",
+   "0"
+  ],
+  [
+   "SI.2026.05.00006",
+   "Uang Muka Penjualan",
+   "13 Mei 2026",
+   "30.000.000"
+  ],
+  [
+   "110103.2026.05.00007",
+   "Penerimaan Penjualan",
+   "13 Mei 2026",
+   "-30.000.000"
+  ],
+  [
+   "110103.2026.05.00011",
+   "Penerimaan Penjualan",
+   "15 Mei 2026",
+   "-6.066.600"
+  ],
+  [
+   "SI.2026.05.00007",
+   "Faktur Penjualan",
+   "15 Mei 2026",
+   "6.066.600"
+  ],
+  [
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 2",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "110401",
+   "Tipe Akun",
+   ":",
+   "Persediaan"
+  ],
+  [
+   "Nama",
+   ":",
+   "Persediaan"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "MEQ.2026.05.00001",
+   "Bahan Baku Terpakai",
+   "08 Mei 2026",
+   "-246.000"
+  ],
+  [
+   "MEQ.2026.05.00003",
+   "Bahan Baku Terpakai",
+   "12 Mei 2026",
+   "-255.000"
+  ],
+  [
+   "MEQ.2026.05.00004",
+   "Bahan Baku Terpakai",
+   "14 Mei 2026",
+   "-507.000"
+  ],
+  [
+   "IA.2026.06.00002",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "5.500.000"
+  ],
+  [
+   "IA.2026.06.00003",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "18.000.000"
+  ],
+  [
+   "IA.2026.06.00004",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "9.700.000"
+  ],
+  [
+   "IA.2026.06.00005",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "17.400.000"
+  ],
+  [
+   "IA.2026.06.00007",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "3.000.000"
+  ],
+  [
+   "IA.2026.06.00006",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "1.700.000"
+  ],
+  [
+   "IA.2026.06.00001",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "4.100.000"
+  ],
+  [
+   "FPC.2026.07.00003",
+   "Penyelesaian Proyek",
+   "01 Jul 2026",
+   "12.300"
+  ],
+  [
+   "58.404.300"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 3",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "110506",
+   "Tipe Akun",
+   ":",
+   "Aset Lancar Lainnya"
+  ],
+  [
+   "Nama",
+   ":",
+   "Proyek Dalam Proses"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "PI.2026.05.00002",
+   "Faktur Pembelian",
+   "04 Mei 2026",
+   "2.850.000"
+  ],
+  [
+   "PI.2026.05.00004",
+   "Faktur Pembelian",
+   "05 Mei 2026",
+   "64.000.000"
+  ],
+  [
+   "MEQ.2026.05.00001",
+   "Bahan Baku Terpakai",
+   "08 Mei 2026",
+   "246.000"
+  ],
+  [
+   "110103.2026.05.00010",
+   "Pembayaran",
+   "09 Mei 2026",
+   "2.100.000"
+  ],
+  [
+   "SI.2026.05.00005",
+   "Faktur Penjualan",
+   "10 Mei 2026",
+   "-56.356.740"
+  ],
+  [
+   "PI.2026.05.00005",
+   "Faktur Pembelian",
+   "11 Mei 2026",
+   "26.300.000"
+  ],
+  [
+   "PI.2026.05.00005",
+   "Faktur Pembelian",
+   "11 Mei 2026",
+   "150.000"
+  ],
+  [
+   "MEQ.2026.05.00003",
+   "Bahan Baku Terpakai",
+   "12 Mei 2026",
+   "255.000"
+  ],
+  [
+   "SI.2026.06.00002",
+   "Faktur Penjualan",
+   "12 Mei 2026",
+   "-29.032.260"
+  ],
+  [
+   "PI.2026.05.00006",
+   "Faktur Pembelian",
+   "14 Mei 2026",
+   "72.000.000"
+  ],
+  [
+   "MEQ.2026.05.00004",
+   "Bahan Baku Terpakai",
+   "14 Mei 2026",
+   "507.000"
+  ],
+  [
+   "SI.2026.05.00007",
+   "Faktur Penjualan",
+   "15 Mei 2026",
+   "-85.389.000"
+  ],
+  [
+   "FPC.2026.07.00003",
+   "Penyelesaian Proyek",
+   "01 Jul 2026",
+   "-12.300"
+  ],
+  [
+   "FPC.2026.07.00003",
+   "Penyelesaian Proyek",
+   "01 Jul 2026",
+   "2.382.300"
+  ],
+  [
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 4",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "210101",
+   "Tipe Akun",
+   ":",
+   "Utang Usaha"
+  ],
+  [
+   "Nama",
+   ":",
+   "Utang Usaha IDR"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "110103.2026.05.00008",
+   "Pembayaran Pembelian",
+   "04 Mei 2026",
+   "-2.850.000"
+  ],
+  [
+   "PI.2026.05.00002",
+   "Faktur Pembelian",
+   "04 Mei 2026",
+   "2.850.000"
+  ],
+  [
+   "110103.2026.05.00004",
+   "Pembayaran Pembelian",
+   "05 Mei 2026",
+   "-64.000.000"
+  ],
+  [
+   "PI.2026.05.00004",
+   "Faktur Pembelian",
+   "05 Mei 2026",
+   "64.000.000"
+  ],
+  [
+   "110103.2026.05.00006",
+   "Pembayaran Pembelian",
+   "11 Mei 2026",
+   "-26.450.000"
+  ],
+  [
+   "PI.2026.05.00005",
+   "Faktur Pembelian",
+   "11 Mei 2026",
+   "26.450.000"
+  ],
+  [
+   "PI.2026.05.00006",
+   "Faktur Pembelian",
+   "14 Mei 2026",
+   "72.000.000"
+  ],
+  [
+   "110103.2026.05.00009",
+   "Pembayaran Pembelian",
+   "14 Mei 2026",
+   "-72.000.000"
+  ],
+  [
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 5",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "210103",
+   "Tipe Akun",
+   ":",
+   "Utang Usaha"
+  ],
+  [
+   "Nama",
+   ":",
+   "Pendapatan Dimuka Proyek"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "SI.2026.05.00002",
+   "Uang Muka Penjualan",
+   "04 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "SI.2026.05.00004",
+   "Uang Muka Penjualan",
+   "10 Mei 2026",
+   "80.000.000"
+  ],
+  [
+   "SI.2026.05.00005",
+   "Faktur Penjualan",
+   "10 Mei 2026",
+   "-77.232.600"
+  ],
+  [
+   "SI.2026.06.00002",
+   "Faktur Penjualan",
+   "12 Mei 2026",
+   "-27.360.000"
+  ],
+  [
+   "SI.2026.05.00006",
+   "Uang Muka Penjualan",
+   "13 Mei 2026",
+   "30.000.000"
+  ],
+  [
+   "SI.2026.05.00007",
+   "Faktur Penjualan",
+   "15 Mei 2026",
+   "-85.407.400"
+  ],
+  [
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 6",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "300001",
+   "Tipe Akun",
+   ":",
+   "Modal"
+  ],
+  [
+   "Nama",
+   ":",
+   "Equitas Saldo Awal"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "IA.2026.06.00002",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "5.500.000"
+  ],
+  [
+   "IA.2026.06.00003",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "18.000.000"
+  ],
+  [
+   "IA.2026.06.00004",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "9.700.000"
+  ],
+  [
+   "IA.2026.06.00005",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "17.400.000"
+  ],
+  [
+   "IA.2026.06.00007",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "3.000.000"
+  ],
+  [
+   "IA.2026.06.00006",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "1.700.000"
+  ],
+  [
+   "IA.2026.06.00001",
+   "Penyesuaian Persediaan",
+   "20 Jun 2026",
+   "4.100.000"
+  ],
+  [
+   "59.400.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 7",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "400005",
+   "Tipe Akun",
+   ":",
+   "Pendapatan"
+  ],
+  [
+   "Nama",
+   ":",
+   "Pendapatan Proyek"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "SI.2026.05.00005",
+   "Faktur Penjualan",
+   "10 Mei 2026",
+   "77.232.600"
+  ],
+  [
+   "SI.2026.06.00002",
+   "Faktur Penjualan",
+   "12 Mei 2026",
+   "27.360.000"
+  ],
+  [
+   "SI.2026.05.00007",
+   "Faktur Penjualan",
+   "15 Mei 2026",
+   "91.474.000"
+  ],
+  [
+   "196.066.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 8",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "5101.02",
+   "Tipe Akun",
+   ":",
+   "Beban Pokok Penjualan"
+  ],
+  [
+   "Nama",
+   ":",
+   "Beban Pokok Proyek"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "SI.2026.05.00005",
+   "Faktur Penjualan",
+   "10 Mei 2026",
+   "56.356.740"
+  ],
+  [
+   "SI.2026.06.00002",
+   "Faktur Penjualan",
+   "12 Mei 2026",
+   "29.032.260"
+  ],
+  [
+   "SI.2026.05.00007",
+   "Faktur Penjualan",
+   "15 Mei 2026",
+   "85.389.000"
+  ],
+  [
+   "FPC.2026.07.00003",
+   "Penyelesaian Proyek",
+   "01 Jul 2026",
+   "-2.382.300"
+  ],
+  [
+   "168.395.700"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 9",
+   "dari 10"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "600020",
+   "Tipe Akun",
+   ":",
+   "Beban"
+  ],
+  [
+   "Nama",
+   ":",
+   "Beban Operasional Lainnya"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "PI.2026.05.00002",
+   "Faktur Pembelian",
+   "04 Mei 2026",
+   "0"
+  ],
+  [
+   "PI.2026.05.00004",
+   "Faktur Pembelian",
+   "05 Mei 2026",
+   "0"
+  ],
+  [
+   "110103.2026.05.00010",
+   "Pembayaran",
+   "09 Mei 2026",
+   "0"
+  ],
+  [
+   "PI.2026.05.00005",
+   "Faktur Pembelian",
+   "11 Mei 2026",
+   "0"
+  ],
+  [
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 10",
+   "dari 10"
+  ]
+ ]
+}

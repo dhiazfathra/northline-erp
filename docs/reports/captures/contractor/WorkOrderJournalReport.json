@@ -1,0 +1,44 @@
+{
+ "planId": "WorkOrderJournalReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "selectedWorkOrder": []
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Jurnal Perintah Kerja"
+  ],
+  [
+   "Nomor # Perintah Kerja",
+   ":",
+   "Produk Utama",
+   ":"
+  ],
+  [
+   "Tanggal Perintah Kerja",
+   ":"
+  ],
+  [
+   "Tanggal",
+   "Tipe Transaksi",
+   "Kode Perkiraan",
+   "Nama Akun Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:56"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

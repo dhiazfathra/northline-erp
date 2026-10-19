@@ -1,0 +1,290 @@
+{
+ "planId": "CustomerStatementReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Pernyataan Piutang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Pelanggan"
+  ],
+  [
+   "Handphone"
+  ],
+  [
+   "Faximili"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "PT Sinar Alam Semesta"
+  ],
+  [
+   "Email"
+  ],
+  [
+   "Alamat"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Citarum 5 blok i9 no 56 Cikarang UtaraCikarang Jawa BaratIndonesia"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Deskripsi",
+   "Bertambah",
+   "Berkurang",
+   "Saldo"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "Saldo Piutang per 31 Dec 1999",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "SI.2026.05.00002",
+   "04 Mei 2026",
+   "DP untuk tahap rangka dan panel",
+   "80.000.000",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "SI.2026.05.00002",
+   "04 Mei 2026",
+   "DP untuk tahap rangka dan panel",
+   "0",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "110103.2026.05.00002",
+   "04 Mei 2026",
+   "DP Pertama Rangka & Panel",
+   "0",
+   "80.000.000",
+   "-80.000.000"
+  ],
+  [
+   "SI.2026.05.00004",
+   "10 Mei 2026",
+   "DP untuk tahap instalasi inverter dan battery",
+   "80.000.000",
+   "0",
+   "0"
+  ],
+  [
+   "SI.2026.05.00004",
+   "10 Mei 2026",
+   "DP untuk tahap instalasi inverter dan battery",
+   "0",
+   "80.000.000",
+   "-80.000.000"
+  ],
+  [
+   "110103.2026.05.00005",
+   "10 Mei 2026",
+   "DP kedua untuk tahap inverter dan Battery",
+   "0",
+   "80.000.000",
+   "-160.000.000"
+  ],
+  [
+   "SI.2026.05.00005",
+   "10 Mei 2026",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "0",
+   "0",
+   "-160.000.000"
+  ],
+  [
+   "SI.2026.05.00005",
+   "10 Mei 2026",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "77.232.600",
+   "0",
+   "-82.767.400"
+  ],
+  [
+   "SI.2026.06.00002",
+   "12 Mei 2026",
+   "Tagihan #2 Inverter dan SCC",
+   "0",
+   "0",
+   "-82.767.400"
+  ],
+  [
+   "SI.2026.06.00002",
+   "12 Mei 2026",
+   "Tagihan #2 Inverter dan SCC",
+   "27.360.000",
+   "0",
+   "-55.407.400"
+  ],
+  [
+   "SI.2026.05.00006",
+   "13 Mei 2026",
+   "DP untuk tahap #3 Instalasi Battery dan PLN",
+   "30.000.000",
+   "0",
+   "-25.407.400"
+  ],
+  [
+   "SI.2026.05.00006",
+   "13 Mei 2026",
+   "DP untuk tahap #3 Instalasi Battery dan PLN",
+   "0",
+   "30.000.000",
+   "-55.407.400"
+  ],
+  [
+   "110103.2026.05.00007",
+   "13 Mei 2026",
+   "Pembayaran DP tahap terakhir- Battery dan intalasi PLN",
+   "0",
+   "30.000.000",
+   "-85.407.400"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:50"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Pernyataan Piutang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Pelanggan"
+  ],
+  [
+   "Handphone"
+  ],
+  [
+   "Faximili"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "PT Sinar Alam Semesta"
+  ],
+  [
+   "Email"
+  ],
+  [
+   "Alamat"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "Jl. Citarum 5 blok i9 no 56 Cikarang UtaraCikarang Jawa BaratIndonesia"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Deskripsi",
+   "Bertambah",
+   "Berkurang",
+   "Saldo"
+  ],
+  [
+   "110103.2026.05.00011",
+   "15 Mei 2026",
+   "pembayaran pelunasan tahap 3 - selesai",
+   "0",
+   "6.066.600",
+   "-91.474.000"
+  ],
+  [
+   "SI.2026.05.00007",
+   "15 Mei 2026",
+   "Tagihan #3 Battery dan Instalasi",
+   "6.066.600",
+   "0",
+   "-85.407.400"
+  ],
+  [
+   "SI.2026.05.00007",
+   "15 Mei 2026",
+   "Tagihan #3 Battery dan Instalasi",
+   "85.407.400",
+   "0",
+   "0"
+  ],
+  [
+   "386.066.600",
+   "386.066.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:50"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

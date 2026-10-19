@@ -1,0 +1,29 @@
+{
+ "planId": "EmployeePaymentByEmployeeReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodMonth": "12",
+  "periodYear": 2026,
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Gaji Karyawan per Bulan"
+  ],
+  [
+   "Per Desember 2026"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ]
+ ]
+}

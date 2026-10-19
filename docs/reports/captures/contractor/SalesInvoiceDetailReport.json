@@ -1,0 +1,272 @@
+{
+ "planId": "SalesInvoiceDetailReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Faktur Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SI.2026.05.00005",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "10 Mei 2026",
+   "Sub Total",
+   ":",
+   "77.232.600"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Sinar Alam Semesta",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Total",
+   ":",
+   "77.232.600"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "1",
+   "4.137.600",
+   "4.137.600"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "32",
+   "2.200.000",
+   "70.400.000"
+  ],
+  [
+   "100009",
+   "Jasa Proyek",
+   "7",
+   "385.000",
+   "2.695.000"
+  ],
+  [
+   "40",
+   "77.232.600"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:52"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Faktur Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SI.2026.06.00002",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "12 Mei 2026",
+   "Sub Total",
+   ":",
+   "27.360.000"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Sinar Alam Semesta",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Total",
+   ":",
+   "27.360.000"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "1",
+   "16.500.000",
+   "16.500.000"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "3",
+   "3.620.000",
+   "10.860.000"
+  ],
+  [
+   "4",
+   "27.360.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:52"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Rincian Faktur Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SI.2026.05.00007",
+   "Nama Biaya",
+   ":"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "15 Mei 2026",
+   "Sub Total",
+   ":",
+   "91.474.000"
+  ],
+  [
+   "Pelanggan",
+   ":",
+   "PT Sinar Alam Semesta",
+   "Total Biaya",
+   ":",
+   "0"
+  ],
+  [
+   "Mata Uang",
+   ":",
+   "Indonesian Rupiah",
+   "Total",
+   ":",
+   "91.474.000"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Kuantitas",
+   "@Harga",
+   "Total Harga"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "12",
+   "6.000.000",
+   "72.000.000"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "1",
+   "750.000",
+   "750.000"
+  ],
+  [
+   "100008",
+   "Bahan Proyek",
+   "10",
+   "92.400",
+   "924.000"
+  ],
+  [
+   "100009",
+   "Jasa Proyek",
+   "1",
+   "17.800.000",
+   "17.800.000"
+  ],
+  [
+   "24",
+   "91.474.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:52"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

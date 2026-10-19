@@ -1,0 +1,71 @@
+{
+ "planId": "SalesDownPaymentByCustomerReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Uang Muka Penjualan"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Total",
+   "Terpakai/Retur (per Tgl)",
+   "Sisa Uang Muka (per Tgl)",
+   "No Pesanan #"
+  ],
+  [
+   "PT Sinar Alam Semesta"
+  ],
+  [
+   "SI.2026.05.00006",
+   "13 Mei 2026",
+   "30.000.000",
+   "30.000.000",
+   "0"
+  ],
+  [
+   "SI.2026.05.00004",
+   "10 Mei 2026",
+   "80.000.000",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "SI.2026.05.00002",
+   "04 Mei 2026",
+   "80.000.000",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:51"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

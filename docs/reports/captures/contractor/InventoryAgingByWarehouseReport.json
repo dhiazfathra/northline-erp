@@ -1,0 +1,128 @@
+{
+ "planId": "InventoryAgingByWarehouseReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedWarehouse": [],
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Umur Persediaan per Gudang"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Nama Gudang",
+   "Stok",
+   "1 - 30",
+   "31 - 60",
+   "61 - 90",
+   "91 - 120",
+   "> 120"
+  ],
+  [
+   "Draining Clip (Plastik)",
+   "Utama",
+   "946",
+   "0",
+   "0",
+   "0",
+   "0",
+   "946"
+  ],
+  [
+   "Kabel Battery 2x25mm DC",
+   "Utama",
+   "122",
+   "0",
+   "0",
+   "0",
+   "0",
+   "122"
+  ],
+  [
+   "Kabel Listrik NYM 3x2.5mm",
+   "Utama",
+   "1.990",
+   "0",
+   "0",
+   "0",
+   "0",
+   "1.990"
+  ],
+  [
+   "Kabel Solar Panel Slocable 4mm",
+   "Utama",
+   "500",
+   "0",
+   "0",
+   "0",
+   "0",
+   "500"
+  ],
+  [
+   "Kabel Solar Panel Slocable 6mm",
+   "Utama",
+   "600",
+   "0",
+   "0",
+   "0",
+   "0",
+   "600"
+  ],
+  [
+   "MCB TOMZ 2P AC - 50A",
+   "Utama",
+   "16",
+   "0",
+   "0",
+   "0",
+   "0",
+   "16"
+  ],
+  [
+   "MCB TOMZ 2P DC - 125 A",
+   "Utama",
+   "28",
+   "0",
+   "0",
+   "0",
+   "0",
+   "28"
+  ],
+  [
+   "Total Nama Barang",
+   "4.202",
+   "0",
+   "0",
+   "0",
+   "0",
+   "4.202"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

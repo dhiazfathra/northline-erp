@@ -1,0 +1,79 @@
+{
+ "planId": "ProfitabilityBySalesInvoiceReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Profitabilitas per Faktur"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Pelanggan",
+   "Penjualan",
+   "BPP",
+   "Biaya Tambahan",
+   "Biaya Penerimaan",
+   "Laba setelah Biaya"
+  ],
+  [
+   "SI.2026.05.00005",
+   "10 Mei 2026",
+   "PT Sinar Alam Semesta",
+   "77.232.600",
+   "56.356.740",
+   "0",
+   "0",
+   "20.875.860"
+  ],
+  [
+   "SI.2026.05.00007",
+   "15 Mei 2026",
+   "PT Sinar Alam Semesta",
+   "91.474.000",
+   "85.389.000",
+   "0",
+   "0",
+   "6.085.000"
+  ],
+  [
+   "SI.2026.06.00002",
+   "12 Mei 2026",
+   "PT Sinar Alam Semesta",
+   "27.360.000",
+   "29.032.260",
+   "0",
+   "0",
+   "-1.672.260"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:52"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

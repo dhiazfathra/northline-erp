@@ -1,0 +1,935 @@
+{
+ "planId": "GeneralLedgerHistoryReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "04 Mei 2026"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00002",
+   "110103",
+   "BCA a/c 1234567891",
+   "DP Pertama Rangka & Panel",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00002",
+   "110301",
+   "Piutang Usaha IDR",
+   "DP Pertama Rangka & Panel",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00008",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembelian Bahan rangka panel",
+   "2.850.000",
+   "0"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00008",
+   "110103",
+   "BCA a/c 1234567891",
+   "Pembelian Bahan rangka panel",
+   "0",
+   "2.850.000"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00002",
+   "600020",
+   "Beban Operasional Lainnya",
+   "Pembelian bahan untuk rangka solar panel",
+   "0",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00002",
+   "110506",
+   "Proyek Dalam Proses",
+   "Pembelian bahan untuk rangka solar panel",
+   "2.850.000",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00002",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembelian bahan untuk rangka solar panel",
+   "0",
+   "2.850.000"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00002",
+   "110301",
+   "Piutang Usaha IDR",
+   "DP untuk tahap rangka dan panel",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00002",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "DP untuk tahap rangka dan panel",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "05 Mei 2026"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00004",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembayaran panel 32 lembar",
+   "64.000.000",
+   "0"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00004",
+   "110103",
+   "BCA a/c 1234567891",
+   "Pembayaran panel 32 lembar",
+   "0",
+   "64.000.000"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00004",
+   "600020",
+   "Beban Operasional Lainnya",
+   "Pembelian PV 32 lembar panel 550 Wp",
+   "0",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00004",
+   "110506",
+   "Proyek Dalam Proses",
+   "Pembelian PV 32 lembar panel 550 Wp",
+   "64.000.000",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00004",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembelian PV 32 lembar panel 550 Wp",
+   "0",
+   "64.000.000"
+  ],
+  [
+   "08 Mei 2026"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00001",
+   "110506",
+   "Proyek Dalam Proses",
+   "Penggunaan Draining Clip Panel beserta epmasangan di panel langsung oleh tukang",
+   "246.000",
+   "0"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00001",
+   "110401",
+   "Persediaan",
+   "Penggunaan Draining Clip Panel beserta epmasangan di",
+   "0",
+   "246.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 1",
+   "dari 6"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "panel langsung oleh tukang"
+  ],
+  [
+   "09 Mei 2026"
+  ],
+  [
+   "Pembayaran",
+   "110103.2026.05.00010",
+   "600020",
+   "Beban Operasional Lainnya",
+   "Bayar Tukang (Biaya Langsung) untuk pasang rangka dan panel 7 hari kerja",
+   "0",
+   "0"
+  ],
+  [
+   "Pembayaran",
+   "110103.2026.05.00010",
+   "110506",
+   "Proyek Dalam Proses",
+   "Bayar Tukang (Biaya Langsung) untuk pasang rangka dan panel 7 hari kerja",
+   "2.100.000",
+   "0"
+  ],
+  [
+   "Pembayaran",
+   "110103.2026.05.00010",
+   "110103",
+   "BCA a/c 1234567891",
+   "Bayar Tukang (Biaya Langsung) untuk pasang rangka dan panel 7 hari kerja",
+   "0",
+   "2.100.000"
+  ],
+  [
+   "10 Mei 2026"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00005",
+   "110103",
+   "BCA a/c 1234567891",
+   "DP kedua untuk tahap inverter dan Battery",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00005",
+   "110301",
+   "Piutang Usaha IDR",
+   "DP kedua untuk tahap inverter dan Battery",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00004",
+   "110301",
+   "Piutang Usaha IDR",
+   "DP untuk tahap instalasi inverter dan battery",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00004",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "DP untuk tahap instalasi inverter dan battery",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00005",
+   "110301",
+   "Piutang Usaha IDR",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "0",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00005",
+   "5101.02",
+   "Beban Pokok Proyek",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "56.356.740",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00005",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "77.232.600",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00005",
+   "110506",
+   "Proyek Dalam Proses",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "0",
+   "56.356.740"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00005",
+   "400005",
+   "Pendapatan Proyek",
+   "Tagihan #1 rangka dan pemasangan panel",
+   "0",
+   "77.232.600"
+  ],
+  [
+   "11 Mei 2026"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 2",
+   "dari 6"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00006",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembayaran Inverter dan SCC",
+   "26.450.000",
+   "0"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00006",
+   "110103",
+   "BCA a/c 1234567891",
+   "Pembayaran Inverter dan SCC",
+   "0",
+   "26.450.000"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00005",
+   "600020",
+   "Beban Operasional Lainnya",
+   "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+   "0",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00005",
+   "110506",
+   "Proyek Dalam Proses",
+   "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+   "26.300.000",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00005",
+   "110506",
+   "Proyek Dalam Proses",
+   "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+   "150.000",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00005",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+   "0",
+   "26.450.000"
+  ],
+  [
+   "12 Mei 2026"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00003",
+   "110506",
+   "Proyek Dalam Proses",
+   "Instalasi Inverter butuh MCB 50A",
+   "255.000",
+   "0"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00003",
+   "110401",
+   "Persediaan",
+   "Instalasi Inverter butuh MCB 50A",
+   "0",
+   "255.000"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.06.00002",
+   "110301",
+   "Piutang Usaha IDR",
+   "Tagihan #2 Inverter dan SCC",
+   "0",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.06.00002",
+   "5101.02",
+   "Beban Pokok Proyek",
+   "Tagihan #2 Inverter dan SCC",
+   "29.032.260",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.06.00002",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "Tagihan #2 Inverter dan SCC",
+   "27.360.000",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.06.00002",
+   "110506",
+   "Proyek Dalam Proses",
+   "Tagihan #2 Inverter dan SCC",
+   "0",
+   "29.032.260"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.06.00002",
+   "400005",
+   "Pendapatan Proyek",
+   "Tagihan #2 Inverter dan SCC",
+   "0",
+   "27.360.000"
+  ],
+  [
+   "13 Mei 2026"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00007",
+   "110103",
+   "BCA a/c 1234567891",
+   "Pembayaran DP tahap terakhir- Battery dan intalasi PLN",
+   "30.000.000",
+   "0"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00007",
+   "110301",
+   "Piutang Usaha IDR",
+   "Pembayaran DP tahap terakhir- Battery dan intalasi PLN",
+   "0",
+   "30.000.000"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00006",
+   "110301",
+   "Piutang Usaha IDR",
+   "DP untuk tahap #3 Instalasi",
+   "30.000.000",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 3",
+   "dari 6"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "Battery dan PLN"
+  ],
+  [
+   "Uang Muka Penjualan",
+   "SI.2026.05.00006",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "DP untuk tahap #3 Instalasi Battery dan PLN",
+   "0",
+   "30.000.000"
+  ],
+  [
+   "14 Mei 2026"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00009",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembayaran Pembelian Battery 12 Pack 100A",
+   "72.000.000",
+   "0"
+  ],
+  [
+   "Pembayaran Pembelian",
+   "110103.2026.05.00009",
+   "110103",
+   "BCA a/c 1234567891",
+   "Pembayaran Pembelian Battery 12 Pack 100A",
+   "0",
+   "72.000.000"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00004",
+   "110506",
+   "Proyek Dalam Proses",
+   "Bahan untuk pengerjaan instalasi battery dan PLN",
+   "507.000",
+   "0"
+  ],
+  [
+   "Bahan Baku Terpakai",
+   "MEQ.2026.05.00004",
+   "110401",
+   "Persediaan",
+   "Bahan untuk pengerjaan instalasi battery dan PLN",
+   "0",
+   "507.000"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00006",
+   "110506",
+   "Proyek Dalam Proses",
+   "Pembelian Battery lifePO4 12 Pack",
+   "72.000.000",
+   "0"
+  ],
+  [
+   "Faktur Pembelian",
+   "PI.2026.05.00006",
+   "210101",
+   "Utang Usaha IDR",
+   "Pembelian Battery lifePO4 12 Pack",
+   "0",
+   "72.000.000"
+  ],
+  [
+   "15 Mei 2026"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00011",
+   "110103",
+   "BCA a/c 1234567891",
+   "pembayaran pelunasan tahap 3 - selesai",
+   "6.066.600",
+   "0"
+  ],
+  [
+   "Penerimaan Penjualan",
+   "110103.2026.05.00011",
+   "110301",
+   "Piutang Usaha IDR",
+   "pembayaran pelunasan tahap 3 - selesai",
+   "0",
+   "6.066.600"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00007",
+   "110301",
+   "Piutang Usaha IDR",
+   "Tagihan #3 Battery dan Instalasi",
+   "6.066.600",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00007",
+   "5101.02",
+   "Beban Pokok Proyek",
+   "Tagihan #3 Battery dan Instalasi",
+   "85.389.000",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00007",
+   "210103",
+   "Pendapatan Dimuka Proyek",
+   "Tagihan #3 Battery dan Instalasi",
+   "85.407.400",
+   "0"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00007",
+   "110506",
+   "Proyek Dalam Proses",
+   "Tagihan #3 Battery dan Instalasi",
+   "0",
+   "85.389.000"
+  ],
+  [
+   "Faktur Penjualan",
+   "SI.2026.05.00007",
+   "400005",
+   "Pendapatan Proyek",
+   "Tagihan #3 Battery dan Instalasi",
+   "0",
+   "91.474.000"
+  ],
+  [
+   "20 Jun 2026"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00001",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang Draining Clip (Plastik)",
+   "4.100.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00001",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang Draining Clip",
+   "0",
+   "4.100.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 4",
+   "dari 6"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "(Plastik)"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00002",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang Kabel Battery 2x25mm DC",
+   "5.500.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00002",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang Kabel Battery 2x25mm DC",
+   "0",
+   "5.500.000"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00003",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang Kabel Listrik NYM 3x2.5mm",
+   "18.000.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00003",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang Kabel Listrik NYM 3x2.5mm",
+   "0",
+   "18.000.000"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00004",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang Kabel Solar Panel Slocable 4mm",
+   "9.700.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00004",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang Kabel Solar Panel Slocable 4mm",
+   "0",
+   "9.700.000"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00005",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang Kabel Solar Panel Slocable 6mm",
+   "17.400.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00005",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang Kabel Solar Panel Slocable 6mm",
+   "0",
+   "17.400.000"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00006",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang MCB TOMZ 2P AC - 50A",
+   "1.700.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00006",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang MCB TOMZ 2P AC - 50A",
+   "0",
+   "1.700.000"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00007",
+   "110401",
+   "Persediaan",
+   "Saldo Awal barang MCB TOMZ 2P DC - 125 A",
+   "3.000.000",
+   "0"
+  ],
+  [
+   "Penyesuaian Persediaan",
+   "IA.2026.06.00007",
+   "300001",
+   "Equitas Saldo Awal",
+   "Saldo Awal barang MCB TOMZ 2P DC - 125 A",
+   "0",
+   "3.000.000"
+  ],
+  [
+   "01 Jul 2026"
+  ],
+  [
+   "Penyelesaian Proyek",
+   "FPC.2026.07.00003",
+   "110401",
+   "Persediaan",
+   "proyek selesai, terpasang dan run",
+   "12.300",
+   "0"
+  ],
+  [
+   "Penyelesaian Proyek",
+   "FPC.2026.07.00003",
+   "110506",
+   "Proyek Dalam Proses",
+   "proyek selesai, terpasang dan run",
+   "0",
+   "12.300"
+  ],
+  [
+   "Penyelesaian Proyek",
+   "FPC.2026.07.00003",
+   "110506",
+   "Proyek Dalam Proses",
+   "proyek selesai, terpasang dan",
+   "2.382.300",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 5",
+   "dari 6"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Histori Buku Besar"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tipe Transaksi Jurnal",
+   "No Bukti #",
+   "Kode #",
+   "Nama Perkiraan",
+   "Keterangan Jurnal",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "run"
+  ],
+  [
+   "Penyelesaian Proyek",
+   "FPC.2026.07.00003",
+   "5101.02",
+   "Beban Pokok Proyek",
+   "proyek selesai, terpasang dan run",
+   "0",
+   "2.382.300"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:48"
+  ],
+  [
+   "Halaman 6",
+   "dari 6"
+  ]
+ ]
+}

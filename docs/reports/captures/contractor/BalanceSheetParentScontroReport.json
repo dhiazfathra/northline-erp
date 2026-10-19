@@ -1,0 +1,160 @@
+{
+ "planId": "BalanceSheetParentScontroReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedCurrency": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Neraca (Induk Skontro)"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Deskripsi",
+   "Nilai (IDR)",
+   "Deskripsi",
+   "Nilai (IDR)"
+  ],
+  [
+   "ASET",
+   "LIABILITAS DAN EKUITAS"
+  ],
+  [
+   "ASET LANCAR",
+   "LIABILITAS"
+  ],
+  [
+   "Kas dan Setara Kas",
+   "LIABILITAS JANGKA PENDEK"
+  ],
+  [
+   "Kas & Bank",
+   "28.666.600",
+   "Utang Usaha"
+  ],
+  [
+   "BCA a/c 1234567891",
+   "28.666.600",
+   "Jumlah Utang",
+   "0"
+  ],
+  [
+   "Jumlah Kas dan Setara Kas",
+   "28.666.600"
+  ],
+  [
+   "Kewajiban Jangka Pendek Lainnya"
+  ],
+  [
+   "Piutang Usaha",
+   "Jumlah Kewajiban Jangka Pendek Lainnya",
+   "0"
+  ],
+  [
+   "Jumlah Piutang Usaha",
+   "0",
+   "Jumlah Kewajiban Jangka Pendek",
+   "0"
+  ],
+  [
+   "Persediaan",
+   "LIABILITAS JANGKA PANJANG"
+  ],
+  [
+   "Persediaan",
+   "58.404.300",
+   "Jumlah Kewajiban Jangka Panjang",
+   "0"
+  ],
+  [
+   "Persediaan",
+   "58.404.300",
+   "Jumlah Kewajiban",
+   "0"
+  ],
+  [
+   "Jumlah Persediaan",
+   "58.404.300"
+  ],
+  [
+   "EKUITAS"
+  ],
+  [
+   "Aset Lancar Lainnya",
+   "Modal",
+   "87.070.900"
+  ],
+  [
+   "Jumlah Aset Lancar Lainnya",
+   "0",
+   "Equitas Saldo Awal",
+   "59.400.000"
+  ],
+  [
+   "Jumlah Aset Lancar",
+   "87.070.900",
+   "Laba Ditahan",
+   "27.670.900"
+  ],
+  [
+   "Jumlah Ekuitas",
+   "87.070.900"
+  ],
+  [
+   "ASET TIDAK LANCAR",
+   "JUMLAH LIABILITAS DAN EKUITAS",
+   "87.070.900"
+  ],
+  [
+   "Nilai Histori"
+  ],
+  [
+   "Jumlah Nilai Histori",
+   "0"
+  ],
+  [
+   "Akumulasi Penyusutan"
+  ],
+  [
+   "Jumlah Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "Jumlah Aset Tidak Lancar",
+   "0"
+  ],
+  [
+   "Aset Lainnya"
+  ],
+  [
+   "Jumlah Aset Lainnya",
+   "0"
+  ],
+  [
+   "JUMLAH ASET",
+   "87.070.900"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

@@ -1,0 +1,61 @@
+{
+ "planId": "OwnerEquityChangedReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Perubahan Ekuitas Pemilik"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Keterangan",
+   "Nilai"
+  ],
+  [
+   "Ekuitas pemilik awal periode",
+   "0"
+  ],
+  [
+   "Penambahan Ekuitas Pemilik"
+  ],
+  [
+   "Pendapatan Bersih",
+   "27.670.900"
+  ],
+  [
+   "Investasi Kurun Periode",
+   "59.400.000"
+  ],
+  [
+   "Penarikan",
+   "0"
+  ],
+  [
+   "Total Penambahan Ekuitas Pemilik",
+   "87.070.900"
+  ],
+  [
+   "Ekuitas Pemilik Akhir Periode",
+   "87.070.900"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:47"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}
