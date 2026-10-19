@@ -29,13 +29,16 @@ selection and the demo has none, or the contractor P&L, see 5).
 5. **Contractor projects are a separate record** from the Proyek dimension (ADR-0034). Laba/Rugi Proyek Kontraktor
    rejected every `selectedContractorProject` shape tried with "Proyek harus diisi"; spec kept partial.
 6. **Daftar Proyek** prints Nama and Keterangan; `projects` gains `description`.
+7. **Costing and aging as in Trade Portal.** Preferensi reads `featureCostingMethod: AVERAGE` and aging from
+   `INVOICEDATE` (read from the preferences form, not yet proven with a seeded purchase/sale). Kontraktor maps to
+   costing AVERAGE and `AgingBasis` INVOICE_DATE (ADR-0029 findings 6-7, ADR-0031); Manufaktur Demo stays FIFO / due date.
 
 ## Verification
 NL-K seed in Kontraktor Demo (2047, a year with no demo data): projects NL-K-P1/P2, Jurnal Umum JV.2047.01.00001 to
 JV.2047.04.00001 (lines with and without a project, revenue, COGS, expense, other income), Per Proyek Anggaran
 B1-B3 (one amount with cents). Fixture `docs/reports/fixtures/contractor/projects-k.json`, test
 `apps/api/test/contractor-projects.test.ts`: Laba/Rugi Proyek, Multi Periode, Perbandingan Periode, Analisa,
-Perbandingan Anggaran (two projects) and Daftar Proyek match with zero diff.
+Perbandingan Anggaran (two projects), Daftar Proyek and Laba/Rugi (Standar) 2047 match with zero diff.
 
 ## Consequences
 - Which style an instance prints is a query parameter for now; it belongs with the business profile (ADR-0031).

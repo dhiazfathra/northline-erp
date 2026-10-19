@@ -6,6 +6,7 @@ import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
 import * as B from '../src/reports/budget'
 import * as D from '../src/reports/dimensions'
+import * as F from '../src/reports/financial-statements'
 import type { TbAccount } from '../src/reports/trial-balance'
 
 // Kontraktor Demo (ADR-0035): NL-K journals and Per Proyek Anggaran of 2047 replayed into a fresh schema; project
@@ -87,4 +88,11 @@ for (const key of ['ProfitLossCompareBudgetProjectReport', 'ProfitLossCompareBud
 
 test('Daftar Proyek', async () => {
   expect(await D.projectList(db)).toEqual(body(R.ProjectListReport!.rows))
+})
+
+test('Laba/Rugi (Standar) 2047: Journal-only core re-verified on Kontraktor Demo', () => {
+  const [head, ...rows] = body(R.ProfitLossStandardReport!.rows)
+  expect(head).toEqual(['Deskripsi', F.periodLabel('2047-01-01', '2047-12-31')])
+  const balances = lines.map(l => ({ account: l.account, date: l.date, debit: l.debit, credit: l.credit }))
+  expect(F.profitLoss(accounts, balances, '2047-01-01', '2047-12-31', o).map(F.formatLine)).toEqual(rows)
 })
