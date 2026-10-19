@@ -2,7 +2,8 @@
 // Captures each report in meta (planId -> {p: paramDate, a: [[name, type, default]]}) with default parameters over
 // the sandbox's whole history, one file per report in outDir. Daftar Laporan metadata comes from init-report.do.
 import { readFileSync, writeFileSync } from 'node:fs';
-const TRADE = process.env.ACC_DB === 'trade';
+// Trade Portal and Kontraktor Demo share the parameter quirks (ADR-0029 finding 1, ADR-0035).
+const TRADE = ['trade', 'contractor'].includes(process.env.ACC_DB);
 const ALL_BRANCH = [{ name: '[Semua Cabang]', id: null }];
 const DATES = {
   FROMTO: { startDate: '01/01/2000', endDate: '31/12/2040' }, FROMTO_TIMESTAMP: { startDate: '01/01/2000', endDate: '31/12/2040' },

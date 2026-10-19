@@ -48,8 +48,8 @@ export async function assertSandbox(page) {
 export async function openSandbox() {
   const o = await open();
   await login(o.page);
-  await o.page.waitForTimeout(3000);
   const hits = o.page.getByText(DB, { exact: true });
+  await hits.first().waitFor({ timeout: 30000 }).catch(() => {}); // the Data Usaha list renders late on a fresh login
   if ((await hits.count()) !== 1) throw new Error('openSandbox: sandbox not uniquely listed; abort');
   const [np] = await Promise.all([o.ctx.waitForEvent('page', { timeout: 20000 }).catch(() => null), hits.first().click()]);
   o.app = np ?? o.page;
