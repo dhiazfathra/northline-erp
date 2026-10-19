@@ -8,7 +8,7 @@ export declare function purchaseByVendor(d: SalesData, from: string, to: string)
 /** Faktur Belum Lunas per Pemasok */
 export declare function outstandingPerVendor(d: SalesData, asOf: string): string[][];
 /** Rincian Umur Utang: the per-vendor subtotal prints the owing and the first five buckets (no "> 120" cell). */
-export declare function agingPayableDetail(d: SalesData, asOf: string): string[][];
+export declare function agingPayableDetail(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Pembelian per Barang */
 export declare function purchaseByItem(d: SalesData, from: string, to: string): string[][];
 /** Rincian Pembelian per Barang: no subtotal rows. */

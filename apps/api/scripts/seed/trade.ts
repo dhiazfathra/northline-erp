@@ -18,6 +18,8 @@ export default async function seed(db: Db, sync: () => Promise<void>) {
   await sync()
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month, costing_method)
     SELECT ${RE}, 1, 'AVERAGE' WHERE NOT EXISTS (SELECT 1 FROM ledger_settings)`)
+  // ADR-0037: set on every run so an older branch gains the preferences
+  await db.execute(sql`UPDATE ledger_settings SET aging_basis = 'INVOICE_DATE', report_style = 'RETAIL'`)
   for (const [i, t] of (fx as any).taxes.entries())
     await db.execute(sql`INSERT INTO taxes (name, rate, seq, sales_account, purchase_account) VALUES (${t.name}, ${t.rate}, ${i}, ${t.salesAccount}, ${t.purchaseAccount}) ON CONFLICT DO NOTHING`)
   for (const j of jfx.journals)

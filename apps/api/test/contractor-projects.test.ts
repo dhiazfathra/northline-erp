@@ -111,4 +111,8 @@ test('HTTP: project routes serve the same rows (style=standard)', async () => {
   expect(await get('/reports/dimensions/project-multi-period?from=2047-01-01&to=2047-04-30&project=NL-K-P1&style=standard')).toEqual(body(R.ProfitLossProjectMultiPeriodReport!.rows))
   expect(await get('/reports/dimensions/analysis-project?from=2047-01-01&to=2047-12-31')).toEqual(body(R.AnalysisProfitLossProjectReport!.rows))
   expect(await get('/reports/master/projects')).toEqual(body(R.ProjectListReport!.rows))
+  // company report style STANDARD (ADR-0037): no style= needed; style=retail still overrides
+  await db.execute(sql`UPDATE ledger_settings SET report_style = 'STANDARD'`)
+  expect(await get('/reports/dimensions/by-project?from=2047-01-01&to=2047-12-31&project=NL-K-P1&project=NL-K-P2')).toEqual(body(R.ProfitLossByProjectReport!.rows))
+  expect(await get('/reports/dimensions/by-project?from=2047-01-01&to=2047-12-31&project=NL-K-P1&project=NL-K-P2&style=retail')).not.toEqual(body(R.ProfitLossByProjectReport!.rows))
 })

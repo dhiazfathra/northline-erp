@@ -29,6 +29,7 @@ import { createItemAdjustment, createItemTransfer } from './inventory/adjustment
 import { costingMethod, setCostingMethod } from './inventory/fifo'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
+import { reportPreferences, setReportPreferences } from './reports/preferences'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
 import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
@@ -39,7 +40,11 @@ function clientIp(c: Context): string | null {
   return typeof server?.requestIP === 'function' ? server.requestIP(c.req.raw)?.address ?? null : c.req.header('cf-connecting-ip') ?? null
 }
 
+type AsOfReport = (d: R.SalesData, asOf: string, basis: R.AgingBasis) => string[][]
+
 export function createApp(db: Db) {
+  // basis=DUE_DATE|INVOICE_DATE overrides the company's aging basis (ADR-0037)
+  const agingBasis = async (q: Record<string, string>) => q.basis ? z.enum(['DUE_DATE', 'INVOICE_DATE']).parse(q.basis) : (await reportPreferences(db as any)).agingBasis
   const api = new Hono<AuthEnv>()
     .onError((err, c) => {
       if (err instanceof ZodError) return c.json({ error: 'validation', issues: err.issues }, 422)
@@ -95,6 +100,11 @@ export function createApp(db: Db) {
       const { method } = z.object({ method: z.enum(['FIFO', 'AVERAGE']) }).parse(await c.req.json())
       await db.transaction(tx => setCostingMethod(tx, method)); return c.json({ method })
     })
+    .get('/settings/report-preferences', async c => c.json(await reportPreferences(db as any)))
+    .put('/settings/report-preferences', async c => {
+      const p = z.object({ agingBasis: z.enum(['DUE_DATE', 'INVOICE_DATE']), reportStyle: z.enum(['RETAIL', 'STANDARD']) }).parse(await c.req.json())
+      await db.transaction(tx => setReportPreferences(tx, p)); return c.json(p)
+    })
     .post('/sales/customers', async c => { await upsertCustomer(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/sales/items', async c => { await upsertItem(db, await c.req.json()); return c.json({ ok: true }) })
     .delete('/sales/:kind{customers|items}/:no', async c => { await deleteMaster(db, c.req.param('kind') === 'customers' ? 'customer' : 'item', c.req.param('no')); return c.json({ ok: true }) })
@@ -149,7 +159,8 @@ export function createApp(db: Db) {
       const q = c.req.query(), r = c.req.param('report'), list = (k: string) => c.req.queries(k) ?? []
       const o = { showZeroBalance: q.showZeroBalance === 'true', showParentAccount: q.showParentAccount !== 'false' }
       const accounts = (await loadLedger(db, '9999-12-31')).accounts, lines = await DIM.loadDimLines(db)
-      const d = isoDate, st = q.style === 'standard' ? DIM.STANDARD : DIM.RETAIL // standard = Kontraktor Demo layout (ADR-0035)
+      // style=standard|retail overrides the company's report style (Kontraktor Demo prints STANDARD, ADR-0035/0037)
+      const d = isoDate, st = (q.style ? q.style === 'standard' : (await reportPreferences(db as any)).reportStyle === 'STANDARD') ? DIM.STANDARD : DIM.RETAIL
       if (r === 'by-branch') {
         const bs = await db.execute(sql`SELECT name, is_default FROM branches ORDER BY name`)
         const all = bs.map(b => b.name as string), def = (bs.find(b => b.is_default)?.name as string) ?? all[0]!
@@ -169,10 +180,10 @@ export function createApp(db: Db) {
     .get('/reports/master/:list{currencies|fob|taxes|shipments|employees|fiscal-fa-types}', async c =>
       c.json(await ({ currencies: ML.currencyList, fob: ML.fobList, taxes: ML.taxList, shipments: ML.shipmentList, employees: ML.employeeList, 'fiscal-fa-types': ML.fiscalFaTypeList }[c.req.param('list') as 'fob'])(db)))
     .post('/sales/receipts', async c => c.json(await createSalesReceipt(db, await c.req.json()), 201))
-    .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}', async c => {
+    .get('/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding|aging|aging-detail|outstanding-per-customer|ar-ledger-detail|invoice-paid|receipt-detail|owing-collection|by-item|item-by-customer|customer-by-item|by-customer-detail|by-item-detail|by-branch|invoice-detail|down-payments|down-payment-usage}', async c => {
       const d = await loadSales(db), q = c.req.query(), r = c.req.param('report')
-      const asOfReports = { outstanding: R.outstandingInvoices, aging: R.agingReceivable, 'aging-detail': R.agingReceivableDetail, 'outstanding-per-customer': R.outstandingPerCustomer } as const
-      if (r in asOfReports) return c.json(asOfReports[r as keyof typeof asOfReports](d, balanceSheetQuery.parse(q).asOf))
+      const asOfReports = { outstanding: R.outstandingInvoices, aging: R.agingReceivable, 'aging-detail': R.agingReceivableDetail, 'outstanding-per-customer': R.outstandingPerCustomer } as Record<string, AsOfReport>
+      if (r in asOfReports) return c.json(asOfReports[r]!(d, balanceSheetQuery.parse(q).asOf, await agingBasis(q)))
       const { from, to } = trialBalanceQuery.parse(q)
       const fn = { 'invoice-list': R.salesInvoiceList, 'sales-by-customer': R.salesByCustomer, 'receipt-list': R.salesReceiptList, 'ar-ledger': R.arLedger, 'ar-history': R.arHistory, 'customer-statement': R.customerStatement, 'ar-ledger-detail': R.arLedgerDetail, 'invoice-paid': R.salesInvoicePaid, 'receipt-detail': R.salesReceiptDetail,
         'owing-collection': R.owingCollection, 'by-item': R.salesByItem, 'item-by-customer': R.salesItemByCustomer, 'customer-by-item': R.salesCustomerByItem,
@@ -202,8 +213,8 @@ export function createApp(db: Db) {
     .post('/purchases/payments', async c => c.json(await createPurchasePayment(db, await c.req.json()), 201))
     .get('/reports/payables/:report{invoice-list|payment-list|ap-ledger|ap-history|vendor-statement|ap-ledger-detail|invoice-paid|by-vendor|outstanding|aging|outstanding-per-vendor|aging-detail|by-item|by-item-detail|by-vendor-detail|payment-detail|invoice-detail|per-month|down-payments|down-payment-usage}', async c => {
       const d = await loadPurchases(db), q = c.req.query(), r = c.req.param('report')
-      const asOfReports = { outstanding: P.outstandingPurchases, aging: P.agingPayable, 'outstanding-per-vendor': P.outstandingPerVendor, 'aging-detail': P.agingPayableDetail } as const
-      if (r in asOfReports) return c.json(asOfReports[r as keyof typeof asOfReports](d, balanceSheetQuery.parse(q).asOf))
+      const asOfReports = { outstanding: P.outstandingPurchases, aging: P.agingPayable, 'outstanding-per-vendor': P.outstandingPerVendor, 'aging-detail': P.agingPayableDetail } as Record<string, AsOfReport>
+      if (r in asOfReports) return c.json(asOfReports[r]!(d, balanceSheetQuery.parse(q).asOf, await agingBasis(q)))
       if (r === 'per-month') return c.json(P.payablePerMonth(d, z.coerce.number().int().parse(q.year)))
       const { from, to } = trialBalanceQuery.parse(q)
       const fn = { 'invoice-list': R.salesInvoiceList, 'payment-list': R.salesReceiptList, 'ap-ledger': R.arLedger, 'ap-history': R.arHistory, 'vendor-statement': R.customerStatement,
@@ -268,7 +279,7 @@ export function createApp(db: Db) {
     })
     .get('/reports/charts/:chart{ar-aging|ap-aging}', async c => {
       const d = c.req.param('chart') === 'ar-aging' ? await loadSales(db) : await loadPurchases(db)
-      return c.json(R.agingChart(d, balanceSheetQuery.parse(c.req.query()).asOf))
+      return c.json(R.agingChart(d, balanceSheetQuery.parse(c.req.query()).asOf, await agingBasis(c.req.query())))
     })
     .get('/reports/charts/:chart{net-worth|liquidity|roa|roe|revenue-vs-expense}', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())

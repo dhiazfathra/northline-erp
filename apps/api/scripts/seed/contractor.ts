@@ -14,6 +14,8 @@ export default async function seed(db: Db, sync: () => Promise<void>) {
   await sync()
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month, costing_method)
     SELECT ${RE}, 1, 'AVERAGE' WHERE NOT EXISTS (SELECT 1 FROM ledger_settings)`)
+  // ADR-0037: set on every run so an older branch gains the preferences
+  await db.execute(sql`UPDATE ledger_settings SET aging_basis = 'INVOICE_DATE', report_style = 'STANDARD'`)
   for (const p of fx.projects) await db.execute(sql`INSERT INTO projects (name, no, description) VALUES (${p.name}, ${p.no}, ${p.description}) ON CONFLICT DO NOTHING`)
   for (const j of fx.journals)
     await handle(db, { type: 'PostJournal', idempotencyKey: `nl-k-${j.ref}`, journalId: crypto.randomUUID(), date: j.date, description: j.description,

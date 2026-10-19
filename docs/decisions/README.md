@@ -38,3 +38,4 @@
 | [0034](0034-kontraktor-module-dependencies.md) | Module dependencies surfaced by Kontraktor Demo (Contractor Projects), proposed build order | Proposed (review) |
 | [0035](0035-kontraktor-demo-divergences.md) | Kontraktor Demo divergences: standard-style project P&L, Per Proyek budgets, Daftar Proyek | Accepted |
 | [0036](0036-one-neon-branch-per-profile.md) | Production demo: one Neon branch per Data Usaha, one Worker repointed between them | Accepted |
+| [0037](0037-per-company-report-preferences.md) | Per-company report preferences: aging basis and P&L style in `ledger_settings` | Accepted |

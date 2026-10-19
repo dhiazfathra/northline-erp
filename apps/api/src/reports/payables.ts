@@ -53,10 +53,10 @@ export function outstandingPerVendor(d: SalesData, asOf: string): string[][] {
 }
 
 /** Rincian Umur Utang: the per-vendor subtotal prints the owing and the first five buckets (no "> 120" cell). */
-export function agingPayableDetail(d: SalesData, asOf: string): string[][] {
+export function agingPayableDetail(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
   const out: string[][] = [['Nomor #', 'Tanggal', 'Utang', ...BUCKETS], [CURRENCY]]
   for (const v of vendorsByName(d)) {
-    const xs = openInvoices(d, asOf, v)
+    const xs = openInvoices(d, asOf, v, basis)
     if (!xs.length) continue
     out.push([d.customers.get(v)!], ...xs.map(x => [x.number, fmtDate(x.date), formatIdr(x.owing), ...spread([x]).map(formatIdr)]),
       [formatIdr(xs.reduce((s, x) => s + x.owing, 0)), ...spread(xs).slice(0, 5).map(formatIdr)])

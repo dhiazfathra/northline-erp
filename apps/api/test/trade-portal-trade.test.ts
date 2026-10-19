@@ -165,3 +165,23 @@ for (const [planId, side] of [['TaxationInReport', 'IN'], ['TaxationOutReport', 
         : T.taxationListBySection(lines, side, from, to, await T.loadTaxSections(db, side, from))
       expect(ours).toEqual(want)
     })
+
+test('HTTP: aging reports follow the company aging basis (ADR-0037), basis= overrides', async () => {
+  const { createApp } = await import('../src/app')
+  const { createUser } = await import('../src/auth')
+  const app = createApp(db)
+  await createUser(db, 'nl-tp@example.test', 'rahasia-123')
+  const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-tp@example.test', password: 'rahasia-123' }) })
+  const cookie = login.headers.get('set-cookie')!.split(';')[0]!
+  const get = async (p: string) => (await app.request('/api' + p, { headers: { cookie } })).json()
+  const ar = `/reports/receivables/aging?asOf=${AS_OF}`, ap = `/reports/payables/aging?asOf=${AS_OF}`
+  expect(await get('/settings/report-preferences')).toEqual({ agingBasis: 'DUE_DATE', reportStyle: 'RETAIL' })
+  expect(dec(await get(ar))).toEqual(dec(R.agingReceivable(await loadSales(db), AS_OF, 'DUE_DATE')))
+  const put = await app.request('/api/settings/report-preferences', { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify({ agingBasis: 'INVOICE_DATE', reportStyle: 'RETAIL' }) })
+  expect(put.status).toBe(200)
+  expect(dec(await get(ar))).toEqual(rep('AgingReceivableReport'))
+  expect(dec(await get(ap))).toEqual(rep('AgingPayableReport'))
+  expect(dec(await get(ar + '&basis=DUE_DATE'))).toEqual(dec(R.agingReceivable(await loadSales(db), AS_OF, 'DUE_DATE')))
+  const [log] = await db.execute(sql`SELECT reference FROM activity_log WHERE entity = 'PRF' ORDER BY id DESC LIMIT 1`)
+  expect(log!.reference).toBe('Umur INVOICE_DATE, gaya laporan RETAIL')
+})

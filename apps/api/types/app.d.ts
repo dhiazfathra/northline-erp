@@ -1,5 +1,6 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+import * as R from './reports/receivables';
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -212,6 +213,30 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
         $put: {
             output: {
                 method: "AVERAGE" | "FIFO";
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/settings/report-preferences": {
+        $get: {
+            output: {
+                agingBasis: R.AgingBasis;
+                reportStyle: import("./reports/preferences").ReportStyle;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/settings/report-preferences": {
+        $put: {
+            output: {
+                agingBasis: "DUE_DATE" | "INVOICE_DATE";
+                reportStyle: "RETAIL" | "STANDARD";
             };
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
@@ -516,7 +541,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
         };
     };
 }) & {
-    "/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding}": {
+    "/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding|aging|aging-detail|outstanding-per-customer|ar-ledger-detail|invoice-paid|receipt-detail|owing-collection|by-item|item-by-customer|customer-by-item|by-customer-detail|by-item-detail|by-branch|invoice-detail|down-payments|down-payment-usage}": {
         $get: {
             output: string[][];
             outputFormat: "json";

@@ -41,5 +41,5 @@ B1-B3 (one amount with cents). Fixture `docs/reports/fixtures/contractor/project
 Perbandingan Anggaran (two projects), Daftar Proyek and Laba/Rugi (Standar) 2047 match with zero diff.
 
 ## Consequences
-- Which style an instance prints is a query parameter for now; it belongs with the business profile (ADR-0031).
+- Which style an instance prints is a company preference since ADR-0037; `style=` still overrides.
 - Budgets still have no API endpoint (ADR-0025).

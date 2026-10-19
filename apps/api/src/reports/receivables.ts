@@ -153,10 +153,10 @@ export function agingReceivable(d: SalesData, asOf: string, basis: AgingBasis = 
 }
 
 /** Rincian Umur Piutang */
-export function agingReceivableDetail(d: SalesData, asOf: string): string[][] {
+export function agingReceivableDetail(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
   const out: string[][] = [[CURRENCY]]
   for (const c of [...d.customers.keys()].sort(byName(d))) {
-    const xs = openInvoices(d, asOf, c)
+    const xs = openInvoices(d, asOf, c, basis)
     if (!xs.length) continue
     out.push([d.customers.get(c)!, 'Sisa Kredit', ':', '0'], ['Nomor #', 'Tanggal', 'Piutang', ...BUCKETS],
       ...xs.map(x => [x.number, fmtDate(x.date), formatIdr(x.owing), ...spread([x]).map(formatIdr)]), spread(xs).map(formatIdr))
@@ -432,8 +432,8 @@ export const itemShareChart = (d: SalesData, from: string, to: string) =>
   shareLegend([...group(linesIn(d, from, to), l => l.item).values()].map(xs => [xs[0]!.itemName, tv(xs)]))
 
 /** Grafik Umur Piutang/Utang: one bar per non-empty age bucket (open balance at asOf). */
-export function agingChart(d: SalesData, asOf: string): [string, string][] {
-  const all = [...d.customers.keys()].flatMap(c => openInvoices(d, asOf, c))
+export function agingChart(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): [string, string][] {
+  const all = [...d.customers.keys()].flatMap(c => openInvoices(d, asOf, c, basis))
   return spread(all).map((v, i) => [BUCKETS[i]!, v] as const).filter(([, v]) => v).map(([b, v]) => [b, formatIdr(v)])
 }
 

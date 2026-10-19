@@ -114,7 +114,7 @@ export declare const spread: (xs: {
 /** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
 export declare function agingReceivable(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Rincian Umur Piutang */
-export declare function agingReceivableDetail(d: SalesData, asOf: string): string[][];
+export declare function agingReceivableDetail(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Rincian Buku Besar Pembantu Piutang: per customer, opening, then documents grouped by type with subtotals. */
 export declare function arLedgerDetail(d: SalesData, from: string, to: string): string[][];
 /** Pembayaran Faktur: per customer, per invoice paid in the range, the receipts that paid it. */
@@ -175,7 +175,7 @@ export declare const customerShareChart: (d: SalesData, from: string, to: string
 /** Porsi Penjualan per Barang */
 export declare const itemShareChart: (d: SalesData, from: string, to: string) => string[];
 /** Grafik Umur Piutang/Utang: one bar per non-empty age bucket (open balance at asOf). */
-export declare function agingChart(d: SalesData, asOf: string): [string, string][];
+export declare function agingChart(d: SalesData, asOf: string, basis?: AgingBasis): [string, string][];
 /** Grafik Rata-rata Pembayaran Pelanggan: per month in range, average days from invoice date to each receipt dated that month
  *  (partial payments count); months without receipts show 0. */
 export declare function collectionDaysChart(d: SalesData, from: string, to: string): [string, string][];
