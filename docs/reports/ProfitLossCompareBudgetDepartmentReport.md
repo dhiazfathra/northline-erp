@@ -2,7 +2,7 @@
 
 Group: Pusat Laba & Biaya. Reverse-engineered from Accurate Online, **Retail Demo** sandbox, 2026-10-19. Capture: [`captures/retail/ProfitLossCompareBudgetDepartmentReport.json`](captures/retail/ProfitLossCompareBudgetDepartmentReport.json).
 
-Status: blocked: requires Budget, Department. Fixture: [`fixtures/retail/ProfitLossCompareBudgetDepartmentReport.json`](fixtures/retail/ProfitLossCompareBudgetDepartmentReport.json) (Retail Demo).
+Status: verified (Retail Demo, ADR-0025). Fixture: [`fixtures/retail/budget-rb.json`](fixtures/retail/budget-rb.json); test `apps/api/test/budget.test.ts`. Default-params fixture: [`fixtures/retail/ProfitLossCompareBudgetDepartmentReport.json`](fixtures/retail/ProfitLossCompareBudgetDepartmentReport.json).
 
 ## Purpose
 
@@ -37,7 +37,18 @@ Title lines: `Laba/Rugi Departemen (Perbandingan Anggaran)`, `Dari Periode Janua
 ## Verified / unverified
 
 - Verified: layout, header cells and the sums stated above, against the Retail Demo capture only.
-- Unverified: budget values (none exist), variance direction with non-zero budget, multiple departments in one run (blocks assumed repeated), department filter semantics for postings with no department.
+- Unverified (superseded by the NL-RB section below for budgets and variance): only what that section does not cover, e.g. multiple branches and Per Proyek budgets.
+
+## Budget verification (NL-RB, 2042)
+
+Seed (Retail Demo, all `NL-RB`): departments NL-RB-D1/D2, Jurnal Umum JV.2042.01-05.00001 (lines with and without a department, one amount with cents), Anggaran (module `accurate__budget-target__accountbudget-target`, saved via `/accurate/budget-target/save-accountbudget-target.do`; one document per month and scope `Umum`/`Per Departemen`): Umum Jan, Feb, Jun (with cents) and Per Departemen NL-RB-D1 Jan. Params: `PERIODFROMTO` months of 2042; `selectedBranch=[{name:'[Semua Cabang]',id:null}]`, `selectedProject` and `selectedDataClassification1..10` = `[]` were not needed.
+
+Rules (verified, zero diff in `apps/api/test/budget.test.ts`):
+- Variance = Aktual - Anggaran. `% Var.` = Variance / |Anggaran| x 100, 2 decimals, comma decimal (`-4,35 %`); Anggaran 0 prints `100 %` (any sign) or `0 %` when Variance is 0; a negative that rounds to 0 prints `-0 %` (-0.25 on 10,000,000.25).
+- Anggaran of a row = budget amounts of the months in the period, natural side, rolled up into parents like actuals; a row prints when Aktual or Anggaran is non-zero (`showZeroBalance=false`).
+- Totals (LABA KOTOR, PENDAPATAN OPERASIONAL, non-operating, LABA BERSIH) are computed on each column, then compared.
+- Aktual = lines of the department; Anggaran = that department's Per Departemen budgets only.
+- Several selected departments print one block headed `Departemen : A, B`, but every number is the **last** selected department's only ([D1, D2] shows D2, [D2, D1] shows D1). Northline reproduces this.
 
 ## Retail Demo variation
 

@@ -26,4 +26,5 @@
 | [0022](0022-branch-department-project-dimensions.md) | Branch on journal, department and project on journal line | Accepted |
 | [0023](0023-salesmen-on-sales-lines.md) | Salesmen on sales lines, commission rules, salesman targets, check-ins | Accepted |
 | [0024](0024-batch-serials-transfers-warehouses.md) | Batch serials with expiry, transfer lines and receipts, warehouse master, vendor price end date | Accepted |
+| [0025](0025-budgets.md) | Budgets (Anggaran) per month and scope; budget-vs-actual Laba/Rugi | Accepted |
 | [0026](0026-job-costing.md) | Job costing: job orders, expenses and roll-over (Pekerjaan Pesanan) | Accepted |

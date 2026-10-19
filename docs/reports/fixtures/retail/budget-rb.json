@@ -1,0 +1,2051 @@
+{
+ "dataUsaha": "Retail Demo",
+ "source": "Accurate Online, Retail Demo sandbox, captured 2026-10-19 over 2042 (NL-RB journals JV.2042.*, NL-RB Anggaran)",
+ "accounts": [
+  {
+   "no": "111.000-00",
+   "name": "Kas dan Setara Kas",
+   "type": "CASH_BANK",
+   "parentNo": null
+  },
+  {
+   "no": "111.100-00",
+   "name": "Kas dan Setara Kas Jakarta",
+   "type": "CASH_BANK",
+   "parentNo": "111.000-00"
+  },
+  {
+   "no": "111.101-00",
+   "name": "Kas Jakarta",
+   "type": "CASH_BANK",
+   "parentNo": "111.100-00"
+  },
+  {
+   "no": "111.101-02",
+   "name": "Kas Besar Kantor Jakarta",
+   "type": "CASH_BANK",
+   "parentNo": "111.101-00"
+  },
+  {
+   "no": "411.000-00",
+   "name": "Penjualan",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "411.000-01",
+   "name": "Penjualan Handphone",
+   "type": "REVENUE",
+   "parentNo": "411.000-00"
+  },
+  {
+   "no": "411.000-02",
+   "name": "Penjualan Sparepart Handphone",
+   "type": "REVENUE",
+   "parentNo": "411.000-00"
+  },
+  {
+   "no": "411.000-03",
+   "name": "Penjualan Assesoris Handphone",
+   "type": "REVENUE",
+   "parentNo": "411.000-00"
+  },
+  {
+   "no": "411.000-99",
+   "name": "Pendapatan Jasa",
+   "type": "REVENUE",
+   "parentNo": "411.000-00"
+  },
+  {
+   "no": "421.000-00",
+   "name": "Potongan Penjualan Barang",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "421.000-01",
+   "name": "Potongan Penjualan Handphone",
+   "type": "REVENUE",
+   "parentNo": "421.000-00"
+  },
+  {
+   "no": "421.000-02",
+   "name": "Potongan Penjualan Sparepart Handphone",
+   "type": "REVENUE",
+   "parentNo": "421.000-00"
+  },
+  {
+   "no": "421.000-03",
+   "name": "Potongan Penjualan Assesoris Handphone",
+   "type": "REVENUE",
+   "parentNo": "421.000-00"
+  },
+  {
+   "no": "421.000-99",
+   "name": "Potongan Pendapatan Jasa",
+   "type": "REVENUE",
+   "parentNo": "421.000-00"
+  },
+  {
+   "no": "422.000-00",
+   "name": "Potongan Penjualan Faktur",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "422.000-01",
+   "name": "Potongan Penjualan IDR",
+   "type": "REVENUE",
+   "parentNo": "422.000-00"
+  },
+  {
+   "no": "422.000-02",
+   "name": "Potongan Penjualan USD",
+   "type": "REVENUE",
+   "parentNo": "422.000-00"
+  },
+  {
+   "no": "422.000-03",
+   "name": "Potongan Penjualan SGD",
+   "type": "REVENUE",
+   "parentNo": "422.000-00"
+  },
+  {
+   "no": "431.000-00",
+   "name": "Retur Penjualan",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "431.000-01",
+   "name": "Retur Penjualan Handphone",
+   "type": "REVENUE",
+   "parentNo": "431.000-00"
+  },
+  {
+   "no": "431.000-02",
+   "name": "Retur Penjualan Sparepart Handphone",
+   "type": "REVENUE",
+   "parentNo": "431.000-00"
+  },
+  {
+   "no": "431.000-03",
+   "name": "Retur Penjualan Assesoris Handphone",
+   "type": "REVENUE",
+   "parentNo": "431.000-00"
+  },
+  {
+   "no": "511.000-00",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS",
+   "parentNo": null
+  },
+  {
+   "no": "511.000-01",
+   "name": "Beban Pokok  Penjualan Handphone",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "511.000-02",
+   "name": "Beban Pokok  Penjualan Sparepart Handphone",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "511.000-03",
+   "name": "Beban Pokok  Penjualan Assesoris Handphone",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "511.000-04",
+   "name": "Beban Perakitan",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "511.000-05",
+   "name": "Beban Selisih Nilai barang (Item Transfer)",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "511.000-06",
+   "name": "Beban Selisih Pembelian Barang",
+   "type": "COGS",
+   "parentNo": "511.000-00"
+  },
+  {
+   "no": "512.000-00",
+   "name": "Potongan Pembelian",
+   "type": "COGS",
+   "parentNo": null
+  },
+  {
+   "no": "512.000-01",
+   "name": "Potongan Pembelian Handphone",
+   "type": "COGS",
+   "parentNo": "512.000-00"
+  },
+  {
+   "no": "512.000-02",
+   "name": "Potongan Pembelian Sparepart Handphone",
+   "type": "COGS",
+   "parentNo": "512.000-00"
+  },
+  {
+   "no": "512.000-03",
+   "name": "Potongan Pembelian Assesoris Handphone",
+   "type": "COGS",
+   "parentNo": "512.000-00"
+  },
+  {
+   "no": "611.000-00",
+   "name": "Beban",
+   "type": "EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "611.001-00",
+   "name": "Beban Penjualan",
+   "type": "EXPENSE",
+   "parentNo": "611.000-00"
+  },
+  {
+   "no": "611.001-01",
+   "name": "Beban Gaji Penjualan",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-02",
+   "name": "Beban Komisi Penjualan",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-03",
+   "name": "Beban Konsumsi",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-04",
+   "name": "Beban Angkut Pembelian",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-05",
+   "name": "Beban Kesehatan",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-06",
+   "name": "Beban Asuransi",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-07",
+   "name": "Beban Komunikasi",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-08",
+   "name": "Beban Bensin, Tol dan Parkir",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-09",
+   "name": "Beban Transportasi",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-10",
+   "name": "Beban Tunjangan",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-11",
+   "name": "Beban Entertaiment",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-12",
+   "name": "Beban Iklan",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-13",
+   "name": "Beban Perbaikan dan Perawatan Asset",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.001-99",
+   "name": "Beban Penjualan Lainnya",
+   "type": "EXPENSE",
+   "parentNo": "611.001-00"
+  },
+  {
+   "no": "611.002-00",
+   "name": "Beban Umum dan Administrasi",
+   "type": "EXPENSE",
+   "parentNo": "611.000-00"
+  },
+  {
+   "no": "611.002-01",
+   "name": "Beban Gaji Umum & Admin",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-02",
+   "name": "Beban Listrik dan Air",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-03",
+   "name": "Beban Sewa",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-04",
+   "name": "Beban Telepon",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-05",
+   "name": "Beban Internet",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-06",
+   "name": "Beban Konsumsi Umum & Admin",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-07",
+   "name": "Beban Transportasi Umum & Admin",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-08",
+   "name": "Beban Alat Tulis Kantor",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-09",
+   "name": "Beban Rumah Tangga Kantor",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-10",
+   "name": "Beban Perlengkapan Kantor",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-11",
+   "name": "Beban Langganan Majalah & Koran",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-12",
+   "name": "Beban Bensin, Tol dan Parkir Umum & Admin",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-13",
+   "name": "Beban Perbaikan dan Perawatan Asset Umum & admin",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-14",
+   "name": "Beban Denda Pajak",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-15",
+   "name": "Beban Bonus",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-16",
+   "name": "Beban Tunjangan Hari Raya",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "611.002-99",
+   "name": "Beban Umum & Admin Lainnya",
+   "type": "EXPENSE",
+   "parentNo": "611.002-00"
+  },
+  {
+   "no": "612.001-00",
+   "name": "Beban Penyusutan",
+   "type": "EXPENSE",
+   "parentNo": "611.000-00"
+  },
+  {
+   "no": "612.001-01",
+   "name": "Beban Penyusutan Bangunan",
+   "type": "EXPENSE",
+   "parentNo": "612.001-00"
+  },
+  {
+   "no": "612.001-02",
+   "name": "Beban Penyusutan Kendaraan",
+   "type": "EXPENSE",
+   "parentNo": "612.001-00"
+  },
+  {
+   "no": "612.001-03",
+   "name": "Beban Penyusutan Peralatan & Perlengkapan Kantor",
+   "type": "EXPENSE",
+   "parentNo": "612.001-00"
+  },
+  {
+   "no": "711.000-00",
+   "name": "Biaya Diluar Usaha",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "711.000-01",
+   "name": "Biaya Administrasi Bank",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-02",
+   "name": "Biaya Zakat dan Donasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-03",
+   "name": "Bunga Pinjaman",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-04",
+   "name": "Beban Pajak Penghasilan",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-05",
+   "name": "Laba/Rugi Penghentian Asset",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-97",
+   "name": "Biaya Selisih Pembiayaan Pesanan",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-98",
+   "name": "Biaya Selisih Penyesuaian Persediaan",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "711.000-99",
+   "name": "Biaya Diluar Usaha Lainnya",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "711.000-00"
+  },
+  {
+   "no": "811.000-00",
+   "name": "Pendapatan Diluar Usaha",
+   "type": "OTHER_INCOME",
+   "parentNo": null
+  },
+  {
+   "no": "811.000-01",
+   "name": "Pendapatan Bunga Bank",
+   "type": "OTHER_INCOME",
+   "parentNo": "811.000-00"
+  },
+  {
+   "no": "811.000-02",
+   "name": "Pendapatan Bunga Deposito",
+   "type": "OTHER_INCOME",
+   "parentNo": "811.000-00"
+  },
+  {
+   "no": "811.000-99",
+   "name": "Pendapatan Diluar Usaha Lainnya",
+   "type": "OTHER_INCOME",
+   "parentNo": "811.000-00"
+  },
+  {
+   "no": "911.000-00",
+   "name": "Laba/Rugi Selisih Kurs",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "911.000-01",
+   "name": "Laba/Rugi Selisih Kurs Terealisasi USD",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "911.000-00"
+  },
+  {
+   "no": "911.000-02",
+   "name": "Laba/Rugi Selisih Kurs Terealisasi SGD",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "911.000-00"
+  },
+  {
+   "no": "911.000-03",
+   "name": "Laba/Rugi Selisih Kurs Belum Terealisasi USD",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "911.000-00"
+  },
+  {
+   "no": "911.000-04",
+   "name": "Laba/Rugi Selisih Kurs Belum Terealisasi SGD",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "911.000-00"
+  }
+ ],
+ "departments": [
+  {
+   "name": "NL-RB-D1",
+   "description": "NL-RB-D1"
+  },
+  {
+   "name": "NL-RB-D2",
+   "description": "NL-RB-D2"
+  }
+ ],
+ "journals": [
+  {
+   "ref": "J1",
+   "date": "2042-01-15",
+   "description": "NL-RB-J1 pendapatan",
+   "lines": [
+    {
+     "account": "111.101-02",
+     "side": "DEBIT",
+     "amount": "10000000"
+    },
+    {
+     "account": "411.000-99",
+     "side": "CREDIT",
+     "amount": "6000000",
+     "department": "NL-RB-D1"
+    },
+    {
+     "account": "411.000-01",
+     "side": "CREDIT",
+     "amount": "4000000"
+    }
+   ]
+  },
+  {
+   "ref": "J2",
+   "date": "2042-02-10",
+   "description": "NL-RB-J2 beban umum",
+   "lines": [
+    {
+     "account": "611.002-02",
+     "side": "DEBIT",
+     "amount": "1500000",
+     "department": "NL-RB-D1"
+    },
+    {
+     "account": "611.002-03",
+     "side": "DEBIT",
+     "amount": "700000"
+    },
+    {
+     "account": "111.101-02",
+     "side": "CREDIT",
+     "amount": "2200000"
+    }
+   ]
+  },
+  {
+   "ref": "J3",
+   "date": "2042-03-05",
+   "description": "NL-RB-J3 beban perakitan",
+   "lines": [
+    {
+     "account": "511.000-04",
+     "side": "DEBIT",
+     "amount": "2000000",
+     "department": "NL-RB-D1"
+    },
+    {
+     "account": "111.101-02",
+     "side": "CREDIT",
+     "amount": "2000000"
+    }
+   ]
+  },
+  {
+   "ref": "J4",
+   "date": "2042-04-20",
+   "description": "NL-RB-J4 bunga bank",
+   "lines": [
+    {
+     "account": "111.101-02",
+     "side": "DEBIT",
+     "amount": "250000.5"
+    },
+    {
+     "account": "811.000-01",
+     "side": "CREDIT",
+     "amount": "250000.5",
+     "department": "NL-RB-D2"
+    }
+   ]
+  },
+  {
+   "ref": "J5",
+   "date": "2042-05-10",
+   "description": "NL-RB-J5 biaya bank",
+   "lines": [
+    {
+     "account": "711.000-01",
+     "side": "DEBIT",
+     "amount": "120000",
+     "department": "NL-RB-D1"
+    },
+    {
+     "account": "111.101-02",
+     "side": "CREDIT",
+     "amount": "120000"
+    }
+   ]
+  }
+ ],
+ "budgets": [
+  {
+   "ref": "B1",
+   "year": 2042,
+   "month": 1,
+   "department": null,
+   "notes": "NL-RB-B1 umum Jan",
+   "lines": [
+    {
+     "account": "411.000-99",
+     "amount": "5000000"
+    },
+    {
+     "account": "411.000-01",
+     "amount": "4000000"
+    },
+    {
+     "account": "611.002-02",
+     "amount": "1000000"
+    }
+   ]
+  },
+  {
+   "ref": "B2",
+   "year": 2042,
+   "month": 2,
+   "department": null,
+   "notes": "NL-RB-B2 umum Feb",
+   "lines": [
+    {
+     "account": "611.002-03",
+     "amount": "1000000"
+    },
+    {
+     "account": "611.001-12",
+     "amount": "300000"
+    },
+    {
+     "account": "811.000-01",
+     "amount": "200000"
+    }
+   ]
+  },
+  {
+   "ref": "B3",
+   "year": 2042,
+   "month": 6,
+   "department": null,
+   "notes": "NL-RB-B3 umum Jun",
+   "lines": [
+    {
+     "account": "411.000-99",
+     "amount": "1000000.25"
+    }
+   ]
+  },
+  {
+   "ref": "B4",
+   "year": 2042,
+   "month": 1,
+   "department": "NL-RB-D1",
+   "notes": "NL-RB-B4 D1 Jan",
+   "lines": [
+    {
+     "account": "411.000-99",
+     "amount": "7000000"
+    },
+    {
+     "account": "611.002-02",
+     "amount": "2000000"
+    },
+    {
+     "account": "511.000-04",
+     "amount": "1500000"
+    },
+    {
+     "account": "711.000-01",
+     "amount": "100000"
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "general-2042": {
+   "planId": "ProfitLossCompareBudgetReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "12",
+    "periodEndYear": 2042,
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Penjualan",
+     "10,000,000",
+     "10,000,000.25",
+     "-0.25",
+     "-0 %"
+    ],
+    [
+     "Penjualan Handphone",
+     "4,000,000",
+     "4,000,000",
+     "0",
+     "0 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6,000,000",
+     "6,000,000.25",
+     "-0.25",
+     "-0 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10,000,000",
+     "10,000,000.25",
+     "-0.25",
+     "-0 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "2,000,000",
+     "0",
+     "2,000,000",
+     "100 %"
+    ],
+    [
+     "Beban Perakitan",
+     "2,000,000",
+     "0",
+     "2,000,000",
+     "100 %"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "2,000,000",
+     "0",
+     "2,000,000",
+     "100 %"
+    ],
+    [
+     "LABA KOTOR",
+     "8,000,000",
+     "10,000,000.25",
+     "-2,000,000.25",
+     "-20 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban",
+     "2,200,000",
+     "2,300,000",
+     "-100,000",
+     "-4,35 %"
+    ],
+    [
+     "Beban Penjualan",
+     "0",
+     "300,000",
+     "-300,000",
+     "-100 %"
+    ],
+    [
+     "Beban Iklan",
+     "0",
+     "300,000",
+     "-300,000",
+     "-100 %"
+    ],
+    [
+     "Beban Umum dan Administrasi",
+     "2,200,000",
+     "2,000,000",
+     "200,000",
+     "10 %"
+    ],
+    [
+     "Beban Listrik dan Air",
+     "1,500,000",
+     "1,000,000",
+     "500,000",
+     "50 %"
+    ],
+    [
+     "Beban Sewa",
+     "700,000",
+     "1,000,000",
+     "-300,000",
+     "-30 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2,200,000",
+     "2,300,000",
+     "-100,000",
+     "-4,35 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "5,800,000",
+     "7,700,000.25",
+     "-1,900,000.25",
+     "-24,68 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Laba/Rugi (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "250,000.5",
+     "200,000",
+     "50,000.5",
+     "25 %"
+    ],
+    [
+     "Pendapatan Bunga Bank",
+     "250,000.5",
+     "200,000",
+     "50,000.5",
+     "25 %"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "250,000.5",
+     "200,000",
+     "50,000.5",
+     "25 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Biaya Diluar Usaha",
+     "120,000",
+     "0",
+     "120,000",
+     "100 %"
+    ],
+    [
+     "Biaya Administrasi Bank",
+     "120,000",
+     "0",
+     "120,000",
+     "100 %"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "120,000",
+     "0",
+     "120,000",
+     "100 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "130,000.5",
+     "200,000",
+     "-69,999.5",
+     "-35 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "5,930,000.5",
+     "7,900,000.25",
+     "-1,969,999.75",
+     "-24,94 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "5,930,000.5",
+     "7,900,000.25",
+     "-1,969,999.75",
+     "-24,94 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "general-jan-feb": {
+   "planId": "ProfitLossCompareBudgetReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "2",
+    "periodEndYear": 2042,
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Februari 2042"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Penjualan",
+     "10,000,000",
+     "9,000,000",
+     "1,000,000",
+     "11,11 %"
+    ],
+    [
+     "Penjualan Handphone",
+     "4,000,000",
+     "4,000,000",
+     "0",
+     "0 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6,000,000",
+     "5,000,000",
+     "1,000,000",
+     "20 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "10,000,000",
+     "9,000,000",
+     "1,000,000",
+     "11,11 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "LABA KOTOR",
+     "10,000,000",
+     "9,000,000",
+     "1,000,000",
+     "11,11 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban",
+     "2,200,000",
+     "2,300,000",
+     "-100,000",
+     "-4,35 %"
+    ],
+    [
+     "Beban Penjualan",
+     "0",
+     "300,000",
+     "-300,000",
+     "-100 %"
+    ],
+    [
+     "Beban Iklan",
+     "0",
+     "300,000",
+     "-300,000",
+     "-100 %"
+    ],
+    [
+     "Beban Umum dan Administrasi",
+     "2,200,000",
+     "2,000,000",
+     "200,000",
+     "10 %"
+    ],
+    [
+     "Beban Listrik dan Air",
+     "1,500,000",
+     "1,000,000",
+     "500,000",
+     "50 %"
+    ],
+    [
+     "Beban Sewa",
+     "700,000",
+     "1,000,000",
+     "-300,000",
+     "-30 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "2,200,000",
+     "2,300,000",
+     "-100,000",
+     "-4,35 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "7,800,000",
+     "6,700,000",
+     "1,100,000",
+     "16,42 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "0",
+     "200,000",
+     "-200,000",
+     "-100 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Laba/Rugi (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Februari 2042"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "Pendapatan Bunga Bank",
+     "0",
+     "200,000",
+     "-200,000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "200,000",
+     "-200,000",
+     "-100 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0",
+     "200,000",
+     "-200,000",
+     "-100 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "7,800,000",
+     "6,900,000",
+     "900,000",
+     "13,04 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "7,800,000",
+     "6,900,000",
+     "900,000",
+     "13,04 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "dept-2042": {
+   "planId": "ProfitLossCompareBudgetDepartmentReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "12",
+    "periodEndYear": 2042,
+    "selectedDepartment": [
+     {
+      "id": 101851,
+      "name": "NL-RB-D1"
+     },
+     {
+      "id": 101950,
+      "name": "NL-RB-D2"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Departemen : NL-RB-D1, NL-RB-D2"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "LABA KOTOR",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Pendapatan Diluar Usaha",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "Pendapatan Bunga Bank",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "250,000.5",
+     "0",
+     "250,000.5",
+     "100 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "dept-jan": {
+   "planId": "ProfitLossCompareBudgetDepartmentReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "1",
+    "periodEndYear": 2042,
+    "selectedDepartment": [
+     {
+      "id": 101851,
+      "name": "NL-RB-D1"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Januari 2042"
+    ],
+    [
+     "Departemen : NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Penjualan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "0",
+     "1,500,000",
+     "-1,500,000",
+     "-100 %"
+    ],
+    [
+     "Beban Perakitan",
+     "0",
+     "1,500,000",
+     "-1,500,000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "0",
+     "1,500,000",
+     "-1,500,000",
+     "-100 %"
+    ],
+    [
+     "LABA KOTOR",
+     "6,000,000",
+     "5,500,000",
+     "500,000",
+     "9,09 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban",
+     "0",
+     "2,000,000",
+     "-2,000,000",
+     "-100 %"
+    ],
+    [
+     "Beban Umum dan Administrasi",
+     "0",
+     "2,000,000",
+     "-2,000,000",
+     "-100 %"
+    ],
+    [
+     "Beban Listrik dan Air",
+     "0",
+     "2,000,000",
+     "-2,000,000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0",
+     "2,000,000",
+     "-2,000,000",
+     "-100 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "6,000,000",
+     "3,500,000",
+     "2,500,000",
+     "71,43 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Biaya Diluar Usaha",
+     "0",
+     "100,000",
+     "-100,000",
+     "-100 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Januari 2042"
+    ],
+    [
+     "Departemen : NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "Biaya Administrasi Bank",
+     "0",
+     "100,000",
+     "-100,000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0",
+     "100,000",
+     "-100,000",
+     "-100 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0",
+     "-100,000",
+     "100,000",
+     "100 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "6,000,000",
+     "3,400,000",
+     "2,600,000",
+     "76,47 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "6,000,000",
+     "3,400,000",
+     "2,600,000",
+     "76,47 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 06:31"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "dept-d1-2042": {
+   "planId": "ProfitLossCompareBudgetDepartmentReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "12",
+    "periodEndYear": 2042,
+    "selectedDepartment": [
+     {
+      "id": 101851,
+      "name": "NL-RB-D1"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Departemen : NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Penjualan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "Beban Perakitan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "LABA KOTOR",
+     "4,000,000",
+     "5,500,000",
+     "-1,500,000",
+     "-27,27 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Beban Umum dan Administrasi",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Beban Listrik dan Air",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "2,500,000",
+     "3,500,000",
+     "-1,000,000",
+     "-28,57 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Biaya Diluar Usaha",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:22"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Departemen : NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "Biaya Administrasi Bank",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "-120,000",
+     "-100,000",
+     "-20,000",
+     "-20 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "2,380,000",
+     "3,400,000",
+     "-1,020,000",
+     "-30 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "2,380,000",
+     "3,400,000",
+     "-1,020,000",
+     "-30 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:22"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "dept-d2d1-2042": {
+   "planId": "ProfitLossCompareBudgetDepartmentReport",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2042,
+    "periodEndMonth": "12",
+    "periodEndYear": 2042,
+    "selectedDepartment": [
+     {
+      "id": 101950,
+      "name": "NL-RB-D2"
+     },
+     {
+      "id": 101851,
+      "name": "NL-RB-D1"
+     }
+    ],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Departemen : NL-RB-D2, NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Penjualan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Pendapatan Jasa",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "6,000,000",
+     "7,000,000",
+     "-1,000,000",
+     "-14,29 %"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "Beban Perakitan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "2,000,000",
+     "1,500,000",
+     "500,000",
+     "33,33 %"
+    ],
+    [
+     "LABA KOTOR",
+     "4,000,000",
+     "5,500,000",
+     "-1,500,000",
+     "-27,27 %"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Beban",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Beban Umum dan Administrasi",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Beban Listrik dan Air",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "1,500,000",
+     "2,000,000",
+     "-500,000",
+     "-25 %"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "2,500,000",
+     "3,500,000",
+     "-1,000,000",
+     "-28,57 %"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0",
+     "0",
+     "0",
+     "0 %"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Biaya Diluar Usaha",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:23"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Laba/Rugi Departemen (Perbandingan Anggaran)"
+    ],
+    [
+     "Dari Periode Januari 2042 s/d Desember 2042"
+    ],
+    [
+     "Departemen : NL-RB-D2, NL-RB-D1"
+    ],
+    [
+     "Deskripsi",
+     "Aktual (IDR)",
+     "Anggaran",
+     "Variance",
+     "% Var."
+    ],
+    [
+     "Biaya Administrasi Bank",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "120,000",
+     "100,000",
+     "20,000",
+     "20 %"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "-120,000",
+     "-100,000",
+     "-20,000",
+     "-20 %"
+    ],
+    [
+     "LABA BERSIH (Sebelum Pajak)",
+     "2,380,000",
+     "3,400,000",
+     "-1,020,000",
+     "-30 %"
+    ],
+    [
+     "LABA BERSIH (Setelah Pajak)",
+     "2,380,000",
+     "3,400,000",
+     "-1,020,000",
+     "-30 %"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:23"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  }
+ }
+}

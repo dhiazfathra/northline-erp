@@ -46,6 +46,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Laba/Rugi Departemen | `ProfitLossByDepartmentReport` | financialstatement | FROMTO | selectedDepartment=[{id,name}…], selectedProject=[], selectedDataClassification1..10=[] | [verified](ProfitLossByDepartmentReport.md) |
+| Laba/Rugi (Perbandingan Anggaran) | `ProfitLossCompareBudgetReport` | financialstatement | PERIODFROMTO | selectedBranch=[{name:"[Semua Cabang]",id:null}]; Umum budgets only | [verified](ProfitLossCompareBudgetReport.md) |
+| Laba/Rugi Departemen (Perbandingan Anggaran) | `ProfitLossCompareBudgetDepartmentReport` | financialstatement | PERIODFROMTO | selectedDepartment=[{id,name}…] (numbers = last selected) | [verified](ProfitLossCompareBudgetDepartmentReport.md) |
 | Laba/Rugi Departemen (Multi Periode) | `ProfitLossDepartmentMultiPeriodReport` | financialstatement | PERIODFROMTO | selectedDepartment=[{id,name}], selectedProject=[] | [verified](ProfitLossDepartmentMultiPeriodReport.md) |
 | Laba/Rugi Departemen (Perbandingan Periode) | `ProfitLossComparePeriodPerDepartmentReport` | financialstatement | COMPAREFROMTO | selectedDepartment=[{id,name}] | [verified](ProfitLossComparePeriodPerDepartmentReport.md) |
 | Laba/Rugi Proyek (Perbandingan Periode) | `ProfitLossComparePeriodPerProjectReport` | financialstatement | COMPAREFROMTO | selectedProject=[{id,name}] | [verified](ProfitLossComparePeriodPerProjectReport.md) |

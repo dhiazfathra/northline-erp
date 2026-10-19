@@ -26,7 +26,7 @@ export function formatEn(cents: number): string {
 const balances = (lines: DimLine[]): DailyBalance[] => lines.map(l => ({ account: l.account, date: l.date, debit: l.debit, credit: l.credit }))
 
 /** The standard Laba/Rugi over a subset of lines, with Retail's two LABA BERSIH rows. */
-function pl(accounts: TbAccount[], lines: DimLine[], from: string, to: string, o: StatementOptions): StatementLine[] {
+export function pl(accounts: TbAccount[], lines: DimLine[], from: string, to: string, o: StatementOptions): StatementLine[] {
   const out = profitLoss(accounts, balances(lines), from, to, o)
   const net = out.pop()!
   return [...out, { ...net, label: 'LABA BERSIH (Sebelum Pajak)' }, { ...net, label: 'LABA BERSIH (Setelah Pajak)' }]
