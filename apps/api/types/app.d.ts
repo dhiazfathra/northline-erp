@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -570,6 +570,55 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
     };
 }) & {
     "/reports/purchases/transfer-order-list": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/access/groups": {
+        $post: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/access/branches": {
+        $post: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/access/user-by-branch": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/access/group-privileges": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/access/privileges-by-user": {
         $get: {
             output: string[][];
             outputFormat: "json";

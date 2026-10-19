@@ -343,9 +343,9 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [verified](SalesmanListReport.md) |
 | Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [verified](AuditListReport.md) |
 | Laporan Rincian Penyetuju Transaksi | `ApprovalListReport` | report | FROMTO_TIMESTAMP | — | [verified (empty layout)](ApprovalListReport.md) |
-| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [out of scope](UserByBranchListReport.md) |
-| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [out of scope](AccessGroupPrivilegeListReport.md) |
-| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [out of scope](AccessPrivilegeByUserListReport.md) |
+| Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [verified](UserByBranchListReport.md) |
+| Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [verified](AccessGroupPrivilegeListReport.md) |
+| Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [verified](AccessPrivilegeByUserListReport.md) |
 
 New in 2026-10-19 (Retail Demo pass): 46 more specs, statuses and ERP dependencies in [_coverage.md](_coverage.md); build order proposed in ADR-0021.
 

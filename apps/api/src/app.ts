@@ -30,6 +30,8 @@ import * as JCS from './inventory/job-costing'
 import * as HPP from './reports/cogs-manufacture'
 import * as TFO from './reports/transfer-orders'
 import { createTransferOrder } from './purchases/transfer-orders'
+import * as ACC from './reports/access'
+import { setBranchUsers, upsertAccessGroup } from './access/service'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
@@ -204,6 +206,15 @@ export function createApp(db: Db) {
     .get('/reports/purchases/transfer-order-list', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json(TFO.transferOrderList(await TFO.loadTransferOrders(db), from, to))
+    })
+    // Akses Grup and branch users (P3.4; data only, enforcement is P5) and the three Lain-lain access reports.
+    .post('/access/groups', async c => { await upsertAccessGroup(db, await c.req.json()); return c.json({ ok: true }) })
+    .post('/access/branches', async c => { await setBranchUsers(db, await c.req.json()); return c.json({ ok: true }) })
+    .get('/reports/access/user-by-branch', async c => c.json(await ACC.userByBranchList(db)))
+    .get('/reports/access/group-privileges', async c => c.json(ACC.accessGroupList(await ACC.loadAccessGroups(db))))
+    .get('/reports/access/privileges-by-user', async c => {
+      const users = z.string().optional().parse(c.req.query('users'))?.split(',').map(Number).filter(Number.isInteger) ?? []
+      return c.json(ACC.accessPrivilegeByUser(await ACC.loadAccessGroups(db), users))
     })
     // Proyek Kontraktor (ADR-0038): project master, RAB, MEQ, survey, project-linked documents (billing share), FPC; then its 11 reports.
     .post('/contractor/projects', async c => { await KS.upsertContractorProject(db, await c.req.json()); return c.json({ ok: true }) })

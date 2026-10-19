@@ -1,0 +1,4428 @@
+{
+ "dataUsaha": "Manufaktur Demo",
+ "source": "Accurate Online sandbox (ACC_DB=manufaktur), seeded and captured 2026-10-19. One user exists (the Administrator; never listed by the access reports, and its name/email are left out). Created Akses Grup \"NL-AG49 Grup Gudang\" (id 50, no users, Pembatasan Akses = Preferensi, Senin-Jumat) granting Kategori Pelanggan Buat/Ubah/Hapus, Gudang Buat/Ubah, Histori Stok Barang Aktif, every report and widget unchecked. A work_order view grant was also sent; Accurate stored it but the report prints no Perintah Kerja row, so it is left out here. No users were invited and no branch was created: Daftar Pengguna per Cabang and Daftar Hak Akses per Pengguna are the no-member layouts (Kantor Pusat = Semua Pengguna; one empty header block). Reports run with default params, page furniture included; the company-name line is left out.",
+ "users": [],
+ "branches": [
+  {
+   "name": "Kantor Pusat",
+   "allUsers": true
+  }
+ ],
+ "groups": [
+  {
+   "name": "NL-AG49 Grup Gudang",
+   "users": [],
+   "restrictionDayType": "MONDAYFRIDAY",
+   "privileges": {
+    "customer_category": [
+     "create",
+     "edit",
+     "delete"
+    ],
+    "warehouse": [
+     "create",
+     "edit"
+    ],
+    "item_history": [
+     "enable"
+    ]
+   }
+  }
+ ],
+ "reports": {
+  "UserByBranchListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Pengguna per Cabang"
+    ],
+    [
+     "Pengguna",
+     "Email",
+     "No Handphone"
+    ],
+    [
+     "Kantor Pusat"
+    ],
+    [
+     "Semua Pengguna"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:05"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "AccessGroupPrivilegeListReport": {
+   "param": {},
+   "rows": [
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Perusahaan"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Mata Uang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pajak",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Syarat Pembayaran",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Karyawan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Gaji/Tunjangan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pengiriman",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "FOB",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Kontak",
+     "TIDAK",
+     "-",
+     "TIDAK",
+     "-",
+     "-"
+    ],
+    [
+     "Penomoran",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Desain Cetakan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Transaksi Favorit",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Transaksi Berulang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Log Aktifitas",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Preferensi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Proses Akhir Bulan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "SmartLink Tax : e-Billing Pajak",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : e-Filling Pajak",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : e-Faktur Pajak",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : e-SPT PPN/BM",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : Email Faktur Pajak",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : e-SPT PPh 23/26",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SPT PPn",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "SPT PPh 21",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SPT PPh 23",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SPT PPh 4(2)",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SPT PPh 15",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Melakukan penangguhan Pendapatan dan Beban di Transaksi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengisi Nomor Transaksi manual",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Rancangan Formulir",
+     "-",
+     "-",
+     "TIDAK",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Tax : Pihak Berwenang e-Faktur Pajak",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "SmartLink Tax : Dapat unggah e-Faktur Pajak semua cabang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Ekspor Laporan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengubah/Menghapus transaksi yang sudah memiliki e-Faktur",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Analisa AI",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "E-Materai",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buku Besar"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 1",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Akun Perkiraan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pencatatan Beban",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pencatatan Gaji",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Jurnal Umum",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Jurnal Pencatatan Gaji",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Akun",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Pinjaman Karyawan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Ganti Nama/Deskripsi Akun Perkiraan di Transaksi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kas/Bank"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Akun Perkiraan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penerimaan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Transfer Kas/Bank",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Histori Bank",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Rekening Koran",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Rekonsiliasi Bank",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Internet Banking",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pengaturan Virtual Account",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink Virtual Account",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Pengaturan e-Payment",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "SmartLink e-Payment",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Buat Pembayaran Tanpa Pencatatan Beban",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Cetakan"
+    ],
+    [
+     "Cetak/email ulang Pembayaran",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email ulang Penerimaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Penjualan"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Kategori Pelanggan",
+     "-",
+     "YA",
+     "YA",
+     "YA",
+     "-"
+    ],
+    [
+     "Kategori Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pelanggan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penawaran Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pesanan Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pengiriman Pesanan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Faktur Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Uang Muka Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Retur Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 2",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Penerimaan Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Tukar Faktur",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Klaim Pelanggan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pengepakan Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Harga/Diskon",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Setting SmartLink e-Commerce",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Trade Portal",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Dapat menggunakan semua pelanggan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Penawaran Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Pesanan Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Pengiriman Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Uang Muka Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Faktur Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Penerimaan Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Retur Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah syarat pembayaran penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat menonaktifkan \"Kena Pajak & Total termasuk Pajak\"",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Pesanan Penjualan tanpa Penawaran",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Pengiriman Barang tanpa Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Faktur tanpa Penawaran, Pesanan / Pengiriman Barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengirimkan barang melebihi pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Histori Piutang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengubah Harga Jual",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengubah Diskon Jual",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menjual dibawah harga beli",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menjual dibawah harga minimum",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengubah Diskon Faktur",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menjual melebihi Limit Piutang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Pesanan / Faktur (Dimuka) melebihi stok yang dapat dijual",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengekspor daftar pelanggan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengimpor data e-Commerce",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengimpor data MOKA POS",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengimpor data PAWOON POS",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 3",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Data Check In Penjual",
+     "-",
+     "-",
+     "-",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Dapat melakukan penerimaan penjualan lebih bayar",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Cetakan"
+    ],
+    [
+     "Mencetak Faktur",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Faktur Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Pengiriman Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Pesanan Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak ulang Tukar Faktur",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak ulang Pengepakan Barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Pembelian"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Kategori Pemasok",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pemasok",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pesanan Pembelian",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penerimaan Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Faktur Pembelian",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Uang Muka Pembelian",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran Pembelian",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Transfer Pemasok",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Retur Pembelian",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Klaim Pemasok",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Harga Pemasok",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Dapat Mengubah syarat pembayaran pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat menggunakan semua Pemasok",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Pesanan Pembelian tanpa Permintaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Penerimaan Barang tanpa Permintaan / Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Buat Tagihan tanpa Permintaan, Pesanan / Penerimaan Barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Membuat pesanan melebihi permintaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menerima barang melebihi pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengubah Harga Beli",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Histori Utang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengekspor daftar pemasok",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menerima barang dari semua gudang Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Faktur Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 4",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Membuat Pesanan melebihi kuantitas Pesanan Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat Mengubah Tanggal Pesanan Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Cetakan"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Pesanan Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Penerimaan Barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email ulang Faktur Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Cetak/email/whatsapp ulang Retur Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Kategori Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Satuan Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Gudang",
+     "-",
+     "YA",
+     "YA",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Barang & Jasa",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Permintaan Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pemindahan Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penambahan Bahan Baku",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Persediaan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Pengisian Nomor Seri",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Perintah Stok Opname",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Hasil Stok Opname",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Histori Stok Barang",
+     "YA",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Barang per Gudang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Barang Stok Minimum",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Merek Barang",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pemenuhan Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Akses Lainnya"
+    ],
+    [
+     "Dapat menggunakan semua barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat menyesuaikan Persediaan dengan biaya nol",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengganti Akun Barang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Ganti Nama/Deskripsi barang di Transaksi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Mengeluarkan barang melebihi stok",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat mengekspor daftar barang / jasa",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Memindahkan barang melebihi permintaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Dapat menyelesaikan pesanan dengan \"Alokasi Biaya\" nol",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Membeli barang kurang dari minimum beli",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Menjual barang kurang dari minimum jual",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 5",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Dapat melakukan pemindahan barang tanpa Permintaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Melihat Harga Beli/Perolehan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Aset Tetap"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Kategori Aset",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Kategori Aset Tetap Pajak",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Pindah Aset",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Aset Tetap",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Perubahan Aset",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Disposisi Aset",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "-"
+    ],
+    [
+     "Aset per Lokasi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Target"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Anggaran Beban dan Pendapatan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Target Penjualan",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Transfer Anggaran",
+     "-",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK",
+     "TIDAK"
+    ],
+    [
+     "Buat Transaksi Melebihi Limit Anggaran",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender"
+    ],
+    [
+     "Akses Menu"
+    ],
+    [
+     "Kalender Transaksi Terjadwal",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Piutang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Utang",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jadwal Pengiriman Pesanan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jadwal Penerimaan Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo No. Produksi",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Pembayaran Beban",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Stok Opname",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Giro Masuk",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Giro Keluar",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Pembayaran",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo Penerimaan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo PPh Pembelian",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jatuh Tempo PPh Penjualan",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Tukar Faktur",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Kalender Jadwal Pembayaran Gaji",
+     "TIDAK",
+     "-",
+     "-",
+     "-",
+     "-"
+    ],
+    [
+     "Widget"
+    ],
+    [
+     "Arus Kas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Aset saat ini",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Barang Stok Minimum",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 6",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Beban Perusahaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Faktur Terlewat",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Keberhasilan Penawaran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ketersediaan Kas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi Tahun ini",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Monitoring HPP",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pelanggan Berutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penawaran Terabaikan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Per Kategori",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Per Merek",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan per Hari",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Permintaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Persetujuan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Persetujuan Terproses",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pertumbuhan Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rekonsiliasi Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Tren Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laporan"
+    ],
+    [
+     "Keuangan"
+    ],
+    [
+     "Laba/Rugi (Standar)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca (Standar)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi (Multi Periode)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca (Multi Periode)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi (Multi Year)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca (Multi Year)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Arus Kas (Tak Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Proyeksi Ketersediaan Kas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Proyeksi Kas per Bulan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi (Perbandingan Periode)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi (Kuartal)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi (Perbandingan Anggaran)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca (Perbandingan Periode)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca (Induk Skontro)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Arus Kas (Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Arus Kas (Tak Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 7",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Rasio Keuangan (Per Tahun)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rasio Keuangan (Per Bulan)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Fokus Keuangan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba Ditahan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Perubahan Ekuitas Pemilik",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Perbandingan Nilai Akun",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Pendapatan berbanding Biaya",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Harta Bersih",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Rasio Likuiditas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Pengembalian Aset",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Pengembalian pada Modal",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Arus Kas Multi Period (Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Arus Kas Multi Period (Tak Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Arus Kas Multi Period (Tak Langsung)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Buku Besar"
+    ],
+    [
+     "Keseluruhan Jurnal",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Keseluruhan Jurnal (CSV)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Buku Besar",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Buku Besar",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Buku Besar (CSV)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Buku Besar",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Buku Besar (CSV)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Jurnal Akun",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Jurnal Akun (CSV)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi Terealisasi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Laba/Rugi Tidak Terealisasi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Neraca Percobaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Jurnal Umum",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Akun Perkiraan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Gaji Karyawan per Bulan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Gaji Karyawan per Tahun",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pajak Penghasilan Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Porsi Gaji Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Gaji Karyawan per Tahun",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Pencatatan Beban",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pencatatan Beban",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Kas & Bank"
+    ],
+    [
+     "Histori Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Transaksi Bank Terekonsiliasi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Transaksi Bank belum Terekonsiliasi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Pembayaran per Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 8",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Ringkasan Penerimaan per Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Giro Mundur (Belum Jatuh Tempo)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Arus Kas per Akun",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pembayaran per Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penerimaan per Bank",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Kas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rekening Koran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Daftar Pembayaran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Daftar Penerimaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Beban Pembayaran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rekonsiliasi Bank (Jurnal terhadap Rekening Koran)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rekonsiliasi Bank (Rekening Koran terhadap Jurnal)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Piutang Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Angsuran Pinjaman per Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "History Peminjaman per Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Piutang"
+    ],
+    [
+     "Faktur Belum Lunas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Faktur Belum Lunas per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Umur Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Buku Besar Pembantu Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rata-rata Pembayaran Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Umur Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Umur Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Buku Besar Pembantu Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pernyataan Piutang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Rata-rata Pembayaran Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran Faktur",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran PPh Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Sisa Kredit Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penerimaan Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penerimaan Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Limit Piutang Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Tukar Faktur",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan"
+    ],
+    [
+     "Penjualan per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan per Merek",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Barang per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 9",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Penjualan Barang per Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Pelanggan per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Proses Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penjualan per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penjualan per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan per Cabang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penjualan Barang per Cabang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Retur Penjualan per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Penjualan Bulanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Porsi Penjualan per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Porsi Penjualan per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penawaran per Pelanggan (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penawaran per Barang (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan per Pelanggan (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan per Barang (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Uang Muka Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Target Penjualan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Target Penjualan per Kategori",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Target Penjualan per Bulan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Penawaran Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penawaran Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pesanan Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pesanan Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pengiriman Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pengiriman Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Status Pengiriman Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Faktur Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Faktur Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Retur Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Retur Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penggunaan Uang Muka Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran Cicilan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Cicilan Belum Terbayar",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Monitoring HPP",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Profitabilitas per Faktur",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Profitabilitas per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Profitabilitas per Pelanggan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Perubahan Harga Jual Per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Harga Jual",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Harga Jual per Kategori",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 10",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Penyesuaian Diskon Jual",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Diskon Jual per Kategori",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Barang Paling Laku",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Utang"
+    ],
+    [
+     "Faktur Belum Lunas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Faktur Belum Lunas per Pemasok",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Umur Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Buku Besar Pembantu Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Umur Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Buku Besar Pembantu Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Grafik Umur Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pernyataan Utang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran Faktur",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran PPh Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembayaran Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pembayaran Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Utang per Bulan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pemasok",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembelian"
+    ],
+    [
+     "Pembelian per Pemasok",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembelian per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembelian per Biaya",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Uang Muka Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Proses Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pembelian per Pemasok",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pembelian per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Retur Pembelian per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan per Pemasok (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pesanan per Barang (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pesanan Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pesanan Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Penerimaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Penerimaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Faktur Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Faktur Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Retur Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Retur Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penggunaan Uang Muka Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Perintah Pembayaran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Perubahan Harga Beli Per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 11",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Penyesuaian Harga Beli",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Nilai Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Nilai Persediaan (CSV)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ketersediaan Stok Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Umur Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Umur Persediaan per Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Nilai Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Ketersediaan Stok Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Umur Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Kartu Stok Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Permintaan per Barang (Belum Proses)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Permintaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Permintaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Status Pesanan Permintaan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Barang Grup",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Stok Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Barang dan Jasa",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Umur Nomor Seri/Batch",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Analisa Nilai Persediaan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Gudang"
+    ],
+    [
+     "Kuantitas Barang per Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Mutasi per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Mutasi per Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Mutasi Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Stok Nomor Seri/Produksi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Stok Nomor Seri/Produksi per Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Stok Nomor Seri/Produksi per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Lembar Penghitungan Stok",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Pemindahan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Barang Diterima Sebagian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Gudang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Mutasi Nomor Seri/Produksi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Nomor Seri/Produksi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Sisa Umur Per Nomor Produksi",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Nomor Produksi Segera Kadaluarsa",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Ringkasan Pemindahan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pergerakan Stok per Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pekerjaan Pesanan"
+    ],
+    [
+     "Rincian Penambahan Bahan Baku",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rincian Barang Penyelesaian Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 12",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Rincian Akun Penyelesaian Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pekerjaan Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Penyelesaian Pesanan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Penambahan Bahan Baku",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Manufaktur"
+    ],
+    [
+     "Jurnal Perintah Kerja",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Penyesuaian Bahan (Harga Pokok Produksi)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pembelian (Harga Pokok Produksi)",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Aset Tetap"
+    ],
+    [
+     "Daftar Aset Tetap",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Aset Tetap per Kategori",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Aset",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Jurnal Aset",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Perbedaan Penyusutan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Lokasi Aset",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Detail Aset Tetap",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Histori Perubahan Aset",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Kategori Aset Tetap Pajak",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Perubahan Aset Tetap",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Disposisi Aset Tetap",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pajak"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar PPN/PPnBM Masukan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Faktur Penjualan SPT Masa PPN",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Faktur Pembelian SPT Masa PPN",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Bukti Potong PPh Pembelian",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Bukti Potong PPh Penjualan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Pemeriksaan"
+    ],
+    [
+     "Selisih Saldo Akun Persediaan dengan Nilai Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Perbedaan Persediaan Terkirim Pemindahan Barang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Selisih Akun Pembelian belum tertagih",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Lain-lain"
+    ],
+    [
+     "Daftar Mata Uang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar FOB",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pajak",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Pengiriman",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Karyawan",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Log Aktifitas",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 13",
+     "dari 14"
+    ],
+    [
+     "Daftar Akses Grup"
+    ],
+    [
+     "Nama",
+     ":",
+     "NL-AG49 Grup Gudang",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":",
+     "Senin-Jumat, 00.00 - 23.59"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "Daftar Pengguna per Cabang",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Akses Grup",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "Daftar Hak Akses per Pengguna",
+     "-",
+     "-",
+     "-",
+     "-",
+     "TIDAK"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 14",
+     "dari 14"
+    ]
+   ]
+  },
+  "AccessPrivilegeByUserListReport": {
+   "param": {
+    "selectedUser": []
+   },
+   "rows": [
+    [
+     "Daftar Hak Akses per Pengguna"
+    ],
+    [
+     "Nama",
+     ":",
+     "Pengguna",
+     ":"
+    ],
+    [
+     "Pembatasan Akses",
+     ":"
+    ],
+    [
+     "Hak Akses",
+     "Aktif",
+     "Buat",
+     "Ubah",
+     "Hapus",
+     "Lihat"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:06"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}
