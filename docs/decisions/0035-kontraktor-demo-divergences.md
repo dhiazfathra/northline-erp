@@ -29,9 +29,17 @@ selection and the demo has none, or the contractor P&L, see 5).
 5. **Contractor projects are a separate record** from the Proyek dimension (ADR-0034). Laba/Rugi Proyek Kontraktor
    rejected every `selectedContractorProject` shape tried with "Proyek harus diisi"; spec kept partial.
 6. **Daftar Proyek** prints Nama and Keterangan; `projects` gains `description`.
-7. **Costing and aging as in Trade Portal.** Preferensi reads `featureCostingMethod: AVERAGE` and aging from
-   `INVOICEDATE` (read from the preferences form, not yet proven with a seeded purchase/sale). Kontraktor maps to
-   costing AVERAGE and `AgingBasis` INVOICE_DATE (ADR-0029 findings 6-7, ADR-0031); Manufaktur Demo stays FIFO / due date.
+7. **Costing and aging as in Trade Portal: proven.** Preferensi reads `featureCostingMethod: AVERAGE` and
+   `othersAgingCalcFrom: INVOICEDATE`. Kontraktor maps to costing AVERAGE and `AgingBasis` INVOICE_DATE (ADR-0029 findings
+   6-7, ADR-0031, ADR-0037); Manufaktur Demo stays FIFO / due date. Proven 2026-10-19 (P6.2) with a seeded purchase and
+   sale in March 2052: item NL-K6-B1, PI.2052.03.00001 10 @ 100.000 and PI.2052.03.00002 10 @ 120.000 (C.O.D), then
+   SI.2052.03.00001 15 @ 200.000. Its cost is 1.650.000 (15 x 110.000; FIFO gives 1.600.000). SI.2052.03.00002 (25 Mar,
+   net 30, due 24 Apr) and PI.2052.03.00003 (26 Mar, net 30, due 25 Apr) print `Umur (hr)` 36 and 35 on 30 Apr 2052 and
+   sit in `31 - 60` in Umur Piutang / Umur Utang. Aged from the due date they would be 6 and 5 days, in `1 - 30`.
+   Fixture `docs/reports/fixtures/contractor/trade-k.json` (Preferensi values plus 6 reports); test
+   `apps/api/test/contractor-trade.test.ts` gives zero diff on Rincian Nilai Persediaan, Profitabilitas per Barang, Umur
+   Piutang/Utang, and Faktur Belum Lunas (sales and purchases). It also covers the aging routes under the company basis,
+   and checks that the due-date basis does not match.
 
 ## Verification
 NL-K seed in Kontraktor Demo (2047, a year with no demo data): projects NL-K-P1/P2, Jurnal Umum JV.2047.01.00001 to
