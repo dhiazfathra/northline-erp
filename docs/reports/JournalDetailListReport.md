@@ -15,3 +15,7 @@ JV.2031.02.00002 | Jurnal Umum | 10 Feb 2031 | -15.000.000
 
 1. One row per journal line (not merged per journal), amount = line D − C normalized to the account's normal side.
 2. No opening balance. Type labels as in [Daftar Akun Perkiraan](GlAccountListReport.md).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Same window and fixture ([fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`): zero diff. See ADR-0029.

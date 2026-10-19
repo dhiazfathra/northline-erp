@@ -13,6 +13,7 @@ const normalized = (type: AccountType, net: number) => (CREDIT_NORMAL.has(type) 
 
 // Row dates abbreviate August as "Agt"; period headers ("s/d 31 Agu 2033") use "Agu" — both verified (purchase-t3.json).
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des']
+const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 export const fmtDate = (iso: string) => `${iso.slice(8, 10)} ${MONTHS[Number(iso.slice(5, 7)) - 1]} ${iso.slice(0, 4)}`
 /** Period headers ("Dari … s/d …", "Per Tgl. …") spell August "Agu". */
 export const fmtHeaderDate = (iso: string) => fmtDate(iso).replace(' Agt ', ' Agu ')
@@ -81,13 +82,15 @@ export function glDetail(accounts: TbAccount[], balances: DailyBalance[], settin
   for (const j of [...journals].sort(byDateNumber))
     for (const l of j.lines) lines.set(l.account, [...(lines.get(l.account) ?? []), { date: j.date, memo: l.memo ?? '', debit: l.debit, credit: l.credit, sourceType: j.sourceType }])
   const prev = fmtDate(dayBefore(from))
+  // the "Saldo per" text spells the month in English ("31 Dec 2044", Trade Portal Demo); the date cell stays Indonesian
+  const prevEn = `${prev.slice(0, 3)}${EN_MONTHS[Number(dayBefore(from).slice(5, 7)) - 1]}${prev.slice(6)}`
   const out: string[][] = [['Tanggal', 'Tipe Transaksi', 'Keterangan', 'Debit', 'Kredit', 'Saldo Akhir']]
   for (const r of trialBalance(accounts, balances, settings, { from, to, showZeroBalance: true, showParentAccount: false })) {
     const ls = lines.get(r.no)
     if (!ls) continue // showOnlyHasTransaction
     const t = accounts.find(a => a.no === r.no)!.type
     let bal = normalized(t, open.get(r.no)!.opening)
-    out.push([`${r.no} - ${r.name}`], [prev, `Saldo per ${prev}`, formatIdr(bal)])
+    out.push([`${r.no} - ${r.name}`], [prev, `Saldo per ${prevEn}`, formatIdr(bal)])
     let d = 0, c = 0
     for (const l of ls) {
       bal += normalized(t, l.debit - l.credit); d += l.debit; c += l.credit

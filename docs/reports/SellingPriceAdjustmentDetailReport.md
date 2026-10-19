@@ -18,3 +18,7 @@ category Umum, all branches). They post no journal.
 ## Open work
 
 - Item default prices / minimum prices, end dates and multiple price categories are not modelled.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo data traced: SPA.2025.06.00001 (09 Jun 2025, Umum, all branches) sets Produk Harga Grosir (100038) from 50.000 to 45.000, minimum 40.000. Layout unchanged. See ADR-0029.

@@ -49,6 +49,16 @@ receivable or payable documents. Of those 35, 21 had no amounts in the Manufaktu
    `openInvoices`, `agingReceivable` and `agingPayable`. Sales, purchase, outstanding and stock-card reports match
    with zero diff (`apps/api/test/trade-portal-trade.test.ts`).
 8. **Rendering.** Trade Portal captures arrive with `>` decoded; older HTML captures kept `&gt; 120`. Display only.
+9. **Rule corrections from Trade data** (Manufaktur data could not show them): Rincian Buku Besar prints the opening
+   text with an English month (`Saldo per 31 Dec 2044`); Long Term Liability to Equity Ratio prints x100 with 1 decimal
+   despite its `Kali` label. Both fixed in the ERP; Manufaktur tests unchanged.
+10. **Tax reports are per tax account.** Trade's tax master links PPnBM to Persediaan (sales 110401, purchase 110402),
+   so Daftar PPN/PPnBM Keluaran lists every inventory movement under a "Persediaan" section with "Transaksi Lainnya"
+   groups. The ERP now builds sections from `taxes.sales_account` (`taxationListBySection`, `loadTaxSections`);
+   zero diff on Trade except the sale's HPP (costing). Rekonsiliasi PPN with several accounts is partial (stream order
+   unknown from one capture).
+11. **Demo data traced.** 35 opening Penyesuaian Persediaan = 6.146.070.000 = Persediaan balance = Nilai Persediaan;
+   SPA.2025.06.00001 (harga) and SPA.2025.06.00002 (diskon) are the only price documents.
 
 ## Decision
 Keep one implementation for all three sandboxes. Record Trade Portal behavior as a "Trade Portal Demo variation"

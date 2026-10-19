@@ -27,3 +27,7 @@ ERP: `apps/api/src/reports/inventory.ts` (`itemValueDifference`); test: `apps/ap
 ## Open work
 
 - Differences (a non-zero Selisih and the transaction list Accurate prints under it) are not captured.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo data traced: Saldo Akun Persediaan 110401 6.146.070.000 minus Nilai barang 6.146.070.000 = 0 (the 35 opening adjustments post at item value). Layout unchanged. See ADR-0029.

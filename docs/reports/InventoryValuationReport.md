@@ -10,3 +10,7 @@ Source: Trade Portal Demo (PT Automotive Shop): NL-TP-B1 bought 10 @ 100.000 (PI
 Trade Portal costs by moving average: Keluar 15 / 1.650.000, Saldo Akhir 5 / 550.000 (average 110.000). The ERP costs by FIFO (1.600.000 for the same sale), so this
 report cannot match Trade Portal until the AVERAGE strategy of ADR-0031 lands. Expected output kept in [fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json), test `apps/api/test/trade-portal-trade.test.ts`
 (the test pins the current FIFO gap and flips to zero diff once average costing exists). See ADR-0029 finding 6.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo data traced: 35 Penyesuaian Persediaan (IA.2025.06.00001-00035, 1 and 9 Jun 2025) give 6.753 units / 6.146.070.000, equal to the Persediaan 110401 balance and Equitas Saldo Awal. NL-TP March 2045 rows: see the blocked section below. See ADR-0029.

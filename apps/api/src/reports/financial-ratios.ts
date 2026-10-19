@@ -28,7 +28,8 @@ const defs: ([string] | Def)[] = [
   ['Rasio Solvabilitas'],
   ['Debt to Asset Ratio', '%', 1, ({ end }) => div(end.currentLiabilities + end.longTermLiabilities, end.assets) * 100],
   ['Debt to Equity Ratio', '%', 1, ({ end }) => div(end.currentLiabilities + end.longTermLiabilities, end.equity) * 100],
-  ['Long Term Liability to Equity Ratio', 'Kali', 2, ({ end }) => div(end.longTermLiabilities, end.equity)],
+  // labelled Kali, but Accurate prints it x100 with 1 decimal (Trade Portal: 4.000.000 / 6.154.320.000 -> 0,1)
+  ['Long Term Liability to Equity Ratio', 'Kali', 1, ({ end }) => div(end.longTermLiabilities, end.equity) * 100],
   ['Equity Multiplier', 'Kali', 2, ({ end }) => div(end.assets, end.equity)],
   ['Rasio Aktifitas'],
   ['Total Asset Turnover', 'Kali', 2, ({ start, end, pl }) => div(pl.revenue, avg(start.assets, end.assets))],

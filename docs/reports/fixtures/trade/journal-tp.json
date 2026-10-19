@@ -617,12 +617,14 @@
     {
      "account": "110102",
      "side": "DEBIT",
-     "amount": "10000000"
+     "amount": "10000000",
+     "memo": "NL-TP-J1-1"
     },
     {
      "account": "400001",
      "side": "CREDIT",
-     "amount": "10000000"
+     "amount": "10000000",
+     "memo": "NL-TP-J1-2"
     }
    ]
   },
@@ -634,12 +636,14 @@
     {
      "account": "600019",
      "side": "DEBIT",
-     "amount": "2500000"
+     "amount": "2500000",
+     "memo": "NL-TP-J2-1"
     },
     {
      "account": "110102",
      "side": "CREDIT",
-     "amount": "2500000"
+     "amount": "2500000",
+     "memo": "NL-TP-J2-2"
     }
    ]
   },
@@ -651,12 +655,14 @@
     {
      "account": "120004",
      "side": "DEBIT",
-     "amount": "4000000"
+     "amount": "4000000",
+     "memo": "NL-TP-J3-1"
     },
     {
      "account": "2201",
      "side": "CREDIT",
-     "amount": "4000000"
+     "amount": "4000000",
+     "memo": "NL-TP-J3-2"
     }
    ]
   },
@@ -668,22 +674,26 @@
     {
      "account": "110102",
      "side": "DEBIT",
-     "amount": "1250000"
+     "amount": "1250000",
+     "memo": "NL-TP-J4-1"
     },
     {
      "account": "710002",
      "side": "CREDIT",
-     "amount": "1250000"
+     "amount": "1250000",
+     "memo": "NL-TP-J4-2"
     },
     {
      "account": "720001",
      "side": "DEBIT",
-     "amount": "500000"
+     "amount": "500000",
+     "memo": "NL-TP-J4-3"
     },
     {
      "account": "110101",
      "side": "CREDIT",
-     "amount": "500000"
+     "amount": "500000",
+     "memo": "NL-TP-J4-4"
     }
    ]
   }
@@ -1989,6 +1999,3367 @@
     [
      "Halaman 3",
      "dari 3"
+    ]
+   ]
+  }
+ },
+ "ledgerFeb": {
+  "JournalListReport": {
+   "planId": "JournalListReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Jurnal Umum"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "No. Trans #",
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nilai",
+     "Keterangan"
+    ],
+    [
+     "JV.2045.01.00001",
+     "JV.2045.01.00001",
+     "10 Jan 2045",
+     "Jurnal Umum",
+     "10.000.000",
+     "NL-TP-J1 pendapatan"
+    ],
+    [
+     "JV.2045.01.00002",
+     "JV.2045.01.00002",
+     "20 Jan 2045",
+     "Jurnal Umum",
+     "2.500.000",
+     "NL-TP-J2 sewa"
+    ],
+    [
+     "JV.2045.02.00001",
+     "JV.2045.02.00001",
+     "05 Feb 2045",
+     "Jurnal Umum",
+     "4.000.000",
+     "NL-TP-J3 peralatan"
+    ],
+    [
+     "JV.2045.02.00002",
+     "JV.2045.02.00002",
+     "25 Feb 2045",
+     "Jurnal Umum",
+     "1.750.000",
+     "NL-TP-J4 bunga dan beban lain"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "AllJournalReport": {
+   "planId": "AllJournalReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Keseluruhan Jurnal"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2045",
+     "No. Trans #",
+     ":",
+     "JV.2045.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-TP-J1 pendapatan"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110102",
+     "Bank",
+     "10.000.000",
+     "0"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Jan 2045",
+     "No. Trans #",
+     ":",
+     "JV.2045.01.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-TP-J2 sewa"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "600019",
+     "Beban Sewa Gedung",
+     "2.500.000",
+     "0"
+    ],
+    [
+     "110102",
+     "Bank",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "2.500.000",
+     "2.500.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Feb 2045",
+     "No. Trans #",
+     ":",
+     "JV.2045.02.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-TP-J3 peralatan"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "120004",
+     "Peralatan",
+     "4.000.000",
+     "0"
+    ],
+    [
+     "2201",
+     "Hutang Jangka Panjang",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "4.000.000",
+     "4.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "25 Feb 2045",
+     "No. Trans #",
+     ":",
+     "JV.2045.02.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Jurnal Umum",
+     "Deskripsi",
+     ":",
+     "NL-TP-J4 bunga dan beban lain"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110102",
+     "Bank",
+     "1.250.000",
+     "0"
+    ],
+    [
+     "710002",
+     "Pendapatan Bunga Deposito",
+     "0",
+     "1.250.000"
+    ],
+    [
+     "720001",
+     "Beban Bunga Pinjaman",
+     "500.000",
+     "0"
+    ],
+    [
+     "110101",
+     "Kas Kecil",
+     "0",
+     "500.000"
+    ],
+    [
+     "1.750.000",
+     "1.750.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "GeneralLedgerHistoryReport": {
+   "planId": "GeneralLedgerHistoryReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Histori Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Tipe Transaksi Jurnal",
+     "No Bukti #",
+     "Kode #",
+     "Nama Perkiraan",
+     "Keterangan Jurnal",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "10 Jan 2045"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.01.00001",
+     "110102",
+     "Bank",
+     "NL-TP-J1 pendapatan",
+     "10.000.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.01.00001",
+     "400001",
+     "Penjualan",
+     "NL-TP-J1 pendapatan",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "20 Jan 2045"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.01.00002",
+     "600019",
+     "Beban Sewa Gedung",
+     "NL-TP-J2 sewa",
+     "2.500.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.01.00002",
+     "110102",
+     "Bank",
+     "NL-TP-J2 sewa",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "05 Feb 2045"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00001",
+     "120004",
+     "Peralatan",
+     "NL-TP-J3 peralatan",
+     "4.000.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00001",
+     "2201",
+     "Hutang Jangka Panjang",
+     "NL-TP-J3 peralatan",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "25 Feb 2045"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00002",
+     "110102",
+     "Bank",
+     "NL-TP-J4 bunga dan beban lain",
+     "1.250.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00002",
+     "710002",
+     "Pendapatan Bunga Deposito",
+     "NL-TP-J4 bunga dan beban lain",
+     "0",
+     "1.250.000"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00002",
+     "720001",
+     "Beban Bunga Pinjaman",
+     "NL-TP-J4 bunga dan beban lain",
+     "500.000",
+     "0"
+    ],
+    [
+     "Jurnal Umum",
+     "JV.2045.02.00002",
+     "110101",
+     "Kas Kecil",
+     "NL-TP-J4 bunga dan beban lain",
+     "0",
+     "500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "GeneralLedgerDetailReport": {
+   "planId": "GeneralLedgerDetailReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "showOnlyHasTransaction": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Debit",
+     "Kredit",
+     "Saldo Akhir"
+    ],
+    [
+     "110101 - Kas Kecil"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "25 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J4-4",
+     "0",
+     "500.000",
+     "-500.000"
+    ],
+    [
+     "0",
+     "500.000"
+    ],
+    [
+     "110102 - Bank"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "10 Jan 2045",
+     "Jurnal Umum",
+     "NL-TP-J1-1",
+     "10.000.000",
+     "0",
+     "10.000.000"
+    ],
+    [
+     "20 Jan 2045",
+     "Jurnal Umum",
+     "NL-TP-J2-2",
+     "0",
+     "2.500.000",
+     "7.500.000"
+    ],
+    [
+     "25 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J4-1",
+     "1.250.000",
+     "0",
+     "8.750.000"
+    ],
+    [
+     "11.250.000",
+     "2.500.000"
+    ],
+    [
+     "120004 - Peralatan"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "05 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J3-1",
+     "4.000.000",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "4.000.000",
+     "0"
+    ],
+    [
+     "2201 - Hutang Jangka Panjang"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "05 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J3-2",
+     "0",
+     "4.000.000",
+     "4.000.000"
+    ],
+    [
+     "0",
+     "4.000.000"
+    ],
+    [
+     "400001 - Penjualan"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "10 Jan 2045",
+     "Jurnal Umum",
+     "NL-TP-J1-2",
+     "0",
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "0",
+     "10.000.000"
+    ],
+    [
+     "600019 - Beban Sewa Gedung"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "20 Jan 2045",
+     "Jurnal Umum",
+     "NL-TP-J2-1",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "2.500.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Keterangan",
+     "Debit",
+     "Kredit",
+     "Saldo Akhir"
+    ],
+    [
+     "710002 - Pendapatan Bunga Deposito"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "25 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J4-2",
+     "0",
+     "1.250.000",
+     "1.250.000"
+    ],
+    [
+     "0",
+     "1.250.000"
+    ],
+    [
+     "720001 - Beban Bunga Pinjaman"
+    ],
+    [
+     "31 Des 2044",
+     "Saldo per 31 Dec 2044",
+     "0"
+    ],
+    [
+     "25 Feb 2045",
+     "Jurnal Umum",
+     "NL-TP-J4-3",
+     "500.000",
+     "0",
+     "500.000"
+    ],
+    [
+     "500.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "JournalDetailListReport": {
+   "planId": "JournalDetailListReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "110101",
+     "Tipe Akun",
+     ":",
+     "Kas & Bank"
+    ],
+    [
+     "Nama",
+     ":",
+     "Kas Kecil"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.02.00002",
+     "Jurnal Umum",
+     "25 Feb 2045",
+     "-500.000"
+    ],
+    [
+     "-500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "110102",
+     "Tipe Akun",
+     ":",
+     "Kas & Bank"
+    ],
+    [
+     "Nama",
+     ":",
+     "Bank"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.01.00001",
+     "Jurnal Umum",
+     "10 Jan 2045",
+     "10.000.000"
+    ],
+    [
+     "JV.2045.01.00002",
+     "Jurnal Umum",
+     "20 Jan 2045",
+     "-2.500.000"
+    ],
+    [
+     "JV.2045.02.00002",
+     "Jurnal Umum",
+     "25 Feb 2045",
+     "1.250.000"
+    ],
+    [
+     "8.750.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 2",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "120004",
+     "Tipe Akun",
+     ":",
+     "Aset Tetap"
+    ],
+    [
+     "Nama",
+     ":",
+     "Peralatan"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.02.00001",
+     "Jurnal Umum",
+     "05 Feb 2045",
+     "4.000.000"
+    ],
+    [
+     "4.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 3",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "2201",
+     "Tipe Akun",
+     ":",
+     "Liabilitas Jangka Panjang"
+    ],
+    [
+     "Nama",
+     ":",
+     "Hutang Jangka Panjang"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.02.00001",
+     "Jurnal Umum",
+     "05 Feb 2045",
+     "4.000.000"
+    ],
+    [
+     "4.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 4",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "400001",
+     "Tipe Akun",
+     ":",
+     "Pendapatan"
+    ],
+    [
+     "Nama",
+     ":",
+     "Penjualan"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.01.00001",
+     "Jurnal Umum",
+     "10 Jan 2045",
+     "10.000.000"
+    ],
+    [
+     "10.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 5",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "600019",
+     "Tipe Akun",
+     ":",
+     "Beban"
+    ],
+    [
+     "Nama",
+     ":",
+     "Beban Sewa Gedung"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.01.00002",
+     "Jurnal Umum",
+     "20 Jan 2045",
+     "2.500.000"
+    ],
+    [
+     "2.500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 6",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "710002",
+     "Tipe Akun",
+     ":",
+     "Pendapatan Lainnya"
+    ],
+    [
+     "Nama",
+     ":",
+     "Pendapatan Bunga Deposito"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.02.00002",
+     "Jurnal Umum",
+     "25 Feb 2045",
+     "1.250.000"
+    ],
+    [
+     "1.250.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 7",
+     "dari 8"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Jurnal Akun"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Kode Perkiraan",
+     ":",
+     "720001",
+     "Tipe Akun",
+     ":",
+     "Beban Lainnya"
+    ],
+    [
+     "Nama",
+     ":",
+     "Beban Bunga Pinjaman"
+    ],
+    [
+     "No. Trans #",
+     "Tipe Transaksi",
+     "Tanggal",
+     "Nilai (Dinormalkan)"
+    ],
+    [
+     "JV.2045.02.00002",
+     "Jurnal Umum",
+     "25 Feb 2045",
+     "500.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 8",
+     "dari 8"
+    ]
+   ]
+  },
+  "GeneralLedgerSummaryReport": {
+   "planId": "GeneralLedgerSummaryReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045",
+    "showZeroBalance": false
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Ringkasan Buku Besar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Kode",
+     "Nama",
+     "Saldo Awal (Dinormalkan)",
+     "Perubahan Debit",
+     "Perubahan Kredit",
+     "Saldo Akhir (Dinormalkan)"
+    ],
+    [
+     "1101",
+     "Kas & Bank",
+     "0",
+     "11.250.000",
+     "3.000.000",
+     "8.250.000"
+    ],
+    [
+     "110101",
+     "Kas Kecil",
+     "0",
+     "0",
+     "500.000",
+     "-500.000"
+    ],
+    [
+     "110102",
+     "Bank",
+     "0",
+     "11.250.000",
+     "2.500.000",
+     "8.750.000"
+    ],
+    [
+     "1104",
+     "Persediaan",
+     "6.146.070.000",
+     "0",
+     "0",
+     "6.146.070.000"
+    ],
+    [
+     "110401",
+     "Persediaan",
+     "6.146.070.000",
+     "0",
+     "0",
+     "6.146.070.000"
+    ],
+    [
+     "1200",
+     "Aset Tetap",
+     "0",
+     "4.000.000",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "120004",
+     "Peralatan",
+     "0",
+     "4.000.000",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "2201",
+     "Hutang Jangka Panjang",
+     "0",
+     "0",
+     "4.000.000",
+     "4.000.000"
+    ],
+    [
+     "3000",
+     "Modal",
+     "6.146.070.000",
+     "0",
+     "0",
+     "6.146.070.000"
+    ],
+    [
+     "300001",
+     "Equitas Saldo Awal",
+     "6.146.070.000",
+     "0",
+     "0",
+     "6.146.070.000"
+    ],
+    [
+     "4000",
+     "Pendapatan Operasional",
+     "0",
+     "0",
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "0",
+     "10.000.000",
+     "10.000.000"
+    ],
+    [
+     "6000",
+     "Beban Operasional",
+     "0",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "600019",
+     "Beban Sewa Gedung",
+     "0",
+     "2.500.000",
+     "0",
+     "2.500.000"
+    ],
+    [
+     "7100",
+     "Pendapatan Diluar Usaha",
+     "0",
+     "0",
+     "1.250.000",
+     "1.250.000"
+    ],
+    [
+     "710002",
+     "Pendapatan Bunga Deposito",
+     "0",
+     "0",
+     "1.250.000",
+     "1.250.000"
+    ],
+    [
+     "7200",
+     "Beban Diluar Usaha",
+     "0",
+     "500.000",
+     "0",
+     "500.000"
+    ],
+    [
+     "720001",
+     "Beban Bunga Pinjaman",
+     "0",
+     "500.000",
+     "0",
+     "500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "GlAccountListReport": {
+   "planId": "GlAccountListReport",
+   "paramDate": "ASOF",
+   "param": {
+    "asOfDate": "28/02/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Akun Perkiraan"
+    ],
+    [
+     "Per Tgl. 28 Feb 2045"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Tipe Akun",
+     "Saldo"
+    ],
+    [
+     "1101",
+     "Kas & Bank",
+     "Kas & Bank",
+     "8.250.000"
+    ],
+    [
+     "110101",
+     "Kas Kecil",
+     "Kas & Bank",
+     "-500.000"
+    ],
+    [
+     "110102",
+     "Bank",
+     "Kas & Bank",
+     "8.750.000"
+    ],
+    [
+     "110103",
+     "Bank Xendit Demo",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "1102",
+     "Setara Kas",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "110201",
+     "Deposito Bank",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "110202",
+     "Bank Penjualan",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "110203",
+     "Bank Pembelian",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "110204",
+     "Bank Pengeluaran",
+     "Kas & Bank",
+     "0"
+    ],
+    [
+     "1103",
+     "Piutang Usaha",
+     "Piutang Usaha",
+     "0"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "Piutang Usaha",
+     "0"
+    ],
+    [
+     "110302",
+     "Uang Muka Pembelian IDR",
+     "Piutang Usaha",
+     "0"
+    ],
+    [
+     "1104",
+     "Persediaan",
+     "Persediaan",
+     "6.146.070.000"
+    ],
+    [
+     "110401",
+     "Persediaan",
+     "Persediaan",
+     "6.146.070.000"
+    ],
+    [
+     "110402",
+     "Persediaan Terkirim",
+     "Persediaan",
+     "0"
+    ],
+    [
+     "1105",
+     "Aset Lancar Lainnya",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "110501",
+     "Perlengkapan Kantor",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "110502",
+     "Sewa Gedung Dibayar Dimuka",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "110503",
+     "Asuransi Dibayar Dimuka",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "110504",
+     "PPN Masukan",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "110505",
+     "PPh 23 Penjualan",
+     "Aset Lancar Lainnya",
+     "0"
+    ],
+    [
+     "1200",
+     "Aset Tetap",
+     "Aset Tetap",
+     "4.000.000"
+    ],
+    [
+     "120001",
+     "Tanah",
+     "Aset Tetap",
+     "0"
+    ],
+    [
+     "120002",
+     "Gedung",
+     "Aset Tetap",
+     "0"
+    ],
+    [
+     "120003",
+     "Kendaraan",
+     "Aset Tetap",
+     "0"
+    ],
+    [
+     "120004",
+     "Peralatan",
+     "Aset Tetap",
+     "4.000.000"
+    ],
+    [
+     "120005",
+     "Inventaris Kantor",
+     "Aset Tetap",
+     "0"
+    ],
+    [
+     "120006",
+     "Akumulasi Depresiasi Aset Tetap",
+     "Akumulasi Penyusutan",
+     "0"
+    ],
+    [
+     "12000601",
+     "Akumulasi Penyusutan Gedung",
+     "Akumulasi Penyusutan",
+     "0"
+    ],
+    [
+     "12000602",
+     "Akumulasi Penyusutan Kendaraan",
+     "Akumulasi Penyusutan",
+     "0"
+    ],
+    [
+     "12000603",
+     "Akumulasi Penyusutan Peralatan",
+     "Akumulasi Penyusutan",
+     "0"
+    ],
+    [
+     "12000604",
+     "Akumulasi Penyusutan Inventaris Kantor",
+     "Akumulasi Penyusutan",
+     "0"
+    ],
+    [
+     "2101",
+     "Utang Usaha",
+     "Utang Usaha",
+     "0"
+    ],
+    [
+     "210101",
+     "Utang Usaha IDR",
+     "Utang Usaha",
+     "0"
+    ],
+    [
+     "210102",
+     "Uang Muka Penjualan IDR",
+     "Utang Usaha",
+     "0"
+    ],
+    [
+     "2102",
+     "Kewajiban Jangka Pendek Lainnya",
+     "Liabilitas Jangka Pendek",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "Liabilitas Jangka Pendek",
+     "0"
+    ],
+    [
+     "210202",
+     "PPh 23 Pembelian",
+     "Liabilitas Jangka Pendek",
+     "0"
+    ],
+    [
+     "210203",
+     "Hutang Pembelian Belum",
+     "Liabilitas Jangka Pendek",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 3"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Akun Perkiraan"
+    ],
+    [
+     "Per Tgl. 28 Feb 2045"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Tipe Akun",
+     "Saldo"
+    ],
+    [
+     "Ditagih"
+    ],
+    [
+     "2201",
+     "Hutang Jangka Panjang",
+     "Liabilitas Jangka Panjang",
+     "4.000.000"
+    ],
+    [
+     "3000",
+     "Modal",
+     "Modal",
+     "6.146.070.000"
+    ],
+    [
+     "300001",
+     "Equitas Saldo Awal",
+     "Modal",
+     "6.146.070.000"
+    ],
+    [
+     "300002",
+     "Laba Ditahan",
+     "Modal",
+     "0"
+    ],
+    [
+     "300003",
+     "Modal Saham",
+     "Modal",
+     "0"
+    ],
+    [
+     "4000",
+     "Pendapatan Operasional",
+     "Pendapatan",
+     "10.000.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "Pendapatan",
+     "10.000.000"
+    ],
+    [
+     "400002",
+     "Pendapatan Jasa",
+     "Pendapatan",
+     "0"
+    ],
+    [
+     "400003",
+     "Retur Penjualan",
+     "Pendapatan",
+     "0"
+    ],
+    [
+     "400004",
+     "Diskon Penjualan",
+     "Pendapatan",
+     "0"
+    ],
+    [
+     "4401",
+     "Diskon Penjualan",
+     "Pendapatan",
+     "0"
+    ],
+    [
+     "440101",
+     "Diskon Penjualan IDR",
+     "Pendapatan",
+     "0"
+    ],
+    [
+     "5101",
+     "Beban Pokok Penjualan",
+     "Beban Pokok Penjualan",
+     "0"
+    ],
+    [
+     "6000",
+     "Beban Operasional",
+     "Beban",
+     "2.500.000"
+    ],
+    [
+     "600001",
+     "Beban Iklan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600002",
+     "Beban Komisi",
+     "Beban",
+     "0"
+    ],
+    [
+     "600003",
+     "Beban Bensin, Parkir, Tol Kendaraan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600004",
+     "Beban Gaji, Upah & Honorer",
+     "Beban",
+     "0"
+    ],
+    [
+     "600005",
+     "Beban Bonus, Pesangon & Kompensasi",
+     "Beban",
+     "0"
+    ],
+    [
+     "600006",
+     "Beban Transportasi Karyawan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600007",
+     "Beban Katering & Makan Karyawan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600008",
+     "Beban Tunjangan Kesehatan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600009",
+     "Beban Asuransi Karyawan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600010",
+     "Beban THR",
+     "Beban",
+     "0"
+    ],
+    [
+     "600011",
+     "Beban Listrik",
+     "Beban",
+     "0"
+    ],
+    [
+     "600012",
+     "Beban PAM",
+     "Beban",
+     "0"
+    ],
+    [
+     "600013",
+     "Beban Telekomunikasi",
+     "Beban",
+     "0"
+    ],
+    [
+     "600014",
+     "Beban Ekspedisi, Pos & Materai",
+     "Beban",
+     "0"
+    ],
+    [
+     "600015",
+     "Beban Perjalanan Dinas",
+     "Beban",
+     "0"
+    ],
+    [
+     "600016",
+     "Beban Perlengkapan Kantor",
+     "Beban",
+     "0"
+    ],
+    [
+     "600017",
+     "Beban Pajak Penghasilan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600018",
+     "Beban Retribusi & Sumbangan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600019",
+     "Beban Sewa Gedung",
+     "Beban",
+     "2.500.000"
+    ],
+    [
+     "600020",
+     "Beban Operasional Lainnya",
+     "Beban",
+     "0"
+    ],
+    [
+     "600021",
+     "Beban Penyusutan Gedung",
+     "Beban",
+     "0"
+    ],
+    [
+     "600022",
+     "Beban Penyusutan Kendaraan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600023",
+     "Beban Penyusutan Peralatan",
+     "Beban",
+     "0"
+    ],
+    [
+     "600024",
+     "Beban Penyusutan Inventaris",
+     "Beban",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 2",
+     "dari 3"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Akun Perkiraan"
+    ],
+    [
+     "Per Tgl. 28 Feb 2045"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Tipe Akun",
+     "Saldo"
+    ],
+    [
+     "Kantor"
+    ],
+    [
+     "600025",
+     "Beban Tax Fee",
+     "Beban",
+     "0"
+    ],
+    [
+     "600026",
+     "Beban Xendit Demo",
+     "Beban",
+     "0"
+    ],
+    [
+     "600027",
+     "Pajak Xendit Demo",
+     "Beban",
+     "0"
+    ],
+    [
+     "7100",
+     "Pendapatan Diluar Usaha",
+     "Pendapatan Lainnya",
+     "1.250.000"
+    ],
+    [
+     "710001",
+     "Pendapatan Jasa Giro",
+     "Pendapatan Lainnya",
+     "0"
+    ],
+    [
+     "710002",
+     "Pendapatan Bunga Deposito",
+     "Pendapatan Lainnya",
+     "1.250.000"
+    ],
+    [
+     "710003",
+     "Penjualan Persediaan / Perlengkapan",
+     "Pendapatan Lainnya",
+     "0"
+    ],
+    [
+     "710004",
+     "Laba/Rugi Revaluasi Aset",
+     "Pendapatan Lainnya",
+     "0"
+    ],
+    [
+     "710005",
+     "Pendapatan Diluar Usaha Lainnya",
+     "Pendapatan Lainnya",
+     "0"
+    ],
+    [
+     "7200",
+     "Beban Diluar Usaha",
+     "Beban Lainnya",
+     "500.000"
+    ],
+    [
+     "720001",
+     "Beban Bunga Pinjaman",
+     "Beban Lainnya",
+     "500.000"
+    ],
+    [
+     "720002",
+     "Beban Adm. Bank & Buku Cek/Giro",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720003",
+     "Pajak Jasa Giro",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720004",
+     "Laba/Rugi Terealisasi",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720005",
+     "Laba/Rugi Belum Terealisasi",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720006",
+     "Laba/Rugi Disposisi Aset",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720007",
+     "Beban Diluar Usaha Lainnya",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "7201",
+     "Laba/Rugi Terealisasi",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720101",
+     "Laba/Rugi Terealisasi IDR",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "7202",
+     "Laba/Rugi Belum Terealisasi",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "720201",
+     "Laba/Rugi Belum Terealisasi IDR",
+     "Beban Lainnya",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 3",
+     "dari 3"
+    ]
+   ]
+  },
+  "BalanceSheetMultiPeriodReport": {
+   "planId": "BalanceSheetMultiPeriodReport",
+   "paramDate": "PERIODFROMTO",
+   "param": {
+    "periodStartMonth": "1",
+    "periodStartYear": 2045,
+    "periodEndMonth": "2",
+    "periodEndYear": 2045,
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Periode)"
+    ],
+    [
+     "Dari Periode Januari 2045 s/d Februari 2045"
+    ],
+    [
+     "Deskripsi",
+     "31 Jan 2045 (IDR)",
+     "28 Feb 2045 (IDR)"
+    ],
+    [
+     "ASET"
+    ],
+    [
+     "ASET LANCAR"
+    ],
+    [
+     "Kas dan Setara Kas"
+    ],
+    [
+     "Kas & Bank",
+     "7.500.000",
+     "8.250.000"
+    ],
+    [
+     "Kas Kecil",
+     "0",
+     "-500.000"
+    ],
+    [
+     "Bank",
+     "7.500.000",
+     "8.750.000"
+    ],
+    [
+     "Jumlah Kas dan Setara Kas",
+     "7.500.000",
+     "8.250.000"
+    ],
+    [
+     "Piutang Usaha"
+    ],
+    [
+     "Jumlah Piutang Usaha",
+     "0",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Jumlah Persediaan",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Aset Lancar Lainnya"
+    ],
+    [
+     "Jumlah Aset Lancar Lainnya",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Aset Lancar",
+     "6.153.570.000",
+     "6.154.320.000"
+    ],
+    [
+     "ASET TIDAK LANCAR"
+    ],
+    [
+     "Nilai Histori"
+    ],
+    [
+     "Aset Tetap",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Peralatan",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Nilai Histori",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Akumulasi Penyusutan"
+    ],
+    [
+     "Jumlah Akumulasi Penyusutan",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Aset Tidak Lancar",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Aset Lainnya"
+    ],
+    [
+     "Jumlah Aset Lainnya",
+     "0",
+     "0"
+    ],
+    [
+     "JUMLAH ASET",
+     "6.153.570.000",
+     "6.158.320.000"
+    ],
+    [
+     "LIABILITAS DAN EKUITAS"
+    ],
+    [
+     "LIABILITAS"
+    ],
+    [
+     "LIABILITAS JANGKA PENDEK"
+    ],
+    [
+     "Utang Usaha"
+    ],
+    [
+     "Jumlah Utang",
+     "0",
+     "0"
+    ],
+    [
+     "Kewajiban Jangka Pendek Lainnya"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek Lainnya",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek",
+     "0",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Periode)"
+    ],
+    [
+     "Dari Periode Januari 2045 s/d Februari 2045"
+    ],
+    [
+     "Deskripsi",
+     "31 Jan 2045 (IDR)",
+     "28 Feb 2045 (IDR)"
+    ],
+    [
+     "LIABILITAS JANGKA PANJANG"
+    ],
+    [
+     "Hutang Jangka Panjang",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Panjang",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "EKUITAS"
+    ],
+    [
+     "Modal",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Equitas Saldo Awal",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Laba Tahun Ini",
+     "7.500.000",
+     "8.250.000"
+    ],
+    [
+     "Jumlah Ekuitas",
+     "6.153.570.000",
+     "6.154.320.000"
+    ],
+    [
+     "JUMLAH LIABILITAS DAN EKUITAS",
+     "6.153.570.000",
+     "6.158.320.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "BalanceSheetMultiYearReport": {
+   "planId": "BalanceSheetMultiYearReport",
+   "paramDate": "ASOFYEAR",
+   "param": {
+    "asOfYear": 2045,
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Year)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Deskripsi",
+     "2043 (IDR)",
+     "2044 (IDR)",
+     "2045 (IDR)"
+    ],
+    [
+     "ASET"
+    ],
+    [
+     "ASET LANCAR"
+    ],
+    [
+     "Kas dan Setara Kas"
+    ],
+    [
+     "Kas & Bank",
+     "0",
+     "0",
+     "8.250.000"
+    ],
+    [
+     "Kas Kecil",
+     "0",
+     "0",
+     "-500.000"
+    ],
+    [
+     "Bank",
+     "0",
+     "0",
+     "8.750.000"
+    ],
+    [
+     "Jumlah Kas dan Setara Kas",
+     "0",
+     "0",
+     "8.250.000"
+    ],
+    [
+     "Piutang Usaha"
+    ],
+    [
+     "Piutang Usaha",
+     "0",
+     "0",
+     "3.000.000"
+    ],
+    [
+     "Piutang Usaha IDR",
+     "0",
+     "0",
+     "3.000.000"
+    ],
+    [
+     "Jumlah Piutang Usaha",
+     "0",
+     "0",
+     "3.000.000"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.620.000"
+    ],
+    [
+     "Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.620.000"
+    ],
+    [
+     "Jumlah Persediaan",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.620.000"
+    ],
+    [
+     "Aset Lancar Lainnya"
+    ],
+    [
+     "Jumlah Aset Lancar Lainnya",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Aset Lancar",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.157.870.000"
+    ],
+    [
+     "ASET TIDAK LANCAR"
+    ],
+    [
+     "Nilai Histori"
+    ],
+    [
+     "Aset Tetap",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Peralatan",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Nilai Histori",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Akumulasi Penyusutan"
+    ],
+    [
+     "Jumlah Akumulasi Penyusutan",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Aset Tidak Lancar",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Aset Lainnya"
+    ],
+    [
+     "Jumlah Aset Lainnya",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "JUMLAH ASET",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.161.870.000"
+    ],
+    [
+     "LIABILITAS DAN EKUITAS"
+    ],
+    [
+     "LIABILITAS"
+    ],
+    [
+     "LIABILITAS JANGKA PENDEK"
+    ],
+    [
+     "Utang Usaha"
+    ],
+    [
+     "Utang Usaha",
+     "0",
+     "0",
+     "2.200.000"
+    ],
+    [
+     "Utang Usaha IDR",
+     "0",
+     "0",
+     "2.200.000"
+    ],
+    [
+     "Jumlah Utang",
+     "0",
+     "0",
+     "2.200.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Neraca (Multi Year)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Deskripsi",
+     "2043 (IDR)",
+     "2044 (IDR)",
+     "2045 (IDR)"
+    ],
+    [
+     "Kewajiban Jangka Pendek Lainnya"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek Lainnya",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Pendek",
+     "0",
+     "0",
+     "2.200.000"
+    ],
+    [
+     "LIABILITAS JANGKA PANJANG"
+    ],
+    [
+     "Hutang Jangka Panjang",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban Jangka Panjang",
+     "0",
+     "0",
+     "4.000.000"
+    ],
+    [
+     "Jumlah Kewajiban",
+     "0",
+     "0",
+     "6.200.000"
+    ],
+    [
+     "EKUITAS"
+    ],
+    [
+     "Modal",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Equitas Saldo Awal",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.146.070.000"
+    ],
+    [
+     "Laba Tahun Ini",
+     "0",
+     "0",
+     "9.600.000"
+    ],
+    [
+     "Jumlah Ekuitas",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.155.670.000"
+    ],
+    [
+     "JUMLAH LIABILITAS DAN EKUITAS",
+     "6.146.070.000",
+     "6.146.070.000",
+     "6.161.870.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "OwnerEquityChangedReport": {
+   "planId": "OwnerEquityChangedReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Perubahan Ekuitas Pemilik"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Keterangan",
+     "Nilai"
+    ],
+    [
+     "Ekuitas pemilik awal periode",
+     "6.146.070.000"
+    ],
+    [
+     "Penambahan Ekuitas Pemilik"
+    ],
+    [
+     "Pendapatan Bersih",
+     "8.250.000"
+    ],
+    [
+     "Investasi Kurun Periode",
+     "0"
+    ],
+    [
+     "Penarikan",
+     "0"
+    ],
+    [
+     "Total Penambahan Ekuitas Pemilik",
+     "8.250.000"
+    ],
+    [
+     "Ekuitas Pemilik Akhir Periode",
+     "6.154.320.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "FinancialRatioReport": {
+   "planId": "FinancialRatioReport",
+   "paramDate": "ASOFYEAR",
+   "param": {
+    "asOfYear": 2045
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rasio Keuangan (Per Tahun)"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Jenis Rasio",
+     "Rasio",
+     "Tahun Sebelumnya",
+     "Satuan"
+    ],
+    [
+     "Rasio Likuiditas"
+    ],
+    [
+     "Current Ratio",
+     "2.799,03",
+     "0",
+     "Kali"
+    ],
+    [
+     "Quick Ratio",
+     "5,11",
+     "0",
+     "Kali"
+    ],
+    [
+     "Cash Ratio",
+     "375",
+     "0",
+     "%"
+    ],
+    [
+     "Cash Turnover",
+     "315,15",
+     "0",
+     "%"
+    ],
+    [
+     "Inventory to Net Working Capital",
+     "99,85",
+     "100",
+     "%"
+    ],
+    [
+     "Rasio Solvabilitas"
+    ],
+    [
+     "Debt to Asset Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Debt to Equity Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Long Term Liability to Equity Ratio",
+     "0,1",
+     "0",
+     "Kali"
+    ],
+    [
+     "Equity Multiplier",
+     "1",
+     "1",
+     "Kali"
+    ],
+    [
+     "Rasio Aktifitas"
+    ],
+    [
+     "Total Asset Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Receivable Turnover",
+     "8,67",
+     "0",
+     "Kali"
+    ],
+    [
+     "Payable Turnover",
+     "2",
+     "0",
+     "Kali"
+    ],
+    [
+     "Average Collection Period",
+     "42,12",
+     "0",
+     "Hari"
+    ],
+    [
+     "Inventory Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Working Capital Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Days of Receivable",
+     "42,12",
+     "0",
+     "Hari"
+    ],
+    [
+     "Days of Inventory",
+     "1.359.646,02",
+     "0",
+     "Hari"
+    ],
+    [
+     "Fixed Asset Turnover",
+     "6,5",
+     "0",
+     "Kali"
+    ],
+    [
+     "Rasio Profitabilitas"
+    ],
+    [
+     "Gross Profit Margin",
+     "87,3",
+     "0",
+     "%"
+    ],
+    [
+     "Operating Profit Margin",
+     "68,1",
+     "0",
+     "%"
+    ],
+    [
+     "Net Profit Margin",
+     "73,8",
+     "0",
+     "%"
+    ],
+    [
+     "Return On Asset",
+     "0,2",
+     "0",
+     "%"
+    ],
+    [
+     "Return On Equity",
+     "0,2",
+     "0",
+     "%"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "FinancialRatioPerMonthReport": {
+   "planId": "FinancialRatioPerMonthReport",
+   "paramDate": "PERIOD",
+   "param": {
+    "periodMonth": "2",
+    "periodYear": 2045
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rasio Keuangan (Per Bulan)"
+    ],
+    [
+     "Per Februari 2045"
+    ],
+    [
+     "Jenis Rasio",
+     "Rasio",
+     "Bulan Sebelumnya",
+     "Satuan"
+    ],
+    [
+     "Rasio Likuiditas"
+    ],
+    [
+     "Current Ratio",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Quick Ratio",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Cash Ratio",
+     "0",
+     "0",
+     "%"
+    ],
+    [
+     "Cash Turnover",
+     "0",
+     "266,67",
+     "%"
+    ],
+    [
+     "Inventory to Net Working Capital",
+     "99,87",
+     "99,88",
+     "%"
+    ],
+    [
+     "Rasio Solvabilitas"
+    ],
+    [
+     "Debt to Asset Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Debt to Equity Ratio",
+     "0,1",
+     "0",
+     "%"
+    ],
+    [
+     "Long Term Liability to Equity Ratio",
+     "0,1",
+     "0",
+     "Kali"
+    ],
+    [
+     "Equity Multiplier",
+     "1",
+     "1",
+     "Kali"
+    ],
+    [
+     "Rasio Aktifitas"
+    ],
+    [
+     "Total Asset Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Receivable Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Payable Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Average Collection Period",
+     "0",
+     "0",
+     "Hari"
+    ],
+    [
+     "Inventory Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Working Capital Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Days of Receivable",
+     "0",
+     "0",
+     "Hari"
+    ],
+    [
+     "Days of Inventory",
+     "0",
+     "0",
+     "Hari"
+    ],
+    [
+     "Fixed Asset Turnover",
+     "0",
+     "0",
+     "Kali"
+    ],
+    [
+     "Rasio Profitabilitas"
+    ],
+    [
+     "Gross Profit Margin",
+     "0",
+     "100",
+     "%"
+    ],
+    [
+     "Operating Profit Margin",
+     "0",
+     "75",
+     "%"
+    ],
+    [
+     "Net Profit Margin",
+     "0",
+     "75",
+     "%"
+    ],
+    [
+     "Return On Asset",
+     "0",
+     "0,1",
+     "%"
+    ],
+    [
+     "Return On Equity",
+     "0",
+     "0,1",
+     "%"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "FinancialFocusReport": {
+   "planId": "FinancialFocusReport",
+   "paramDate": "ASOFYEAR",
+   "param": {
+    "asOfYear": 2045
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Fokus Keuangan"
+    ],
+    [
+     "per 2045"
+    ],
+    [
+     "Keterangan",
+     "Tahun ini",
+     "Tahun Lalu",
+     "Penambahan (%)"
+    ],
+    [
+     "Total Pendapatan",
+     "14.250.000",
+     "0",
+     "100"
+    ],
+    [
+     "Pendapatan Operasi",
+     "8.850.000",
+     "0",
+     "100"
+    ],
+    [
+     "Laba/Rugi",
+     "9.600.000",
+     "0",
+     "100"
+    ],
+    [
+     "Modal Kerja",
+     "6.155.670.000",
+     "6.146.070.000",
+     "0,23"
+    ],
+    [
+     "Rasio Lancar",
+     "2.799,03",
+     "100",
+     "2.699,03"
+    ],
+    [
+     "Liabilitas Jangka Panjang",
+     "4.000.000",
+     "0",
+     "100"
+    ],
+    [
+     "Modal",
+     "6.155.670.000",
+     "6.146.070.000",
+     "0,16"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "CashBankAccountListReport": {
+   "planId": "CashBankAccountListReport",
+   "paramDate": "ASOF",
+   "param": {
+    "asOfDate": "28/02/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Kas"
+    ],
+    [
+     "Per Tgl. 28 Feb 2045"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama",
+     "Saldo (per Mata Uang)",
+     "Saldo (IDR)"
+    ],
+    [
+     "Indonesian Rupiah"
+    ],
+    [
+     "1101",
+     "Kas & Bank",
+     "8.250.000",
+     "8.250.000"
+    ],
+    [
+     "110101",
+     "Kas Kecil",
+     "-500.000",
+     "-500.000"
+    ],
+    [
+     "110102",
+     "Bank",
+     "8.750.000",
+     "8.750.000"
+    ],
+    [
+     "110103",
+     "Bank Xendit Demo",
+     "0",
+     "0"
+    ],
+    [
+     "1102",
+     "Setara Kas",
+     "0",
+     "0"
+    ],
+    [
+     "110201",
+     "Deposito Bank",
+     "0",
+     "0"
+    ],
+    [
+     "110202",
+     "Bank Penjualan",
+     "0",
+     "0"
+    ],
+    [
+     "110203",
+     "Bank Pembelian",
+     "0",
+     "0"
+    ],
+    [
+     "110204",
+     "Bank Pengeluaran",
+     "0",
+     "0"
+    ],
+    [
+     "8.250.000",
+     "8.250.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationInOutReport": {
+   "planId": "TaxationInOutReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "0"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.070.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-6.146.070.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "-6.146.070.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationOutReport": {
+   "planId": "TaxationOutReport",
+   "paramDate": "FROMTO",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "28/02/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 28 Feb 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.070.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxListReport": {
+   "planId": "TaxListReport",
+   "paramDate": "NONE",
+   "param": {},
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Pajak"
+    ],
+    [
+     "Keterangan",
+     "Persentase"
+    ],
+    [
+     "Pajak Pertambahan Nilai",
+     "11"
+    ],
+    [
+     "Pajak Pertambahan Barang Mewah",
+     "25"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:27"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
     ]
    ]
   }

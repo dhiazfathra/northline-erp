@@ -18,3 +18,7 @@ NL-T1-1101 - NL-T1 Kas
 4. Running balance is normalized and does **not** reset when the range crosses a fiscal year (fixture `span`: Pendapatan
    keeps 3.000.000 into January; the opening row is the only place the reset applies).
 5. Lines ordered by date, journal number, entry order; each line is its own row.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Same window and fixture ([fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`): zero diff after a **rule correction**: the opening row's text spells the month in English (`Saldo per 31 Dec 2044`) while its date cell stays Indonesian (`31 Des 2044`). Manufaktur Demo's openings (30 Nov, 31 Jan) are spelled the same in both languages, so they could not show it. Line memos print in Keterangan. See ADR-0029.

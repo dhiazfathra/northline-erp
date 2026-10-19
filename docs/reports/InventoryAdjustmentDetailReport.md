@@ -11,3 +11,7 @@ Postings (journal type "Penyesuaian Persediaan"): increase Dr Persediaan / Cr ad
 decrease Dr adjustment account / Cr Persediaan at FIFO cost (2 × 13.000). Stock card rows read `Penyesuaian <number>`.
 
 Also found: an **unlinked** goods receipt adds its quantity to stock at zero value (opening 21 units with 229.200).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo data: 35 opening adjustments IA.2025.06.00001-00035 (one item each), the only source of the demo's stock value. Layout unchanged. See ADR-0029.

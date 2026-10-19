@@ -31,3 +31,7 @@ the balance at the end of the period before. Division by zero prints `0`. Values
 
 Ambiguous in the fixture (both readings give the printed value): asset turnover and ROA/ROE with average vs closing balances,
 payable turnover's numerator (COGS vs purchases).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Februari 2045, fixture [fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff after a **rule correction**: Long Term Liability to Equity Ratio is labelled `Kali` but printed x100 with 1 decimal (4.000.000 / 6.154.320.000 = 0,065 -> `0,1`). Manufaktur Demo's value rounded to 0 either way. See ADR-0029.

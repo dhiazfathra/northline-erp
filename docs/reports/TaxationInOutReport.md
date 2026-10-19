@@ -36,3 +36,7 @@ The printout spans two pages; title, date range and column header repeat on page
 ## Open work
 
 - Entry order is inferred from one tax; confirm with two taxes on both sides (`shortcut:` comment in `taxationInOut`).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). **Partial.** Trade Portal capture (fixtures/trade/trade-tp.json `ledgerQ1`) uses the account sections above on both sides (Pajak Masukan: PPN Masukan, Persediaan Terkirim; Pajak Keluaran: PPN Keluaran, Persediaan). It prints the Persediaan purchase group after the section totals under a repeated `Pajak Keluaran / Persediaan` heading, so the streaming order is not determinable from one capture. Not built for multi-account sections; the Manufaktur Demo layout stays verified. See ADR-0029.

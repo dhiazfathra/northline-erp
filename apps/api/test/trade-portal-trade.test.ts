@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { sql } from 'drizzle-orm'
 import fx from '../../../docs/reports/fixtures/trade/trade-tp.json'
+import jfx from '../../../docs/reports/fixtures/trade/journal-tp.json'
 import { connect, migrate } from '../src/db'
 import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
@@ -9,6 +10,7 @@ import * as I from '../src/reports/inventory'
 import * as P from '../src/reports/payables'
 import { loadInventory, loadPurchases, loadSales } from '../src/reports/queries'
 import * as R from '../src/reports/receivables'
+import * as T from '../src/reports/tax'
 import { createSalesInvoice, upsertCustomer, upsertItem } from '../src/sales/service'
 
 // Trade Portal Demo (ADR-0029): NL-TP purchases and sale of March 2045 replayed on Trade Portal's chart of accounts.
@@ -25,6 +27,12 @@ beforeAll(async () => {
     await handle(db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any, parentNo: a.parentNo ?? undefined })
   await catchUp(db, ledgerProjection)
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES ('300002', 1)`)
+  for (const [i, t] of (fx as any).taxes.entries())
+    await db.execute(sql`INSERT INTO taxes (name, rate, seq, sales_account, purchase_account) VALUES (${t.name}, ${t.rate}, ${i}, ${t.salesAccount}, ${t.purchaseAccount})`)
+  // the demo's opening (journal OB) and NL-TP J1-J4 of Jan-Feb 2045: same Data Usaha, so the March documents sit on the real balances
+  for (const j of jfx.journals)
+    await handle(db, { type: 'PostJournal', idempotencyKey: `nl-tp-${j.ref}`, journalId: crypto.randomUUID(), date: j.date, description: j.description,
+      lines: j.lines.map(l => ({ ...l, side: l.side as 'DEBIT' | 'CREDIT' })) })
   for (const c of fx.customers) await upsertCustomer(db, c)
   for (const v of fx.vendors) await upsertVendor(db, v)
   for (const i of fx.items) await upsertItem(db, i as any)
@@ -73,4 +81,13 @@ test('blocked: requires average costing. ERP FIFO HPP 1.600.000 vs Trade Portal 
   const ours = I.profitabilityByItem(await loadInventory(db), s, W.from, W.to).find(r => r[0] === 'NL-TP-B1 Barang Uji Trade')!
   // flips to toEqual(e) once the AVERAGE strategy of ADR-0031 lands
   expect(ours[2]).toBe('1.600.000')
+})
+
+test('TaxationOutReport 1 Jan - 31 Mar 2045: sections per tax sales account, PPnBM on Persediaan (FIFO gap pinned)', async () => {
+  const e = (fx as any).ledgerQ1.TaxationOutReport.rows as string[][]
+  const want = e.filter(r => !(/^(ACCURATE Accounting|Tercetak pada|Halaman )/.test(r[0]!) || (r.length === 1 && r[0] === e[0]![0])))
+    // blocked: requires average costing. The sale's HPP credit on Persediaan is 1.650.000 in Accurate, 1.600.000 under FIFO.
+    .map(r => r.map(c => ({ '1.650.000': '1.600.000', '-6.146.620.000': '-6.146.670.000' } as Record<string, string>)[c] ?? c))
+  const ours = T.taxationListBySection(await T.loadTaxLines(db), 'OUT', '2045-01-01', '2045-03-31', await T.loadTaxSections(db, 'OUT', '2045-01-01'))
+  expect(ours).toEqual(want)
 })

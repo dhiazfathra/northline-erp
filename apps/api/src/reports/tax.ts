@@ -36,17 +36,70 @@ const period = (lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string) 
 const taxNames = (ls: TaxLine[]) => [...new Set(ls.map(l => l.tax))].sort()
 const docRow = (l: TaxLine) => [fmtDate(l.date), fmtDate(l.taxDate), l.number, l.taxNumber, formatIdr(l.amount)].filter(c => c !== '')
 
-/** Daftar PPN/PPnBM Keluaran / Masukan: Saldo Awal = that side's tax dated before `from`; then one block per tax (name order) by tax date, number. */
-function taxationList(lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string): string[][] {
-  const open = opening(lines, side, from), inRange = period(lines, side, from, to)
-  const rows: string[][] = [[side === 'OUT' ? 'Daftar PPN/PPnBM Keluaran' : 'Daftar PPN/PPnBM Masukan'], range(from, to), HEADER,
-    [NAME[side]], ['Saldo Awal'], ['-', '-', formatIdr(open)], [formatIdr(open)]]
-  for (const tax of taxNames(inRange)) {
-    const block = inRange.filter(l => l.tax === tax)
-    rows.push([`${tax} (${block[0]!.rate}%)`], ...block.map(docRow), [formatIdr(sum(block))])
+/** A posting on a tax account that is not a tax line of a taxed invoice ("Transaksi Lainnya"); amount on the tax side's sign. */
+export interface TaxAccountPosting { date: string; number: string; taxNumber: string; kind: string; amount: number }
+/** One section per tax account: its name, balance before `from`, the taxes posting to it, and its other postings. */
+export interface TaxSection { title: string; opening: number; taxes: string[]; others: TaxAccountPosting[] }
+
+// shortcut: "Transaksi Lainnya" groups by document kind, sales invoices first, then the rest in kind order; inferred from one
+// Trade Portal capture (SI before PI); confirm with more kinds before relying on it.
+const KIND_ORDER = ['SI', 'PI']
+const kindRank = (k: string) => (KIND_ORDER.includes(k) ? KIND_ORDER.indexOf(k) : KIND_ORDER.length)
+
+/** Daftar PPN/PPnBM Keluaran / Masukan by tax account (rules: docs/reports/TaxationOutReport.md, Trade Portal variation). */
+export function taxationListBySection(lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string, sections: TaxSection[]): string[][] {
+  const inRange = period(lines, side, from, to)
+  const rows: string[][] = [[side === 'OUT' ? 'Daftar PPN/PPnBM Keluaran' : 'Daftar PPN/PPnBM Masukan'], range(from, to), HEADER]
+  for (const sec of sections) {
+    let total = sec.opening
+    rows.push([sec.title], ['Saldo Awal'], ['-', '-', formatIdr(sec.opening)], [formatIdr(sec.opening)])
+    for (const tax of taxNames(inRange.filter(l => sec.taxes.includes(l.tax)))) {
+      const block = inRange.filter(l => l.tax === tax)
+      rows.push([`${tax} (${block[0]!.rate}%)`], ...block.map(docRow), [formatIdr(sum(block))])
+      total += sum(block)
+    }
+    const others = sec.others.filter(o => o.date >= from && o.date <= to)
+    for (const kind of [...new Set(others.map(o => o.kind))].sort((a, b) => kindRank(a) - kindRank(b) || (a < b ? -1 : 1))) {
+      const g = others.filter(o => o.kind === kind).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
+      const sub = g.reduce((t, o) => t + o.amount, 0)
+      rows.push(['Transaksi Lainnya'], ...g.map(o => [fmtDate(o.date), fmtDate(o.date), o.number, o.taxNumber, formatIdr(o.amount)].filter(c => c !== '')), [formatIdr(sub)])
+      total += sub
+    }
+    rows.push([`Total dari ${sec.title}`, formatIdr(total)])
   }
-  rows.push([`Total dari ${NAME[side]}`, formatIdr(open + sum(inRange))])
   return rows
+}
+
+/** Sections from the ledger: each tax's sales (OUT) or purchase (IN) account; opening and other postings signed credit − debit for OUT, debit − credit for IN. */
+export async function loadTaxSections(db: Db, side: 'OUT' | 'IN', from: string): Promise<TaxSection[]> {
+  const col = side === 'OUT' ? sql.raw('sales_account') : sql.raw('purchase_account')
+  const taxes = await db.execute(sql`SELECT t.name, t.${col} AS account, a.name AS account_name FROM taxes t JOIN accounts a ON a.no = t.${col} ORDER BY t.seq`)
+  const sgn = side === 'OUT' ? 1 : -1
+  const out: TaxSection[] = []
+  for (const t of taxes) {
+    const acct = t.account as string
+    let sec = out.find(x => x.title === t.account_name)
+    if (!sec) {
+      const [o] = await db.execute(sql`SELECT COALESCE(SUM(credit - debit), 0) AS v FROM journal_lines WHERE account_no = ${acct} AND date < ${from}`)
+      // postings not carried as tax lines of a taxed invoice; sales invoices print their tax number, others their own number
+      const others = (await db.execute(sql`SELECT to_char(l.date,'YYYY-MM-DD') AS date, j.number, j.source_type AS kind, l.credit - l.debit AS v,
+          COALESCE(si.tax_number, '') AS tax_number
+        FROM journal_lines l JOIN journals j ON j.journal_id = l.journal_id LEFT JOIN sales_invoices si ON si.number = j.number AND j.source_type = 'SI'
+        WHERE l.account_no = ${acct} AND NOT EXISTS (SELECT 1 FROM sales_invoice_taxes x WHERE x.invoice_number = j.number AND j.source_type = 'SI')
+          AND NOT EXISTS (SELECT 1 FROM purchase_invoice_taxes x WHERE x.invoice_number = j.number AND j.source_type = 'PI')`))
+        .map(r => ({ date: r.date as string, number: r.number as string, kind: r.kind as string, amount: sgn * Number(r.v),
+          taxNumber: r.kind === 'SI' ? (r.tax_number as string) : (r.number as string) }))
+      sec = { title: t.account_name as string, opening: sgn * Number(o!.v), taxes: [], others }
+      out.push(sec)
+    }
+    sec.taxes.push(t.name as string)
+  }
+  return out
+}
+
+/** Daftar PPN/PPnBM Keluaran / Masukan with one section (the tax account named PPN Keluaran / PPN Masukan) built from tax lines only. */
+function taxationList(lines: TaxLine[], side: 'OUT' | 'IN', from: string, to: string): string[][] {
+  return taxationListBySection(lines, side, from, to, [{ title: NAME[side], opening: opening(lines, side, from), taxes: taxNames(lines), others: [] }])
 }
 export const taxationOut = (lines: TaxLine[], from: string, to: string) => taxationList(lines, 'OUT', from, to)
 export const taxationIn = (lines: TaxLine[], from: string, to: string) => taxationList(lines, 'IN', from, to)

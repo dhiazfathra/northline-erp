@@ -7,3 +7,7 @@ Columns: `Tipe Transaksi Jurnal` | `No Bukti #` | `Kode #` | `Nama Perkiraan` | 
 1. A date row (`05 Feb 2031`) opens each date; under it every journal line of that date, journals by number, lines in entry order.
 2. `Keterangan Jurnal` is the journal description (not the line memo).
 3. No opening balance, no running balance, no totals.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Same window and fixture ([fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`): zero diff. See ADR-0029.

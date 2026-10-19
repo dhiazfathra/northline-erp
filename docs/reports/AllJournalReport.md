@@ -14,3 +14,7 @@ Kode Perkiraan | Nama Perkiraan | Debit | Kredit
 
 Lines are not merged: three debit lines to one account print three rows (fixture J6). The CSV variant
 (`AllJournalReport` download) is not covered.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Same window and fixture ([fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`): zero diff. Column header repeats per journal, as in Manufaktur Demo. See ADR-0029.

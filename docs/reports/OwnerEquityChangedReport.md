@@ -19,3 +19,7 @@ Fixture (Mar 2032): J7 Modal Cr 4.000.000 → Investasi `4.000.000`; J8 Modal Dr
 J9 income `750.000`; total `4.250.000`.
 
 Unverified: whether a single journal that both credits and debits equity nets (fixture keeps them separate).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). 1 Jan - 28 Feb 2045, fixture [fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff. See ADR-0029.

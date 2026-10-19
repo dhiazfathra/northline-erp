@@ -9,3 +9,7 @@ Same rows, order, parent aggregation, zero-row hiding, fiscal-year reset and ret
 column, signed to the account's normal side ("Dinormalkan"): debit-normal types D − C; AP, other liabilities,
 long-term liabilities, equity, revenue, other income and accumulated depreciation C − D. Fixture: overdrawn NL-T1 Kas
 closes `-1.250.000,5`; NL-T1 Modal `10.000.000`; Laba Ditahan `-31.002.596` (debit balance on a credit-normal account).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Same window and fixture ([fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`): zero diff. See ADR-0029.

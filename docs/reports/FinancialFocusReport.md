@@ -31,3 +31,7 @@ The implied base swings between about 177 and 395 jt and matches none of: last y
 current liabilities, their sum, total assets estimated from the ratio, or working capital less a constant. Every other
 row's percentage is the plain change. The user accepted verifying the other cells and flagging this one (2026-10-18). The ERP prints the plain change in that cell
 (`shortcut:` in the code).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). As Rasio Keuangan (Per Tahun): yearly 2045 figures include the March HPP; blocked on average costing for Trade Portal, rules verified on Manufaktur Demo. See ADR-0029.

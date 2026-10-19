@@ -29,8 +29,10 @@ Journal-only re-verification on Trade Portal (NL-TP 2045 journals): Laba/Rugi St
 Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff. Trade-specific pass (NL-TP March 2045 purchases and sale): 10 sales, purchase, aging, outstanding and stock-card
 reports zero-diff; 3 cost-dependent reports (Profitabilitas per Barang, Nilai Persediaan, Rincian Nilai Persediaan)
 blocked: requires average costing for Trade Portal, still verified under FIFO on Manufaktur Demo.
-Data only in Trade Portal: 38 Trade reports carry amounts; 24 of them have none in the earlier sandboxes' captures, all
-already specified and verified from fixtures there (ledger, Neraca, price/discount adjustments, stock movement).
+Data only in Trade Portal: 38 Trade reports carry amounts; 24 have none in the earlier sandboxes' captures. Followed up:
+ledger listings, Neraca Multi Periode, Perubahan Ekuitas, Daftar Akun Kas & Bank, Rasio per Bulan and Daftar PPN Keluaran
+zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year blocked on average costing; Rekonsiliasi PPN partial; the
+demo's price/discount adjustments and opening stock traced to their documents in the specs.
 Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
 | Report | planId | Category | In Manufaktur Demo | In Retail Demo | In Trade Portal Demo | Trade Portal capture | Spec status | ERP module dependency | Note |
@@ -38,9 +40,9 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Laba/Rugi (Standar)](ProfitLossStandardReport.md) | `ProfitLossStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Standar)](BalanceSheetStandardReport.md) | `BalanceSheetStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
-| [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Multi Year)](ProfitLossMultiYearReport.md) | `ProfitLossMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
 | [Arus Kas (Tak Langsung)](CashFlowIndirectReport.md) | `CashFlowIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Proyeksi Ketersediaan Kas](CashAvailabilityChartReport.md) | `CashAvailabilityChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Proyeksi Kas per Bulan](CashProjectionReport.md) | `CashProjectionReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
@@ -52,11 +54,11 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Arus Kas (Tak Langsung)](CashFlowDetailIndirectReport.md) | `CashFlowDetailIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Rasio Keuangan (Per Bulan)](FinancialRatioPerMonthReport.md) | `FinancialRatioPerMonthReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
+| [Rasio Keuangan (Per Bulan)](FinancialRatioPerMonthReport.md) | `FinancialRatioPerMonthReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
+| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
 | [Laba Ditahan](RetainedEarningReport.md) | `RetainedEarningReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Perubahan Ekuitas Pemilik](OwnerEquityChangedReport.md) | `OwnerEquityChangedReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Perubahan Ekuitas Pemilik](OwnerEquityChangedReport.md) | `OwnerEquityChangedReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Grafik Perbandingan Nilai Akun](AccountValueCompareChartReport.md) | `AccountValueCompareChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Grafik Pendapatan berbanding Biaya](RevenueToExpenseComparisonChartReport.md) | `RevenueToExpenseComparisonChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Grafik Harta Bersih](NetWorthChartReport.md) | `NetWorthChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
@@ -66,20 +68,20 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Arus Kas Multi Period (Langsung)](CashFlowDirectMultiPeriodReport.md) | `CashFlowDirectMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas Multi Period (Tak Langsung)](CashFlowIndirectMultiPeriodReport.md) | `CashFlowIndirectMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Arus Kas Multi Period (Tak Langsung)](CashFlowDetailIndirectMultiPeriodReport.md) | `CashFlowDetailIndirectMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Keseluruhan Jurnal](AllJournalReport.md) | `AllJournalReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Keseluruhan Jurnal](AllJournalReport.md) | `AllJournalReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Keseluruhan Jurnal (CSV)](AllJournalDownloadReport.md) | `AllJournalDownloadReport` | Buku Besar | Y | Y | Y | empty | done | Journal/Period/Account |  |
-| [Ringkasan Buku Besar](GeneralLedgerSummaryReport.md) | `GeneralLedgerSummaryReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Histori Buku Besar](GeneralLedgerHistoryReport.md) | `GeneralLedgerHistoryReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Ringkasan Buku Besar](GeneralLedgerSummaryReport.md) | `GeneralLedgerSummaryReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
+| [Histori Buku Besar](GeneralLedgerHistoryReport.md) | `GeneralLedgerHistoryReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Histori Buku Besar (CSV)](GeneralLedgerHistoryDownloadReport.md) | `GeneralLedgerHistoryDownloadReport` | Buku Besar | Y | Y | Y | empty | done | Journal/Period/Account |  |
-| [Rincian Buku Besar](GeneralLedgerDetailReport.md) | `GeneralLedgerDetailReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Rincian Buku Besar](GeneralLedgerDetailReport.md) | `GeneralLedgerDetailReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Rincian Buku Besar (CSV)](GeneralLedgerDetailDownloadReport.md) | `GeneralLedgerDetailDownloadReport` | Buku Besar | Y | Y | Y | empty | done | Journal/Period/Account |  |
-| [Rincian Jurnal Akun](JournalDetailListReport.md) | `JournalDetailListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Rincian Jurnal Akun](JournalDetailListReport.md) | `JournalDetailListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Rincian Jurnal Akun (CSV)](JournalDetailListDownloadReport.md) | `JournalDetailListDownloadReport` | Buku Besar | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Laba/Rugi Terealisasi](RealizeGainLossReport.md) | `RealizeGainLossReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi Tidak Terealisasi](UnRealizeGainLossReport.md) | `UnRealizeGainLossReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Neraca Percobaan](TrialBalanceReport.md) | `TrialBalanceReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
-| [Jurnal Umum](JournalListReport.md) | `JournalListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Daftar Akun Perkiraan](GlAccountListReport.md) | `GlAccountListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Jurnal Umum](JournalListReport.md) | `JournalListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
+| [Daftar Akun Perkiraan](GlAccountListReport.md) | `GlAccountListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Rincian Gaji Karyawan per Bulan](EmployeePaymentByEmployeeReport.md) | `EmployeePaymentByEmployeeReport` | Buku Besar | Y | Y | Y | data | done (out of scope) | Journal/Period/Account |  |
 | [Rincian Gaji Karyawan per Tahun](EmployeePaymentYearlyByEmployeeReport.md) | `EmployeePaymentYearlyByEmployeeReport` | Buku Besar | Y | Y | Y | data | done (out of scope) | Journal/Period/Account |  |
 | [Pajak Penghasilan Karyawan](EmployeePphReport.md) | `EmployeePphReport` | Buku Besar | Y | Y | Y | data | done (out of scope) | Journal/Period/Account |  |
@@ -102,7 +104,7 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Arus Kas per Akun](CashFlowbyAccountReport.md) | `CashFlowbyAccountReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
 | [Rincian Pembayaran per Bank](PaymentByBankDetailReport.md) | `PaymentByBankDetailReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
 | [Rincian Penerimaan per Bank](DepositByBankDetailReport.md) | `DepositByBankDetailReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
-| [Daftar Kas](CashBankAccountListReport.md) | `CashBankAccountListReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
+| [Daftar Kas](CashBankAccountListReport.md) | `CashBankAccountListReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank | verified on Trade Portal Demo (ADR-0029) |
 | [Rekening Koran](BankStatementReport.md) | `BankStatementReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
 | [Ringkasan Daftar Pembayaran](PaymentListReport.md) | `PaymentListReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
 | [Ringkasan Daftar Penerimaan](DepositListReport.md) | `DepositListReport` | Kas & Bank | Y | Y | Y | data | done | Cash & Bank |  |
@@ -289,9 +291,9 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Daftar Kategori Aset Tetap Pajak](FiscalFaTypeListReport.md) | `FiscalFaTypeListReport` | Aset Tetap | Y | Y | Y | data | done | Fixed Assets |  |
 | [Daftar Perubahan Aset Tetap](FixedAssetEditedListReport.md) | `FixedAssetEditedListReport` | Aset Tetap | Y | Y | Y | data | done | Fixed Assets |  |
 | [Daftar Disposisi Aset Tetap](FixedAssetDisposedListReport.md) | `FixedAssetDisposedListReport` | Aset Tetap | Y | Y | Y | data | done | Fixed Assets |  |
-| [Daftar PPN/PPnBM Keluaran](TaxationOutReport.md) | `TaxationOutReport` | Pajak | Y | Y | Y | data | done | Tax |  |
+| [Daftar PPN/PPnBM Keluaran](TaxationOutReport.md) | `TaxationOutReport` | Pajak | Y | Y | Y | data | done | Tax | verified on Trade Portal Demo (ADR-0029) |
 | [Daftar PPN/PPnBM Masukan](TaxationInReport.md) | `TaxationInReport` | Pajak | Y | Y | Y | data | done | Tax |  |
-| [Rekonsiliasi PPN Lebih/Kurang Bayar](TaxationInOutReport.md) | `TaxationInOutReport` | Pajak | Y | Y | Y | data | done | Tax |  |
+| [Rekonsiliasi PPN Lebih/Kurang Bayar](TaxationInOutReport.md) | `TaxationInOutReport` | Pajak | Y | Y | Y | data | done | Tax | Trade Portal Demo: partial (multi-account sections, ADR-0029) |
 | [Faktur Penjualan SPT Masa PPN](SalesInvoiceSPTListReport.md) | `SalesInvoiceSPTListReport` | Pajak | Y | Y | Y | data | done | Tax |  |
 | [Faktur Pembelian SPT Masa PPN](PurchaseInvoiceSPTListReport.md) | `PurchaseInvoiceSPTListReport` | Pajak | Y | Y | Y | data | done | Tax |  |
 | [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | Y | data | done (out of scope) | Tax |  |

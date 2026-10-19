@@ -8,3 +8,7 @@ Params: `periodStartMonth`, `periodStartYear`, `periodEndMonth`, `periodEndYear`
 2. Each column is [Neraca (Standar)](BalanceSheetStandardReport.md) at that date, so Laba Ditahan and Laba Tahun Ini roll at
    the fiscal-year boundary per column (fixture: Laba Tahun Ini 3.000.000 → -1.250.000,5 → -250.000,5).
 3. Account rows print when non-zero in any column.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Month ends Jan - Feb 2045, fixture [fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff. See ADR-0029.

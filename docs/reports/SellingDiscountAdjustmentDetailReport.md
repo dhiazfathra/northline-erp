@@ -18,3 +18,7 @@ category Umum, all branches). They post no journal.
 ## Open work
 
 - Item default prices / minimum prices, end dates and multiple price categories are not modelled.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo data traced: SPA.2025.06.00002 (10 Jun 2025, Umum) sets per-item discounts (2% to 50%). An empty Diskon Lama (%) cell is dropped from the row, as everywhere in the captures. Layout unchanged. See ADR-0029.

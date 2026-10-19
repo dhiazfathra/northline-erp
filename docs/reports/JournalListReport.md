@@ -11,3 +11,7 @@ Columns: `Nomor #` | `No. Trans #` | `Tanggal` | `Tipe Transaksi` | `Nilai` | `K
 4. No total row.
 
 Unverified: other transaction types (only JV seeded), branch filter.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Demo opening `OB` plus NL-TP J1-J4, 1 Jan - 28 Feb 2045. Fixture [fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff. Rules unchanged. See ADR-0029.

@@ -43,3 +43,7 @@ warning flags, `asNew` turns a captured body into a new record).
 HTML, merges records Jasper split across page breaks, restores wrapped reference/type text from `search-audit.do`, and
 replaces Pengguna/Email/Alamat IP with `nl-tester`, `nl-tester@example.test`, `203.0.113.10` before returning; `raw`
 is refused for this plan.
+
+Sandbox names: `SANDBOX_DB_NAME`, `RETAIL_SANDBOX_DB_NAME` and `TRADE_PORTAL_SANDBOX_DB_NAME` equal the public display labels
+("Manufaktur Demo", "Retail Demo", "Trade Portal Demo"). They are provenance tags in specs, fixtures and captures, and the
+principal ruled them non-secret (2026-10-19). Only `ACCURATE_USER` and `ACCURATE_PASS` must never appear in committed files.

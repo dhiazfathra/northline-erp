@@ -13,3 +13,7 @@ parents show their subtree sum (`3000 Modal 71.907.404`).
 
 Unverified: one sandbox parent (2102) prints type "Liabilitas Jangka"; foreign-currency accounts show a revalued balance
 (USD bank 1.600.000 here vs 1.550.000 in the trial balance).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Per 28 Feb 2045, fixture [fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff. Long names wrap into a one-cell continuation row in the capture (Jasper), joined back before comparing. See ADR-0029.
