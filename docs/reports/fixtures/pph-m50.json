@@ -1,0 +1,703 @@
+{
+ "dataUsaha": "Manufaktur Demo",
+ "source": "Accurate Online sandbox (ACC_DB=manufaktur), seeded and captured 2026-10-19 (P3.5). PPh is withheld on the payment/receipt, not the invoice. Shape from the demo payment ZZ-R01-1101.2026.10.00002 (captured with captureWire, nothing saved): invoice line tax3Id + useTax3 with an invoice detailTax PPh row, then a payment line with paidPph=true, pphAmount, pphNumber and a payment detailTax row (taxId 58 \"Jasa Konsultan\", Pajak Penghasilan Ps.23, 2% in the tax master, 4% applied by Accurate to these parties). Seeded 2050: PI.2050.01.00001 (no PPh: saved with line tax3Id but useTax3 false, so Accurate kept no PPh; left as is), PI.2050.01.00002 (vendor NL-T3-V1, item 100031 ZZ-R01-Jasa Konsultasi, PPN 11% + PPh 23), payment ZZ-R01-1101.2050.01.00001 (number scheme cloned from the demo form), SI.2050.01.00001 + receipt NL-T1-1101.2050.01.00001 (customer NL-T2-C1, bukti potong NL-BP50-C1), SI.2050.02.00001 (PPh line, unpaid: the self-paid receipt attempt was rejected, nothing saved). Reports captured over 01/01/2050-31/12/2050 (journal Jan-Feb 2050); the company-name line is left out.",
+ "accounts": [
+  {
+   "no": "110301",
+   "name": "Piutang Usaha IDR",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "110504",
+   "name": "PPN Masukan",
+   "type": "OTHER_CURRENT_ASSET"
+  },
+  {
+   "no": "110505",
+   "name": "PPh 23 Penjualan",
+   "type": "OTHER_CURRENT_ASSET"
+  },
+  {
+   "no": "210101",
+   "name": "Hutang Usaha IDR",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "210201",
+   "name": "PPN Keluaran",
+   "type": "OTHER_CURRENT_LIABILITY"
+  },
+  {
+   "no": "210202",
+   "name": "PPh 23 Pembelian",
+   "type": "OTHER_CURRENT_LIABILITY"
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "ZZ-R01-1101",
+   "name": "ZZ-R01-Bank Uji",
+   "type": "CASH_BANK"
+  },
+  {
+   "no": "NL-T1-1101",
+   "name": "NL-T1 Kas",
+   "type": "CASH_BANK"
+  }
+ ],
+ "taxes": [
+  {
+   "name": "ZZ-R01-PPN 11%",
+   "rate": 11,
+   "salesAccount": "210201",
+   "purchaseAccount": "110504"
+  },
+  {
+   "name": "Jasa Konsultan",
+   "rate": 2,
+   "salesAccount": "110505",
+   "purchaseAccount": "210202",
+   "pphType": "Pajak Penghasilan Ps.23"
+  }
+ ],
+ "customers": [
+  {
+   "no": "NL-T2-C1",
+   "name": "NL-T2 Pelanggan A",
+   "arAccount": "110301"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "NL-T3-V1",
+   "name": "NL-T3 Pemasok A",
+   "apAccount": "210101"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-T2-S1",
+   "name": "NL-T2 Jasa Konsultasi",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "400001",
+   "expenseAccount": "600020"
+  },
+  {
+   "no": "100031",
+   "name": "ZZ-R01-Jasa Konsultasi",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "400001",
+   "expenseAccount": "600020",
+   "tax": "ZZ-R01-PPN 11%"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2050.01.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-PPH50-B1",
+   "date": "2050-01-10",
+   "description": "NL-PPH50 P1",
+   "lines": [
+    {
+     "item": "NL-T2-S1",
+     "qty": 1,
+     "price": 1000000
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2050.01.00002",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-PPH50-B2",
+   "date": "2050-01-12",
+   "description": "NL-PPH50 P2",
+   "taxable": true,
+   "lines": [
+    {
+     "item": "100031",
+     "qty": 1,
+     "price": 1000000
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "number": "SI.2050.01.00001",
+   "customer": "NL-T2-C1",
+   "date": "2050-01-15",
+   "description": "NL-PPH50 S1",
+   "taxable": true,
+   "lines": [
+    {
+     "item": "100031",
+     "name": "ZZ-R01-Jasa Konsultasi",
+     "qty": 1,
+     "price": 1000000
+    }
+   ]
+  },
+  {
+   "kind": "PurchasePayment",
+   "number": "ZZ-R01-1101.2050.01.00001",
+   "vendor": "NL-T3-V1",
+   "bank": "ZZ-R01-1101",
+   "date": "2050-01-20",
+   "description": "NL-PPH50 VP1",
+   "payments": [
+    {
+     "invoice": "PI.2050.01.00002",
+     "amount": 1110000,
+     "pph": {
+      "tax": "Jasa Konsultan",
+      "number": "NL-BP50-V1",
+      "dpp": 1000000,
+      "rate": 4
+     }
+    }
+   ]
+  },
+  {
+   "kind": "SalesReceipt",
+   "number": "NL-T1-1101.2050.01.00001",
+   "customer": "NL-T2-C1",
+   "bank": "NL-T1-1101",
+   "date": "2050-01-25",
+   "description": "NL-PPH50 SR1",
+   "payments": [
+    {
+     "invoice": "SI.2050.01.00001",
+     "amount": 1110000,
+     "pph": {
+      "tax": "Jasa Konsultan",
+      "number": "NL-BP50-C1",
+      "dpp": 1000000,
+      "rate": 4
+     }
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "number": "SI.2050.02.00001",
+   "customer": "NL-T2-C1",
+   "date": "2050-02-05",
+   "description": "NL-PPH50 S2",
+   "taxable": true,
+   "lines": [
+    {
+     "item": "100031",
+     "name": "ZZ-R01-Jasa Konsultasi",
+     "qty": 1,
+     "price": 1000000
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "PurchaseInvoicePphPaidReport": {
+   "param": {
+    "startDate": "01/01/2050",
+    "endDate": "31/12/2050",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembayaran PPh Pembelian"
+    ],
+    [
+     "Dari 01 Jan 2050 s/d 31 Des 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Faktur Pembelian",
+     "No. Form",
+     "PPh",
+     "Bayar PPh",
+     "NTPN",
+     "Tgl Bayar PPh"
+    ],
+    [
+     "Pajak Penghasilan Ps.23"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "PI.2050.01.00002",
+     "ZZ-R01-1101.2050.01.00001",
+     "40.000",
+     "0"
+    ],
+    [
+     "40.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:23"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "PurchasePaymentPPhReport": {
+   "param": {
+    "startDate": "01/01/2050",
+    "endDate": "31/12/2050"
+   },
+   "rows": [
+    [
+     "Daftar Bukti Potong PPh Pembelian"
+    ],
+    [
+     "Dari 01 Jan 2050 s/d 31 Des 2050"
+    ],
+    [
+     "Tanggal",
+     "No. Bukti Potong",
+     "No Faktur # Faktur Pembelian",
+     "Total Kena Pajak",
+     "Tarif PPh",
+     "Nilai PPh"
+    ],
+    [
+     "Pajak Penghasilan Ps.23"
+    ],
+    [
+     "NL-T3 Pemasok A"
+    ],
+    [
+     "20 Jan 2050",
+     "NL-BP50-V1",
+     "NL-PPH50-B2",
+     "1.000.000",
+     "4 %",
+     "40.000"
+    ],
+    [
+     "1.000.000",
+     "40.000"
+    ],
+    [
+     "1.000.000",
+     "40.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:23"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesInvoicePphPaidReport": {
+   "param": {
+    "startDate": "01/01/2050",
+    "endDate": "31/12/2050",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pembayaran PPh Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2050 s/d 31 Des 2050"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Faktur Penjualan",
+     "PPh",
+     "Bayar PPh",
+     "NTPN",
+     "Tgl Bayar PPh"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:23"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesReceiptPPhReport": {
+   "param": {
+    "startDate": "01/01/2050",
+    "endDate": "31/12/2050"
+   },
+   "rows": [
+    [
+     "Daftar Bukti Potong PPh Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2050 s/d 31 Des 2050"
+    ],
+    [
+     "Tanggal",
+     "No. Bukti Potong",
+     "Nomor # Faktur Penjualan",
+     "Pembayaran",
+     "Tarif PPh",
+     "Nilai PPh"
+    ],
+    [
+     "Pajak Penghasilan Ps.23"
+    ],
+    [
+     "NL-T2 Pelanggan A"
+    ],
+    [
+     "25 Jan 2050",
+     "NL-BP50-C1",
+     "SI.2050.01.00001",
+     "1.000.000",
+     "4 %",
+     "40.000"
+    ],
+    [
+     "1.000.000",
+     "40.000"
+    ],
+    [
+     "1.000.000",
+     "40.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:23"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "AllJournalReport": {
+   "param": {
+    "startDate": "01/01/2050",
+    "endDate": "28/02/2050",
+    "selectedBranch": [
+     {
+      "id": 50
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Keseluruhan Jurnal"
+    ],
+    [
+     "Dari 01 Jan 2050 s/d 28 Feb 2050"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2050",
+     "No. Trans #",
+     ":",
+     "PI.2050.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Pembelian",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 P1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "600020",
+     "Beban Operasional Lainnya",
+     "1.000.000",
+     "0"
+    ],
+    [
+     "210101",
+     "Hutang Usaha IDR",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "1.000.000",
+     "1.000.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "12 Jan 2050",
+     "No. Trans #",
+     ":",
+     "PI.2050.01.00002"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Pembelian",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 P2"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "600020",
+     "Beban Operasional Lainnya",
+     "1.000.000",
+     "0"
+    ],
+    [
+     "110504",
+     "PPN Masukan",
+     "110.000",
+     "0"
+    ],
+    [
+     "210101",
+     "Hutang Usaha IDR",
+     "0",
+     "1.110.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2050",
+     "No. Trans #",
+     ":",
+     "SI.2050.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 S1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "1.110.000",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "0",
+     "110.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Jan 2050",
+     "No. Trans #",
+     ":",
+     "ZZ-R01-1101.2050.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Pembayaran Pembelian",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 VP1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "210101",
+     "Hutang Usaha IDR",
+     "1.110.000",
+     "0"
+    ],
+    [
+     "210202",
+     "PPh 23 Pembelian",
+     "0",
+     "40.000"
+    ],
+    [
+     "ZZ-R01-1101",
+     "ZZ-R01-Bank Uji",
+     "0",
+     "1.070.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "25 Jan 2050",
+     "No. Trans #",
+     ":",
+     "NL-T1-1101.2050.01.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Penerimaan Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 SR1"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "NL-T1-1101",
+     "NL-T1 Kas",
+     "1.070.000",
+     "0"
+    ],
+    [
+     "110505",
+     "PPh 23 Penjualan",
+     "40.000",
+     "0"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "0",
+     "1.110.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Feb 2050",
+     "No. Trans #",
+     ":",
+     "SI.2050.02.00001"
+    ],
+    [
+     "Tipe Transaksi",
+     ":",
+     "Faktur Penjualan",
+     "Deskripsi",
+     ":",
+     "NL-PPH50 S2"
+    ],
+    [
+     "Kode Perkiraan",
+     "Nama Perkiraan",
+     "Debit",
+     "Kredit"
+    ],
+    [
+     "110301",
+     "Piutang Usaha IDR",
+     "1.110.000",
+     "0"
+    ],
+    [
+     "210201",
+     "PPN Keluaran",
+     "0",
+     "110.000"
+    ],
+    [
+     "400001",
+     "Penjualan",
+     "0",
+     "1.000.000"
+    ],
+    [
+     "1.110.000",
+     "1.110.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 19:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}

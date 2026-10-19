@@ -4,7 +4,7 @@ import { z } from 'zod'
 import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
-import { merge, nextNumber, period } from '../sales/service'
+import { merge, nextNumber, period, withheldPph } from '../sales/service'
 import { addMove } from '../inventory/fifo'
 
 // Mirror of sales/service.ts (ADR-0005); see fixtures/purchase-t3.json for the journals Accurate posts.
@@ -105,6 +105,7 @@ export async function createPurchasePayment(db: Db, input: PurchasePaymentInput)
     const [bank] = await tx.execute(sql`SELECT type FROM accounts WHERE no = ${pp.bank}`)
     if (bank?.type !== 'CASH_BANK') throw new DomainError(`${pp.bank} bukan akun Kas & Bank`)
     const debits: { account: string; amount: number }[] = []
+    const pphs = new Map<string, NonNullable<Awaited<ReturnType<typeof withheldPph>>>>()
     for (const p of pp.payments) {
       const [inv] = await tx.execute(sql`
         SELECT i.vendor_no, v.ap_account, i.total - COALESCE((SELECT SUM(amount) FROM purchase_payment_lines WHERE invoice_number = i.number), 0) AS owing
@@ -113,18 +114,25 @@ export async function createPurchasePayment(db: Db, input: PurchasePaymentInput)
       if (inv.vendor_no !== pp.vendor) throw new DomainError(`Faktur ${p.invoice} bukan milik pemasok ${pp.vendor}`)
       if (p.amount > Number(inv.owing)) throw new DomainError(`Pembayaran ${p.invoice} melebihi sisa utang`)
       debits.push({ account: inv.ap_account as string, amount: p.amount })
+      const w = await withheldPph(tx, p, 'purchase')
+      if (w) pphs.set(p.invoice, w)
     }
-    const amount = pp.payments.reduce((s, p) => s + p.amount, 0)
+    // the bank pays the invoices less the PPh withheld; the PPh is a payable credited before the bank
+    const amount = pp.payments.reduce((s, p) => s + p.amount, 0) - [...pphs.values()].reduce((s, w) => s + w.amount, 0)
     const number = pp.number ?? await nextNumber(tx, `${pp.bank}.${period(pp.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${pp.idempotencyKey}:journal`, journalId, number, sourceType: 'PP', date: pp.date, description: pp.description,
-      lines: [...merge(debits).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })), { account: pp.bank, side: 'CREDIT', amount: rupiah(amount) }],
+      lines: [...merge(debits).map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
+        ...merge([...pphs.values()]).map(w => ({ account: w.account, side: 'CREDIT' as const, amount: rupiah(w.amount) })), { account: pp.bank, side: 'CREDIT', amount: rupiah(amount) }],
     })
     await tx.execute(sql`INSERT INTO purchase_payments (number, vendor_no, bank_no, date, description, amount, journal_id)
       VALUES (${number}, ${pp.vendor}, ${pp.bank}, ${pp.date}, ${pp.description}, ${amount}, ${journalId})`)
-    for (const p of pp.payments)
-      await tx.execute(sql`INSERT INTO purchase_payment_lines (payment_number, invoice_number, amount) VALUES (${number}, ${p.invoice}, ${p.amount})`)
+    for (const p of pp.payments) {
+      const w = pphs.get(p.invoice)
+      await tx.execute(sql`INSERT INTO purchase_payment_lines (payment_number, invoice_number, amount, pph_tax, pph_number, pph_dpp, pph_rate, pph_amount)
+        VALUES (${number}, ${p.invoice}, ${p.amount}, ${w?.tax ?? null}, ${w?.number ?? null}, ${w?.dpp ?? null}, ${w?.rate ?? null}, ${w?.amount ?? 0})`)
+    }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${pp.idempotencyKey}, 'CreatePurchasePayment', ${JSON.stringify(result)}::jsonb)`)
     return result

@@ -12,6 +12,9 @@ export const itemInput = z.object({ no: code, name: z.string().trim().min(1), ty
   /** Default tax (taxes.name) applied on taxable invoices; line discounts post to salesDiscountAccount. */ tax: z.string().optional(), salesDiscountAccount: code.optional(),
   /** Barang Grup: component items and quantities (type GROUP). */ components: z.array(z.object({ item: code, qty: z.number().positive() })).default([]) })
 
+/** PPh withholding slip on a receipt/payment line (P3.5): tax = a taxes row with a pph_type; number = No. Bukti Potong. */
+const pphInput = z.object({ tax: code, number: z.string().default(''), dpp: amountToCents, rate: z.number().positive().max(100) })
+
 export const salesInvoiceInput = z.object({
   idempotencyKey: z.string().min(8),
   /** Omitted → SI.yyyy.mm.nnnnn */
@@ -50,7 +53,8 @@ export const salesReceiptInput = z.object({
   bank: code,
   date: isoDate,
   description: z.string().default(''),
-  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** installment name being paid */ installment: z.string().optional() })).min(1),
+  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** installment name being paid */ installment: z.string().optional(),
+    /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1),
   /** Amount received; above the sum of payments the excess is a customer credit (kelebihan bayar). Omitted = sum of payments. */
   amount: amountToCents.optional(),
   /** Cek/Giro: the cheque number and its due date (giro mundur until then). */
@@ -92,7 +96,7 @@ export const purchasePaymentInput = z.object({
   bank: code,
   date: isoDate,
   description: z.string().default(''),
-  payments: z.array(z.object({ invoice: code, amount: amountToCents })).min(1),
+  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1),
 })
 export type PurchasePaymentInput = z.input<typeof purchasePaymentInput>
 

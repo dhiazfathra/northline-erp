@@ -141,7 +141,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Pernyataan Piutang](CustomerStatementReport.md) | `CustomerStatementReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Grafik Rata-rata Pembayaran Pelanggan](OwingCollectionGraphReport.md) | `OwingCollectionGraphReport` | Piutang | Y | Y | Y | empty | Y | empty | done | Sales |  |
 | [Pembayaran Faktur](SalesInvoicePaidReport.md) | `SalesInvoicePaidReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
-| [Pembayaran PPh Penjualan](SalesInvoicePphPaidReport.md) | `SalesInvoicePphPaidReport` | Piutang | Y | Y | Y | data | Y | empty | done (out of scope) | Sales |  |
+| [Pembayaran PPh Penjualan](SalesInvoicePphPaidReport.md) | `SalesInvoicePphPaidReport` | Piutang | Y | Y | Y | data | Y | empty | done (out of scope) | Sales | P3.5 stopped: 3 form-shape attempts, report stays empty with PPh withheld on a 2050 receipt (see spec) |
 | [Sisa Kredit Pelanggan](CustomerExistingCreditListReport.md) | `CustomerExistingCreditListReport` | Piutang | Y | Y | Y | data | Y | empty | done | Sales |  |
 | [Penerimaan Penjualan](SalesReceiptListReport.md) | `SalesReceiptListReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Rincian Penerimaan Penjualan](SalesReceiptListDetailReport.md) | `SalesReceiptListDetailReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
@@ -220,7 +220,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Grafik Umur Utang](AgingPayableChartReport.md) | `AgingPayableChartReport` | Utang | Y | Y | Y | data | Y | empty | done | Purchasing |  |
 | [Pernyataan Utang](VendorStatementReport.md) | `VendorStatementReport` | Utang | Y | Y | Y | data | Y | data | done | Purchasing |  |
 | [Pembayaran Faktur](PurchaseInvoicePaidReport.md) | `PurchaseInvoicePaidReport` | Utang | Y | Y | Y | data | Y | data | done | Purchasing |  |
-| [Pembayaran PPh Pembelian](PurchaseInvoicePphPaidReport.md) | `PurchaseInvoicePphPaidReport` | Utang | Y | Y | Y | data | Y | empty | done (out of scope) | Purchasing |  |
+| [Pembayaran PPh Pembelian](PurchaseInvoicePphPaidReport.md) | `PurchaseInvoicePphPaidReport` | Utang | Y | Y | Y | data | Y | empty | done | Purchasing | verified on Manufaktur Demo 2050 seed (P3.5), PPh 23 on payment/receipt lines; test: `apps/api/test/pph.test.ts`, fixture `fixtures/pph-m50.json`; Bayar PPh/NTPN not modelled (always 0/empty) |
 | [Pembayaran Pembelian](PurchasePaymentListReport.md) | `PurchasePaymentListReport` | Utang | Y | Y | Y | data | Y | data | done | Purchasing |  |
 | [Rincian Pembayaran Pembelian](PurchasePaymentListDetailReport.md) | `PurchasePaymentListDetailReport` | Utang | Y | Y | Y | data | Y | data | done | Purchasing |  |
 | [Utang per Bulan](VendorPayablePerMonthReport.md) | `VendorPayablePerMonthReport` | Utang | Y | Y | Y | data | Y | empty | done | Purchasing |  |
@@ -311,8 +311,8 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Rekonsiliasi PPN Lebih/Kurang Bayar](TaxationInOutReport.md) | `TaxationInOutReport` | Pajak | Y | Y | Y | data | Y | empty | done | Tax | verified on Trade Portal Demo (ADR-0029) |
 | [Faktur Penjualan SPT Masa PPN](SalesInvoiceSPTListReport.md) | `SalesInvoiceSPTListReport` | Pajak | Y | Y | Y | data | Y | empty | done | Tax |  |
 | [Faktur Pembelian SPT Masa PPN](PurchaseInvoiceSPTListReport.md) | `PurchaseInvoiceSPTListReport` | Pajak | Y | Y | Y | data | Y | empty | done | Tax |  |
-| [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | Y | data | Y | empty | done (out of scope) | Tax |  |
-| [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | Y | data | Y | empty | done (out of scope) | Tax |  |
+| [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | Y | data | Y | empty | done | Tax | verified on Manufaktur Demo 2050 seed (P3.5), PPh 23 on payment/receipt lines; test: `apps/api/test/pph.test.ts`, fixture `fixtures/pph-m50.json` |
+| [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | Y | data | Y | empty | done | Tax | verified on Manufaktur Demo 2050 seed (P3.5), PPh 23 on payment/receipt lines; test: `apps/api/test/pph.test.ts`, fixture `fixtures/pph-m50.json` |
 | [Selisih Saldo Akun Persediaan dengan Nilai Barang](ItemValueToAccountBalanceDifferenceReport.md) | `ItemValueToAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | Y | data | Y | data | done | Activity log |  |
 | [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | Y | data | Y | empty | done | Activity log | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | Y | data | Y | empty | done | Approval workflow | verified on Retail Demo (empty layout only: one-user sandbox auto-approves); test: `apps/api/test/approvals.test.ts`, fixture `fixtures/retail/approval-rf.json` (ADR-0028) |

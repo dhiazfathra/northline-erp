@@ -8,6 +8,24 @@ export declare function deleteMaster(db: Db, kind: 'customer' | 'item', no: stri
 export declare function nextNumber(tx: Tx, prefix: string): Promise<string>;
 export declare const period: (date: string) => string;
 /** Credit/debit lines merged per account, in order of first appearance (Accurate prints one line per account). */
+/** PPh withheld on a receipt/payment line (P3.5): amount = DPP × rate, rounded to the rupiah; posts to the tax's sales (receipts) or purchase (payments) account. */
+export declare function withheldPph(tx: Tx, p: {
+    invoice: string;
+    amount: number;
+    pph?: {
+        tax: string;
+        number: string;
+        dpp: number;
+        rate: number;
+    };
+}, side: 'sales' | 'purchase'): Promise<{
+    tax: string;
+    number: string;
+    dpp: number;
+    rate: number;
+    account: string;
+    amount: number;
+} | null>;
 export declare function merge(lines: {
     account: string;
     amount: number;

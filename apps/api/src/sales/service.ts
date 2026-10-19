@@ -60,6 +60,18 @@ export async function nextNumber(tx: Tx, prefix: string) {
 }
 export const period = (date: string) => `${date.slice(0, 4)}.${date.slice(5, 7)}.`
 /** Credit/debit lines merged per account, in order of first appearance (Accurate prints one line per account). */
+/** PPh withheld on a receipt/payment line (P3.5): amount = DPP × rate, rounded to the rupiah; posts to the tax's sales (receipts) or purchase (payments) account. */
+export async function withheldPph(tx: Tx, p: { invoice: string; amount: number; pph?: { tax: string; number: string; dpp: number; rate: number } }, side: 'sales' | 'purchase') {
+  if (!p.pph) return null
+  const [t] = await tx.execute(sql`SELECT pph_type, sales_account, purchase_account FROM taxes WHERE name = ${p.pph.tax}`)
+  if (!t?.pph_type) throw new DomainError(`${p.pph.tax} bukan pajak PPh`)
+  const account = (side === 'sales' ? t.sales_account : t.purchase_account) as string | null
+  if (!account) throw new DomainError(`Pajak ${p.pph.tax} belum punya akun pajak ${side === 'sales' ? 'penjualan' : 'pembelian'}`)
+  const amount = Math.round(p.pph.dpp * p.pph.rate / 100 / 100) * 100
+  if (amount >= p.amount) throw new DomainError(`PPh ${p.invoice} melebihi pembayaran`)
+  return { ...p.pph, account, amount }
+}
+
 export function merge(lines: { account: string; amount: number }[]) {
   const m = new Map<string, number>()
   for (const l of lines) m.set(l.account, (m.get(l.account) ?? 0) + l.amount)
@@ -218,6 +230,7 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     const [bank] = await tx.execute(sql`SELECT type FROM accounts WHERE no = ${rc.bank}`)
     if (bank?.type !== 'CASH_BANK') throw new DomainError(`${rc.bank} bukan akun Kas & Bank`)
     const credits: { account: string; amount: number }[] = [], fx: { invoice: string; atInvoice: number; atReceipt: number }[] = []
+    const pphs = new Map<string, NonNullable<Awaited<ReturnType<typeof withheldPph>>>>()
     for (const p of rc.payments) {
       const [inv] = await tx.execute(sql`
         SELECT i.customer_no, c.ar_account, i.rate, i.total - COALESCE((SELECT SUM(amount) FROM sales_receipt_lines WHERE invoice_number = i.number), 0) AS owing
@@ -229,9 +242,12 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
       if (atInvoice > Number(inv.owing)) throw new DomainError(`Pembayaran ${p.invoice} melebihi sisa piutang`)
       credits.push({ account: inv.ar_account as string, amount: atInvoice })
       fx.push({ invoice: p.invoice, atInvoice, atReceipt })
+      const w = await withheldPph(tx, p, 'sales')
+      if (w) pphs.set(p.invoice, w)
     }
+    const pph = [...pphs.values()].reduce((s, w) => s + w.amount, 0)
     const gain = fx.reduce((s, x) => s + x.atReceipt - x.atInvoice, 0)
-    const paid = fx.reduce((s, x) => s + x.atReceipt, 0), amount = rc.amount === undefined ? paid : Math.round(rc.amount * rc.rate)
+    const paid = fx.reduce((s, x) => s + x.atReceipt, 0) - pph, amount = rc.amount === undefined ? paid : Math.round(rc.amount * rc.rate)
     if (amount < paid) throw new DomainError('Jumlah penerimaan kurang dari total pembayaran faktur')
     const [arAcc] = await tx.execute(sql`SELECT ar_account, realized_gain_account FROM customers WHERE no = ${rc.customer}`)
     if (gain && !arAcc!.realized_gain_account) throw new DomainError(`Pelanggan ${rc.customer} belum punya akun laba/rugi terealisasi`)
@@ -239,7 +255,10 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${rc.idempotencyKey}:journal`, journalId, number, sourceType: 'SR', date: rc.cheque?.date ?? rc.date, description: rc.description, // a cheque is journaled on its cheque date (giro mundur until then)
-      lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) }, ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
+      lines: [{ account: rc.bank, side: 'DEBIT', amount: (amount / 100).toFixed(2) },
+        // withheld PPh is a prepaid tax debit right after the bank (fixtures/pph-m50.json)
+        ...merge([...pphs.values()]).map(w => ({ account: w.account, side: 'DEBIT' as const, amount: (w.amount / 100).toFixed(2) })),
+        ...merge(credits).map(c => ({ account: c.account, side: 'CREDIT' as const, amount: (c.amount / 100).toFixed(2) })),
         // the excess is credited to the receivable on its own line (Accurate does not merge it with the invoice payments)
         ...(amount > paid ? [{ account: arAcc!.ar_account as string, side: 'CREDIT' as const, amount: ((amount - paid) / 100).toFixed(2) }] : []),
         // realized exchange difference last (fixtures/fx-t31.json): gain credited, loss debited
@@ -254,6 +273,8 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
       if (p.installment && !inst) throw new DomainError(`Cicilan ${p.installment} tidak ada di faktur ${p.invoice}`)
       const x = fx.find(x => x.invoice === p.invoice)!
       await tx.execute(sql`INSERT INTO sales_receipt_lines (receipt_number, invoice_number, amount, installment_seq, amount_at_receipt) VALUES (${number}, ${p.invoice}, ${x.atInvoice}, ${inst?.seq ?? null}, ${x.atReceipt})`)
+      const w = pphs.get(p.invoice)
+      if (w) await tx.execute(sql`UPDATE sales_receipt_lines SET pph_tax = ${w.tax}, pph_number = ${w.number}, pph_dpp = ${w.dpp}, pph_rate = ${w.rate}, pph_amount = ${w.amount} WHERE receipt_number = ${number} AND invoice_number = ${p.invoice}`)
     }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rc.idempotencyKey}, 'CreateSalesReceipt', ${JSON.stringify(result)}::jsonb)`)

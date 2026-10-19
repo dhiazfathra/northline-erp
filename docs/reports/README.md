@@ -194,7 +194,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Grafik Umur Utang | `AgingPayableChartReport` | chart | ASOF | selectedBranch= | [verified](AgingPayableChartReport.md) |
 | Pernyataan Utang | `VendorStatementReport` | report | FROMTO | selectedBranch= | [verified](VendorStatementReport.md) |
 | Pembayaran Faktur | `PurchaseInvoicePaidReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoicePaidReport.md) |
-| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [out of scope](PurchaseInvoicePphPaidReport.md) |
+| Pembayaran PPh Pembelian | `PurchaseInvoicePphPaidReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoicePphPaidReport.md) |
 | Pembayaran Pembelian | `PurchasePaymentListReport` | report | FROMTO | selectedBranch= | [verified](PurchasePaymentListReport.md) |
 | Rincian Pembayaran Pembelian | `PurchasePaymentListDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchasePaymentListDetailReport.md) |
 | Utang per Bulan | `VendorPayablePerMonthReport` | report | ASOFYEAR | — | [verified](VendorPayablePerMonthReport.md) |
@@ -320,8 +320,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Rekonsiliasi PPN Lebih/Kurang Bayar | `TaxationInOutReport` | report | FROMTO | — | [verified](TaxationInOutReport.md) |
 | Faktur Penjualan SPT Masa PPN | `SalesInvoiceSPTListReport` | report | FROMTO | — | [verified](SalesInvoiceSPTListReport.md) |
 | Faktur Pembelian SPT Masa PPN | `PurchaseInvoiceSPTListReport` | report | FROMTO | — | [verified](PurchaseInvoiceSPTListReport.md) |
-| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [out of scope](PurchasePaymentPPhReport.md) |
-| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [out of scope](SalesReceiptPPhReport.md) |
+| Daftar Bukti Potong PPh Pembelian | `PurchasePaymentPPhReport` | report | FROMTO | — | [verified](PurchasePaymentPPhReport.md) |
+| Daftar Bukti Potong PPh Penjualan | `SalesReceiptPPhReport` | report | FROMTO | — | [verified](SalesReceiptPPhReport.md) |
 
 ## Pemeriksaan (AUDIT)
 
