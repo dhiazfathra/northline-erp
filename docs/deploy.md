@@ -6,7 +6,7 @@ Design and trade-offs: [ADR-0017](decisions/0017-cloudflare-workers-and-neon-fre
 |---|---|
 | Worker | `northline-erp` → https://northline-erp.dhiazfathra.workers.dev, config `apps/api/wrangler.jsonc`, entry `apps/api/src/worker.ts` |
 | SPA | `apps/web/dist`, served by Workers Static Assets |
-| Database | Neon project `autumn-paper-67811977` (see `.neon`), branch `production`, region `ap-southeast-1` |
+| Database | Neon project `autumn-paper-67811977` (see `.neon`), region `ap-southeast-1`, one branch per Data Usaha ([ADR-0036](decisions/0036-one-neon-branch-per-profile.md)): `production` (Manufaktur), `prod-retail`, `prod-trade`, `prod-contractor` |
 
 ## Local is the default
 
@@ -19,10 +19,11 @@ git-triggered deploy: production changes only when someone runs `pnpm deploy:pro
 ## Deploy (on demand)
 
 ```sh
-pnpm deploy:prod   # asks y/N, then: build web → migrate + seed Neon (NEON_DATABASE_URL_UNPOOLED) → wrangler deploy
+pnpm deploy:prod [profile]   # asks y/N, then: build web → migrate + seed each branch (or one) → wrangler deploy
+pnpm switch:prod retail      # point the Worker at manufaktur | retail | trade | contractor
 ```
 
-Migrations run before the Worker ships (risks.md R1). The seed is idempotent: it adds missing fixture rows and never deletes.
+Branch URLs come from the `neon` CLI (`neon auth` once); nothing is printed. Migrations run before the Worker ships (risks.md R1). The seed is idempotent: it adds missing fixture rows and never deletes.
 
 First time only: `cd apps/api && npx wrangler login && npx wrangler secret put DATABASE_URL` (paste the Neon **pooled** URL).
 

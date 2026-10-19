@@ -1,5 +1,5 @@
 import type { Db } from './db';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -470,7 +470,16 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
         };
     };
 }) & {
-    "/reports/dimensions/:report{by-branch|by-department|department-multi-period|compare-department|compare-project|analysis-department}": {
+    "/reports/master/projects": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/dimensions/:report{by-branch|by-department|by-project|department-multi-period|project-multi-period|compare-department|compare-project|analysis-department|analysis-project}": {
         $get: {
             output: string[][];
             outputFormat: "json";

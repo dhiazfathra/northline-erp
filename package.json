@@ -11,7 +11,8 @@
     "dev:db": "docker start northline-pg 2>/dev/null || docker run -d --name northline-pg -e POSTGRES_PASSWORD=northline -e POSTGRES_DB=northline -p 55432:5432 postgres:17-alpine",
     "dev:api": "bun --watch apps/api/src/main.ts --role=all",
     "seed": "bun apps/api/scripts/seed.ts",
-    "deploy:prod": "bun apps/api/scripts/deploy-prod.ts"
+    "deploy:prod": "bun apps/api/scripts/deploy-prod.ts",
+    "switch:prod": "bun apps/api/scripts/switch-prod.ts"
   },
   "devDependencies": {
     "playwright": "1.64.1"
