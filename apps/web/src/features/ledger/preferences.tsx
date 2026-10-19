@@ -2,7 +2,7 @@ import type { Feature } from '@northline/schemas/ledger'
 import { useQuery } from '@tanstack/react-query'
 import { Switch, Tabs } from 'radix-ui'
 import { useEffect, useState } from 'react'
-import { defaultAccountsQuery, featuresQuery, useSaveFeatures } from '@/api/ledger'
+import { type CostingMethod, costingMethodQuery, defaultAccountsQuery, featuresQuery, useSaveCostingMethod, useSaveFeatures } from '@/api/ledger'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { idr as fmt } from '@northline/schemas/fixtures'
@@ -120,7 +120,10 @@ export function Preferences() {
               </div>
             ))}
           </Tabs.Content>
-          {tabs.slice(2).map((x) => (
+          <Tabs.Content value="persediaan" className="outline-none">
+            <CostingMethodSetting />
+          </Tabs.Content>
+          {tabs.slice(2).filter((x) => x.id !== 'persediaan').map((x) => (
             <Tabs.Content key={x.id} value={x.id} className="rounded-2xl border border-dashed border-[rgba(var(--fg),.25)] p-7 text-center text-[13px] opacity-80 outline-none">
               {t({ id: `Pengaturan ${x.n.id} belum tersedia di versi ini.`, en: `${x.n.en} settings are not available in this version yet.` })}
             </Tabs.Content>
@@ -206,5 +209,78 @@ export function Preferences() {
           })}
       </Confirm>
     </Frame>
+  )
+}
+
+const METHODS: { id: CostingMethod; n: { id: string; en: string }; d: { id: string; en: string } }[] = [
+  { id: 'FIFO', n: { id: 'FIFO', en: 'FIFO' }, d: { id: 'Barang yang pertama masuk dikeluarkan lebih dulu (bawaan).', en: 'First in, first out (default).' } },
+  { id: 'AVERAGE', n: { id: 'Rata-rata', en: 'Average' }, d: { id: 'Harga pokok rata-rata bergerak, dihitung ulang setiap barang masuk.', en: 'Moving average, recomputed on every receipt.' } },
+]
+
+/** Metode persediaan (ADR-0031): saved on its own, fixed once any stock movement exists. */
+function CostingMethodSetting() {
+  const t = useT()
+  const { showToast } = useShell()
+  const { data } = useQuery(costingMethodQuery)
+  const save = useSaveCostingMethod()
+  const [pick, setPick] = useState<CostingMethod | null>(null)
+  if (!data) return null
+  return (
+    <div className="flex flex-col gap-1">
+      <div className="border-b border-[rgba(var(--fg),.12)] pb-2 text-[15px]">{t({ id: 'Metode Persediaan', en: 'Costing Method' })}</div>
+      <div role="radiogroup" aria-label={t({ id: 'Metode Persediaan', en: 'Costing Method' })} className="flex flex-col">
+        {METHODS.map((m) => (
+          <button
+            key={m.id}
+            type="button"
+            role="radio"
+            aria-checked={data.method === m.id}
+            disabled={data.locked || data.method === m.id || save.isPending}
+            onClick={() => setPick(m.id)}
+            className={cn('flex items-start gap-3 py-[9px] text-left disabled:cursor-default', data.locked && data.method !== m.id && 'opacity-55')}
+          >
+            <i className={cn('ph-light mt-0.5 text-[16px]', data.method === m.id ? 'ph-radio-button' : 'ph-circle')} />
+            <span className="flex flex-col gap-0.5">
+              <span className="text-[13px]">{t(m.n)}</span>
+              <span className="text-[11.5px] opacity-75">{t(m.d)}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+      {data.locked && (
+        <span className="flex items-center gap-1 text-[11.5px] opacity-80">
+          <i className="ph-light ph-lock-simple" />
+          {t({ id: 'Tidak dapat diubah setelah ada transaksi persediaan', en: 'Cannot be changed once stock transactions exist' })}
+        </span>
+      )}
+      <Confirm
+        open={!!pick}
+        onOpenChange={(o) => !o && setPick(null)}
+        icon={<i className="ph-light ph-warning text-[20px] text-[#f59e0b]" />}
+        title={t({ id: 'Perhatian', en: 'Warning' })}
+        actions={
+          <>
+            <ConfirmCancel className={btnOutline}>{t({ id: 'Batal', en: 'Cancel' })}</ConfirmCancel>
+            <ConfirmAction
+              className={btnInk}
+              onClick={() =>
+                pick &&
+                save.mutate(pick, {
+                  onSuccess: () => showToast(t({ id: 'Metode persediaan tersimpan', en: 'Costing method saved' })),
+                  onError: (e) => showToast(e.message),
+                })
+              }
+            >
+              {t({ id: 'Ya, ubah', en: 'Yes, change' })}
+            </ConfirmAction>
+          </>
+        }
+      >
+        {t({
+          id: 'Metode persediaan tidak dapat diubah lagi setelah ada transaksi persediaan. Lanjutkan?',
+          en: 'The costing method cannot be changed again once stock transactions exist. Continue?',
+        })}
+      </Confirm>
+    </div>
   )
 }

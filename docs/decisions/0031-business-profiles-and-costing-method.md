@@ -22,7 +22,8 @@ chart-of-accounts templates and UI (steps 3-5) remain Proposed.
   carries them (Nilai Akhir 450.666,67). Journals post whole cents. Accurate's ledger also keeps the fractions, so its
   May HPP is 199.333,33 where the ERP posts 199.333,34. Accepted: a 0,01 divergence per affected period, pinned in
   the tests; a sub-cent ledger was rejected as too invasive for a one-cent display difference.
-- Setting: `GET`/`PUT /api/settings/costing-method`; a change is logged in Log Aktifitas as `PRF` (Preferensi).
+- Setting: `GET`/`PUT /api/settings/costing-method` (`locked` once stock moves exist), shown in Preferensi > Persediaan
+  with a confirm; a change is logged in Log Aktifitas as `PRF` (Preferensi).
 - Yearly reports re-verified 2045: Rasio (Per Tahun), Fokus Keuangan, Neraca (Multi Year); rule fixes in their specs.
 
 ## Date

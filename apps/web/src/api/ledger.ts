@@ -80,6 +80,28 @@ let features: Feature[] = [
   { id: 'serial', group: 'Persediaan', name: 'Nomor Seri', on: false, lockedNote: 'Hanya tersedia jika Multi Gudang dan Batch aktif' },
   { id: 'efaktur', group: 'Perpajakan', name: 'e-Faktur', on: false, price: 150_000 },
 ]
+export type CostingMethod = 'FIFO' | 'AVERAGE'
+// Metode persediaan (ADR-0031); `locked` once any stock movement exists.
+export const costingMethodQuery = queryOptions({
+  queryKey: ['prefs', 'costing-method'],
+  queryFn: async () => {
+    const res = await api.settings['costing-method'].$get()
+    if (!res.ok) throw new Error(`Metode persediaan gagal dimuat (${res.status})`)
+    return res.json() as Promise<{ method: CostingMethod; locked: boolean }>
+  },
+})
+
+export function useSaveCostingMethod() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (method: CostingMethod) => {
+      const res = await api.settings['costing-method'].$put({ json: { method } })
+      if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error ?? `Gagal menyimpan (${res.status})`)
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['prefs', 'costing-method'] }),
+  })
+}
+
 export const featuresQuery = queryOptions({ queryKey: ['prefs', 'features'], queryFn: () => mock(features) })
 
 export function useSaveFeatures() {

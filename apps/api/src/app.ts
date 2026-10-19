@@ -90,7 +90,7 @@ export function createApp(db: Db) {
       return c.json(c.req.param('report') === 'bank-book' ? await queryBankBook(db, banks, q) : await queryCashFlowByAccount(db, banks, q))
     })
     .get('/reports/cash-bank/cash-list', async c => c.json(await queryCashAccountList(db, balanceSheetQuery.parse(c.req.query()).asOf)))
-    .get('/settings/costing-method', async c => c.json({ method: await costingMethod(db as any) }))
+    .get('/settings/costing-method', async c => c.json({ method: await costingMethod(db as any), locked: (await db.execute(sql`SELECT 1 FROM stock_moves LIMIT 1`)).length > 0 }))
     .put('/settings/costing-method', async c => {
       const { method } = z.object({ method: z.enum(['FIFO', 'AVERAGE']) }).parse(await c.req.json())
       await db.transaction(tx => setCostingMethod(tx, method)); return c.json({ method })
