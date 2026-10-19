@@ -31,11 +31,11 @@
 | [0027](0027-sales-quotations.md) | Sales quotations; processed quantities from line links (quotation -> order -> invoice) | Accepted |
 | [0028](0028-approval-workflow.md) | Approval workflow: rules, document approval state and approver steps | Accepted |
 | [0029](0029-trade-portal-demo-divergences.md) | Trade Portal Demo divergences: empty-array parameters, flat chart of accounts; P&L and trial balance re-verified | Accepted |
-| [0030](0030-trade-portal-module-dependencies.md) | Module dependencies surfaced by Trade Portal Demo, proposed build order | Proposed (review) |
+| [0030](0030-trade-portal-module-dependencies.md) | Module dependencies surfaced by Trade Portal Demo, build order | Accepted |
 | [0031](0031-business-profiles-and-costing-method.md) | Business profiles (Manufaktur, Retail, Trade Portal) and configurable FIFO/average costing | Costing accepted; profiles proposed |
 | [0032](0032-dedicated-instance-per-customer.md) | One dedicated instance (Worker + Neon project) per paying customer before multi-tenancy | Proposed (review) |
 | [0033](0033-core-and-client-extensions.md) | Generic modules in core, client-specific code in per-client extensions (co-build resale) | Proposed (review) |
-| [0034](0034-kontraktor-module-dependencies.md) | Module dependencies surfaced by Kontraktor Demo (Contractor Projects), proposed build order | Proposed (review) |
+| [0034](0034-kontraktor-module-dependencies.md) | Module dependencies surfaced by Kontraktor Demo (Contractor Projects), build order | Accepted |
 | [0035](0035-kontraktor-demo-divergences.md) | Kontraktor Demo divergences: standard-style project P&L, Per Proyek budgets, Daftar Proyek | Accepted |
 | [0036](0036-one-neon-branch-per-profile.md) | Production demo: one Neon branch per Data Usaha, one Worker repointed between them | Accepted |
 | [0037](0037-per-company-report-preferences.md) | Per-company report preferences: aging basis and P&L style in `ledger_settings` | Accepted |

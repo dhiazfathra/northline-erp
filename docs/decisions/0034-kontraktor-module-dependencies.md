@@ -1,7 +1,8 @@
 # ADR-0034: Module dependencies surfaced by Kontraktor Demo, and proposed build order
 
 ## Status
-Proposed. Flagged for the principal's review; the order below is a proposal, not a decision.
+Accepted 2026-10-19, via `docs/goals/full-parity-v2.md` (the order below is now the build order).
+Open questions (receipts vs invoices, RAB vs plan): resolved in ADR-0038.
 
 ## Date
 2026-10-19
@@ -48,4 +49,4 @@ source documents is part of step 2/5.
 - **Deciding the order here**: rejected; the goal reserves the build order for the principal.
 
 ## Consequences
-- Until reviewed, nothing here is scheduled. `_coverage.md` marks the ten reports "blocked: requires Contractor Projects".
+- Scheduled as phase P2 of `docs/goals/full-parity-v2.md`. Until it lands, `_coverage.md` marks the ten reports "blocked: requires Contractor Projects".
