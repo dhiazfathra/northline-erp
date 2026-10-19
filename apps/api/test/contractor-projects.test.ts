@@ -96,3 +96,19 @@ test('Laba/Rugi (Standar) 2047: Journal-only core re-verified on Kontraktor Demo
   const balances = lines.map(l => ({ account: l.account, date: l.date, debit: l.debit, credit: l.credit }))
   expect(F.profitLoss(accounts, balances, '2047-01-01', '2047-12-31', o).map(F.formatLine)).toEqual(rows)
 })
+
+test('HTTP: project routes serve the same rows (style=standard)', async () => {
+  const { createApp } = await import('../src/app')
+  const { createUser } = await import('../src/auth')
+  const app = createApp(db)
+  // the route loads the ledger, which needs settings; values do not affect P&L rows
+  await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES ('300002', 1)`)
+  await createUser(db, 'nl-k@example.test', 'rahasia-123')
+  const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-k@example.test', password: 'rahasia-123' }) })
+  const cookie = login.headers.get('set-cookie')!.split(';')[0]!
+  const get = async (p: string) => (await app.request('/api' + p, { headers: { cookie } })).json()
+  expect(await get('/reports/dimensions/by-project?from=2047-01-01&to=2047-12-31&project=NL-K-P1&project=NL-K-P2&style=standard')).toEqual(body(R.ProfitLossByProjectReport!.rows))
+  expect(await get('/reports/dimensions/project-multi-period?from=2047-01-01&to=2047-04-30&project=NL-K-P1&style=standard')).toEqual(body(R.ProfitLossProjectMultiPeriodReport!.rows))
+  expect(await get('/reports/dimensions/analysis-project?from=2047-01-01&to=2047-12-31')).toEqual(body(R.AnalysisProfitLossProjectReport!.rows))
+  expect(await get('/reports/master/projects')).toEqual(body(R.ProjectListReport!.rows))
+})
