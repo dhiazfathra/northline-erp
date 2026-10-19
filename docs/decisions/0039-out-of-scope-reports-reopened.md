@@ -21,9 +21,28 @@ Two reports hit that rule in Manufaktur Demo (seed year 2049):
 | Jurnal Perintah Kerja (`WorkOrderJournalReport`) | Work orders need the Manufaktur preference `featureFabrication`. In Manufaktur Demo the checkbox is disabled; the preferences form sends no save request and the flag reads back `false`. Without a work order there is nothing to capture. | All 4 sandbox captures are layout only. Trade Portal's is tagged `data` in `_coverage.md`, but the page holds only the header (`Nomor # Perintah Kerja :`, empty table). |
 | Monitoring HPP (`CogsMonitoringReport`) | The report stays empty after new 2049 purchases (PI.2049.03.00001/00002) and a sale (SI.2049.03.00001). The data that makes rows appear is unknown. | 3 attempts across the earlier passes and P3.2 (spec [CogsMonitoringReport.md](../reports/CogsMonitoringReport.md)). |
 
-**Principal's view (unverified):** `featureFabrication` is a paid Accurate add-on, which the demo Data Usaha does not
-include. That fits the disabled checkbox. Accurate's pricing page was not checked, and no purchase was made.
-Monitoring HPP may sit behind the same add-on, since it is a manufacturing-cost view, but nothing ties the two yet.
+**Evidence: Manufaktur is a paid add-on (checked 2026-10-19 against Accurate's own pages).**
+- [accurate.id/harga](https://accurate.id/harga/) lists the base plan "Paket Dasar Accurate" at "Rp 333,000 /bulan" ("Tanpa
+  Batasan Fitur", 1 data usaha, 1 user, PPN 11% included). It then lists separately priced add-ons, including
+  **"Accurate Manufaktur: Rp 2,22 Juta /bulan"**.
+- [accurate.id/solusi/manufaktur](https://accurate.id/solusi/manufaktur/) calls it "add-on Fitur Manufaktur di Accurate
+  Online", lists **"Perintah Kerja"** among its features, and links "Lihat Harga" to `harga#addon`.
+- The help centre's [Perintah Kerja page](https://help.accurate.id/product/accurate-online/fitur-aol/manufaktur/perintah-kerja/menghitung-progress-perintah-kerja/)
+  says: "Di dalam menu Add On **Manufaktur** Accurate Online, ... Formulir **Perintah Kerja (SPK)**". Its breadcrumb is
+  Fitur Accurate Online > Manufaktur > Perintah Kerja.
+- This fits what the sandbox showed: the `featureFabrication` checkbox is disabled and won't save in a demo without the add-on.
+
+These sources establish that **Jurnal Perintah Kerja needs the paid Manufaktur add-on**.
+
+**Not established for Monitoring HPP.** None of the three official pages names it: the add-on page mentions only "perhitungan
+HPP" and "Laporan Produksi". `_coverage.md` files Monitoring HPP under Penjualan, not Manufaktur, and lists it in all four
+demos, so it may not depend on the add-on at all. It is a divergence because three captures came back empty, not because
+of a paywall.
+
+**Unofficial (resellers only, not confirmed by Accurate):** a yearly price around Rp 22.200.000 and a 30-day free trial
+of the add-on ([penjualanonline.id](https://penjualanonline.id/accurate-online-harga-accurate-online/),
+[pencatatan.id](https://pencatatan.id/accurate-manufaktur/)). If a free trial exists, Jurnal Perintah Kerja could be
+captured at no cost. Activating one is an account-level action and the principal's decision.
 
 ## Decision
 - 21 of the 23 reports are built and verified to zero diff. Their `_coverage.md` status is `done`.
@@ -63,5 +82,6 @@ Likelihood × impact, using the matrix supplied with the `/risk-assessment` requ
 |---|---|---|---|---|---|
 | A customer migrating from Accurate uses work orders, and the ERP has no Jurnal Perintah Kerja | Low (demo tenants use job costing; P3.1 covers it) | High (blocks that customer's month-end) | Medium | Ask about work-order use in migration intake (`docs/migration/`); reopen this ADR on the first yes | Principal |
 | Monitoring HPP shows something users rely on that the ERP cannot show | Medium | Low (other HPP reports, Pembelian (HPP) and Penyesuaian Bahan (HPP), cover cost per movement) | Low | Point users to those reports; revisit once a populated capture exists | Principal |
-| "Paid add-on" is wrong and the block is a demo setting | Medium | Medium (2 reports left open when they could close) | Medium | Read the Accurate pricing page or ask Accurate support before any purchase decision | Principal |
+| A free add-on trial would close Jurnal Perintah Kerja at no cost, and it goes unused | Low (trial claimed only by resellers) | Low (1 report) | Low | Principal decides whether to activate a trial on a demo Data Usaha | Principal |
+| Monitoring HPP has a non-add-on trigger that was never found | Medium | Low | Low | Ask Accurate support what populates it; reopen with a capture | Principal |
 | Reports built on the add-on later diverge from Accurate's real output | Low | Medium | Low | Never build without a capture (decision above) | Agent |
