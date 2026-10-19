@@ -5,7 +5,12 @@
  "param": {
   "startDate": "01/01/2000",
   "endDate": "31/12/2040",
-  "selectedBranch": []
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
  },
  "rows": [
   [
@@ -18,10 +23,13 @@
    "Dari 01 Jan 2000 s/d 31 Des 2040"
   ],
   [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:12"
+   "Tercetak pada 19 October 2026 - 09:21"
   ],
   [
    "Halaman 1",

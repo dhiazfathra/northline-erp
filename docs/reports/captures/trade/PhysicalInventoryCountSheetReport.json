@@ -1,14 +1,19 @@
 {
  "planId": "PhysicalInventoryCountSheetReport",
  "dataUsaha": "Trade Portal Demo",
- "capturedFrom": "Accurate Online sandbox, 2026-10-19, warehouse Utama over the demo data",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
  "param": {
   "asOfDate": "31/12/2040",
-  "selectedBranch": [],
   "selectedWarehouse": [
    {
     "name": "Utama",
     "id": 50
+   }
+  ],
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
    }
   ]
  },
@@ -21,6 +26,9 @@
   ],
   [
    "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
   ],
   [
    "Kode Barang",
@@ -196,7 +204,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:13"
+   "Tercetak pada 19 October 2026 - 09:25"
   ],
   [
    "Halaman 1",
@@ -210,6 +218,9 @@
   ],
   [
    "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
   ],
   [
    "Kode Barang",
@@ -421,10 +432,16 @@
    "PCS"
   ],
   [
+   "NL-TP-B1",
+   "NL-TP-B1 Barang Uji Trade",
+   "0",
+   "PCS"
+  ],
+  [
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:13"
+   "Tercetak pada 19 October 2026 - 09:25"
   ],
   [
    "Halaman 2",

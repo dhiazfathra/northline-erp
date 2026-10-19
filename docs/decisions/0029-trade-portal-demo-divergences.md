@@ -39,6 +39,10 @@ receivable or payable documents. Of those 35, 21 had no amounts in the Manufaktu
    Equitas Saldo Awal (Neraca per 31 Des 2044). The fixture carries it as journal `OB` dated 2025-06-01. With it,
    the full Neraca Percobaan, Neraca (Standar) per 28 Feb 2045 and Neraca (Perbandingan Periode) 31 Des 2044 vs
    28 Feb 2045 match with zero diff. Current-year earnings print as "Laba Tahun Ini", the same as the ERP.
+6. **Costing method: Average.** NL-TP-B1 bought 10 @ 100.000 (PI.2045.03.00003) and 10 @ 120.000
+   (PI.2045.03.00004), sold 15 @ 200.000 (SI.2045.03.00001): Laba/Rugi March 2045 shows Beban Pokok Penjualan
+   1.650.000 (15 x 110.000). FIFO, used by Manufaktur Demo and the ERP (ADR-0006), gives 1.600.000. Plan:
+   ADR-0031.
 
 ## Decision
 Keep one implementation for all three sandboxes. Record Trade Portal behavior as a "Trade Portal Demo variation"
@@ -50,8 +54,3 @@ in the affected specs and the parameter rule in the capture tooling; change no r
 
 ## Consequences
 - Anyone capturing from Trade Portal Demo must use `ACC_DB=trade` so the `[]` parameter rule applies.
-6. **Costing method: Average.** NL-TP-B1 bought 10 @ 100.000 (PI.2045.03.00003) and 10 @ 120.000
-   (PI.2045.03.00004), sold 15 @ 200.000 (SI.2045.03.00001): Laba/Rugi March 2045 shows Beban Pokok Penjualan
-   1.650.000 (15 x 110.000). FIFO, used by Manufaktur Demo and the ERP (ADR-0006), gives 1.600.000. Plan:
-   ADR-0031.
-

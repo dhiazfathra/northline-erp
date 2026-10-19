@@ -2,7 +2,9 @@
  "planId": "AccessPrivilegeByUserListReport",
  "dataUsaha": "Trade Portal Demo",
  "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
- "param": {},
+ "param": {
+  "selectedUser": []
+ },
  "rows": [
   [
    "PT Automotive Shop"
@@ -32,7 +34,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:00"
+   "Tercetak pada 19 October 2026 - 09:27"
   ],
   [
    "Halaman 1",

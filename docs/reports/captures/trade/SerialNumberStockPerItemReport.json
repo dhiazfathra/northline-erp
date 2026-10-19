@@ -3,7 +3,13 @@
  "dataUsaha": "Trade Portal Demo",
  "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
  "param": {
-  "asOfDate": "31/12/2040"
+  "asOfDate": "31/12/2040",
+  "selectedWarehouse": [
+   {
+    "name": "Utama",
+    "id": 50
+   }
+  ]
  },
  "rows": [
   [
@@ -25,7 +31,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 07:58"
+   "Tercetak pada 19 October 2026 - 09:25"
   ],
   [
    "Halaman 1",

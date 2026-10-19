@@ -5,7 +5,12 @@
  "param": {
   "asOfDate": "31/12/2040",
   "selectedWarehouse": [],
-  "selectedBranch": []
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
  },
  "rows": [
   [
@@ -16,6 +21,9 @@
   ],
   [
    "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
   ],
   [
    "Nama Barang",
@@ -181,7 +189,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:03"
+   "Tercetak pada 19 October 2026 - 09:24"
   ],
   [
    "Halaman 1",
@@ -195,6 +203,9 @@
   ],
   [
    "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
   ],
   [
    "Nama Barang",
@@ -390,7 +401,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:03"
+   "Tercetak pada 19 October 2026 - 09:24"
   ],
   [
    "Halaman 2",
@@ -404,6 +415,9 @@
   ],
   [
    "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
   ],
   [
    "Nama Barang",
@@ -448,7 +462,7 @@
    "ACCURATE Accounting System Report"
   ],
   [
-   "Tercetak pada 19 October 2026 - 08:03"
+   "Tercetak pada 19 October 2026 - 09:24"
   ],
   [
    "Halaman 3",

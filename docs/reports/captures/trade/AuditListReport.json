@@ -24,6 +24,126 @@
    "Alamat IP"
   ],
   [
+   "SI.2045.03.00001",
+   "20 Mar 2045",
+   "Buat",
+   "Faktur Penjualan",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00004",
+   "12 Mar 2045",
+   "Buat",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00003",
+   "05 Mar 2045",
+   "Buat",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00002",
+   "12 Mar 2045",
+   "Hapus",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00001",
+   "05 Mar 2045",
+   "Hapus",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00002",
+   "12 Mar 2045",
+   "Buat",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "PI.2045.03.00001",
+   "05 Mar 2045",
+   "Buat",
+   "Faktur Pembelian",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "NL-TP-B1 Barang Uji Trade",
+   "",
+   "Buat",
+   "Barang & Jasa",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "JV.2045.02.00002",
+   "25 Feb 2045",
+   "Buat",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "JV.2045.02.00001",
+   "05 Feb 2045",
+   "Buat",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "JV.2045.01.00002",
+   "20 Jan 2045",
+   "Buat",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
+   "JV.2045.01.00001",
+   "10 Jan 2045",
+   "Buat",
+   "Jurnal Umum",
+   "19 Okt 2026",
+   "nl-tester",
+   "nl-tester@example.test",
+   "203.0.113.10"
+  ],
+  [
    "XENDIT DEMO",
    "",
    "Buat",
