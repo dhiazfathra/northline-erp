@@ -102,6 +102,28 @@ export function useSaveCostingMethod() {
   })
 }
 
+export type ReportPreferences = { agingBasis: 'DUE_DATE' | 'INVOICE_DATE'; reportStyle: 'RETAIL' | 'STANDARD' }
+// Umur piutang/utang and project P&L layout (ADR-0037); free to change, no ledger impact.
+export const reportPreferencesQuery = queryOptions({
+  queryKey: ['prefs', 'report-preferences'],
+  queryFn: async () => {
+    const res = await api.settings['report-preferences'].$get()
+    if (!res.ok) throw new Error(`Preferensi laporan gagal dimuat (${res.status})`)
+    return res.json() as Promise<ReportPreferences>
+  },
+})
+
+export function useSaveReportPreferences() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (p: ReportPreferences) => {
+      const res = await api.settings['report-preferences'].$put({ json: p })
+      if (!res.ok) throw new Error(((await res.json()) as { error?: string }).error ?? `Gagal menyimpan (${res.status})`)
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['prefs', 'report-preferences'] }),
+  })
+}
+
 export const featuresQuery = queryOptions({ queryKey: ['prefs', 'features'], queryFn: () => mock(features) })
 
 export function useSaveFeatures() {

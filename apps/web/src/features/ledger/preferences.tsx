@@ -2,7 +2,7 @@ import type { Feature } from '@northline/schemas/ledger'
 import { useQuery } from '@tanstack/react-query'
 import { Switch, Tabs } from 'radix-ui'
 import { useEffect, useState } from 'react'
-import { type CostingMethod, costingMethodQuery, defaultAccountsQuery, featuresQuery, useSaveCostingMethod, useSaveFeatures } from '@/api/ledger'
+import { type CostingMethod, costingMethodQuery, defaultAccountsQuery, featuresQuery, type ReportPreferences, reportPreferencesQuery, useSaveCostingMethod, useSaveFeatures, useSaveReportPreferences } from '@/api/ledger'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { idr as fmt } from '@northline/schemas/fixtures'
@@ -123,7 +123,10 @@ export function Preferences() {
           <Tabs.Content value="persediaan" className="outline-none">
             <CostingMethodSetting />
           </Tabs.Content>
-          {tabs.slice(2).filter((x) => x.id !== 'persediaan').map((x) => (
+          <Tabs.Content value="lain" className="outline-none">
+            <ReportPreferencesSetting />
+          </Tabs.Content>
+          {tabs.slice(2).filter((x) => x.id !== 'persediaan' && x.id !== 'lain').map((x) => (
             <Tabs.Content key={x.id} value={x.id} className="rounded-2xl border border-dashed border-[rgba(var(--fg),.25)] p-7 text-center text-[13px] opacity-80 outline-none">
               {t({ id: `Pengaturan ${x.n.id} belum tersedia di versi ini.`, en: `${x.n.en} settings are not available in this version yet.` })}
             </Tabs.Content>
@@ -281,6 +284,57 @@ function CostingMethodSetting() {
           en: 'The costing method cannot be changed again once stock transactions exist. Continue?',
         })}
       </Confirm>
+    </div>
+  )
+}
+
+type Choice<K extends keyof ReportPreferences> = { id: ReportPreferences[K]; n: { id: string; en: string } }
+const REPORT_PREFS: { [K in keyof ReportPreferences]: { n: { id: string; en: string }; choices: Choice<K>[] } } = {
+  agingBasis: {
+    n: { id: 'Umur Piutang/Utang dihitung dari', en: 'Receivable/payable age counts from' },
+    choices: [{ id: 'DUE_DATE', n: { id: 'Tanggal jatuh tempo', en: 'Due date' } }, { id: 'INVOICE_DATE', n: { id: 'Tanggal faktur', en: 'Invoice date' } }],
+  },
+  reportStyle: {
+    n: { id: 'Format Laba/Rugi per dimensi', en: 'P&L by dimension layout' },
+    choices: [
+      { id: 'RETAIL', n: { id: 'Laba sebelum & setelah pajak', en: 'Profit before & after tax' } },
+      { id: 'STANDARD', n: { id: 'Standar (satu Laba Bersih)', en: 'Standard (one Net Profit)' } },
+    ],
+  },
+}
+
+/** Preferensi laporan (ADR-0037): saved on each change; reports only, the ledger is untouched. */
+function ReportPreferencesSetting() {
+  const t = useT()
+  const { showToast } = useShell()
+  const { data } = useQuery(reportPreferencesQuery)
+  const save = useSaveReportPreferences()
+  if (!data) return null
+  const set = (p: ReportPreferences) =>
+    save.mutate(p, { onSuccess: () => showToast(t({ id: 'Preferensi laporan tersimpan', en: 'Report preferences saved' })), onError: (e) => showToast(e.message) })
+  return (
+    <div className="flex flex-col gap-4">
+      {(Object.keys(REPORT_PREFS) as (keyof ReportPreferences)[]).map((k) => (
+        <div key={k} className="flex flex-col gap-1">
+          <div className="border-b border-[rgba(var(--fg),.12)] pb-2 text-[15px]">{t(REPORT_PREFS[k].n)}</div>
+          <div role="radiogroup" aria-label={t(REPORT_PREFS[k].n)} className="flex flex-col">
+            {REPORT_PREFS[k].choices.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                role="radio"
+                aria-checked={data[k] === c.id}
+                disabled={data[k] === c.id || save.isPending}
+                onClick={() => set({ ...data, [k]: c.id })}
+                className="flex items-center gap-3 py-[9px] text-left text-[13px] disabled:cursor-default"
+              >
+                <i className={cn('ph-light text-[16px]', data[k] === c.id ? 'ph-radio-button' : 'ph-circle')} />
+                {t(c.n)}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
