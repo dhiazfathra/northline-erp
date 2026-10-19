@@ -28,7 +28,7 @@ import { createItemAdjustment, createItemTransfer } from './inventory/adjustment
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
+import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 /** Socket address under Bun; on Workers the edge's cf-connecting-ip (a client-sent header is never trusted under Bun). */
@@ -91,6 +91,7 @@ export function createApp(db: Db) {
     .put('/sales/invoices/:number', async c => c.json(await editSalesInvoice(db, c.req.param('number'), await c.req.json())))
     .delete('/sales/invoices/:number', async c => c.json(await deleteSalesInvoice(db, c.req.param('number'), z.object({ idempotencyKey: z.string().min(8) }).parse(await c.req.json()).idempotencyKey)))
     .post('/sales/down-payments', async c => c.json(await createSalesDownPayment(db, await c.req.json()), 201))
+    .post('/sales/quotations', async c => c.json(await createSalesQuotation(db, await c.req.json()), 201))
     .post('/sales/orders', async c => c.json(await createSalesOrder(db, await c.req.json()), 201))
     .post('/sales/deliveries', async c => c.json(await createDeliveryOrder(db, await c.req.json()), 201))
     .get('/reports/deliveries/:report{list|detail|history}', async c => {

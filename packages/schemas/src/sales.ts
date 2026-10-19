@@ -22,7 +22,8 @@ export const salesInvoiceInput = z.object({
   dueDate: isoDate.optional(),
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, name: z.string().min(1), qty: z.number().positive(), price: amountToCents, discPct: z.number().min(0).max(100).default(0),
-    /** Tenaga Penjual of the line, in Accurate's order (level 1..5, ADR-0023). */ salesmen: z.array(code).max(5).default([]) })).min(1),
+    /** Tenaga Penjual of the line, in Accurate's order (level 1..5, ADR-0023). */ salesmen: z.array(code).max(5).default([]),
+    /** Pesanan Penjualan line this line bills (counts as processed quantity, ADR-0027). */ order: z.object({ number: code, seq: z.number().int().positive() }).optional() })).min(1),
   /** PPN: each line's item default tax applies on its DPP (line total less its share of the invoice discount). */
   taxable: z.boolean().default(false),
   /** No. Faktur Pajak (e-Faktur number), entered manually. */

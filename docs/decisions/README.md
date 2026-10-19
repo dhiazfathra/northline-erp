@@ -28,3 +28,4 @@
 | [0024](0024-batch-serials-transfers-warehouses.md) | Batch serials with expiry, transfer lines and receipts, warehouse master, vendor price end date | Accepted |
 | [0025](0025-budgets.md) | Budgets (Anggaran) per month and scope; budget-vs-actual Laba/Rugi | Accepted |
 | [0026](0026-job-costing.md) | Job costing: job orders, expenses and roll-over (Pekerjaan Pesanan) | Accepted |
+| [0027](0027-sales-quotations.md) | Sales quotations; processed quantities from line links (quotation -> order -> invoice) | Accepted |
