@@ -131,17 +131,20 @@ export const BUCKETS = ['Blm Tempo', '1 - 30', '31 - 60', '61 - 90', '91 - 120',
 /** Bucket index by days past due: not yet due, 1–30, 31–60, 61–90, 91–120, >120. */
 const bucket = (age: number) => (age <= 0 ? 0 : age <= 30 ? 1 : age <= 60 ? 2 : age <= 90 ? 3 : age <= 120 ? 4 : 5)
 
-export function openInvoices(d: SalesData, asOf: string, customer: string) {
+/** Age from the due date (Manufaktur/Retail Demo) or the invoice date (Trade Portal Demo preference, ADR-0029 finding 7). */
+export type AgingBasis = 'DUE_DATE' | 'INVOICE_DATE'
+
+export function openInvoices(d: SalesData, asOf: string, customer: string, basis: AgingBasis = 'DUE_DATE') {
   const paid = (n: string) => d.receipts.filter(r => r.date <= asOf).flatMap(r => r.payments).filter(p => p.invoice === n).reduce((s, p) => s + p.amount, 0)
   const ret = (n: string) => (d.returns ?? []).filter(r => r.invoice === n && r.date <= asOf).reduce((s, r) => s + r.total, 0)
-  return regular(d).filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - dpUsed(i) - paid(i.number) - ret(i.number), age: days(i.dueDate, asOf) }))
+  return regular(d).filter(i => i.customer === customer && i.date <= asOf).map(i => ({ ...i, owing: i.total - dpUsed(i) - paid(i.number) - ret(i.number), age: days(basis === 'INVOICE_DATE' ? i.date : i.dueDate, asOf) }))
     .filter(i => i.owing > 0).sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1))
 }
 export const spread = (xs: { owing: number; age: number }[]) => BUCKETS.map((_, k) => xs.filter(x => bucket(x.age) === k).reduce((s, x) => s + x.owing, 0))
 
 /** Umur Piutang: one row per customer with an open balance; totals per customer list and currency. */
-export function agingReceivable(d: SalesData, asOf: string): string[][] {
-  const rows = [...d.customers.keys()].sort(byName(d)).map(c => ({ c, xs: openInvoices(d, asOf, c) })).filter(r => r.xs.length)
+export function agingReceivable(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
+  const rows = [...d.customers.keys()].sort(byName(d)).map(c => ({ c, xs: openInvoices(d, asOf, c, basis) })).filter(r => r.xs.length)
   const all = rows.flatMap(r => r.xs)
   const line = (xs: typeof all) => [formatIdr(xs.reduce((s, x) => s + x.owing, 0)), ...spread(xs).map(formatIdr), '0']
   return [['Mata Uang', 'Pelanggan', 'Piutang', ...BUCKETS, 'Sisa Kredit'],

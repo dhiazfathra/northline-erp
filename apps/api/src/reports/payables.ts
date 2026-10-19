@@ -1,5 +1,5 @@
 import { fmtDate, fmtHeaderDate } from './general-ledger'
-import { BUCKETS, openInvoices, spread, type SalesData } from './receivables'
+import { BUCKETS, openInvoices, spread, type AgingBasis, type SalesData } from './receivables'
 import { formatIdr } from './trial-balance'
 
 // Utang reports whose layout differs from the Piutang version (the rest reuse receivables.ts with AP labels).
@@ -26,8 +26,8 @@ export function outstandingPurchases(d: SalesData, asOf: string): string[][] {
 }
 
 /** Umur Utang: no currency column and no credit column; one total row. */
-export function agingPayable(d: SalesData, asOf: string): string[][] {
-  const rows = vendorsByName(d).map(v => ({ v, xs: openInvoices(d, asOf, v) })).filter(r => r.xs.length)
+export function agingPayable(d: SalesData, asOf: string, basis: AgingBasis = 'DUE_DATE'): string[][] {
+  const rows = vendorsByName(d).map(v => ({ v, xs: openInvoices(d, asOf, v, basis) })).filter(r => r.xs.length)
   const line = (xs: { owing: number; age: number }[]) => [formatIdr(xs.reduce((s, x) => s + x.owing, 0)), ...spread(xs).map(formatIdr)]
   return [['Pemasok', 'Utang', ...BUCKETS], ...rows.map(r => [d.customers.get(r.v)!, ...line(r.xs)]), ['Total Pemasok', ...line(rows.flatMap(r => r.xs))]]
 }

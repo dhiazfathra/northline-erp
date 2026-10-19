@@ -1,0 +1,76 @@
+import { afterAll, beforeAll, expect, test } from 'bun:test'
+import { sql } from 'drizzle-orm'
+import fx from '../../../docs/reports/fixtures/trade/trade-tp.json'
+import { connect, migrate } from '../src/db'
+import { handle } from '../src/ledger/handler'
+import { catchUp, ledgerProjection } from '../src/projections'
+import { createPurchaseInvoice, upsertVendor } from '../src/purchases/service'
+import * as I from '../src/reports/inventory'
+import * as P from '../src/reports/payables'
+import { loadInventory, loadPurchases, loadSales } from '../src/reports/queries'
+import * as R from '../src/reports/receivables'
+import { createSalesInvoice, upsertCustomer, upsertItem } from '../src/sales/service'
+
+// Trade Portal Demo (ADR-0029): NL-TP purchases and sale of March 2045 replayed on Trade Portal's chart of accounts.
+// Cost-independent reports must match; cost-dependent ones are blocked on average costing (ADR-0031).
+const url = process.env.TEST_DATABASE_URL ?? 'postgres://postgres:northline@localhost:55432/northline'
+const schema = `tradetp_${process.pid}`
+const { client, db } = connect(`${url}?options=-c%20search_path%3D${schema}`)
+
+beforeAll(async () => {
+  await client.unsafe(`DROP SCHEMA IF EXISTS ${schema} CASCADE; CREATE SCHEMA ${schema}`)
+  await migrate(client)
+  const depth = (no: string | null): number => (no ? 1 + depth(fx.accounts.find(a => a.no === no)!.parentNo) : 0)
+  for (const a of [...fx.accounts].sort((x, y) => depth(x.parentNo) - depth(y.parentNo)))
+    await handle(db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any, parentNo: a.parentNo ?? undefined })
+  await catchUp(db, ledgerProjection)
+  await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES ('300002', 1)`)
+  for (const c of fx.customers) await upsertCustomer(db, c)
+  for (const v of fx.vendors) await upsertVendor(db, v)
+  for (const i of fx.items) await upsertItem(db, i as any)
+  for (const d of fx.documents as any[]) {
+    if (d.kind === 'PurchaseInvoice') await createPurchaseInvoice(db, { idempotencyKey: `tp-${d.ref}`, number: d.number, vendor: d.vendor, bill: d.bill, date: d.date, dueDate: d.dueDate, description: d.description, lines: d.lines })
+    else await createSalesInvoice(db, { idempotencyKey: `tp-${d.ref}`, number: d.number, customer: d.customer, date: d.date, dueDate: d.dueDate, description: d.description, lines: d.lines })
+  }
+  await catchUp(db, ledgerProjection)
+})
+afterAll(async () => { await client.unsafe(`DROP SCHEMA IF EXISTS ${schema} CASCADE`); await client.end() })
+
+// Older HTML captures kept `&gt;`; Trade Portal's arrive decoded. Compare decoded text.
+const dec = (rows: string[][]) => rows.map(r => r.map(c => c.replace(/&gt;/g, '>')))
+const W = { from: '2045-03-01', to: '2045-03-31' }, AS_OF = '2045-04-30'
+/** Page furniture out: company line, title, date range, branch line, footer. */
+const rep = (p: string) => {
+  const rows = (fx.reports as any)[p].rows as string[][], title = rows[1]![0]
+  return rows.filter(r => !(/^(ACCURATE Accounting|Tercetak pada|Halaman )/.test(r[0]!) || (r.length === 1 && (r[0] === rows[0]![0] || r[0] === title || /^(Dari |Per Tgl\.|Cabang :)/.test(r[0]!)))))
+}
+
+const sales: [string, (d: R.SalesData) => string[][]][] = [
+  ['ViewSalesByItemReport', d => R.salesByItem(d, W.from, W.to)],
+  ['SalesInvoiceListReport', d => R.salesInvoiceList(d, W.from, W.to)],
+  ['ViewSalesByCustomerReport', d => R.salesByCustomer(d, W.from, W.to)],
+  ['AgingReceivableReport', d => R.agingReceivable(d, AS_OF, 'INVOICE_DATE')],
+  ['OutstandingSalesInvoicePerCustomerReport', d => R.outstandingPerCustomer(d, AS_OF)],
+]
+for (const [p, fn] of sales) test(`${p} (Trade Portal, March 2045)`, async () => expect(dec(fn(await loadSales(db)))).toEqual(rep(p)))
+
+const purchases: [string, (d: any) => string[][]][] = [
+  ['PurchaseByItemReport', d => P.purchaseByItem(d, W.from, W.to)],
+  ['PurchaseInvoiceListReport', d => R.salesInvoiceList(d, W.from, W.to)],
+  ['AgingPayableReport', d => P.agingPayable(d, AS_OF, 'INVOICE_DATE')],
+  ['OutstandingPurchaseInvoicePerVendorReport', d => P.outstandingPerVendor(d, AS_OF)],
+]
+for (const [p, fn] of purchases) test(`${p} (Trade Portal, March 2045)`, async () => expect(dec(fn(await loadPurchases(db)))).toEqual(rep(p)))
+
+test('InventoryStockCardReport NL-TP-B1 (quantities only, cost-independent)', async () =>
+  expect(I.stockCard(await loadInventory(db), ['NL-TP-B1'], W.from, W.to)).toEqual(rep('InventoryStockCardReport')))
+
+test('blocked: requires average costing. ERP FIFO HPP 1.600.000 vs Trade Portal average 1.650.000', async () => {
+  const e = rep('ProfitabilityByItemReport').find(r => r[0] === 'NL-TP-B1 Barang Uji Trade')!
+  expect(e[2]).toBe('1.650.000')
+  const s = (await db.execute(sql`SELECT l.item_no, to_char(i.date,'YYYY-MM-DD') AS date, l.total FROM sales_invoice_lines l JOIN sales_invoices i ON i.number = l.invoice_number`))
+    .map(r => ({ item: r.item_no as string, date: r.date as string, total: Number(r.total) }))
+  const ours = I.profitabilityByItem(await loadInventory(db), s, W.from, W.to).find(r => r[0] === 'NL-TP-B1 Barang Uji Trade')!
+  // flips to toEqual(e) once the AVERAGE strategy of ADR-0031 lands
+  expect(ours[2]).toBe('1.600.000')
+})

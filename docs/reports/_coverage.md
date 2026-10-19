@@ -26,7 +26,12 @@ parameters into `captures/trade/` (tagged `dataUsaha: "Trade Portal Demo"`). Cap
 Trade Portal Demo needs every non-boolean parameter sent as an explicit `[]`: `[Semua Cabang]` or an omitted
 branch/currency parameter makes Accurate 500. See [ADR-0029](../decisions/0029-trade-portal-demo-divergences.md).
 Journal-only re-verification on Trade Portal (NL-TP 2045 journals): Laba/Rugi Standar, Multi Periode, Perbandingan Periode
-Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff. No report is blocked. Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
+Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff. Trade-specific pass (NL-TP March 2045 purchases and sale): 10 sales, purchase, aging, outstanding and stock-card
+reports zero-diff; 3 cost-dependent reports (Profitabilitas per Barang, Nilai Persediaan, Rincian Nilai Persediaan)
+blocked: requires average costing for Trade Portal, still verified under FIFO on Manufaktur Demo.
+Data only in Trade Portal: 38 Trade reports carry amounts; 24 of them have none in the earlier sandboxes' captures, all
+already specified and verified from fixtures there (ledger, Neraca, price/discount adjustments, stock movement).
+Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
 | Report | planId | Category | In Manufaktur Demo | In Retail Demo | In Trade Portal Demo | Trade Portal capture | Spec status | ERP module dependency | Note |
 |---|---|---|---|---|---|---|---|---|---|
@@ -108,8 +113,8 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Angsuran Pinjaman per Karyawan](EmployeeLoanInstallmentByEmployeeReport.md) | `EmployeeLoanInstallmentByEmployeeReport` | Kas & Bank | Y | Y | Y | empty | done | Cash & Bank |  |
 | [History Peminjaman per Karyawan](EmployeeLoanHistoryReport.md) | `EmployeeLoanHistoryReport` | Kas & Bank | Y | Y | Y | empty | done | Cash & Bank |  |
 | [Faktur Belum Lunas](OutstandingSalesInvoiceReport.md) | `OutstandingSalesInvoiceReport` | Piutang | Y | Y | Y | data | done | Sales |  |
-| [Faktur Belum Lunas per Pelanggan](OutstandingSalesInvoicePerCustomerReport.md) | `OutstandingSalesInvoicePerCustomerReport` | Piutang | Y | Y | Y | data | done | Sales |  |
-| [Umur Piutang](AgingReceivableReport.md) | `AgingReceivableReport` | Piutang | Y | Y | Y | data | done | Sales |  |
+| [Faktur Belum Lunas per Pelanggan](OutstandingSalesInvoicePerCustomerReport.md) | `OutstandingSalesInvoicePerCustomerReport` | Piutang | Y | Y | Y | data | done | Sales | verified on Trade Portal Demo (ADR-0029) |
+| [Umur Piutang](AgingReceivableReport.md) | `AgingReceivableReport` | Piutang | Y | Y | Y | data | done | Sales | verified on Trade Portal Demo (ADR-0029) |
 | [Buku Besar Pembantu Piutang](ARLedgerReport.md) | `ARLedgerReport` | Piutang | Y | Y | Y | data | done | Sales |  |
 | [Histori Piutang](ARHistoryReport.md) | `ARHistoryReport` | Piutang | Y | Y | Y | data | done | Sales |  |
 | [Rata-rata Pembayaran Pelanggan](OwingCollectionPerCustomerReport.md) | `OwingCollectionPerCustomerReport` | Piutang | Y | Y | Y | data | done | Sales |  |
@@ -126,8 +131,8 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Daftar Pelanggan](CustomerListReport.md) | `CustomerListReport` | Piutang | Y | Y | Y | data | done | Sales |  |
 | [Limit Piutang Pelanggan](CustomerLimitReport.md) | `CustomerLimitReport` | Piutang | Y | Y | Y | data | done | Sales |  |
 | [Rincian Tukar Faktur](ExchangeInvoiceDetailReport.md) | `ExchangeInvoiceDetailReport` | Piutang | Y | Y | Y | data | done | Sales |  |
-| [Penjualan per Pelanggan](ViewSalesByCustomerReport.md) | `ViewSalesByCustomerReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
-| [Penjualan per Barang](ViewSalesByItemReport.md) | `ViewSalesByItemReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
+| [Penjualan per Pelanggan](ViewSalesByCustomerReport.md) | `ViewSalesByCustomerReport` | Penjualan | Y | Y | Y | data | done | Sales | verified on Trade Portal Demo (ADR-0029) |
+| [Penjualan per Barang](ViewSalesByItemReport.md) | `ViewSalesByItemReport` | Penjualan | Y | Y | Y | data | done | Sales | verified on Trade Portal Demo (ADR-0029) |
 | [Penjualan per Merek](ViewSalesByBrandReport.md) | `ViewSalesByBrandReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Penjualan Barang per Pelanggan](ViewSalesItemByCustomerReport.md) | `ViewSalesItemByCustomerReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Penjualan Barang per Gudang](ViewSalesItemByWarehouseReport.md) | `ViewSalesItemByWarehouseReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
@@ -157,7 +162,7 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Daftar Pengiriman Pesanan](DeliveryOrderListReport.md) | `DeliveryOrderListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Rincian Pengiriman Pesanan](DeliveryOrderDetailReport.md) | `DeliveryOrderDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Status Pengiriman Pesanan](DeliveryOrderHistorySummaryReport.md) | `DeliveryOrderHistorySummaryReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
-| [Daftar Faktur Penjualan](SalesInvoiceListReport.md) | `SalesInvoiceListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
+| [Daftar Faktur Penjualan](SalesInvoiceListReport.md) | `SalesInvoiceListReport` | Penjualan | Y | Y | Y | data | done | Sales | verified on Trade Portal Demo (ADR-0029) |
 | [Rincian Faktur Penjualan](SalesInvoiceDetailReport.md) | `SalesInvoiceDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Grafik Penjualan](SalesInvoiceChartReport.md) | `SalesInvoiceChartReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Daftar Retur Penjualan](SalesReturnListReport.md) | `SalesReturnListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
@@ -167,7 +172,7 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Cicilan Belum Terbayar](SalesInvoiceUnpaidInstallmentListReport.md) | `SalesInvoiceUnpaidInstallmentListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Monitoring HPP](CogsMonitoringReport.md) | `CogsMonitoringReport` | Penjualan | Y | Y | Y | empty | done (out of scope) | Sales |  |
 | [Profitabilitas per Faktur](ProfitabilityBySalesInvoiceReport.md) | `ProfitabilityBySalesInvoiceReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
-| [Profitabilitas per Barang](ProfitabilityByItemReport.md) | `ProfitabilityByItemReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
+| [Profitabilitas per Barang](ProfitabilityByItemReport.md) | `ProfitabilityByItemReport` | Penjualan | Y | Y | Y | data | done | Sales | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
 | [Profitabilitas per Pelanggan](ProfitabilityByCustomerReport.md) | `ProfitabilityByCustomerReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Perubahan Harga Jual Per Barang](SellingPriceAdjustmentHistoryReport.md) | `SellingPriceAdjustmentHistoryReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Penyesuaian Harga Jual](SellingPriceAdjustmentDetailReport.md) | `SellingPriceAdjustmentDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
@@ -189,8 +194,8 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Check In per Karyawan](SalesCheckInPerSalesmanReport.md) | `SalesCheckInPerSalesmanReport` | Tenaga Penjual | N | Y | Y | data | done | Sales + Salesman (ADR-0023) | verified on layout (check-ins are mobile-only) |
 | [Histori Transaksi per Penjual](TransactionPerSalesmanListReport.md) | `TransactionPerSalesmanListReport` | Tenaga Penjual | N | Y | Y | data | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
 | [Faktur Belum Lunas](OutstandingPurchaseInvoiceReport.md) | `OutstandingPurchaseInvoiceReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
-| [Faktur Belum Lunas per Pemasok](OutstandingPurchaseInvoicePerVendorReport.md) | `OutstandingPurchaseInvoicePerVendorReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
-| [Umur Utang](AgingPayableReport.md) | `AgingPayableReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
+| [Faktur Belum Lunas per Pemasok](OutstandingPurchaseInvoicePerVendorReport.md) | `OutstandingPurchaseInvoicePerVendorReport` | Utang | Y | Y | Y | data | done | Purchasing | verified on Trade Portal Demo (ADR-0029) |
+| [Umur Utang](AgingPayableReport.md) | `AgingPayableReport` | Utang | Y | Y | Y | data | done | Purchasing | verified on Trade Portal Demo (ADR-0029) |
 | [Buku Besar Pembantu Utang](APLedgerReport.md) | `APLedgerReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
 | [Histori Utang](APHistoryReport.md) | `APHistoryReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
 | [Rincian Umur Utang](AgingPayableDetailReport.md) | `AgingPayableDetailReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
@@ -204,7 +209,7 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Utang per Bulan](VendorPayablePerMonthReport.md) | `VendorPayablePerMonthReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
 | [Daftar Pemasok](VendorListReport.md) | `VendorListReport` | Utang | Y | Y | Y | data | done | Purchasing |  |
 | [Pembelian per Pemasok](PurchaseByVendorReport.md) | `PurchaseByVendorReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
-| [Pembelian per Barang](PurchaseByItemReport.md) | `PurchaseByItemReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
+| [Pembelian per Barang](PurchaseByItemReport.md) | `PurchaseByItemReport` | Pembelian | Y | Y | Y | data | done | Purchasing | verified on Trade Portal Demo (ADR-0029) |
 | [Pembelian per Biaya](PurchaseByExpenseReport.md) | `PurchaseByExpenseReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Uang Muka Pembelian](PurchaseDownPaymentByVendorReport.md) | `PurchaseDownPaymentByVendorReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Histori Proses Pembelian](PurchaseFlowHistoryReport.md) | `PurchaseFlowHistoryReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
@@ -217,7 +222,7 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Rincian Pesanan Pembelian](PurchaseOrderDetailReport.md) | `PurchaseOrderDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Daftar Penerimaan Barang](ReceiveItemListReport.md) | `ReceiveItemListReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Rincian Penerimaan Barang](ReceiveItemDetailReport.md) | `ReceiveItemDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
-| [Daftar Faktur Pembelian](PurchaseInvoiceListReport.md) | `PurchaseInvoiceListReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
+| [Daftar Faktur Pembelian](PurchaseInvoiceListReport.md) | `PurchaseInvoiceListReport` | Pembelian | Y | Y | Y | data | done | Purchasing | verified on Trade Portal Demo (ADR-0029) |
 | [Rincian Faktur Pembelian](PurchaseInvoiceDetailReport.md) | `PurchaseInvoiceDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Daftar Retur Pembelian](PurchaseReturnListReport.md) | `PurchaseReturnListReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Rincian Retur Pembelian](PurchaseReturnDetailReport.md) | `PurchaseReturnDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
@@ -225,15 +230,15 @@ Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff.
 | [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | Y | data | done (out of scope) | Purchasing |  |
 | [Perubahan Harga Beli Per Barang](VendorPriceHistoryReport.md) | `VendorPriceHistoryReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
-| [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
+| [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
 | [Rincian Nilai Persediaan (CSV)](InventoryValuationDetailDownloadReport.md) | `InventoryValuationDetailDownloadReport` | Persediaan | Y | Y | Y | empty | done | Inventory |  |
 | [Ketersediaan Stok Penjualan](InventoryAnalysisReport.md) | `InventoryAnalysisReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Umur Persediaan](InventoryAgingReport.md) | `InventoryAgingReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Umur Persediaan per Gudang](InventoryAgingByWarehouseReport.md) | `InventoryAgingByWarehouseReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
-| [Rincian Nilai Persediaan](InventoryValuationDetailReport.md) | `InventoryValuationDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
+| [Rincian Nilai Persediaan](InventoryValuationDetailReport.md) | `InventoryValuationDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
 | [Rincian Ketersediaan Stok Penjualan](InventoryAnalysisDetailReport.md) | `InventoryAnalysisDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Rincian Umur Persediaan](InventoryAgingDetailReport.md) | `InventoryAgingDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
-| [Kartu Stok Persediaan](InventoryStockCardReport.md) | `InventoryStockCardReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
+| [Kartu Stok Persediaan](InventoryStockCardReport.md) | `InventoryStockCardReport` | Persediaan | Y | Y | Y | data | done | Inventory | verified on Trade Portal Demo (ADR-0029) |
 | [Permintaan per Barang (Belum Proses)](PurchaseRequisitionByItemReport.md) | `PurchaseRequisitionByItemReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Daftar Permintaan Barang](PurchaseRequisitionListReport.md) | `PurchaseRequisitionListReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Rincian Permintaan Barang](PurchaseRequisitionDetailReport.md) | `PurchaseRequisitionDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |

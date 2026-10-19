@@ -7,3 +7,8 @@ Params: `startDate`, `endDate`, `selectedItem` (array of items; empty prints an 
 Opening and totals (verified with `returns-t6.json`, opening 10): the opening row prints the balance in the **Kts Masuk** column (`30 Nov 2033 | Saldo Awal | Saldo Awal 30 Nov 2033 | 10 | 0 | 10`) and the in-total includes it (`12 | 1`). Returns print as `Retur Penjualan` / `Retur dari <customer>` and `Retur Pembelian` / `Retur ke <vendor>`.
 
 Transfers (verified with `transfer-t15.json`): each transfer prints two rows (source/transit or transit/destination) with the warehouse column; `Saldo Awal <date>` uses English month abbreviations (`31 Oct 2034`).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop): NL-TP-B1 bought 10 @ 100.000 (PI.2045.03.00003, 5 Mar) and 10 @ 120.000 (PI.2045.03.00004, 12 Mar) from Supplier Umum, sold 15 @ 200.000 (SI.2045.03.00001, 20 Mar) to Andika Motor, net 30.
+Fixture [fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json), test `apps/api/test/trade-portal-trade.test.ts`: zero diff. Same columns; quantities only, so costing does not matter. `selectedItem` must be a list `[{id,name,no}]` in Trade Portal (a string fails with a ClassCastException). See ADR-0029.

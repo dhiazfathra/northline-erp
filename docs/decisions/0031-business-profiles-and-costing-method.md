@@ -17,6 +17,7 @@ company setup:
 | Chart of accounts | dotted, sandbox-specific | `111.101-02` dotted | flat numeric (`1101` > `110102`) |
 | Dimensions | none in use | branch, department, project | single branch (Pusat) |
 | Modules in use | job costing, roll-over, fixed assets, payroll | salesmen, commissions, targets, budgets, approvals | warehouse stock, price/discount adjustments, payment gateway (Xendit) accounts |
+| Aging basis (Umur Piutang/Utang) | due date | due date | **invoice date** (ADR-0029 finding 7) |
 | Report parameters | lenient | lenient | strict (ADR-0029) |
 
 The ERP has one hardcoded behavior for each concern. FIFO lives in `apps/api/src/inventory/fifo.ts` and is called
@@ -29,7 +30,8 @@ Introduce a **business profile**: a company-level preset that sets defaults, plu
 still be changed. A profile is a starting point; the settings are what the code reads.
 
 1. **Company settings table.** Extend `ledger_settings` into `company_settings` (one row): `profile`
-   (`MANUFAKTUR` | `RETAIL` | `TRADE`), `costing_method` (`FIFO` | `AVERAGE`), enabled feature flags
+   (`MANUFAKTUR` | `RETAIL` | `TRADE`), `costing_method` (`FIFO` | `AVERAGE`), `aging_basis` (`DUE_DATE` | `INVOICE_DATE`; the report
+   functions already take it), enabled feature flags
    (dimensions, job costing, salesmen, budgets, approvals, multi-warehouse), plus the existing two fields.
    Changing `costing_method` is an event (`CostingMethodChanged`) in the ledger stream so it shows in the audit log.
 2. **Costing strategy seam.** Replace direct `fifoCost(layers(...))` calls with one function

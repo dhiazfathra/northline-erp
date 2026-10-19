@@ -43,6 +43,12 @@ receivable or payable documents. Of those 35, 21 had no amounts in the Manufaktu
    (PI.2045.03.00004), sold 15 @ 200.000 (SI.2045.03.00001): Laba/Rugi March 2045 shows Beban Pokok Penjualan
    1.650.000 (15 x 110.000). FIFO, used by Manufaktur Demo and the ERP (ADR-0006), gives 1.600.000. Plan:
    ADR-0031.
+7. **Aging basis: invoice date.** Umur Piutang and Umur Utang age from the invoice date in Trade Portal (SI 20 Mar,
+   due 19 Apr, in 31 - 60 on 30 Apr); Manufaktur Demo ages from the due date. Accurate keeps both due dates
+   (checked via `search-sales-invoice.do`). The ERP gains `AgingBasis` (`DUE_DATE` default, `INVOICE_DATE`) on
+   `openInvoices`, `agingReceivable` and `agingPayable`. Sales, purchase, outstanding and stock-card reports match
+   with zero diff (`apps/api/test/trade-portal-trade.test.ts`).
+8. **Rendering.** Trade Portal captures arrive with `>` decoded; older HTML captures kept `&gt; 120`. Display only.
 
 ## Decision
 Keep one implementation for all three sandboxes. Record Trade Portal behavior as a "Trade Portal Demo variation"

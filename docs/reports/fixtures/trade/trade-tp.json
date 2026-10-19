@@ -1,0 +1,2388 @@
+{
+ "dataUsaha": "Trade Portal Demo",
+ "source": "Accurate Online, Trade Portal Demo sandbox (PT Automotive Shop), captured 2026-10-19. NL-TP-B1 item, PI.2045.03.00003/00004 from Supplier Umum (warehouse Utama, net 30), SI.2045.03.00001 to Andika Motor. Costing method of the Data Usaha: average (ADR-0029 finding 6).",
+ "accounts": [
+  {
+   "no": "1101",
+   "name": "Kas & Bank",
+   "type": "CASH_BANK",
+   "parentNo": null
+  },
+  {
+   "no": "110101",
+   "name": "Kas Kecil",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "110102",
+   "name": "Bank",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "110103",
+   "name": "Bank Xendit Demo",
+   "type": "CASH_BANK",
+   "parentNo": "1101"
+  },
+  {
+   "no": "1102",
+   "name": "Setara Kas",
+   "type": "CASH_BANK",
+   "parentNo": null
+  },
+  {
+   "no": "110201",
+   "name": "Deposito Bank",
+   "type": "CASH_BANK",
+   "parentNo": "1102"
+  },
+  {
+   "no": "110202",
+   "name": "Bank Penjualan",
+   "type": "CASH_BANK",
+   "parentNo": "1102"
+  },
+  {
+   "no": "110203",
+   "name": "Bank Pembelian",
+   "type": "CASH_BANK",
+   "parentNo": "1102"
+  },
+  {
+   "no": "110204",
+   "name": "Bank Pengeluaran",
+   "type": "CASH_BANK",
+   "parentNo": "1102"
+  },
+  {
+   "no": "1103",
+   "name": "Piutang Usaha",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": null
+  },
+  {
+   "no": "110301",
+   "name": "Piutang Usaha IDR",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": "1103"
+  },
+  {
+   "no": "110302",
+   "name": "Uang Muka Pembelian IDR",
+   "type": "ACCOUNT_RECEIVABLE",
+   "parentNo": "1103"
+  },
+  {
+   "no": "1104",
+   "name": "Persediaan",
+   "type": "INVENTORY",
+   "parentNo": null
+  },
+  {
+   "no": "110401",
+   "name": "Persediaan",
+   "type": "INVENTORY",
+   "parentNo": "1104"
+  },
+  {
+   "no": "110402",
+   "name": "Persediaan Terkirim",
+   "type": "INVENTORY",
+   "parentNo": "1104"
+  },
+  {
+   "no": "1105",
+   "name": "Aset Lancar Lainnya",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": null
+  },
+  {
+   "no": "110501",
+   "name": "Perlengkapan Kantor",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110502",
+   "name": "Sewa Gedung Dibayar Dimuka",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110503",
+   "name": "Asuransi Dibayar Dimuka",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110504",
+   "name": "PPN Masukan",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "110505",
+   "name": "PPh 23 Penjualan",
+   "type": "OTHER_CURRENT_ASSET",
+   "parentNo": "1105"
+  },
+  {
+   "no": "1200",
+   "name": "Aset Tetap",
+   "type": "FIXED_ASSET",
+   "parentNo": null
+  },
+  {
+   "no": "120001",
+   "name": "Tanah",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120002",
+   "name": "Gedung",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120003",
+   "name": "Kendaraan",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120004",
+   "name": "Peralatan",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120005",
+   "name": "Inventaris Kantor",
+   "type": "FIXED_ASSET",
+   "parentNo": "1200"
+  },
+  {
+   "no": "120006",
+   "name": "Akumulasi Depresiasi Aset Tetap",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": null
+  },
+  {
+   "no": "12000601",
+   "name": "Akumulasi Penyusutan Gedung",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000602",
+   "name": "Akumulasi Penyusutan Kendaraan",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000603",
+   "name": "Akumulasi Penyusutan Peralatan",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "12000604",
+   "name": "Akumulasi Penyusutan Inventaris Kantor",
+   "type": "ACCUMULATED_DEPRECIATION",
+   "parentNo": "120006"
+  },
+  {
+   "no": "2101",
+   "name": "Utang Usaha",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": null
+  },
+  {
+   "no": "210101",
+   "name": "Utang Usaha IDR",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": "2101"
+  },
+  {
+   "no": "210102",
+   "name": "Uang Muka Penjualan IDR",
+   "type": "ACCOUNT_PAYABLE",
+   "parentNo": "2101"
+  },
+  {
+   "no": "2102",
+   "name": "Kewajiban Jangka Pendek Lainnya",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": null
+  },
+  {
+   "no": "210201",
+   "name": "PPN Keluaran",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "210202",
+   "name": "PPh 23 Pembelian",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "210203",
+   "name": "Hutang Pembelian Belum Ditagih",
+   "type": "OTHER_CURRENT_LIABILITY",
+   "parentNo": "2102"
+  },
+  {
+   "no": "2201",
+   "name": "Hutang Jangka Panjang",
+   "type": "LONG_TERM_LIABILITY",
+   "parentNo": null
+  },
+  {
+   "no": "3000",
+   "name": "Modal",
+   "type": "EQUITY",
+   "parentNo": null
+  },
+  {
+   "no": "300001",
+   "name": "Equitas Saldo Awal",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "300002",
+   "name": "Laba Ditahan",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "300003",
+   "name": "Modal Saham",
+   "type": "EQUITY",
+   "parentNo": "3000"
+  },
+  {
+   "no": "4000",
+   "name": "Pendapatan Operasional",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400002",
+   "name": "Pendapatan Jasa",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400003",
+   "name": "Retur Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "400004",
+   "name": "Diskon Penjualan",
+   "type": "REVENUE",
+   "parentNo": "4000"
+  },
+  {
+   "no": "4401",
+   "name": "Diskon Penjualan",
+   "type": "REVENUE",
+   "parentNo": null
+  },
+  {
+   "no": "440101",
+   "name": "Diskon Penjualan IDR",
+   "type": "REVENUE",
+   "parentNo": "4401"
+  },
+  {
+   "no": "5101",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS",
+   "parentNo": null
+  },
+  {
+   "no": "6000",
+   "name": "Beban Operasional",
+   "type": "EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "600001",
+   "name": "Beban Iklan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600002",
+   "name": "Beban Komisi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600003",
+   "name": "Beban Bensin, Parkir, Tol Kendaraan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600004",
+   "name": "Beban Gaji, Upah & Honorer",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600005",
+   "name": "Beban Bonus, Pesangon & Kompensasi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600006",
+   "name": "Beban Transportasi Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600007",
+   "name": "Beban Katering & Makan Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600008",
+   "name": "Beban Tunjangan Kesehatan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600009",
+   "name": "Beban Asuransi Karyawan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600010",
+   "name": "Beban THR",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600011",
+   "name": "Beban Listrik",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600012",
+   "name": "Beban PAM",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600013",
+   "name": "Beban Telekomunikasi",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600014",
+   "name": "Beban Ekspedisi, Pos & Materai",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600015",
+   "name": "Beban Perjalanan Dinas",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600016",
+   "name": "Beban Perlengkapan Kantor",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600017",
+   "name": "Beban Pajak Penghasilan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600018",
+   "name": "Beban Retribusi & Sumbangan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600019",
+   "name": "Beban Sewa Gedung",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600020",
+   "name": "Beban Operasional Lainnya",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600021",
+   "name": "Beban Penyusutan Gedung",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600022",
+   "name": "Beban Penyusutan Kendaraan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600023",
+   "name": "Beban Penyusutan Peralatan",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600024",
+   "name": "Beban Penyusutan Inventaris Kantor",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600025",
+   "name": "Beban Tax Fee",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600026",
+   "name": "Beban Xendit Demo",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "600027",
+   "name": "Pajak Xendit Demo",
+   "type": "EXPENSE",
+   "parentNo": "6000"
+  },
+  {
+   "no": "7100",
+   "name": "Pendapatan Diluar Usaha",
+   "type": "OTHER_INCOME",
+   "parentNo": null
+  },
+  {
+   "no": "710001",
+   "name": "Pendapatan Jasa Giro",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710002",
+   "name": "Pendapatan Bunga Deposito",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710003",
+   "name": "Penjualan Persediaan / Perlengkapan",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710004",
+   "name": "Laba/Rugi Revaluasi Aset",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "710005",
+   "name": "Pendapatan Diluar Usaha Lainnya",
+   "type": "OTHER_INCOME",
+   "parentNo": "7100"
+  },
+  {
+   "no": "7200",
+   "name": "Beban Diluar Usaha",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720001",
+   "name": "Beban Bunga Pinjaman",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720002",
+   "name": "Beban Adm. Bank & Buku Cek/Giro",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720003",
+   "name": "Pajak Jasa Giro",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720004",
+   "name": "Laba/Rugi Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720005",
+   "name": "Laba/Rugi Belum Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720006",
+   "name": "Laba/Rugi Disposisi Aset",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "720007",
+   "name": "Beban Diluar Usaha Lainnya",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7200"
+  },
+  {
+   "no": "7201",
+   "name": "Laba/Rugi Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720101",
+   "name": "Laba/Rugi Terealisasi IDR",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7201"
+  },
+  {
+   "no": "7202",
+   "name": "Laba/Rugi Belum Terealisasi",
+   "type": "OTHER_EXPENSE",
+   "parentNo": null
+  },
+  {
+   "no": "720201",
+   "name": "Laba/Rugi Belum Terealisasi IDR",
+   "type": "OTHER_EXPENSE",
+   "parentNo": "7202"
+  }
+ ],
+ "customers": [
+  {
+   "no": "C.00003",
+   "name": "Andika Motor",
+   "arAccount": "110301"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "V.00000",
+   "name": "Supplier Umum",
+   "apAccount": "210101"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-TP-B1",
+   "name": "NL-TP-B1 Barang Uji Trade",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "5101"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-TP-P1",
+   "number": "PI.2045.03.00003",
+   "vendor": "V.00000",
+   "bill": "NL-TP-P1",
+   "date": "2045-03-05",
+   "dueDate": "2045-04-04",
+   "description": "NL-TP-P1 pembelian",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 10,
+     "price": 100000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-TP-P2",
+   "number": "PI.2045.03.00004",
+   "vendor": "V.00000",
+   "bill": "NL-TP-P2",
+   "date": "2045-03-12",
+   "dueDate": "2045-04-11",
+   "description": "NL-TP-P2 pembelian",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 10,
+     "price": 120000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-TP-S1",
+   "number": "SI.2045.03.00001",
+   "customer": "C.00003",
+   "date": "2045-03-20",
+   "dueDate": "2045-04-19",
+   "description": "NL-TP-S1 penjualan",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 15,
+     "price": 200000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "ViewSalesByItemReport": {
+   "planId": "ViewSalesByItemReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Penjualan per Barang"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Satuan",
+     "Kuantitas",
+     "Penjualan"
+    ],
+    [
+     "NL-TP-B1 Barang Uji Trade",
+     "PCS",
+     "15",
+     "3.000.000"
+    ],
+    [
+     "Total Nama Barang",
+     "15",
+     "3.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:28"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesInvoiceListReport": {
+   "planId": "SalesInvoiceListReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Faktur Penjualan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total"
+    ],
+    [
+     "SI.2045.03.00001",
+     "20 Mar 2045",
+     "Andika Motor",
+     "3.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:28"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ViewSalesByCustomerReport": {
+   "planId": "ViewSalesByCustomerReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Penjualan per Pelanggan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pelanggan",
+     "Penjualan"
+    ],
+    [
+     "Andika Motor",
+     "3.000.000"
+    ],
+    [
+     "Total Pelanggan",
+     "3.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:28"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ProfitabilityByItemReport": {
+   "planId": "ProfitabilityByItemReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Profitabilitas per Barang"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Penjualan",
+     "BPP",
+     "Biaya Tambahan",
+     "Biaya Penerimaan",
+     "Laba setelah Biaya"
+    ],
+    [
+     "NL-TP-B1 Barang Uji Trade",
+     "3.000.000",
+     "1.650.000",
+     "0",
+     "0",
+     "1.350.000"
+    ],
+    [
+     "Total Nama Barang",
+     "3.000.000",
+     "1.650.000",
+     "0",
+     "0",
+     "1.350.000"
+    ]
+   ]
+  },
+  "PurchaseByItemReport": {
+   "planId": "PurchaseByItemReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Pembelian per Barang"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kts (Unit#1)",
+     "Pembelian"
+    ],
+    [
+     "NL-TP-B1 Barang Uji Trade",
+     "20",
+     "2.200.000"
+    ],
+    [
+     "Total Nama Barang",
+     "20",
+     "2.200.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:28"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "PurchaseInvoiceListReport": {
+   "planId": "PurchaseInvoiceListReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar Faktur Pembelian"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pemasok",
+     "Total"
+    ],
+    [
+     "PI.2045.03.00003",
+     "05 Mar 2045",
+     "Supplier Umum",
+     "1.000.000"
+    ],
+    [
+     "PI.2045.03.00004",
+     "12 Mar 2045",
+     "Supplier Umum",
+     "1.200.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "InventoryValuationReport": {
+   "planId": "InventoryValuationReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V",
+     "100048",
+     "630",
+     "1.890.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "630",
+     "1.890.000.000"
+    ],
+    [
+     "Ban Mobil Michelin H/T G056 285 60 R18 116H",
+     "100049",
+     "600",
+     "2.100.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "600",
+     "2.100.000.000"
+    ],
+    [
+     "Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17",
+     "100050",
+     "245",
+     "367.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "245",
+     "367.500.000"
+    ],
+    [
+     "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+     "100051",
+     "314",
+     "942.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "314",
+     "942.000.000"
+    ],
+    [
+     "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+     "100052",
+     "800",
+     "160.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "800",
+     "160.000.000"
+    ],
+    [
+     "Fastron Diesel 15w-40 4 Liter/1 Galon",
+     "100054",
+     "320",
+     "86.720.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "320",
+     "86.720.000"
+    ],
+    [
+     "Fastron Ecogreen 0W-20",
+     "100053",
+     "122",
+     "24.400.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "122",
+     "24.400.000"
+    ],
+    [
+     "Fastron Gold 5w-30 4 Liter/1 Galon",
+     "100055",
+     "100",
+     "50.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "50.000.000"
+    ],
+    [
+     "Fastron Platinum Racing 10w-60 4 Liter/1 Galon",
+     "100056",
+     "100",
+     "100.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "100.000.000"
+    ],
+    [
+     "Fastron Techno 10w-30 4 Liter/1 Galon",
+     "100057",
+     "100",
+     "25.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "25.000.000"
+    ],
+    [
+     "Hbc Classico Helm Half Face Dengan Visor - Hijau Mint",
+     "100001",
+     "50",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "10.000.000"
+    ],
+    [
+     "Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye",
+     "100002",
+     "60",
+     "6.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "60",
+     "6.000.000"
+    ],
+    [
+     "Liquid Wrench Pelumas Pro 311 Gr",
+     "100007",
+     "200",
+     "20.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "200",
+     "20.000.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 4"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Liquid Wrench Pelumas Serbaguna 226 Gr",
+     "100006",
+     "100",
+     "3.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "3.500.000"
+    ],
+    [
+     "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+     "100043",
+     "100",
+     "25.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "25.000.000"
+    ],
+    [
+     "Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr",
+     "100042",
+     "100",
+     "35.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "35.000.000"
+    ],
+    [
+     "Motul 5100 Oli Mesin Motor 4t 15w50",
+     "100010",
+     "22",
+     "2.200.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "22",
+     "2.200.000"
+    ],
+    [
+     "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+     "100011",
+     "33",
+     "13.200.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "33",
+     "13.200.000"
+    ],
+    [
+     "NL-TP-B1 Barang Uji Trade",
+     "NL-TP-B1",
+     "0",
+     "0",
+     "20",
+     "2.200.000",
+     "15",
+     "1.650.000",
+     "5",
+     "550.000"
+    ],
+    [
+     "Otto Klasse 42 Ltr Box Motor Pp Round",
+     "100005",
+     "66",
+     "33.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "66",
+     "33.000.000"
+    ],
+    [
+     "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+     "100004",
+     "80",
+     "8.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "80",
+     "8.000.000"
+    ],
+    [
+     "Otto Klasse Sandaran Jok Motor Nmax155",
+     "100003",
+     "50",
+     "40.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "40.000.000"
+    ],
+    [
+     "Proclean 66x43 Cm Lap Chamois Pva",
+     "100044",
+     "1.000",
+     "80.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "1.000",
+     "80.000.000"
+    ],
+    [
+     "Proclean Set 4 Pcs Peralatan Cuci Mobil",
+     "100046",
+     "100",
+     "10.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "10.000.000"
+    ],
+    [
+     "Proclean Set Lap Cuci Mobil 4 Pcs",
+     "100045",
+     "50",
+     "5.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "5.000.000"
+    ],
+    [
+     "Proclean Set Spons Pembersih 6 Pcs",
+     "100047",
+     "150",
+     "7.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "150",
+     "7.500.000"
+    ],
+    [
+     "Produk Harga Grosir",
+     "100038",
+     "100",
+     "3.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "100",
+     "3.500.000"
+    ],
+    [
+     "Produk PPN",
+     "100039",
+     "50",
+     "1.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "50",
+     "1.500.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 2",
+     "dari 4"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Produk PPN & PPNBM",
+     "100018",
+     "990",
+     "29.700.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "990",
+     "29.700.000"
+    ],
+    [
+     "Produk Variasi 1 - Abu-abu",
+     "100020",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 1 - Hotam",
+     "100023",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 1 - Merah",
+     "100021",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 1 - Orange",
+     "100022",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 1 - Pink",
+     "100024",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Biru - S",
+     "100027",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Biru - XS",
+     "100026",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Hitam - S",
+     "100031",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Hitam - XS",
+     "100030",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Merah - S",
+     "100029",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Merah - XS",
+     "100028",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Pink - S",
+     "100033",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi 2 - Pink - XS",
+     "100032",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi Harga - L",
+     "100036",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi Harga - M",
+     "100035",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi Harga - XL",
+     "100037",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Produk Variasi Harga - XXL",
+     "100041",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+     "100009",
+     "40",
+     "1.600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "40",
+     "1.600.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 3",
+     "dari 4"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang",
+     "Saldo Awal",
+     "Masuk",
+     "Keluar",
+     "Saldo Akhir"
+    ],
+    [
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai",
+     "Kuantitas",
+     "Nilai"
+    ],
+    [
+     "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+     "100008",
+     "30",
+     "1.800.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "30",
+     "1.800.000"
+    ],
+    [
+     "Yuasa Aki Mobil 95D31R-PF",
+     "100015",
+     "5",
+     "7.500.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "5",
+     "7.500.000"
+    ],
+    [
+     "Yuasa Aki Mobil N150-PF",
+     "100016",
+     "8",
+     "21.600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "8",
+     "21.600.000"
+    ],
+    [
+     "Yuasa Aki Motor YB5L-B-BA Yumicron",
+     "100013",
+     "15",
+     "2.250.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "15",
+     "2.250.000"
+    ],
+    [
+     "Yuasa Aki Motor YIX30L-BS MF",
+     "100012",
+     "10",
+     "30.000.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "10",
+     "30.000.000"
+    ],
+    [
+     "Yuasa Aki Motor YTZ4-V MF",
+     "100014",
+     "13",
+     "2.600.000",
+     "0",
+     "0",
+     "0",
+     "0",
+     "13",
+     "2.600.000"
+    ],
+    [
+     "Total Nama Barang",
+     "6.753",
+     "6.146.070.000",
+     "20",
+     "2.200.000",
+     "15",
+     "1.650.000",
+     "6.758",
+     "6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 4",
+     "dari 4"
+    ]
+   ]
+  },
+  "InventoryValuationDetailReport": {
+   "planId": "InventoryValuationDetailReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedItem": [
+     {
+      "id": 200,
+      "name": "NL-TP-B1 Barang Uji Trade",
+      "no": "NL-TP-B1"
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Barang : NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-TP-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "28 Feb 2045",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2045.03.00003",
+     "05 Mar 2045",
+     "10",
+     "1.000.000",
+     "0",
+     "0",
+     "10",
+     "1.000.000"
+    ],
+    [
+     "PI.2045.03.00004",
+     "12 Mar 2045",
+     "10",
+     "1.200.000",
+     "0",
+     "0",
+     "20",
+     "2.200.000"
+    ],
+    [
+     "SI.2045.03.00001",
+     "20 Mar 2045",
+     "0",
+     "0",
+     "15",
+     "1.650.000",
+     "5",
+     "550.000"
+    ],
+    [
+     "20",
+     "2.200.000",
+     "15",
+     "1.650.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:30"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "InventoryStockCardReport": {
+   "planId": "InventoryStockCardReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedItem": [
+     {
+      "id": 200,
+      "name": "NL-TP-B1 Barang Uji Trade",
+      "no": "NL-TP-B1"
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Kartu Stok Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Barang : NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-TP-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Tanggal",
+     "Tipe Transaksi",
+     "Nomor #",
+     "Deskripsi",
+     "Kts Masuk",
+     "Kts Keluar",
+     "Kts Akhir",
+     "Gudang"
+    ],
+    [
+     "28 Feb 2045",
+     "Saldo Awal",
+     "Saldo Awal 28 Feb 2045",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "05 Mar 2045",
+     "Faktur Pembelian",
+     "PI.2045.03.00003",
+     "Pembelian dari Supplier Umum",
+     "10",
+     "0",
+     "10",
+     "Utama"
+    ],
+    [
+     "12 Mar 2045",
+     "Faktur Pembelian",
+     "PI.2045.03.00004",
+     "Pembelian dari Supplier Umum",
+     "10",
+     "0",
+     "20",
+     "Utama"
+    ],
+    [
+     "20 Mar 2045",
+     "Faktur Penjualan",
+     "SI.2045.03.00001",
+     "Penjualan ke Andika Motor",
+     "0",
+     "15",
+     "5",
+     "Utama"
+    ],
+    [
+     "20",
+     "15"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:30"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "AgingReceivableReport": {
+   "planId": "AgingReceivableReport",
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Umur Piutang"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pelanggan",
+     "Piutang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120",
+     "Sisa Kredit"
+    ],
+    [
+     "IDR",
+     "Andika Motor",
+     "3.000.000",
+     "0",
+     "0",
+     "3.000.000",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Pelanggan",
+     "3.000.000",
+     "0",
+     "0",
+     "3.000.000",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Mata Uang",
+     "3.000.000",
+     "0",
+     "0",
+     "3.000.000",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "AgingPayableReport": {
+   "planId": "AgingPayableReport",
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Umur Utang"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Pemasok",
+     "Utang",
+     "Blm Tempo",
+     "1 - 30",
+     "31 - 60",
+     "61 - 90",
+     "91 - 120",
+     "> 120"
+    ],
+    [
+     "Supplier Umum",
+     "2.200.000",
+     "0",
+     "0",
+     "2.200.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "Total Pemasok",
+     "2.200.000",
+     "0",
+     "0",
+     "2.200.000",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "OutstandingSalesInvoicePerCustomerReport": {
+   "planId": "OutstandingSalesInvoicePerCustomerReport",
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Faktur Belum Lunas per Pelanggan"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pelanggan",
+     "Total",
+     "Piutang",
+     "Piutang Pajak"
+    ],
+    [
+     "Indonesian Rupiah",
+     "Andika Motor",
+     "3.000.000",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "Total Pelanggan",
+     "3.000.000",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "Total Mata Uang",
+     "3.000.000",
+     "3.000.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "OutstandingPurchaseInvoicePerVendorReport": {
+   "planId": "OutstandingPurchaseInvoicePerVendorReport",
+   "param": {
+    "asOfDate": "30/04/2045",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Faktur Belum Lunas per Pemasok"
+    ],
+    [
+     "Per Tgl. 30 Apr 2045"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Mata Uang",
+     "Pemasok",
+     "Total",
+     "Utang",
+     "Utang Pajak"
+    ],
+    [
+     "Indonesian Rupiah",
+     "Supplier Umum",
+     "2.200.000",
+     "2.200.000",
+     "0"
+    ],
+    [
+     "Total Pemasok",
+     "2.200.000",
+     "2.200.000",
+     "0"
+    ],
+    [
+     "Total Mata Uang",
+     "2.200.000",
+     "2.200.000",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "ProfitLossStandardReport": {
+   "planId": "ProfitLossStandardReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045",
+    "selectedBranch": [],
+    "selectedCurrency": [],
+    "showTotal": false,
+    "showParentAccount": true,
+    "showChildAccount": true,
+    "showZeroBalance": false,
+    "showParentAccountBalance": true
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Laba/Rugi (Standar)"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Deskripsi",
+     "1 - 31 Mar 2045"
+    ],
+    [
+     "PENDAPATAN"
+    ],
+    [
+     "Pendapatan Operasional",
+     "3.000.000"
+    ],
+    [
+     "Penjualan",
+     "3.000.000"
+    ],
+    [
+     "Jumlah Pendapatan",
+     "3.000.000"
+    ],
+    [
+     "BEBAN POKOK PENJUALAN"
+    ],
+    [
+     "Beban Pokok Penjualan",
+     "1.650.000"
+    ],
+    [
+     "Jumlah Beban Pokok Penjualan",
+     "1.650.000"
+    ],
+    [
+     "LABA KOTOR",
+     "1.350.000"
+    ],
+    [
+     "BEBAN OPERASIONAL"
+    ],
+    [
+     "Jumlah Beban Operasional",
+     "0"
+    ],
+    [
+     "PENDAPATAN OPERASIONAL",
+     "1.350.000"
+    ],
+    [
+     "PENDAPATAN DAN BEBAN NON OPERASIONAL"
+    ],
+    [
+     "Pendapatan Non Operasional"
+    ],
+    [
+     "Jumlah Pendapatan Non Operasional",
+     "0"
+    ],
+    [
+     "Beban Non Operasional"
+    ],
+    [
+     "Jumlah Beban Non Operasional",
+     "0"
+    ],
+    [
+     "Jumlah Pendapatan dan Beban Non Operasional",
+     "0"
+    ],
+    [
+     "LABA BERSIH",
+     "1.350.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 09:29"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}
