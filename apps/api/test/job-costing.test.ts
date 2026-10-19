@@ -1,11 +1,14 @@
 import { afterAll, beforeAll, expect, test } from 'bun:test'
+import { sql } from 'drizzle-orm'
+import { readFileSync } from 'node:fs'
 import fx from '../../../docs/reports/fixtures/retail/jobcosting-rg.json'
-import { createJobOrder, createRollOver } from '../src/inventory/job-costing'
+import mx from '../../../docs/reports/fixtures/jobcosting-m49.json'
+import { createJobOrder, createMaterialAdjustment, createRollOver } from '../src/inventory/job-costing'
 import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
 import { createPurchaseInvoice, upsertVendor } from '../src/purchases/service'
 import * as J from '../src/reports/job-costing'
-import { upsertItem } from '../src/sales/service'
+import { upsertCustomer, upsertItem } from '../src/sales/service'
 import { fixtureDb } from './fixture-db'
 
 // Retail Demo (ADR-0026): the NL-RG documents of 2047 seeded into a fresh schema, every report toEqual the captured Accurate rows.
@@ -30,7 +33,7 @@ afterAll(() => f.close())
 type Cap = { param: any; rows: string[][] }
 const caps = (planId: string): Cap[] => { const r = (fx.reports as any)[planId]; return [r, ...(r.variants ?? [])] }
 const iso = (d: string) => `${d.slice(6, 10)}-${d.slice(3, 5)}-${d.slice(0, 2)}`
-const FURNITURE = /^(ACCURATE Accounting System Report|Tercetak pada |Halaman |Dari \d|Cabang : |Bahan dan Biaya Pekerjaan per Bulan$|Penyelesaian Barang\/Biaya per Bulan$|Histori Pekerjaan Pesanan$)/
+const FURNITURE = /^(ACCURATE Accounting System Report|Tercetak pada |Halaman |Dari \d|Cabang : |Bahan dan Biaya Pekerjaan per Bulan$|Penyelesaian Barang\/Biaya per Bulan$|Histori Pekerjaan Pesanan$|Daftar Pekerjaan Pesanan$|Daftar Penambahan Bahan Baku$|Rincian Penambahan Bahan Baku$|Daftar Penyelesaian Pesanan$|Rincian (Barang|Akun) Penyelesaian Pesanan$)/
 /** Page titles and footers out. */
 const body = (rows: string[][]) => rows.filter(r => !FURNITURE.test(r[0]!))
 /** Accurate's order among a job's material lines is not stable (ADR-0026): sorted by code on both sides. */
@@ -81,4 +84,54 @@ test('roll-over clears WIP into the finished item; a job finishes once', async (
   const wip = jobs.flatMap(j => j.journal).filter(l => l.account === '115.000-98')
   expect(wip.reduce((s, l) => s + l.debit, 0)).toBe(9_500_000) // both jobs debit WIP 95,000; the RO credit is not a job journal
   await expect(createRollOver(f.db, { idempotencyKey: 'rg-again-RO', job: 'JC.2047.01.00001', date: '2047-03-01', lines: [{ item: 'NL-RG-FG1', qty: 1, portion: 100 }] })).rejects.toThrow('sudah selesai')
+})
+
+// Manufaktur Demo (P3.1): the NL-JC49 documents of 2049 (job orders, material pick/return, roll-overs to items and to accounts).
+let m: Awaited<ReturnType<typeof fixtureDb>>
+let mjobs: J.Job[]
+beforeAll(async () => {
+  m = await fixtureDb('jobcostm')
+  for (const a of mx.accounts) await handle(m.db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
+  await catchUp(m.db, ledgerProjection)
+  for (const c of mx.customers) await upsertCustomer(m.db, c)
+  for (const v of mx.vendors) await upsertVendor(m.db, v)
+  for (const i of mx.items) await upsertItem(m.db, i as any)
+  for (const d of mx.documents as any[]) {
+    const k = { idempotencyKey: `m49-${d.number}`, ...d }
+    if (d.kind === 'PurchaseInvoice') await createPurchaseInvoice(m.db, k)
+    else if (d.kind === 'JobOrder') await createJobOrder(m.db, k)
+    else if (d.kind === 'MaterialAdjustment') await createMaterialAdjustment(m.db, k)
+    else await createRollOver(m.db, k)
+  }
+  await catchUp(m.db, ledgerProjection)
+  mjobs = await J.loadJobs(m.db)
+})
+afterAll(() => m.close())
+
+const P31: [string, (jobs: J.Job[], from: string, to: string) => string[][]][] = [
+  ['JobOrderListReport', J.jobOrderList], ['MaterialAdjustmentListReport', J.materialAdjustmentList], ['MaterialAdjustmentDetailReport', J.materialAdjustmentDetail],
+  ['RollOverListReport', J.rollOverList], ['RollOverItemDetailReport', J.rollOverItemDetail], ['RollOverAccountDetailReport', J.rollOverAccountDetail]]
+for (const [planId, fn] of P31) test(`${planId}: NL-JC49 2049, and the empty default-param capture`, () => {
+  const c = (mx.reports as Record<string, Cap>)[planId]!
+  expect(fn(mjobs, iso(c.param.startDate), iso(c.param.endDate))).toEqual(body(c.rows))
+  const e: Cap = JSON.parse(readFileSync(`${import.meta.dir}/../../../docs/reports/captures/${planId}.json`, 'utf8'))
+  expect(fn(mjobs, iso(e.param.startDate), iso(e.param.endDate))).toEqual(body(e.rows))
+})
+
+test('material pick/return and roll-over to accounts clear WIP; job expense accounts are refused', async () => {
+  const [wip] = await m.db.execute(sql`SELECT COALESCE(SUM(debit - credit), 0) AS bal FROM journal_lines WHERE account_no = '110403'`)
+  expect(Number(wip!.bal)).toBe(750_000) // only the open JC3 (7.500) stays in WIP
+  await createJobOrder(m.db, { idempotencyKey: 'm49-x-JC', number: 'JC.2049.03.00001', date: '2049-03-01', wipAccount: '110403', expenses: [{ account: '600001', name: 'x', amount: 1000 }] })
+  await expect(createRollOver(m.db, { idempotencyKey: 'm49-bad-RO', job: 'JC.2049.03.00001', date: '2049-03-01', accounts: [{ account: '600001', name: 'x', portion: 100 }] })).rejects.toThrow('akun rincian biaya')
+})
+
+test('HTTP: job costing report route serves the same rows', async () => {
+  const { createApp } = await import('../src/app')
+  const { createUser } = await import('../src/auth')
+  const app = createApp(m.db)
+  await createUser(m.db, 'nl-jc@example.test', 'rahasia-123')
+  const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-jc@example.test', password: 'rahasia-123' }) })
+  const cookie = login.headers.get('set-cookie')!.split(';')[0]!
+  const rows = await (await app.request('/api/reports/job-costing/roll-over-list?from=2049-01-01&to=2049-12-31', { headers: { cookie } })).json()
+  expect(rows).toEqual(body((mx.reports as Record<string, Cap>).RollOverListReport!.rows))
 })

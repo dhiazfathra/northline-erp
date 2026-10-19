@@ -25,6 +25,8 @@ import * as I from './reports/inventory'
 import * as DIM from './reports/dimensions'
 import * as K from './reports/contractor'
 import * as KS from './contractor/service'
+import * as JC from './reports/job-costing'
+import * as JCS from './inventory/job-costing'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
@@ -178,6 +180,16 @@ export function createApp(db: Db) {
         return c.json(DIM.profitLossMultiPeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), sy!, sm!, ey!, em!, o, st))
       }
       return c.json(DIM.profitLossComparePeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), { from: d.parse(q.from), to: d.parse(q.to) }, { from: d.parse(q.compareFrom), to: d.parse(q.compareTo) }, o, st))
+    })
+    // Pekerjaan Pesanan (ADR-0026, P3.1): job orders, Penambahan Bahan Baku, Penyelesaian Pesanan; then its list/detail reports.
+    .post('/job-costing/:kind{job-orders|material-adjustments|roll-overs}', async c => {
+      const fn = { 'job-orders': JCS.createJobOrder, 'material-adjustments': JCS.createMaterialAdjustment, 'roll-overs': JCS.createRollOver }[c.req.param('kind') as 'job-orders']
+      return c.json(await fn(db, await c.req.json()), 201)
+    })
+    .get('/reports/job-costing/:report{job-order-list|material-adjustment-list|material-adjustment-detail|roll-over-list|roll-over-item-detail|roll-over-account-detail}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ 'job-order-list': JC.jobOrderList, 'material-adjustment-list': JC.materialAdjustmentList, 'material-adjustment-detail': JC.materialAdjustmentDetail,
+        'roll-over-list': JC.rollOverList, 'roll-over-item-detail': JC.rollOverItemDetail, 'roll-over-account-detail': JC.rollOverAccountDetail }[c.req.param('report') as 'job-order-list'](await JC.loadJobs(db), from, to))
     })
     // Proyek Kontraktor (ADR-0038): project master, RAB, MEQ, survey, project-linked documents (billing share), FPC; then its 11 reports.
     .post('/contractor/projects', async c => { await KS.upsertContractorProject(db, await c.req.json()); return c.json({ ok: true }) })

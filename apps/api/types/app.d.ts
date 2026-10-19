@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -505,6 +505,34 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
     };
 }) & {
     "/reports/dimensions/:report{by-branch|by-department|by-project|department-multi-period|project-multi-period|compare-department|compare-project|analysis-department|analysis-project}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/job-costing/:kind{job-orders|material-adjustments|roll-overs}": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {
+                param: {
+                    kind: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/job-costing/:report{job-order-list|material-adjustment-list|material-adjustment-detail|roll-over-list|roll-over-item-detail|roll-over-account-detail}": {
         $get: {
             output: string[][];
             outputFormat: "json";

@@ -1,0 +1,679 @@
+{
+ "dataUsaha": "Manufaktur Demo",
+ "source": "Accurate Online sandbox (ACC_DB=manufaktur), seeded and captured 2026-10-19 with tools/accurate (save-item.mjs, KIND=pi save-inv.mjs, session steps posting save-job-order.do / save-material-adjustment.do / save-roll-over.do with the flat param.* wire of the Retail Demo NL-RG edit forms). All NL-JC49 records dated 2049. Items NL-JC49-M1/M2 (materials) and FG1/FG2 (finished), inventory 110401; PI.2049.01.00001 (no warehouse) and PI.2049.01.00002 (Utama) from NL-T3-V1; JC.2049.01.00001 (NL-JC49-JC1, customer NL-T2-C1: M1 3, M2 4, expense 600001 15.000), MA.2049.01.00001 Ambil Barang M1 1, MA.2049.01.00002 Retur Barang M2 1, RO.2049.02.00001 to items FG1 60% / FG2 40%; JC.2049.02.00001 (JC2: M1 2, expense 5.000) RO.2049.02.00002 to accounts 600002 70% / 600003 30%; JC.2049.02.00002 (JC3: M2 3) left open. WIP account 110403, difference account 510102 (unused). Report rows as captured over 01/01/2049-31/12/2049, page furniture included. The company-name line Accurate prints above each title is left out.",
+ "accounts": [
+  {
+   "no": "110401",
+   "name": "Persediaan Barang Jadi",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "110403",
+   "name": "Persediaan Dalam Proses",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "110301",
+   "name": "Piutang Usaha",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "210101",
+   "name": "Hutang Usaha",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "510101",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS"
+  },
+  {
+   "no": "600001",
+   "name": "Beban Iklan",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "600002",
+   "name": "Beban Komisi",
+   "type": "EXPENSE"
+  },
+  {
+   "no": "600003",
+   "name": "Beban Bensin, Parkir, Tol Kendaraan",
+   "type": "EXPENSE"
+  }
+ ],
+ "customers": [
+  {
+   "no": "NL-T2-C1",
+   "name": "NL-T2 Pelanggan A",
+   "arAccount": "110301"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "NL-T3-V1",
+   "name": "NL-T3 Pemasok A",
+   "apAccount": "210101"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-JC49-M1",
+   "name": "NL-JC49 Bahan A",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  },
+  {
+   "no": "NL-JC49-M2",
+   "name": "NL-JC49 Bahan B",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  },
+  {
+   "no": "NL-JC49-FG1",
+   "name": "NL-JC49 Barang Jadi A",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  },
+  {
+   "no": "NL-JC49-FG2",
+   "name": "NL-JC49 Barang Jadi B",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2049.01.00001",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-JC49-PI1",
+   "date": "2049-01-05",
+   "description": "NL-JC49-PI1",
+   "lines": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 10,
+     "price": 10000
+    },
+    {
+     "item": "NL-JC49-M2",
+     "qty": 20,
+     "price": 2500
+    }
+   ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2049.01.00002",
+   "vendor": "NL-T3-V1",
+   "bill": "NL-JC49-PI2",
+   "date": "2049-01-06",
+   "description": "NL-JC49-PI2",
+   "lines": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 5,
+     "price": 10000
+    },
+    {
+     "item": "NL-JC49-M2",
+     "qty": 5,
+     "price": 2500
+    }
+   ]
+  },
+  {
+   "kind": "JobOrder",
+   "number": "JC.2049.01.00001",
+   "date": "2049-01-10",
+   "description": "NL-JC49-JC1",
+   "customer": "NL-T2-C1",
+   "wipAccount": "110403",
+   "materials": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 3
+    },
+    {
+     "item": "NL-JC49-M2",
+     "qty": 4
+    }
+   ],
+   "expenses": [
+    {
+     "account": "600001",
+     "name": "NL-JC49 Ongkos Kerja",
+     "amount": 15000
+    }
+   ]
+  },
+  {
+   "kind": "MaterialAdjustment",
+   "number": "MA.2049.01.00001",
+   "job": "JC.2049.01.00001",
+   "type": "ITEM_PICK",
+   "date": "2049-01-15",
+   "description": "NL-JC49-MA1",
+   "lines": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 1
+    }
+   ]
+  },
+  {
+   "kind": "MaterialAdjustment",
+   "number": "MA.2049.01.00002",
+   "job": "JC.2049.01.00001",
+   "type": "ITEM_RETURN",
+   "date": "2049-01-16",
+   "description": "NL-JC49-MA2",
+   "lines": [
+    {
+     "item": "NL-JC49-M2",
+     "qty": 1
+    }
+   ]
+  },
+  {
+   "kind": "JobOrder",
+   "number": "JC.2049.02.00001",
+   "date": "2049-02-01",
+   "description": "NL-JC49-JC2",
+   "wipAccount": "110403",
+   "materials": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 2
+    }
+   ],
+   "expenses": [
+    {
+     "account": "600001",
+     "name": "NL-JC49 Ongkos Kerja",
+     "amount": 5000
+    }
+   ]
+  },
+  {
+   "kind": "JobOrder",
+   "number": "JC.2049.02.00002",
+   "date": "2049-02-05",
+   "description": "NL-JC49-JC3",
+   "wipAccount": "110403",
+   "materials": [
+    {
+     "item": "NL-JC49-M2",
+     "qty": 3
+    }
+   ]
+  },
+  {
+   "kind": "RollOver",
+   "number": "RO.2049.02.00001",
+   "job": "JC.2049.01.00001",
+   "date": "2049-02-20",
+   "description": "NL-JC49-RO1",
+   "lines": [
+    {
+     "item": "NL-JC49-FG1",
+     "qty": 2,
+     "portion": 60
+    },
+    {
+     "item": "NL-JC49-FG2",
+     "qty": 1,
+     "portion": 40
+    }
+   ]
+  },
+  {
+   "kind": "RollOver",
+   "number": "RO.2049.02.00002",
+   "job": "JC.2049.02.00001",
+   "date": "2049-02-25",
+   "description": "NL-JC49-RO2",
+   "accounts": [
+    {
+     "account": "600002",
+     "name": "NL-JC49 Biaya A",
+     "portion": 70
+    },
+    {
+     "account": "600003",
+     "name": "NL-JC49 Biaya B",
+     "portion": 30
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "JobOrderListReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pekerjaan Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Keterangan",
+     "Status",
+     "Total"
+    ],
+    [
+     "JC.2049.01.00001",
+     "10 Jan 2049",
+     "NL-T2 Pelanggan A",
+     "NL-JC49-JC1",
+     "Selesai",
+     "62.500"
+    ],
+    [
+     "JC.2049.02.00001",
+     "01 Feb 2049",
+     "NL-JC49-JC2",
+     "Selesai",
+     "25.000"
+    ],
+    [
+     "JC.2049.02.00002",
+     "05 Feb 2049",
+     "NL-JC49-JC3",
+     "Sedang diproses",
+     "7.500"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "MaterialAdjustmentListReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Penambahan Bahan Baku"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pekerjaan Pesanan",
+     "Tipe",
+     "Keterangan"
+    ],
+    [
+     "MA.2049.01.00001",
+     "15 Jan 2049",
+     "JC.2049.01.00001",
+     "Ambil Barang",
+     "NL-JC49-MA1"
+    ],
+    [
+     "MA.2049.01.00002",
+     "16 Jan 2049",
+     "JC.2049.01.00001",
+     "Retur Barang",
+     "NL-JC49-MA2"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "MaterialAdjustmentDetailReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penambahan Bahan Baku"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "MA.2049.01.00001",
+     "Tipe",
+     ":",
+     "Ambil Barang"
+    ],
+    [
+     "No Batch #",
+     ":",
+     "JC.2049.01.00001",
+     "Keterangan",
+     ":",
+     "NL-JC49-MA1"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2049"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-JC49-M1",
+     "NL-JC49 Bahan A",
+     "1",
+     "PCS"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "Rincian Penambahan Bahan Baku"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "MA.2049.01.00002",
+     "Tipe",
+     ":",
+     "Retur Barang"
+    ],
+    [
+     "No Batch #",
+     ":",
+     "JC.2049.01.00001",
+     "Keterangan",
+     ":",
+     "NL-JC49-MA2"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "16 Jan 2049"
+    ],
+    [
+     "Kode Barang",
+     "Nama Barang",
+     "Kuantitas",
+     "Satuan"
+    ],
+    [
+     "NL-JC49-M2",
+     "NL-JC49 Bahan B",
+     "1",
+     "PCS"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "RollOverListReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Penyelesaian Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pekerjaan Pesanan",
+     "Tipe Penyelesaian",
+     "Keterangan"
+    ],
+    [
+     "RO.2049.02.00001",
+     "20 Feb 2049",
+     "JC.2049.01.00001",
+     "Barang",
+     "NL-JC49-RO1"
+    ],
+    [
+     "RO.2049.02.00002",
+     "25 Feb 2049",
+     "JC.2049.02.00001",
+     "Akun",
+     "NL-JC49-RO2"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "RollOverItemDetailReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Barang Penyelesaian Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "RO.2049.02.00001",
+     "No Pekerjaan #",
+     ":",
+     "JC.2049.01.00001"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Feb 2049"
+    ],
+    [
+     "Nama Barang",
+     "Kode Barang Barang & Jasa",
+     "Porsi [%]",
+     "Alokasi Biaya"
+    ],
+    [
+     "NL-JC49 Barang Jadi A",
+     "NL-JC49-FG1",
+     "60",
+     "37.500"
+    ],
+    [
+     "NL-JC49 Barang Jadi B",
+     "NL-JC49-FG2",
+     "40",
+     "25.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "RollOverAccountDetailReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Akun Penyelesaian Pesanan"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "RO.2049.02.00002",
+     "No Pekerjaan #",
+     ":",
+     "JC.2049.02.00001"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "25 Feb 2049"
+    ],
+    [
+     "Nama Biaya",
+     "Kode Perkiraan Akun Perkiraan",
+     "Porsi [%]",
+     "Alokasi Biaya"
+    ],
+    [
+     "NL-JC49 Biaya A",
+     "600002",
+     "70 %",
+     "17.500"
+    ],
+    [
+     "NL-JC49 Biaya B",
+     "600003",
+     "30 %",
+     "7.500"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:02"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}

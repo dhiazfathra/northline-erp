@@ -276,12 +276,12 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
-| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [out of scope](MaterialAdjustmentDetailReport.md) |
-| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | [out of scope](RollOverItemDetailReport.md) |
-| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | [out of scope](RollOverAccountDetailReport.md) |
-| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [out of scope](JobOrderListReport.md) |
-| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [out of scope](RollOverListReport.md) |
-| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [out of scope](MaterialAdjustmentListReport.md) |
+| Rincian Penambahan Bahan Baku | `MaterialAdjustmentDetailReport` | report | FROMTO | selectedBranch= | [verified](MaterialAdjustmentDetailReport.md) |
+| Rincian Barang Penyelesaian Pesanan  | `RollOverItemDetailReport` | report | FROMTO | selectedBranch= | [verified](RollOverItemDetailReport.md) |
+| Rincian Akun Penyelesaian Pesanan  | `RollOverAccountDetailReport` | report | FROMTO | selectedBranch= | [verified](RollOverAccountDetailReport.md) |
+| Daftar Pekerjaan Pesanan  | `JobOrderListReport` | report | FROMTO | — | [verified](JobOrderListReport.md) |
+| Daftar Penyelesaian Pesanan | `RollOverListReport` | report | FROMTO | — | [verified](RollOverListReport.md) |
+| Daftar Penambahan Bahan Baku | `MaterialAdjustmentListReport` | report | FROMTO | — | [verified](MaterialAdjustmentListReport.md) |
 | Bahan dan Biaya Pekerjaan per Bulan | `JobCostingByMonthReport` | crosstab | FROMTO | selectedBranch=[Semua Cabang] | [verified](JobCostingByMonthReport.md) |
 | Histori Pekerjaan Pesanan | `JobCostingHistoryDetailReport` | report | FROMTO | selectedBranch=[Semua Cabang] | [verified](JobCostingHistoryDetailReport.md) |
 | Penyelesaian Barang/Biaya per Bulan | `FinishedJobCostByMonth` | crosstab | FROMTO | selectedBranch=[Semua Cabang] | [verified](FinishedJobCostByMonth.md) |

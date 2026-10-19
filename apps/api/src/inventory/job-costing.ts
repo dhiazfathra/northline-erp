@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { z } from 'zod'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
@@ -12,7 +12,7 @@ import { addMove, costingMethod, costOut, layers, loadMoves } from './fifo'
 const rp = (c: number) => (c / 100).toFixed(2)
 
 const jobInput = z.object({
-  idempotencyKey: z.string().min(8), number: z.string().optional(), date: z.string(), description: z.string().default(''), wipAccount: z.string(),
+  idempotencyKey: z.string().min(8), number: z.string().optional(), date: z.string(), description: z.string().default(''), wipAccount: z.string(), customer: z.string().optional(),
   materials: z.array(z.object({ item: z.string(), qty: z.number().positive() })).default([]),
   expenses: z.array(z.object({ account: z.string(), name: z.string(), amount: z.number().positive() })).default([]),
 }).refine(j => j.materials.length + j.expenses.length > 0, 'Pekerjaan pesanan butuh bahan atau biaya')
@@ -38,7 +38,7 @@ export async function createJobOrder(db: Db, raw: z.input<typeof jobInput>) {
       lines: [{ account: j.wipAccount, side: 'DEBIT' as const, amount: rp(total) },
         ...merge([...mats.map(m => ({ account: m.inv, amount: m.cost })), ...exps]).map(l => ({ account: l.account, side: 'CREDIT' as const, amount: rp(l.amount) }))],
     })
-    await tx.execute(sql`INSERT INTO job_orders VALUES (${number}, ${j.date}, ${j.description}, ${j.wipAccount}, ${total}, ${journalId})`)
+    await tx.execute(sql`INSERT INTO job_orders VALUES (${number}, ${j.date}, ${j.description}, ${j.wipAccount}, ${total}, ${journalId}, ${j.customer ?? null})`)
     let seq = 0
     for (const m of mats) {
       await tx.execute(sql`INSERT INTO job_order_lines VALUES (${number}, ${++seq}, ${m.item}, NULL, ${m.name}, ${m.qty}, ${m.cost})`)
@@ -53,8 +53,11 @@ export async function createJobOrder(db: Db, raw: z.input<typeof jobInput>) {
 
 const rollInput = z.object({
   idempotencyKey: z.string().min(8), number: z.string().optional(), job: z.string(), date: z.string(), description: z.string().default(''),
-  lines: z.array(z.object({ item: z.string(), qty: z.number().positive(), portion: z.number().positive().max(100) })).min(1),
-}).refine(r => Math.abs(r.lines.reduce((s, l) => s + l.portion, 0) - 100) < 1e-9, 'Alokasi harus berjumlah 100%')
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive(), portion: z.number().positive().max(100) })).default([]),
+  // rollOverType ACCOUNT: the job total goes to accounts (not the job's own expense accounts) instead of finished items
+  accounts: z.array(z.object({ account: z.string(), name: z.string(), portion: z.number().positive().max(100) })).default([]),
+}).refine(r => (r.lines.length > 0) !== (r.accounts.length > 0), 'Penyelesaian ke barang atau ke akun')
+  .refine(r => Math.abs([...r.lines, ...r.accounts].reduce((s, l) => s + l.portion, 0) - 100) < 1e-9, 'Alokasi harus berjumlah 100%')
 
 export async function createRollOver(db: Db, raw: z.input<typeof rollInput>) {
   const r = rollInput.parse(raw)
@@ -65,29 +68,96 @@ export async function createRollOver(db: Db, raw: z.input<typeof rollInput>) {
     if (!job) throw new DomainError(`Pekerjaan pesanan ${r.job} tidak ditemukan`)
     if (job.ro) throw new DomainError(`Pekerjaan pesanan ${r.job} sudah selesai (${job.ro})`)
     if (r.date < (job.date as string)) throw new DomainError('Tanggal penyelesaian sebelum tanggal pekerjaan')
-    const total = Number(job.total)
-    const outs: { item: string; qty: number; portion: number; amount: number; inv: string }[] = []
-    for (const [i, l] of r.lines.entries()) {
-      const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
-      if (!it) throw new DomainError(`Barang persediaan ${l.item} tidak ditemukan`)
+    const total = await jobTotal(tx, r.job, Number(job.total))
+    const outs: { item: string | null; account: string | null; name: string | null; qty: number; portion: number; amount: number; dr: string }[] = []
+    const targets = r.lines.length ? r.lines.map(l => ({ ...l, account: null as string | null, name: null as string | null }))
+      : r.accounts.map(a => ({ item: null as string | null, qty: 1, ...a }))
+    for (const [i, l] of targets.entries()) {
+      let dr: string
+      if (l.item) {
+        const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
+        if (!it) throw new DomainError(`Barang persediaan ${l.item} tidak ditemukan`)
+        dr = it.inventory_account as string
+      } else {
+        const [own] = await tx.execute(sql`SELECT a.name FROM job_order_lines l JOIN accounts a ON a.no = l.account_no WHERE l.job_number = ${r.job} AND l.account_no = ${l.account}`)
+        if (own) throw new DomainError(`Penyelesaian ke Akun "${own.name}" tidak benar. Akun ini merupakan akun rincian biaya pada pekerjaan pesanan`)
+        dr = l.account!
+      }
       // the last line takes the rounding remainder so WIP clears exactly
-      const amount = i === r.lines.length - 1 ? total - outs.reduce((s, o) => s + o.amount, 0) : Math.round(total * l.portion / 100)
-      outs.push({ ...l, amount, inv: it.inventory_account as string })
+      const amount = i === targets.length - 1 ? total - outs.reduce((s, o) => s + o.amount, 0) : Math.round(total * l.portion / 100)
+      outs.push({ item: l.item, account: l.account, name: l.name, qty: l.qty, portion: l.portion, amount, dr })
     }
     const number = r.number ?? await nextNumber(tx, `RO.${period(r.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
       type: 'PostJournal', idempotencyKey: `${r.idempotencyKey}:journal`, journalId, number, sourceType: 'RO', date: r.date, description: r.description,
-      lines: [...merge(outs.map(o => ({ account: o.inv, amount: o.amount }))).map(l => ({ account: l.account, side: 'DEBIT' as const, amount: rp(l.amount) })),
+      lines: [...merge(outs.map(o => ({ account: o.dr, amount: o.amount }))).map(l => ({ account: l.account, side: 'DEBIT' as const, amount: rp(l.amount) })),
         { account: job.wip_account as string, side: 'CREDIT' as const, amount: rp(total) }],
     })
-    await tx.execute(sql`INSERT INTO roll_overs VALUES (${number}, ${r.job}, ${r.date}, ${r.description}, ${journalId})`)
+    await tx.execute(sql`INSERT INTO roll_overs VALUES (${number}, ${r.job}, ${r.date}, ${r.description}, ${journalId}, ${r.lines.length ? 'ITEM' : 'ACCOUNT'})`)
     for (const [i, o] of outs.entries()) {
-      await tx.execute(sql`INSERT INTO roll_over_lines VALUES (${number}, ${i + 1}, ${o.item}, ${o.qty}, ${o.portion}, ${o.amount})`)
-      await addMove(tx, { item: o.item, date: r.date, docType: 'RO', docNumber: number, description: r.description, quantity: o.qty, value: o.amount })
+      await tx.execute(sql`INSERT INTO roll_over_lines VALUES (${number}, ${i + 1}, ${o.item}, ${o.qty}, ${o.portion}, ${o.amount}, ${o.account}, ${o.name})`)
+      if (o.item) await addMove(tx, { item: o.item, date: r.date, docType: 'RO', docNumber: number, description: r.description, quantity: o.qty, value: o.amount })
     }
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${r.idempotencyKey}, 'CreateRollOver', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+/** Job total with its Penambahan Bahan Baku: picks add their cost, returns take theirs back. */
+async function jobTotal(tx: Tx, job: string, base: number) {
+  const [a] = await tx.execute(sql`SELECT COALESCE(SUM(CASE m.type WHEN 'ITEM_PICK' THEN l.amount ELSE -l.amount END), 0) AS adj
+    FROM material_adjustments m JOIN material_adjustment_lines l ON l.adjustment_number = m.number WHERE m.job_number = ${job}`)
+  return base + Number(a!.adj)
+}
+
+const adjInput = z.object({
+  idempotencyKey: z.string().min(8), number: z.string().optional(), job: z.string(), type: z.enum(['ITEM_PICK', 'ITEM_RETURN']), date: z.string(), description: z.string().default(''),
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive() })).min(1),
+})
+
+/** Penambahan Bahan Baku (MA): Ambil Barang issues more material into an open job at FIFO cost (Dr WIP / Cr inventory);
+ * Retur Barang takes material back at the job's average issued unit cost of that item (Dr inventory / Cr WIP). */
+export async function createMaterialAdjustment(db: Db, raw: z.input<typeof adjInput>) {
+  const a = adjInput.parse(raw)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const [job] = await tx.execute(sql`SELECT j.wip_account, to_char(j.date,'YYYY-MM-DD') AS date, ro.number AS ro FROM job_orders j LEFT JOIN roll_overs ro ON ro.job_number = j.number WHERE j.number = ${a.job}`)
+    if (!job) throw new DomainError(`Pekerjaan pesanan ${a.job} tidak ditemukan`)
+    if (job.ro) throw new DomainError(`Pekerjaan pesanan ${a.job} sudah selesai (${job.ro})`)
+    if (a.date < (job.date as string)) throw new DomainError('Tanggal penambahan sebelum tanggal pekerjaan')
+    const pick = a.type === 'ITEM_PICK', number = a.number ?? await nextNumber(tx, `MA.${period(a.date)}`)
+    const lines: { item: string; qty: number; cost: number; exact: number; inv: string }[] = []
+    for (const l of a.lines) {
+      const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
+      if (!it) throw new DomainError(`Barang persediaan ${l.item} tidak ditemukan`)
+      let exact: number
+      if (pick) { const cm = await costingMethod(tx); exact = costOut(layers(await loadMoves(tx, l.item, a.date), cm), l.qty, cm) } else {
+        const [u] = await tx.execute(sql`SELECT SUM(q) AS q, SUM(v) AS v FROM (
+            SELECT quantity AS q, amount AS v FROM job_order_lines WHERE job_number = ${a.job} AND item_no = ${l.item}
+            UNION ALL SELECT CASE m.type WHEN 'ITEM_PICK' THEN l.quantity ELSE -l.quantity END, CASE m.type WHEN 'ITEM_PICK' THEN l.amount ELSE -l.amount END
+            FROM material_adjustments m JOIN material_adjustment_lines l ON l.adjustment_number = m.number WHERE m.job_number = ${a.job} AND l.item_no = ${l.item}) x`)
+        if (!(Number(u?.q) >= l.qty)) throw new DomainError(`Barang ${l.item} tidak dipakai sebanyak itu di pekerjaan ${a.job}`)
+        exact = l.qty * Number(u!.v) / Number(u!.q)
+      }
+      lines.push({ item: l.item, qty: l.qty, cost: Math.round(exact), exact, inv: it.inventory_account as string })
+    }
+    const total = lines.reduce((s, l) => s + l.cost, 0), journalId = crypto.randomUUID()
+    const inv = merge(lines.map(l => ({ account: l.inv, amount: l.cost }))).map(l => ({ account: l.account, side: (pick ? 'CREDIT' : 'DEBIT') as 'CREDIT' | 'DEBIT', amount: rp(l.amount) }))
+    const wip = { account: job.wip_account as string, side: (pick ? 'DEBIT' : 'CREDIT') as 'CREDIT' | 'DEBIT', amount: rp(total) }
+    await handleTx(tx, {
+      type: 'PostJournal', idempotencyKey: `${a.idempotencyKey}:journal`, journalId, number, sourceType: 'MA', date: a.date, description: a.description,
+      lines: pick ? [wip, ...inv] : [...inv, wip],
+    })
+    await tx.execute(sql`INSERT INTO material_adjustments VALUES (${number}, ${a.job}, ${a.type}, ${a.date}, ${a.description}, ${journalId})`)
+    for (const [i, l] of lines.entries()) {
+      await tx.execute(sql`INSERT INTO material_adjustment_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${l.cost})`)
+      await addMove(tx, { item: l.item, date: a.date, docType: 'MA', docNumber: number, description: a.description, quantity: pick ? -l.qty : l.qty, value: pick ? -l.exact : l.exact })
+    }
+    const result = { number }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${a.idempotencyKey}, 'CreateMaterialAdjustment', ${JSON.stringify(result)}::jsonb)`)
     return result
   })
 }

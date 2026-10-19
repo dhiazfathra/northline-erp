@@ -6,7 +6,7 @@ type PostCmd = {
     type: 'Post';
     journalId: string;
     number?: string;
-    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP' | 'JC' | 'RO' | 'MEQ' | 'FPC';
+    sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP' | 'JC' | 'RO' | 'MA' | 'MEQ' | 'FPC';
     branch?: string;
     date: string;
     description: string;
