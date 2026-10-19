@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline FDE Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --page:#fbfbfc; --ink:#0f1222; --body:#3b4152; --muted:#8a90a0; --line:#e7e8ee; --soft:#f6f7f9;
+  --green:#15803d; --green-bg:#f1fbf5; --green-line:#c9eed6;
+  --blue:#1d4ed8; --blue-bg:#f3f6ff; --indigo:#5b5bf0; --violet:#7c3aed; --violet-bg:#faf8ff;
+  --orange:#ea580c; --quote-bg:#fdfbf6; --quote-line:#f6d8a8;
+  --red:#e11d48; --red-bg:#fff8f8; --red-line:#fbd5dc; --amber-bg:#fffaf0; --amber-line:#f5dfb0;
+  --serif:"Instrument Serif",Georgia,serif; --sans:"Nunito Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}}
+:root[data-theme="dark"]{
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--body);font:16px/1.65 var(--sans)}
+a{color:var(--blue);text-decoration:none;font-weight:700}
+a:hover{text-decoration:underline}
+h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-.01em;margin:0}
+.eyebrow{font:800 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.eyebrow.green{color:var(--green)} .eyebrow.blue{color:var(--blue)} .eyebrow.violet{color:var(--violet)}
+.eyebrow.orange{color:var(--orange)} .eyebrow.red{color:var(--red)} .eyebrow.indigo{color:var(--indigo)}
+.mono{font-family:var(--mono)}
+.badge{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--bg);white-space:nowrap}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:28px}
+.more{display:inline-flex;gap:6px;align-items:center;margin-top:14px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1220px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+.crumb{color:var(--muted);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.pill{background:var(--indigo);color:#fff;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;white-space:nowrap}
+.theme{border:1px solid var(--line);background:var(--bg);color:var(--body);border-radius:10px;padding:6px 10px;cursor:pointer;font:600 13px var(--sans)}
+
+.wrap{max-width:1220px;margin:0 auto;padding:24px 16px 80px}
+
+/* hero */
+.hero{background:var(--bg);border:1px solid var(--line);border-radius:28px;padding:36px 36px 22px}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.02em;max-width:30ch}
+.mock .cap{margin-top:auto}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;color:var(--muted);font-size:17px;margin:14px 0 26px}
+.meta .dot{opacity:.5}
+.heat{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+.heat i{display:block;width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--orange) 0 62%,var(--line) 62%)}
+.hgrid{display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.hgrid>*,.h3col>*,.layout>*,.two>*,.players>*,.agents>*,.demands>*{min-width:0}
+.mock{grid-row:span 2;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.tile{border:1px solid var(--line);border-radius:18px;padding:22px}
+.tile.reality{background:var(--green-bg)} .tile.against{background:var(--amber-bg)}
+.big{font-family:var(--serif);font-size:54px;line-height:1;color:var(--ink);margin:6px 0 14px}
+.tile p{margin:0;font-size:15px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0}
+.kv span{font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kv b{font:700 18px var(--mono);color:var(--ink);text-align:right}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:12px 14px;align-items:center;font-size:15px}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--indigo);border-radius:6px}
+.bars .n{font:700 13px var(--mono);color:var(--ink)}
+.against h3{font-size:34px;margin:4px 0 8px}
+
+/* mock document */
+.doc{background:#fffdf8;color:#1d2433;border:1px solid #e8e2d4;border-radius:6px;padding:14px 16px;font:11px/1.4 var(--mono);box-shadow:0 8px 24px -16px rgba(0,0,0,.4)}
+.doc .dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1.5px solid #1d2433;padding-bottom:8px;margin-bottom:10px}
+.doc .logo{font:800 15px var(--sans);letter-spacing:.04em}
+.doc .logo small{display:block;font:600 8px var(--sans);letter-spacing:.14em;color:#6b7280}
+.doc .stamp{border:1.5px solid #15803d;color:#15803d;border-radius:4px;padding:3px 6px;font-weight:700;transform:rotate(-4deg);font-size:10px;text-align:center}
+.doc .sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.doc .sum div{background:#f4f1e8;border-radius:4px;padding:6px 8px}
+.doc .sum b{display:block;font:400 22px var(--serif);color:#0f1222}
+.doc table{width:100%;border-collapse:collapse}
+.doc th{text-align:left;font-size:9px;letter-spacing:.08em;color:#6b7280;border-bottom:1px solid #d9d3c4;padding:4px 4px}
+.doc td{padding:4px;border-bottom:1px dashed #e5dfd0;white-space:nowrap}
+.doc td.r,.doc th.r{text-align:right}
+.doc .ok{color:#15803d;font-weight:700}
+.doc .foot{display:flex;justify-content:space-between;color:#6b7280;font-size:9px;margin-top:8px}
+.mock .cap{font:800 12px var(--sans);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+.h3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;margin-top:34px}
+.h3col p{margin:0 0 18px;font-size:16px}
+.h3col .eyebrow{color:var(--ink);font-size:12px}
+.glance .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.glance .row b{color:var(--ink);text-align:right}
+.green-t{color:var(--green);font-weight:800}
+.hfoot{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);margin-top:10px;padding-top:18px;flex-wrap:wrap}
+.thumbs{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.thumbs button{background:var(--bg);border:0;padding:8px 12px;cursor:pointer;font-size:16px;color:var(--body)}
+.thumbs button+button{border-left:1px solid var(--line)}
+.thumbs button[aria-pressed="true"]{background:var(--blue-bg)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 18px;font-weight:800}
+.btn:hover{text-decoration:none;opacity:.92}
+
+/* body layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:48px;margin-top:56px}
+.aside{position:sticky;top:76px;align-self:start;display:flex;flex-direction:column;gap:18px}
+section{margin-bottom:64px}
+section > h2{font-size:clamp(32px,4vw,46px);line-height:1.05;margin-bottom:18px}
+section > p{font-size:17px;margin:0 0 16px;max-width:70ch}
+.sources{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:14px;margin:8px 0 6px}
+.sources a{color:var(--body);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.sources .eyebrow{margin:0}
+
+.quote{background:var(--quote-bg);border-left:3px solid var(--quote-line);border-radius:0 12px 12px 0;padding:16px 20px;margin:12px 0}
+.quote p{font-family:var(--serif);font-size:22px;line-height:1.3;color:var(--ink);margin:0}
+.quote small{display:block;color:var(--muted);margin-top:8px;font-size:14px}
+.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.cardhead .eyebrow{margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.serif-lg{font-family:var(--serif);font-size:24px;line-height:1.3;color:var(--ink);margin:10px 0 0}
+.wedge{background:var(--violet-bg)}
+.note{background:var(--soft);border:1px dashed var(--line);border-radius:12px;padding:12px 16px;font-size:14px;margin-top:14px}
+
+ul.dots{list-style:none;padding:0;margin:8px 0 0}
+ul.dots li{position:relative;padding-left:26px;margin:0 0 16px;font-size:16.5px}
+ul.dots li::before{content:"";position:absolute;left:4px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+ul.dots.g li::before{background:var(--green)} ul.dots.r li::before{background:var(--red)}
+ul.dots .src{display:block;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+.players{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.player{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--soft)}
+.player b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+.player p{margin:0;font-size:14.5px}
+
+.build{background:var(--green-bg);border-color:var(--green-line)}
+.nobuild{background:var(--red-bg);border-color:var(--red-line);margin-top:16px}
+
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;margin:6px 0 22px;font-size:16.5px}
+.fit div{display:flex;gap:10px;align-items:baseline}
+.fit .y{color:var(--green);font-weight:800} .fit .x{color:var(--muted)}
+.demands{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin:22px 0}
+
+.gate{background:linear-gradient(120deg,var(--blue-bg),var(--bg) 60%);border:1px solid var(--line);border-radius:22px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+.gate .ico{width:84px;height:104px;border-radius:10px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:400 40px var(--serif);transform:rotate(-3deg)}
+.gate h3{font-size:30px;line-height:1.1;margin-bottom:6px}
+.gate ol{margin:8px 0 0;padding-left:20px}
+.gate li{margin-bottom:8px}
+
+.ladder{list-style:none;padding:0;margin:26px 0 0}
+.ladder li{display:grid;grid-template-columns:44px 1fr;gap:16px;margin-bottom:26px}
+.ladder .num{width:40px;height:40px;border-radius:50%;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font:800 18px var(--sans)}
+.ladder .tier{font:600 14px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ladder b{color:var(--ink);font-size:20px;font-weight:700}
+.ladder .price{color:var(--muted);font-size:15px}
+.ladder p{margin:4px 0 0}
+
+.tl{position:relative;margin-top:8px}
+.tl .step{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.tl .when{font:700 13px var(--mono);color:var(--ink)}
+.tl .when small{display:block;font:600 12px var(--sans);color:var(--muted);margin-top:2px}
+.tl h4{margin:0 0 4px;color:var(--ink);font-size:16.5px}
+.tl p{margin:0;font-size:15px}
+.tl .exit{display:inline-block;margin-top:8px;font-size:13.5px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.tl .step.key .when{color:var(--green)}
+.tl .step.key .exit{background:var(--green-bg);border-color:var(--green-line);color:var(--green);font-weight:700}
+
+.napkin .ln{display:flex;align-items:baseline;gap:10px;font:15px var(--mono);padding:9px 0;color:var(--ink)}
+.napkin .ln::after{content:none}
+.napkin .ln .fill{flex:1;border-bottom:1px dotted var(--muted);opacity:.5;transform:translateY(-4px);min-width:20px}
+.napkin .ln b{white-space:nowrap}
+.napkin .lbl{min-width:0}
+.ceiling{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--green-bg);border-radius:14px;padding:20px 24px;margin-top:18px;flex-wrap:wrap}
+.ceiling .eyebrow{margin:0;color:var(--green)}
+.ceiling b{font:700 28px var(--mono);color:var(--green)}
+
+.start{background:linear-gradient(135deg,var(--blue-bg),var(--bg));border-color:color-mix(in srgb,var(--blue) 30%,var(--line))}
+.tag{display:inline-block;font:800 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blue);border:1px solid color-mix(in srgb,var(--blue) 35%,var(--line));border-radius:999px;padding:6px 12px}
+.agents{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.agent{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg)}
+.agent h4{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--ink);margin:0 0 4px}
+.agent p{margin:0 0 10px;font-size:14.5px}
+.prompt{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px;font:13px/1.5 var(--mono);color:var(--body)}
+.copy{float:right;margin:-2px -2px 4px 8px;border:1px solid var(--line);background:var(--bg);color:var(--blue);border-radius:8px;font:700 12px var(--sans);padding:4px 8px;cursor:pointer}
+
+/* aside */
+.brief{background:linear-gradient(180deg,var(--red-bg),var(--bg));border:1px solid var(--red-line);border-radius:22px;padding:22px;text-align:center}
+.brief .status{font:800 11px var(--sans);letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+.brief .status::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px}
+.brief h3{font-size:30px;line-height:1.08;margin:12px 0 14px}
+.brief h3 em{color:var(--blue)}
+.brief .try{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;min-height:120px}
+.brief .try .eyebrow{color:var(--blue);font-size:11px;margin:0 0 8px;display:flex;justify-content:space-between}
+.brief .try p{margin:0;font:13.5px/1.5 var(--mono)}
+.dotsnav{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.dotsnav button{width:8px;height:8px;border-radius:8px;border:0;background:var(--line);padding:0;cursor:pointer}
+.dotsnav button[aria-current="true"]{width:22px;background:var(--muted)}
+.lanes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lanes span{border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:13px;background:var(--bg);font-weight:600}
+.poll{background:var(--green-bg);border:1px solid var(--green-line);border-radius:22px;padding:22px}
+.poll h3{font-size:24px;margin-bottom:12px}
+.poll button{display:flex;width:100%;gap:10px;align-items:center;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;color:var(--ink);font:600 15px var(--sans);text-align:left}
+.poll button[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 25%,transparent)}
+.poll small{color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+
+
+/* v2 additions reused: chips, terms, layers */
+.cat{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.cat>*,.layers>*,.terms>*{min-width:0}
+.cat .group{border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:var(--bg)}
+.cat .group b{display:block;color:var(--ink);font-size:16px;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:600 13px var(--sans);border-radius:999px;padding:4px 10px;border:1px solid var(--line);background:var(--soft);color:var(--body)}
+.chip.ok{background:var(--green-bg);border-color:var(--green-line);color:var(--green)}
+.chip.part{background:var(--amber-bg);border-color:var(--amber-line);color:var(--orange)}
+.chip.no{background:var(--red-bg);border-color:var(--red-line);color:var(--red);text-decoration:line-through}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13.5px;color:var(--muted);margin-top:10px}
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.layer{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg)}
+.layer .n{font:400 40px var(--serif);color:var(--indigo);line-height:1}
+.layer h4{margin:6px 0 6px;color:var(--ink);font-size:17px}
+.layer p{margin:0 0 10px;font-size:14.5px}
+.layer .st{display:inline-block;font:800 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;border-radius:8px;padding:4px 8px}
+.st.ok{background:var(--green-bg);color:var(--green)} .st.part{background:var(--amber-bg);color:var(--orange)}
+.terms{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.term{border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.term.co{background:var(--violet-bg);border-color:color-mix(in srgb,var(--violet) 30%,var(--line))}
+.term h4{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--ink);margin:0 0 2px}
+.term .px{font:700 15px var(--mono);color:var(--ink);margin:0 0 10px}
+.term ul{margin:0;padding-left:18px;font-size:14.5px}
+.term li{margin-bottom:6px}
+.doc .co{color:#7c3aed;font-weight:700}
+.doc td.strike{color:#9ca3af;text-decoration:line-through}
+
+/* v3 additions: plain data tables */
+.tblw{overflow-x:auto;margin-top:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl th{text-align:left;font:800 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 6px}
+.tbl td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl .r{text-align:right;white-space:nowrap}
+.tbl .y{color:var(--green);font-weight:700} .tbl .k{color:var(--muted)}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:1fr}
+  .aside{position:static;order:2}
+  .hgrid{grid-template-columns:1fr 1fr}
+  .mock{grid-column:1/-1;grid-row:auto}
+  .layers{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .hero{padding:24px 18px 18px;border-radius:22px}
+  .hgrid,.h3col,.two,.players,.fit,.demands,.agents,.cat,.terms{grid-template-columns:1fr}
+  .h3col{gap:8px}
+  .tl .step{grid-template-columns:1fr;gap:6px}
+  .gate{grid-template-columns:1fr}
+  .gate .ico{display:none}
+  .card{padding:20px}
+  .doc{overflow-x:auto}
+  .doc .dh{flex-wrap:wrap}
+  .meta{font-size:15px}
+  .napkin .ln{font-size:13px;flex-wrap:wrap}
+  .napkin .ln .fill{display:none}
+  .napkin .ln b{margin-left:auto}
+  .heat{margin-left:0}
+  .pill{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="crumb">Ideas &nbsp;›&nbsp; <b>Northline Forward</b></span>
+    <span class="sp"></span>
+    <button class="theme" id="theme" type="button" aria-label="Toggle colour theme">◐ Theme</button>
+    <span class="pill">Day 0 · 19 Oct 2026</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<article class="hero">
+  <p class="eyebrow green">Founder brief · Northline · v3 forward deployed engineer</p>
+  <h1>A self-employed forward deployed engineer who moves executor work to AI agents, and is paid from the hours, SaaS bills and revenue that change</h1>
+  <div class="meta">
+    <span>◎ Northline Index 7.2</span><span class="dot">·</span><span>Embedded AI services</span><span class="dot">·</span><span>B2B Indonesia, 100–2,000 staff</span><span class="dot">·</span><span>US$3–6M revenue ceiling</span>
+    <span class="heat" title="Founder readiness: delivery skill proven, consent and daytime presence not yet">readiness <i style="background:linear-gradient(90deg,var(--orange) 0 60%,var(--line) 60%)"></i></span>
+  </div>
+
+  <div class="hgrid">
+    <figure class="mock" style="margin:0">
+      <div class="doc" role="img" aria-label="Concept mockup of a monthly value ledger: executor hours removed, three SaaS subscriptions replaced at half price, and revenue added from a WhatsApp lead agent">
+        <div class="dh">
+          <div class="logo">◤ NORTHLINE<small>VALUE LEDGER · BULAN 3</small></div>
+          <div style="font-size:10px;color:#6b7280">KLIEN<br><b style="color:#1d2433">PT Contoh Distribusi Nusantara</b></div>
+          <div style="font-size:10px;color:#6b7280">SKALA<br><b style="color:#1d2433">300 staf</b></div>
+          <div class="stamp">TERVERIFIKASI<br>CFO</div>
+        </div>
+        <div class="sum">
+          <div>HEMAT / BLN<b>82,3</b></div>
+          <div>OMZET +<b style="color:#15803d">42</b></div>
+          <div>JAM −<b>345</b></div>
+        </div>
+        <table>
+          <thead><tr><th>ALUR / LANGGANAN</th><th class="r">SEBELUM</th><th class="r">SESUDAH</th><th class="r">NILAI</th></tr></thead>
+          <tbody>
+            <tr><td>Invoice supplier → draf (agen)</td><td class="r">280 jam</td><td class="r">40 jam</td><td class="r ok">14,4</td></tr>
+            <tr><td>Rekonsiliasi bank harian</td><td class="r">120 jam</td><td class="r">15 jam</td><td class="r ok">6,3</td></tr>
+            <tr><td>HubSpot Sales Pro · 40 seat</td><td class="r">64,8</td><td class="r">32,4</td><td class="r ok">32,4</td></tr>
+            <tr><td>Zendesk Suite Pro · 15 agen</td><td class="r">31,1</td><td class="r">15,5</td><td class="r ok">15,5</td></tr>
+            <tr><td>monday.com Pro · 80 seat</td><td class="r">27,4</td><td class="r">13,7</td><td class="r ok">13,7</td></tr>
+            <tr><td>Lead WA dijawab &lt; 1 mnt, 24 jam</td><td class="r">besok pagi</td><td class="r">&lt; 1 mnt</td><td class="r ok">+42 GP</td></tr>
+            <tr><td>Google Workspace · Talenta</td><td class="r">tetap</td><td class="r">tetap</td><td class="r">—</td></tr>
+          </tbody>
+        </table>
+        <div class="foot"><span>Rp juta / bulan · jam × Rp 60rb (asumsi)</span><span>Omzet vs grup holdout</span></div>
+      </div>
+      <figcaption class="cap">Concept mockup · fictional client · list prices at Rp 18,000/US$</figcaption>
+    </figure>
+
+    <div class="tile">
+      <p class="eyebrow">AI-native build speed</p>
+      <div class="big">170 / 48h</div>
+      <p>AI-authored commits on 18–19 Oct 2026 in this repo. The same speed builds a client's internal tool in days.</p>
+    </div>
+    <div class="tile">
+      <p class="eyebrow">What it demands</p>
+      <div class="bars">
+        <span>Sales</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Trust</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Delivery</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Domain depth</span><span class="bar"><i style="width:70%"></i></span><span class="n">7</span>
+        <span>Build</span><span class="bar"><i style="width:40%"></i></span><span class="n">4</span>
+        <span>Capital</span><span class="bar"><i style="width:20%"></i></span><span class="n">2</span>
+      </div>
+    </div>
+    <div class="tile reality">
+      <p class="eyebrow">The reality</p>
+      <div class="kv"><span>First revenue</span><b>30–60 days</b></div>
+      <div class="kv"><span>First sprint</span><b>~3.5 months</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 15–50M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Hard</b></div>
+    </div>
+    <div class="tile against">
+      <p class="eyebrow">Up against</p>
+      <h3>Local AI agencies ↗</h3>
+      <p>Rp 15–40M for "an AI agent", Rp 40–120M for a custom app. They sell builds; nobody sells the Rupiah that move, with a guarantee.</p>
+      <p style="margin-top:14px;color:var(--muted);font-weight:700">+ 7 more mapped</p>
+    </div>
+  </div>
+
+  <div class="h3col">
+    <div>
+      <p class="eyebrow">The pitch</p>
+      <p>A distributor with 300 staff has 14 admins keying supplier invoices, a sales team that answers WhatsApp leads the next morning, and SaaS bills for tools most seats barely open. You measure it free in five days, then come back with a one-page offer in Rupiah. Six weeks later, invoices arrive as drafts for approval, leads get an answer in under a minute at 11pm, and <b>SaaS renewals are cancelled because a tailor-made internal tool does the job with agents inside</b>. The CFO sees the saving on next month's bills.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Who it's for</p>
+      <p>Indonesian companies with 100–2,000 staff and lots of executor work: distribution, manufacturing back offices, logistics, property, professional services, multi-outlet retail and F&amp;B. The buyer is an owner, CEO, COO or CFO with a mandate to "do something with AI" and nobody to do it.</p>
+      <p class="eyebrow">The gap</p>
+      <p>Consultancies stop at the deck, agencies at one chatbot, courses at the owner's laptop. Nobody embeds an engineer who ships agents on the company's own data and reports the Rupiah.</p>
+      <p class="eyebrow">Why now</p>
+      <p>One engineer with agents is now a team, and companies have the mandate but not the people.</p>
+    </div>
+    <div class="glance">
+      <p class="eyebrow">At a glance</p>
+      <div class="row"><span>Sprint</span><b>Rp 75–180M</b></div>
+      <div class="row"><span>Retainer</span><b>Rp 20–60M / mo</b></div>
+      <div class="row"><span>SaaS swap</span><b>50% of the bill</b></div>
+      <div class="row"><span>Year one</span><b>~Rp 830M collected</b></div>
+      <p class="eyebrow" style="margin-top:20px">What you sell</p>
+      <p>Northline Forward <span class="green-t">an embedded engineer, fixed-price sprints, a retainer, SaaS replacement at half the bill</span></p>
+      <p class="eyebrow">Biggest risk</p>
+      <p>Your employer pays you to lead exactly this kind of transformation, so consent must draw a clean line. Second, "forward deployed" means sitting with executors in working hours.</p>
+    </div>
+  </div>
+
+  <div class="hfoot">
+    <span>Interested?</span>
+    <span class="thumbs" role="group" aria-label="Interested?">
+      <button type="button" data-vote="up" aria-pressed="false" aria-label="Yes">👍</button><button type="button" data-vote="down" aria-pressed="false" aria-label="No">👎</button>
+    </span>
+    <span class="sp" style="flex:1"></span>
+    <a href="northline-fde-brief.md">Markdown version</a>
+    <a href="video-notes.md">Video notes</a>
+    <a href="../v2-enterprise-custom/northline-enterprise-brief.html">v2: enterprise ERP</a>
+    <a class="btn" href="#plan">See the timeline →</a>
+  </div>
+</article>
+
+<div class="layout">
+<div>
+
+<!-- ============ WHY NOW ============ -->
+<section id="why">
+  <p class="eyebrow">Why now</p>
+  <h2>One engineer with agents is a team, and companies have the mandate but not the people</h2>
+  <p>The mandate exists, and most companies are stuck at the basics. Raymond Chin, after hosting ~80 "AI one person company" founders, describes Indonesian owners and big firms that already have a mandate to implement AI but don't know how. In AWS's 2025 study, 28% of Indonesian businesses used AI, but 76% of those only for basic efficiency, and 57% named missing digital skills as the main barrier. The 2026 edition puts adoption at 40%. In Microsoft's 2024 survey, 92% of Indonesian knowledge workers already used generative AI while 48% of leaders worried their company had no plan.</p>
+  <p>Indonesian buyers pay for services more readily than for software, by Chin's account. An FDE sells the service and uses software as the delivery vehicle. And one engineer with agents is now a team: this repo shows 170 AI-authored commits in two days, which is the same speed that makes replacing a SaaS subscription cheaper than renewing it.</p>
+  <p>The FDE model is how the AI labs deploy. Palantir invented it ("one customer, many capabilities"). Anthropic hires FDEs at US$200–300K with 25–50% travel to customer sites, and OpenAI launched a deployment company in May 2026. a16z calls it trading margin for moat. On 3 June 2026 Anthropic wrote that "a successful pilot is not the same as a system a business can run on", and committed US$100M to services partners. None of them serve Indonesian mid-market companies.</p>
+  <div class="sources"><span class="eyebrow">Sources</span>
+    <a href="https://youtu.be/8Lz530r09WU" target="_blank" rel="noopener">Raymond Chin ↗</a>
+    <a href="https://press.aboutamazon.com/sg/aws/2025/8/new-aws-research-shows-strong-ai-adoption-momentum-in-indonesia" target="_blank" rel="noopener">AWS 2025 ↗</a>
+    <a href="https://tekno.kompas.com/read/2026/08/07/13310077/adopsi-ai-di-indonesia-tembus-40-persen-aws-ungkap-banyak-perusahaan-belum-siap" target="_blank" rel="noopener">Kompas 2026 ↗</a>
+    <a href="https://news.microsoft.com/id-id/2024/06/11/microsoft-and-linkedin-release-the-2024-work-trend-index-on-the-state-of-ai-at-work-in-indonesia/" target="_blank" rel="noopener">Microsoft WTI ↗</a>
+    <a href="https://jobs.accel.com/companies/anthropic/jobs/62104998-forward-deployed-engineer-applied-ai" target="_blank" rel="noopener">Anthropic FDE ↗</a>
+    <a href="https://thenewstack.io/forward-deployed-engineer-fde-openai-google/" target="_blank" rel="noopener">The New Stack ↗</a>
+    <a href="https://a16z.com/services-led-growth/" target="_blank" rel="noopener">a16z ↗</a>
+    <a href="https://www.anthropic.com/news/services-track-partner-hub" target="_blank" rel="noopener">Anthropic partners ↗</a>
+  </div>
+</section>
+
+<!-- ============ VALUE LINES ============ -->
+<section id="value">
+  <p class="eyebrow indigo">What the client buys</p>
+  <h2>Three value lines, reported monthly in Rupiah.</h2>
+  <p>Every engagement runs on a value ledger the CFO can check against payroll, bank statements and sales data.</p>
+  <div class="layers">
+    <div class="layer"><div class="n">1</div><h4>Executor hours removed</h4><p>Agents draft, check and route the work: invoice intake, reconciliation, reports, data entry, follow-ups. People approve the exceptions. Measured from screen recordings before and agent volume after.</p><span class="st ok">Felt in weeks 4–8</span></div>
+    <div class="layer"><div class="n">2</div><h4>SaaS bills cancelled</h4><p>A tailor-made, AI-native internal tool replaces a seat-priced subscription. Measured by the cancelled invoice.</p><span class="st ok">Felt at the next renewal</span></div>
+    <div class="layer"><div class="n">3</div><h4>Revenue added</h4><p>Leads answered in under a minute around the clock, faster quotes, dormant customers reactivated, overdue invoices chased. Measured against a 4-week baseline and a holdout group.</p><span class="st part">Felt in months 2–4</span></div>
+  </div>
+  <div class="note">Removing executor work is sensitive in Indonesia. Every proposal says "absorb growth without hiring and move people to higher-value work", not layoffs. That is also the honest maths: hours are only cash when headcount growth stops or roles move, and the ledger says which.</div>
+</section>
+
+<!-- ============ SAAS ============ -->
+<section id="saas">
+  <p class="eyebrow">SaaS replacement</p>
+  <h2>The saving the CFO feels on the next invoice.</h2>
+  <p>Seat-priced SaaS charges every user every month whether they open it or not. Zylo's 2025 index found US$4,830 of SaaS spend per employee and 52.7% of licences unused. A tailor-made tool, built by agents in days and run on the client's own instance, has no seat price.</p>
+  <div class="card">
+    <div class="cardhead"><p class="eyebrow blue">300-staff example</p><span class="badge">List prices · Rp 18,000/US$</span></div>
+    <div class="tblw"><table class="tbl">
+      <thead><tr><th>Tool</th><th>List price</th><th>Seats</th><th class="r">Rp / month</th><th>Replace?</th></tr></thead>
+      <tbody>
+        <tr><td>HubSpot Sales Hub Pro</td><td>US$90/seat</td><td>40</td><td class="r">64.8M</td><td class="y">Yes, if only the pipeline is used</td></tr>
+        <tr><td>Zendesk Suite Pro</td><td>US$115/agent</td><td>15</td><td class="r">31.1M</td><td class="y">Yes</td></tr>
+        <tr><td>monday.com Pro</td><td>US$19/seat</td><td>80</td><td class="r">27.4M</td><td class="y">Yes</td></tr>
+        <tr><td>Microsoft 365 Copilot</td><td>US$30 add-on</td><td></td><td class="r"></td><td>Cut unused seats</td></tr>
+        <tr><td>Google Workspace</td><td>Rp 81–163K/user</td><td></td><td class="r"></td><td class="k">No</td></tr>
+        <tr><td>Mekari Talenta</td><td>from Rp 25K/employee</td><td></td><td class="r"></td><td class="k">No: payroll tax engine</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin:12px 0 0">Replacing the first three at 50% of their bill saves the client <b>~Rp 61.6M a month (~Rp 740M a year) from the first invoice</b>, and pays you the same.</p>
+  </div>
+  <div class="terms">
+    <div class="term co">
+      <h4>Subscription (default)</h4>
+      <p class="px">50% of the cancelled bill, monthly</p>
+      <ul>
+        <li>Client saves 50% from the first month</li>
+        <li>Northline keeps the generic code and resells it (Pasal 36 default, as in v2)</li>
+        <li>Client keeps its data, configuration and extensions, with export at any time</li>
+      </ul>
+    </div>
+    <div class="term">
+      <h4>Buy-out</h4>
+      <p class="px">12 months of the bill once, then 15% / year</p>
+      <ul>
+        <li>No saving in year one, ~85% from year two</li>
+        <li>Code assigned to the client</li>
+        <li>Support line keeps it maintained</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <p class="eyebrow red">The counter-evidence is real</p>
+    <ul class="dots r">
+      <li>Klarna dropped Salesforce and Workday, but mostly for other SaaS. Its CEO later said "we didn't replace SaaS with an LLM".<span class="src"><a href="https://diginomica.com/those-shutting-down-salesforce-and-workday-rumors-klarna-no-we-didnt-replace-saas-llm-admits-ceo" target="_blank" rel="noopener">diginomica ↗</a></span></li>
+      <li>Jason Lemkin replaced a paid tool with a vibe-coded app in a day, and warns that "every app you build is an app you now have to maintain".<span class="src"><a href="https://www.saastr.com/the-90-10-rule-for-ai-agents-updated-we-replaced-a-paid-saas-tool-in-a-day-with-a-vibe-coded-app-heres-what-we-learned/" target="_blank" rel="noopener">SaaStr ↗</a></span></li>
+      <li>The exposed tools are single-purpose ones at US$200–1,000 a month, not US$20–50 ones.<span class="src"><a href="https://elfingrowth.substack.com/p/vibe-coding-wont-kill-saas" target="_blank" rel="noopener">Elfin Growth ↗</a></span></li>
+    </ul>
+    <p style="margin:10px 0 0"><b>Replace</b> thin, seat-priced workflow tools: CRM pipelines, helpdesk, approvals and forms, project boards, simple trackers, dashboards. <b>Leave alone</b> payroll tax, accounting with Coretax (unless the Northline ERP covers it), email and office suites, security and identity, and anything with a regulator behind it. Score each tool first: bill ≥ Rp 100M a year (assumption), low feature use in the vendor's admin report, clean export, no regulatory engine, cancellable at the next renewal.</p>
+  </div>
+</section>
+
+<!-- ============ AI-NATIVE ============ -->
+<section id="ai">
+  <p class="eyebrow indigo">AI-native</p>
+  <h2>AI-native in three layers, and honest about which ones exist.</h2>
+  <div class="layers">
+    <div class="layer"><div class="n">1</div><h4>Built by agents</h4><p>One engineer plus coding agents against acceptance tests. Internal tools in days, change requests in hours. This is why replacing a SaaS costs less than renewing it.</p><span class="st ok">Proven in repo</span></div>
+    <div class="layer"><div class="n">2</div><h4>Runs with agents</h4><p>Agents do the executor work inside the tool. Each action is a proposal gated by approval rules (ADR-0028) and logged with its actor.</p><span class="st part">Actor log exists; no model backend yet</span></div>
+    <div class="layer"><div class="n">3</div><h4>Priced on outcomes</h4><p>Sprints sized at 25–40% of first-year value, SaaS replacement at half the cancelled bill, optional gain share. Model usage at cost plus margin, capped.</p><span class="st part">Contract templates to draft</span></div>
+  </div>
+  <div class="note">Chin's enterprise point applies: big companies worry about data leaking into AI. Each client gets its own instance (ADR-0032), and a per-client switch blocks cross-border model calls where UU PDP or policy requires it.</div>
+</section>
+
+<!-- ============ RECEIPTS ============ -->
+<section id="receipts">
+  <p class="eyebrow">Market snapshot</p>
+  <h2>The receipts.</h2>
+
+  <div class="card">
+    <div class="cardhead"><p class="eyebrow orange">Pain</p><span class="badge">7/10 severity · provisional</span></div>
+    <div class="quote"><p>95% of generative AI pilots showed no measurable P&amp;L return. Back-office automation had the best ROI.</p><small>MIT NANDA, "The GenAI Divide", 2025 · not peer-reviewed</small></div>
+    <div class="quote"><p>76% of Indonesian AI adopters use it only for basic efficiency; 57% of businesses cite missing digital skills.</p><small>AWS / Strand Partners, 2025</small></div>
+    <div class="quote"><p>"A successful pilot is not the same as a system a business can run on."</p><small>Anthropic, 3 June 2026 · quoted</small></div>
+    <div class="note"><b>Receipts still missing:</b> quotes from Indonesian owners, COOs or CFOs. Collect ten in the advice calls; severity stays provisional until then.</div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <div class="cardhead"><p class="eyebrow violet">Whitespace</p><span class="badge">Market gap</span></div>
+      <p class="serif-lg">Consultancies stop at the deck, agencies at one chatbot, courses at the owner's laptop. Nobody embeds an engineer who ships agents on the company's own data and reports the Rupiah that moved.</p>
+    </div>
+    <div class="card wedge">
+      <p class="eyebrow violet">The wedge</p>
+      <p class="serif-lg">A free five-day hours-and-SaaS audit that ends in a one-page offer in Rupiah, with a guarantee.</p>
+      <p style="margin:14px 0 0;color:var(--muted)">The incumbent to beat: <b style="color:var(--ink)">doing nothing, with Copilot seats nobody uses well</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow blue">Proof &amp; signals</p>
+    <ul class="dots">
+      <li>59% of Indonesian AI adopters reported higher revenue, up 16% on average. The revenue line is not hypothetical.<span class="src"><a href="https://press.aboutamazon.com/sg/aws/2025/8/new-aws-research-shows-strong-ai-adoption-momentum-in-indonesia" target="_blank" rel="noopener">AWS ↗</a></span></li>
+      <li>Projects with outside partners succeeded 67% of the time against 33% for internal builds. That supports hiring an FDE, and warns that what you build must run without you.<span class="src"><a href="https://virtualizationreview.com/articles/2025/08/19/mit-report-finds-most-ai-business-investments-fail-reveals-genai-divide.aspx" target="_blank" rel="noopener">MIT NANDA ↗</a></span></li>
+      <li>An AI assistant raised support issues resolved per hour by 15%, and ~30% for novices, across 5,172 agents.<span class="src"><a href="https://www.nber.org/papers/w31161" target="_blank" rel="noopener">NBER ↗</a></span></li>
+      <li>Under UU PDP you are the client's processor (Art. 51), with fines up to 2% of revenue (Art. 57). Cross-border transfer to a US model API falls under Art. 56, upheld by the Constitutional Court on 19 January 2026.<span class="src"><a href="https://www.hukumonline.com/klinik/a/kewajiban-kewajiban-penting-dalam-uu-pdp-dan-sanksinya-jika-melanggar-lt633abd26570aa/" target="_blank" rel="noopener">Hukumonline ↗</a> &nbsp; <a href="https://www.hukumonline.com/berita/a/transfer-data-lintas-negara-dan-ilusi-pelindungan-data-pribadi-pasca-putusan-mk-lt6981468330d9c/" target="_blank" rel="noopener">MK ruling ↗</a></span></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><p class="eyebrow violet">Who you're up against</p><span class="badge">8 players</span></div>
+    <div class="players">
+      <div class="player"><b>Global consultancies</b><p>Accenture, Deloitte, PwC Indonesia. Deloitte is certifying 15,000 staff on Claude; Accenture and Google are building a ~1,000-FDE group. Out of a 300-staff company's budget.</p></div>
+      <div class="player"><b>The AI labs' own FDEs</b><p>OpenAI and Anthropic deploy FDEs to large global accounts. Not in Indonesian mid-market yet.</p></div>
+      <div class="player"><b>Local AI agencies</b><p>Pakai.ai: Rp 5–30M for 1–8 processes. CoreFreelancers: agents Rp 15–40M, custom apps Rp 40–120M. They sell builds, not outcomes.</p></div>
+      <div class="player"><b>Automation freelancers</b><p>n8n workflows for Rp 1.3–3.5M on Fastwork. The price floor, and the reason to never sell "a workflow".</p></div>
+      <div class="player"><b>Conversational AI platforms</b><p>Kata.ai, Qiscus (US$270/month plus AgentLabs), Botika (~Rp 1–2M/month). One channel, not the back office.</p></div>
+      <div class="player"><b>SaaS vendors' own AI</b><p>HubSpot, Zendesk and Mekari add AI seats. They'd rather raise your bill than cut it.</p></div>
+      <div class="player"><b>Copilot and Gemini seats</b><p>US$30 per user for Copilot. The do-nothing option: bought, rarely used well.</p></div>
+      <div class="player"><b>AI educators</b><p>Chin's audience: owners learning to do it themselves, and future freelancers. Referral partners as often as competitors.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RUNGS ============ -->
+<section id="rungs">
+  <p class="eyebrow">Chin's four rungs</p>
+  <h2>The four rungs of AI skill, as a price ladder.</h2>
+  <p>You can sell all four from day one. The margin is in rungs 3 and 4.</p>
+  <div class="tblw"><table class="tbl">
+    <thead><tr><th>Rung</th><th>What you deliver</th><th class="r">Price</th></tr></thead>
+    <tbody>
+      <tr><td><b>1 · AI as a tool</b></td><td>Leadership and team workshops: research, documents, analysis with Claude, ChatGPT or Gemini</td><td class="r">Rp 15–25M / half-day</td></tr>
+      <tr><td><b>2 · AI for workplace</b></td><td>Connectors to the company's Drive, Sheets, email and systems; reusable skills for repeated work</td><td class="r">In a sprint</td></tr>
+      <tr><td><b>3 · AI builder</b></td><td>Tailor-made internal tools that fit the process, including SaaS replacements</td><td class="r">Sprint or 50% of bill</td></tr>
+      <tr><td><b>4 · AI agents</b></td><td>Agents doing executor work end to end: customer service, intake, follow-up, close checks</td><td class="r">Sprint + retainer</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ VERDICT ============ -->
+<section id="verdict">
+  <p class="eyebrow">The verdict</p>
+  <h2>Should you build this?</h2>
+  <div class="card build">
+    <p class="eyebrow green">Reasons to build</p>
+    <ul class="dots g">
+      <li>Fastest first revenue of the three versions: a paid workshop or diagnostic in 30–60 days, against 75–105 in v2.</li>
+      <li>It sells what you already do at work: you lead an agentic-SDLC and AI transformation.</li>
+      <li>The saving is visible. A cancelled SaaS invoice and a ledger tied to payroll are easier to believe than an ERP business case.</li>
+      <li>Low capital. Martell's rule: solve it by hand first and get paid to learn.</li>
+      <li>It feeds v1 and v2. Embedded work surfaces ERP gaps, and every internal tool is a candidate catalog module under ADR-0033.</li>
+    </ul>
+  </div>
+  <div class="card nobuild">
+    <p class="eyebrow red">Reasons to not build</p>
+    <ul class="dots r">
+      <li>The overlap with your job is the skill itself. Consent must name what is yours and what is your employer's.</li>
+      <li>"Forward deployed" means daytime: shadowing, kickoffs and go-lives happen in working hours.</li>
+      <li>Every tool you build is a tool you maintain. SaaS replacement moves the vendor's maintenance to you, with a bus factor of one.</li>
+      <li>Services scale with people. Without a reusable library you've built a consultancy that stops when you stop.</li>
+      <li>Outcome pricing needs baselines. If the "before" isn't measured, every guarantee becomes an argument.</li>
+    </ul>
+    <a class="more" href="#agents" style="color:var(--red)">Roast it with your agent →</a>
+  </div>
+</section>
+
+<!-- ============ FOUNDER FIT ============ -->
+<section id="fit">
+  <p class="eyebrow">Founder fit</p>
+  <h2>Not every good idea is good <em style="color:var(--blue)">for you</em>.</h2>
+  <div class="fit">
+    <div><span class="y">✓</span>Engineers who have run an AI or automation transformation</div>
+    <div class="x"><span>✕</span>Founders who can't sit with executors on a weekday</div>
+    <div><span class="y">✓</span>Founders who can talk Rupiah with an owner or CFO</div>
+    <div class="x"><span>✕</span>A contract that claims all work in the same skill</div>
+  </div>
+  <p>You have the delivery half: you've led an engineering org to ship mostly AI-authored code, you know ISO 27001, and you build fast. The missing half is daytime presence and a business-side partner. Chin's advice is to share the work with someone whose skills complete yours: an ops or finance person who runs discovery while you build.</p>
+  <div class="demands">
+    <div class="card">
+      <p class="eyebrow indigo">What it demands</p>
+      <div class="bars" style="margin-top:14px">
+        <span>Sales</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Trust</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Delivery</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Domain depth</span><span class="bar"><i style="width:70%"></i></span><span class="n">7</span>
+        <span>Build</span><span class="bar"><i style="width:40%"></i></span><span class="n">4</span>
+        <span>Capital</span><span class="bar"><i style="width:20%"></i></span><span class="n">2</span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow green">The reality</p>
+      <div class="kv"><span>First revenue</span><b>30–60 days</b></div>
+      <div class="kv"><span>First sprint</span><b>~3.5 months</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 15–50M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Hard</b></div>
+    </div>
+  </div>
+  <h3 style="font-size:30px;margin-bottom:8px">So, is it good for you?</h3>
+  <p>Yes, as the first step, if consent is clean. It earns sooner than v2, needs less capital, and produces the references and reusable tools that make v2's enterprise projects easier to sell.</p>
+</section>
+
+<!-- ============ WEEK 0 GATE ============ -->
+<section id="gate">
+  <div class="gate">
+    <div class="ico" aria-hidden="true">0</div>
+    <div>
+      <p class="eyebrow indigo">Week 0 gate</p>
+      <h3>Clear these before the first advice call.</h3>
+      <ol>
+        <li><b>Employment contract and written consent.</b> Check the moonlighting, IP and non-compete clauses. The consent should name the line: no employer clients, vendors or competitors (healthcare, clinics and aesthetics stay out); no employer material (SOPs, prompts, ISO documents, code); outside working hours.</li>
+        <li><b>Your own tools.</b> Your own Claude subscription and model API key, on personal accounts and hardware. Never the employer's seats.</li>
+        <li><b>An entity that can invoice.</b> A PT Perorangan with NIB and NPWP is enough for owner-led companies. Ask larger buyers' procurement first, and plan PKP when a buyer needs a tax invoice.</li>
+        <li><b>Contracts reviewed by a lawyer.</b> An SOW with the guarantee and how it's measured; a UU PDP processing addendum (Art. 51; cross-border model calls signed off under Art. 56); the IP clause for generic agents and tools; SaaS-replacement subscription terms. Budget Rp 10–20M.</li>
+        <li><b>A time model.</b> Annual leave for kickoffs (statutory minimum 12 days a year), Saturday on-site sessions, executor screen recordings instead of live shadowing, and a daytime partner from the first sprint.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE LADDER ============ -->
+<section id="ladder">
+  <p class="eyebrow">What you'd sell</p>
+  <h2>The value ladder.</h2>
+  <p>Martell's order (advice, then a manual fix, then an offer, then the build), priced on Chin's rule: the impact, not the AI.</p>
+  <ol class="ladder">
+    <li><span class="num">1</span><div><span class="tier">Lead magnet</span><br><b>Hours and SaaS audit</b> <span class="price">(Rp 0, five working days)</span><p>A 60-minute call, the client's SaaS invoices, and a day of screen recordings from five executors. Output: a one-page value map in Rupiah and a one-page offer.</p></div></li>
+    <li><span class="num">2</span><div><span class="tier">Frontend</span><br><b>Workshop or diagnostic</b> <span class="price">(Rp 15–50M, diagnostic credited)</span><p>A half-day leadership workshop (rung 1), or a two-to-three-week diagnostic that baselines workflows and scores every subscription.</p></div></li>
+    <li><span class="num">3</span><div><span class="tier">Core</span><br><b>Deployment sprint</b> <span class="price">(Rp 75–180M fixed, six weeks)</span><p>One workflow cluster to production with agents, connectors and an internal tool. Sized at 25–40% of first-year value. Paid 50 / 50.</p></div></li>
+    <li><span class="num">4</span><div><span class="tier">Swap</span><br><b>SaaS replacement</b> <span class="price">(50% of the cancelled bill, or buy-out)</span><p>Built in the sprint, run on the client's instance, saving felt at the next renewal.</p></div></li>
+    <li><span class="num">5</span><div><span class="tier">Continuity</span><br><b>FDE retainer</b> <span class="price">(Rp 20–60M / month)</span><p>Embedded days each month, agent operations, capped model costs, a new automation each month, and the monthly value ledger.</p></div></li>
+    <li><span class="num">6</span><div><span class="tier">Upside</span><br><b>Gain share</b> <span class="price">(10–20% of verified added gross profit, 12 months)</span><p>Only on revenue agents with a baseline or holdout group.</p></div></li>
+    <li><span class="num">7</span><div><span class="tier">Flywheel</span><br><b>The agent and tool library</b><p>Generic agents, connectors and tools kept under the ADR-0033 boundary and redeployed at the next client in days. Accounting and ERP replacements route to the Northline ERP (v1, v2).</p></div></li>
+  </ol>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><p class="eyebrow violet">The one-page offer</p><span class="badge">Martell's five parts</span></div>
+    <div class="tblw"><table class="tbl">
+      <tbody>
+        <tr><td><b>Problem</b></td><td>"Your 14 AP admins key 3,000 supplier invoices a month, and leads wait until morning."</td></tr>
+        <tr><td><b>Promise</b></td><td>"Invoices arrive as drafts for approval; every lead gets an answer in under a minute."</td></tr>
+        <tr><td><b>Timeline</b></td><td>"Live in six weeks."</td></tr>
+        <tr><td><b>Price</b></td><td>"Rp 140M fixed, half on signing."</td></tr>
+        <tr><td><b>Guarantee</b></td><td>"If the value ledger at week 12 annualises below the fee, we keep working at no charge until it does."</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <p class="eyebrow">The plan</p>
+  <h2>If you started today.</h2>
+
+  <div class="card">
+    <h3 style="font-size:30px;margin-bottom:10px">First up.</h3>
+    <p style="margin:0">Martell's line does the selling: call for advice, not to pitch. Forty advice calls with owners and COOs in your network, outside your employer's industry, become ten problem interviews, then free audits, then the one-page offer. Get the first sprint into a 2027 budget before December closes.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">The timeline.</h3><span class="badge">~12–15 h/week + leave days + a daytime partner</span></div>
+    <div class="tl">
+      <div class="step"><div class="when">Wk 0<small>19–25 Oct 2026</small></div><div><h4>Clearance gate</h4><p>Contract, written consent, own tools, entity route, contract templates started, time model.</p><span class="exit">Exit: go/no-go in writing</span></div></div>
+      <div class="step"><div class="when">Wk 1–3<small>26 Oct – 15 Nov</small></div><div><h4>Proof kit</h4><p>Audit template and value-ledger calculator; three reference agents (invoice intake, WhatsApp lead responder with CRM log, overdue-invoice chaser); one SaaS-replacement demo built in two days.</p><span class="exit">Exit: a stranger's workflow automated on a demo instance</span></div></div>
+      <div class="step"><div class="when">Wk 1–8<small>26 Oct – 20 Dec</small></div><div><h4>Advice calls, in parallel</h4><p>Forty calls, ten recorded problem interviews.</p><span class="exit">Exit: 10 pain quotes, 6–8 audits booked</span></div></div>
+      <div class="step"><div class="when">Wk 3–9<small>Nov – Dec 2026</small></div><div><h4>Free audits, then offers</h4><p>Six to eight five-day audits, each ending in a one-page offer.</p><span class="exit">Exit: 2–4 prospects buy a workshop or diagnostic</span></div></div>
+      <div class="step key"><div class="when">Wk 4–8<small>by 15 Dec 2026</small></div><div><h4>First paid work</h4><p>A Rp 15–25M workshop or a Rp 25–50M diagnostic.</p><span class="exit">Target: first invoice paid by 15 Dec 2026 (~day 57)</span></div></div>
+      <div class="step key"><div class="when">Jan<small>2027</small></div><div><h4>First sprint</h4><p>Diagnostic converts to a fixed-price sprint, 50% on signing. The daytime partner goes on contract.</p><span class="exit">Target: Rp 75M+ sprint, down payment by 31 Jan 2027 (~day 104)</span></div></div>
+      <div class="step"><div class="when">Feb–Apr<small>2027</small></div><div><h4>Deliver and measure</h4><p>Sprint live in six weeks; first SaaS renewal cancelled; first retainer; second sprint.</p><span class="exit">Exit: one value ledger with real numbers</span></div></div>
+      <div class="step"><div class="when">May–Sep<small>2027</small></div><div><h4>Library and references</h4><p>Reusable agents redeployed; two to three retainers; one case study in Rupiah.</p><span class="exit">Exit: three paying clients</span></div></div>
+      <div class="step"><div class="when">Q4<small>2027</small></div><div><h4>Quit-job gate</h4><p>Retainers and signed sprints cover 12 months of take-home pay, six months of runway, a partner handling client contact.</p><span class="exit">Exit: decision in writing</span></div></div>
+      <div class="step"><div class="when">2028+</div><div><h4>Scale on agents and juniors</h4><p>Two junior FDEs trained on the library; v2 ERP projects sold into v3 clients; healthcare only after you've left your employer.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card napkin" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">Year one, on a napkin.</h3><span class="badge">Napkin math</span></div>
+    <div class="ln"><span class="lbl">Advice calls (Oct–Feb)</span><span class="fill"></span><b>40</b></div>
+    <div class="ln"><span class="lbl">Problem interviews (assumption)</span><span class="fill"></span><b>30% = 12</b></div>
+    <div class="ln"><span class="lbl">Free audits (assumption)</span><span class="fill"></span><b>8</b></div>
+    <div class="ln"><span class="lbl">Paid workshops at Rp 20M (assumption)</span><span class="fill"></span><b>4 = Rp 80M</b></div>
+    <div class="ln"><span class="lbl">Sprints at Rp 130M avg, diagnostics credited (assumption)</span><span class="fill"></span><b>3 = Rp 390M</b></div>
+    <div class="ln"><span class="lbl">Retainers at Rp 25M/month, ~5 months (assumption)</span><span class="fill"></span><b>2 = Rp 250M</b></div>
+    <div class="ln"><span class="lbl">SaaS subscription at Rp 30M/month, ~6 months (assumption)</span><span class="fill"></span><b>1 = Rp 180M</b></div>
+    <div class="ln"><span class="lbl">Collected in year one (last sprint half-paid)</span><span class="fill"></span><b>~Rp 830M</b></div>
+    <div class="ln"><span class="lbl">Delivery cost: partner, model API, hosting, legal, tools</span><span class="fill"></span><b>~Rp 190M</b></div>
+    <div class="ln"><span class="lbl">Year two with two junior FDEs</span><span class="fill"></span><b>~Rp 4.1B</b></div>
+    <p style="color:var(--muted);margin:14px 0 0">USD at an assumed Rp 18,000: ~US$46K collected in year one, ~US$36K after delivery cost, then ~US$230K in year two.</p>
+    <div class="ceiling"><p class="eyebrow">The ceiling if it compounds</p><b>US$3–6M / year</b></div>
+    <p style="color:var(--muted);font-size:14px;margin:10px 0 0">20 FDEs × Rp 2.5B ≈ Rp 50B, plus 200 SaaS-replacement subscriptions × Rp 240M ≈ Rp 48B. That totals ~Rp 98B ≈ US$5.4M. FDE revenue grows with people; the subscriptions and the library lift the margin.</p>
+  </div>
+</section>
+
+<!-- ============ AGENTS ============ -->
+<section id="agents">
+  <p class="eyebrow">The agents</p>
+  <h2>Jam on it with your agents.</h2>
+  <p>Five parallel lanes, run on your own seats.</p>
+
+  <div class="card start">
+    <span class="tag">Start here</span>
+    <h3 style="font-size:34px;margin:12px 0 6px">Build the hours-and-SaaS audit kit.</h3>
+    <div class="prompt"><button class="copy" type="button">Copy</button>Read docs/business/v3-ai-fde/northline-fde-brief.md. Build the hours-and-SaaS audit kit: a spreadsheet template for SaaS invoices (seats, price, renewal date, usage), a workflow sheet fed from executor screen-recording notes (steps, minutes, volume), and a value-ledger calculator that outputs a one-page offer in Rupiah.</div>
+  </div>
+
+  <div class="agents">
+    <div class="agent"><h4>Roast this idea</h4><p>An owner's objections.</p><div class="prompt"><button class="copy" type="button">Copy</button>Roast this brief as the owner of a 300-staff Indonesian distributor who already pays for Microsoft 365 Copilot. Why would you refuse an individual FDE with a day job, and what proof would change your mind?</div></div>
+    <div class="agent"><h4>Reference agent</h4><p>Make layer 2 real.</p><div class="prompt"><button class="copy" type="button">Copy</button>Build an invoice-intake agent on this repo: supplier PDF in, draft purchase invoice out as a proposed command through the approval rules (ADR-0028), logged with the agent as actor, with a per-company switch that blocks cross-border model calls.</div></div>
+    <div class="agent"><h4>SaaS replacement demo</h4><p>The two-day build.</p><div class="prompt"><button class="copy" type="button">Copy</button>Build a minimal helpdesk internal tool on the Northline stack (tickets, SLA timer, WhatsApp intake, agent-drafted replies for approval) and a one-page comparison against Zendesk Suite pricing for 15 agents.</div></div>
+    <div class="agent"><h4>Advice-call outreach</h4><p>Martell's first move.</p><div class="prompt"><button class="copy" type="button">Copy</button>Draft 40 Bahasa Indonesia advice-call messages for owners and COOs in distribution, manufacturing and logistics, asking which manual process costs them the most hours.</div></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ============ ASIDE ============ -->
+<aside class="aside" aria-label="Brief your agent">
+  <div class="brief">
+    <span class="status">Consent not yet in writing</span>
+    <h3>The prompts that brief your agent <em>on this idea</em></h3>
+    <div class="try">
+      <p class="eyebrow"><span>Try asking</span><button class="copy" type="button" style="float:none;margin:0" id="tryCopy">Copy</button></p>
+      <p id="tryText"></p>
+    </div>
+    <div class="dotsnav" id="tryDots"></div>
+    <div class="lanes"><span>Audit kit</span><span>Agents</span><span>SaaS swap</span><span>GTM</span><span>Review</span></div>
+  </div>
+  <div class="poll">
+    <h3>What's your call?</h3>
+    <button type="button" data-call="v3" aria-pressed="false">🛠️ Go FDE (v3), after week 0</button>
+    <button type="button" data-call="v3v2" aria-pressed="false">🔀 v3 first, sell v2 ERP projects into its clients</button>
+    <button type="button" data-call="v2" aria-pressed="false">🏢 Enterprise ERP (v2) instead</button>
+    <button type="button" data-call="no" aria-pressed="false">✋ Not this idea</button>
+    <small>Saved in this browser only.</small>
+  </div>
+</aside>
+</div>
+
+<footer>Northline FDE brief (v3) · 19 Oct 2026 · Figures are sourced or marked as assumptions; USD at an assumed Rp 18,000. Not legal or tax advice.</footer>
+</main>
+
+<script>
+(function(){
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var root=document.documentElement, t=store.get('nl-theme'); if(t) root.setAttribute('data-theme',t);
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    var next=dark?'light':'dark'; root.setAttribute('data-theme',next); store.set('nl-theme',next);
+  });
+  function copy(text,btn){
+    var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o},1200)};
+    if(navigator.clipboard) navigator.clipboard.writeText(text).then(done,done); else done();
+  }
+  document.querySelectorAll('.prompt .copy').forEach(function(b){
+    b.addEventListener('click',function(){copy(b.parentNode.textContent.replace(/^Copy/,'').trim(),b)});
+  });
+  var prompts=[
+    "What has to be true for a 300-staff distributor to pay for a diagnostic by 15 December 2026? List the risks in order.",
+    "Score these SaaS subscriptions for replacement: bill, feature use, export, regulatory engine, renewal date.",
+    "List 40 owners and COOs in my network outside healthcare and my employer's vendors, with one likely manual bottleneck each.",
+    "Re-run the year-one napkin math with Rp 90M sprints and one retainer instead of two."
+  ], i=0, txt=document.getElementById('tryText'), dots=document.getElementById('tryDots');
+  prompts.forEach(function(_,n){var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Prompt '+(n+1));d.addEventListener('click',function(){show(n)});dots.appendChild(d)});
+  function show(n){i=n;txt.textContent=prompts[n];[].forEach.call(dots.children,function(d,k){d.setAttribute('aria-current',k===n)})}
+  show(0); setInterval(function(){show((i+1)%prompts.length)},6000);
+  document.getElementById('tryCopy').addEventListener('click',function(e){copy(prompts[i],e.target)});
+  function group(sel,attr,key){
+    var btns=document.querySelectorAll(sel), saved=store.get(key);
+    btns.forEach(function(b){
+      if(b.getAttribute(attr)===saved) b.setAttribute('aria-pressed','true');
+      b.addEventListener('click',function(){btns.forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');store.set(key,b.getAttribute(attr))});
+    });
+  }
+  group('.poll button','data-call','nl-call-v3'); group('.thumbs button','data-vote','nl-vote-v3');
+})();
+</script>
+</body>
+</html>
