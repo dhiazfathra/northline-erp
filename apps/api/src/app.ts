@@ -23,6 +23,8 @@ import { waitFor } from './projections'
 import * as FA from './reports/fixed-assets'
 import * as I from './reports/inventory'
 import * as DIM from './reports/dimensions'
+import * as K from './reports/contractor'
+import * as KS from './contractor/service'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
@@ -176,6 +178,25 @@ export function createApp(db: Db) {
         return c.json(DIM.profitLossMultiPeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), sy!, sm!, ey!, em!, o, st))
       }
       return c.json(DIM.profitLossComparePeriodBy(accounts, lines, dim, z.string().min(1).parse(q[dim]), { from: d.parse(q.from), to: d.parse(q.to) }, { from: d.parse(q.compareFrom), to: d.parse(q.compareTo) }, o, st))
+    })
+    // Proyek Kontraktor (ADR-0038): project master, RAB, MEQ, survey, project-linked documents (billing share), FPC; then its 11 reports.
+    .post('/contractor/projects', async c => { await KS.upsertContractorProject(db, await c.req.json()); return c.json({ ok: true }) })
+    .post('/contractor/:kind{rabs|material-usages|surveys|documents|completions}', async c => {
+      const fn = { rabs: KS.createRab, 'material-usages': KS.createMaterialUsage, surveys: KS.createSurvey, documents: KS.postProjectDocument, completions: KS.createProjectCompletion }[c.req.param('kind') as 'rabs']
+      return c.json(await fn(db, await c.req.json()), 201)
+    })
+    .get('/reports/contractor/:report{project-list|budget-plan|budget-comparison|journal|material-usage|material-usage-detail|survey-list|survey-detail|progress|bank-mutation|profit-loss}', async c => {
+      const ps = await K.loadContractor(db), q = c.req.query(), r = c.req.param('report')
+      if (r === 'profit-loss') {
+        const { from, to } = trialBalanceQuery.parse(q), o = { showZeroBalance: q.showZeroBalance === 'true', showParentAccount: q.showParentAccount !== 'false' }
+        return c.json(K.profitLossByProjectContractor((await loadLedger(db, '9999-12-31')).accounts, ps, c.req.queries('project') ?? [], from, to, o))
+      }
+      if (r === 'progress') return c.json(K.projectContractorProgress(K.byNo(ps, q.project ?? ''), balanceSheetQuery.parse(q).asOf))
+      const one = { 'budget-comparison': K.projectBudgetComparison, journal: K.projectContractorJournal, 'bank-mutation': K.bankMutationByProjectContractor }[r as 'journal']
+      if (one) return c.json(one(K.byNo(ps, q.project ?? '')))
+      const { from, to } = trialBalanceQuery.parse(q)
+      return c.json({ 'project-list': K.projectContractorList, 'budget-plan': K.contractorBudgetPlan, 'material-usage': K.materialEquipmentList,
+        'material-usage-detail': K.materialEquipmentDetail, 'survey-list': K.surveyList, 'survey-detail': K.contractorSurveyDetail }[r as 'project-list'](ps, from, to))
     })
     .get('/reports/master/:list{currencies|fob|taxes|shipments|employees|fiscal-fa-types}', async c =>
       c.json(await ({ currencies: ML.currencyList, fob: ML.fobList, taxes: ML.taxList, shipments: ML.shipmentList, employees: ML.employeeList, 'fiscal-fa-types': ML.fiscalFaTypeList }[c.req.param('list') as 'fob'])(db)))

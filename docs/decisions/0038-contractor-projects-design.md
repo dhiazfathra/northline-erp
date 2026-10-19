@@ -56,5 +56,24 @@ A separate `contractor` module, not the plain Proyek dimension (ADR-0034 alterna
   (FPC debit 2.382.300 = plan 170.778.000 - actual 168.395.700, ADR-0034 journal spec).
 
 ## Consequences
-- Billing an invoice needs the share %; Accurate's own field for it is still untraced (follow-up in P2 capture).
-- The 11 Proyek Kontraktor reports become buildable; zero diff is checked against `captures/contractor/`.
+- Billing share = cost entry share. Accurate stores no field holding 17: `SI.projectProgress` (detail/view sales invoice) holds
+  33 / 75 / 100, the cumulative progress at invoicing, and 75 is not 33 + 17 (SI.2026.06.00002 was edited several times). The
+  ERP takes the share on the billing (`postProjectDocument` `billing.sharePct`, stored in `project_billings`) and derives the
+  cost entry Dr COGS / Cr 110506 = RAB work total x share; replaying 33 / 17 / 50 reproduces 56.356.740 / 29.032.260 / 85.389.000.
+- Built in P2 (`apps/api/src/contractor/service.ts`, `apps/api/src/reports/contractor.ts`, routes `/api/contractor/*` and
+  `/api/reports/contractor/:report`): all 11 reports zero diff against `captures/contractor/` in
+  `apps/api/test/contractor-projects.test.ts`. The Laba/Rugi Proyek Kontraktor capture is the "Proyek harus diisi" error page,
+  so the test checks that error and the computed totals against the spec (196.066.600 / 168.395.700 / 27.670.900).
+- Migration 0052 (not deployed yet) gained `rab_tasks.start_date/end_date` (Rencana % schedule), `project_billings.date`
+  (Tertagih as of a date) and `project_costs`: Realisasi needs each purchase/payment line's quantity and RAB resource,
+  which merged journal lines cannot carry (Accurate prints PI.2026.05.00002's two resources as one 110506 line).
+- A payment line has no quantity, yet Anggaran & Realisasi prints 7 Hari for 110103.2026.05.00010 (2.100.000 / 350.000 = 6):
+  realised quantity defaults to the resource's planned quantity (1 sample).
+- FPC returns leftover stock at the project's average MEQ cost of the item (3 x 4.100 = 12.300) and closes the remaining
+  110506 balance to COGS only; no income leg was needed by the sample. FPC reads journal_lines, so it catches the ledger
+  projection up first.
+- Inferred, captured only at 100 / one sample: Rencana % (elapsed share of the task schedule), survey Total Progress and group
+  % (weighted by task cost), the Daftar Proyek date filter (Target Mulai), and the order of a task's MEQ lines (Accurate prints
+  the reverse of entry order; the test compares them sorted).
+- Replay loads the IA.* opening stock (dated 20 Jun) before the May MEQ, dated 1 May, because FIFO costs a usage from stock
+  on hand at its date.

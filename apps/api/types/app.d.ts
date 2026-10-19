@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -505,6 +505,45 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
     };
 }) & {
     "/reports/dimensions/:report{by-branch|by-department|by-project|department-multi-period|project-multi-period|compare-department|compare-project|analysis-department|analysis-project}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/contractor/projects": {
+        $post: {
+            output: {
+                ok: true;
+            };
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
+        };
+    };
+}) & {
+    "/contractor/:kind{rabs|material-usages|surveys|documents|completions}": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {
+                param: {
+                    kind: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/contractor/:report{project-list|budget-plan|budget-comparison|journal|material-usage|material-usage-detail|survey-list|survey-detail|progress|bank-mutation|profit-loss}": {
         $get: {
             output: string[][];
             outputFormat: "json";

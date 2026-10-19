@@ -2,7 +2,7 @@
 
 Group: Proyek Kontraktor. Metadata only; capture [`captures/contractor/ProfitLossByProjectContractorReport.json`](captures/contractor/ProfitLossByProjectContractorReport.json) holds the server error, no layout (Kontraktor Demo, PT Solar Energy Indonesia, 2026-10-19).
 
-Status: partial: layout not captured. spec (Kontraktor Demo), not built — blocked: requires Contractor Projects (ADR-0034).
+Status: verified (Kontraktor Demo, ADR-0038). Fixture: [`fixtures/contractor/projects-k.json`](fixtures/contractor/projects-k.json) (`contractor`); test `apps/api/test/contractor-projects.test.ts`. ERP: `apps/api/src/reports/contractor.ts` `profitLossByProjectContractor`; the capture is the error page ("Proyek harus diisi"), so the test checks that error and the computed totals against this spec (Pendapatan 196.066.600, BPP 168.395.700, Laba 27.670.900).
 
 ## Purpose
 

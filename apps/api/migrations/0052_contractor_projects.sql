@@ -32,6 +32,8 @@ CREATE TABLE rab_tasks (
   unit_cost   bigint NOT NULL,
   buffer_pct  numeric NOT NULL DEFAULT 0,
   unit_price  bigint NOT NULL,
+  start_date  date,                   -- planned schedule: Rencana % of Progres Proyek
+  end_date    date,
   UNIQUE (rab, name)
 );
 CREATE TABLE rab_resources (
@@ -74,7 +76,21 @@ CREATE TABLE project_billings (
   project   text NOT NULL REFERENCES contractor_projects (no),
   group_no  text NOT NULL,
   share_pct numeric NOT NULL CHECK (share_pct > 0 AND share_pct <= 100),
+  date      date NOT NULL,
   PRIMARY KEY (invoice, group_no)
+);
+-- Actual cost a purchase invoice / payment line books to the project (Realisasi of Anggaran & Realisasi): against a RAB
+-- resource, or out of budget (resource NULL, Rincian Biaya).
+CREATE TABLE project_costs (
+  doc_number  text NOT NULL,
+  seq         int  NOT NULL,
+  project     text NOT NULL REFERENCES contractor_projects (no),
+  date        date NOT NULL,
+  resource_id int  REFERENCES rab_resources (id),
+  name        text NOT NULL,
+  quantity    numeric NOT NULL,
+  amount      bigint NOT NULL,
+  PRIMARY KEY (doc_number, seq)
 );
 CREATE TABLE project_completions (
   number     text PRIMARY KEY,

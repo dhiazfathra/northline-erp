@@ -2,7 +2,7 @@
 
 Group: Proyek Kontraktor. Reverse-engineered from Accurate Online, **Kontraktor Demo** (PT Solar Energy Indonesia), 2026-10-19. Capture: [`captures/contractor/MaterialEquipmentReport.json`](captures/contractor/MaterialEquipmentReport.json).
 
-Status: spec (Kontraktor Demo), not built — blocked: requires Contractor Projects (ADR-0034).
+Status: verified (Kontraktor Demo, ADR-0038). Fixture: [`fixtures/contractor/projects-k.json`](fixtures/contractor/projects-k.json) (`contractor`); test `apps/api/test/contractor-projects.test.ts`. ERP: `apps/api/src/reports/contractor.ts` `materialEquipmentList`.
 
 ## Purpose
 
