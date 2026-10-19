@@ -89,7 +89,7 @@ export default async function seed(db: Db, sync: () => Promise<void>) {
   for (const c of merge([...t2.customers, ...t19.customers, t31.customer] as any[])) await once('customers', 'no', c.no, () => upsertCustomer(db, c))
   for (const v of merge([...t3.vendors, ...t19.vendors] as any[])) await once('vendors', 'no', v.no, () => upsertVendor(db, v))
   const items = merge([...t2.items, ...t3.items, ...t4.items, ...t19.items, ...t20.items, t31.item, ...t32.items, t33.item, t6.itemPatch, t14.itemPatch] as any[])
-  for (const i of [...items.filter(i => i.type !== 'GROUP'), ...items.filter(i => i.type === 'GROUP')]) await once('items', 'no', i.no, () => upsertItem(db, i))
+  for (const i of [...items.filter(i => i.type !== 'GROUP'), ...items.filter(i => i.type === 'GROUP')]) await upsertItem(db, i) // upsert, so a DB seeded before an item gained its accounts is brought up to date
   await sync()
 
   const post = async (p: string, d: any, extra: object = {}) => {
