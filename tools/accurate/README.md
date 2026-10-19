@@ -45,5 +45,5 @@ replaces Pengguna/Email/Alamat IP with `nl-tester`, `nl-tester@example.test`, `2
 is refused for this plan.
 
 Sandbox names: `SANDBOX_DB_NAME`, `RETAIL_SANDBOX_DB_NAME` and `TRADE_PORTAL_SANDBOX_DB_NAME` equal the public display labels
-("Manufaktur Demo", "Retail Demo", "Trade Portal Demo"). They are provenance tags in specs, fixtures and captures, and the
+("Manufaktur Demo", "Retail Demo", "Trade Portal Demo", "Kontraktor Demo"). They are provenance tags in specs, fixtures and captures, and the
 principal ruled them non-secret (2026-10-19). Only `ACCURATE_USER` and `ACCURATE_PASS` must never appear in committed files.

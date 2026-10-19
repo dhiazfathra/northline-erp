@@ -26,7 +26,7 @@ export default async ({ app, runReport, log }) => {
     let r = await runReport(app, planId, param);
     // Trade Portal Demo: some reports 500 on [Semua Cabang] (where [] would return nothing elsewhere); retry with [].
     if (TRADE && !r.rows) for (const [name, type] of m.a) if (type.startsWith('BRANCH_MULTI')) { param[name] = []; r = await runReport(app, planId, param) }
-    writeFileSync(`${outDir}/${planId}.json`, JSON.stringify({ planId, dataUsaha: { retail: 'Retail Demo', trade: 'Trade Portal Demo' }[process.env.ACC_DB] ?? 'Manufaktur Demo',
+    writeFileSync(`${outDir}/${planId}.json`, JSON.stringify({ planId, dataUsaha: { retail: 'Retail Demo', trade: 'Trade Portal Demo', contractor: 'Kontraktor Demo' }[process.env.ACC_DB] ?? 'Manufaktur Demo',
       capturedFrom: 'Accurate Online sandbox, 2026-10-19, default params over the demo data', param, rows: r.rows ?? { error: r.error } }, null, 1));
     log(planId, r.rows ? `rows ${r.rows.length}` : 'ERROR ' + JSON.stringify(r.error).slice(0, 160));
   }

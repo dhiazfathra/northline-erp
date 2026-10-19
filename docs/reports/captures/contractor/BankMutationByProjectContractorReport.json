@@ -1,0 +1,143 @@
+{
+ "planId": "BankMutationByProjectContractorReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, demo project PRC.2026.06.00001",
+ "param": {
+  "selectedContractorProject": [
+   {
+    "id": 51,
+    "name": "Instalasi Solar 16K Wp - OffGrid"
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Mutasi Bank per Proyek"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Proyek Kontraktor"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "PRC.2026.06.00001"
+  ],
+  [
+   "Instalasi Solar 16K Wp - OffGrid"
+  ],
+  [
+   "Tanggal",
+   "Nomor Referensi",
+   "Bank",
+   "Keterangan",
+   "Masuk",
+   "Keluar",
+   "Saldo"
+  ],
+  [
+   "04 Mei 2026",
+   "110103.2026.05.00002",
+   "BCA a/c 1234567891",
+   "DP Pertama Rangka & Panel",
+   "80.000.000",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "04 Mei 2026",
+   "110103.2026.05.00008",
+   "BCA a/c 1234567891",
+   "Pembelian Bahan rangka panel",
+   "0",
+   "2.850.000",
+   "77.150.000"
+  ],
+  [
+   "05 Mei 2026",
+   "110103.2026.05.00004",
+   "BCA a/c 1234567891",
+   "Pembayaran panel 32 lembar",
+   "0",
+   "64.000.000",
+   "13.150.000"
+  ],
+  [
+   "09 Mei 2026",
+   "110103.2026.05.00010",
+   "BCA a/c 1234567891",
+   "Bayar Tukang (Biaya Langsung) untuk pasang rangka dan panel 7 hari kerja",
+   "0",
+   "2.100.000",
+   "11.050.000"
+  ],
+  [
+   "10 Mei 2026",
+   "110103.2026.05.00005",
+   "BCA a/c 1234567891",
+   "DP kedua untuk tahap inverter dan Battery",
+   "80.000.000",
+   "0",
+   "91.050.000"
+  ],
+  [
+   "11 Mei 2026",
+   "110103.2026.05.00006",
+   "BCA a/c 1234567891",
+   "Pembayaran Inverter dan SCC",
+   "0",
+   "26.450.000",
+   "64.600.000"
+  ],
+  [
+   "13 Mei 2026",
+   "110103.2026.05.00007",
+   "BCA a/c 1234567891",
+   "Pembayaran DP tahap terakhir- Battery dan intalasi PLN",
+   "30.000.000",
+   "0",
+   "94.600.000"
+  ],
+  [
+   "14 Mei 2026",
+   "110103.2026.05.00009",
+   "BCA a/c 1234567891",
+   "Pembayaran Pembelian Battery 12 Pack 100A",
+   "0",
+   "72.000.000",
+   "22.600.000"
+  ],
+  [
+   "15 Mei 2026",
+   "110103.2026.05.00011",
+   "BCA a/c 1234567891",
+   "pembayaran pelunasan tahap 3 - selesai",
+   "6.066.600",
+   "0",
+   "28.666.600"
+  ],
+  [
+   "196.066.600",
+   "167.400.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:43"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

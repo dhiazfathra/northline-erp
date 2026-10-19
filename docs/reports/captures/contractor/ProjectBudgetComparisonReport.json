@@ -1,0 +1,335 @@
+{
+ "planId": "ProjectBudgetComparisonReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, demo project PRC.2026.06.00001",
+ "param": {
+  "selectedContractorProject": [
+   {
+    "id": 51,
+    "name": "Instalasi Solar 16K Wp - OffGrid"
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Anggaran & Realisasi Proyek"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "PRC.2026.06.00001"
+  ],
+  [
+   "Nama Proyek",
+   ":",
+   "Instalasi Solar 16K Wp - OffGrid"
+  ],
+  [
+   "Bahan Baku dan Biaya",
+   "Satuan",
+   "Kuantitas (Rencana)",
+   "Total Biaya (Rencana)",
+   "Kuantitas (Realisasi)",
+   "Total Biaya (Realisasi)",
+   "Selisih"
+  ],
+  [
+   "RAB : BGP.2026.06.00001"
+  ],
+  [
+   "I. Pemasangan Panel"
+  ],
+  [
+   "Konstruksi (Rangka, skrup dan drain clip)"
+  ],
+  [
+   "Skrup Panel",
+   "Pack",
+   "30",
+   "750.000",
+   "25",
+   "600.000",
+   "-150.000"
+  ],
+  [
+   "Draining Clip (Plastik)",
+   "PCS",
+   "64",
+   "448.000",
+   "60",
+   "246.000",
+   "-202.000"
+  ],
+  [
+   "Besi Galvanis",
+   "Btng",
+   "15",
+   "2.250.000",
+   "15",
+   "2.250.000",
+   "0"
+  ],
+  [
+   "3.448.000",
+   "3.096.000",
+   "-352.000"
+  ],
+  [
+   "PV Solar merk Lesso 550Wp"
+  ],
+  [
+   "PV Solar Panel Lesso 550Wp",
+   "PCS",
+   "32",
+   "64.000.000",
+   "32",
+   "64.000.000",
+   "0"
+  ],
+  [
+   "64.000.000",
+   "64.000.000",
+   "0"
+  ],
+  [
+   "Jasa Pasang Rangka & Panel"
+  ],
+  [
+   "Jasa Tukang (Langsung)",
+   "Hari",
+   "7",
+   "2.450.000",
+   "7",
+   "2.100.000",
+   "-350.000"
+  ],
+  [
+   "2.450.000",
+   "2.100.000",
+   "-350.000"
+  ],
+  [
+   "Total I. Pemasangan Panel",
+   "69.898.000",
+   "69.196.000",
+   "-702.000"
+  ],
+  [
+   "II. Instalasi Inverter"
+  ],
+  [
+   "Inverter Deye 10KW"
+  ],
+  [
+   "Invereter DC - AC Deye 10KW",
+   "PCS",
+   "1",
+   "16.500.000",
+   "1",
+   "16.100.000",
+   "-400.000"
+  ],
+  [
+   "16.500.000",
+   "16.100.000",
+   "-400.000"
+  ],
+  [
+   "Solar Charge Controler Epever 100A"
+  ],
+  [
+   "SCC Epever 100A",
+   "PCS",
+   "3",
+   "10.500.000",
+   "3",
+   "10.200.000",
+   "-300.000"
+  ],
+  [
+   "MCB TOMZ 2P AC - 50A",
+   "PCS",
+   "3",
+   "360.000",
+   "3",
+   "255.000",
+   "-105.000"
+  ],
+  [
+   "10.860.000",
+   "10.455.000",
+   "-405.000"
+  ],
+  [
+   "Total II. Instalasi Inverter",
+   "27.360.000",
+   "26.555.000",
+   "-805.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:43"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Solar Energy Indonesia"
+  ],
+  [
+   "Anggaran & Realisasi Proyek"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "PRC.2026.06.00001"
+  ],
+  [
+   "Nama Proyek",
+   ":",
+   "Instalasi Solar 16K Wp - OffGrid"
+  ],
+  [
+   "Bahan Baku dan Biaya",
+   "Satuan",
+   "Kuantitas (Rencana)",
+   "Total Biaya (Rencana)",
+   "Kuantitas (Realisasi)",
+   "Total Biaya (Realisasi)",
+   "Selisih"
+  ],
+  [
+   "III. Instalasi Battery & PLN"
+  ],
+  [
+   "Shoto Battery Pack 4,8KW 100A"
+  ],
+  [
+   "Shoto Battery Pack 4,8 KW 100A",
+   "PCS",
+   "12",
+   "72.000.000",
+   "12",
+   "72.000.000",
+   "0"
+  ],
+  [
+   "72.000.000",
+   "72.000.000",
+   "0"
+  ],
+  [
+   "Instalasi Battery to Inverter"
+  ],
+  [
+   "Kabel Battery 2x25mm DC",
+   "Meter",
+   "3",
+   "450.000",
+   "3",
+   "132.000",
+   "-318.000"
+  ],
+  [
+   "MCB TOMZ 2P DC - 125 A",
+   "PCS",
+   "2",
+   "300.000",
+   "2",
+   "200.000",
+   "-100.000"
+  ],
+  [
+   "750.000",
+   "332.000",
+   "-418.000"
+  ],
+  [
+   "Instalasi Inverter to PLN"
+  ],
+  [
+   "Kabel Listrik NYM 3x2.5mm",
+   "Meter",
+   "10",
+   "650.000",
+   "10",
+   "90.000",
+   "-560.000"
+  ],
+  [
+   "MCB TOMZ 2P AC - 50A",
+   "PCS",
+   "1",
+   "120.000",
+   "1",
+   "85.000",
+   "-35.000"
+  ],
+  [
+   "770.000",
+   "175.000",
+   "-595.000"
+  ],
+  [
+   "Total III. Instalasi Battery & PLN",
+   "73.520.000",
+   "72.507.000",
+   "-1.013.000"
+  ],
+  [
+   "Pengeluaran di Luar Anggaran"
+  ],
+  [
+   "Rincian Barang"
+  ],
+  [
+   "Draining Clip (Plastik) (Sisa Barang)",
+   "0",
+   "0",
+   "-3",
+   "-12.300",
+   "-12.300"
+  ],
+  [
+   "-12.300",
+   "-12.300"
+  ],
+  [
+   "Rincian Biaya"
+  ],
+  [
+   "Beban Transportasi Karyawan",
+   "0",
+   "0",
+   "1",
+   "150.000",
+   "150.000"
+  ],
+  [
+   "150.000",
+   "150.000"
+  ],
+  [
+   "Total",
+   "170.778.000",
+   "168.395.700",
+   "-2.382.300"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 11:43"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "planId": "ProfitLossCompareBudgetProjectReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"cC0dMpdJif+LGfTX2rlIgf+CRNr3CGO4AAABoVJ3OfA=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidak",
+   "poll": {
+    "bgPid": "cC0dMpdJif+LGfTX2rlIgf+CRNr3CGO4AAABoVJ3OfA=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.\n\nKode Referensi:\nersen-61914-15cba47edcc91f6c10648fff7a482253"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

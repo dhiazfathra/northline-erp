@@ -1,0 +1,32 @@
+{
+ "planId": "ProfitLossByProjectReport",
+ "dataUsaha": "Kontraktor Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedProject": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"AwIScjcLr9BDSH8eSd1mtNEehgcVFEYNAAABoVJ3MFQ=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Proyek harus diisi\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "AwIScjcLr9BDSH8eSd1mtNEehgcVFEYNAAABoVJ3MFQ=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Proyek harus diisi"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}
