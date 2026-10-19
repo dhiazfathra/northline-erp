@@ -40,3 +40,10 @@ Header: company, title, "Dari … s/d …", "Cabang : …, Mata Uang : …". Col
 5. Number format as in [TrialBalanceReport.md](TrialBalanceReport.md) rule 10.
 
 Unverified: `showTotal`, `showChildAccount=false`, branch filter, foreign currency.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop), NL-TP journals J1-J4 of 2045. Fixture
+[fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff.
+Rules above unchanged. Only the inputs differ: flat numeric account numbers (`1101` > `110102`), and
+branch/currency parameters must be sent as `[]` (`[Semua Cabang]` or omitting them returns a 500). See ADR-0029.

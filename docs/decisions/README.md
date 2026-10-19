@@ -30,3 +30,5 @@
 | [0026](0026-job-costing.md) | Job costing: job orders, expenses and roll-over (Pekerjaan Pesanan) | Accepted |
 | [0027](0027-sales-quotations.md) | Sales quotations; processed quantities from line links (quotation -> order -> invoice) | Accepted |
 | [0028](0028-approval-workflow.md) | Approval workflow: rules, document approval state and approver steps | Accepted |
+| [0029](0029-trade-portal-demo-divergences.md) | Trade Portal Demo divergences: empty-array parameters, flat chart of accounts; P&L and trial balance re-verified | Accepted |
+| [0030](0030-trade-portal-module-dependencies.md) | Module dependencies surfaced by Trade Portal Demo, proposed build order | Proposed (review) |

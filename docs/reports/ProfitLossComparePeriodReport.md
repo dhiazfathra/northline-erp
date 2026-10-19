@@ -13,3 +13,10 @@ Columns: `Deskripsi` | base period label | compare period label | `Variance` | `
 3. Headings print the label only; rows hidden only when zero in both periods.
 
 Rounding: 2 decimals, verified on [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) (`8,82 %`).
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop), NL-TP journals J1-J4 of 2045. Fixture
+[fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff.
+Rules above unchanged. Only the inputs differ: flat numeric account numbers (`1101` > `110102`), and
+branch/currency parameters must be sent as `[]` (`[Semua Cabang]` or omitting them returns a 500). See ADR-0029.

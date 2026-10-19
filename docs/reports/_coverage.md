@@ -25,19 +25,21 @@ parameters into `captures/trade/` (tagged `dataUsaha: "Trade Portal Demo"`). Cap
 **error** = Accurate returns its generic "Upsss..." 500 for every parameter set tried (partial; spec unchanged).
 Trade Portal Demo needs every non-boolean parameter sent as an explicit `[]`: `[Semua Cabang]` or an omitted
 branch/currency parameter makes Accurate 500. See [ADR-0029](../decisions/0029-trade-portal-demo-divergences.md).
+Journal-only re-verification on Trade Portal (NL-TP 2045 journals): Laba/Rugi Standar, Multi Periode, Perbandingan Periode
+and Neraca Percobaan, zero diff. No report is blocked. Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
 | Report | planId | Category | In Manufaktur Demo | In Retail Demo | In Trade Portal Demo | Trade Portal capture | Spec status | ERP module dependency | Note |
 |---|---|---|---|---|---|---|---|---|---|
-| [Laba/Rugi (Standar)](ProfitLossStandardReport.md) | `ProfitLossStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Laba/Rugi (Standar)](ProfitLossStandardReport.md) | `ProfitLossStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Standar)](BalanceSheetStandardReport.md) | `BalanceSheetStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi (Multi Year)](ProfitLossMultiYearReport.md) | `ProfitLossMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas (Tak Langsung)](CashFlowIndirectReport.md) | `CashFlowIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Proyeksi Ketersediaan Kas](CashAvailabilityChartReport.md) | `CashAvailabilityChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Proyeksi Kas per Bulan](CashProjectionReport.md) | `CashProjectionReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Laba/Rugi (Perbandingan Periode)](ProfitLossComparePeriodReport.md) | `ProfitLossComparePeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Laba/Rugi (Perbandingan Periode)](ProfitLossComparePeriodReport.md) | `ProfitLossComparePeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Kuartal)](ProfitLossQuarterReport.md) | `ProfitLossQuarterReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi (Perbandingan Anggaran)](ProfitLossCompareBudgetReport.md) | `ProfitLossCompareBudgetReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Retail Demo; test: `apps/api/test/budget.test.ts`, fixture `fixtures/retail/budget-rb.json` (ADR-0025) |
 | [Laba/Rugi Cabang](ProfitLossByBranchReport.md) | `ProfitLossByBranchReport` | Keuangan | N | Y | N | — | done | Branch dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
@@ -70,7 +72,7 @@ branch/currency parameter makes Accurate 500. See [ADR-0029](../decisions/0029-t
 | [Rincian Jurnal Akun (CSV)](JournalDetailListDownloadReport.md) | `JournalDetailListDownloadReport` | Buku Besar | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Laba/Rugi Terealisasi](RealizeGainLossReport.md) | `RealizeGainLossReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi Tidak Terealisasi](UnRealizeGainLossReport.md) | `UnRealizeGainLossReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Neraca Percobaan](TrialBalanceReport.md) | `TrialBalanceReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Neraca Percobaan](TrialBalanceReport.md) | `TrialBalanceReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Jurnal Umum](JournalListReport.md) | `JournalListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Daftar Akun Perkiraan](GlAccountListReport.md) | `GlAccountListReport` | Buku Besar | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Gaji Karyawan per Bulan](EmployeePaymentByEmployeeReport.md) | `EmployeePaymentByEmployeeReport` | Buku Besar | Y | Y | Y | data | done (out of scope) | Journal/Period/Account |  |
