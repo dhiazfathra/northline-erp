@@ -14,12 +14,13 @@ PPh withholding and Monitoring HPP. Phase P3 of `docs/goals/full-parity-v2.md` r
 an allowlisted sandbox, specified, built and diffed to zero. Its stop rule is: a capture that needs a form shape not
 found after 3 attempts is stopped and reported, never worked around.
 
-Two reports hit that rule in Manufaktur Demo (seed year 2049):
+Three reports hit that rule in Manufaktur Demo (the third was added 2026-10-19 after P3.5) (seed year 2049):
 
 | Report | What blocks it | Evidence |
 |---|---|---|
 | Jurnal Perintah Kerja (`WorkOrderJournalReport`) | Work orders need the Manufaktur preference `featureFabrication`. In Manufaktur Demo the checkbox is disabled; the preferences form sends no save request and the flag reads back `false`. Without a work order there is nothing to capture. | All 4 sandbox captures are layout only. Trade Portal's is tagged `data` in `_coverage.md`, but the page holds only the header (`Nomor # Perintah Kerja :`, empty table). |
 | Monitoring HPP (`CogsMonitoringReport`) | The report stays empty after new 2049 purchases (PI.2049.03.00001/00002) and a sale (SI.2049.03.00001). The data that makes rows appear is unknown. | 3 attempts across the earlier passes and P3.2 (spec [CogsMonitoringReport.md](../reports/CogsMonitoringReport.md)). |
+| Pembayaran PPh Penjualan (`SalesInvoicePphPaidReport`) | Stays empty for 2050 even though PPh is withheld on a receipt (SI.2050.01.00001, received by NL-T1-1101.2050.01.00001 with `paidPph=true` and a `detailTax` row). That same receipt fills its twin, Daftar Bukti Potong PPh Penjualan. | 3 attempts in P3.5, recorded in [SalesInvoicePphPaidReport.md](../reports/SalesInvoicePphPaidReport.md): `cutSalesPph` with no tax row (saved as a plain partial receipt), `paidPph` with a tax row (report empty), and `selfPaidPph` (refused: "Nilai Pembayaran tidak mencukupi untuk melunasi pembayaran!"). The captures in Trade Portal, Kontraktor and Manufaktur are all layout only. |
 
 **Evidence: Manufaktur is a paid add-on (checked 2026-10-19 against Accurate's own pages).**
 - [accurate.id/harga](https://accurate.id/harga/) lists the base plan "Paket Dasar Accurate" at "Rp 333,000 /bulan" ("Tanpa
@@ -39,14 +40,20 @@ HPP" and "Laporan Produksi". `_coverage.md` files Monitoring HPP under Penjualan
 demos, so it may not depend on the add-on at all. It is a divergence because three captures came back empty, not because
 of a paywall.
 
+**Pembayaran PPh Penjualan: hypothesis, unproven.** Its columns are `Faktur Penjualan | PPh | Bayar PPh | NTPN | Tgl
+Bayar PPh`. The last three describe the *deposit* of withheld PPh to the tax office, identified by its NTPN. The likely
+trigger is therefore a separate "pembayaran PPh" record with an NTPN, not the receipt that withholds the PPh. The ERP
+does not model that deposit either: in the built twin, Pembayaran PPh Pembelian, Bayar PPh is always 0 and NTPN is
+empty. No such form was found in the 3 attempts. Nothing ties this report to the Manufaktur add-on.
+
 **Unofficial (resellers only, not confirmed by Accurate):** a yearly price around Rp 22.200.000 and a 30-day free trial
 of the add-on ([penjualanonline.id](https://penjualanonline.id/accurate-online-harga-accurate-online/),
 [pencatatan.id](https://pencatatan.id/accurate-manufaktur/)). If a free trial exists, Jurnal Perintah Kerja could be
 captured at no cost. Activating one is an account-level action and the principal's decision.
 
 ## Decision
-- 21 of the 23 reports are built and verified to zero diff. Their `_coverage.md` status is `done`.
-- `WorkOrderJournalReport` and `CogsMonitoringReport` get the status **`accepted divergence (ADR-0039)`**. The ERP does
+- The other reports of the 23 are built and verified to zero diff. Their `_coverage.md` status is `done`.
+- `WorkOrderJournalReport`, `CogsMonitoringReport` and `SalesInvoicePphPaidReport` get the status **`accepted divergence (ADR-0039)`**. The ERP does
   not build them. Their specs keep the layout, the parameters and the record of each attempt. They do not count as
   `done`. The count script reports them on a separate line, so the 291/291 line stays honest.
 - No Accurate add-on is bought to close them. The goal limits the work to the four free demos, and buying an add-on is
@@ -62,7 +69,7 @@ captured at no cost. Activating one is an account-level action and the principal
 - **Move them to the second goal:** rejected. Without the add-on, the second goal would hit the same block.
 
 ## Consequences
-- The parity done line reads 289 done + 2 accepted divergences = 291. `bun apps/api/scripts/coverage.ts` prints the
+- The parity done line reads 288 done + 3 accepted divergences = 291. `bun apps/api/scripts/coverage.ts` prints the
   divergences separately.
 - If the add-on is ever enabled, or a sandbox with it appears, reopen both reports with a capture. Seed a new year and
   set this ADR's status to Superseded.
@@ -84,4 +91,5 @@ Likelihood × impact, using the matrix supplied with the `/risk-assessment` requ
 | Monitoring HPP shows something users rely on that the ERP cannot show | Medium | Low (other HPP reports, Pembelian (HPP) and Penyesuaian Bahan (HPP), cover cost per movement) | Low | Point users to those reports; revisit once a populated capture exists | Principal |
 | A free add-on trial would close Jurnal Perintah Kerja at no cost, and it goes unused | Low (trial claimed only by resellers) | Low (1 report) | Low | Principal decides whether to activate a trial on a demo Data Usaha | Principal |
 | Monitoring HPP has a non-add-on trigger that was never found | Medium | Low | Low | Ask Accurate support what populates it; reopen with a capture | Principal |
+| Customers rely on the receivable-side PPh deposit record (NTPN) the ERP cannot show | Medium (Indonesian B2B customers withhold PPh 23 often) | Medium (tax reconciliation is done by hand; withholding slips are still covered by Daftar Bukti Potong PPh Penjualan) | Medium | Model the PPh deposit with NTPN on both sides together, then capture again; ask Accurate support what fills the report | Principal |
 | Reports built on the add-on later diverge from Accurate's real output | Low | Medium | Low | Never build without a capture (decision above) | Agent |

@@ -141,7 +141,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Pernyataan Piutang](CustomerStatementReport.md) | `CustomerStatementReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Grafik Rata-rata Pembayaran Pelanggan](OwingCollectionGraphReport.md) | `OwingCollectionGraphReport` | Piutang | Y | Y | Y | empty | Y | empty | done | Sales |  |
 | [Pembayaran Faktur](SalesInvoicePaidReport.md) | `SalesInvoicePaidReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
-| [Pembayaran PPh Penjualan](SalesInvoicePphPaidReport.md) | `SalesInvoicePphPaidReport` | Piutang | Y | Y | Y | data | Y | empty | done (out of scope) | Sales | P3.5 stopped: 3 form-shape attempts, report stays empty with PPh withheld on a 2050 receipt (see spec) |
+| [Pembayaran PPh Penjualan](SalesInvoicePphPaidReport.md) | `SalesInvoicePphPaidReport` | Piutang | Y | Y | Y | data | Y | empty | accepted divergence (ADR-0039) | Sales | P3.5 stopped: 3 form-shape attempts, report stays empty with PPh withheld on a 2050 receipt (see spec) |
 | [Sisa Kredit Pelanggan](CustomerExistingCreditListReport.md) | `CustomerExistingCreditListReport` | Piutang | Y | Y | Y | data | Y | empty | done | Sales |  |
 | [Penerimaan Penjualan](SalesReceiptListReport.md) | `SalesReceiptListReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |
 | [Rincian Penerimaan Penjualan](SalesReceiptListDetailReport.md) | `SalesReceiptListDetailReport` | Piutang | Y | Y | Y | data | Y | data | done | Sales |  |

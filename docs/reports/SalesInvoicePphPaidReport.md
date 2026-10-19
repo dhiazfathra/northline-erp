@@ -1,6 +1,6 @@
 # Pembayaran PPh Penjualan (`SalesInvoicePphPaidReport`)
 
-Group: Piutang. **Status: out of scope** ([ADR-0014](../decisions/0014-pph-reports-out-of-scope.md)); **stopped in P3.5** (stop rule: form shape not found after 3 attempts), not built.
+Group: Piutang. **Status: accepted divergence** ([ADR-0039](../decisions/0039-out-of-scope-reports-reopened.md)); **stopped in P3.5** (stop rule: form shape not found after 3 attempts), not built.
 Capture: [`captures/SalesInvoicePphPaidReport.json`](captures/SalesInvoicePphPaidReport.json), run with default parameters over the sandbox demo data.
 
 ## Parameters
