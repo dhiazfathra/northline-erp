@@ -18,10 +18,11 @@ an opening stock adjustment, selling price/discount adjustments, item and tax ma
 receivable or payable documents. Of those 35, 21 had no amounts in the Manufaktur or Retail captures.
 
 ## Findings
-1. **Parameters.** Trade Portal Demo answers with Accurate's generic "Upsss..." 500 when a branch parameter is
-   `[{name:"[Semua Cabang]",id:null}]` or when a `PER_BRANCH` / `IN_CURRENCY` parameter is omitted. Manufaktur and
-   Retail Demo accept both. Sending every non-boolean parameter as `[]` works in Trade Portal Demo and means "all".
-   `steps-capture-missing.mjs` does this only for `ACC_DB=trade`, so earlier captures are unchanged.
+1. **Parameters.** Trade Portal Demo answers with Accurate's generic "Upsss..." 500 when a `PER_BRANCH` or
+   `IN_CURRENCY` parameter is omitted; sending `[]` works and means "all". Branch-multi parameters
+   (`BRANCH_MULTI_WITH_ALL_BRANCH`) need `[{name:"[Semua Cabang]",id:null}]` as in the other sandboxes: `[]` there
+   silently returns no rows (corrected 2026-10-19; the first Trade capture used `[]` and showed false empties). A few
+   reports 500 on `[Semua Cabang]`; `steps-capture-missing.mjs` retries those with `[]`, only for `ACC_DB=trade`.
 2. **Date and warehouse parameters.** `DATECOMPARE` (Neraca Perbandingan Periode) and `YEARTODATE` (Grafik
    Penjualan) take `startDate`/`endDate`. A single-warehouse parameter (`WAREHOUSE`) must be a list,
    `[{"name":"Utama","id":50}]`: Trade Portal rejects `null` (Manufaktur Demo accepts it) and a bare string or object
@@ -49,3 +50,8 @@ in the affected specs and the parameter rule in the capture tooling; change no r
 
 ## Consequences
 - Anyone capturing from Trade Portal Demo must use `ACC_DB=trade` so the `[]` parameter rule applies.
+6. **Costing method: Average.** NL-TP-B1 bought 10 @ 100.000 (PI.2045.03.00003) and 10 @ 120.000
+   (PI.2045.03.00004), sold 15 @ 200.000 (SI.2045.03.00001): Laba/Rugi March 2045 shows Beban Pokok Penjualan
+   1.650.000 (15 x 110.000). FIFO, used by Manufaktur Demo and the ERP (ADR-0006), gives 1.600.000. Plan:
+   ADR-0031.
+
