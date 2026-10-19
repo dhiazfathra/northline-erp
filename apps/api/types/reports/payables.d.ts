@@ -1,6 +1,6 @@
 import { type AgingBasis, type SalesData } from './receivables';
 /** Faktur Belum Lunas (Utang): column header before the currency line; vendor name rows carry no "Sisa Kredit". */
-export declare function outstandingPurchases(d: SalesData, asOf: string): string[][];
+export declare function outstandingPurchases(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Umur Utang: no currency column and no credit column; one total row. */
 export declare function agingPayable(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 /** Pembelian per Pemasok */

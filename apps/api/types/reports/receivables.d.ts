@@ -82,7 +82,8 @@ export declare function arHistory(d: SalesData, from: string, to: string): strin
 /** Pernyataan Piutang: one statement per customer (contact fields print empty). */
 export declare function customerStatement(d: SalesData, from: string, to: string): string[][];
 /** Faktur Belum Lunas: per customer (by name), unpaid invoices at `asOf` with age in days from the due date. */
-export declare function outstandingInvoices(d: SalesData, asOf: string): string[][];
+/** Umur (hr) follows the company's aging basis (Trade Portal capture of 30 Apr 2045, ADR-0037). */
+export declare function outstandingInvoices(d: SalesData, asOf: string, basis?: AgingBasis): string[][];
 export declare const BUCKETS: string[];
 /** Age from the due date (Manufaktur/Retail Demo) or the invoice date (Trade Portal Demo preference, ADR-0029 finding 7). */
 export type AgingBasis = 'DUE_DATE' | 'INVOICE_DATE';

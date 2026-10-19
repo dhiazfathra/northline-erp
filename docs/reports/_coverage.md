@@ -8,7 +8,7 @@ ERP module dependency is the module the report reads. The ERP already event-sour
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
+Totals (counted by `bun apps/api/scripts/coverage.ts`, asserted in `apps/api/test/coverage.test.ts`): 291 rows; 257 done, 23 done (out of scope), 11 blocked on Contractor Projects. At the Retail pass: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
 (ADR-0022 to ADR-0028); SalesCheckInPerSalesmanReport and ApprovalListReport on their empty layout only (see specs).
 
 Retail re-check: every done row was verified against Manufaktur Demo fixtures. Retail Demo carries data Manufaktur Demo
