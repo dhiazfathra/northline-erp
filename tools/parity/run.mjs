@@ -7,7 +7,7 @@ import { execSync } from 'node:child_process';
 import { DB, openSandbox } from '../accurate/acc.mjs';
 import { erpLogin, red } from './lib.mjs';
 
-if (process.env.ACC_DB && process.env.ACC_DB !== 'manufaktur') throw new Error('P4 batch 1 runs on Manufaktur Demo only');
+if (process.env.ACC_DB && process.env.ACC_DB !== 'manufaktur') throw new Error('P4 scenarios run on Manufaktur Demo only');
 const name = process.argv[2];
 const sc = (await import(`./scenarios/${name}.mjs`)).default;
 const dir = new URL(`../../docs/parity/${sc.dir}/`, import.meta.url).pathname;
@@ -20,16 +20,16 @@ const o = await openSandbox();
 const { browser } = o;
 let app = o.app, vctx = null;
 // VIDEO=1 (scenarios with a divergence): the Accurate run is recorded in a second context that reuses the session (the login
-// page is never recorded). A persistent mask hides the header and any text with the Data Usaha name, an email or an IP;
+// page is never recorded). A persistent mask hides the header and any text with the Data Usaha name, an email, an IP or the version tag;
 // it is asserted by computed style before the run and the recording is dropped if the assert fails.
 if (process.env.VIDEO) {
   vctx = await browser.newContext({ storageState: await o.ctx.storageState(), recordVideo: { dir: dir + '.video/', size: { width: 1280, height: 720 } }, viewport: { width: 1280, height: 720 } });
   await vctx.addInitScript((db) => {
-    const EMAIL = /[\w.+-]+@[\w-]+\.[\w.]+/, IP = /\b\d{1,3}(\.\d{1,3}){3}\b/;
+    const EMAIL = /[\w.+-]+@[\w-]+\.[\w.]+/, IP = /\b\d{1,3}(\.\d{1,3}){3}\b/, VER = /\bv\s?\d+\.\d+\.\d+#\d+(-\d+)?/;
     const hide = () => {
       for (const el of document.querySelectorAll('.user-id, .user-id-name, span.first-name')) el.style.setProperty('visibility', 'hidden', 'important');
       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-      for (let n; (n = w.nextNode());) { const t = n.textContent; if (n.parentElement && (t.includes(db) || EMAIL.test(t) || IP.test(t))) n.parentElement.style.setProperty('visibility', 'hidden', 'important') }
+      for (let n; (n = w.nextNode());) { const t = n.textContent; if (n.parentElement && (t.includes(db) || EMAIL.test(t) || IP.test(t) || VER.test(t))) n.parentElement.style.setProperty('visibility', 'hidden', 'important') }
     };
     const st = document.createElement('style'); st.textContent = '.user-id, .user-id-name, span.first-name { visibility: hidden !important }';
     document.addEventListener('DOMContentLoaded', () => { document.head.appendChild(st); hide(); new MutationObserver(hide).observe(document.body, { subtree: true, childList: true, characterData: true }) });
@@ -54,7 +54,9 @@ try {
 const rows = sc.compare(acc, erp);
 const diffs = rows.filter((r) => !r.same);
 log('## Compare', diffs.length ? `${diffs.length} differing aspect(s): ${diffs.map((r) => r.aspect).join(', ')}` : 'all aspects match');
-const verdict = sc.stopped ? `stopped: ${sc.stopped}` : diffs.length === 0 ? 'pass' : diffs.every((r) => sc.accepted?.[r.aspect]) ? 'accepted divergence (ADR-0041)' : 'FAIL';
+// divergence ADRs a scenario cites (batch 1: ADR-0041; batch 2 adds ADR-0042)
+const ADRS = { 'ADR-0041': '0041-p4-batch-1-screen-divergences.md', 'ADR-0042': '0042-p4-batch-2-screen-divergences.md' }, adrs = sc.adrs ?? ['ADR-0041'];
+const verdict = sc.stopped ? `stopped: ${sc.stopped}` : diffs.length === 0 ? 'pass' : diffs.every((r) => sc.accepted?.[r.aspect]) ? `accepted divergence (${adrs.join(', ')})` : 'FAIL';
 log('verdict', verdict);
 writeFileSync(dir + 'run.log', lines.join('\n') + '\n');
 
@@ -82,12 +84,12 @@ ${JSON.stringify(sc.inputs, null, 1)}
 | Aspect | Accurate | ERP | Same |
 |---|---|---|---|
 ${rows.map((r) => `| ${r.aspect} | ${cell(r.accurate)} | ${cell(r.northline)} | ${r.same ? 'yes' : 'no'} |`).join('\n')}
-${sc.stopped ? `\n## Stopped\n${sc.stoppedNote}\n` : ''}${diffs.length ? `\n## Divergences\n${diffs.map((r) => `- **${r.aspect}**: ${sc.accepted?.[r.aspect] ?? 'not accepted'}`).join('\n')}\n\nSee [ADR-0041](../../../decisions/0041-p4-batch-1-screen-divergences.md). A video of the Accurate run (\`accurate.webm\`) is kept locally, not committed.\n` : ''}
+${sc.stopped ? `\n## Stopped\n${sc.stoppedNote}\n` : ''}${diffs.length ? `\n## Divergences\n${diffs.map((r) => `- **${r.aspect}**: ${sc.accepted?.[r.aspect] ?? 'not accepted'}`).join('\n')}\n\nSee ${adrs.map((a) => `[${a}](../../../decisions/${ADRS[a]})`).join(' and ')}. A video of the Accurate run (\`accurate.webm\`) is kept locally, not committed.\n` : ''}
 ## Evidence
 - [run.log](run.log)
 ${shots.map((s) => `- ${s}: [Accurate](accurate-${s}.png), [ERP](erp-${s}.png)`).join('\n')}
 
 ERP screenshots render the API request and response: the web doc screens are still mock data (\`apps/web/src/api/docs.ts\`).
-Accurate screenshots mask the header (Data Usaha name, user menu) and any email or IP; the mask is asserted before each capture.
+Accurate screenshots mask the header (Data Usaha name, user menu), any email or IP and the version/session tag; the mask is asserted before each capture.
 `);
 console.log('wrote', dir);

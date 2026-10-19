@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { purchaseDownPaymentInput, purchaseInvoiceInput, purchasePaymentInput, vendorInput, type PurchaseDownPaymentInput, type PurchaseInvoiceInput, type PurchasePaymentInput } from '@northline/schemas/sales'
 import { z } from 'zod'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period, withheldPph } from '../sales/service'
@@ -17,7 +17,7 @@ export async function upsertVendor(db: Db, input: z.input<typeof vendorInput>) {
 
 const rupiah = (cents: number) => (cents / 100).toFixed(2)
 
-export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput) {
+export async function createPurchaseInvoice(db: Db | Tx, input: PurchaseInvoiceInput) {
   const inv = purchaseInvoiceInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${inv.idempotencyKey}`)
@@ -94,6 +94,40 @@ export async function createPurchaseInvoice(db: Db, input: PurchaseInvoiceInput)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${inv.idempotencyKey}, 'CreatePurchaseInvoice', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removePurchaseInvoice(tx: Tx, number: string, idempotencyKey: string) {
+  const [pi] = await tx.execute(sql`SELECT journal_id FROM purchase_invoices WHERE number = ${number} AND kind = 'PI' FOR UPDATE`)
+  if (!pi) throw new DomainError(`Faktur ${number} tidak ditemukan`)
+  for (const t of ['purchase_invoice_lines', 'purchase_invoice_taxes', 'purchase_invoice_expenses', 'purchase_dp_usages'])
+    await tx.execute(sql`DELETE FROM ${sql.identifier(t)} WHERE invoice_number = ${number}`)
+  await tx.execute(sql`DELETE FROM serial_numbers WHERE doc_type = 'PI' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'PI' AND doc_number = ${number}`)
+  // payments, returns and transfer orders reference the invoice by foreign key
+  await tx.execute(sql`DELETE FROM purchase_invoices WHERE number = ${number}`).catch(e => {
+    throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`Faktur ${number} sudah dipakai transaksi lain`) : e
+  })
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: pi.journal_id as string })
+}
+
+export async function deletePurchaseInvoice(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchaseInvoice(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeletePurchaseInvoice', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editPurchaseInvoice(db: Db, number: string, input: PurchaseInvoiceInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchaseInvoice(tx, number, input.idempotencyKey)
+    return createPurchaseInvoice(tx, { ...input, number: input.number ?? number })
   })
 }
 

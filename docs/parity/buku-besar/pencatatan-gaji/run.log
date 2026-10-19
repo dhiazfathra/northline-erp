@@ -1,0 +1,24 @@
+# Pencatatan Gaji — inputs {"date":"2051-02-28","year":2051,"month":2,"employee":"NL-PY50-E1","description":"NL-P4-EPY1","fees":{"Gaji Pokok":10000000,"Tunjangan Transportasi":1000000},"payableAccount":"210206","pphAccount":"210205","feeAccounts":{"Gaji Pokok":"600004","Tunjangan Transportasi":"600006"},"edit":{"description":"NL-P4-EPY1 edit","fees":{"Gaji Pokok":12000000,"Tunjangan Transportasi":1000000}},"reject":{"description":"NL-P4-EPY1 tanpa karyawan"}}
+## Accurate
+template row employee NL-PY50-E1
+new form defaults {"date":"today","period":"this month","type":"MONTHLY","payableAccount":302,"pphAccount":301,"branch":"Kantor Pusat"}
+create true EPY.2051.02.00002
+edit true EPY.2051.02.00002
+journal after edit [["Tanggal",":","28 Feb 2051","No. Trans #",":","EPY.2051.02.00002"],["Tipe Transaksi",":","Pencatatan Gaji","Deskripsi",":","NL-P4-EPY1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600004","Beban Gaji, Upah & Honorer","12.000.000","0"],["600006","Beban Transportasi Karyawan","1.000.000","0"],["210205","Hutang PPh 21","0","650.000"],["210206","Hutang Gaji Karyawan","0","12.350.000"],["13.000.000","13.000.000"]]
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Rincian Karyawan harus diisi","OK","Salin"],"sent":[]}
+delete true Pencatatan Gaji "EPY.2051.02.00002" berhasil dihapus
+journal after delete [] list before/after ["EPY.2051.02.00002"] []
+## ERP (local seeded instance)
+setup account POST /ledger/commands 202 {"streams":["account-600004"],"globalPosition":120}
+setup account POST /ledger/commands 202 {"streams":["account-600006"],"globalPosition":121}
+setup account POST /ledger/commands 202 {"streams":["account-210205"],"globalPosition":122}
+setup employee POST /employees 200 {"ok":true}
+create POST /payroll/runs 201 {"number":"EPY.2051.02.00002","lines":[{"employee":"NL-PY50-E1","income":11000000,"paid":10670000,"pph":330000}]}
+edit PUT /payroll/runs/EPY.2051.02.00002 200 {"number":"EPY.2051.02.00002","lines":[{"employee":"NL-PY50-E1","income":13000000,"paid":12350000,"pph":650000}]}
+journal after edit [["Tanggal",":","28 Feb 2051","No. Trans #",":","EPY.2051.02.00002"],["Tipe Transaksi",":","Pencatatan Gaji","Deskripsi",":","NL-P4-EPY1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600004","Beban Gaji, Upah & Honorer","12.000.000","0"],["600006","Beban Transportasi Karyawan","1.000.000","0"],["210205","Hutang PPh 21","0","650.000"],["210206","Hutang Gaji Karyawan","0","12.350.000"],["13.000.000","13.000.000"]]
+reject POST /payroll/runs 409 {"error":"Detail dari transaksi belum diisi!"}
+delete DELETE /payroll/runs/EPY.2051.02.00002 200 {"number":"EPY.2051.02.00002"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

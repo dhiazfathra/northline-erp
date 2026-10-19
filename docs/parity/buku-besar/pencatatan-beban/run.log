@@ -1,0 +1,19 @@
+# Pencatatan Beban — inputs {"date":"2051-02-02","dueDate":"2051-03-02","payableAccount":"210206","description":"NL-P4-EA1","lines":[{"account":"600011","amount":120000}],"edit":{"description":"NL-P4-EA1 edit","amount":135000},"reject":{"description":"NL-P4-EA1 tanpa rincian"}}
+## Accurate
+new form defaults {"date":"today","dueDate":"today","payableAccount":"none","branch":"Kantor Pusat"}
+create true EXP.2051.02.00002
+edit true EXP.2051.02.00002
+journal after edit [["Tanggal",":","02 Feb 2051","No. Trans #",":","EXP.2051.02.00002"],["Tipe Transaksi",":","Pencatatan Beban","Deskripsi",":","NL-P4-EA1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600011","Beban Listrik","135.000","0"],["210206","Hutang Gaji Karyawan","0","135.000"],["135.000","135.000"]]
+reject false Detail dari transaksi belum diisi!; Ada yang salah dengan data yang dimasukkan. Total nilai harus lebih besar dari nol.
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Hutang Beban harus diisi","Rincian Beban harus diisi","OK","Salin"],"sent":[]}
+delete true Pencatatan Beban "EXP.2051.02.00002" berhasil dihapus
+journal after delete [] list before/after ["EXP.2051.02.00002"] []
+## ERP (local seeded instance)
+create POST /expense-accruals 201 {"number":"EXP.2051.02.00002"}
+edit PUT /expense-accruals/EXP.2051.02.00002 200 {"number":"EXP.2051.02.00002"}
+journal after edit [["Tanggal",":","02 Feb 2051","No. Trans #",":","EXP.2051.02.00002"],["Tipe Transaksi",":","Pencatatan Beban","Deskripsi",":","NL-P4-EA1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600011","Beban Listrik","135.000","0"],["210206","Hutang Gaji Karyawan","0","135.000"],["135.000","135.000"]]
+reject POST /expense-accruals 409 {"error":"Detail dari transaksi belum diisi!; Ada yang salah dengan data yang dimasukkan. Total nilai harus lebih besar dari nol."}
+delete DELETE /expense-accruals/EXP.2051.02.00002 200 {"number":"EXP.2051.02.00002"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

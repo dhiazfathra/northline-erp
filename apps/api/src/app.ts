@@ -1,5 +1,5 @@
 import * as ML from './master/lists'
-import { createCashDocument, deleteCashDocument, editCashDocument } from './cash-bank/service'
+import { createCashDocument, createExpenseAccrual, deleteCashDocument, deleteExpenseAccrual, editCashDocument, editExpenseAccrual } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
 import { createEmployeeLoan, createLoanDisbursement, deleteEmployeeLoan, deleteLoanDisbursement, editEmployeeLoan, editLoanDisbursement, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import * as PAY from './payroll/payroll'
@@ -35,15 +35,15 @@ import * as PPH from './reports/pph'
 import { createTransferOrder } from './purchases/transfer-orders'
 import * as ACC from './reports/access'
 import { setBranchUsers, upsertAccessGroup } from './access/service'
-import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
-import { createPurchaseReturn, createSalesReturn } from './returns/service'
+import { createFixedAsset, deletePeriodEnd, disposeFixedAsset, editPeriodEnd, runPeriodEnd } from './fixed-assets/service'
+import { createPurchaseReturn, createSalesReturn, deleteSalesReturn, editSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
 import { costingMethod, setCostingMethod } from './inventory/fifo'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { reportPreferences, setReportPreferences } from './reports/preferences'
-import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, deleteSalesDownPayment, editSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
+import { createPurchaseDownPayment, createPurchaseInvoice, deletePurchaseInvoice, editPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
+import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, deleteSalesDownPayment, editSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteSalesReceipt, editSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 /** Socket address under Bun; on Workers the edge's cf-connecting-ip (a client-sent header is never trusted under Bun). */
@@ -380,6 +380,20 @@ export function createApp(db: Db) {
   api.post('/employee-loan-disbursements', async c => c.json(await createLoanDisbursement(db, await body(c)), 201))
   api.put('/employee-loan-disbursements/:number', async c => c.json(await editLoanDisbursement(db, c.req.param('number'), await body(c))))
   api.delete('/employee-loan-disbursements/:number', async c => c.json(await deleteLoanDisbursement(db, c.req.param('number'), await key(c))))
+  // P4.2 batch 2
+  api.put('/period-ends/:period', async c => c.json(await editPeriodEnd(db, c.req.param('period'), await body(c))))
+  api.delete('/period-ends/:period', async c => c.json(await deletePeriodEnd(db, c.req.param('period'), await key(c))))
+  api.put('/payroll/runs/:number', async c => c.json(await PAY.editPayrollRun(db, c.req.param('number'), await body(c))))
+  api.delete('/payroll/runs/:number', async c => c.json(await PAY.deletePayrollRun(db, c.req.param('number'), await key(c))))
+  api.post('/expense-accruals', async c => c.json(await createExpenseAccrual(db, await body(c)), 201))
+  api.put('/expense-accruals/:number', async c => c.json(await editExpenseAccrual(db, c.req.param('number'), await body(c))))
+  api.delete('/expense-accruals/:number', async c => c.json(await deleteExpenseAccrual(db, c.req.param('number'), await key(c))))
+  api.put('/sales/receipts/:number', async c => c.json(await editSalesReceipt(db, c.req.param('number'), await body(c))))
+  api.delete('/sales/receipts/:number', async c => c.json(await deleteSalesReceipt(db, c.req.param('number'), await key(c))))
+  api.put('/sales/returns/:number', async c => c.json(await editSalesReturn(db, c.req.param('number'), await body(c))))
+  api.delete('/sales/returns/:number', async c => c.json(await deleteSalesReturn(db, c.req.param('number'), await key(c))))
+  api.put('/purchases/invoices/:number', async c => c.json(await editPurchaseInvoice(db, c.req.param('number'), await body(c))))
+  api.delete('/purchases/invoices/:number', async c => c.json(await deletePurchaseInvoice(db, c.req.param('number'), await key(c))))
   // API reference (ADR-0020): behind the session like the rest of /api; spec built lazily from the final route table
   let spec: ReturnType<typeof openApiSpec> | undefined
   api.get('/openapi.json', c => c.json(spec ??= openApiSpec(api, '/api'))).get('/docs', Scalar({ url: '/api/openapi.json', pageTitle: 'Northline ERP API' }))

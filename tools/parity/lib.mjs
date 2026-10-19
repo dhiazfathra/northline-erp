@@ -81,15 +81,15 @@ export function reportBody(rows) {
 }
 
 /**
- * Masked screenshot: the header (Data Usaha name and user menu) and any text holding the Data Usaha name, an email or an
- * IP get visibility:hidden plus a solid overlay; the mask is asserted by computed style and the capture aborts if it fails.
+ * Masked screenshot: the header (Data Usaha name and user menu) and any text holding the Data Usaha name, an email, an
+ * IP or the version/session tag (`v1.0.1#NNNN-NNNNNNN`) get visibility:hidden plus a solid overlay; the mask is asserted by computed style and the capture aborts if it fails.
  */
 export async function accShot(app, path, { mod, id } = {}) {
   await assertSandbox(app);
   if (mod) { await app.evaluate(({ mod, id }) => acc.openModule(mod, id ? { id } : {}), { mod, id }); await app.waitForTimeout(6000); await assertSandbox(app) }
   const ok = await app.evaluate((db) => {
-    const EMAIL = /[\w.+-]+@[\w-]+\.[\w.]+/, IP = /\b\d{1,3}(\.\d{1,3}){3}\b/
-    const leaks = (t) => t.includes(db) || EMAIL.test(t) || IP.test(t)
+    const EMAIL = /[\w.+-]+@[\w-]+\.[\w.]+/, IP = /\b\d{1,3}(\.\d{1,3}){3}\b/, VER = /\bv\s?\d+\.\d+\.\d+#\d+(-\d+)?/ // VER: the top-left version/session tag
+    const leaks = (t) => t.includes(db) || EMAIL.test(t) || IP.test(t) || VER.test(t)
     const targets = new Set(document.querySelectorAll('.user-id, .user-id-name, span.first-name'))
     const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
     for (let n; (n = walk.nextNode());) if (leaks(n.textContent) && n.parentElement) targets.add(n.parentElement)

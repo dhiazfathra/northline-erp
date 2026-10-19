@@ -31,6 +31,7 @@ export async function open({ headless = true } = {}) {
 export async function login(page) {
   await page.goto('https://account.accurate.id/', { waitUntil: 'networkidle', timeout: 90000 });
   const u = page.locator('input#account:visible').first();
+  await u.waitFor({ timeout: 20000 }).catch(() => {}); // the login form renders after networkidle (seen 2026-10-19)
   if (await u.count()) {
     await u.fill(env.ACCURATE_USER);
     await page.locator('input[type=password]:visible').first().fill(env.ACCURATE_PASS);
@@ -51,7 +52,7 @@ export async function openSandbox() {
   const hits = o.page.getByText(DB, { exact: true });
   await hits.first().waitFor({ timeout: 30000 }).catch(() => {}); // the Data Usaha list renders late on a fresh login
   if ((await hits.count()) !== 1) throw new Error('openSandbox: sandbox not uniquely listed; abort');
-  const [np] = await Promise.all([o.ctx.waitForEvent('page', { timeout: 20000 }).catch(() => null), hits.first().click()]);
+  const [np] = await Promise.all([o.ctx.waitForEvent('page', { timeout: 60000 }).catch(() => null), hits.first().click()]);
   o.app = np ?? o.page;
   await o.app.waitForLoadState('networkidle');
   await o.app.waitForSelector('span.first-name', { timeout: 60000 });

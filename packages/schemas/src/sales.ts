@@ -54,7 +54,7 @@ export const salesReceiptInput = z.object({
   date: isoDate,
   description: z.string().default(''),
   payments: z.array(z.object({ invoice: code, amount: amountToCents, /** installment name being paid */ installment: z.string().optional(),
-    /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1),
+    /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
   /** Amount received; above the sum of payments the excess is a customer credit (kelebihan bayar). Omitted = sum of payments. */
   amount: amountToCents.optional(),
   /** Cek/Giro: the cheque number and its due date (giro mundur until then). */
@@ -78,7 +78,7 @@ export const purchaseInvoiceInput = z.object({
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents,
     /** Unique serial numbers received (one unit each), or batch/production numbers with a quantity and optional expiry (ADR-0024). */
-    serials: z.array(z.union([z.string().min(1), z.object({ no: z.string().min(1), qty: z.number().positive(), expiry: isoDate.optional() })])).default([]) })).min(1),
+    serials: z.array(z.union([z.string().min(1), z.object({ no: z.string().min(1), qty: z.number().positive(), expiry: isoDate.optional() })])).default([]) })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
   /** Receiving warehouse (serial-number stock is per warehouse). */
   warehouse: z.string().default('Utama'),
   /** PPN Masukan from each line's item default tax (ADR-0009). */
@@ -108,7 +108,7 @@ export const returnInput = z.object({
   date: isoDate,
   description: z.string().default(''),
   lines: z.array(z.object({ item: code, qty: z.number().positive(), price: amountToCents,
-    /** Invoice line returned (its seq); the return line takes that line's salesmen (ADR-0023). */ invoiceSeq: z.number().int().positive().optional() })).min(1),
+    /** Invoice line returned (its seq); the return line takes that line's salesmen (ADR-0023). */ invoiceSeq: z.number().int().positive().optional() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
 })
 export type ReturnInput = z.input<typeof returnInput>
 

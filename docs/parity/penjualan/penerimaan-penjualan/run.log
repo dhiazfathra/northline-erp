@@ -1,0 +1,23 @@
+# Penerimaan Penjualan — inputs {"invoice":{"date":"2051-02-04","description":"NL-P4-SR1 faktur","qty":1,"price":300000},"date":"2051-02-05","bank":"NL-T1-1101","customer":"NL-T2-C1","description":"NL-P4-SR1","amount":300000,"edit":{"description":"NL-P4-SR1 edit","amount":250000},"reject":{"description":"NL-P4-SR1 tanpa faktur"}}
+## Accurate
+setup invoice true SI.2051.02.00006
+new form defaults {"date":"today","bank":"none","paymentMethod":"CASH_OTHER","branch":"Kantor Pusat"}
+create true NL-T1-1101.2051.02.00002
+edit true NL-T1-1101.2051.02.00002
+journal after edit [["Tanggal",":","05 Feb 2051","No. Trans #",":","NL-T1-1101.2051.02.00002"],["Tipe Transaksi",":","Penerimaan Penjualan","Deskripsi",":","NL-P4-SR1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1101","NL-T1 Kas","250.000","0"],["110301","Piutang Usaha IDR","0","250.000"],["250.000","250.000"]]
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Terima dari harus diisi","Bank harus diisi","Faktur harus diisi","OK","Salin"],"sent":[]}
+delete true Penerimaan Penjualan "NL-T1-1101.2051.02.00002" berhasil dihapus
+journal after delete [] list before/after ["NL-T1-1101.2051.02.00002"] []
+teardown invoice true Faktur Penjualan "SI.2051.02.00006" berhasil dihapus
+## ERP (local seeded instance)
+setup invoice POST /sales/invoices 201 {"number":"SI.2051.02.00004"}
+create POST /sales/receipts 201 {"number":"NL-T1-1101.2051.02.00002"}
+edit PUT /sales/receipts/NL-T1-1101.2051.02.00002 200 {"number":"NL-T1-1101.2051.02.00002"}
+journal after edit [["Tanggal",":","05 Feb 2051","No. Trans #",":","NL-T1-1101.2051.02.00002"],["Tipe Transaksi",":","Penerimaan Penjualan","Deskripsi",":","NL-P4-SR1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1101","NL-T1 Kas","250.000","0"],["110301","Piutang Usaha IDR","0","250.000"],["250.000","250.000"]]
+reject POST /sales/receipts 422 {"error":"validation","issues":[{"origin":"array","code":"too_small","minimum":1,"inclusive":true,"path":["payments"],"message":"Detail dari transaksi belum diisi!"}]}
+delete DELETE /sales/receipts/NL-T1-1101.2051.02.00002 200 {"number":"NL-T1-1101.2051.02.00002"}
+journal after delete [] list before/after true false
+teardown invoice DELETE /sales/invoices/SI.2051.02.00004 200 {"number":"SI.2051.02.00004"}
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

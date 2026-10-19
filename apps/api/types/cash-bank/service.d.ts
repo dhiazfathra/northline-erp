@@ -23,7 +23,7 @@ export declare function deleteCashDocument(db: Db, number: string, idempotencyKe
 export declare function editCashDocument(db: Db, number: string, d: CashDocument): Promise<{
     number: string;
 }>;
-export declare function createExpenseAccrual(db: Db, d: {
+type ExpenseAccrual = {
     idempotencyKey: string;
     number?: string;
     date: string;
@@ -34,7 +34,15 @@ export declare function createExpenseAccrual(db: Db, d: {
         account: string;
         amount: number;
     }[];
-}): Promise<{
+};
+export declare function createExpenseAccrual(db: Db | Tx, d: ExpenseAccrual): Promise<{
+    number: string;
+}>;
+export declare function deleteExpenseAccrual(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does. */
+export declare function editExpenseAccrual(db: Db, number: string, d: ExpenseAccrual): Promise<{
     number: string;
 }>;
 export {};

@@ -60,10 +60,13 @@ export async function editCashDocument(db: Db, number: string, d: CashDocument) 
 }
 
 // Pencatatan Beban (fixtures/expense-accrual-t26.json): number EXP.yyyy.mm.nnnnn; Dr each expense line in entry order / Cr the payable account.
-export async function createExpenseAccrual(db: Db, d: { idempotencyKey: string; number?: string; date: string; dueDate: string; description?: string; payableAccount: string; lines: { account: string; amount: number }[] }) {
+type ExpenseAccrual = { idempotencyKey: string; number?: string; date: string; dueDate: string; description?: string; payableAccount: string; lines: { account: string; amount: number }[] }
+export async function createExpenseAccrual(db: Db | Tx, d: ExpenseAccrual) {
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
     if (done) return done.result as { number: string }
+    // Accurate's save-expense-accrual.do text for an accrual without lines (both messages, as it returns them)
+    if (!d.lines?.length) throw new DomainError('Detail dari transaksi belum diisi!; Ada yang salah dengan data yang dimasukkan. Total nilai harus lebih besar dari nol.')
     const lines = d.lines.map(l => ({ ...l, cents: Math.round(l.amount * 100) })), total = lines.reduce((s, l) => s + l.cents, 0)
     const number = d.number ?? await nextNumber(tx, `EXP.${period(d.date)}`)
     const rp = (c: number) => (c / 100).toFixed(2), journalId = crypto.randomUUID()
@@ -74,5 +77,33 @@ export async function createExpenseAccrual(db: Db, d: { idempotencyKey: string; 
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateExpenseAccrual', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removeExpenseAccrual(tx: Tx, number: string, idempotencyKey: string) {
+  const [doc] = await tx.execute(sql`SELECT journal_id FROM expense_accruals WHERE number = ${number} FOR UPDATE`)
+  if (!doc) throw new DomainError(`${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM expense_accrual_lines WHERE accrual_number = ${number}`)
+  await tx.execute(sql`DELETE FROM expense_accruals WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: doc.journal_id as string })
+}
+
+export async function deleteExpenseAccrual(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeExpenseAccrual(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteExpenseAccrual', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does. */
+export async function editExpenseAccrual(db: Db, number: string, d: ExpenseAccrual) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeExpenseAccrual(tx, number, d.idempotencyKey)
+    return createExpenseAccrual(tx, { ...d, number: d.number ?? number })
   })
 }

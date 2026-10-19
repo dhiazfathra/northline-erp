@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { z } from 'zod'
 import { isoDate, periodId } from '@northline/schemas/ledger-es'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
@@ -58,7 +58,8 @@ export function monthlyDepreciation(cost: number, life: number, monthIndex: numb
 }
 
 /** Proses Akhir Bulan (depreciation only): one journal per period, Dr expense / Cr accumulated, merged per account. */
-export async function runPeriodEnd(db: Db, input: { idempotencyKey: string; period: string }) {
+export async function runPeriodEnd(db: Db | Tx, input: { idempotencyKey: string; period: string }) {
+  if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(input?.period ?? '')) throw new DomainError('Bulan harus diisi') // Accurate's text
   const { period: p, idempotencyKey } = z.object({ idempotencyKey: z.string().min(8), period: periodId }).parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
@@ -92,6 +93,37 @@ export async function runPeriodEnd(db: Db, input: { idempotencyKey: string; peri
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'RunPeriodEnd', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+/** Takes back a period end: its depreciation rows and journal. */
+async function removePeriodEnd(tx: Tx, p: string, idempotencyKey: string) {
+  const [pe] = await tx.execute(sql`SELECT journal_id FROM period_ends WHERE period = ${p} FOR UPDATE`)
+  if (!pe) throw new DomainError(`Proses akhir bulan ${p} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM depreciations WHERE period = ${p}`)
+  await tx.execute(sql`DELETE FROM period_ends WHERE period = ${p}`)
+  if (pe.journal_id) await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: pe.journal_id as string })
+}
+
+export async function deletePeriodEnd(db: Db, p: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    const [pe] = await tx.execute(sql`SELECT number FROM period_ends WHERE period = ${p}`)
+    await removePeriodEnd(tx, p, idempotencyKey)
+    const result = { number: pe!.number as string }
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeletePeriodEnd', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+/** Edited in place: taken back and run again for the same period (same number). */
+export async function editPeriodEnd(db: Db, p: string, input: { idempotencyKey: string }) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePeriodEnd(tx, p, input.idempotencyKey)
+    return runPeriodEnd(tx, { idempotencyKey: input.idempotencyKey, period: p })
   })
 }
 

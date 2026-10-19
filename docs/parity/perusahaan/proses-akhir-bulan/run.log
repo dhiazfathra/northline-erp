@@ -1,0 +1,19 @@
+# Proses Akhir Bulan — inputs {"date":"2051-02-28","year":2051,"month":2,"period":"2051-02","description":"NL-P4-PE1","edit":{"description":"NL-P4-PE1 edit"},"reject":{"description":"NL-P4-PE1 tanpa bulan"}}
+## Accurate
+new form defaults {"date":"today","month":"0","modules":"ALL_MODULE","gainLoss":true,"depreciation":true,"manufacture":true}
+create true Februari 2051
+edit true Februari 2051
+journal after edit [["Tanggal",":","28 Feb 2051","No. Trans #",":","Februari 2051"],["Tipe Transaksi",":","Proses Akhir Bulan","Deskripsi",":","Proses Akhir Bulan (Februari, 2051)"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110303","Piutang Usaha USD","0","3.080.000"],["110303","Piutang Usaha USD","3.200.000","0"],["720202","Laba/Rugi Belum Terealisasi USD","0","120.000"],["ZZ-R01-1201","ZZ-R01-Bank USD Uji","0","1.540.000"],["ZZ-R01-1201","ZZ-R01-Bank USD Uji","1.600.000","0"],["720202","Laba/Rugi Belum Terealisasi USD","0","60.000"],["ZZ-R03-1202","ZZ-R03-Bank USD Uji 2","0","1.540.000"],["ZZ-R03-1202","ZZ-R03-Bank USD Uji 2","1.600.000","0"],["720202","Laba/Rugi Belum Terealisasi USD","0","60.000"],["6.400.000","6.400.000"]]
+reject false Bulan harus diisi
+reject (form Simpan) {"shown":["Data Baru","*","Februari 2051","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Bulan harus diisi","OK","Salin"],"sent":[]}
+delete true Proses Akhir Bulan "Februari 2051" berhasil dihapus
+journal after delete [] list before/after ["Februari 2051"] []
+## ERP (local seeded instance)
+create POST /period-ends 201 {"number":"Februari 2051"}
+edit PUT /period-ends/2051-02 200 {"number":"Februari 2051"}
+journal after edit [["Tanggal",":","28 Feb 2051","No. Trans #",":","Februari 2051"],["Tipe Transaksi",":","Proses Akhir Bulan (Penyusutan)","Deskripsi",":","Proses Akhir Bulan (Februari, 2051)"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600024","Beban Penyusutan Inventaris Kantor","1.216.666,66","0"],["12000604","Akumulasi Penyusutan Inventaris Kantor","0","1.216.666,66"],["1.216.666,66","1.216.666,66"]]
+reject POST /period-ends 409 {"error":"Bulan harus diisi"}
+delete DELETE /period-ends/2051-02 200 {"number":"Februari 2051"}
+journal after delete [] list before/after true false
+## Compare 3 differing aspect(s): journal after edit, defaults, header fields without an ERP counterpart
+verdict stopped: journal after edit (gain/loss revaluation); the fix would change done reports

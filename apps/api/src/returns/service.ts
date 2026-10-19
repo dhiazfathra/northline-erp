@@ -33,7 +33,7 @@ async function invoiceUnitCost(tx: Tx, invoice: string, item: string) {
   return Number(r.v) / Number(r.q)
 }
 
-export async function createSalesReturn(db: Db, input: ReturnInput) {
+export async function createSalesReturn(db: Db | Tx, input: ReturnInput) {
   const rt = returnInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${rt.idempotencyKey}`)
@@ -70,6 +70,35 @@ export async function createSalesReturn(db: Db, input: ReturnInput) {
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rt.idempotencyKey}, 'CreateSalesReturn', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removeSalesReturn(tx: Tx, number: string, idempotencyKey: string) {
+  const [rt] = await tx.execute(sql`SELECT journal_id FROM sales_returns WHERE number = ${number} FOR UPDATE`)
+  if (!rt) throw new DomainError(`Retur ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM sales_return_lines WHERE return_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'SRT' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM sales_returns WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: rt.journal_id as string })
+}
+
+export async function deleteSalesReturn(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesReturn(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteSalesReturn', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editSalesReturn(db: Db, number: string, input: ReturnInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesReturn(tx, number, input.idempotencyKey)
+    return createSalesReturn(tx, { ...input, number: input.number ?? number })
   })
 }
 

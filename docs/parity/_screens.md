@@ -51,13 +51,14 @@ Tier 1 estimate rule: S = create/edit/delete command, route and web screen exist
 Not enumerated: report catalog (Daftar Laporan opens the 291-row report list, tracked in `_coverage.md`); per-form field sets (P4.2); sub-tabs inside forms; widgets, dashboard and import screens that are module ids but not menu entries (in k-mods.json only); SmartLink screens that need a linked external account.
 
 P4.2/P4.3 batch 1 (2026-10-19): 7 forms run, evidence in [docs/parity/README.md](README.md); 6 `accepted divergence (ADR-0041)`, Pinjaman Karyawan `stopped` (edit shape not found after 3 attempts, ADR-0041). Pencairan Pinjaman's route is new: POST/PUT/DELETE /api/employee-loan-disbursements.
+P4.2 batch 2 (2026-10-19): 6 forms run; 5 `accepted divergence (ADR-0041)`, Proses Akhir Bulan `stopped` (revaluation journal; fix would change done reports, ADR-0042). New routes: POST/PUT/DELETE /api/expense-accruals, PUT/DELETE on receipts, returns, purchase invoices, payroll runs and period ends.
 
 | module | form | Accurate path (menu > submenu) | Accurate module id | ERP route | tier | status | demos |
 |---|---|---|---|---|---|---|---|
-| Perusahaan | Proses Akhir Bulan | Perusahaan > Proses Akhir Bulan | accurate__company__period-end | POST /api/period-ends; web /ledger/month-end | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Perusahaan | Proses Akhir Bulan | Perusahaan > Proses Akhir Bulan | accurate__company__period-end | POST/PUT/DELETE /api/period-ends; web /ledger/month-end | 1 | stopped (journal, ADR-0042) | Manufaktur, Retail, Trade, Kontraktor |
 | Buku Besar | Jurnal Umum | Buku Besar > Jurnal Umum | accurate__general-ledger__journal-voucher | POST /api/ledger/commands (PostJournal/Edit/Delete/Reverse); web /docs/journal | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
-| Buku Besar | Pencatatan Beban | Buku Besar > Pencatatan Beban | accurate__general-ledger__expense-accrual | — (command createExpenseAccrual exists, no HTTP route) | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Buku Besar | Pencatatan Gaji | Buku Besar > Pencatatan Gaji | accurate__cash-bank__employee-payment | POST /api/payroll/runs | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Buku Besar | Pencatatan Beban | Buku Besar > Pencatatan Beban | accurate__general-ledger__expense-accrual | POST/PUT/DELETE /api/expense-accruals | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
+| Buku Besar | Pencatatan Gaji | Buku Besar > Pencatatan Gaji | accurate__cash-bank__employee-payment | POST/PUT/DELETE /api/payroll/runs | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Buku Besar | Pinjaman Karyawan | Buku Besar > Pinjaman Karyawan | accurate__cash-bank__employee-loan | POST/PUT/DELETE /api/employee-loans | 1 | stopped (edit, ADR-0041) | Manufaktur |
 | Kas & Bank | Pelunasan Pinjaman | Kas & Bank > Pelunasan Pinjaman | accurate__cash-bank__employee-loan-settlement | — | 1 | todo | Manufaktur |
 | Kas & Bank | Pembayaran | Kas & Bank > Pembayaran | accurate__cash-bank__other-payment | POST/PUT/DELETE /api/cash-bank/documents kind=PAY; web /docs/cash-payment | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
@@ -66,11 +67,11 @@ P4.2/P4.3 batch 1 (2026-10-19): 7 forms run, evidence in [docs/parity/README.md]
 | Kas & Bank | Penerimaan | Kas & Bank > Penerimaan | accurate__cash-bank__other-deposit | POST/PUT/DELETE /api/cash-bank/documents kind=DEP; web /docs/cash-receipt | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Kas & Bank | Transfer Bank | Kas & Bank > Transfer Bank | accurate__cash-bank__bank-transfer | — | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Penjualan | Faktur Penjualan | Penjualan > Faktur Penjualan | accurate__customer__sales-invoice | POST/PUT/DELETE /api/sales/invoices; web /docs/sales-invoice | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
-| Penjualan | Penerimaan Penjualan | Penjualan > Penerimaan Penjualan | accurate__customer__sales-receipt | POST /api/sales/receipts; web /docs/sales-receipt | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Penjualan | Penerimaan Penjualan | Penjualan > Penerimaan Penjualan | accurate__customer__sales-receipt | POST/PUT/DELETE /api/sales/receipts; web /docs/sales-receipt | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Penjualan | Pengiriman Pesanan | Penjualan > Pengiriman Pesanan | accurate__customer__delivery-order | POST /api/sales/deliveries | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Penjualan | Retur Penjualan | Penjualan > Retur Penjualan | accurate__customer__sales-return | POST /api/sales/returns; web /docs/sales-return | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Penjualan | Retur Penjualan | Penjualan > Retur Penjualan | accurate__customer__sales-return | POST/PUT/DELETE /api/sales/returns; web /docs/sales-return | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Penjualan | Uang Muka Penjualan | Penjualan > Uang Muka Penjualan | accurate__customer__sales-downpayment | POST/PUT/DELETE /api/sales/down-payments; web /docs/sales-down-payment | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
-| Pembelian | Faktur Pembelian | Pembelian > Faktur Pembelian | accurate__vendor__purchase-invoice | POST /api/purchases/invoices; web /docs/purchase-invoice | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Pembelian | Faktur Pembelian | Pembelian > Faktur Pembelian | accurate__vendor__purchase-invoice | POST/PUT/DELETE /api/purchases/invoices; web /docs/purchase-invoice | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Pembayaran Pembelian | Pembelian > Pembayaran Pembelian | accurate__vendor__purchase-payment | POST /api/purchases/payments; web /docs/purchase-payment | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Penerimaan Barang | Pembelian > Penerimaan Barang | accurate__vendor__receive-item | POST /api/purchases/receive-items | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Retur Pembelian | Pembelian > Retur Pembelian | accurate__vendor__purchase-return | POST /api/purchases/returns; web /docs/purchase-return | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |

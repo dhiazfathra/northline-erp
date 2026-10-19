@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Db } from '../db';
+import type { Db, Tx } from '../db';
 export declare const BULAN: string[];
 export declare const fixedAssetInput: z.ZodObject<{
     idempotencyKey: z.ZodString;
@@ -26,9 +26,18 @@ export declare function createFixedAsset(db: Db, input: z.input<typeof fixedAsse
 /** Straight-line monthly amount; the last month takes the rounding remainder so the asset ends at zero book value. */
 export declare function monthlyDepreciation(cost: number, life: number, monthIndex: number): number;
 /** Proses Akhir Bulan (depreciation only): one journal per period, Dr expense / Cr accumulated, merged per account. */
-export declare function runPeriodEnd(db: Db, input: {
+export declare function runPeriodEnd(db: Db | Tx, input: {
     idempotencyKey: string;
     period: string;
+}): Promise<{
+    number: string;
+}>;
+export declare function deletePeriodEnd(db: Db, p: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place: taken back and run again for the same period (same number). */
+export declare function editPeriodEnd(db: Db, p: string, input: {
+    idempotencyKey: string;
 }): Promise<{
     number: string;
 }>;

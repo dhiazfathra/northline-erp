@@ -44,7 +44,14 @@ export declare function deleteSalesInvoice(db: Db, number: string, idempotencyKe
 export declare function editSalesInvoice(db: Db, number: string, input: SalesInvoiceInput): Promise<{
     number: string;
 }>;
-export declare function createSalesReceipt(db: Db, input: SalesReceiptInput): Promise<{
+export declare function createSalesReceipt(db: Db | Tx, input: SalesReceiptInput): Promise<{
+    number: string;
+}>;
+export declare function deleteSalesReceipt(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editSalesReceipt(db: Db, number: string, input: SalesReceiptInput): Promise<{
     number: string;
 }>;
 export declare function createSalesDownPayment(db: Db | Tx, input: SalesDownPaymentInput): Promise<{

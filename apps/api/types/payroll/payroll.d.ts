@@ -1,4 +1,4 @@
-import type { Db } from '../db';
+import type { Db, Tx } from '../db';
 /** Monthly PPh 21 (rupiah) by TER on the month's gross. */
 export declare const terPph: (taxStatus: string, gross: number) => number;
 type Fees = Record<string, number>;
@@ -11,25 +11,36 @@ export declare function payLine(f: Fees, pph: number): {
     pph: number;
 };
 export type PayrollRun = {
-    number: string;
+    idempotencyKey?: string;
+    number?: string;
     date: string;
     year: number;
     month: number;
+    description?: string;
     lines: {
         employee: string;
         fees: Fees;
         pph?: number;
     }[];
+    /** Journal accounts (all three, or none: no journal). */ payableAccount?: string;
+    pphAccount?: string;
+    feeAccounts?: Record<string, string>;
 };
 /** Saves a monthly run; `pph` on a line is a manual PPh (Accurate's manualEditPphAmount), otherwise TER or the December true-up. */
-export declare function createPayrollRun(db: Db, r: PayrollRun): Promise<{
+export declare function createPayrollRun(db: Db | Tx, r: PayrollRun): Promise<{
     number: string;
-    lines: {
-        income: number;
-        paid: number;
-        pph: number;
+    lines: ({
         employee: string;
-    }[];
+    } & ReturnType<typeof payLine>)[];
+}>;
+export declare function deletePayrollRun(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does. */
+export declare function editPayrollRun(db: Db, number: string, r: PayrollRun & {
+    idempotencyKey: string;
+}): Promise<{
+    number: string;
 }>;
 type Line = {
     year: number;

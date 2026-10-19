@@ -222,7 +222,7 @@ export async function editSalesInvoice(db: Db, number: string, input: SalesInvoi
   })
 }
 
-export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
+export async function createSalesReceipt(db: Db | Tx, input: SalesReceiptInput) {
   const rc = salesReceiptInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${rc.idempotencyKey}`)
@@ -279,6 +279,34 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${rc.idempotencyKey}, 'CreateSalesReceipt', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removeSalesReceipt(tx: Tx, number: string, idempotencyKey: string) {
+  const [rc] = await tx.execute(sql`SELECT journal_id FROM sales_receipts WHERE number = ${number} FOR UPDATE`)
+  if (!rc) throw new DomainError(`Penerimaan ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM sales_receipt_lines WHERE receipt_number = ${number}`)
+  await tx.execute(sql`DELETE FROM sales_receipts WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: rc.journal_id as string })
+}
+
+export async function deleteSalesReceipt(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesReceipt(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteSalesReceipt', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editSalesReceipt(db: Db, number: string, input: SalesReceiptInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesReceipt(tx, number, input.idempotencyKey)
+    return createSalesReceipt(tx, { ...input, number: input.number ?? number })
   })
 }
 

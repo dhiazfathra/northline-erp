@@ -66,12 +66,17 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'PUT /api/employee-loan-disbursements/:number': FULL_ACCESS,
   'DELETE /api/employee-loan-disbursements/:number': FULL_ACCESS,
   'POST /api/payroll/runs': 'buku_besar.pencatatan_gaji',
+  'PUT /api/payroll/runs/:number': 'buku_besar.pencatatan_gaji',
+  'DELETE /api/payroll/runs/:number': 'buku_besar.pencatatan_gaji',
   'GET /api/reports/payroll/:report{monthly|yearly|pph|share|per-year}': {
     monthly: 'EmployeePaymentByEmployeeReport', yearly: 'EmployeePaymentYearlyByEmployeeReport', pph: 'EmployeePphReport',
     share: 'EmployeeSalaryProportionReport', 'per-year': 'EmployeeSalaryPerYearReport' },
   'GET /api/reports/employee-loans/:report{list|installments|history}': { list: 'EmployeeLoanListReport', installments: 'EmployeeLoanInstallmentByEmployeeReport', history: 'EmployeeLoanHistoryReport' },
   // shortcut: one route posts both Pembayaran and Penerimaan; checks Pembayaran for both until the body's kind picks the key.
   'POST /api/cash-bank/documents': 'kas_bank.pembayaran',
+  'POST /api/expense-accruals': 'buku_besar.pencatatan_beban',
+  'PUT /api/expense-accruals/:number': 'buku_besar.pencatatan_beban',
+  'DELETE /api/expense-accruals/:number': 'buku_besar.pencatatan_beban',
   'PUT /api/cash-bank/documents/:number': 'kas_bank.pembayaran',
   'DELETE /api/cash-bank/documents/:number': 'kas_bank.pembayaran',
   'GET /api/reports/cash-bank/:report{payment-list|deposit-list|payment-by-bank|deposit-by-bank|payment-by-bank-detail|deposit-by-bank-detail|payment-load|unreconciled|statement}': {
@@ -108,6 +113,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
     employees: 'perusahaan.karyawan', // shortcut: no EmployeeListReport in the catalog; Karyawan's Lihat
     'fiscal-fa-types': 'FiscalFaTypeListReport' },
   'POST /api/sales/receipts': 'penjualan.penerimaan_penjualan',
+  'PUT /api/sales/receipts/:number': 'penjualan.penerimaan_penjualan',
+  'DELETE /api/sales/receipts/:number': 'penjualan.penerimaan_penjualan',
   'GET /api/reports/receivables/:report{invoice-list|sales-by-customer|receipt-list|ar-ledger|ar-history|customer-statement|outstanding|aging|aging-detail|outstanding-per-customer|ar-ledger-detail|invoice-paid|receipt-detail|owing-collection|by-item|item-by-customer|customer-by-item|by-customer-detail|by-item-detail|by-branch|invoice-detail|down-payments|down-payment-usage}': {
     'invoice-list': 'SalesInvoiceListReport', 'sales-by-customer': 'ViewSalesByCustomerReport', 'receipt-list': 'SalesReceiptListReport', 'ar-ledger': 'ARLedgerReport',
     'ar-history': 'ARHistoryReport', 'customer-statement': 'CustomerStatementReport', outstanding: 'OutstandingSalesInvoiceReport', aging: 'AgingReceivableReport',
@@ -118,6 +125,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
     'invoice-detail': 'SalesInvoiceDetailReport', 'down-payments': 'SalesDownPaymentByCustomerReport', 'down-payment-usage': 'SalesInvoiceDownPaymentDetailReport' },
   'POST /api/purchases/vendors': 'pembelian.pemasok',
   'POST /api/purchases/invoices': 'pembelian.faktur_pembelian',
+  'PUT /api/purchases/invoices/:number': 'pembelian.faktur_pembelian',
+  'DELETE /api/purchases/invoices/:number': 'pembelian.faktur_pembelian',
   'POST /api/purchases/down-payments': 'pembelian.uang_muka_pembelian',
   'POST /api/purchases/orders': 'pembelian.pesanan_pembelian',
   'POST /api/purchases/receive-items': 'pembelian.penerimaan_barang',
@@ -148,9 +157,13 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'POST /api/fixed-assets': 'aset_tetap.aset_tetap',
   'POST /api/fixed-assets/disposals': 'aset_tetap.disposisi_aset',
   'POST /api/period-ends': 'perusahaan.proses_akhir_bulan',
+  'PUT /api/period-ends/:period': 'perusahaan.proses_akhir_bulan',
+  'DELETE /api/period-ends/:period': 'perusahaan.proses_akhir_bulan',
   'GET /api/reports/fixed-assets/:report{list|by-category|history|journal|detail}': {
     list: 'FixedAssetListReport', 'by-category': 'FixedAssetByCategoryReport', history: 'FixedAssetHistoryReport', journal: 'FixedAssetJournalReport', detail: 'FixedAssetDetailReport' },
   'POST /api/sales/returns': 'penjualan.retur_penjualan',
+  'PUT /api/sales/returns/:number': 'penjualan.retur_penjualan',
+  'DELETE /api/sales/returns/:number': 'penjualan.retur_penjualan',
   'POST /api/purchases/returns': 'pembelian.retur_pembelian',
   'GET /api/reports/returns/:side{sales|purchase}/:report{list|detail|by-item}': {
     'sales/list': 'SalesReturnListReport', 'sales/detail': 'SalesReturnDetailReport', 'sales/by-item': 'SalesReturnByItemReport',

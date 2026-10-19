@@ -1,11 +1,17 @@
 import { sql } from 'drizzle-orm'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
+import { DomainError } from '../ledger/deciders'
+import { handleTx } from '../ledger/handler'
+import { merge, nextNumber, period } from '../sales/service'
 import { formatIdr } from '../reports/trial-balance'
 
 // Pencatatan Gaji and its 5 reports (fixtures/payroll-m50.json). PPh 21 follows Accurate's calculate-employee-payment.do:
 // Jan-Nov TER (PP 58/2023) on gross less Pengurangan Gaji; December recomputes the year with Pasal 17 and withholds the
 // difference (negative = Kelebihan Pajak). Amounts are cents.
-// shortcut: no journal, no resign/mid-year annualisation, December is the only year-end month; add them when a capture covers them.
+// The journal (P4.2 batch 2) is posted only when the run names its accounts: Dr each fee's expense account in fee order,
+// Cr PPh 21 payable, Cr salary payable for the rest (EPY.2051.02, docs/parity/buku-besar/pencatatan-gaji).
+// shortcut: no resign/mid-year annualisation, December is the only year-end month; journal lines for reductions,
+// deductions and employer pension are not captured, so a journaled run refuses them; add them when a capture covers them.
 
 /** Accurate's default Gaji/Tunjangan master by name: how each fee counts for income, cash paid and PPh. */
 const FEE_KIND: Record<string, 'income' | 'benefit' | 'employer' | 'reduction' | 'deduction' | 'pension'> = {
@@ -48,15 +54,23 @@ export function payLine(f: Fees, pph: number) {
   return { income: sumKind(f, 'income', 'benefit'), paid: sumKind(f, 'income') - sumKind(f, 'reduction', 'deduction', 'pension') - Math.max(pph, 0), pph }
 }
 
-export type PayrollRun = { number: string; date: string; year: number; month: number; lines: { employee: string; fees: Fees; pph?: number }[] }
+export type PayrollRun = { idempotencyKey?: string; number?: string; date: string; year: number; month: number; description?: string; lines: { employee: string; fees: Fees; pph?: number }[]
+  /** Journal accounts (all three, or none: no journal). */ payableAccount?: string; pphAccount?: string; feeAccounts?: Record<string, string> }
 /** Saves a monthly run; `pph` on a line is a manual PPh (Accurate's manualEditPphAmount), otherwise TER or the December true-up. */
-export async function createPayrollRun(db: Db, r: PayrollRun) {
+export async function createPayrollRun(db: Db | Tx, r: PayrollRun) {
+  if (!r.lines?.length) throw new DomainError('Detail dari transaksi belum diisi!') // Accurate's text
   for (const l of r.lines) for (const [n, a] of Object.entries(l.fees)) {
     if (!FEE_KIND[n]) throw new Error(`Gaji/Tunjangan tidak dikenal: ${n}`)
     if (!Number.isFinite(a) || a < 0) throw new Error(`Nilai ${n} tidak valid`)
+    if (r.payableAccount && a && (!['income', 'benefit'].includes(FEE_KIND[n]!) || !r.feeAccounts?.[n])) throw new DomainError(`Gaji/Tunjangan ${n} belum punya akun beban`)
   }
   return db.transaction(async tx => {
-    await tx.execute(sql`INSERT INTO payroll_runs VALUES (${r.number}, ${r.date}, ${r.year}, ${r.month})`)
+    if (r.idempotencyKey) {
+      const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${r.idempotencyKey}`)
+      if (done) return done.result as { number: string; lines: ({ employee: string } & ReturnType<typeof payLine>)[] }
+    }
+    const number = r.number ?? await nextNumber(tx, `EPY.${period(r.date)}`)
+    await tx.execute(sql`INSERT INTO payroll_runs (number, date, year, month, description) VALUES (${number}, ${r.date}, ${r.year}, ${r.month}, ${r.description ?? ''})`)
     const out = []
     for (const l of r.lines) {
       const [e] = await tx.execute(sql`SELECT tax_status FROM employees WHERE no = ${l.employee}`)
@@ -65,11 +79,53 @@ export async function createPayrollRun(db: Db, r: PayrollRun) {
         WHERE pl.employee_no = ${l.employee} AND pr.year = ${r.year} AND pr.month < ${r.month}`)).map(p => ({ fees: Object.fromEntries(Object.entries(p.fees as Fees).map(([n, a]) => [n, a / 100])), pph: Number(p.pph) / 100 }))
       const pph = l.pph ?? (r.month === 12 ? decemberPph(e.tax_status as string, [...prior.map(p => p.fees), l.fees], prior.reduce((s, p) => s + p.pph, 0)) : terPph(e.tax_status as string, taxable(l.fees)))
       const v = payLine(l.fees, pph)
-      await tx.execute(sql`INSERT INTO payroll_lines VALUES (${r.number}, ${l.employee}, ${JSON.stringify(Object.fromEntries(Object.entries(l.fees).map(([n, a]) => [n, Math.round(a * 100)])))}::jsonb,
+      await tx.execute(sql`INSERT INTO payroll_lines VALUES (${number}, ${l.employee}, ${JSON.stringify(Object.fromEntries(Object.entries(l.fees).map(([n, a]) => [n, Math.round(a * 100)])))}::jsonb,
         ${Math.round(v.income * 100)}, ${Math.round(v.paid * 100)}, ${Math.round(v.pph * 100)})`)
       out.push({ employee: l.employee, ...v })
     }
-    return { number: r.number, lines: out }
+    if (r.payableAccount) {
+      const rp = (x: number) => (Math.round(x * 100) / 100).toFixed(2)
+      const debits = merge(r.lines.flatMap(l => Object.entries(l.fees).filter(([, a]) => a).map(([n, a]) => ({ account: r.feeAccounts![n]!, amount: a }))))
+      const pph = out.reduce((s, l) => s + Math.max(l.pph, 0), 0), total = debits.reduce((s, d) => s + d.amount, 0)
+      if (pph && !r.pphAccount) throw new DomainError('Akun Hutang PPh harus diisi')
+      const journalId = crypto.randomUUID()
+      await handleTx(tx, { type: 'PostJournal', idempotencyKey: `${r.idempotencyKey ?? number}:journal`, journalId, number, sourceType: 'EPY', date: r.date, description: r.description ?? '',
+        lines: [...debits.map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rp(d.amount) })),
+          ...(pph ? [{ account: r.pphAccount!, side: 'CREDIT' as const, amount: rp(pph) }] : []), { account: r.payableAccount, side: 'CREDIT' as const, amount: rp(total - pph) }] })
+      await tx.execute(sql`UPDATE payroll_runs SET journal_id = ${journalId} WHERE number = ${number}`)
+    }
+    const result = { number, lines: out }
+    if (r.idempotencyKey) await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${r.idempotencyKey}, 'CreatePayrollRun', ${JSON.stringify(result)}::jsonb)`)
+    return result
+  })
+}
+
+/** Takes back a run (lines, row and journal). */
+async function removePayrollRun(tx: Tx, number: string, idempotencyKey: string) {
+  const [run] = await tx.execute(sql`SELECT journal_id FROM payroll_runs WHERE number = ${number} FOR UPDATE`)
+  if (!run) throw new DomainError(`${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM payroll_lines WHERE run_number = ${number}`)
+  await tx.execute(sql`DELETE FROM payroll_runs WHERE number = ${number}`)
+  if (run.journal_id) await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: run.journal_id as string })
+}
+
+export async function deletePayrollRun(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePayrollRun(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeletePayrollRun', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does. */
+export async function editPayrollRun(db: Db, number: string, r: PayrollRun & { idempotencyKey: string }) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${r.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePayrollRun(tx, number, r.idempotencyKey)
+    return createPayrollRun(tx, { ...r, number: r.number ?? number })
   })
 }
 
