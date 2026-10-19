@@ -131,7 +131,7 @@ export async function editPurchaseInvoice(db: Db, number: string, input: Purchas
   })
 }
 
-export async function createPurchasePayment(db: Db, input: PurchasePaymentInput) {
+export async function createPurchasePayment(db: Db | Tx, input: PurchasePaymentInput) {
   const pp = purchasePaymentInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${pp.idempotencyKey}`)
@@ -170,6 +170,34 @@ export async function createPurchasePayment(db: Db, input: PurchasePaymentInput)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${pp.idempotencyKey}, 'CreatePurchasePayment', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removePurchasePayment(tx: Tx, number: string, idempotencyKey: string) {
+  const [pp] = await tx.execute(sql`SELECT journal_id FROM purchase_payments WHERE number = ${number} FOR UPDATE`)
+  if (!pp) throw new DomainError(`Pembayaran ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM purchase_payment_lines WHERE payment_number = ${number}`)
+  await tx.execute(sql`DELETE FROM purchase_payments WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: pp.journal_id as string })
+}
+
+export async function deletePurchasePayment(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchasePayment(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeletePurchasePayment', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editPurchasePayment(db: Db, number: string, input: PurchasePaymentInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchasePayment(tx, number, input.idempotencyKey)
+    return createPurchasePayment(tx, { ...input, number: input.number ?? number })
   })
 }
 

@@ -12,7 +12,14 @@ export declare function deletePurchaseInvoice(db: Db, number: string, idempotenc
 export declare function editPurchaseInvoice(db: Db, number: string, input: PurchaseInvoiceInput): Promise<{
     number: string;
 }>;
-export declare function createPurchasePayment(db: Db, input: PurchasePaymentInput): Promise<{
+export declare function createPurchasePayment(db: Db | Tx, input: PurchasePaymentInput): Promise<{
+    number: string;
+}>;
+export declare function deletePurchasePayment(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editPurchasePayment(db: Db, number: string, input: PurchasePaymentInput): Promise<{
     number: string;
 }>;
 export declare function createPurchaseDownPayment(db: Db, input: PurchaseDownPaymentInput): Promise<{

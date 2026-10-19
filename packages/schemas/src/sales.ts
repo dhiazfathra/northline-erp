@@ -96,7 +96,7 @@ export const purchasePaymentInput = z.object({
   bank: code,
   date: isoDate,
   description: z.string().default(''),
-  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1),
+  payments: z.array(z.object({ invoice: code, amount: amountToCents, /** PPh withheld on this line (bukti potong): DPP × rate %; the line amount still settles the whole invoice. */ pph: pphInput.optional() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
 })
 export type PurchasePaymentInput = z.input<typeof purchasePaymentInput>
 

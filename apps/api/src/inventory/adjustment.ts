@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { z } from 'zod'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
+import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
 import { addMove, costingMethod, costOut, layers, loadMoves } from './fifo'
@@ -9,11 +10,11 @@ import { addMove, costingMethod, costOut, layers, loadMoves } from './fifo'
 // offset to the chosen adjustment account. Journal type "Penyesuaian Persediaan", number IA.yyyy.mm.nnnnn.
 const input = z.object({
   idempotencyKey: z.string().min(8), number: z.string().optional(), date: z.string(), description: z.string().default(''), account: z.string(),
-  lines: z.array(z.object({ item: z.string(), direction: z.enum(['IN', 'OUT']), qty: z.number().positive(), unitCost: z.number().nonnegative().default(0) })).min(1),
+  lines: z.array(z.object({ item: z.string(), direction: z.enum(['IN', 'OUT']), qty: z.number().positive(), unitCost: z.number().nonnegative().default(0) })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
 })
 const rp = (c: number) => (c / 100).toFixed(2)
 
-export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
+export async function createItemAdjustment(db: Db | Tx, raw: z.input<typeof input>) {
   const a = input.parse(raw)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
@@ -47,6 +48,35 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${a.idempotencyKey}, 'CreateItemAdjustment', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removeItemAdjustment(tx: Tx, number: string, idempotencyKey: string) {
+  const [ia] = await tx.execute(sql`SELECT journal_id FROM item_adjustments WHERE number = ${number} FOR UPDATE`)
+  if (!ia) throw new DomainError(`Penyesuaian ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM item_adjustment_lines WHERE adjustment_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'IA' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM item_adjustments WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: ia.journal_id as string })
+}
+
+export async function deleteItemAdjustment(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeItemAdjustment(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteItemAdjustment', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editItemAdjustment(db: Db, number: string, raw: z.input<typeof input>) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeItemAdjustment(tx, number, raw.idempotencyKey)
+    return createItemAdjustment(tx, { ...raw, number: raw.number ?? number })
   })
 }
 

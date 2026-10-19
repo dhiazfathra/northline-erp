@@ -21,12 +21,12 @@ export const fixedAssetInput = z.object({
   usageDate: isoDate.optional(),
   lifeMonths: z.number().int().positive(),
   assetAccount: z.string(), accumulatedAccount: z.string(), expenseAccount: z.string(),
-  expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string() })).min(1),
+  expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
   /** Fiscal category (Aset Fiskal), e.g. Gol 1 [Garis Lurus] = 48 months straight line (docs/reports/DifferentIntermDepreciationReport.md). */
   fiscalLifeMonths: z.number().int().positive().optional(),
 })
 
-export async function createFixedAsset(db: Db, input: z.input<typeof fixedAssetInput>) {
+export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedAssetInput>) {
   const a = fixedAssetInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
@@ -128,12 +128,12 @@ export async function editPeriodEnd(db: Db, p: string, input: { idempotencyKey: 
 }
 
 /** Disposisi Aset Tetap: book value written off to gain/loss, proceeds booked against it as a separate pair (not netted). */
-export async function disposeFixedAsset(db: Db, raw: { idempotencyKey: string; number?: string; asset: string; date: string; description?: string; gainLossAccount: string; price?: number; sellingAccount?: string }) {
+export async function disposeFixedAsset(db: Db | Tx, raw: { idempotencyKey: string; number?: string; asset: string; date: string; description?: string; gainLossAccount: string; price?: number; sellingAccount?: string }) {
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const [a] = await tx.execute(sql`SELECT cost, asset_account, accumulated_account, (SELECT COALESCE(SUM(amount),0) FROM depreciations WHERE asset_number = ${raw.asset}) AS acc FROM fixed_assets WHERE number = ${raw.asset}`)
-    if (!a) throw new DomainError(`Aset ${raw.asset} tidak ditemukan`)
+    if (!a) throw new DomainError(raw.asset ? `Aset ${raw.asset} tidak ditemukan` : 'Aset harus diisi') // Accurate's text
     const cost = Number(a.cost), acc = Number(a.acc), price = Math.round((raw.price ?? 0) * 100), sold = price > 0
     if (sold && !raw.sellingAccount) throw new DomainError('Akun penjualan harus diisi')
     const number = raw.number ?? await nextNumber(tx, `FAD.${period(raw.date)}`)
@@ -156,13 +156,71 @@ export async function disposeFixedAsset(db: Db, raw: { idempotencyKey: string; n
 
 /** Perubahan Aset Tetap (FAE.yyyy.mm.nnnnn), useful-life change only: no journal (fixtures/asset-edit-t34.json). */
 // shortcut: cost, method and account changes (and the depreciation they reschedule) are not modelled.
-export async function editFixedAsset(db: Db, e: { number?: string; asset: string; date: string; description?: string; lifeMonths: number }) {
+export async function editFixedAsset(db: Db | Tx, e: { number?: string; asset: string; date: string; description?: string; lifeMonths: number }) {
   return db.transaction(async tx => {
     const [a] = await tx.execute(sql`SELECT life_months FROM fixed_assets WHERE number = ${e.asset} FOR UPDATE`)
-    if (!a) throw new DomainError(`Aset ${e.asset} tidak ditemukan`)
-    const number = e.number ?? await nextNumber(tx, `FAE.${e.date.slice(0, 4)}.${e.date.slice(5, 7)}`)
+    if (!a) throw new DomainError(e.asset ? `Aset ${e.asset} tidak ditemukan` : 'Aset harus diisi') // Accurate's text
+    const number = e.number ?? await nextNumber(tx, `FAE.${period(e.date)}`) // FAE.yyyy.mm.nnnnn as Accurate numbers it
     await tx.execute(sql`INSERT INTO fixed_asset_edits VALUES (${number}, ${e.asset}, ${e.date}, ${e.description ?? ''}, ${Number(a.life_months)}, ${e.lifeMonths})`)
     await tx.execute(sql`UPDATE fixed_assets SET life_months = ${e.lifeMonths} WHERE number = ${e.asset}`)
     return { number }
   })
 }
+
+// P4.2 batch 3 (docs/parity, ADR-0043): edit in place (same number) and delete for the asset, its disposal and its change.
+const once = async <T>(tx: Tx, key: string, type: string, fn: () => Promise<T>) => {
+  const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${key}`)
+  if (done) return done.result as T
+  const result = await fn()
+  await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${key}, ${type}, ${JSON.stringify(result)}::jsonb)`)
+  return result
+}
+
+/** Takes back an acquisition; refused once a depreciation, disposal or change uses the asset. */
+async function removeFixedAsset(tx: Tx, number: string, idempotencyKey: string) {
+  const [a] = await tx.execute(sql`SELECT journal_id FROM fixed_assets WHERE number = ${number} FOR UPDATE`)
+  if (!a) throw new DomainError(`Aset ${number} tidak ditemukan`)
+  const [used] = await tx.execute(sql`SELECT 1 FROM depreciations WHERE asset_number = ${number} UNION ALL SELECT 1 FROM fixed_asset_disposals WHERE asset_number = ${number}
+    UNION ALL SELECT 1 FROM fixed_asset_edits WHERE asset_number = ${number} LIMIT 1`)
+  if (used) throw new DomainError(`Aset ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM fixed_asset_expenditures WHERE asset_number = ${number}`)
+  await tx.execute(sql`DELETE FROM fixed_assets WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: a.journal_id as string })
+}
+export const deleteFixedAsset = (db: Db, number: string, idempotencyKey: string) =>
+  db.transaction(tx => once(tx, idempotencyKey, 'DeleteFixedAsset', async () => { await removeFixedAsset(tx, number, idempotencyKey); return { number } }))
+export const editFixedAssetRecord = (db: Db, number: string, input: z.input<typeof fixedAssetInput>) =>
+  db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeFixedAsset(tx, number, input.idempotencyKey); return createFixedAsset(tx, { ...input, number: input.number ?? number })
+  })
+
+async function removeDisposal(tx: Tx, number: string, idempotencyKey: string) {
+  const [d] = await tx.execute(sql`SELECT journal_id FROM fixed_asset_disposals WHERE number = ${number} FOR UPDATE`)
+  if (!d) throw new DomainError(`Disposisi ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM fixed_asset_disposals WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: d.journal_id as string })
+}
+export const deleteDisposal = (db: Db, number: string, idempotencyKey: string) =>
+  db.transaction(tx => once(tx, idempotencyKey, 'DeleteFixedAssetDisposal', async () => { await removeDisposal(tx, number, idempotencyKey); return { number } }))
+export const editDisposal = (db: Db, number: string, raw: Parameters<typeof disposeFixedAsset>[1]) =>
+  db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeDisposal(tx, number, raw.idempotencyKey); return disposeFixedAsset(tx, { ...raw, number: raw.number ?? number })
+  })
+
+type EditInput = Parameters<typeof editFixedAsset>[1] & { idempotencyKey: string }
+/** Perubahan Aset Tetap taken back: the asset gets its useful life before the change. */
+async function removeAssetEdit(tx: Tx, number: string) {
+  const [e] = await tx.execute(sql`SELECT asset_number, old_life_months FROM fixed_asset_edits WHERE number = ${number} FOR UPDATE`)
+  if (!e) throw new DomainError(`Perubahan ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM fixed_asset_edits WHERE number = ${number}`)
+  await tx.execute(sql`UPDATE fixed_assets SET life_months = ${Number(e.old_life_months)} WHERE number = ${e.asset_number}`)
+}
+export const createAssetEdit = (db: Db, e: EditInput) => db.transaction(tx => once(tx, e.idempotencyKey, 'EditFixedAsset', () => editFixedAsset(tx, e)))
+export const deleteAssetEdit = (db: Db, number: string, idempotencyKey: string) =>
+  db.transaction(tx => once(tx, idempotencyKey, 'DeleteFixedAssetEdit', async () => { await removeAssetEdit(tx, number); return { number } }))
+export const editAssetEdit = (db: Db, number: string, e: EditInput) =>
+  db.transaction(tx => once(tx, e.idempotencyKey, 'EditFixedAssetEdit', async () => { await removeAssetEdit(tx, number); return editFixedAsset(tx, { ...e, number: e.number ?? number }) }))

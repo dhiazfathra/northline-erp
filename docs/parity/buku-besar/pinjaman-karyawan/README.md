@@ -4,7 +4,7 @@ Module: Buku Besar. Accurate: Buku Besar > Pinjaman Karyawan (`accurate__cash-ba
 
 **Verdict:** stopped: Accurate edit shape not found after 3 attempts (defaults, header fields without an ERP counterpart)
 
-Date: 2026-10-19. Commit: `<commit-sha>` (placeholder, filled in at commit; run on `935b6d9` plus the batch's uncommitted fixes).
+Date: 2026-10-19. Commit: `<commit-sha>` (placeholder, filled in at commit; run on `4604980` plus the batch's uncommitted fixes).
 Script: [`tools/parity/scenarios/pinjaman-karyawan.mjs`](../../../../tools/parity/scenarios/pinjaman-karyawan.mjs), runner `tools/parity/run.mjs`.
 
 ## Scenario
@@ -66,4 +66,4 @@ See [ADR-0041](../../../decisions/0041-p4-batch-1-screen-divergences.md). A vide
 - journal: [Accurate](accurate-journal.png), [ERP](erp-journal.png)
 
 ERP screenshots render the API request and response: the web doc screens are still mock data (`apps/web/src/api/docs.ts`).
-Accurate screenshots mask the header (Data Usaha name, user menu) and any email or IP; the mask is asserted before each capture.
+Accurate screenshots mask the header (Data Usaha name, user menu), any email or IP and the version/session tag; the mask is asserted before each capture.

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Db } from '../db';
+import type { Db, Tx } from '../db';
 declare const input: z.ZodObject<{
     idempotencyKey: z.ZodString;
     number: z.ZodOptional<z.ZodString>;
@@ -16,7 +16,14 @@ declare const input: z.ZodObject<{
         unitCost: z.ZodDefault<z.ZodNumber>;
     }, z.core.$strip>>;
 }, z.core.$strip>;
-export declare function createItemAdjustment(db: Db, raw: z.input<typeof input>): Promise<{
+export declare function createItemAdjustment(db: Db | Tx, raw: z.input<typeof input>): Promise<{
+    number: string;
+}>;
+export declare function deleteItemAdjustment(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editItemAdjustment(db: Db, number: string, raw: z.input<typeof input>): Promise<{
     number: string;
 }>;
 export declare const TRANSIT = "Transit (AOL System)";

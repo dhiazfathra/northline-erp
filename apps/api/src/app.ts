@@ -35,14 +35,14 @@ import * as PPH from './reports/pph'
 import { createTransferOrder } from './purchases/transfer-orders'
 import * as ACC from './reports/access'
 import { setBranchUsers, upsertAccessGroup } from './access/service'
-import { createFixedAsset, deletePeriodEnd, disposeFixedAsset, editPeriodEnd, runPeriodEnd } from './fixed-assets/service'
-import { createPurchaseReturn, createSalesReturn, deleteSalesReturn, editSalesReturn } from './returns/service'
-import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
+import { createAssetEdit, createFixedAsset, deleteAssetEdit, deleteDisposal, deleteFixedAsset, deletePeriodEnd, disposeFixedAsset, editAssetEdit, editDisposal, editFixedAssetRecord, editPeriodEnd, runPeriodEnd } from './fixed-assets/service'
+import { createPurchaseReturn, createSalesReturn, deletePurchaseReturn, deleteSalesReturn, editPurchaseReturn, editSalesReturn } from './returns/service'
+import { createItemAdjustment, createItemTransfer, deleteItemAdjustment, editItemAdjustment } from './inventory/adjustment'
 import { costingMethod, setCostingMethod } from './inventory/fifo'
 import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { reportPreferences, setReportPreferences } from './reports/preferences'
-import { createPurchaseDownPayment, createPurchaseInvoice, deletePurchaseInvoice, editPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
+import { createPurchaseDownPayment, createPurchaseInvoice, deletePurchaseInvoice, editPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, deletePurchasePayment, editPurchasePayment, upsertVendor } from './purchases/service'
 import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, deleteSalesDownPayment, editSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteSalesReceipt, editSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
@@ -394,6 +394,21 @@ export function createApp(db: Db) {
   api.delete('/sales/returns/:number', async c => c.json(await deleteSalesReturn(db, c.req.param('number'), await key(c))))
   api.put('/purchases/invoices/:number', async c => c.json(await editPurchaseInvoice(db, c.req.param('number'), await body(c))))
   api.delete('/purchases/invoices/:number', async c => c.json(await deletePurchaseInvoice(db, c.req.param('number'), await key(c))))
+  // P4.2 batch 3 (ADR-0043)
+  api.put('/purchases/payments/:number', async c => c.json(await editPurchasePayment(db, c.req.param('number'), await body(c))))
+  api.delete('/purchases/payments/:number', async c => c.json(await deletePurchasePayment(db, c.req.param('number'), await key(c))))
+  api.put('/purchases/returns/:number', async c => c.json(await editPurchaseReturn(db, c.req.param('number'), await body(c))))
+  api.delete('/purchases/returns/:number', async c => c.json(await deletePurchaseReturn(db, c.req.param('number'), await key(c))))
+  api.put('/inventory/adjustments/:number', async c => c.json(await editItemAdjustment(db, c.req.param('number'), await body(c))))
+  api.delete('/inventory/adjustments/:number', async c => c.json(await deleteItemAdjustment(db, c.req.param('number'), await key(c))))
+  api.get('/reports/fixed-assets-edited', async c => { const { from, to } = trialBalanceQuery.parse(c.req.query()); return c.json(FA.fixedAssetEditedList(await loadFixedAssets(db), from, to)) })
+  api.post('/fixed-assets/edits', async c => c.json(await createAssetEdit(db, await body(c)), 201))
+  api.put('/fixed-assets/edits/:number', async c => c.json(await editAssetEdit(db, c.req.param('number'), await body(c))))
+  api.delete('/fixed-assets/edits/:number', async c => c.json(await deleteAssetEdit(db, c.req.param('number'), await key(c))))
+  api.put('/fixed-assets/disposals/:number', async c => c.json(await editDisposal(db, c.req.param('number'), await body(c))))
+  api.delete('/fixed-assets/disposals/:number', async c => c.json(await deleteDisposal(db, c.req.param('number'), await key(c))))
+  api.put('/fixed-assets/:number', async c => c.json(await editFixedAssetRecord(db, c.req.param('number'), await body(c))))
+  api.delete('/fixed-assets/:number', async c => c.json(await deleteFixedAsset(db, c.req.param('number'), await key(c))))
   // API reference (ADR-0020): behind the session like the rest of /api; spec built lazily from the final route table
   let spec: ReturnType<typeof openApiSpec> | undefined
   api.get('/openapi.json', c => c.json(spec ??= openApiSpec(api, '/api'))).get('/docs', Scalar({ url: '/api/openapi.json', pageTitle: 'Northline ERP API' }))

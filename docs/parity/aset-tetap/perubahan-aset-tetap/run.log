@@ -1,0 +1,22 @@
+# Perubahan Aset Tetap — inputs {"asset":{"date":"2051-03-10","description":"NL-P4-FAE1 aset","amount":2400000,"lifeMonths":24},"date":"2051-03-11","description":"NL-P4-FAE1","lifeMonths":36,"edit":{"description":"NL-P4-FAE1 edit","lifeMonths":48},"reject":{"description":"NL-P4-FAE1 tanpa aset"}}
+## Accurate
+setup asset true FAA.2051.03.00005
+new form defaults {"date":"today","editedType":"EDITED","newMethod":"NONDEPREFA"}
+create true FAE.2051.03.00002
+edit true FAE.2051.03.00002
+journal after edit []
+reject false Aset harus diisi
+delete true Perubahan Aset Tetap "FAE.2051.03.00002" berhasil dihapus
+journal after delete [] list before/after ["FAE.2051.03.00002"] []
+teardown asset true Aset Tetap "FAA.2051.03.00005" berhasil dihapus
+## ERP (local seeded instance)
+setup asset POST /fixed-assets 201 {"number":"FAA.2051.03.00005"}
+create POST /fixed-assets/edits 201 {"number":"FAE.2051.03.00001"}
+edit PUT /fixed-assets/edits/FAE.2051.03.00001 200 {"number":"FAE.2051.03.00001"}
+journal after edit []
+reject POST /fixed-assets/edits 409 {"error":"Aset harus diisi"}
+delete DELETE /fixed-assets/edits/FAE.2051.03.00001 200 {"number":"FAE.2051.03.00001"}
+journal after delete [] list before/after true false
+teardown asset DELETE /fixed-assets/FAA.2051.03.00005 200 {"number":"FAA.2051.03.00005"}
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

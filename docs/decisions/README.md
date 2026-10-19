@@ -44,3 +44,4 @@
 | [0040](0040-route-access-enforcement.md) | API routes enforce Akses Grup privileges; existing users default-allow, new users default-deny | Accepted |
 | [0041](0041-p4-batch-1-screen-divergences.md) | P4 batch 1 screen parity: client-side defaults, unmodelled form fields, loan schedule accepted; loan edit stopped | Accepted |
 | [0042](0042-p4-batch-2-screen-divergences.md) | P4 batch 2 screen parity: edit/delete routes and payroll journal; Proses Akhir Bulan stopped on revaluation | Accepted |
+| [0043](0043-p4-batch-3-screen-divergences.md) | P4 batch 3 screen parity: edit/delete for purchase payments, returns, adjustments and fixed assets; Aset Tetap is Tier 1 | Accepted |

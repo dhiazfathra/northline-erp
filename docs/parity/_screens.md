@@ -4,7 +4,7 @@ Read-only inventory of the menus of the 4 allowlisted Accurate demos (Manufaktur
 
 **Distinct forms: 113** (menu entries, deduped across demos). Tier 1: 33, Tier 2: 38, Tier 3: 42.
 
-**Tier 1 rows with an ERP route: 26 of 33** (an API route and/or built web screen; a bare command with no route counts as none). 7 Tier 1 rows have none.
+**Tier 1 rows with an ERP route: 28 of 33** (an API route and/or built web screen; a bare command with no route counts as none). 5 Tier 1 rows have none (was 26/7 at P4.1; routes added in P4.2 batches 1-3).
 
 Tiers: 1 = posts a journal or moves stock (by ERP command where Accurate behavior is unconfirmed, marked * in estimates); 2 = masters and settings; 3 = everything else (lists, reports, SmartLink, pre-posting documents such as quotes, orders, requisitions).
 
@@ -39,7 +39,7 @@ Tier 1 estimate rule: S = create/edit/delete command, route and web screen exist
 | Persediaan > Penambahan Bahan Baku | M 7h |
 | Persediaan > Penyelesaian Pesanan | M 7h |
 | Persediaan > Penyesuaian Persediaan | M 6h |
-| Aset Tetap > Aset Tetap | M 6h* |
+| Aset Tetap > Aset Tetap | M 6h (Tier 1 confirmed, ADR-0043) |
 | Aset Tetap > Disposisi Aset Tetap | M 6h |
 | Aset Tetap > Perubahan Aset Tetap | M 6h |
 | Kontraktor > Alokasi Bahan Proyek | L 12h* |
@@ -52,6 +52,7 @@ Not enumerated: report catalog (Daftar Laporan opens the 291-row report list, tr
 
 P4.2/P4.3 batch 1 (2026-10-19): 7 forms run, evidence in [docs/parity/README.md](README.md); 6 `accepted divergence (ADR-0041)`, Pinjaman Karyawan `stopped` (edit shape not found after 3 attempts, ADR-0041). Pencairan Pinjaman's route is new: POST/PUT/DELETE /api/employee-loan-disbursements.
 P4.2 batch 2 (2026-10-19): 6 forms run; 5 `accepted divergence (ADR-0041)`, Proses Akhir Bulan `stopped` (revaluation journal; fix would change done reports, ADR-0042). New routes: POST/PUT/DELETE /api/expense-accruals, PUT/DELETE on receipts, returns, purchase invoices, payroll runs and period ends.
+P4.2 batch 3 (2026-10-20): 6 forms run; all 6 `accepted divergence (ADR-0041)`, fixes in ADR-0043; Aset Tetap confirmed Tier 1 (posts the acquisition journal). New routes: POST/PUT/DELETE /api/fixed-assets/edits, GET /api/reports/fixed-assets-edited, PUT/DELETE on purchase payments, purchase returns, adjustments, fixed assets and disposals. Batch 1 screenshots re-captured with the version-tag mask.
 
 | module | form | Accurate path (menu > submenu) | Accurate module id | ERP route | tier | status | demos |
 |---|---|---|---|---|---|---|---|
@@ -72,19 +73,19 @@ P4.2 batch 2 (2026-10-19): 6 forms run; 5 `accepted divergence (ADR-0041)`, Pros
 | Penjualan | Retur Penjualan | Penjualan > Retur Penjualan | accurate__customer__sales-return | POST/PUT/DELETE /api/sales/returns; web /docs/sales-return | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Penjualan | Uang Muka Penjualan | Penjualan > Uang Muka Penjualan | accurate__customer__sales-downpayment | POST/PUT/DELETE /api/sales/down-payments; web /docs/sales-down-payment | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Faktur Pembelian | Pembelian > Faktur Pembelian | accurate__vendor__purchase-invoice | POST/PUT/DELETE /api/purchases/invoices; web /docs/purchase-invoice | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
-| Pembelian | Pembayaran Pembelian | Pembelian > Pembayaran Pembelian | accurate__vendor__purchase-payment | POST /api/purchases/payments; web /docs/purchase-payment | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Pembelian | Pembayaran Pembelian | Pembelian > Pembayaran Pembelian | accurate__vendor__purchase-payment | POST/PUT/DELETE /api/purchases/payments; web /docs/purchase-payment | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Penerimaan Barang | Pembelian > Penerimaan Barang | accurate__vendor__receive-item | POST /api/purchases/receive-items | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Pembelian | Retur Pembelian | Pembelian > Retur Pembelian | accurate__vendor__purchase-return | POST /api/purchases/returns; web /docs/purchase-return | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Pembelian | Retur Pembelian | Pembelian > Retur Pembelian | accurate__vendor__purchase-return | POST/PUT/DELETE /api/purchases/returns; web /docs/purchase-return | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Pembelian | Uang Muka Pembelian | Pembelian > Uang Muka Pembelian | accurate__vendor__purchase-downpayment | POST /api/purchases/down-payments | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Persediaan | Hasil Stok Opname | Persediaan > Hasil Stok Opname | accurate__inventory__stock-opname-result | — | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Persediaan | Pekerjaan Pesanan | Persediaan > Pekerjaan Pesanan | accurate__inventory__job-order | POST /api/job-costing/job-orders | 1 | todo | Retail, Trade, Kontraktor |
 | Persediaan | Pemindahan Barang | Persediaan > Pemindahan Barang | accurate__inventory__item-transfer | POST /api/inventory/transfers | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
 | Persediaan | Penambahan Bahan Baku | Persediaan > Penambahan Bahan Baku | accurate__inventory__material-adjustment | POST /api/job-costing/material-adjustments | 1 | todo | Retail, Trade, Kontraktor |
 | Persediaan | Penyelesaian Pesanan | Persediaan > Penyelesaian Pesanan | accurate__inventory__roll-over | POST /api/job-costing/roll-overs | 1 | todo | Retail, Trade, Kontraktor |
-| Persediaan | Penyesuaian Persediaan | Persediaan > Penyesuaian Persediaan | accurate__inventory__item-adjustment | POST /api/inventory/adjustments; web /docs/stock-adjustment | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Aset Tetap | Aset Tetap | Aset Tetap > Aset Tetap | accurate__fixed-asset__fixed-asset | POST /api/fixed-assets; web /fixed-assets | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Aset Tetap | Disposisi Aset Tetap | Aset Tetap > Disposisi Aset Tetap | accurate__fixed-asset__fixed-asset-disposed | POST /api/fixed-assets/disposals | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
-| Aset Tetap | Perubahan Aset Tetap | Aset Tetap > Perubahan Aset Tetap | accurate__fixed-asset__fixed-asset-edited | — (command editFixedAsset exists, no HTTP route) | 1 | todo | Manufaktur, Retail, Trade, Kontraktor |
+| Persediaan | Penyesuaian Persediaan | Persediaan > Penyesuaian Persediaan | accurate__inventory__item-adjustment | POST/PUT/DELETE /api/inventory/adjustments; web /docs/stock-adjustment | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
+| Aset Tetap | Aset Tetap | Aset Tetap > Aset Tetap | accurate__fixed-asset__fixed-asset | POST/PUT/DELETE /api/fixed-assets; web /fixed-assets | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
+| Aset Tetap | Disposisi Aset Tetap | Aset Tetap > Disposisi Aset Tetap | accurate__fixed-asset__fixed-asset-disposed | POST/PUT/DELETE /api/fixed-assets/disposals | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
+| Aset Tetap | Perubahan Aset Tetap | Aset Tetap > Perubahan Aset Tetap | accurate__fixed-asset__fixed-asset-edited | POST/PUT/DELETE /api/fixed-assets/edits | 1 | accepted divergence (ADR-0041) | Manufaktur, Retail, Trade, Kontraktor |
 | Kontraktor | Alokasi Bahan Proyek | Kontraktor > Alokasi Bahan Proyek | accurate__contractor__material-allocation | — | 1 | todo | Kontraktor |
 | Kontraktor | Bahan Baku Terpakai | Kontraktor > Bahan Baku Terpakai | accurate__contractor__material-equipment | POST /api/contractor/material-usages | 1 | todo | Kontraktor |
 | Kontraktor | Penyelesaian Proyek | Kontraktor > Penyelesaian Proyek | accurate__contractor__finished-project | POST /api/contractor/completions | 1 | todo | Kontraktor |

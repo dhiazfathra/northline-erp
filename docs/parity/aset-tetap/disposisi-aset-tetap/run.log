@@ -1,0 +1,22 @@
+# Disposisi Aset Tetap — inputs {"asset":{"date":"2051-03-12","description":"NL-P4-FAD1 aset","amount":2400000,"lifeMonths":24},"date":"2051-03-13","description":"NL-P4-FAD1","gainLossAccount":"720006","edit":{"description":"NL-P4-FAD1 edit","price":1000000,"sellingAccount":"NL-T1-1101"},"reject":{"description":"NL-P4-FAD1 tanpa aset"}}
+## Accurate
+setup asset true FAA.2051.03.00007
+new form defaults {"date":"today","sold":false,"quantity":0}
+create true FAD.2051.03.00002
+edit true FAD.2051.03.00002
+journal after edit [["Tanggal",":","13 Mar 2051","No. Trans #",":","FAD.2051.03.00002"],["Tipe Transaksi",":","Disposisi Aset Tetap","Deskripsi",":","NL-P4-FAD1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["720006","Laba/Rugi Disposisi Aset","2.400.000","0"],["120005","Inventaris Kantor","0","2.400.000"],["NL-T1-1101","NL-T1 Kas","1.000.000","0"],["720006","Laba/Rugi Disposisi Aset","0","1.000.000"],["3.400.000","3.400.000"]]
+reject false Aset harus diisi
+delete true Disposisi Aset Tetap "FAD.2051.03.00002" berhasil dihapus
+journal after delete [] list before/after ["FAD.2051.03.00002"] []
+teardown asset true Aset Tetap "FAA.2051.03.00007" berhasil dihapus
+## ERP (local seeded instance)
+setup asset POST /fixed-assets 201 {"number":"FAA.2051.03.00007"}
+create POST /fixed-assets/disposals 201 {"number":"FAD.2051.03.00002"}
+edit PUT /fixed-assets/disposals/FAD.2051.03.00002 200 {"number":"FAD.2051.03.00002"}
+journal after edit [["Tanggal",":","13 Mar 2051","No. Trans #",":","FAD.2051.03.00002"],["Tipe Transaksi",":","Disposisi Aset Tetap","Deskripsi",":","NL-P4-FAD1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["720006","Laba/Rugi Disposisi Aset","2.400.000","0"],["120005","Inventaris Kantor","0","2.400.000"],["NL-T1-1101","NL-T1 Kas","1.000.000","0"],["720006","Laba/Rugi Disposisi Aset","0","1.000.000"],["3.400.000","3.400.000"]]
+reject POST /fixed-assets/disposals 409 {"error":"Aset harus diisi"}
+delete DELETE /fixed-assets/disposals/FAD.2051.03.00002 200 {"number":"FAD.2051.03.00002"}
+journal after delete [] list before/after true false
+teardown asset DELETE /fixed-assets/FAA.2051.03.00007 200 {"number":"FAA.2051.03.00007"}
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

@@ -1,0 +1,19 @@
+# Penyesuaian Persediaan — inputs {"date":"2051-03-06","account":"300001","description":"NL-P4-IA1","lines":[{"item":"NL-T4-B1","direction":"IN","qty":2,"unitCost":15000}],"edit":{"description":"NL-P4-IA1 edit","qty":3},"reject":{"description":"NL-P4-IA1 tanpa rincian"}}
+## Accurate
+new form defaults {"date":"today","account":"300001","branch":"Kantor Pusat"}
+create true IA.2051.03.00001
+edit true IA.2051.03.00001
+journal after edit [["Tanggal",":","06 Mar 2051","No. Trans #",":","IA.2051.03.00001"],["Tipe Transaksi",":","Penyesuaian Persediaan","Deskripsi",":","NL-P4-IA1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110401","Persediaan Barang Jadi","45.000","0"],["300001","Equitas Saldo Awal","0","45.000"],["45.000","45.000"]]
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Rincian Barang harus diisi","OK","Salin"],"sent":[]}
+delete true Penyesuaian Persediaan "IA.2051.03.00001" berhasil dihapus
+journal after delete [] list before/after ["IA.2051.03.00001"] []
+## ERP (local seeded instance)
+create POST /inventory/adjustments 201 {"number":"IA.2051.03.00001"}
+edit PUT /inventory/adjustments/IA.2051.03.00001 200 {"number":"IA.2051.03.00001"}
+journal after edit [["Tanggal",":","06 Mar 2051","No. Trans #",":","IA.2051.03.00001"],["Tipe Transaksi",":","Penyesuaian Persediaan","Deskripsi",":","NL-P4-IA1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110401","Persediaan Barang Jadi","45.000","0"],["300001","Equitas Saldo Awal","0","45.000"],["45.000","45.000"]]
+reject POST /inventory/adjustments 422 {"error":"validation","issues":[{"origin":"array","code":"too_small","minimum":1,"inclusive":true,"path":["lines"],"message":"Detail dari transaksi belum diisi!"}]}
+delete DELETE /inventory/adjustments/IA.2051.03.00001 200 {"number":"IA.2051.03.00001"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

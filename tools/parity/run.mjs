@@ -54,8 +54,8 @@ try {
 const rows = sc.compare(acc, erp);
 const diffs = rows.filter((r) => !r.same);
 log('## Compare', diffs.length ? `${diffs.length} differing aspect(s): ${diffs.map((r) => r.aspect).join(', ')}` : 'all aspects match');
-// divergence ADRs a scenario cites (batch 1: ADR-0041; batch 2 adds ADR-0042)
-const ADRS = { 'ADR-0041': '0041-p4-batch-1-screen-divergences.md', 'ADR-0042': '0042-p4-batch-2-screen-divergences.md' }, adrs = sc.adrs ?? ['ADR-0041'];
+// divergence ADRs a scenario cites (batch 1: ADR-0041; batch 2 adds ADR-0042; batch 3 ADR-0043)
+const ADRS = { 'ADR-0041': '0041-p4-batch-1-screen-divergences.md', 'ADR-0042': '0042-p4-batch-2-screen-divergences.md', 'ADR-0043': '0043-p4-batch-3-screen-divergences.md' }, adrs = sc.adrs ?? ['ADR-0041'];
 const verdict = sc.stopped ? `stopped: ${sc.stopped}` : diffs.length === 0 ? 'pass' : diffs.every((r) => sc.accepted?.[r.aspect]) ? `accepted divergence (${adrs.join(', ')})` : 'FAIL';
 log('verdict', verdict);
 writeFileSync(dir + 'run.log', lines.join('\n') + '\n');

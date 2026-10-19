@@ -20,7 +20,7 @@ export declare const fixedAssetInput: z.ZodObject<{
     }, z.core.$strip>>;
     fiscalLifeMonths: z.ZodOptional<z.ZodNumber>;
 }, z.core.$strip>;
-export declare function createFixedAsset(db: Db, input: z.input<typeof fixedAssetInput>): Promise<{
+export declare function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedAssetInput>): Promise<{
     number: string;
 }>;
 /** Straight-line monthly amount; the last month takes the rounding remainder so the asset ends at zero book value. */
@@ -42,7 +42,7 @@ export declare function editPeriodEnd(db: Db, p: string, input: {
     number: string;
 }>;
 /** Disposisi Aset Tetap: book value written off to gain/loss, proceeds booked against it as a separate pair (not netted). */
-export declare function disposeFixedAsset(db: Db, raw: {
+export declare function disposeFixedAsset(db: Db | Tx, raw: {
     idempotencyKey: string;
     number?: string;
     asset: string;
@@ -55,7 +55,7 @@ export declare function disposeFixedAsset(db: Db, raw: {
     number: string;
 }>;
 /** Perubahan Aset Tetap (FAE.yyyy.mm.nnnnn), useful-life change only: no journal (fixtures/asset-edit-t34.json). */
-export declare function editFixedAsset(db: Db, e: {
+export declare function editFixedAsset(db: Db | Tx, e: {
     number?: string;
     asset: string;
     date: string;
@@ -64,3 +64,28 @@ export declare function editFixedAsset(db: Db, e: {
 }): Promise<{
     number: string;
 }>;
+export declare const deleteFixedAsset: (db: Db, number: string, idempotencyKey: string) => Promise<{
+    number: string;
+}>;
+export declare const editFixedAssetRecord: (db: Db, number: string, input: z.input<typeof fixedAssetInput>) => Promise<{
+    number: string;
+}>;
+export declare const deleteDisposal: (db: Db, number: string, idempotencyKey: string) => Promise<{
+    number: string;
+}>;
+export declare const editDisposal: (db: Db, number: string, raw: Parameters<typeof disposeFixedAsset>[1]) => Promise<{
+    number: string;
+}>;
+type EditInput = Parameters<typeof editFixedAsset>[1] & {
+    idempotencyKey: string;
+};
+export declare const createAssetEdit: (db: Db, e: EditInput) => Promise<{
+    number: string;
+}>;
+export declare const deleteAssetEdit: (db: Db, number: string, idempotencyKey: string) => Promise<{
+    number: string;
+}>;
+export declare const editAssetEdit: (db: Db, number: string, e: EditInput) => Promise<{
+    number: string;
+}>;
+export {};

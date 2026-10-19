@@ -8,6 +8,7 @@ import * as FA from '../src/fixed-assets/service'
 import * as PAY from '../src/payroll/payroll'
 import * as P from '../src/purchases/service'
 import * as R from '../src/returns/service'
+import * as IA from '../src/inventory/adjustment'
 import { handle } from '../src/ledger/handler'
 import * as L from '../src/payroll/loans'
 import { catchUp, ledgerProjection } from '../src/projections'
@@ -164,4 +165,87 @@ test('Proses Akhir Bulan: no month refused with Accurate\'s text; edit keeps the
   expect(await FA.editPeriodEnd(f.db, '2051-02', { idempotencyKey: 'pe1-edit' })).toEqual({ number: 'Februari 2051' })
   expect(await FA.deletePeriodEnd(f.db, '2051-02', 'pe1-delete')).toEqual({ number: 'Februari 2051' })
   expect(await FA.runPeriodEnd(f.db, { idempotencyKey: 'pe1-again', period: '2051-02' })).toEqual({ number: 'Februari 2051' })
+})
+
+// P4.2 batch 3 (docs/parity, ADR-0043): same inputs as tools/parity/scenarios and journals Accurate printed (Manufaktur Demo, Mar 2051).
+test('Pembayaran Pembelian and Retur Pembelian: edit in place, Accurate\'s journals, no lines refused, delete; the invoice can go afterwards', async () => {
+  const inv = await P.createPurchaseInvoice(f.db, { idempotencyKey: 'pp1-invoice', vendor: 'NL-T3-V1', bill: 'NL-P4-PP1-B', date: '2051-03-02', lines: [{ item: 'NL-T2-S1', qty: 1, price: 300000 }] })
+  const pp = { vendor: 'NL-T3-V1', bank: 'NL-T1-1101', date: '2051-03-03' }
+  const { number } = await P.createPurchasePayment(f.db, { ...pp, idempotencyKey: 'pp1-create', description: 'NL-P4-PP1', payments: [{ invoice: inv.number, amount: 300000 }] })
+  expect(number).toBe('NL-T1-1101.2051.03.00001')
+  expect(await P.editPurchasePayment(f.db, number, { ...pp, idempotencyKey: 'pp1-edit', description: 'NL-P4-PP1 edit', payments: [{ invoice: inv.number, amount: 250000 }] })).toEqual({ number })
+  expect(await journal('2051-03-03')).toEqual([...head('03 Mar 2051', number, 'Pembayaran Pembelian', 'NL-P4-PP1 edit'),
+    ['210101', 'Hutang Usaha IDR', '250.000', '0'], ['NL-T1-1101', 'NL-T1 Kas', '0', '250.000'], ['250.000', '250.000']])
+  await expect(P.createPurchasePayment(f.db, { ...pp, idempotencyKey: 'pp1-bad', payments: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await P.deletePurchasePayment(f.db, number, 'pp1-delete')
+  expect(await journal('2051-03-03')).toEqual([])
+  expect(await P.deletePurchaseInvoice(f.db, inv.number, 'pp1-invoice-delete')).toEqual({ number: inv.number })
+
+  const pi = await P.createPurchaseInvoice(f.db, { idempotencyKey: 'pr1-invoice', vendor: 'NL-T3-V1', bill: 'NL-P4-PR1-B', date: '2051-03-04', lines: [{ item: 'NL-T2-S1', qty: 2, price: 100000 }] })
+  const rt = { invoice: pi.number, date: '2051-03-05' }
+  const r = await R.createPurchaseReturn(f.db, { ...rt, idempotencyKey: 'pr1-create', description: 'NL-P4-PR1', lines: [{ item: 'NL-T2-S1', qty: 1, price: 100000 }] })
+  expect(r.number).toBe('PRT.2051.03.00001')
+  expect(await R.editPurchaseReturn(f.db, r.number, { ...rt, idempotencyKey: 'pr1-edit', description: 'NL-P4-PR1 edit', lines: [{ item: 'NL-T2-S1', qty: 2, price: 100000 }] })).toEqual({ number: r.number })
+  expect(await journal('2051-03-05')).toEqual([...head('05 Mar 2051', r.number, 'Retur Pembelian', 'NL-P4-PR1 edit'),
+    ['210101', 'Hutang Usaha IDR', '200.000', '0'], ['600020', 'Beban Operasional Lainnya', '0', '200.000'], ['200.000', '200.000']])
+  await expect(R.createPurchaseReturn(f.db, { ...rt, idempotencyKey: 'pr1-bad', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await R.deletePurchaseReturn(f.db, r.number, 'pr1-delete')
+  expect(await journal('2051-03-05')).toEqual([])
+  expect(await P.deletePurchaseInvoice(f.db, pi.number, 'pr1-invoice-delete')).toEqual({ number: pi.number })
+})
+
+test('Penyesuaian Persediaan: IA number kept on edit, Dr inventory / Cr adjustment account, no lines refused, delete takes the stock back', async () => {
+  await open(['110401', 'Persediaan Barang Jadi', 'INVENTORY'], ['300001', 'Equitas Saldo Awal', 'EQUITY'], ['500001', 'Beban Pokok Penjualan', 'COGS'])
+  await upsertItem(f.db, { no: 'NL-T4-B1', name: 'NL-T4 Barang A', type: 'INVENTORY', unit: 'PCS', salesAccount: '400001', inventoryAccount: '110401', cogsAccount: '500001' })
+  const ia = { date: '2051-03-06', account: '300001' }
+  const { number } = await IA.createItemAdjustment(f.db, { ...ia, idempotencyKey: 'ia1-create', description: 'NL-P4-IA1', lines: [{ item: 'NL-T4-B1', direction: 'IN', qty: 2, unitCost: 15000 }] })
+  expect(number).toBe('IA.2051.03.00001')
+  expect(await IA.editItemAdjustment(f.db, number, { ...ia, idempotencyKey: 'ia1-edit', description: 'NL-P4-IA1 edit', lines: [{ item: 'NL-T4-B1', direction: 'IN', qty: 3, unitCost: 15000 }] })).toEqual({ number })
+  expect(await journal('2051-03-06')).toEqual([...head('06 Mar 2051', number, 'Penyesuaian Persediaan', 'NL-P4-IA1 edit'),
+    ['110401', 'Persediaan Barang Jadi', '45.000', '0'], ['300001', 'Equitas Saldo Awal', '0', '45.000'], ['45.000', '45.000']])
+  await expect(IA.createItemAdjustment(f.db, { ...ia, idempotencyKey: 'ia1-bad', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await IA.deleteItemAdjustment(f.db, number, 'ia1-delete')
+  expect(await journal('2051-03-06')).toEqual([])
+  const [m] = await f.client.unsafe(`SELECT count(*)::int AS n FROM stock_moves WHERE doc_type = 'IA' AND doc_number = '${number}'`)
+  expect(m!.n).toBe(0)
+})
+
+test('Aset Tetap, Perubahan and Disposisi: FAA/FAE/FAD numbers, edit in place, Accurate\'s texts, delete; a used asset cannot be deleted', async () => {
+  await open(['120005', 'Inventaris Kantor', 'FIXED_ASSET'], ['12000604', 'Akumulasi Penyusutan Inventaris Kantor', 'ACCUMULATED_DEPRECIATION'],
+    ['600024', 'Beban Penyusutan Inventaris Kantor', 'EXPENSE'], ['720006', 'Laba/Rugi Disposisi Aset', 'OTHER_EXPENSE'])
+  const fa = (description: string, date: string, amount: number) => ({ description, category: 'ZZ-R03-Elektronik C', date, lifeMonths: 24, assetAccount: '120005', accumulatedAccount: '12000604',
+    expenseAccount: '600024', expenditures: amount ? [{ name: `${description} perolehan`, date, amount, account: 'NL-T1-3001' }] : [] })
+  const { number } = await FA.createFixedAsset(f.db, { ...fa('NL-P4-FA1', '2051-03-09', 2400000), idempotencyKey: 'fa1-create' })
+  expect(number).toBe('FAA.2051.03.00001')
+  expect(await FA.editFixedAssetRecord(f.db, number, { ...fa('NL-P4-FA1 edit', '2051-03-09', 3000000), idempotencyKey: 'fa1-edit' })).toEqual({ number })
+  expect(await journal('2051-03-09')).toEqual([...head('09 Mar 2051', number, 'Aset Tetap', 'NL-P4-FA1 edit'),
+    ['120005', 'Inventaris Kantor', '3.000.000', '0'], ['NL-T1-3001', 'NL-T1 Modal', '0', '3.000.000'], ['3.000.000', '3.000.000']])
+  await expect(FA.createFixedAsset(f.db, { ...fa('NL-P4-FA1 tanpa pengeluaran', '2051-03-09', 0), idempotencyKey: 'fa1-bad' })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await FA.deleteFixedAsset(f.db, number, 'fa1-delete')
+  expect(await journal('2051-03-09')).toEqual([])
+
+  const a = await FA.createFixedAsset(f.db, { ...fa('NL-P4-FAE1 aset', '2051-03-10', 2400000), idempotencyKey: 'fae1-asset' })
+  const e = await FA.createAssetEdit(f.db, { idempotencyKey: 'fae1-create', asset: a.number, date: '2051-03-11', description: 'NL-P4-FAE1', lifeMonths: 36 })
+  expect(e.number).toBe('FAE.2051.03.00001')
+  expect(await FA.editAssetEdit(f.db, e.number, { idempotencyKey: 'fae1-edit', asset: a.number, date: '2051-03-11', description: 'NL-P4-FAE1 edit', lifeMonths: 48 })).toEqual({ number: e.number })
+  expect(await journal('2051-03-11')).toEqual([])
+  await expect(FA.createAssetEdit(f.db, { idempotencyKey: 'fae1-bad', asset: '', date: '2051-03-11', lifeMonths: 36 })).rejects.toThrow('Aset harus diisi')
+  await expect(FA.deleteFixedAsset(f.db, a.number, 'fae1-asset-delete-used')).rejects.toThrow('sudah dipakai transaksi lain')
+  await FA.deleteAssetEdit(f.db, e.number, 'fae1-delete')
+  const [life] = await f.client.unsafe(`SELECT life_months FROM fixed_assets WHERE number = '${a.number}'`)
+  expect(life!.life_months).toBe(24) // the change taken back restores the life before it
+  await FA.deleteFixedAsset(f.db, a.number, 'fae1-asset-delete')
+
+  const d0 = await FA.createFixedAsset(f.db, { ...fa('NL-P4-FAD1 aset', '2051-03-12', 2400000), idempotencyKey: 'fad1-asset' })
+  const dp = { asset: d0.number, date: '2051-03-13', gainLossAccount: '720006' }
+  const d = await FA.disposeFixedAsset(f.db, { ...dp, idempotencyKey: 'fad1-create', description: 'NL-P4-FAD1' })
+  expect(d.number).toBe('FAD.2051.03.00001')
+  expect(await FA.editDisposal(f.db, d.number, { ...dp, idempotencyKey: 'fad1-edit', description: 'NL-P4-FAD1 edit', price: 1000000, sellingAccount: 'NL-T1-1101' })).toEqual({ number: d.number })
+  expect(await journal('2051-03-13')).toEqual([...head('13 Mar 2051', d.number, 'Disposisi Aset Tetap', 'NL-P4-FAD1 edit'),
+    ['720006', 'Laba/Rugi Disposisi Aset', '2.400.000', '0'], ['120005', 'Inventaris Kantor', '0', '2.400.000'],
+    ['NL-T1-1101', 'NL-T1 Kas', '1.000.000', '0'], ['720006', 'Laba/Rugi Disposisi Aset', '0', '1.000.000'], ['3.400.000', '3.400.000']])
+  await expect(FA.disposeFixedAsset(f.db, { ...dp, asset: '', idempotencyKey: 'fad1-bad' })).rejects.toThrow('Aset harus diisi')
+  await FA.deleteDisposal(f.db, d.number, 'fad1-delete')
+  expect(await journal('2051-03-13')).toEqual([])
+  await FA.deleteFixedAsset(f.db, d0.number, 'fad1-asset-delete')
 })
