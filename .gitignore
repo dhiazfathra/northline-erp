@@ -42,3 +42,7 @@ next-env.d.ts
 node_modules
 dist
 .neon
+
+# P4 parity videos stay local (docs/goals/full-parity-v2.md §Evidence)
+docs/parity/**/*.webm
+docs/parity/**/.video/

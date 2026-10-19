@@ -282,7 +282,7 @@ export async function createSalesReceipt(db: Db, input: SalesReceiptInput) {
   })
 }
 
-export async function createSalesDownPayment(db: Db, input: SalesDownPaymentInput) {
+export async function createSalesDownPayment(db: Db | Tx, input: SalesDownPaymentInput) {
   const dp = salesDownPaymentInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${dp.idempotencyKey}`)
@@ -300,6 +300,39 @@ export async function createSalesDownPayment(db: Db, input: SalesDownPaymentInpu
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreateSalesDownPayment', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+/** Takes back a down payment (row and journal); refused once an invoice uses it or a receipt pays it. */
+async function removeSalesDownPayment(tx: Tx, number: string, idempotencyKey: string) {
+  const [dp] = await tx.execute(sql`SELECT journal_id FROM sales_invoices WHERE number = ${number} AND kind = 'DP' FOR UPDATE`)
+  if (!dp) throw new DomainError(`Uang muka ${number} tidak ditemukan`)
+  const [used] = await tx.execute(sql`SELECT 1 FROM sales_dp_usages WHERE dp_number = ${number} LIMIT 1`)
+  if (used) throw new DomainError(`Uang muka ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM sales_invoices WHERE number = ${number}`).catch(e => {
+    throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`Uang muka ${number} sudah dipakai transaksi lain`) : e
+  })
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: dp.journal_id as string })
+}
+
+export async function deleteSalesDownPayment(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeSalesDownPayment(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteSalesDownPayment', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place, as Accurate does: taken back and saved again under the same number. */
+export async function editSalesDownPayment(db: Db, number: string, input: SalesDownPaymentInput) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    salesDownPaymentInput.parse(input) // reject bad input before taking the old one back
+    await removeSalesDownPayment(tx, number, input.idempotencyKey)
+    return createSalesDownPayment(tx, { ...input, number: input.number ?? number })
   })
 }
 

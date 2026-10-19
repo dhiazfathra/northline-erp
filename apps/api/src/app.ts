@@ -1,7 +1,7 @@
 import * as ML from './master/lists'
-import { createCashDocument } from './cash-bank/service'
+import { createCashDocument, deleteCashDocument, editCashDocument } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
-import { createEmployeeLoan, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
+import { createEmployeeLoan, createLoanDisbursement, deleteEmployeeLoan, deleteLoanDisbursement, editEmployeeLoan, editLoanDisbursement, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import * as PAY from './payroll/payroll'
 import { sql } from 'drizzle-orm'
 import { Hono, type Context } from 'hono'
@@ -43,7 +43,7 @@ import * as P from './reports/payables'
 import * as R from './reports/receivables'
 import { reportPreferences, setReportPreferences } from './reports/preferences'
 import { createPurchaseDownPayment, createPurchaseInvoice, createPurchaseOrder, createPurchasePayment, createPurchaseRequisition, createReceiveItem, upsertVendor } from './purchases/service'
-import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
+import { createExchangeInvoice, createDeliveryOrder, createSalesOrder, createSalesQuotation, createSalesDownPayment, deleteSalesDownPayment, editSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteMaster, deleteSalesInvoice, editSalesInvoice, upsertCustomer, upsertItem } from './sales/service'
 import { loadCashDocs, loadLedger, loadExchanges, loadAdjustments, loadDeliveries, loadTransfers, loadOrders, loadRequisitions, queryFinanceChart, cogsByInvoice, loadFixedAssets, loadInventory, loadPurchases, loadSales, queryBalanceSheet, queryBankBook, queryCashAccountList, queryCashFlow, queryCashFlowByAccount, queryFinancialRatios, queryGeneralLedger, queryOwnerEquityChange, queryRetainedEarnings, queryProfitLoss, queryTrialBalance, type CashFlowReport, type GlReport } from './reports/queries'
 
 /** Socket address under Bun; on Workers the edge's cf-connecting-ip (a client-sent header is never trusted under Bun). */
@@ -366,6 +366,20 @@ export function createApp(db: Db) {
       return c.json({ 'monthly-sales': R.monthlySalesChart, 'customer-share': R.customerShareChart, 'item-share': R.itemShareChart }[c.req.param('chart') as 'monthly-sales'](d, from, to))
     })
     .get('/reports/balance-sheet', async c => c.json(await queryBalanceSheet(db, balanceSheetQuery.parse(c.req.query()))))
+  // Edit/delete for documents that only had a create route (P4.2, docs/parity). Registered outside the chain above, whose
+  // route type is at TypeScript's instantiation-depth limit; the web client does not call them yet.
+  const keyed = z.object({ idempotencyKey: z.string().min(8) }).passthrough()
+  const key = async (c: Context) => keyed.parse(await c.req.json()).idempotencyKey
+  const body = async (c: Context) => keyed.parse(await c.req.json()) as any // the service validates the rest
+  api.put('/cash-bank/documents/:number', async c => c.json(await editCashDocument(db, c.req.param('number'), await body(c))))
+  api.delete('/cash-bank/documents/:number', async c => c.json(await deleteCashDocument(db, c.req.param('number'), await key(c))))
+  api.put('/sales/down-payments/:number', async c => c.json(await editSalesDownPayment(db, c.req.param('number'), await body(c))))
+  api.delete('/sales/down-payments/:number', async c => c.json(await deleteSalesDownPayment(db, c.req.param('number'), await key(c))))
+  api.put('/employee-loans/:number', async c => c.json(await editEmployeeLoan(db, c.req.param('number'), await c.req.json())))
+  api.delete('/employee-loans/:number', async c => c.json(await deleteEmployeeLoan(db, c.req.param('number'))))
+  api.post('/employee-loan-disbursements', async c => c.json(await createLoanDisbursement(db, await body(c)), 201))
+  api.put('/employee-loan-disbursements/:number', async c => c.json(await editLoanDisbursement(db, c.req.param('number'), await body(c))))
+  api.delete('/employee-loan-disbursements/:number', async c => c.json(await deleteLoanDisbursement(db, c.req.param('number'), await key(c))))
   // API reference (ADR-0020): behind the session like the rest of /api; spec built lazily from the final route table
   let spec: ReturnType<typeof openApiSpec> | undefined
   api.get('/openapi.json', c => c.json(spec ??= openApiSpec(api, '/api'))).get('/docs', Scalar({ url: '/api/openapi.json', pageTitle: 'Northline ERP API' }))

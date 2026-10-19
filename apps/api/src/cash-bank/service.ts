@@ -1,16 +1,19 @@
 import { sql } from 'drizzle-orm'
-import type { Db } from '../db'
+import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { nextNumber, period } from '../sales/service'
 
+type CashDocument = { idempotencyKey: string; kind: 'PAY' | 'DEP'; number?: string; bank: string; date: string; chequeNo?: string; description?: string; lines: { account: string; amount: number; notes?: string }[] }
+
 // Pembayaran / Penerimaan (fixtures/cash-bank-t18.json): number <bank>.yyyy.mm.nnnnn; payment Dr accounts / Cr bank, deposit Dr bank / Cr accounts.
-export async function createCashDocument(db: Db, d: { idempotencyKey: string; kind: 'PAY' | 'DEP'; number?: string; bank: string; date: string; chequeNo?: string; description?: string; lines: { account: string; amount: number; notes?: string }[] }) {
+export async function createCashDocument(db: Db | Tx, d: CashDocument) {
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const [bank] = await tx.execute(sql`SELECT type FROM accounts WHERE no = ${d.bank}`)
     if (bank?.type !== 'CASH_BANK') throw new DomainError(`${d.bank} bukan akun Kas & Bank`)
+    if (!d.lines?.length) throw new DomainError('Detail dari transaksi belum diisi!') // Accurate's text (docs/parity/kas-bank)
     const lines = d.lines.map(l => ({ ...l, cents: Math.round(l.amount * 100) })), total = lines.reduce((s, l) => s + l.cents, 0)
     const number = d.number ?? await nextNumber(tx, `${d.bank}.${period(d.date)}`)
     const rp = (c: number) => (c / 100).toFixed(2), pay = d.kind === 'PAY'
@@ -24,6 +27,35 @@ export async function createCashDocument(db: Db, d: { idempotencyKey: string; ki
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateCashDocument', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+/** Takes back a Pembayaran/Penerimaan: its lines, row and journal. */
+async function removeCashDocument(tx: Tx, number: string, idempotencyKey: string) {
+  const [doc] = await tx.execute(sql`SELECT journal_id FROM cash_documents WHERE number = ${number} FOR UPDATE`)
+  if (!doc) throw new DomainError(`${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM cash_document_lines WHERE document_number = ${number}`)
+  await tx.execute(sql`DELETE FROM cash_documents WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: doc.journal_id as string })
+}
+
+export async function deleteCashDocument(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeCashDocument(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteCashDocument', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Accurate edits in place: the old document is taken back and the new content saved under the same number. */
+export async function editCashDocument(db: Db, number: string, d: CashDocument) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeCashDocument(tx, number, d.idempotencyKey)
+    return createCashDocument(tx, { ...d, number: d.number ?? number })
   })
 }
 

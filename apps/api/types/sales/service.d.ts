@@ -47,7 +47,14 @@ export declare function editSalesInvoice(db: Db, number: string, input: SalesInv
 export declare function createSalesReceipt(db: Db, input: SalesReceiptInput): Promise<{
     number: string;
 }>;
-export declare function createSalesDownPayment(db: Db, input: SalesDownPaymentInput): Promise<{
+export declare function createSalesDownPayment(db: Db | Tx, input: SalesDownPaymentInput): Promise<{
+    number: string;
+}>;
+export declare function deleteSalesDownPayment(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place, as Accurate does: taken back and saved again under the same number. */
+export declare function editSalesDownPayment(db: Db, number: string, input: SalesDownPaymentInput): Promise<{
     number: string;
 }>;
 type OrderLine = {

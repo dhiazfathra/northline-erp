@@ -1,0 +1,19 @@
+# Uang Muka Penjualan — inputs {"date":"2051-01-10","customer":"NL-T2-C1","dpAccount":"210102","description":"NL-P4-DP1","amount":500000,"edit":{"description":"NL-P4-DP1 edit","amount":550000},"reject":{"description":"NL-P4-DP1 nol","amount":0}}
+## Accurate
+new form defaults {"date":"today","taxable":false,"branch":"Kantor Pusat"}
+create true SI.2051.01.00006
+edit true SI.2051.01.00006
+journal after edit [["Tanggal",":","10 Jan 2051","No. Trans #",":","SI.2051.01.00006"],["Tipe Transaksi",":","Uang Muka Penjualan","Deskripsi",":","NL-P4-DP1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110301","Piutang Usaha IDR","550.000","0"],["210102","Uang Muka Penjualan IDR","0","550.000"],["550.000","550.000"]]
+reject false Uang muka harus lebih besar dari nol
+reject (form Simpan) {"shown":["Data Baru","*","SI.2051.01.00006","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Pelanggan harus diisi","Uang Muka harus diisi","OK"],"sent":[]}
+delete true Uang Muka Penjualan "SI.2051.01.00006" berhasil dihapus
+journal after delete [] list before/after ["SI.2051.01.00006"] []
+## ERP (local seeded instance)
+create POST /sales/down-payments 201 {"number":"SI.2051.01.00004"}
+edit PUT /sales/down-payments/SI.2051.01.00004 200 {"number":"SI.2051.01.00004"}
+journal after edit [["Tanggal",":","10 Jan 2051","No. Trans #",":","SI.2051.01.00004"],["Tipe Transaksi",":","Uang Muka Penjualan","Deskripsi",":","NL-P4-DP1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110301","Piutang Usaha IDR","550.000","0"],["210102","Uang Muka Penjualan IDR","0","550.000"],["550.000","550.000"]]
+reject POST /sales/down-payments 422 {"error":"validation","issues":[{"code":"custom","path":["amount"],"message":"Uang muka harus lebih besar dari nol"}]}
+delete DELETE /sales/down-payments/SI.2051.01.00004 200 {"number":"SI.2051.01.00004"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

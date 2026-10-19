@@ -1,5 +1,5 @@
-import type { Db } from '../db';
-export declare function createCashDocument(db: Db, d: {
+import type { Db, Tx } from '../db';
+type CashDocument = {
     idempotencyKey: string;
     kind: 'PAY' | 'DEP';
     number?: string;
@@ -12,7 +12,15 @@ export declare function createCashDocument(db: Db, d: {
         amount: number;
         notes?: string;
     }[];
-}): Promise<{
+};
+export declare function createCashDocument(db: Db | Tx, d: CashDocument): Promise<{
+    number: string;
+}>;
+export declare function deleteCashDocument(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Accurate edits in place: the old document is taken back and the new content saved under the same number. */
+export declare function editCashDocument(db: Db, number: string, d: CashDocument): Promise<{
     number: string;
 }>;
 export declare function createExpenseAccrual(db: Db, d: {
@@ -29,3 +37,4 @@ export declare function createExpenseAccrual(db: Db, d: {
 }): Promise<{
     number: string;
 }>;
+export {};

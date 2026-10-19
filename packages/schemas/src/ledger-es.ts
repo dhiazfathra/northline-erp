@@ -19,7 +19,7 @@ export const amountToCents = z
   })
   .pipe(cents)
 
-export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO', 'OP', 'OD', 'RI', 'EXP', 'JC', 'RO', 'MA', 'MEQ', 'FPC'])
+export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO', 'OP', 'OD', 'RI', 'EXP', 'JC', 'RO', 'MA', 'MEQ', 'FPC', 'ELD'])
 export type JournalSource = z.infer<typeof journalSource>
 
 /** department / project: optional dimensions per line (ADR-0022); names of master rows.

@@ -3,7 +3,7 @@ import type { Decider } from '../es/store'
 
 export class DomainError extends Error {}
 
-type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP' | 'JC' | 'RO' | 'MA' | 'MEQ' | 'FPC'; branch?: string; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
+type PostCmd = { type: 'Post'; journalId: string; number?: string; sourceType?: 'JV' | 'SI' | 'SR' | 'PI' | 'PP' | 'FA' | 'PE' | 'SRT' | 'PRT' | 'SDP' | 'PDP' | 'IA' | 'FAD' | 'DO' | 'OP' | 'OD' | 'RI' | 'EXP' | 'JC' | 'RO' | 'MA' | 'MEQ' | 'FPC' | 'ELD'; branch?: string; date: string; description: string; lines: JournalLine[]; reverses?: string; periodClosed: boolean }
 type ReverseCmd = { type: 'Reverse'; reversalJournalId: string; date: string; reason: string }
 type EditCmd = { type: 'Edit'; number?: string; branch?: string; date: string; description: string; lines: JournalLine[]; periodClosed: boolean }
 type DeleteCmd = { type: 'Delete'; periodClosed: boolean }
@@ -15,7 +15,7 @@ export type JournalState =
 const balance = (lines: JournalLine[]) => {
   const debit = lines.filter(l => l.side === 'DEBIT').reduce((a, l) => a + l.amount, 0)
   const credit = lines.filter(l => l.side === 'CREDIT').reduce((a, l) => a + l.amount, 0)
-  if (debit !== credit) throw new DomainError(`Debit (${debit}) dan kredit (${credit}) tidak seimbang`)
+  if (debit !== credit) throw new DomainError('Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit') // Accurate's text (docs/parity/buku-besar/jurnal-umum)
   if (debit === 0) throw new DomainError('Jurnal tanpa nilai')
 }
 

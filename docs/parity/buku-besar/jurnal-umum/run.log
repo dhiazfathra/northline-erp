@@ -1,0 +1,19 @@
+# Jurnal Umum — inputs {"date":"2051-01-05","description":"NL-P4-JV1","lines":[{"account":"NL-T1-6001","side":"DEBIT","amount":150000,"memo":"NL-P4-JV1 beban"},{"account":"NL-T1-2101","side":"CREDIT","amount":150000,"memo":"NL-P4-JV1 utang"}],"edit":{"description":"NL-P4-JV1 edit","amount":175000},"reject":{"description":"NL-P4-JV1 tidak seimbang","lines":[{"account":"NL-T1-6001","side":"DEBIT","amount":100000},{"account":"NL-T1-2101","side":"CREDIT","amount":50000}]}}
+## Accurate
+new form defaults {"date":"today","branch":"Kantor Pusat"}
+create true JV.2051.01.00020
+edit true JV.2051.01.00020
+journal after edit [["Tanggal",":","05 Jan 2051","No. Trans #",":","JV.2051.01.00020"],["Tipe Transaksi",":","Jurnal Umum","Deskripsi",":","NL-P4-JV1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-6001","NL-T1 Beban","175.000","0"],["NL-T1-2101","NL-T1 Utang Lain","0","175.000"],["175.000","175.000"]]
+reject false Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit
+reject (form Simpan) {"shown":["Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit","Batal","Edit","Error","Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit"],"sent":["/accurate/general-ledger/save-journal-voucher.do"]}
+delete true Jurnal Umum "JV.2051.01.00020" berhasil dihapus
+journal after delete [] list before/after ["JV.2051.01.00020"] []
+## ERP (local seeded instance)
+create POST /ledger/commands 202 {"globalPosition":124,"streams":["journal-cb0a4585-f42a-4ad7-bc19-49a5ba1a91a3"]}
+edit POST /ledger/commands 202 {"globalPosition":125,"streams":["journal-cb0a4585-f42a-4ad7-bc19-49a5ba1a91a3"]}
+journal after edit [["Tanggal",":","05 Jan 2051","No. Trans #",":","JV.2051.01.00001"],["Tipe Transaksi",":","Jurnal Umum","Deskripsi",":","NL-P4-JV1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-6001","NL-T1 Beban","175.000","0"],["NL-T1-2101","NL-T1 Utang Lain","0","175.000"],["175.000","175.000"]]
+reject POST /ledger/commands 409 {"error":"Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit"}
+delete POST /ledger/commands 202 {"globalPosition":126,"streams":["journal-cb0a4585-f42a-4ad7-bc19-49a5ba1a91a3"]}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

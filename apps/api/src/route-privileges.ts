@@ -49,6 +49,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'PUT /api/sales/invoices/:number': 'penjualan.faktur_penjualan',
   'DELETE /api/sales/invoices/:number': 'penjualan.faktur_penjualan',
   'POST /api/sales/down-payments': 'penjualan.uang_muka_penjualan',
+  'PUT /api/sales/down-payments/:number': 'penjualan.uang_muka_penjualan',
+  'DELETE /api/sales/down-payments/:number': 'penjualan.uang_muka_penjualan',
   'POST /api/sales/quotations': 'penjualan.penawaran_penjualan',
   'POST /api/sales/orders': 'penjualan.pesanan_penjualan',
   'POST /api/sales/deliveries': 'penjualan.pengiriman_pesanan',
@@ -57,6 +59,12 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/exchange-invoices': 'ExchangeInvoiceDetailReport',
   'POST /api/employees': 'perusahaan.karyawan',
   'POST /api/employee-loans': 'buku_besar.pinjaman_karyawan',
+  'PUT /api/employee-loans/:number': 'buku_besar.pinjaman_karyawan',
+  'DELETE /api/employee-loans/:number': 'buku_besar.pinjaman_karyawan',
+  // Pencairan Pinjaman has no row in the captured Akses Grup catalog (ADR-0040: uncatalogued routes need full access).
+  'POST /api/employee-loan-disbursements': FULL_ACCESS,
+  'PUT /api/employee-loan-disbursements/:number': FULL_ACCESS,
+  'DELETE /api/employee-loan-disbursements/:number': FULL_ACCESS,
   'POST /api/payroll/runs': 'buku_besar.pencatatan_gaji',
   'GET /api/reports/payroll/:report{monthly|yearly|pph|share|per-year}': {
     monthly: 'EmployeePaymentByEmployeeReport', yearly: 'EmployeePaymentYearlyByEmployeeReport', pph: 'EmployeePphReport',
@@ -64,6 +72,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/employee-loans/:report{list|installments|history}': { list: 'EmployeeLoanListReport', installments: 'EmployeeLoanInstallmentByEmployeeReport', history: 'EmployeeLoanHistoryReport' },
   // shortcut: one route posts both Pembayaran and Penerimaan; checks Pembayaran for both until the body's kind picks the key.
   'POST /api/cash-bank/documents': 'kas_bank.pembayaran',
+  'PUT /api/cash-bank/documents/:number': 'kas_bank.pembayaran',
+  'DELETE /api/cash-bank/documents/:number': 'kas_bank.pembayaran',
   'GET /api/reports/cash-bank/:report{payment-list|deposit-list|payment-by-bank|deposit-by-bank|payment-by-bank-detail|deposit-by-bank-detail|payment-load|unreconciled|statement}': {
     'payment-list': 'PaymentListReport', 'deposit-list': 'DepositListReport', 'payment-by-bank': 'PaymentByBankSummaryReport', 'deposit-by-bank': 'DepositByBankSummaryReport',
     'payment-by-bank-detail': 'PaymentByBankDetailReport', 'deposit-by-bank-detail': 'DepositByBankDetailReport', 'payment-load': 'PaymentLoadReport',

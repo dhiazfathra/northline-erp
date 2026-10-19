@@ -1,0 +1,25 @@
+# Pencairan Pinjaman — inputs {"loan":{"date":"2051-01-13","start":"2051-02-13","description":"NL-P4-LD1 pinjaman","amount":300000},"date":"2051-01-14","bank":"NL-T1-1101","description":"NL-P4-LD1","edit":{"description":"NL-P4-LD1 edit"},"reject":{"description":"NL-P4-LD1 tanpa pinjaman"}}
+## Accurate
+setup loan true EPL.2051.01.00009
+new form defaults {"date":"today","bank":"none"}
+create true ELD.2051.01.00004
+edit true ELD.2051.01.00004
+journal after edit [["Tanggal",":","14 Jan 2051","No. Trans #",":","ELD.2051.01.00004"],["Tipe Transaksi",":","Pencairan Pinjaman","Deskripsi",":","NL-P4-LD1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1201","NL-T1 Peralatan","300.000","0"],["NL-T1-1101","NL-T1 Kas","0","300.000"],["300.000","300.000"]]
+reject false Nomor Pinjaman harus diisi
+reject (form Simpan) {"shown":["Data Baru","*","ELD.2051.01.00004","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Nomor Pinjaman harus diisi","Kas/Bank harus diisi","Cabang harus diisi"],"sent":[]}
+delete disbursed loan false Tidak dapat menghapus Pinjaman Karyawan karena telah digunakan di Pencairan Pinjaman
+delete true Pencairan Pinjaman "ELD.2051.01.00004" berhasil dihapus
+journal after delete [] list before/after ["ELD.2051.01.00004"] []
+teardown loan true Pinjaman Karyawan "EPL.2051.01.00009" berhasil dihapus
+## ERP (local seeded instance)
+setup loan POST /employee-loans 201 {"number":"EPL.2051.01.00006"}
+create POST /employee-loan-disbursements 201 {"number":"ELD.2051.01.00003"}
+edit PUT /employee-loan-disbursements/ELD.2051.01.00003 200 {"number":"ELD.2051.01.00003"}
+journal after edit [["Tanggal",":","14 Jan 2051","No. Trans #",":","ELD.2051.01.00003"],["Tipe Transaksi",":","Pencairan Pinjaman","Deskripsi",":","NL-P4-LD1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1201","NL-T1 Peralatan","300.000","0"],["NL-T1-1101","NL-T1 Kas","0","300.000"],["300.000","300.000"]]
+reject POST /employee-loan-disbursements 409 {"error":"Nomor Pinjaman harus diisi"}
+delete disbursed loan DELETE /employee-loans/EPL.2051.01.00006 409 {"error":"Tidak dapat menghapus Pinjaman Karyawan karena telah digunakan di Pencairan Pinjaman"}
+delete DELETE /employee-loan-disbursements/ELD.2051.01.00003 200 {"number":"ELD.2051.01.00003"}
+journal after delete [] list before/after true false
+teardown loan DELETE /employee-loans/EPL.2051.01.00006 200 {"number":"EPL.2051.01.00006"}
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)
