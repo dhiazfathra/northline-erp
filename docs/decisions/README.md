@@ -41,3 +41,4 @@
 | [0037](0037-per-company-report-preferences.md) | Per-company report preferences: aging basis and P&L style in `ledger_settings` | Accepted |
 | [0038](0038-contractor-projects-design.md) | Contractor Projects module design; RAB and receipts reconciled | Accepted |
 | [0039](0039-out-of-scope-reports-reopened.md) | 23 out-of-scope reports reopened; Jurnal Perintah Kerja, Monitoring HPP and Pembayaran PPh Penjualan accepted divergences | Accepted |
+| [0040](0040-route-access-enforcement.md) | API routes enforce Akses Grup privileges; existing users default-allow, new users default-deny | Accepted |

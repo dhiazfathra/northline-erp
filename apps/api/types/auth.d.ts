@@ -2,7 +2,8 @@ import { type MiddlewareHandler } from 'hono';
 import type { Db } from './db';
 export declare function hashPassword(password: string): Promise<string>;
 export declare function verifyPassword(password: string, stored: string): Promise<any>;
-export declare function createUser(db: Db, email: string, password: string): Promise<void>;
+/** New users have no privileges (ADR-0040) unless fullAccess; grant them through an access group. */
+export declare function createUser(db: Db, email: string, password: string, fullAccess?: boolean): Promise<void>;
 export type AuthEnv = {
     Variables: {
         userId: number;

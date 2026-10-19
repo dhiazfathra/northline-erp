@@ -33,8 +33,9 @@ export async function verifyPassword(password: string, stored: string) {
 // verify against a dummy hash when the user is missing so timing does not reveal accounts
 const DUMMY = `pbkdf2$${ITER}$AAAAAAAAAAAAAAAAAAAAAA==$AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=`
 
-export async function createUser(db: Db, email: string, password: string) {
-  await db.execute(sql`INSERT INTO users (email, password_hash) VALUES (${email.toLowerCase()}, ${await hashPassword(password)})`)
+/** New users have no privileges (ADR-0040) unless fullAccess; grant them through an access group. */
+export async function createUser(db: Db, email: string, password: string, fullAccess = false) {
+  await db.execute(sql`INSERT INTO users (email, password_hash, full_access) VALUES (${email.toLowerCase()}, ${await hashPassword(password)}, ${fullAccess})`)
 }
 
 // Failed logins per email; shortcut: in-memory per instance, move to a table if Workers instances multiply.

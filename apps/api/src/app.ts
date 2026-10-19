@@ -12,6 +12,7 @@ import { balanceSheetQuery, isoDate, trialBalanceQuery } from '@northline/schema
 import type { Db } from './db'
 import { authRoutes, requireSession, type AuthEnv } from './auth'
 import { serveSpa } from './spa'
+import { requirePrivilege } from './route-privileges'
 import { openApiSpec } from './openapi'
 import { Scalar } from '@scalar/hono-api-reference'
 import { withActor } from './activity/log'
@@ -69,6 +70,8 @@ export function createApp(db: Db) {
     .use('*', requireSession(db))
     // every change made by this request is logged with its user and client IP (ADR-0019)
     .use('*', (c, next) => withActor({ userId: c.get('userId'), ip: clientIp(c) }, next))
+    // every route needs its Akses Grup privilege (ADR-0040; table in route-privileges.ts)
+    .use('*', requirePrivilege(db))
     .get('/me', c => c.json({ userId: c.get('userId') }))
     .post('/ledger/commands', async c => {
       // handle() owns parsing (amounts → cents); parsing here too would convert twice
@@ -216,7 +219,7 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json(TFO.transferOrderList(await TFO.loadTransferOrders(db), from, to))
     })
-    // Akses Grup and branch users (P3.4; data only, enforcement is P5) and the three Lain-lain access reports.
+    // Akses Grup and branch users (P3.4; enforced since P5, ADR-0040) and the three Lain-lain access reports.
     .post('/access/groups', async c => { await upsertAccessGroup(db, await c.req.json()); return c.json({ ok: true }) })
     .post('/access/branches', async c => { await setBranchUsers(db, await c.req.json()); return c.json({ ok: true }) })
     .get('/reports/access/user-by-branch', async c => c.json(await ACC.userByBranchList(db)))

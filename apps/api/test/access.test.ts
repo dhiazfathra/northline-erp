@@ -58,11 +58,11 @@ test('privileges must be catalog keys with applicable actions; members and branc
 })
 
 test('member layouts (unverified against Accurate): placeholder users in a group and on a restricted branch', async () => {
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const db = (await fixtureDb('accm2'))
   try {
-    await createUser(db.db, 'nl-tester-1@example.test', 'rahasia-123')
-    await createUser(db.db, 'nl-tester-2@example.test', 'rahasia-123')
+    await createFullUser(db.db, 'nl-tester-1@example.test', 'rahasia-123')
+    await createFullUser(db.db, 'nl-tester-2@example.test', 'rahasia-123')
     await upsertAccessGroup(db.db, { name: 'NL-AG49 Grup Gudang', users: ['nl-tester-1@example.test'], privileges: { warehouse: ['create'] } })
     await setBranchUsers(db.db, { name: 'Kantor Pusat', allUsers: false, users: ['nl-tester-2@example.test'] })
     const groups = await A.loadAccessGroups(db.db)
@@ -75,9 +75,9 @@ test('member layouts (unverified against Accurate): placeholder users in a group
 
 test('HTTP: access routes serve the same rows and login is unchanged', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(f.db)
-  await createUser(f.db, 'nl-tester-acc@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-tester-acc@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-tester-acc@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const get = async (p: string) => (await app.request(`/api/reports/access/${p}`, { headers: { cookie } })).json()

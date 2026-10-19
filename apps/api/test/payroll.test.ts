@@ -51,9 +51,9 @@ test('unknown fee and unknown employee are rejected', async () => {
 
 test('HTTP: payroll run and reports', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(f.db)
-  await createUser(f.db, 'nl-py50@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-py50@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-py50@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const get = async (u: string) => (await app.request(u, { headers: { cookie } })).json()

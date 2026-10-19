@@ -139,11 +139,11 @@ test('Laba/Rugi (Standar) 2047: Journal-only core re-verified on Kontraktor Demo
 
 test('HTTP: project routes serve the same rows (style=standard)', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(db)
   // the route loads the ledger, which needs settings; values do not affect P&L rows
   await db.execute(sql`INSERT INTO ledger_settings (retained_earnings_account, fiscal_year_start_month) VALUES ('300002', 1)`)
-  await createUser(db, 'nl-k@example.test', 'rahasia-123')
+  await createFullUser(db, 'nl-k@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-k@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const get = async (p: string) => (await app.request('/api' + p, { headers: { cookie } })).json()
@@ -244,9 +244,9 @@ test('Proyek Kontraktor: ProfitLossByProjectContractorReport (capture is the err
 
 test('Proyek Kontraktor HTTP: routes serve the same rows; FPC once per project', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(db)
-  await createUser(db, 'nl-kc@example.test', 'rahasia-123')
+  await createFullUser(db, 'nl-kc@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-kc@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const get = async (p: string) => (await app.request('/api/reports/contractor/' + p, { headers: { cookie } })).json()

@@ -46,9 +46,9 @@ for (const [key, c] of Object.entries(mx.reports as Record<string, Cap>)) test(`
 
 test('HTTP: Pembelian (HPP) route serves the same rows', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(f.db)
-  await createUser(f.db, 'nl-hpp@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-hpp@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-hpp@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const rows = await (await app.request('/api/reports/manufacturing/purchase-cogs?from=2049-03-01&to=2049-03-31', { headers: { cookie } })).json()

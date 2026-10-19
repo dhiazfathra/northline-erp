@@ -13,9 +13,10 @@ await migrate(client)
 
 if (process.argv[2] === 'create-user') {
   const [email, password] = [process.argv[3], process.env.NL_PASSWORD]
-  if (!email || !password) throw new Error('usage: NL_PASSWORD=… northline-api create-user <email>')
-  await createUser(db, email, password)
-  console.log(`created ${email}`)
+  if (!email || !password) throw new Error('usage: NL_PASSWORD=… northline-api create-user <email> [--full-access]')
+  const full = process.argv.includes('--full-access') // new users start with no privileges (ADR-0040)
+  await createUser(db, email, password, full)
+  console.log(`created ${email}${full ? ' (full access)' : ''}`)
   await client.end()
   process.exit(0)
 }

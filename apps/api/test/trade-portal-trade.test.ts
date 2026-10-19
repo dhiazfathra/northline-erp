@@ -170,9 +170,9 @@ for (const [planId, side] of [['TaxationInReport', 'IN'], ['TaxationOutReport', 
 
 test('HTTP: aging reports follow the company aging basis (ADR-0037), basis= overrides', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(db)
-  await createUser(db, 'nl-tp@example.test', 'rahasia-123')
+  await createFullUser(db, 'nl-tp@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-tp@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const get = async (p: string) => (await app.request('/api' + p, { headers: { cookie } })).json()

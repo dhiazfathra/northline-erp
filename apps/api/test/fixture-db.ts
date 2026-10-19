@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm'
 import fixture from '../../../docs/reports/fixtures/trial-balance.json'
-import { connect, migrate } from '../src/db'
+import { createUser } from '../src/auth'
+import { connect, migrate, type Db } from '../src/db'
 import { handle } from '../src/ledger/handler'
 import { catchUp, ledgerProjection } from '../src/projections'
 
@@ -24,3 +25,6 @@ export async function fixtureDb(name: string) {
   const close = async () => { await client.unsafe(`DROP SCHEMA IF EXISTS ${schema} CASCADE`); await client.end() }
   return { db, client, close }
 }
+
+/** A user with full access, for tests about anything but access itself (new users default to no privileges, ADR-0040). */
+export const createFullUser = (db: Db, email: string, password: string) => createUser(db, email, password, true)

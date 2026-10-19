@@ -127,9 +127,9 @@ test('material pick/return and roll-over to accounts clear WIP; job expense acco
 
 test('HTTP: job costing report route serves the same rows', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(m.db)
-  await createUser(m.db, 'nl-jc@example.test', 'rahasia-123')
+  await createFullUser(m.db, 'nl-jc@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-jc@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const rows = await (await app.request('/api/reports/job-costing/roll-over-list?from=2049-01-01&to=2049-12-31', { headers: { cookie } })).json()

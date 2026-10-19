@@ -4,7 +4,7 @@ import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
 import catalog from './privilege-catalog.json'
 
-// Users and access (P3.4; fixtures/access-m49.json). Data only: nothing here gates a route yet (P5).
+// Users and access (P3.4; fixtures/access-m49.json). Routes check these privileges since P5 (src/route-privileges.ts, ADR-0040).
 // Catalog rows are [heading] or [label, mask, key]; mask columns = Aktif, Buat, Ubah, Hapus, Lihat ('x' = applicable).
 export const ACTIONS = ['enable', 'create', 'edit', 'delete', 'view'] as const
 export const PRIVILEGES = new Map((catalog as string[][]).filter(r => r.length === 3).map(r => [r[2]!, r[1]!]))

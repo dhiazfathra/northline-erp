@@ -63,9 +63,9 @@ test('PPh needs a PPh tax with an account, and less than the payment', async () 
 
 test('HTTP: PPh report route serves the same rows', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(f.db)
-  await createUser(f.db, 'nl-pph@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-pph@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-pph@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const rows = await (await app.request('/api/reports/tax/sales-receipt-pph?from=2050-01-01&to=2050-12-31', { headers: { cookie } })).json()

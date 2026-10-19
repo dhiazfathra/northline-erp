@@ -2,7 +2,7 @@ import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { sql } from 'drizzle-orm'
 import fx from '../../../docs/reports/fixtures/activity-log-a7.json'
 import { createApp } from '../src/app'
-import { createUser } from '../src/auth'
+import { createFullUser } from './fixture-db'
 import { catchUp, ledgerProjection } from '../src/projections'
 import { auditList, jakartaDay, loadActivity } from '../src/reports/activity-log'
 import { fixtureDb } from './fixture-db'
@@ -15,7 +15,7 @@ beforeAll(async () => {
   // the invoice's customer and item existed before the seed window: inserted directly, so they log nothing
   await f.db.execute(sql`INSERT INTO customers (no, name, ar_account) VALUES ('NL-T2-C2', 'NL-T2 Pelanggan B', 'NL-T1-1201')`)
   await f.db.execute(sql`INSERT INTO items (no, name, type, unit, sales_account) VALUES ('NL-T2-S1', 'NL-T2 Jasa Konsultasi', 'SERVICE', 'Jam', 'NL-T1-4001')`)
-  await createUser(f.db, 'nl-tester@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-tester@example.test', 'rahasia-123')
   await f.db.execute(sql`UPDATE users SET name = 'nl-tester'`)
   const app = createApp(f.db)
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-tester@example.test', password: 'rahasia-123' }) })
@@ -79,7 +79,7 @@ test('rejected saves log nothing; the log is append-only', async () => {
 
 test('login locks after repeated failures; responses carry security headers', async () => {
   const app = createApp(f.db), login = (password: string) => app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'lock@example.test', password }) })
-  await createUser(f.db, 'lock@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'lock@example.test', 'rahasia-123')
   for (let i = 0; i < 10; i++) expect((await login('salah-123')).status).toBe(401)
   const r = await login('rahasia-123')
   expect(r.status).toBe(429)

@@ -45,9 +45,9 @@ test('a payment order needs invoices, a cash/bank account, the vendor bank, and 
 
 test('HTTP: transfer order list route serves the same rows', async () => {
   const { createApp } = await import('../src/app')
-  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
   const app = createApp(f.db)
-  await createUser(f.db, 'nl-tfo@example.test', 'rahasia-123')
+  await createFullUser(f.db, 'nl-tfo@example.test', 'rahasia-123')
   const login = await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'nl-tfo@example.test', password: 'rahasia-123' }) })
   const cookie = login.headers.get('set-cookie')!.split(';')[0]!
   const rows = await (await app.request('/api/reports/purchases/transfer-order-list?from=2049-01-01&to=2049-12-31', { headers: { cookie } })).json()
