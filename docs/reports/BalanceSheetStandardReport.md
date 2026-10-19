@@ -50,3 +50,10 @@ LIABILITAS DAN EKUITAS
 
 Unverified: accumulated-depreciation sign and placement, foreign-currency revaluation (sandbox USD bank shows
 1.600.000 here vs 1.550.000 in the trial balance, so the balance sheet revalues at a rate), OTHER_ASSET placement.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop): demo opening `OB` plus NL-TP journals J1-J4 of 2045. Fixture
+[fixtures/trade/journal-tp.json](fixtures/trade/journal-tp.json), test `apps/api/test/trade-portal.test.ts`: zero diff.
+Rules above unchanged. Only the inputs differ: flat numeric account numbers, `selectedCurrency: []` must be sent
+explicitly, and the `DATECOMPARE` dates are `startDate`/`endDate`. See ADR-0029.

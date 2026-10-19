@@ -13,6 +13,7 @@ const schema = `trade_${process.pid}`
 const { client, db } = connect(`${url}?options=-c%20search_path%3D${schema}`)
 let accounts: TB.TbAccount[], balances: TB.DailyBalance[]
 const o = { showZeroBalance: false, showParentAccount: true }
+const settings = { retainedEarningsAccount: '300002', fiscalYearStartMonth: 1 }
 const R = fx.reports as Record<string, { planId: string; param: any; rows: string[][] }>
 
 beforeAll(async () => {
@@ -61,12 +62,19 @@ test('Laba/Rugi (Perbandingan Periode) Jan vs Feb 2045', () => {
   expect(F.compareColumns(pl('2045-01-01', '2045-01-31'), pl('2045-02-01', '2045-02-28'), o).map(F.formatMulti)).toEqual(rows)
 })
 
-test('Neraca Percobaan 1 Jan - 28 Feb 2045: rows the NL-TP journals touch', () => {
-  // Accurate's opening column also carries the demo's pre-2045 balances (e.g. Persediaan); compare only accounts with no demo history.
-  const touched = new Set(fx.journals.flatMap(j => j.lines.flatMap(l => { const out = [l.account]; let p = fx.accounts.find(a => a.no === l.account)!.parentNo; while (p) { out.push(p); p = fx.accounts.find(a => a.no === p)!.parentNo } return out })))
+test('Neraca Percobaan 1 Jan - 28 Feb 2045', () => {
   const [, ...rows] = body(R['tb-jan-feb']!.rows, 'Kode')
-  const erp = TB.trialBalance(accounts, balances, { retainedEarningsAccount: '300002', fiscalYearStartMonth: 1 }, { from: '2045-01-01', to: '2045-02-28', ...o }).map(TB.formatRow)
-  const acc = rows.filter(r => touched.has(r[0]!))
-  expect(acc.length).toBe(14)
-  expect(erp.filter(r => touched.has(r[0]!))).toEqual(acc)
+  expect(TB.trialBalance(accounts, balances, settings, { from: '2045-01-01', to: '2045-02-28', ...o }).map(TB.formatRow)).toEqual(rows)
+})
+
+test('Neraca (Standar) per 28 Feb 2045', () => {
+  const [, ...rows] = body(R['bs-feb']!.rows, 'Deskripsi')
+  expect(F.balanceSheet(accounts, balances, settings, '2045-02-28', o).map(F.formatLine)).toEqual(rows)
+})
+
+test('Neraca (Perbandingan Periode) 31 Des 2044 vs 28 Feb 2045', () => {
+  const [head, ...rows] = body(R['bs-compare']!.rows, 'Deskripsi')
+  expect(head).toEqual(['Deskripsi', F.perDateEn('2044-12-31'), F.perDateEn('2045-02-28'), 'Variance', '% Var.'])
+  const bs = (d: string) => F.balanceSheet(accounts, balances, settings, d, { ...o, showZeroBalance: true })
+  expect(F.compareColumns(bs('2044-12-31'), bs('2045-02-28'), o).map(F.formatMulti)).toEqual(rows)
 })

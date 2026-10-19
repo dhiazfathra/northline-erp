@@ -3,6 +3,8 @@
  "dataUsaha": "Trade Portal Demo",
  "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
  "param": {
+  "startDate": "31/12/2025",
+  "endDate": "31/12/2040",
   "selectedCurrency": [],
   "showTotal": false,
   "showParentAccount": true,
@@ -10,21 +12,256 @@
   "showZeroBalance": false,
   "showParentAccountBalance": true
  },
- "rows": {
-  "error": {
-   "first": "{\"s\":true,\"d\":{\"bgPid\":\"+Y1U7DLsfVGV2CtkVEwGdlBoB8GfSHTuAAABoVGvLlI=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Cannot parsing part from a null date\"]}},\"status\":\"FINISHED\"}}",
-   "poll": {
-    "bgPid": "+Y1U7DLsfVGV2CtkVEwGdlBoB8GfSHTuAAABoVGvLlI=",
-    "response": {
-     "s": false,
-     "d": {
-      "": [
-       "Cannot parsing part from a null date"
-      ]
-     }
-    },
-    "status": "FINISHED"
-   }
-  }
- }
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Neraca (Perbandingan Periode)"
+  ],
+  [
+   "Tanggal 31 Des 2025 dan 31 Des 2040"
+  ],
+  [
+   "Deskripsi",
+   "Per 31 Dec 2025",
+   "Per 31 Dec 2040",
+   "Variance",
+   "% Var."
+  ],
+  [
+   "ASET"
+  ],
+  [
+   "ASET LANCAR"
+  ],
+  [
+   "Kas dan Setara Kas"
+  ],
+  [
+   "Jumlah Kas dan Setara Kas",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Piutang Usaha"
+  ],
+  [
+   "Jumlah Piutang Usaha",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Persediaan"
+  ],
+  [
+   "Persediaan",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "Persediaan",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Persediaan",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "Aset Lancar Lainnya"
+  ],
+  [
+   "Jumlah Aset Lancar Lainnya",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Aset Lancar",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "ASET TIDAK LANCAR"
+  ],
+  [
+   "Nilai Histori"
+  ],
+  [
+   "Jumlah Nilai Histori",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Akumulasi Penyusutan"
+  ],
+  [
+   "Jumlah Akumulasi Penyusutan",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Aset Tidak Lancar",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Aset Lainnya"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:12"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Neraca (Perbandingan Periode)"
+  ],
+  [
+   "Tanggal 31 Des 2025 dan 31 Des 2040"
+  ],
+  [
+   "Deskripsi",
+   "Per 31 Dec 2025",
+   "Per 31 Dec 2040",
+   "Variance",
+   "% Var."
+  ],
+  [
+   "Jumlah Aset Lainnya",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "JUMLAH ASET",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "LIABILITAS DAN EKUITAS"
+  ],
+  [
+   "LIABILITAS"
+  ],
+  [
+   "LIABILITAS JANGKA PENDEK"
+  ],
+  [
+   "Utang Usaha"
+  ],
+  [
+   "Jumlah Utang",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Kewajiban Jangka Pendek Lainnya"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Pendek Lainnya",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Pendek",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "LIABILITAS JANGKA PANJANG"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Panjang",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Kewajiban",
+   "0",
+   "0",
+   "0",
+   "0 %"
+  ],
+  [
+   "EKUITAS"
+  ],
+  [
+   "Modal",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "Equitas Saldo Awal",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "Jumlah Ekuitas",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "JUMLAH LIABILITAS DAN EKUITAS",
+   "6.146.070.000",
+   "6.146.070.000",
+   "0",
+   "0 %"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:12"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
 }

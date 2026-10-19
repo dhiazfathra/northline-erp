@@ -20,18 +20,18 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 Daftar Laporan read from **Trade Portal Demo** lists 266 reports. Every one is already a row below: no report exists only
 in Trade Portal Demo. The 9 rows marked N in that column (department, branch, project and department-budget Laba/Rugi,
 `DepartmentListReport`, `CurrencyListReport`) are Retail Demo only. Each Trade Portal report was captured with default
-parameters into `captures/trade/` (tagged `dataUsaha: "Trade Portal Demo"`). Capture column: **data** = rows returned,
+parameters into `captures/trade/` (tagged `dataUsaha: "Trade Portal Demo"`). Capture column: **data** = a page returned (only 35 carry amounts; the demo has no sales, purchase, AR or AP documents, see ADR-0029),
 **empty** = layout only (the demo has no such transactions, so it adds nothing over the earlier sandboxes),
-**error** = Accurate returns its generic "Upsss..." 500 for every parameter set tried (partial; spec unchanged).
+**error** = none left: the 4 early failures were parameter-shape problems (ADR-0029 finding 2).
 Trade Portal Demo needs every non-boolean parameter sent as an explicit `[]`: `[Semua Cabang]` or an omitted
 branch/currency parameter makes Accurate 500. See [ADR-0029](../decisions/0029-trade-portal-demo-divergences.md).
 Journal-only re-verification on Trade Portal (NL-TP 2045 journals): Laba/Rugi Standar, Multi Periode, Perbandingan Periode
-and Neraca Percobaan, zero diff. No report is blocked. Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
+Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff. No report is blocked. Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
 | Report | planId | Category | In Manufaktur Demo | In Retail Demo | In Trade Portal Demo | Trade Portal capture | Spec status | ERP module dependency | Note |
 |---|---|---|---|---|---|---|---|---|---|
 | [Laba/Rugi (Standar)](ProfitLossStandardReport.md) | `ProfitLossStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
-| [Neraca (Standar)](BalanceSheetStandardReport.md) | `BalanceSheetStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
+| [Neraca (Standar)](BalanceSheetStandardReport.md) | `BalanceSheetStandardReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi (Multi Year)](ProfitLossMultiYearReport.md) | `ProfitLossMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
@@ -43,7 +43,7 @@ and Neraca Percobaan, zero diff. No report is blocked. Module build order propos
 | [Laba/Rugi (Kuartal)](ProfitLossQuarterReport.md) | `ProfitLossQuarterReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Laba/Rugi (Perbandingan Anggaran)](ProfitLossCompareBudgetReport.md) | `ProfitLossCompareBudgetReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Retail Demo; test: `apps/api/test/budget.test.ts`, fixture `fixtures/retail/budget-rb.json` (ADR-0025) |
 | [Laba/Rugi Cabang](ProfitLossByBranchReport.md) | `ProfitLossByBranchReport` | Keuangan | N | Y | N | — | done | Branch dimension | verified on Retail Demo; test: `apps/api/test/dimensions.test.ts`, fixture `fixtures/retail/dimensions-ra.json` (ADR-0022) |
-| [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) | `BalanceSheetComparePeriodReport` | Keuangan | Y | Y | Y | error | done | Journal/Period/Account |  |
+| [Neraca (Perbandingan Periode)](BalanceSheetComparePeriodReport.md) | `BalanceSheetComparePeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Arus Kas (Tak Langsung)](CashFlowDetailIndirectReport.md) | `CashFlowDetailIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
@@ -159,7 +159,7 @@ and Neraca Percobaan, zero diff. No report is blocked. Module build order propos
 | [Status Pengiriman Pesanan](DeliveryOrderHistorySummaryReport.md) | `DeliveryOrderHistorySummaryReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Daftar Faktur Penjualan](SalesInvoiceListReport.md) | `SalesInvoiceListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Rincian Faktur Penjualan](SalesInvoiceDetailReport.md) | `SalesInvoiceDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
-| [Grafik Penjualan](SalesInvoiceChartReport.md) | `SalesInvoiceChartReport` | Penjualan | Y | Y | Y | error | done | Sales |  |
+| [Grafik Penjualan](SalesInvoiceChartReport.md) | `SalesInvoiceChartReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Daftar Retur Penjualan](SalesReturnListReport.md) | `SalesReturnListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Rincian Retur Penjualan](SalesReturnDetailReport.md) | `SalesReturnDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Penggunaan Uang Muka Penjualan](SalesInvoiceDownPaymentDetailReport.md) | `SalesInvoiceDownPaymentDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
@@ -250,7 +250,7 @@ and Neraca Percobaan, zero diff. No report is blocked. Module build order propos
 | [Stok Nomor Seri/Produksi](SerialNumberStockReport.md) | `SerialNumberStockReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Stok Nomor Seri/Produksi per Gudang](SerialNumberStockPerWarehouseReport.md) | `SerialNumberStockPerWarehouseReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Stok Nomor Seri/Produksi per Barang](SerialNumberStockPerItemReport.md) | `SerialNumberStockPerItemReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
-| [Lembar Penghitungan Stok](PhysicalInventoryCountSheetReport.md) | `PhysicalInventoryCountSheetReport` | Gudang | Y | Y | Y | error | done | Inventory (Warehouse) |  |
+| [Lembar Penghitungan Stok](PhysicalInventoryCountSheetReport.md) | `PhysicalInventoryCountSheetReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) |  |
 | [Rincian Pemindahan Barang](ItemTransferDetailReport.md) | `ItemTransferDetailReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Barang Diterima Sebagian](UncompletedItemTransferReport.md) | `UncompletedItemTransferReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Daftar Gudang](WarehouseListReport.md) | `WarehouseListReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
@@ -259,7 +259,7 @@ and Neraca Percobaan, zero diff. No report is blocked. Module build order propos
 | [Sisa Umur Per Nomor Produksi](RemainingAgeSerialNumberDetailReport.md) | `RemainingAgeSerialNumberDetailReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) |  |
 | [Nomor Produksi Segera Kadaluarsa](SerialNumberExpiredSoonReport.md) | `SerialNumberExpiredSoonReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Ringkasan Pemindahan Barang](ItemTransferListReport.md) | `ItemTransferListReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) |  |
-| [Pergerakan Stok per Barang](StockMovementByWarehouseReport.md) | `StockMovementByWarehouseReport` | Gudang | Y | Y | Y | error | done | Inventory (Warehouse) |  |
+| [Pergerakan Stok per Barang](StockMovementByWarehouseReport.md) | `StockMovementByWarehouseReport` | Gudang | Y | Y | Y | data | done | Inventory (Warehouse) |  |
 | [Bahan dan Biaya Pekerjaan per Bulan](JobCostingByMonthReport.md) | `JobCostingByMonthReport` | Pekerjaan Pesanan | N | Y | Y | data | done | Job Costing | verified on Retail Demo 2047 seed; test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/retail/jobcosting-rg.json` (ADR-0026) |
 | [Histori Pekerjaan Pesanan](JobCostingHistoryDetailReport.md) | `JobCostingHistoryDetailReport` | Pekerjaan Pesanan | N | Y | Y | data | done | Job Costing | verified on Retail Demo 2047 seed; test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/retail/jobcosting-rg.json` (ADR-0026) |
 | [Penyelesaian Barang/Biaya per Bulan](FinishedJobCostByMonth.md) | `FinishedJobCostByMonth` | Pekerjaan Pesanan | N | Y | Y | data | done | Job Costing | verified on Retail Demo 2047 seed; test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/retail/jobcosting-rg.json` (ADR-0026) |

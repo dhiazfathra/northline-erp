@@ -1,27 +1,465 @@
 {
  "planId": "StockMovementByWarehouseReport",
  "dataUsaha": "Trade Portal Demo",
- "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, warehouse Utama over the demo data",
  "param": {
   "startDate": "01/01/2000",
   "endDate": "31/12/2040",
-  "selectedWarehouse": []
- },
- "rows": {
-  "error": {
-   "first": "{\"s\":true,\"d\":{\"bgPid\":\"tymLa3+8BxCnILoSYvdnV7dnesABJtrXAAABoVGvp6U=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidak",
-   "poll": {
-    "bgPid": "tymLa3+8BxCnILoSYvdnV7dnesABJtrXAAABoVGvp6U=",
-    "response": {
-     "s": false,
-     "d": {
-      "": [
-       "Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.\n\nKode Referensi:\nersen-16504-4729f374a50377cc149e2864738e7022"
-      ]
-     }
-    },
-    "status": "FINISHED"
+  "selectedWarehouse": [
+   {
+    "name": "Utama",
+    "id": 50
    }
-  }
- }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Pergerakan Stok per Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Nama Barang",
+   "Kuantitas Saldo Awal",
+   "Kuantitas Penjualan",
+   "Kuantitas Pembelian",
+   "Kuantitas Produksi",
+   "Kuantitas Pemindahan",
+   "Kuantitas Penyesuaian",
+   "Kuantitas Lainnya",
+   "Kuantitas Saldo Akhir"
+  ],
+  [
+   "Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "630",
+   "0",
+   "630"
+  ],
+  [
+   "Ban Mobil Michelin H/T G056 285 60 R18 116H",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "600",
+   "0",
+   "600"
+  ],
+  [
+   "Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "245",
+   "0",
+   "245"
+  ],
+  [
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "314",
+   "0",
+   "314"
+  ],
+  [
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "800",
+   "0",
+   "800"
+  ],
+  [
+   "Fastron Diesel 15w-40 4 Liter/1 Galon",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "320",
+   "0",
+   "320"
+  ],
+  [
+   "Fastron Ecogreen 0W-20",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "122",
+   "0",
+   "122"
+  ],
+  [
+   "Fastron Gold 5w-30 4 Liter/1 Galon",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Fastron Platinum Racing 10w-60 4 Liter/1 Galon",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Fastron Techno 10w-30 4 Liter/1 Galon",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Hbc Classico Helm Half Face Dengan Visor - Hijau Mint",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "50",
+   "0",
+   "50"
+  ],
+  [
+   "Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "60",
+   "0",
+   "60"
+  ],
+  [
+   "Liquid Wrench Pelumas Pro 311 Gr",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "200",
+   "0",
+   "200"
+  ],
+  [
+   "Liquid Wrench Pelumas Serbaguna 226 Gr",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "22",
+   "0",
+   "22"
+  ],
+  [
+   "Motul Tekma Mega-x Oli Mobil Diesel",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "33",
+   "0",
+   "33"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:13"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Pergerakan Stok per Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Nama Barang",
+   "Kuantitas Saldo Awal",
+   "Kuantitas Penjualan",
+   "Kuantitas Pembelian",
+   "Kuantitas Produksi",
+   "Kuantitas Pemindahan",
+   "Kuantitas Penyesuaian",
+   "Kuantitas Lainnya",
+   "Kuantitas Saldo Akhir"
+  ],
+  [
+   "15w40 5l"
+  ],
+  [
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "66",
+   "0",
+   "66"
+  ],
+  [
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "80",
+   "0",
+   "80"
+  ],
+  [
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "50",
+   "0",
+   "50"
+  ],
+  [
+   "Proclean 66x43 Cm Lap Chamois Pva",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "1.000",
+   "0",
+   "1.000"
+  ],
+  [
+   "Proclean Set 4 Pcs Peralatan Cuci Mobil",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Proclean Set Lap Cuci Mobil 4 Pcs",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "50",
+   "0",
+   "50"
+  ],
+  [
+   "Proclean Set Spons Pembersih 6 Pcs",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "150",
+   "0",
+   "150"
+  ],
+  [
+   "Produk Harga Grosir",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "100",
+   "0",
+   "100"
+  ],
+  [
+   "Produk PPN",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "50",
+   "0",
+   "50"
+  ],
+  [
+   "Produk PPN & PPNBM",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "990",
+   "0",
+   "990"
+  ],
+  [
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "40",
+   "0",
+   "40"
+  ],
+  [
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "30",
+   "0",
+   "30"
+  ],
+  [
+   "Yuasa Aki Mobil 95D31R-PF",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "5",
+   "0",
+   "5"
+  ],
+  [
+   "Yuasa Aki Mobil N150-PF",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "8",
+   "0",
+   "8"
+  ],
+  [
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "15",
+   "0",
+   "15"
+  ],
+  [
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "10",
+   "0",
+   "10"
+  ],
+  [
+   "Yuasa Aki Motor YTZ4-V MF",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "13",
+   "0",
+   "13"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:13"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
 }

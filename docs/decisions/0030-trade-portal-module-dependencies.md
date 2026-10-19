@@ -15,13 +15,11 @@ verified on Manufaktur Demo or Retail Demo.
 Trade Portal Demo adds no report (ADR-0029), so it surfaces no new required module. What it does show:
 - Its accounts include a payment gateway (`Bank Xendit Demo`, `Beban Xendit Demo`, `Pajak Xendit Demo`). No report
   needs a gateway module: settlements post as ordinary Cash & Bank journals.
-- 4 reports fail in Accurate itself for this Data Usaha (ADR-0029 finding 2). They need investigation, not a module.
 
 ## Proposed order (for review)
 1. **Re-verify inventory reports on Trade Portal** (Inventory Aging, Warehouse Mutation, Serial Aging): Trade Portal
    returns stock data for them; seed NL-TP items and compare. No new module.
-2. **Investigate the 4 failing reports** in the Trade Portal UI.
-3. **Payment gateway / online-portal integration** (Xendit-style settlement): only if the business wants portal
+2. **Payment gateway / online-portal integration** (Xendit-style settlement): only if the business wants portal
    orders to flow in; no Daftar Laporan report requires it.
 
 ## Alternatives Considered
