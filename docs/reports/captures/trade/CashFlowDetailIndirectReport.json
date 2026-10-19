@@ -1,0 +1,123 @@
+{
+ "planId": "CashFlowDetailIndirectReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "showZeroBalance": false
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Rincian Arus Kas (Tak Langsung)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Keterangan",
+   "Nilai"
+  ],
+  [
+   "Aktifitas Operasi"
+  ],
+  [
+   "Laba/Rugi",
+   "0"
+  ],
+  [
+   "Tambah"
+  ],
+  [
+   "Akumulasi Penyusutan"
+  ],
+  [
+   "Total Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "Selain Penyusutan"
+  ],
+  [
+   "Total Selain Penyusutan",
+   "0"
+  ],
+  [
+   "Total Tambah",
+   "0"
+  ],
+  [
+   "Kurang"
+  ],
+  [
+   "Selain Penyusutan"
+  ],
+  [
+   "Total Selain Penyusutan",
+   "0"
+  ],
+  [
+   "Total Kurang",
+   "0"
+  ],
+  [
+   "Total Aktifitas Operasi",
+   "0"
+  ],
+  [
+   "Investasi"
+  ],
+  [
+   "Kurang"
+  ],
+  [
+   "Total Kurang",
+   "0"
+  ],
+  [
+   "Total Investasi",
+   "0"
+  ],
+  [
+   "Pendanaan"
+  ],
+  [
+   "Tambah"
+  ],
+  [
+   "Total Tambah",
+   "0"
+  ],
+  [
+   "Total Pendanaan",
+   "0"
+  ],
+  [
+   "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Awal period",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Akhir period",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

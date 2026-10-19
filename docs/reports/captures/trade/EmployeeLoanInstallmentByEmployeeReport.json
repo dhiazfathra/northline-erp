@@ -1,0 +1,37 @@
+{
+ "planId": "EmployeeLoanInstallmentByEmployeeReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "selectedEmployeeLoan": []
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Angsuran Pinjaman per Karyawan"
+  ],
+  [
+   "Tanggal",
+   "Angsuran Pokok",
+   "Angsuran Bunga",
+   "Total Angsuran",
+   "Pembayaran Pokok",
+   "Pembayaran Bunga",
+   "Total Pembayaran",
+   "Sisa Pokok Pinjaman",
+   "Nomor Pembayaran"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:03"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

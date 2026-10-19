@@ -1,0 +1,27 @@
+{
+ "planId": "StockMovementByWarehouseReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedWarehouse": []
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"tymLa3+8BxCnILoSYvdnV7dnesABJtrXAAABoVGvp6U=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidak",
+   "poll": {
+    "bgPid": "tymLa3+8BxCnILoSYvdnV7dnesABJtrXAAABoVGvp6U=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.\n\nKode Referensi:\nersen-16504-4729f374a50377cc149e2864738e7022"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

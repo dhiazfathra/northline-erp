@@ -1,0 +1,390 @@
+{
+ "planId": "JournalListReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Jurnal Umum"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "No. Trans #",
+   "Tanggal",
+   "Tipe Transaksi",
+   "Nilai",
+   "Keterangan"
+  ],
+  [
+   "JV.2025.06.00001",
+   "IA.2025.06.00001",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "1.890.000.000",
+   "Saldo Awal barang Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V"
+  ],
+  [
+   "JV.2025.06.00002",
+   "IA.2025.06.00002",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "2.100.000.000",
+   "Saldo Awal barang Ban Mobil Michelin H/T G056 285 60 R18 116H"
+  ],
+  [
+   "JV.2025.06.00003",
+   "IA.2025.06.00003",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "367.500.000",
+   "Saldo Awal barang Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17"
+  ],
+  [
+   "JV.2025.06.00004",
+   "IA.2025.06.00004",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "942.000.000",
+   "Saldo Awal barang Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q"
+  ],
+  [
+   "JV.2025.06.00005",
+   "IA.2025.06.00005",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "160.000.000",
+   "Saldo Awal barang Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle"
+  ],
+  [
+   "JV.2025.06.00006",
+   "IA.2025.06.00006",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "10.000.000",
+   "Saldo Awal barang Hbc Classico Helm Half Face Dengan Visor - Hijau Mint"
+  ],
+  [
+   "JV.2025.06.00007",
+   "IA.2025.06.00007",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "6.000.000",
+   "Saldo Awal barang Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye"
+  ],
+  [
+   "JV.2025.06.00008",
+   "IA.2025.06.00008",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "20.000.000",
+   "Saldo Awal barang Liquid Wrench Pelumas Pro 311 Gr"
+  ],
+  [
+   "JV.2025.06.00009",
+   "IA.2025.06.00009",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "3.500.000",
+   "Saldo Awal barang Liquid Wrench Pelumas Serbaguna 226 Gr"
+  ],
+  [
+   "JV.2025.06.00010",
+   "IA.2025.06.00010",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "25.000.000",
+   "Saldo Awal barang Maximus 80 Watt Penghisap Debu Mobil Cyclonic"
+  ],
+  [
+   "JV.2025.06.00011",
+   "IA.2025.06.00011",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "35.000.000",
+   "Saldo Awal barang Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr"
+  ],
+  [
+   "JV.2025.06.00012",
+   "IA.2025.06.00012",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "2.200.000",
+   "Saldo Awal barang Motul 5100 Oli Mesin Motor 4t 15w50"
+  ],
+  [
+   "JV.2025.06.00013",
+   "IA.2025.06.00013",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "13.200.000",
+   "Saldo Awal barang Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l"
+  ],
+  [
+   "JV.2025.06.00014",
+   "IA.2025.06.00014",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "33.000.000",
+   "Saldo Awal barang Otto Klasse 42 Ltr Box Motor Pp Round"
+  ],
+  [
+   "JV.2025.06.00015",
+   "IA.2025.06.00015",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "8.000.000",
+   "Saldo Awal barang Otto Klasse Gembok"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:52"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Jurnal Umum"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "No. Trans #",
+   "Tanggal",
+   "Tipe Transaksi",
+   "Nilai",
+   "Keterangan"
+  ],
+  [
+   "Cakram Motor 10 Mm Ty130 - Kuning"
+  ],
+  [
+   "JV.2025.06.00016",
+   "IA.2025.06.00016",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "40.000.000",
+   "Saldo Awal barang Otto Klasse Sandaran Jok Motor Nmax155"
+  ],
+  [
+   "JV.2025.06.00017",
+   "IA.2025.06.00017",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "80.000.000",
+   "Saldo Awal barang Proclean 66x43 Cm Lap Chamois Pva"
+  ],
+  [
+   "JV.2025.06.00018",
+   "IA.2025.06.00018",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "10.000.000",
+   "Saldo Awal barang Proclean Set 4 Pcs Peralatan Cuci Mobil"
+  ],
+  [
+   "JV.2025.06.00019",
+   "IA.2025.06.00019",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "5.000.000",
+   "Saldo Awal barang Proclean Set Lap Cuci Mobil 4 Pcs"
+  ],
+  [
+   "JV.2025.06.00020",
+   "IA.2025.06.00020",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "7.500.000",
+   "Saldo Awal barang Proclean Set Spons Pembersih 6 Pcs"
+  ],
+  [
+   "JV.2025.06.00021",
+   "IA.2025.06.00021",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "3.500.000",
+   "Saldo Awal barang Produk Harga Grosir"
+  ],
+  [
+   "JV.2025.06.00022",
+   "IA.2025.06.00022",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "1.500.000",
+   "Saldo Awal barang Produk PPN"
+  ],
+  [
+   "JV.2025.06.00023",
+   "IA.2025.06.00023",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "1.600.000",
+   "Saldo Awal barang Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40"
+  ],
+  [
+   "JV.2025.06.00024",
+   "IA.2025.06.00024",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "1.800.000",
+   "Saldo Awal barang Shell Advance Oli Mesin Motor Matic 10w40 800 Ml"
+  ],
+  [
+   "JV.2025.06.00025",
+   "IA.2025.06.00025",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "7.500.000",
+   "Saldo Awal barang Yuasa Aki Mobil 95D31R-PF"
+  ],
+  [
+   "JV.2025.06.00026",
+   "IA.2025.06.00026",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "21.600.000",
+   "Saldo Awal barang Yuasa Aki Mobil N150-PF"
+  ],
+  [
+   "JV.2025.06.00027",
+   "IA.2025.06.00027",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "2.250.000",
+   "Saldo Awal barang Yuasa Aki Motor YB5L-B-BA Yumicron"
+  ],
+  [
+   "JV.2025.06.00028",
+   "IA.2025.06.00028",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "30.000.000",
+   "Saldo Awal barang Yuasa Aki Motor YIX30L-BS MF"
+  ],
+  [
+   "JV.2025.06.00029",
+   "IA.2025.06.00029",
+   "09 Jun 2025",
+   "Penyesuaian Persediaan",
+   "2.600.000",
+   "Saldo Awal barang Yuasa Aki Motor YTZ4-V MF"
+  ],
+  [
+   "JV.2025.06.00030",
+   "IA.2025.06.00030",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "29.700.000",
+   "Saldo Awal barang Produk PPN & PPNBM"
+  ],
+  [
+   "JV.2025.06.00031",
+   "IA.2025.06.00031",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "24.400.000",
+   "Saldo Awal barang Fastron Ecogreen 0W-20"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:52"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Jurnal Umum"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "No. Trans #",
+   "Tanggal",
+   "Tipe Transaksi",
+   "Nilai",
+   "Keterangan"
+  ],
+  [
+   "JV.2025.06.00032",
+   "IA.2025.06.00032",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "86.720.000",
+   "Saldo Awal barang Fastron Diesel 15w-40 4 Liter/1 Galon"
+  ],
+  [
+   "JV.2025.06.00033",
+   "IA.2025.06.00033",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "50.000.000",
+   "Saldo Awal barang Fastron Gold 5w-30 4 Liter/1 Galon"
+  ],
+  [
+   "JV.2025.06.00034",
+   "IA.2025.06.00034",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "100.000.000",
+   "Saldo Awal barang Fastron Platinum Racing 10w-60 4 Liter/1 Galon"
+  ],
+  [
+   "JV.2025.06.00035",
+   "IA.2025.06.00035",
+   "01 Jun 2025",
+   "Penyesuaian Persediaan",
+   "25.000.000",
+   "Saldo Awal barang Fastron Techno 10w-30 4 Liter/1 Galon"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:52"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

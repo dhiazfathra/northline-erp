@@ -1,0 +1,27 @@
+{
+ "planId": "PhysicalInventoryCountSheetReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedWarehouse": [],
+  "selectedBranch": []
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"1w2HEhsTFoFkAOmmujKzGOWO6ynzaH6zAAABoVGvn1w=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidak",
+   "poll": {
+    "bgPid": "1w2HEhsTFoFkAOmmujKzGOWO6ynzaH6zAAABoVGvn1w=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.\n\nKode Referensi:\nersen-8237-d8b7c80a6315d7156beb87378a56fcb7"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

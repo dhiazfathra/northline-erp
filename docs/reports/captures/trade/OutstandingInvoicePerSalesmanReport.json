@@ -1,0 +1,47 @@
+{
+ "planId": "OutstandingInvoicePerSalesmanReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Faktur Belum Lunas per Penjual"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   "Tanggal",
+   "Jatuh Tempo",
+   "Pelanggan",
+   "Total",
+   "Piutang",
+   "Umur (hr)"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:55"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

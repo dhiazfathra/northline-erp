@@ -1,0 +1,227 @@
+{
+ "planId": "CashFlowDirectMultiPeriodReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Arus Kas Multi Period (Langsung)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Keterangan",
+   "Januari",
+   "Februari",
+   "Maret",
+   "April",
+   "Mei",
+   "Juni",
+   "Juli",
+   "Agustus",
+   "September",
+   "Oktober",
+   "November",
+   "Desember"
+  ],
+  [
+   "Aktifitas Operasi"
+  ],
+  [
+   "Kas dari Penjualan",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Kas untuk Pembelian",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Laba(Rugi) Operasi sebelum berubah di Operasi Aset dan Liabilitas",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Berkurang(Bertambah) pada Operasi Aset"
+  ],
+  [
+   "Total Berkurang(Bertambah) pada Operasi Aset",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Berkurang(Bertambah) pada Operasi Liabilitas"
+  ],
+  [
+   "Total Berkurang(Bertambah) pada Operasi Liabilitas",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Total Kas bersih (dipakai)/ dihasilkan oleh Aktivitas Operasi",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Aktifitas Investasi"
+  ],
+  [
+   "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Investasi",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Aktifitas Pendanaan"
+  ],
+  [
+   "Total Kas bersih yg dihasilkan / (dipakai) oleh Aktivitas Pendanaan",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Kas bersih dihasilkan oleh / (dipakai) di Period ini",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Awal period",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Akhir period",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

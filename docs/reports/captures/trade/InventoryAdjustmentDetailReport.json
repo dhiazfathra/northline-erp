@@ -1,0 +1,1832 @@
+{
+ "planId": "InventoryAdjustmentDetailReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00001"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100048",
+   "Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V",
+   "630",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00002"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100049",
+   "Ban Mobil Michelin H/T G056 285 60 R18 116H",
+   "600",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 2",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00003"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100050",
+   "Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17",
+   "245",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 3",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00004"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100051",
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "314",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 4",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00005"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100052",
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "800",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 5",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00006"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100001",
+   "Hbc Classico Helm Half Face Dengan Visor - Hijau Mint",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 6",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00007"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100002",
+   "Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye",
+   "60",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 7",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00008"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100007",
+   "Liquid Wrench Pelumas Pro 311 Gr",
+   "200",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 8",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00009"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100006",
+   "Liquid Wrench Pelumas Serbaguna 226 Gr",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 9",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00010"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100043",
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 10",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00011"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100042",
+   "Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 11",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00012"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100010",
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "22",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 12",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00013"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100011",
+   "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+   "33",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 13",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00014"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100005",
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "66",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 14",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00015"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100004",
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "80",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 15",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00016"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100003",
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 16",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00017"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100044",
+   "Proclean 66x43 Cm Lap Chamois Pva",
+   "1.000",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 17",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00018"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100046",
+   "Proclean Set 4 Pcs Peralatan Cuci Mobil",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 18",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00019"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100045",
+   "Proclean Set Lap Cuci Mobil 4 Pcs",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 19",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00020"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100047",
+   "Proclean Set Spons Pembersih 6 Pcs",
+   "150",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 20",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00021"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100038",
+   "Produk Harga Grosir",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 21",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "IA.2025.06.00022",
+   "Keterangan",
+   ":",
+   "Saldo Awal barang Produk PPN"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100039",
+   "Produk PPN",
+   "50",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 22",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00023"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100009",
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "40",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 23",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00024"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100008",
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "30",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 24",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00025"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100015",
+   "Yuasa Aki Mobil 95D31R-PF",
+   "5",
+   "Box"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 25",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00026"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100016",
+   "Yuasa Aki Mobil N150-PF",
+   "8",
+   "Box"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 26",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00027"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100013",
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "15",
+   "Box"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 27",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00028"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100012",
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "10",
+   "Box"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 28",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00029"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100014",
+   "Yuasa Aki Motor YTZ4-V MF",
+   "13",
+   "Box"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 29",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00030"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100018",
+   "Produk PPN & PPNBM",
+   "990",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 30",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00031"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100053",
+   "Fastron Ecogreen 0W-20",
+   "122",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 31",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00032"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100054",
+   "Fastron Diesel 15w-40 4 Liter/1 Galon",
+   "320",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 32",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00033"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100055",
+   "Fastron Gold 5w-30 4 Liter/1 Galon",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 33",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00034"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100056",
+   "Fastron Platinum Racing 10w-60 4 Liter/1 Galon",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 34",
+   "dari 35"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Stok Barang"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00035"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Kuantitas",
+   "Satuan"
+  ],
+  [
+   "100057",
+   "Fastron Techno 10w-30 4 Liter/1 Galon",
+   "100",
+   "PCS"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 35",
+   "dari 35"
+  ]
+ ]
+}

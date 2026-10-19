@@ -1,0 +1,34 @@
+{
+ "planId": "CogsMonitoringReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "selectedBranch": []
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Monitoring HPP"
+  ],
+  [
+   "Nama Barang",
+   "Harga Jual",
+   "Satuan Jual",
+   "Harga Beli",
+   "Satuan Beli",
+   "HPP (%)"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:03"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

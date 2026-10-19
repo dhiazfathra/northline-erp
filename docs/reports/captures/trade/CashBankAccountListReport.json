@@ -1,0 +1,96 @@
+{
+ "planId": "CashBankAccountListReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040"
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Daftar Kas"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama",
+   "Saldo (per Mata Uang)",
+   "Saldo (IDR)"
+  ],
+  [
+   "Indonesian Rupiah"
+  ],
+  [
+   "1101",
+   "Kas & Bank",
+   "0",
+   "0"
+  ],
+  [
+   "110101",
+   "Kas Kecil",
+   "0",
+   "0"
+  ],
+  [
+   "110102",
+   "Bank",
+   "0",
+   "0"
+  ],
+  [
+   "110103",
+   "Bank Xendit Demo",
+   "0",
+   "0"
+  ],
+  [
+   "1102",
+   "Setara Kas",
+   "0",
+   "0"
+  ],
+  [
+   "110201",
+   "Deposito Bank",
+   "0",
+   "0"
+  ],
+  [
+   "110202",
+   "Bank Penjualan",
+   "0",
+   "0"
+  ],
+  [
+   "110203",
+   "Bank Pembelian",
+   "0",
+   "0"
+  ],
+  [
+   "110204",
+   "Bank Pengeluaran",
+   "0",
+   "0"
+  ],
+  [
+   "0",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:53"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

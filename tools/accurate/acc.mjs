@@ -8,17 +8,18 @@ const env = Object.fromEntries(
       return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^["']|["']$/g, '')];
     }),
 );
-// Allowlist is exactly the two sandboxes; ACC_DB=retail selects Retail Demo, default Manufaktur Demo.
-if (process.env.ACC_DB && !['retail', 'manufaktur'].includes(process.env.ACC_DB)) throw new Error('ACC_DB must be retail or manufaktur');
-export const DB = process.env.ACC_DB === 'retail' ? env.RETAIL_SANDBOX_DB_NAME : env.SANDBOX_DB_NAME;
+// Allowlist is exactly the three sandboxes; ACC_DB=retail|trade selects Retail Demo / Trade Portal Demo, default Manufaktur Demo.
+const DBS = { manufaktur: env.SANDBOX_DB_NAME, retail: env.RETAIL_SANDBOX_DB_NAME, trade: env.TRADE_PORTAL_SANDBOX_DB_NAME };
+if (process.env.ACC_DB && !(process.env.ACC_DB in DBS)) throw new Error('ACC_DB must be retail, trade or manufaktur');
+export const DB = DBS[process.env.ACC_DB ?? 'manufaktur'];
 if (!DB) throw new Error('sandbox Data Usaha name missing from .env; abort');
-const SECRETS = [env.ACCURATE_USER, env.ACCURATE_PASS, env.SANDBOX_DB_NAME, env.RETAIL_SANDBOX_DB_NAME].filter(Boolean);
+const SECRETS = [env.ACCURATE_USER, env.ACCURATE_PASS, env.SANDBOX_DB_NAME, env.RETAIL_SANDBOX_DB_NAME, env.TRADE_PORTAL_SANDBOX_DB_NAME].filter(Boolean);
 export const red = (s) => SECRETS.reduce((t, x) => t.split(x).join('[REDACTED]'), String(s));
 export const log = (...a) => console.log(red(a.map((x) => (typeof x === 'string' ? x : JSON.stringify(x))).join(' ')));
 
 const DIR = new URL('.', import.meta.url).pathname;
 // One session file per sandbox: a saved session reopens its own Data Usaha and blocks switching.
-const STATE = DIR + (process.env.ACC_STATE ?? (process.env.ACC_DB === 'retail' ? 'state-retail.json' : 'state.json')); // ACC_STATE: separate session per parallel worker
+const STATE = DIR + (process.env.ACC_STATE ?? (process.env.ACC_DB && process.env.ACC_DB !== 'manufaktur' ? `state-${process.env.ACC_DB}.json` : 'state.json')); // ACC_STATE: separate session per parallel worker
 
 export async function open({ headless = true } = {}) {
   const browser = await chromium.launch({ headless });

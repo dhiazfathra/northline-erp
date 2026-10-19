@@ -1,0 +1,114 @@
+{
+ "planId": "CashFlowIndirectReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "periodStartMonth": "1",
+  "periodStartYear": 2026,
+  "periodEndMonth": "12",
+  "periodEndYear": 2026,
+  "selectedBranch": []
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Arus Kas (Tak Langsung)"
+  ],
+  [
+   "Dari Periode Januari 2026 s/d Desember 2026"
+  ],
+  [
+   "Keterangan",
+   "Nilai"
+  ],
+  [
+   "Aktifitas Operasi"
+  ],
+  [
+   "Laba/Rugi",
+   "0"
+  ],
+  [
+   "Tambah Akumulasi Penyusutan",
+   "0"
+  ],
+  [
+   "Tambah Utang Usaha",
+   "0"
+  ],
+  [
+   "Tambah Liabilitas Jangka Pendek",
+   "0"
+  ],
+  [
+   "Kurang Piutang Usaha",
+   "0"
+  ],
+  [
+   "Kurang Persediaan",
+   "0"
+  ],
+  [
+   "Kurang Aset Lancar Lainnya",
+   "0"
+  ],
+  [
+   "Total Aktifitas Operasi",
+   "0"
+  ],
+  [
+   "Investasi"
+  ],
+  [
+   "Kurang Aset Tetap",
+   "0"
+  ],
+  [
+   "Kurang Aset Lainnya",
+   "0"
+  ],
+  [
+   "Total Investasi",
+   "0"
+  ],
+  [
+   "Pendanaan"
+  ],
+  [
+   "Tambah Liabilitas Jangka Panjang",
+   "0"
+  ],
+  [
+   "Tambah Modal",
+   "0"
+  ],
+  [
+   "Total Pendanaan",
+   "0"
+  ],
+  [
+   "Total dari Arus Kas Bersih yang digunakan (dipakai) di periode ini",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Awal period",
+   "0"
+  ],
+  [
+   "Kas & Setara Kas di Akhir period",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:03"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

@@ -1,0 +1,123 @@
+{
+ "planId": "SellingDiscountAdjustmentDetailPerCategoryReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Diskon Jual per Kategori"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Nomor #",
+   "Mulai Berlaku",
+   "Umum"
+  ],
+  [
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "2"
+  ],
+  [
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "3"
+  ],
+  [
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "13"
+  ],
+  [
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "3"
+  ],
+  [
+   "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "15"
+  ],
+  [
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "5"
+  ],
+  [
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "7"
+  ],
+  [
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "10"
+  ],
+  [
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "50"
+  ],
+  [
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "25"
+  ],
+  [
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "5"
+  ],
+  [
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "7"
+  ],
+  [
+   "Yuasa Aki Motor YTZ4-V MF",
+   "SPA.2025.06.00002",
+   "10 Jun 2025",
+   "10"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:55"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

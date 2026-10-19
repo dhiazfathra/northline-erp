@@ -2,6 +2,7 @@
 // Captures each report in meta (planId -> {p: paramDate, a: [[name, type, default]]}) with default parameters over
 // the sandbox's whole history, one file per report in outDir. Daftar Laporan metadata comes from init-report.do.
 import { readFileSync, writeFileSync } from 'node:fs';
+const EMPTY_ALL = process.env.ACC_DB === 'trade';
 const ALL_BRANCH = [{ name: '[Semua Cabang]', id: null }];
 const DATES = {
   FROMTO: { startDate: '01/01/2000', endDate: '31/12/2040' }, FROMTO_TIMESTAMP: { startDate: '01/01/2000', endDate: '31/12/2040' },
@@ -15,12 +16,14 @@ export default async ({ app, runReport, log }) => {
   for (const [planId, m] of Object.entries(meta)) {
     const param = { ...DATES[m.p] };
     for (const [name, type, def] of m.a) {
-      if (type.startsWith('BRANCH_MULTI')) param[name] = ALL_BRANCH;
-      else if (type === 'BOOLEAN') param[name] = def;
+      if (type === 'BOOLEAN') param[name] = def;
+      // Trade Portal Demo 500s on [Semua Cabang] and on omitted branch/currency params; explicit [] means all there.
+      else if (EMPTY_ALL) param[name] = [];
+      else if (type.startsWith('BRANCH_MULTI')) param[name] = ALL_BRANCH;
       else if (type.endsWith('_MULTI')) param[name] = [];
     }
     const r = await runReport(app, planId, param);
-    writeFileSync(`${outDir}/${planId}.json`, JSON.stringify({ planId, dataUsaha: process.env.ACC_DB === 'retail' ? 'Retail Demo' : 'Manufaktur Demo',
+    writeFileSync(`${outDir}/${planId}.json`, JSON.stringify({ planId, dataUsaha: { retail: 'Retail Demo', trade: 'Trade Portal Demo' }[process.env.ACC_DB] ?? 'Manufaktur Demo',
       capturedFrom: 'Accurate Online sandbox, 2026-10-19, default params over the demo data', param, rows: r.rows ?? { error: r.error } }, null, 1));
     log(planId, r.rows ? `rows ${r.rows.length}` : 'ERROR ' + JSON.stringify(r.error).slice(0, 160));
   }

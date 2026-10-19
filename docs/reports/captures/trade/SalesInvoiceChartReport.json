@@ -1,0 +1,25 @@
+{
+ "planId": "SalesInvoiceChartReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "selectedBranch": []
+ },
+ "rows": {
+  "error": {
+   "first": "{\"s\":true,\"d\":{\"bgPid\":\"ut4Ut67Al+uIrOKVnqxdamZsOimXdLQmAAABoVGvWgs=\",\"response\":{\"s\":false,\"d\":{\"\":[\"Cannot parsing part from a null date\"]}},\"status\":\"FINISHED\"}}",
+   "poll": {
+    "bgPid": "ut4Ut67Al+uIrOKVnqxdamZsOimXdLQmAAABoVGvWgs=",
+    "response": {
+     "s": false,
+     "d": {
+      "": [
+       "Cannot parsing part from a null date"
+      ]
+     }
+    },
+    "status": "FINISHED"
+   }
+  }
+ }
+}

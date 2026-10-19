@@ -1,0 +1,29 @@
+{
+ "planId": "QuantityItemByWarehouseReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ],
+  "selectedWarehouse": []
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Kuantitas Barang per Gudang"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ]
+ ]
+}

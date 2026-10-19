@@ -1,0 +1,525 @@
+{
+ "planId": "JournalDetailListReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "110401",
+   "Tipe Akun",
+   ":",
+   "Persediaan"
+  ],
+  [
+   "Nama",
+   ":",
+   "Persediaan"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "IA.2025.06.00001",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.890.000.000"
+  ],
+  [
+   "IA.2025.06.00002",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.100.000.000"
+  ],
+  [
+   "IA.2025.06.00003",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "367.500.000"
+  ],
+  [
+   "IA.2025.06.00004",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "942.000.000"
+  ],
+  [
+   "IA.2025.06.00005",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "160.000.000"
+  ],
+  [
+   "IA.2025.06.00006",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "10.000.000"
+  ],
+  [
+   "IA.2025.06.00007",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "6.000.000"
+  ],
+  [
+   "IA.2025.06.00008",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "20.000.000"
+  ],
+  [
+   "IA.2025.06.00009",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "3.500.000"
+  ],
+  [
+   "IA.2025.06.00010",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "25.000.000"
+  ],
+  [
+   "IA.2025.06.00011",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "35.000.000"
+  ],
+  [
+   "IA.2025.06.00012",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.200.000"
+  ],
+  [
+   "IA.2025.06.00013",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "13.200.000"
+  ],
+  [
+   "IA.2025.06.00014",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "33.000.000"
+  ],
+  [
+   "IA.2025.06.00015",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "8.000.000"
+  ],
+  [
+   "IA.2025.06.00016",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "40.000.000"
+  ],
+  [
+   "IA.2025.06.00017",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "80.000.000"
+  ],
+  [
+   "IA.2025.06.00018",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "10.000.000"
+  ],
+  [
+   "IA.2025.06.00019",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "5.000.000"
+  ],
+  [
+   "IA.2025.06.00020",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "7.500.000"
+  ],
+  [
+   "IA.2025.06.00021",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "3.500.000"
+  ],
+  [
+   "IA.2025.06.00022",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.500.000"
+  ],
+  [
+   "IA.2025.06.00023",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.600.000"
+  ],
+  [
+   "IA.2025.06.00024",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.800.000"
+  ],
+  [
+   "IA.2025.06.00025",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "7.500.000"
+  ],
+  [
+   "IA.2025.06.00026",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "21.600.000"
+  ],
+  [
+   "IA.2025.06.00027",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.250.000"
+  ],
+  [
+   "IA.2025.06.00028",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "30.000.000"
+  ],
+  [
+   "IA.2025.06.00029",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.600.000"
+  ],
+  [
+   "IA.2025.06.00030",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "29.700.000"
+  ],
+  [
+   "IA.2025.06.00031",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "24.400.000"
+  ],
+  [
+   "IA.2025.06.00032",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "86.720.000"
+  ],
+  [
+   "IA.2025.06.00033",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "50.000.000"
+  ],
+  [
+   "IA.2025.06.00034",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "100.000.000"
+  ],
+  [
+   "IA.2025.06.00035",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "25.000.000"
+  ],
+  [
+   "6.146.070.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:52"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Rincian Jurnal Akun"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   ":",
+   "300001",
+   "Tipe Akun",
+   ":",
+   "Modal"
+  ],
+  [
+   "Nama",
+   ":",
+   "Equitas Saldo Awal"
+  ],
+  [
+   "No. Trans #",
+   "Tipe Transaksi",
+   "Tanggal",
+   "Nilai (Dinormalkan)"
+  ],
+  [
+   "IA.2025.06.00001",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.890.000.000"
+  ],
+  [
+   "IA.2025.06.00002",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.100.000.000"
+  ],
+  [
+   "IA.2025.06.00003",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "367.500.000"
+  ],
+  [
+   "IA.2025.06.00004",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "942.000.000"
+  ],
+  [
+   "IA.2025.06.00005",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "160.000.000"
+  ],
+  [
+   "IA.2025.06.00006",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "10.000.000"
+  ],
+  [
+   "IA.2025.06.00007",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "6.000.000"
+  ],
+  [
+   "IA.2025.06.00008",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "20.000.000"
+  ],
+  [
+   "IA.2025.06.00009",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "3.500.000"
+  ],
+  [
+   "IA.2025.06.00010",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "25.000.000"
+  ],
+  [
+   "IA.2025.06.00011",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "35.000.000"
+  ],
+  [
+   "IA.2025.06.00012",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.200.000"
+  ],
+  [
+   "IA.2025.06.00013",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "13.200.000"
+  ],
+  [
+   "IA.2025.06.00014",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "33.000.000"
+  ],
+  [
+   "IA.2025.06.00015",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "8.000.000"
+  ],
+  [
+   "IA.2025.06.00016",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "40.000.000"
+  ],
+  [
+   "IA.2025.06.00017",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "80.000.000"
+  ],
+  [
+   "IA.2025.06.00018",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "10.000.000"
+  ],
+  [
+   "IA.2025.06.00019",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "5.000.000"
+  ],
+  [
+   "IA.2025.06.00020",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "7.500.000"
+  ],
+  [
+   "IA.2025.06.00021",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "3.500.000"
+  ],
+  [
+   "IA.2025.06.00022",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.500.000"
+  ],
+  [
+   "IA.2025.06.00023",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.600.000"
+  ],
+  [
+   "IA.2025.06.00024",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "1.800.000"
+  ],
+  [
+   "IA.2025.06.00025",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "7.500.000"
+  ],
+  [
+   "IA.2025.06.00026",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "21.600.000"
+  ],
+  [
+   "IA.2025.06.00027",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.250.000"
+  ],
+  [
+   "IA.2025.06.00028",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "30.000.000"
+  ],
+  [
+   "IA.2025.06.00029",
+   "Penyesuaian Persediaan",
+   "09 Jun 2025",
+   "2.600.000"
+  ],
+  [
+   "IA.2025.06.00030",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "29.700.000"
+  ],
+  [
+   "IA.2025.06.00031",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "24.400.000"
+  ],
+  [
+   "IA.2025.06.00032",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "86.720.000"
+  ],
+  [
+   "IA.2025.06.00033",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "50.000.000"
+  ],
+  [
+   "IA.2025.06.00034",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "100.000.000"
+  ],
+  [
+   "IA.2025.06.00035",
+   "Penyesuaian Persediaan",
+   "01 Jun 2025",
+   "25.000.000"
+  ],
+  [
+   "6.146.070.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:52"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

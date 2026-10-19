@@ -1,0 +1,126 @@
+{
+ "planId": "SellingDiscountAdjustmentDetailReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Penyesuaian Diskon Jual"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nomor #",
+   ":",
+   "SPA.2025.06.00002",
+   "Kategori Penjualan",
+   ":",
+   "Umum"
+  ],
+  [
+   "Mulai Berlaku",
+   ":",
+   "10 Jun 2025",
+   "Berlaku di Cabang",
+   ":",
+   "[Semua Cabang]"
+  ],
+  [
+   "Kode #",
+   "Nama Barang",
+   "Diskon (%)",
+   "Diskon Lama (%)"
+  ],
+  [
+   "100013",
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "5"
+  ],
+  [
+   "100012",
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "7"
+  ],
+  [
+   "100014",
+   "Yuasa Aki Motor YTZ4-V MF",
+   "10"
+  ],
+  [
+   "100051",
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "2"
+  ],
+  [
+   "100052",
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "3"
+  ],
+  [
+   "100005",
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "5"
+  ],
+  [
+   "100004",
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "7"
+  ],
+  [
+   "100003",
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "10"
+  ],
+  [
+   "100010",
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "3"
+  ],
+  [
+   "100011",
+   "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+   "15"
+  ],
+  [
+   "100009",
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "50"
+  ],
+  [
+   "100008",
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "25"
+  ],
+  [
+   "100043",
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "13"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:55"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

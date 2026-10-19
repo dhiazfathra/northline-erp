@@ -1,0 +1,595 @@
+{
+ "planId": "InventoryAnalysisReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Ketersediaan Stok Penjualan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Satuan",
+   "Stok Gudang",
+   "Dipesan",
+   "Dijual",
+   "Stok dapat dijual",
+   "Jual/Minggu"
+  ],
+  [
+   "Aki"
+  ],
+  [
+   "Yuasa Aki Mobil 95D31R-PF",
+   "Box",
+   "5",
+   "0",
+   "0",
+   "5",
+   "0"
+  ],
+  [
+   "Yuasa Aki Mobil N150-PF",
+   "Box",
+   "8",
+   "0",
+   "0",
+   "8",
+   "0"
+  ],
+  [
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "Box",
+   "15",
+   "0",
+   "0",
+   "15",
+   "0"
+  ],
+  [
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "Box",
+   "10",
+   "0",
+   "0",
+   "10",
+   "0"
+  ],
+  [
+   "Yuasa Aki Motor YTZ4-V MF",
+   "Box",
+   "13",
+   "0",
+   "0",
+   "13",
+   "0"
+  ],
+  [
+   "Aksesoris Motor & Mobil"
+  ],
+  [
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "PCS",
+   "66",
+   "0",
+   "0",
+   "66",
+   "0"
+  ],
+  [
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "PCS",
+   "80",
+   "0",
+   "0",
+   "80",
+   "0"
+  ],
+  [
+   "Hbc Classico Helm Half Face Dengan Visor - Hijau Mint",
+   "PCS",
+   "50",
+   "0",
+   "0",
+   "50",
+   "0"
+  ],
+  [
+   "Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye",
+   "PCS",
+   "60",
+   "0",
+   "0",
+   "60",
+   "0"
+  ],
+  [
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "PCS",
+   "50",
+   "0",
+   "0",
+   "50",
+   "0"
+  ],
+  [
+   "Ban Mobil dan Motor"
+  ],
+  [
+   "Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17",
+   "PCS",
+   "245",
+   "0",
+   "0",
+   "245",
+   "0"
+  ],
+  [
+   "Ban Mobil Michelin H/T G056 285 60 R18 116H",
+   "PCS",
+   "600",
+   "0",
+   "0",
+   "600",
+   "0"
+  ],
+  [
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "PCS",
+   "314",
+   "0",
+   "0",
+   "314",
+   "0"
+  ],
+  [
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "PCS",
+   "800",
+   "0",
+   "0",
+   "800",
+   "0"
+  ],
+  [
+   "Oli dan Pelumas"
+  ],
+  [
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "PCS",
+   "22",
+   "0",
+   "0",
+   "22",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:57"
+  ],
+  [
+   "Halaman 1",
+   "dari 3"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Ketersediaan Stok Penjualan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Satuan",
+   "Stok Gudang",
+   "Dipesan",
+   "Dijual",
+   "Stok dapat dijual",
+   "Jual/Minggu"
+  ],
+  [
+   "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+   "PCS",
+   "33",
+   "0",
+   "0",
+   "33",
+   "0"
+  ],
+  [
+   "Liquid Wrench Pelumas Pro 311 Gr",
+   "PCS",
+   "200",
+   "0",
+   "0",
+   "200",
+   "0"
+  ],
+  [
+   "Liquid Wrench Pelumas Serbaguna 226 Gr",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "PCS",
+   "40",
+   "0",
+   "0",
+   "40",
+   "0"
+  ],
+  [
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "PCS",
+   "30",
+   "0",
+   "0",
+   "30",
+   "0"
+  ],
+  [
+   "Fastron Platinum Racing 10w-60 4 Liter/1 Galon",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Fastron Diesel 15w-40 4 Liter/1 Galon",
+   "PCS",
+   "320",
+   "0",
+   "0",
+   "320",
+   "0"
+  ],
+  [
+   "Fastron Ecogreen 0W-20",
+   "PCS",
+   "122",
+   "0",
+   "0",
+   "122",
+   "0"
+  ],
+  [
+   "Fastron Gold 5w-30 4 Liter/1 Galon",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Fastron Techno 10w-30 4 Liter/1 Galon",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Perawatan Mobil & Motor"
+  ],
+  [
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Proclean 66x43 Cm Lap Chamois Pva",
+   "PCS",
+   "1.000",
+   "0",
+   "0",
+   "1.000",
+   "0"
+  ],
+  [
+   "Proclean Set 4 Pcs Peralatan Cuci Mobil",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Proclean Set Spons Pembersih 6 Pcs",
+   "PCS",
+   "150",
+   "0",
+   "0",
+   "150",
+   "0"
+  ],
+  [
+   "Umum"
+  ],
+  [
+   "Produk PPN",
+   "PCS",
+   "50",
+   "0",
+   "0",
+   "50",
+   "0"
+  ],
+  [
+   "Proclean Set Lap Cuci Mobil 4 Pcs",
+   "PCS",
+   "50",
+   "0",
+   "0",
+   "50",
+   "0"
+  ],
+  [
+   "Produk Harga Grosir",
+   "PCS",
+   "100",
+   "0",
+   "0",
+   "100",
+   "0"
+  ],
+  [
+   "Produk PPN & PPNBM",
+   "PCS",
+   "990",
+   "0",
+   "0",
+   "990",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:57"
+  ],
+  [
+   "Halaman 2",
+   "dari 3"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Ketersediaan Stok Penjualan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Nama Barang",
+   "Satuan",
+   "Stok Gudang",
+   "Dipesan",
+   "Dijual",
+   "Stok dapat dijual",
+   "Jual/Minggu"
+  ],
+  [
+   "Produk Variasi Harga - M",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi Harga - L",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi Harga - XL",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi Harga - XXL",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V",
+   "PCS",
+   "630",
+   "0",
+   "0",
+   "630",
+   "0"
+  ],
+  [
+   "Produk Variasi 1 - Abu-abu",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 1 - Hotam",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 1 - Merah",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 1 - Orange",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 1 - Pink",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Biru - S",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Biru - XS",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Hitam - S",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Hitam - XS",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Merah - S",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Merah - XS",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Pink - S",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Produk Variasi 2 - Pink - XS",
+   "PCS",
+   "0",
+   "0",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:57"
+  ],
+  [
+   "Halaman 3",
+   "dari 3"
+  ]
+ ]
+}

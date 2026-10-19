@@ -1,0 +1,28 @@
+{
+ "planId": "EmployeePaymentYearlyByEmployeeReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfYear": 2026,
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Rincian Gaji Karyawan per Tahun"
+  ],
+  [
+   "per 2026"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ]
+ ]
+}

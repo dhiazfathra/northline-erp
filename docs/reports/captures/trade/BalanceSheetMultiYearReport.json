@@ -1,0 +1,243 @@
+{
+ "planId": "BalanceSheetMultiYearReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfYear": 2026,
+  "selectedCurrency": [],
+  "showTotal": false,
+  "showParentAccount": true,
+  "showChildAccount": true,
+  "showZeroBalance": false,
+  "showParentAccountBalance": true
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Neraca (Multi Year)"
+  ],
+  [
+   "per 2026"
+  ],
+  [
+   "Deskripsi",
+   "2024 (IDR)",
+   "2025 (IDR)",
+   "2026 (IDR)"
+  ],
+  [
+   "ASET"
+  ],
+  [
+   "ASET LANCAR"
+  ],
+  [
+   "Kas dan Setara Kas"
+  ],
+  [
+   "Jumlah Kas dan Setara Kas",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Piutang Usaha"
+  ],
+  [
+   "Jumlah Piutang Usaha",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Persediaan"
+  ],
+  [
+   "Persediaan",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "Persediaan",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "Jumlah Persediaan",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "Aset Lancar Lainnya"
+  ],
+  [
+   "Jumlah Aset Lancar Lainnya",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Jumlah Aset Lancar",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "ASET TIDAK LANCAR"
+  ],
+  [
+   "Nilai Histori"
+  ],
+  [
+   "Jumlah Nilai Histori",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Akumulasi Penyusutan"
+  ],
+  [
+   "Jumlah Akumulasi Penyusutan",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Jumlah Aset Tidak Lancar",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Aset Lainnya"
+  ],
+  [
+   "Jumlah Aset Lainnya",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "JUMLAH ASET",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "LIABILITAS DAN EKUITAS"
+  ],
+  [
+   "LIABILITAS"
+  ],
+  [
+   "LIABILITAS JANGKA PENDEK"
+  ],
+  [
+   "Utang Usaha"
+  ],
+  [
+   "Jumlah Utang",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Kewajiban Jangka Pendek Lainnya"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Pendek Lainnya",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Pendek",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "LIABILITAS JANGKA PANJANG"
+  ],
+  [
+   "Jumlah Kewajiban Jangka Panjang",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "Jumlah Kewajiban",
+   "0",
+   "0",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:03"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Neraca (Multi Year)"
+  ],
+  [
+   "per 2026"
+  ],
+  [
+   "Deskripsi",
+   "2024 (IDR)",
+   "2025 (IDR)",
+   "2026 (IDR)"
+  ],
+  [
+   "EKUITAS"
+  ],
+  [
+   "Modal",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "Equitas Saldo Awal",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "Jumlah Ekuitas",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "JUMLAH LIABILITAS DAN EKUITAS",
+   "0",
+   "6.146.070.000",
+   "6.146.070.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 08:03"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

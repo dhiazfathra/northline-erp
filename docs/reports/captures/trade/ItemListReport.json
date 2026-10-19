@@ -1,0 +1,491 @@
+{
+ "planId": "ItemListReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Daftar Barang dan Jasa"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Jenis Barang",
+   "Def. Hrg. Jual Satuan #1",
+   "Kts (Semua Gdng)"
+  ],
+  [
+   "Aki"
+  ],
+  [
+   "100015",
+   "Yuasa Aki Mobil 95D31R-PF",
+   "Persediaan",
+   "1.561.000",
+   "5"
+  ],
+  [
+   "100016",
+   "Yuasa Aki Mobil N150-PF",
+   "Persediaan",
+   "2.775.000",
+   "8"
+  ],
+  [
+   "100013",
+   "Yuasa Aki Motor YB5L-B-BA Yumicron",
+   "Persediaan",
+   "200.000",
+   "15"
+  ],
+  [
+   "100012",
+   "Yuasa Aki Motor YIX30L-BS MF",
+   "Persediaan",
+   "3.150.000",
+   "10"
+  ],
+  [
+   "100014",
+   "Yuasa Aki Motor YTZ4-V MF",
+   "Persediaan",
+   "232.000",
+   "13"
+  ],
+  [
+   "Aksesoris Motor & Mobil"
+  ],
+  [
+   "100005",
+   "Otto Klasse 42 Ltr Box Motor Pp Round",
+   "Persediaan",
+   "543.920",
+   "66"
+  ],
+  [
+   "100004",
+   "Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning",
+   "Persediaan",
+   "151.920",
+   "80"
+  ],
+  [
+   "100001",
+   "Hbc Classico Helm Half Face Dengan Visor - Hijau Mint",
+   "Persediaan",
+   "259.900",
+   "50"
+  ],
+  [
+   "100002",
+   "Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye",
+   "Persediaan",
+   "159.900",
+   "60"
+  ],
+  [
+   "100003",
+   "Otto Klasse Sandaran Jok Motor Nmax155",
+   "Persediaan",
+   "999.900",
+   "50"
+  ],
+  [
+   "Ban Mobil dan Motor"
+  ],
+  [
+   "100050",
+   "Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17",
+   "Persediaan",
+   "1.711.000",
+   "245"
+  ],
+  [
+   "100049",
+   "Ban Mobil Michelin H/T G056 285 60 R18 116H",
+   "Persediaan",
+   "3.560.000",
+   "600"
+  ],
+  [
+   "100051",
+   "Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q",
+   "Persediaan",
+   "3.364.800",
+   "314"
+  ],
+  [
+   "100052",
+   "Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle",
+   "Persediaan",
+   "255.600",
+   "800"
+  ],
+  [
+   "Oli dan Pelumas"
+  ],
+  [
+   "100010",
+   "Motul 5100 Oli Mesin Motor 4t 15w50",
+   "Persediaan",
+   "151.920",
+   "22"
+  ],
+  [
+   "100011",
+   "Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l",
+   "Persediaan",
+   "454.930",
+   "33"
+  ],
+  [
+   "100007",
+   "Liquid Wrench Pelumas Pro 311 Gr",
+   "Persediaan",
+   "139.230",
+   "200"
+  ],
+  [
+   "100006",
+   "Liquid Wrench Pelumas Serbaguna 226 Gr",
+   "Persediaan",
+   "44.730",
+   "100"
+  ],
+  [
+   "100009",
+   "Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40",
+   "Persediaan",
+   "52.900",
+   "40"
+  ],
+  [
+   "100008",
+   "Shell Advance Oli Mesin Motor Matic 10w40 800 Ml",
+   "Persediaan",
+   "71.900",
+   "30"
+  ],
+  [
+   "100056",
+   "Fastron Platinum Racing 10w-60 4 Liter/1 Galon",
+   "Persediaan",
+   "1.101.600",
+   "100"
+  ],
+  [
+   "100054",
+   "Fastron Diesel 15w-40 4 Liter/1 Galon",
+   "Persediaan",
+   "271.000",
+   "320"
+  ],
+  [
+   "100053",
+   "Fastron Ecogreen 0W-20",
+   "Persediaan",
+   "268.600",
+   "122"
+  ],
+  [
+   "100055",
+   "Fastron Gold 5w-30 4 Liter/1 Galon",
+   "Persediaan",
+   "559.500",
+   "100"
+  ],
+  [
+   "100057",
+   "Fastron Techno 10w-30 4 Liter/1 Galon",
+   "Persediaan",
+   "330.100",
+   "100"
+  ],
+  [
+   "Perawatan Mobil & Motor"
+  ],
+  [
+   "100043",
+   "Maximus 80 Watt Penghisap Debu Mobil Cyclonic",
+   "Persediaan",
+   "289.900",
+   "100"
+  ],
+  [
+   "100042",
+   "Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr",
+   "Persediaan",
+   "399.900",
+   "100"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 1",
+   "dari 2"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Daftar Barang dan Jasa"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Barang",
+   "Nama Barang",
+   "Jenis Barang",
+   "Def. Hrg. Jual Satuan #1",
+   "Kts (Semua Gdng)"
+  ],
+  [
+   "100044",
+   "Proclean 66x43 Cm Lap Chamois Pva",
+   "Persediaan",
+   "86.900",
+   "1.000"
+  ],
+  [
+   "100046",
+   "Proclean Set 4 Pcs Peralatan Cuci Mobil",
+   "Persediaan",
+   "154.900",
+   "100"
+  ],
+  [
+   "100047",
+   "Proclean Set Spons Pembersih 6 Pcs",
+   "Persediaan",
+   "97.230",
+   "150"
+  ],
+  [
+   "Umum"
+  ],
+  [
+   "100039",
+   "Produk PPN",
+   "Persediaan",
+   "50.000",
+   "50"
+  ],
+  [
+   "100017",
+   "Jasa Pasang",
+   "Jasa",
+   "100.000",
+   "0"
+  ],
+  [
+   "100045",
+   "Proclean Set Lap Cuci Mobil 4 Pcs",
+   "Persediaan",
+   "127.900",
+   "50"
+  ],
+  [
+   "100040",
+   "Produk Non Persediaan",
+   "Non Persediaan",
+   "200.000",
+   "0"
+  ],
+  [
+   "100038",
+   "Produk Harga Grosir",
+   "Persediaan",
+   "50.000",
+   "100"
+  ],
+  [
+   "100018",
+   "Produk PPN & PPNBM",
+   "Persediaan",
+   "50.000",
+   "990"
+  ],
+  [
+   "100019",
+   "Produk Variasi 1",
+   "Varian",
+   "0",
+   "0"
+  ],
+  [
+   "100025",
+   "Produk Variasi 2",
+   "Varian",
+   "0",
+   "0"
+  ],
+  [
+   "100034",
+   "Produk Variasi Harga",
+   "Varian",
+   "0",
+   "0"
+  ],
+  [
+   "100035",
+   "Produk Variasi Harga - M",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100036",
+   "Produk Variasi Harga - L",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100037",
+   "Produk Variasi Harga - XL",
+   "Persediaan",
+   "260.000",
+   "0"
+  ],
+  [
+   "100041",
+   "Produk Variasi Harga - XXL",
+   "Persediaan",
+   "265.000",
+   "0"
+  ],
+  [
+   "100048",
+   "Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V",
+   "Persediaan",
+   "3.122.400",
+   "630"
+  ],
+  [
+   "100020",
+   "Produk Variasi 1 - Abu-abu",
+   "Persediaan",
+   "300.000",
+   "0"
+  ],
+  [
+   "100023",
+   "Produk Variasi 1 - Hotam",
+   "Persediaan",
+   "300.000",
+   "0"
+  ],
+  [
+   "100021",
+   "Produk Variasi 1 - Merah",
+   "Persediaan",
+   "300.000",
+   "0"
+  ],
+  [
+   "100022",
+   "Produk Variasi 1 - Orange",
+   "Persediaan",
+   "300.000",
+   "0"
+  ],
+  [
+   "100024",
+   "Produk Variasi 1 - Pink",
+   "Persediaan",
+   "300.000",
+   "0"
+  ],
+  [
+   "100027",
+   "Produk Variasi 2 - Biru - S",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100026",
+   "Produk Variasi 2 - Biru - XS",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100031",
+   "Produk Variasi 2 - Hitam - S",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100030",
+   "Produk Variasi 2 - Hitam - XS",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100029",
+   "Produk Variasi 2 - Merah - S",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100028",
+   "Produk Variasi 2 - Merah - XS",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100033",
+   "Produk Variasi 2 - Pink - S",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "100032",
+   "Produk Variasi 2 - Pink - XS",
+   "Persediaan",
+   "250.000",
+   "0"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:58"
+  ],
+  [
+   "Halaman 2",
+   "dari 2"
+  ]
+ ]
+}

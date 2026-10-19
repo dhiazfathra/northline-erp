@@ -1,0 +1,121 @@
+{
+ "planId": "CustomerListReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "asOfDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Daftar Pelanggan"
+  ],
+  [
+   "Per Tgl. 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "ID Pelanggan",
+   "Nama",
+   "Tgl/Jam Pembuatan",
+   "Saldo (Mata Uang)",
+   "Alamat lainnya"
+  ],
+  [
+   "Umum"
+  ],
+  [
+   "C.00001",
+   "Pelanggan Default Diskon",
+   "09 Jun 2025 15:32:43",
+   "IDR 0"
+  ],
+  [
+   "C.00002",
+   "Pelanggan Default Pajak",
+   "09 Jun 2025 15:33:45",
+   "IDR 0"
+  ],
+  [
+   "C.00004",
+   "Pelanggan Jatuh Tempo",
+   "09 Jun 2025 15:36:30",
+   "IDR 0"
+  ],
+  [
+   "C.00005",
+   "Grogol Motor Pesakih",
+   "09 Jun 2025 15:41:42",
+   "IDR 0"
+  ],
+  [
+   "C.00007",
+   "Rawa Kramat Motors",
+   "09 Jun 2025 15:42:07",
+   "IDR 0"
+  ],
+  [
+   "C.00008",
+   "Tunas Jaya Teknik",
+   "09 Jun 2025 15:42:24",
+   "IDR 0"
+  ],
+  [
+   "C.00009",
+   "Bengkel Mobil Baus78",
+   "09 Jun 2025 15:42:41",
+   "IDR 0"
+  ],
+  [
+   "C.00010",
+   "Gombel Motor (Bengkel Rizal)",
+   "09 Jun 2025 15:43:08",
+   "IDR 0"
+  ],
+  [
+   "C.00011",
+   "Permata Bengkel",
+   "09 Jun 2025 15:43:45",
+   "IDR 0"
+  ],
+  [
+   "C.00000",
+   "Pelanggan Umum",
+   "11 Jun 2025 23:41:59",
+   "IDR 0"
+  ],
+  [
+   "C.00006",
+   "Bengkel yoyon",
+   "09 Jun 2025 15:42:00",
+   "IDR 0"
+  ],
+  [
+   "C.00003",
+   "Andika Motor",
+   "09 Jun 2025 15:35:58",
+   "IDR 0",
+   "Mewar Melati Tangerang Banten 15152 Indonesia"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:53"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

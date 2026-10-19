@@ -1,0 +1,42 @@
+{
+ "planId": "CustomerLimitReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Limit Piutang Pelanggan"
+  ],
+  [
+   "Cabang : [Semua Cabang], Filter berdasarkan : Limit Piutang"
+  ],
+  [
+   "Nama",
+   "Saldo (Mata Uang)",
+   "Pesanan",
+   "Giro Mundur",
+   "Limit Piutang",
+   "Sisa Limit"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:53"
+  ],
+  [
+   "Halaman 1",
+   "dari 1"
+  ]
+ ]
+}

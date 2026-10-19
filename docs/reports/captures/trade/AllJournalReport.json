@@ -1,0 +1,2159 @@
+{
+ "planId": "AllJournalReport",
+ "dataUsaha": "Trade Portal Demo",
+ "capturedFrom": "Accurate Online sandbox, 2026-10-19, default params over the demo data",
+ "param": {
+  "startDate": "01/01/2000",
+  "endDate": "31/12/2040",
+  "selectedBranch": [
+   {
+    "name": "[Semua Cabang]",
+    "id": null
+   }
+  ]
+ },
+ "rows": [
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00030"
+  ],
+  [
+   "Saldo Awal barang Produk PPN & PPNBM"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "29.700.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "29.700.000"
+  ],
+  [
+   "29.700.000",
+   "29.700.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00031"
+  ],
+  [
+   "Saldo Awal barang Fastron Ecogreen 0W-20"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "24.400.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "24.400.000"
+  ],
+  [
+   "24.400.000",
+   "24.400.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00032"
+  ],
+  [
+   "Saldo Awal barang Fastron Diesel 15w-40 4 Liter/1 Galon"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "86.720.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "86.720.000"
+  ],
+  [
+   "86.720.000",
+   "86.720.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00033"
+  ],
+  [
+   "Saldo Awal barang Fastron Gold 5w-30 4 Liter/1 Galon"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "50.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "50.000.000"
+  ],
+  [
+   "50.000.000",
+   "50.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00034"
+  ],
+  [
+   "Saldo Awal barang Fastron Platinum Racing 10w-60 4 Liter/1 Galon"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "100.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "100.000.000"
+  ],
+  [
+   "100.000.000",
+   "100.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "01 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00035"
+  ],
+  [
+   "Saldo Awal barang Fastron Techno 10w-30 4 Liter/1 Galon"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "25.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "25.000.000"
+  ],
+  [
+   "25.000.000",
+   "25.000.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 1",
+   "dari 6"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00001"
+  ],
+  [
+   "Saldo Awal barang Ban Mobil Bridgestone Parada Spec-X 235 55 R19 101V"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "1.890.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "1.890.000.000"
+  ],
+  [
+   "1.890.000.000",
+   "1.890.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00002"
+  ],
+  [
+   "Saldo Awal barang Ban Mobil Michelin H/T G056 285 60 R18 116H"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "2.100.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "2.100.000.000"
+  ],
+  [
+   "2.100.000.000",
+   "2.100.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00003"
+  ],
+  [
+   "Saldo Awal barang Ban Mobil Yokohama BluEarth-GT AE51 215 55 R17"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "367.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "367.500.000"
+  ],
+  [
+   "367.500.000",
+   "367.500.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00004"
+  ],
+  [
+   "Saldo Awal barang Ban Mobil Yokohama Geolandar M/T G003 LT215 75 R15 100Q"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "942.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "942.000.000"
+  ],
+  [
+   "942.000.000",
+   "942.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00005"
+  ],
+  [
+   "Saldo Awal barang Ban Motor FLEMMO Ring 18 Ban Motor Tube Type/ Non Tubeless Accessories Motorcycle Rasio Motorcycle"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "160.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "160.000.000"
+  ],
+  [
+   "160.000.000",
+   "160.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00006"
+  ],
+  [
+   "Saldo Awal barang Hbc Classico Helm Half Face Dengan Visor - Hijau Mint"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 2",
+   "dari 6"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "10.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "10.000.000"
+  ],
+  [
+   "10.000.000",
+   "10.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00007"
+  ],
+  [
+   "Saldo Awal barang Krisbow Sarung Tangan Pengaman Synthetic Leather Oranye"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "6.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "6.000.000"
+  ],
+  [
+   "6.000.000",
+   "6.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00008"
+  ],
+  [
+   "Saldo Awal barang Liquid Wrench Pelumas Pro 311 Gr"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "20.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "20.000.000"
+  ],
+  [
+   "20.000.000",
+   "20.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00009"
+  ],
+  [
+   "Saldo Awal barang Liquid Wrench Pelumas Serbaguna 226 Gr"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "3.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "3.500.000"
+  ],
+  [
+   "3.500.000",
+   "3.500.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00010"
+  ],
+  [
+   "Saldo Awal barang Maximus 80 Watt Penghisap Debu Mobil Cyclonic"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "25.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "25.000.000"
+  ],
+  [
+   "25.000.000",
+   "25.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00011"
+  ],
+  [
+   "Saldo Awal barang Meguiars Gold Class Shampoo Dan Conditioner Mobil 1.9 Ltr"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "35.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "35.000.000"
+  ],
+  [
+   "35.000.000",
+   "35.000.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 3",
+   "dari 6"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00012"
+  ],
+  [
+   "Saldo Awal barang Motul 5100 Oli Mesin Motor 4t 15w50"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "2.200.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "2.200.000"
+  ],
+  [
+   "2.200.000",
+   "2.200.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00013"
+  ],
+  [
+   "Saldo Awal barang Motul Tekma Mega-x Oli Mobil Diesel 15w40 5l"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "13.200.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "13.200.000"
+  ],
+  [
+   "13.200.000",
+   "13.200.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00014"
+  ],
+  [
+   "Saldo Awal barang Otto Klasse 42 Ltr Box Motor Pp Round"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "33.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "33.000.000"
+  ],
+  [
+   "33.000.000",
+   "33.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00015"
+  ],
+  [
+   "Saldo Awal barang Otto Klasse Gembok Cakram Motor 10 Mm Ty130 - Kuning"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "8.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "8.000.000"
+  ],
+  [
+   "8.000.000",
+   "8.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00016"
+  ],
+  [
+   "Saldo Awal barang Otto Klasse Sandaran Jok Motor Nmax155"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "40.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "40.000.000"
+  ],
+  [
+   "40.000.000",
+   "40.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00017"
+  ],
+  [
+   "Saldo Awal barang Proclean 66x43 Cm Lap Chamois Pva"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "80.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "80.000.000"
+  ],
+  [
+   "80.000.000",
+   "80.000.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 4",
+   "dari 6"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00018"
+  ],
+  [
+   "Saldo Awal barang Proclean Set 4 Pcs Peralatan Cuci Mobil"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "10.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "10.000.000"
+  ],
+  [
+   "10.000.000",
+   "10.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00019"
+  ],
+  [
+   "Saldo Awal barang Proclean Set Lap Cuci Mobil 4 Pcs"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "5.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "5.000.000"
+  ],
+  [
+   "5.000.000",
+   "5.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00020"
+  ],
+  [
+   "Saldo Awal barang Proclean Set Spons Pembersih 6 Pcs"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "7.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "7.500.000"
+  ],
+  [
+   "7.500.000",
+   "7.500.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00021"
+  ],
+  [
+   "Saldo Awal barang Produk Harga Grosir"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "3.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "3.500.000"
+  ],
+  [
+   "3.500.000",
+   "3.500.000"
+  ],
+  [
+   "Tanggal",
+   ":",
+   "09 Jun 2025",
+   "No. Trans #",
+   ":",
+   "IA.2025.06.00022"
+  ],
+  [
+   "Tipe Transaksi",
+   ":",
+   "Penyesuaian Persediaan",
+   "Deskripsi",
+   ":",
+   "Saldo Awal barang Produk PPN"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "1.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "1.500.000"
+  ],
+  [
+   "1.500.000",
+   "1.500.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00023"
+  ],
+  [
+   "Saldo Awal barang Shell 800 Ml Advance Ax5 Oli Mesin Motor 15w40"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "1.600.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "1.600.000"
+  ],
+  [
+   "1.600.000",
+   "1.600.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 5",
+   "dari 6"
+  ],
+  [
+   "PT Automotive Shop"
+  ],
+  [
+   "Keseluruhan Jurnal"
+  ],
+  [
+   "Dari 01 Jan 2000 s/d 31 Des 2040"
+  ],
+  [
+   "Cabang : [Semua Cabang]"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00024"
+  ],
+  [
+   "Saldo Awal barang Shell Advance Oli Mesin Motor Matic 10w40 800 Ml"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "1.800.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "1.800.000"
+  ],
+  [
+   "1.800.000",
+   "1.800.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00025"
+  ],
+  [
+   "Saldo Awal barang Yuasa Aki Mobil 95D31R-PF"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "7.500.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "7.500.000"
+  ],
+  [
+   "7.500.000",
+   "7.500.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00026"
+  ],
+  [
+   "Saldo Awal barang Yuasa Aki Mobil N150-PF"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "21.600.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "21.600.000"
+  ],
+  [
+   "21.600.000",
+   "21.600.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00027"
+  ],
+  [
+   "Saldo Awal barang Yuasa Aki Motor YB5L-B-BA Yumicron"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "2.250.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "2.250.000"
+  ],
+  [
+   "2.250.000",
+   "2.250.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00028"
+  ],
+  [
+   "Saldo Awal barang Yuasa Aki Motor YIX30L-BS MF"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "30.000.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "30.000.000"
+  ],
+  [
+   "30.000.000",
+   "30.000.000"
+  ],
+  [
+   "Tanggal"
+  ],
+  [
+   "Tipe Transaksi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "09 Jun 2025"
+  ],
+  [
+   "Penyesuaian Persediaan"
+  ],
+  [
+   "No. Trans #"
+  ],
+  [
+   "Deskripsi"
+  ],
+  [
+   ":"
+  ],
+  [
+   ":"
+  ],
+  [
+   "IA.2025.06.00029"
+  ],
+  [
+   "Saldo Awal barang Yuasa Aki Motor YTZ4-V MF"
+  ],
+  [
+   "Kode Perkiraan",
+   "Nama Perkiraan",
+   "Debit",
+   "Kredit"
+  ],
+  [
+   "110401",
+   "Persediaan",
+   "2.600.000",
+   "0"
+  ],
+  [
+   "300001",
+   "Equitas Saldo Awal",
+   "0",
+   "2.600.000"
+  ],
+  [
+   "2.600.000",
+   "2.600.000"
+  ],
+  [
+   "ACCURATE Accounting System Report"
+  ],
+  [
+   "Tercetak pada 19 October 2026 - 07:51"
+  ],
+  [
+   "Halaman 6",
+   "dari 6"
+  ]
+ ]
+}
