@@ -4,7 +4,7 @@ import type { z } from 'zod'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
-import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
+import { addMove, costingMethod, fifoCost, layers, loadMoves } from '../inventory/fifo'
 import { logActivity } from '../activity/log'
 
 export async function upsertCustomer(db: Db, input: z.input<typeof customerInput>) {
@@ -121,7 +121,7 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
         continue
       }
       const prior = costs.filter(c => c.item === l.item)
-      const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -c.cost }))])
+      const ls = layers([...await loadMoves(tx, l.item, inv.date), ...prior.map(c => ({ date: inv.date, quantity: -c.qty, value: -c.cost }))], await costingMethod(tx))
       costs.push({ item: l.item, qty: l.qty, cost: fifoCost(ls, l.qty), cogs: st.cogs, inv: st.inv })
     }
     // Down payments used: the receivable is debited net, the DP liability for the amount used (Accurate's line order).
@@ -313,7 +313,7 @@ export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; n
     for (const l of d.lines) {
       const [it] = await tx.execute(sql`SELECT inventory_account, delivered_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
       if (!it?.delivered_account) throw new DomainError(`Barang ${l.item} belum punya akun persediaan terkirim`)
-      costed.push({ item: l.item, qty: l.qty, cost: fifoCost(layers(await loadMoves(tx, l.item, d.date)), l.qty), inv: it.inventory_account as string, dlv: it.delivered_account as string })
+      costed.push({ item: l.item, qty: l.qty, cost: fifoCost(layers(await loadMoves(tx, l.item, d.date), await costingMethod(tx)), l.qty), inv: it.inventory_account as string, dlv: it.delivered_account as string })
     }
     const journalId = crypto.randomUUID()
     await handleTx(tx, {

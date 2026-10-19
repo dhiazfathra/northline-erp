@@ -669,6 +669,41 @@
      "name": "NL-TP-B1 Barang Uji Trade"
     }
    ]
+  },
+  {
+   "kind": "PurchaseInvoice",
+   "ref": "NL-TP-P3",
+   "number": "PI.2045.05.00001",
+   "vendor": "V.00000",
+   "bill": "NL-TP-P3",
+   "date": "2045-05-02",
+   "dueDate": "2045-06-01",
+   "description": "NL-TP-P3 pembelian (uji pembulatan rata-rata)",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 1,
+     "price": 100000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
+  },
+  {
+   "kind": "SalesInvoice",
+   "ref": "NL-TP-S2",
+   "number": "SI.2045.05.00001",
+   "customer": "C.00003",
+   "date": "2045-05-03",
+   "dueDate": "2045-06-02",
+   "description": "NL-TP-S2 penjualan (uji pembulatan rata-rata)",
+   "lines": [
+    {
+     "item": "NL-TP-B1",
+     "qty": 3,
+     "price": 200000,
+     "name": "NL-TP-B1 Barang Uji Trade"
+    }
+   ]
   }
  ],
  "reports": {
@@ -2383,6 +2418,130 @@
      "dari 1"
     ]
    ]
+  },
+  "InventoryValuationDetailReport:rounding": {
+   "planId": "InventoryValuationDetailReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/05/2045",
+    "selectedItem": [
+     {
+      "id": 200,
+      "name": "NL-TP-B1 Barang Uji Trade",
+      "no": "NL-TP-B1"
+     }
+    ]
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rincian Nilai Persediaan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mei 2045"
+    ],
+    [
+     "Barang : NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Kode Barang",
+     ":",
+     "NL-TP-B1"
+    ],
+    [
+     "Nama Barang",
+     ":",
+     "NL-TP-B1 Barang Uji Trade"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Kts Masuk",
+     "Nilai Masuk",
+     "Kts Keluar",
+     "Nilai Keluar",
+     "Kts Akhir",
+     "Nilai Akhir"
+    ],
+    [
+     "28 Feb 2045",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0",
+     "0"
+    ],
+    [
+     "PI.2045.03.00003",
+     "05 Mar 2045",
+     "10",
+     "1.000.000",
+     "0",
+     "0",
+     "10",
+     "1.000.000"
+    ],
+    [
+     "PI.2045.03.00004",
+     "12 Mar 2045",
+     "10",
+     "1.200.000",
+     "0",
+     "0",
+     "20",
+     "2.200.000"
+    ],
+    [
+     "SI.2045.03.00001",
+     "20 Mar 2045",
+     "0",
+     "0",
+     "15",
+     "1.650.000",
+     "5",
+     "550.000"
+    ],
+    [
+     "PI.2045.05.00001",
+     "02 Mei 2045",
+     "1",
+     "100.000",
+     "0",
+     "0",
+     "6",
+     "650.000"
+    ],
+    [
+     "SI.2045.05.00001",
+     "03 Mei 2045",
+     "0",
+     "0",
+     "3",
+     "325.000",
+     "3",
+     "325.000"
+    ],
+    [
+     "21",
+     "2.300.000",
+     "18",
+     "1.975.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 11:07"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ],
+   "dataUsaha": "Trade Portal Demo"
   }
  },
  "ledgerQ1": {

@@ -3,7 +3,7 @@ import { returnInput, type ReturnInput } from '@northline/schemas/sales'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
-import { addMove, fifoCost, layers, loadMoves } from '../inventory/fifo'
+import { addMove, costingMethod, fifoCost, layers, loadMoves } from '../inventory/fifo'
 import { merge, nextNumber, period } from '../sales/service'
 
 // Retur Penjualan / Retur Pembelian against one invoice, as posted by the sandbox (fixtures/returns-t6.json):
@@ -81,7 +81,7 @@ export async function createPurchaseReturn(db: Db, input: ReturnInput) {
       const [it] = await tx.execute(sql`SELECT type, inventory_account, cogs_account, expense_account FROM items WHERE no = ${l.item}`)
       const t = Math.round(l.qty * l.price); total += t
       if (it!.type !== 'INVENTORY') { credits.push({ account: it!.expense_account as string, side: 'CREDIT', amount: t }); continue }
-      const cost = fifoCost(layers(await loadMoves(tx, l.item, rt.date)), l.qty)
+      const cost = fifoCost(layers(await loadMoves(tx, l.item, rt.date), await costingMethod(tx)), l.qty)
       credits.push({ account: it!.cogs_account as string, side: t >= cost ? 'CREDIT' : 'DEBIT', amount: Math.abs(t - cost) }, { account: it!.inventory_account as string, side: 'CREDIT', amount: cost })
       await addMove(tx, { item: l.item, date: rt.date, docType: 'PRT', docNumber: number, description: rt.description, quantity: -l.qty, value: -cost })
     }

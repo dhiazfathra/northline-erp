@@ -1,7 +1,24 @@
 # ADR-0031: Business profiles (Manufaktur, Retail, Trade Portal) and configurable costing method
 
 ## Status
-Proposed. Plan for the principal's review; nothing below is built yet.
+Partly accepted (2026-10-19): the costing method (build-order steps 1-2) is accepted and built. Profiles, feature flags,
+chart-of-accounts templates and UI (steps 3-5) remain Proposed.
+
+## Implementation (steps 1-2)
+- `ledger_settings.costing_method` (`FIFO` | `AVERAGE`, default `FIFO`), migration `0048_costing_method.sql`. Kept on
+  `ledger_settings` instead of a new `company_settings` table until steps 3-5 need more columns.
+- The seam is `layers(moves, method)` in `inventory/fifo.ts`: FIFO returns its layers; AVERAGE returns one layer at
+  (value on hand) / (qty on hand), where outbound moves carry their booked cost. `fifoCost` then costs either.
+  Sales, delivery orders, returns, adjustments and job costing read `costingMethod(tx)`. Umur Persediaan keeps FIFO
+  layers for aging.
+- `setCostingMethod(tx, method)` refuses once any stock move exists (`DomainError`). A plain settings update,
+  not a ledger event, for now.
+- Rounding settled against Trade Portal: per line. NL-TP-P3 (1 @ 100.000 onto 5 @ 110.000, average 108.333,33),
+  NL-TP-S2 sells 3: Accurate books 325.000 (per unit would be 324.999).
+- Verified zero diff on Trade Portal under AVERAGE: Profitabilitas per Barang, Nilai Persediaan (NL-TP-B1 row),
+  Rincian Nilai Persediaan (Mar and Mar-May), the tax reports carrying the sale's HPP. All FIFO tests unchanged.
+- Still open: whether returns re-enter at the original cost or the current average (not probed on Trade Portal;
+  the ERP uses the current costing method's layers, as for FIFO).
 
 ## Date
 2026-10-19
@@ -68,8 +85,7 @@ still be changed. A profile is a starting point; the settings are what the code 
   Accurate does not do it. Rejected.
 
 ## Consequences
-- Trade Portal HPP, profitability and inventory valuation reports stay "blocked: requires average costing" in
-  `_coverage.md` until step 2 lands.
+- Trade Portal HPP, profitability and inventory valuation reports are verified under AVERAGE since step 2 landed.
 - Feature flags add a branch to many endpoints; keep them at the router level, not inside report code.
 - Open questions: average-cost rounding; whether returns re-enter at the original cost or the current average
   (to settle against Trade Portal fixtures).

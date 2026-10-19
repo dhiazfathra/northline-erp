@@ -6,9 +6,11 @@ Params as the stock card. Header `Nomor #` | `Tanggal` | `Kts Masuk` | `Nilai Ma
 
 Opening and totals (verified with `returns-t6.json`): the opening row prints quantity and value in the **Masuk** columns, and the in-totals include them (`12 | 167.200 | 1 | 13.000`).
 
-## Trade Portal Demo variation (2026-10-19): blocked, requires average costing
+## Trade Portal Demo variation (2026-10-19): average costing
 
 Source: Trade Portal Demo (PT Automotive Shop): NL-TP-B1 bought 10 @ 100.000 (PI.2045.03.00003, 5 Mar) and 10 @ 120.000 (PI.2045.03.00004, 12 Mar) from Supplier Umum, sold 15 @ 200.000 (SI.2045.03.00001, 20 Mar) to Andika Motor, net 30.
-Trade Portal costs by moving average: SI row Nilai Keluar 1.650.000, Nilai Akhir 550.000 (average). The ERP costs by FIFO (1.600.000 for the same sale), so this
-report cannot match Trade Portal until the AVERAGE strategy of ADR-0031 lands. Expected output kept in [fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json), test `apps/api/test/trade-portal-trade.test.ts`
-(the test pins the current FIFO gap and flips to zero diff once average costing exists). See ADR-0029 finding 6.
+Trade Portal costs by moving average: SI row Nilai Keluar 1.650.000, Nilai Akhir 550.000 (average). The
+report matches Trade Portal with zero diff when the company costing method is AVERAGE (ADR-0031, `ledger_settings.costing_method`). Expected output in [fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json), test `apps/api/test/trade-portal-trade.test.ts`.
+Rounding (NL-TP-P3 PI.2045.05.00001: 1 @ 100.000 onto 5 @ 110.000, average 108.333,33; NL-TP-S2 SI.2045.05.00001 sells 3): Nilai Keluar 325.000, so the
+average cost is rounded per line (qty x unit cost), not per unit (3 x 108.333 = 324.999). Fixture report `InventoryValuationDetailReport:rounding` (1 Mar - 31 Mei 2045).
+FIFO (the default) still gives 1.600.000 and stays verified on Manufaktur Demo. See ADR-0029 finding 6.

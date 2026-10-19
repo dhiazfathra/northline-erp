@@ -28,10 +28,10 @@ branch/currency parameter makes Accurate 500. See [ADR-0029](../decisions/0029-t
 Journal-only re-verification on Trade Portal (NL-TP 2045 journals): Laba/Rugi Standar, Multi Periode, Perbandingan Periode
 Neraca Percobaan, Neraca (Standar) and Neraca (Perbandingan Periode), zero diff. Trade-specific pass (NL-TP March 2045 purchases and sale): 10 sales, purchase, aging, outstanding and stock-card
 reports zero-diff; 3 cost-dependent reports (Profitabilitas per Barang, Nilai Persediaan, Rincian Nilai Persediaan)
-blocked: requires average costing for Trade Portal, still verified under FIFO on Manufaktur Demo.
+zero-diff with costing method AVERAGE (ADR-0031); still verified under FIFO (default) on Manufaktur Demo.
 Data only in Trade Portal: 38 Trade reports carry amounts; 24 have none in the earlier sandboxes' captures. Followed up:
 ledger listings, Neraca Multi Periode, Perubahan Ekuitas, Daftar Akun Kas & Bank, Rasio per Bulan and Daftar PPN Keluaran
-zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year blocked on average costing; Daftar PPN Masukan/Keluaran and Rekonsiliasi PPN zero-diff over four windows; the
+zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year unblocked by average costing (ADR-0031), not yet re-captured; Daftar PPN Masukan/Keluaran and Rekonsiliasi PPN zero-diff over four windows; the
 demo's price/discount adjustments and opening stock traced to their documents in the specs.
 Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
@@ -42,7 +42,7 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Laba/Rugi (Multi Periode)](ProfitLossMultiPeriodReport.md) | `ProfitLossMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Neraca (Multi Periode)](BalanceSheetMultiPeriodReport.md) | `BalanceSheetMultiPeriodReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Laba/Rugi (Multi Year)](ProfitLossMultiYearReport.md) | `ProfitLossMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
+| [Neraca (Multi Year)](BalanceSheetMultiYearReport.md) | `BalanceSheetMultiYearReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
 | [Arus Kas (Tak Langsung)](CashFlowIndirectReport.md) | `CashFlowIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Proyeksi Ketersediaan Kas](CashAvailabilityChartReport.md) | `CashAvailabilityChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
 | [Proyeksi Kas per Bulan](CashProjectionReport.md) | `CashProjectionReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
@@ -54,9 +54,9 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Neraca (Induk Skontro)](BalanceSheetParentScontroReport.md) | `BalanceSheetParentScontroReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Arus Kas (Langsung)](CashFlowDirectReport.md) | `CashFlowDirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Rincian Arus Kas (Tak Langsung)](CashFlowDetailIndirectReport.md) | `CashFlowDetailIndirectReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
-| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
+| [Rasio Keuangan (Per Tahun)](FinancialRatioReport.md) | `FinancialRatioReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
 | [Rasio Keuangan (Per Bulan)](FinancialRatioPerMonthReport.md) | `FinancialRatioPerMonthReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
-| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures blocked: requires average costing (ADR-0031) |
+| [Fokus Keuangan](FinancialFocusReport.md) | `FinancialFocusReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | Trade Portal Demo: yearly figures need average costing (built, ADR-0031); not yet re-captured |
 | [Laba Ditahan](RetainedEarningReport.md) | `RetainedEarningReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account |  |
 | [Perubahan Ekuitas Pemilik](OwnerEquityChangedReport.md) | `OwnerEquityChangedReport` | Keuangan | Y | Y | Y | data | done | Journal/Period/Account | verified on Trade Portal Demo (ADR-0029) |
 | [Grafik Perbandingan Nilai Akun](AccountValueCompareChartReport.md) | `AccountValueCompareChartReport` | Keuangan | Y | Y | Y | empty | done | Journal/Period/Account |  |
@@ -174,7 +174,7 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Cicilan Belum Terbayar](SalesInvoiceUnpaidInstallmentListReport.md) | `SalesInvoiceUnpaidInstallmentListReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Monitoring HPP](CogsMonitoringReport.md) | `CogsMonitoringReport` | Penjualan | Y | Y | Y | empty | done (out of scope) | Sales |  |
 | [Profitabilitas per Faktur](ProfitabilityBySalesInvoiceReport.md) | `ProfitabilityBySalesInvoiceReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
-| [Profitabilitas per Barang](ProfitabilityByItemReport.md) | `ProfitabilityByItemReport` | Penjualan | Y | Y | Y | data | done | Sales | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
+| [Profitabilitas per Barang](ProfitabilityByItemReport.md) | `ProfitabilityByItemReport` | Penjualan | Y | Y | Y | data | done | Sales | Trade Portal Demo: verified with costing method AVERAGE (ADR-0031) |
 | [Profitabilitas per Pelanggan](ProfitabilityByCustomerReport.md) | `ProfitabilityByCustomerReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Perubahan Harga Jual Per Barang](SellingPriceAdjustmentHistoryReport.md) | `SellingPriceAdjustmentHistoryReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
 | [Penyesuaian Harga Jual](SellingPriceAdjustmentDetailReport.md) | `SellingPriceAdjustmentDetailReport` | Penjualan | Y | Y | Y | data | done | Sales |  |
@@ -232,12 +232,12 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | Y | data | done (out of scope) | Purchasing |  |
 | [Perubahan Harga Beli Per Barang](VendorPriceHistoryReport.md) | `VendorPriceHistoryReport` | Pembelian | Y | Y | Y | data | done | Purchasing |  |
 | [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | Y | data | done | Purchasing | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
-| [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
+| [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: verified with costing method AVERAGE (ADR-0031) |
 | [Rincian Nilai Persediaan (CSV)](InventoryValuationDetailDownloadReport.md) | `InventoryValuationDetailDownloadReport` | Persediaan | Y | Y | Y | empty | done | Inventory |  |
 | [Ketersediaan Stok Penjualan](InventoryAnalysisReport.md) | `InventoryAnalysisReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Umur Persediaan](InventoryAgingReport.md) | `InventoryAgingReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Umur Persediaan per Gudang](InventoryAgingByWarehouseReport.md) | `InventoryAgingByWarehouseReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
-| [Rincian Nilai Persediaan](InventoryValuationDetailReport.md) | `InventoryValuationDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: blocked: requires average costing (ADR-0031) |
+| [Rincian Nilai Persediaan](InventoryValuationDetailReport.md) | `InventoryValuationDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory | Trade Portal Demo: verified with costing method AVERAGE (ADR-0031) |
 | [Rincian Ketersediaan Stok Penjualan](InventoryAnalysisDetailReport.md) | `InventoryAnalysisDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Rincian Umur Persediaan](InventoryAgingDetailReport.md) | `InventoryAgingDetailReport` | Persediaan | Y | Y | Y | data | done | Inventory |  |
 | [Kartu Stok Persediaan](InventoryStockCardReport.md) | `InventoryStockCardReport` | Persediaan | Y | Y | Y | data | done | Inventory | verified on Trade Portal Demo (ADR-0029) |

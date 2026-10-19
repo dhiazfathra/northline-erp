@@ -4,7 +4,7 @@ import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
-import { addMove, fifoCost, layers, loadMoves } from './fifo'
+import { addMove, costingMethod, fifoCost, layers, loadMoves } from './fifo'
 
 // Pekerjaan Pesanan (ADR-0026; fixtures/retail/jobcosting-rg.json). Accurate's journals:
 // job order JC.yyyy.mm.nnnnn  Dr WIP (job total) / Cr inventory per account (FIFO cost) / Cr expense accounts;
@@ -27,7 +27,7 @@ export async function createJobOrder(db: Db, raw: z.input<typeof jobInput>) {
     for (const m of j.materials) {
       const [it] = await tx.execute(sql`SELECT name, inventory_account FROM items WHERE no = ${m.item} AND type = 'INVENTORY'`)
       if (!it) throw new DomainError(`Barang persediaan ${m.item} tidak ditemukan`)
-      mats.push({ item: m.item, name: it.name as string, qty: m.qty, cost: fifoCost(layers(await loadMoves(tx, m.item, j.date)), m.qty), inv: it.inventory_account as string })
+      mats.push({ item: m.item, name: it.name as string, qty: m.qty, cost: fifoCost(layers(await loadMoves(tx, m.item, j.date), await costingMethod(tx)), m.qty), inv: it.inventory_account as string })
     }
     const exps = j.expenses.map(e => ({ ...e, amount: Math.round(e.amount * 100) }))
     const total = mats.reduce((s, m) => s + m.cost, 0) + exps.reduce((s, e) => s + e.amount, 0)

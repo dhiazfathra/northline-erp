@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { Db } from '../db'
 import { handleTx } from '../ledger/handler'
 import { merge, nextNumber, period } from '../sales/service'
-import { addMove, fifoCost, layers, loadMoves } from './fifo'
+import { addMove, costingMethod, fifoCost, layers, loadMoves } from './fifo'
 
 // Penyesuaian Persediaan (fixtures/adjustment-t10.json): increases at the given unit cost, decreases at FIFO cost,
 // offset to the chosen adjustment account. Journal type "Penyesuaian Persediaan", number IA.yyyy.mm.nnnnn.
@@ -23,7 +23,7 @@ export async function createItemAdjustment(db: Db, raw: z.input<typeof input>) {
     for (const l of a.lines) {
       const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
       if (!it) throw new Error(`Barang persediaan ${l.item} tidak ditemukan`)
-      const cost = l.direction === 'IN' ? Math.round(l.qty * l.unitCost * 100) : fifoCost(layers(await loadMoves(tx, l.item, a.date)), l.qty)
+      const cost = l.direction === 'IN' ? Math.round(l.qty * l.unitCost * 100) : fifoCost(layers(await loadMoves(tx, l.item, a.date), await costingMethod(tx)), l.qty)
       costed.push({ item: l.item, dir: l.direction, qty: l.qty, cost, inv: it.inventory_account as string })
     }
     const ins = costed.filter(c => c.dir === 'IN'), outs = costed.filter(c => c.dir === 'OUT')

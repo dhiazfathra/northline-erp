@@ -32,4 +32,4 @@
 | [0028](0028-approval-workflow.md) | Approval workflow: rules, document approval state and approver steps | Accepted |
 | [0029](0029-trade-portal-demo-divergences.md) | Trade Portal Demo divergences: empty-array parameters, flat chart of accounts; P&L and trial balance re-verified | Accepted |
 | [0030](0030-trade-portal-module-dependencies.md) | Module dependencies surfaced by Trade Portal Demo, proposed build order | Proposed (review) |
-| [0031](0031-business-profiles-and-costing-method.md) | Business profiles (Manufaktur, Retail, Trade Portal) and configurable FIFO/average costing | Proposed (review) |
+| [0031](0031-business-profiles-and-costing-method.md) | Business profiles (Manufaktur, Retail, Trade Portal) and configurable FIFO/average costing | Costing accepted; profiles proposed |

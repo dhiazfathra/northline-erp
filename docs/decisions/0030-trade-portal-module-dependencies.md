@@ -20,7 +20,7 @@ Trade Portal Demo adds no report (ADR-0029), so it surfaces no new required modu
   HPP, Profitabilitas per Barang and Nilai Persediaan from Trade Portal are blocked on it. Design: ADR-0031.
 
 ## Proposed order (for review)
-1. **Configurable costing method (average)**, ADR-0031 steps 1-2.
+1. **Configurable costing method (average)**, ADR-0031 steps 1-2. Done 2026-10-19.
 2. **Re-verify inventory reports on Trade Portal** (Inventory Aging, Warehouse Mutation, Serial Aging): Trade Portal
    returns stock data for them; seed NL-TP items and compare. No new module.
 3. **Payment gateway / online-portal integration** (Xendit-style settlement): only if the business wants portal

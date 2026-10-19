@@ -34,4 +34,4 @@ payable turnover's numerator (COGS vs purchases).
 
 ## Trade Portal Demo variation (2026-10-19)
 
-Source: Trade Portal Demo (PT Automotive Shop). Same ratio engine as Rasio Keuangan (Per Bulan) (verified on Trade Portal for Februari 2045, including the Long Term Liability to Equity correction). The 2045 yearly figures captured in fixtures/trade/trade-tp.json (`ledgerQ1`) include the March sale's HPP, which differs by the costing method (blocked: requires average costing, ADR-0031). See ADR-0029.
+Source: Trade Portal Demo (PT Automotive Shop). Same ratio engine as Rasio Keuangan (Per Bulan) (verified on Trade Portal for Februari 2045, including the Long Term Liability to Equity correction). The 2045 yearly figures captured in fixtures/trade/trade-tp.json (`ledgerQ1`) include the March sale's HPP, which differs by the costing method (matches only under costing method AVERAGE, ADR-0031; yearly figures not yet re-captured). See ADR-0029.

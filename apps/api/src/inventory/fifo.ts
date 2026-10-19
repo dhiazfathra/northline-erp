@@ -7,8 +7,16 @@ import { DomainError } from '../ledger/deciders'
 
 export interface Layer { date: string; qty: number; unitCost: number }
 
-/** Remaining FIFO layers from movements in (date, id) order. */
-export function layers(moves: { date: string; quantity: number; value: number }[]): Layer[] {
+export type CostingMethod = 'FIFO' | 'AVERAGE'
+
+/** Remaining layers from movements in (date, id) order. AVERAGE (moving average, ADR-0031) keeps one layer at
+ * (value on hand) / (qty on hand); outbound moves carry their booked cost, so the value nets exactly. */
+export function layers(moves: { date: string; quantity: number; value: number }[], method: CostingMethod = 'FIFO'): Layer[] {
+  if (method === 'AVERAGE') {
+    let q = 0, v = 0, date = ''
+    for (const m of moves) { q += m.quantity; v += m.value; if (m.quantity > 0) date = m.date }
+    return q > 1e-9 ? [{ date, qty: q, unitCost: v / q }] : []
+  }
   const ls: Layer[] = []
   for (const m of moves) {
     if (m.quantity > 0) { ls.push({ date: m.date, qty: m.quantity, unitCost: m.value / m.quantity }); continue }
@@ -34,6 +42,19 @@ export function fifoCost(ls: Layer[], qty: number): number {
   }
   if (left > 1e-9) throw new DomainError(`Stok tidak cukup (kurang ${left})`)
   return cost
+}
+
+export async function costingMethod(tx: Tx): Promise<CostingMethod> {
+  const [r] = await tx.execute(sql`SELECT costing_method FROM ledger_settings`)
+  return (r?.costing_method as CostingMethod | undefined) ?? 'FIFO'
+}
+
+/** Accurate allows a method change only before any stock movement; history is never re-costed. */
+export async function setCostingMethod(tx: Tx, method: CostingMethod) {
+  const [m] = await tx.execute(sql`SELECT 1 FROM stock_moves LIMIT 1`)
+  if (m) throw new DomainError('Metode persediaan tidak dapat diubah setelah ada transaksi persediaan')
+  const r = await tx.execute(sql`UPDATE ledger_settings SET costing_method = ${method} RETURNING 1`)
+  if (!r.length) throw new DomainError('ledger_settings not configured')
 }
 
 export async function loadMoves(tx: Tx, item: string, upTo: string) {
