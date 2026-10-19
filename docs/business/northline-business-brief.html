@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northline Founder Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --page:#fbfbfc; --ink:#0f1222; --body:#3b4152; --muted:#8a90a0; --line:#e7e8ee; --soft:#f6f7f9;
+  --green:#15803d; --green-bg:#f1fbf5; --green-line:#c9eed6;
+  --blue:#1d4ed8; --blue-bg:#f3f6ff; --indigo:#5b5bf0; --violet:#7c3aed; --violet-bg:#faf8ff;
+  --orange:#ea580c; --quote-bg:#fdfbf6; --quote-line:#f6d8a8;
+  --red:#e11d48; --red-bg:#fff8f8; --red-line:#fbd5dc; --amber-bg:#fffaf0; --amber-line:#f5dfb0;
+  --serif:"Instrument Serif",Georgia,serif; --sans:"Nunito Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}}
+:root[data-theme="dark"]{
+  --bg:#13151c; --page:#0e1015; --ink:#f1f2f6; --body:#c3c7d2; --muted:#8a90a0; --line:#2a2d38; --soft:#1a1d26;
+  --green:#4ade80; --green-bg:#122019; --green-line:#1f3d2b; --blue:#7aa2ff; --blue-bg:#151b2c; --indigo:#8b8cf8;
+  --violet:#b794f6; --violet-bg:#1a1626; --orange:#fb923c; --quote-bg:#1b1a17; --quote-line:#6b5020;
+  --red:#fb7185; --red-bg:#221519; --red-line:#4a2129; --amber-bg:#1f1a10; --amber-line:#5a4518;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--body);font:16px/1.65 var(--sans)}
+a{color:var(--blue);text-decoration:none;font-weight:700}
+a:hover{text-decoration:underline}
+h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);letter-spacing:-.01em;margin:0}
+.eyebrow{font:800 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.eyebrow.green{color:var(--green)} .eyebrow.blue{color:var(--blue)} .eyebrow.violet{color:var(--violet)}
+.eyebrow.orange{color:var(--orange)} .eyebrow.red{color:var(--red)} .eyebrow.indigo{color:var(--indigo)}
+.mono{font-family:var(--mono)}
+.badge{font:800 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--bg);white-space:nowrap}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:28px}
+.more{display:inline-flex;gap:6px;align-items:center;margin-top:14px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1220px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+.crumb{color:var(--muted);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumb b{color:var(--ink);font-weight:600}
+.top .sp{flex:1}
+.pill{background:var(--indigo);color:#fff;border-radius:12px;padding:8px 14px;font-weight:800;font-size:14px;white-space:nowrap}
+.theme{border:1px solid var(--line);background:var(--bg);color:var(--body);border-radius:10px;padding:6px 10px;cursor:pointer;font:600 13px var(--sans)}
+
+.wrap{max-width:1220px;margin:0 auto;padding:24px 16px 80px}
+
+/* hero */
+.hero{background:var(--bg);border:1px solid var(--line);border-radius:28px;padding:36px 36px 22px}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.02;letter-spacing:-.02em;max-width:30ch}
+.mock .cap{margin-top:auto}
+.meta{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;color:var(--muted);font-size:17px;margin:14px 0 26px}
+.meta .dot{opacity:.5}
+.heat{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+.heat i{display:block;width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--orange) 0 62%,var(--line) 62%)}
+.hgrid{display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.hgrid>*,.h3col>*,.layout>*,.two>*,.players>*,.agents>*,.demands>*{min-width:0}
+.mock{grid-row:span 2;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.tile{border:1px solid var(--line);border-radius:18px;padding:22px}
+.tile.reality{background:var(--green-bg)} .tile.against{background:var(--amber-bg)}
+.big{font-family:var(--serif);font-size:54px;line-height:1;color:var(--ink);margin:6px 0 14px}
+.tile p{margin:0;font-size:15px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0}
+.kv span{font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kv b{font:700 18px var(--mono);color:var(--ink);text-align:right}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:12px 14px;align-items:center;font-size:15px}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--indigo);border-radius:6px}
+.bars .n{font:700 13px var(--mono);color:var(--ink)}
+.against h3{font-size:34px;margin:4px 0 8px}
+
+/* mock document */
+.doc{background:#fffdf8;color:#1d2433;border:1px solid #e8e2d4;border-radius:6px;padding:14px 16px;font:11px/1.4 var(--mono);box-shadow:0 8px 24px -16px rgba(0,0,0,.4)}
+.doc .dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1.5px solid #1d2433;padding-bottom:8px;margin-bottom:10px}
+.doc .logo{font:800 15px var(--sans);letter-spacing:.04em}
+.doc .logo small{display:block;font:600 8px var(--sans);letter-spacing:.14em;color:#6b7280}
+.doc .stamp{border:1.5px solid #15803d;color:#15803d;border-radius:4px;padding:3px 6px;font-weight:700;transform:rotate(-4deg);font-size:10px;text-align:center}
+.doc .sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.doc .sum div{background:#f4f1e8;border-radius:4px;padding:6px 8px}
+.doc .sum b{display:block;font:400 22px var(--serif);color:#0f1222}
+.doc table{width:100%;border-collapse:collapse}
+.doc th{text-align:left;font-size:9px;letter-spacing:.08em;color:#6b7280;border-bottom:1px solid #d9d3c4;padding:4px 4px}
+.doc td{padding:4px;border-bottom:1px dashed #e5dfd0;white-space:nowrap}
+.doc td.r,.doc th.r{text-align:right}
+.doc .ok{color:#15803d;font-weight:700}
+.doc .foot{display:flex;justify-content:space-between;color:#6b7280;font-size:9px;margin-top:8px}
+.mock .cap{font:800 12px var(--sans);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+.h3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;margin-top:34px}
+.h3col p{margin:0 0 18px;font-size:16px}
+.h3col .eyebrow{color:var(--ink);font-size:12px}
+.glance .row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.glance .row b{color:var(--ink);text-align:right}
+.green-t{color:var(--green);font-weight:800}
+.hfoot{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);margin-top:10px;padding-top:18px;flex-wrap:wrap}
+.thumbs{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.thumbs button{background:var(--bg);border:0;padding:8px 12px;cursor:pointer;font-size:16px;color:var(--body)}
+.thumbs button+button{border-left:1px solid var(--line)}
+.thumbs button[aria-pressed="true"]{background:var(--blue-bg)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 18px;font-weight:800}
+.btn:hover{text-decoration:none;opacity:.92}
+
+/* body layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:48px;margin-top:56px}
+.aside{position:sticky;top:76px;align-self:start;display:flex;flex-direction:column;gap:18px}
+section{margin-bottom:64px}
+section > h2{font-size:clamp(32px,4vw,46px);line-height:1.05;margin-bottom:18px}
+section > p{font-size:17px;margin:0 0 16px;max-width:70ch}
+.sources{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;font-size:14px;margin:8px 0 6px}
+.sources a{color:var(--body);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
+.sources .eyebrow{margin:0}
+
+.quote{background:var(--quote-bg);border-left:3px solid var(--quote-line);border-radius:0 12px 12px 0;padding:16px 20px;margin:12px 0}
+.quote p{font-family:var(--serif);font-size:22px;line-height:1.3;color:var(--ink);margin:0}
+.quote small{display:block;color:var(--muted);margin-top:8px;font-size:14px}
+.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+.cardhead .eyebrow{margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.serif-lg{font-family:var(--serif);font-size:24px;line-height:1.3;color:var(--ink);margin:10px 0 0}
+.wedge{background:var(--violet-bg)}
+.note{background:var(--soft);border:1px dashed var(--line);border-radius:12px;padding:12px 16px;font-size:14px;margin-top:14px}
+
+ul.dots{list-style:none;padding:0;margin:8px 0 0}
+ul.dots li{position:relative;padding-left:26px;margin:0 0 16px;font-size:16.5px}
+ul.dots li::before{content:"";position:absolute;left:4px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+ul.dots.g li::before{background:var(--green)} ul.dots.r li::before{background:var(--red)}
+ul.dots .src{display:block;font:800 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+
+.players{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.player{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--soft)}
+.player b{display:block;color:var(--ink);font-size:17px;margin-bottom:4px}
+.player p{margin:0;font-size:14.5px}
+
+.build{background:var(--green-bg);border-color:var(--green-line)}
+.nobuild{background:var(--red-bg);border-color:var(--red-line);margin-top:16px}
+
+.fit{display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;margin:6px 0 22px;font-size:16.5px}
+.fit div{display:flex;gap:10px;align-items:baseline}
+.fit .y{color:var(--green);font-weight:800} .fit .x{color:var(--muted)}
+.demands{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin:22px 0}
+
+.gate{background:linear-gradient(120deg,var(--blue-bg),var(--bg) 60%);border:1px solid var(--line);border-radius:22px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+.gate .ico{width:84px;height:104px;border-radius:10px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:400 40px var(--serif);transform:rotate(-3deg)}
+.gate h3{font-size:30px;line-height:1.1;margin-bottom:6px}
+.gate ol{margin:8px 0 0;padding-left:20px}
+.gate li{margin-bottom:8px}
+
+.ladder{list-style:none;padding:0;margin:26px 0 0}
+.ladder li{display:grid;grid-template-columns:44px 1fr;gap:16px;margin-bottom:26px}
+.ladder .num{width:40px;height:40px;border-radius:50%;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;font:800 18px var(--sans)}
+.ladder .tier{font:600 14px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ladder b{color:var(--ink);font-size:20px;font-weight:700}
+.ladder .price{color:var(--muted);font-size:15px}
+.ladder p{margin:4px 0 0}
+
+.tl{position:relative;margin-top:8px}
+.tl .step{display:grid;grid-template-columns:150px 1fr;gap:18px;padding:16px 0;border-bottom:1px dashed var(--line)}
+.tl .when{font:700 13px var(--mono);color:var(--ink)}
+.tl .when small{display:block;font:600 12px var(--sans);color:var(--muted);margin-top:2px}
+.tl h4{margin:0 0 4px;color:var(--ink);font-size:16.5px}
+.tl p{margin:0;font-size:15px}
+.tl .exit{display:inline-block;margin-top:8px;font-size:13.5px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.tl .step.key .when{color:var(--green)}
+.tl .step.key .exit{background:var(--green-bg);border-color:var(--green-line);color:var(--green);font-weight:700}
+
+.napkin .ln{display:flex;align-items:baseline;gap:10px;font:15px var(--mono);padding:9px 0;color:var(--ink)}
+.napkin .ln::after{content:none}
+.napkin .ln .fill{flex:1;border-bottom:1px dotted var(--muted);opacity:.5;transform:translateY(-4px);min-width:20px}
+.napkin .ln b{white-space:nowrap}
+.napkin .lbl{min-width:0}
+.ceiling{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--green-bg);border-radius:14px;padding:20px 24px;margin-top:18px;flex-wrap:wrap}
+.ceiling .eyebrow{margin:0;color:var(--green)}
+.ceiling b{font:700 28px var(--mono);color:var(--green)}
+
+.start{background:linear-gradient(135deg,var(--blue-bg),var(--bg));border-color:color-mix(in srgb,var(--blue) 30%,var(--line))}
+.tag{display:inline-block;font:800 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--blue);border:1px solid color-mix(in srgb,var(--blue) 35%,var(--line));border-radius:999px;padding:6px 12px}
+.agents{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.agent{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg)}
+.agent h4{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--ink);margin:0 0 4px}
+.agent p{margin:0 0 10px;font-size:14.5px}
+.prompt{position:relative;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px;font:13px/1.5 var(--mono);color:var(--body)}
+.copy{float:right;margin:-2px -2px 4px 8px;border:1px solid var(--line);background:var(--bg);color:var(--blue);border-radius:8px;font:700 12px var(--sans);padding:4px 8px;cursor:pointer}
+
+/* aside */
+.brief{background:linear-gradient(180deg,var(--red-bg),var(--bg));border:1px solid var(--red-line);border-radius:22px;padding:22px;text-align:center}
+.brief .status{font:800 11px var(--sans);letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+.brief .status::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:8px}
+.brief h3{font-size:30px;line-height:1.08;margin:12px 0 14px}
+.brief h3 em{color:var(--blue)}
+.brief .try{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;min-height:120px}
+.brief .try .eyebrow{color:var(--blue);font-size:11px;margin:0 0 8px;display:flex;justify-content:space-between}
+.brief .try p{margin:0;font:13.5px/1.5 var(--mono)}
+.dotsnav{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.dotsnav button{width:8px;height:8px;border-radius:8px;border:0;background:var(--line);padding:0;cursor:pointer}
+.dotsnav button[aria-current="true"]{width:22px;background:var(--muted)}
+.lanes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.lanes span{border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:13px;background:var(--bg);font-weight:600}
+.poll{background:var(--green-bg);border:1px solid var(--green-line);border-radius:22px;padding:22px}
+.poll h3{font-size:24px;margin-bottom:12px}
+.poll button{display:flex;width:100%;gap:10px;align-items:center;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;color:var(--ink);font:600 15px var(--sans);text-align:left}
+.poll button[aria-pressed="true"]{border-color:var(--green);box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 25%,transparent)}
+.poll small{color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+
+@media (max-width:1060px){
+  .layout{grid-template-columns:1fr}
+  .aside{position:static;order:2}
+  .hgrid{grid-template-columns:1fr 1fr}
+  .mock{grid-column:1/-1;grid-row:auto}
+}
+@media (max-width:760px){
+  .hero{padding:24px 18px 18px;border-radius:22px}
+  .hgrid,.h3col,.two,.players,.fit,.demands,.agents{grid-template-columns:1fr}
+  .h3col{gap:8px}
+  .tl .step{grid-template-columns:1fr;gap:6px}
+  .gate{grid-template-columns:1fr}
+  .gate .ico{display:none}
+  .card{padding:20px}
+  .doc{overflow-x:auto}
+  .doc .dh{flex-wrap:wrap}
+  .meta{font-size:15px}
+  .napkin .ln{font-size:13px;flex-wrap:wrap}
+  .napkin .ln .fill{display:none}
+  .napkin .ln b{margin-left:auto}
+  .heat{margin-left:0}
+  .pill{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <span class="crumb">Ideas &nbsp;›&nbsp; <b>Northline ERP</b></span>
+    <span class="sp"></span>
+    <button class="theme" id="theme" type="button" aria-label="Toggle colour theme">◐ Theme</button>
+    <span class="pill">Day 0 · 19 Oct 2026</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ HERO ============ -->
+<article class="hero">
+  <p class="eyebrow green">Founder brief · Northline</p>
+  <h1>The ERP mid-market Indonesian companies can switch to without their accountant flinching</h1>
+  <div class="meta">
+    <span>◎ Northline Index 6.8</span><span class="dot">·</span><span>SaaS + implementation</span><span class="dot">·</span><span>B2B Indonesia</span><span class="dot">·</span><span>US$5–15M ARR ceiling</span>
+    <span class="heat" title="Founder readiness: build done, distribution not started">readiness <i></i></span>
+  </div>
+
+  <div class="hgrid">
+    <figure class="mock" style="margin:0">
+      <div class="doc" role="img" aria-label="Concept mockup of a Parallel Close report showing zero differences between Accurate and Northline">
+        <div class="dh">
+          <div class="logo">◤ NORTHLINE<small>PARALLEL CLOSE REPORT</small></div>
+          <div style="font-size:10px;color:#6b7280">CLIENT<br><b style="color:#1d2433">PT Contoh Distribusi</b></div>
+          <div style="font-size:10px;color:#6b7280">PERIOD<br><b style="color:#1d2433">Nov 2026 · 3 cabang</b></div>
+          <div class="stamp">ZERO DIFF<br>VERIFIED</div>
+        </div>
+        <div class="sum">
+          <div>REPORTS COMPARED<b>205</b></div>
+          <div>CELLS COMPARED<b>48,112</b></div>
+          <div>DIFFERENCES<b style="color:#15803d">0</b></div>
+        </div>
+        <table>
+          <thead><tr><th>REPORT</th><th class="r">ACCURATE</th><th class="r">NORTHLINE</th><th class="r">Δ</th></tr></thead>
+          <tbody>
+            <tr><td>Neraca (Standar)</td><td class="r">18.402.115.300</td><td class="r">18.402.115.300</td><td class="r ok">0 ✓</td></tr>
+            <tr><td>Laba/Rugi (Standar)</td><td class="r">1.284.930.450</td><td class="r">1.284.930.450</td><td class="r ok">0 ✓</td></tr>
+            <tr><td>Umur Piutang</td><td class="r">3.918.004.000</td><td class="r">3.918.004.000</td><td class="r ok">0 ✓</td></tr>
+            <tr><td>Nilai Persediaan</td><td class="r">6.775.218.870</td><td class="r">6.775.218.870</td><td class="r ok">0 ✓</td></tr>
+            <tr><td>Daftar PPN Keluaran</td><td class="r">412.660.120</td><td class="r">412.660.120</td><td class="r ok">0 ✓</td></tr>
+            <tr><td>Buku Besar · 1-1100</td><td class="r">2.040.551.990</td><td class="r">2.040.551.990</td><td class="r ok">0 ✓</td></tr>
+          </tbody>
+        </table>
+        <div class="foot"><span>+199 more reports · diff sheet attached</span><span>NEXT: go-live 1 Jan</span></div>
+      </div>
+      <figcaption class="cap">Concept mockup · fictional client</figcaption>
+    </figure>
+
+    <div class="tile">
+      <p class="eyebrow">Reports matched to the cell</p>
+      <div class="big">205/229</div>
+      <p>Accurate's Manufaktur catalog, zero diff; Retail and Trade Portal catalogs mostly done (repo)</p>
+    </div>
+    <div class="tile">
+      <p class="eyebrow">What it demands</p>
+      <div class="bars">
+        <span>Sales</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Trust</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Domain depth</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Build</span><span class="bar"><i style="width:60%"></i></span><span class="n">6</span>
+        <span>Capital</span><span class="bar"><i style="width:30%"></i></span><span class="n">3</span>
+      </div>
+    </div>
+    <div class="tile reality">
+      <p class="eyebrow">The reality</p>
+      <div class="kv"><span>First revenue</span><b>75–105 days</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 15–40M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Hard</b></div>
+    </div>
+    <div class="tile against">
+      <p class="eyebrow">Up against</p>
+      <h3>Accurate Online ↗</h3>
+      <p>The system your buyers already trust: Rp 333K/month base, 300K+ businesses claimed, a reseller in every city.</p>
+      <p style="margin-top:14px;color:var(--muted);font-weight:700">+ 7 more mapped</p>
+    </div>
+  </div>
+
+  <div class="h3col">
+    <div>
+      <p class="eyebrow">The pitch</p>
+      <p>A distributor with three branches and 40 staff runs its books on Accurate. Approvals live in WhatsApp, consolidation lives in Excel, and Coretax broke their tax workflow in 2025. The next step up is Odoo or SAP Business One at Rp 230M to Rp 2B in year one. Northline imports their Accurate data, closes a month in parallel, and hands the accountant reports that match <b>cell for cell</b>. Then it adds what Accurate can't.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Who it's for</p>
+      <p>Indonesian companies with 20–300 staff and Rp 15B+ sales that have outgrown Accurate, Jurnal, Zahir or Excel but can't justify an SAP project. Trading and distribution first.</p>
+      <p class="eyebrow">The gap</p>
+      <p>Everyone sells a new ERP. Nobody sells proof that your numbers come out the same after you switch.</p>
+      <p class="eyebrow">Why now</p>
+      <p>Coretax reset every tax stack, AI collapsed build cost, and 1 January is ten weeks away.</p>
+    </div>
+    <div class="glance">
+      <p class="eyebrow">At a glance</p>
+      <div class="row"><span>Reports at zero diff</span><b>205 / 229</b></div>
+      <div class="row"><span>Pricing</span><b>Rp 25M setup + ~4M/mo</b></div>
+      <div class="row"><span>Year one</span><b>Rp 200–300M</b></div>
+      <div class="row"><span>Ceiling</span><b>US$5–15M ARR</b></div>
+      <p class="eyebrow" style="margin-top:20px">What you sell</p>
+      <p>Northline Core <span class="green-t">Rp ~4M/month, migration in the go-live fee</span></p>
+      <p class="eyebrow">Biggest risk</p>
+      <p>Employer conflict first, trust second. A part-time solo vendor with zero references is asking a finance manager to move the system of record.</p>
+    </div>
+  </div>
+
+  <div class="hfoot">
+    <span>Interested?</span>
+    <span class="thumbs" role="group" aria-label="Interested?">
+      <button type="button" data-vote="up" aria-pressed="false" aria-label="Yes">👍</button><button type="button" data-vote="down" aria-pressed="false" aria-label="No">👎</button>
+    </span>
+    <span class="sp" style="flex:1"></span>
+    <a href="northline-business-brief.md">Markdown version</a>
+    <a class="btn" href="#plan">See the timeline →</a>
+  </div>
+</article>
+
+<div class="layout">
+<div>
+
+<!-- ============ WHY NOW ============ -->
+<section id="why">
+  <p class="eyebrow">Why now</p>
+  <h2>Coretax reset the tax stack the same year AI made ERPs cheap to build</h2>
+  <p>Three curves crossed. First, DJP's Coretax went live on 1 January 2025 and companies hit login failures, save errors and certificate problems. DJP kept the old e-Faktur running alongside it (KEP-54/PJ/2025), then tightened: PER-11/PJ/2025 requires e-Faktur through Coretax or an authorized PJAP, and PER-19/PJ/2025 lets DJP cut off invoicing access for repeat non-compliance from 22 October 2025. Invoices cancelled in e-Faktur Desktop showed up as still approved in Coretax. Every finance team re-examined its tooling this year.</p>
+  <p>Second, building an ERP stopped being the hard part. This repo has 170 commits from 18–19 October 2026, on top of two weeks of spec work, and reproduces 205 of Accurate's 229 Manufaktur reports with zero difference. A product that used to need a ten-person team for two years now fits in a solo founder's evenings. Distribution and trust are the scarce inputs.</p>
+  <p>Third, the calendar. Companies switch accounting systems at a period boundary, usually 1 January. Accountants and tax consultants have room in October to December and are buried from January until the corporate tax return deadline at the end of April. The partner-recruiting window is open right now.</p>
+  <div class="sources"><span class="eyebrow">Sources</span>
+    <a href="https://ekonomi.espos.id/coretax-masih-bermasalah-djp-dan-dpr-sepakat-padukan-dengan-sistem-lama-2058631" target="_blank" rel="noopener">espos.id ↗</a>
+    <a href="https://ikpi.or.id/en/mulai-oktober-2025-akses-e-faktur-bisa-dihentikan-djp-perketat-kepatuhan-pajak-lewat-coretax-2025/" target="_blank" rel="noopener">ikpi.or.id ↗</a>
+    <a href="https://pajakku.com/artikel/status-faktur-pajak-di-e-faktur-dan-coretax-tidak-sinkron-begini-cara-mengatasinya" target="_blank" rel="noopener">pajakku.com ↗</a>
+    <a href="https://www.online-pajak.com/tentang-efaktur-ppn/aplikasi-ppn/" target="_blank" rel="noopener">online-pajak.com ↗</a>
+  </div>
+</section>
+
+<!-- ============ RECEIPTS ============ -->
+<section id="receipts">
+  <p class="eyebrow">Market snapshot</p>
+  <h2>The receipts.</h2>
+
+  <div class="card">
+    <div class="cardhead"><p class="eyebrow orange">Pain</p><span class="badge">7/10 severity · provisional</span></div>
+    <div class="quote"><p>A tax assistant at a Jakarta company said work stalled because they couldn't upload tax invoices or create withholding slips after Coretax launched.</p><small>Espos.id, 2025 · paraphrased</small></div>
+    <div class="quote"><p>Invoices cancelled in e-Faktur Desktop stayed approved in Coretax, and from 8 November 2025 DJP stopped migrating cancellations automatically.</p><small>Pajakku · Bisnis Best Friend</small></div>
+    <div class="quote"><p>Accurate's base plan is Rp 333,000 a month, then Rp 99,900 per extra branch and Rp 2,220,000 a month for manufacturing. The ceiling is priced in.</p><small>Accurate reseller price lists, 2026</small></div>
+    <div class="note"><b>Receipts still missing:</b> no direct quotes from Indonesian finance managers yet. Collect seven in weeks 1–3; severity stays provisional until then.</div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <div class="cardhead"><p class="eyebrow violet">Whitespace</p><span class="badge">Market gap</span></div>
+      <p class="serif-lg">Companies that outgrow Accurate can't leave without relearning every report, and the jump to Odoo or SAP is a 50–500× price cliff.</p>
+    </div>
+    <div class="card wedge">
+      <p class="eyebrow violet">The wedge</p>
+      <p class="serif-lg">A zero-diff migration: import Accurate data, close one month in parallel, show the accountant identical reports, then switch on what Accurate lacks.</p>
+      <p style="margin:14px 0 0;color:var(--muted)">The incumbent to beat: <b style="color:var(--ink)">Accurate Online</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow blue">Proof &amp; signals</p>
+    <ul class="dots">
+      <li>Indonesia has 50,034 large and 809,344 medium businesses (Ministry of MSMEs data, August 2025). Even 0.2% of the medium tier is 1,600 accounts.<span class="src"><a href="https://databoks.katadata.co.id/ekonomi-makro/statistik/6acf639d12f03/jumlah-usaha-mikro-kecil-menengah-dan-besar-di-indonesia-pada-2025" target="_blank" rel="noopener">Databoks ↗</a></span></li>
+      <li>32,078 medium and large manufacturers employ 7.34 million people (BPS, 2024), the natural second profile after trading.<span class="src"><a href="https://databoks.katadata.co.id/ketenagakerjaan/statistik/6abcb13566e66/sebaran-tenaga-kerja-industri-manufaktur-menengah-besar-di-indonesia-pada-2024" target="_blank" rel="noopener">Databoks / BPS ↗</a></span></li>
+      <li>The price cliff: Accurate starts near Rp 4M a year; Odoo Enterprise for 20–50 users runs Rp 230–600M in year one; SAP Business One Rp 500M–2B.<span class="src"><a href="https://www.digisolf.com/en/blog/odoo-13/berapa-sih-harga-software-erp-di-indonesia-inilah-perbedaannya-105" target="_blank" rel="noopener">Digisolf ↗</a></span></li>
+      <li>Indonesia's ERP market is roughly US$0.4–0.93B in 2025, growing about 15–18% a year. Estimates disagree by 2×, so treat it as directional.<span class="src"><a href="https://www.nextmsc.com/report/indonesia-erp-software-market-ic3612" target="_blank" rel="noopener">Next Move ↗</a> &nbsp; <a href="https://www.mordorintelligence.com/industry-reports/indonesia-digital-software-solutions-market" target="_blank" rel="noopener">Mordor ↗</a></span></li>
+      <li>PER-5/PJ/2025 requires a PJAP to be an Indonesian PT, VAT-registered, majority Indonesian-owned, with all infrastructure in Indonesia. Integrate through a PJAP's API; don't try to become one.<span class="src"><a href="https://ikpi.or.id/en/per-5-pj-2025-pjap-wajib-sesuaikan-dengan-era-coretax/" target="_blank" rel="noopener">IKPI ↗</a> &nbsp; <a href="https://www.sipajak.com/post/panduan-api-coretax" target="_blank" rel="noopener">Sipajak ↗</a></span></li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><p class="eyebrow violet">Who you're up against</p><span class="badge">8 players</span></div>
+    <div class="players">
+      <div class="player"><b>Accurate Online</b><p>Rp 333K/month base with one user; add-ons per branch, POS outlet and manufacturing (Rp 2.22M/month). Claims 300K+ businesses. Resellers earn ~Rp 1M per closed client.</p></div>
+      <div class="player"><b>Mekari Jurnal</b><p>"Trusted by 35,000+ businesses"; estimated US$7.5M ARR (GetLatka estimate). Bundles with Talenta and KlikPajak at 20–30% off.</p></div>
+      <div class="player"><b>Mekari Talenta</b><p>HRIS from Rp 25K per employee per month, higher tiers Rp 35–100K. The benchmark for your HRIS expansion.</p></div>
+      <div class="player"><b>Odoo partners</b><p>About 42 local partners. Rp 230–600M first year for 20–50 users; implementation quality varies widely.</p></div>
+      <div class="player"><b>SAP Business One</b><p>32 local SAP partners. Rp 500M–2B one-time. The default for mid-size manufacturers with budget.</p></div>
+      <div class="player"><b>HashMicro</b><p>Local ERP suite sold through a large outbound sales team.</p></div>
+      <div class="player"><b>Zahir</b><p>Long-running local accounting software with desktop heritage.</p></div>
+      <div class="player"><b>ERPNext</b><p>Open source with local implementers. Cheap licence, implementation risk sits with the buyer.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERDICT ============ -->
+<section id="verdict">
+  <p class="eyebrow">The verdict</p>
+  <h2>Should you build this?</h2>
+  <div class="card build">
+    <p class="eyebrow green">Reasons to build</p>
+    <ul class="dots g">
+      <li>A 50–500× price cliff separates Accurate from Odoo and SAP, with no trusted product in between and 800K+ medium businesses sitting near it.</li>
+      <li>Zero diff is a trust asset nobody else sells. "Your reports will match" is checkable by the customer's own accountant, the person who vetoes ERP switches.</li>
+      <li>The product is unusually far along for a pre-revenue idea: 205/229 Manufaktur reports verified, retail and trade catalogs mostly done, an event-sourced ledger and 218+ tests.</li>
+      <li>You can pass a corporate vendor-security review: you lead a 13-person engineering org through an ERP replatform and serve as ISO 27001 management representative.</li>
+      <li>Expansion reuses the ledger. Payroll posts to the GL, HRIS sits on payroll, and vertical profiles (ADR-0031) are configuration on one core.</li>
+    </ul>
+  </div>
+  <div class="card nobuild">
+    <p class="eyebrow red">Reasons to not build</p>
+    <ul class="dots r">
+      <li>Employer conflict is binary. Your employer is mid-ERP replatform, clinics (its industry) are on your expansion list, and the five Claude seats are the employer's. Your own notes mark the contract check as unchecked.</li>
+      <li>It isn't pilot-ready: 9 of 11 web data modules are mock, the backend is single-company, and there is no Accurate importer, e-Faktur submission or restore drill yet.</li>
+      <li>System-of-record sales are slow. Corporates run vendor registration, want references and take 3–9 months, and a part-time solo founder is the bottleneck on every step.</li>
+      <li>Close emergencies land on days 1–5 of each month, during your office hours. You can't promise an SLA alone, so an accountant partner has to be first-line support.</li>
+      <li>Accurate can cut add-on prices tomorrow. The capture scripts in <code>tools/accurate/</code> may also conflict with its terms: keep captures internal and market "migrates from Accurate", never "Accurate clone".</li>
+    </ul>
+    <a class="more" href="#agents" style="color:var(--red)">Roast it with your agent →</a>
+  </div>
+</section>
+
+<!-- ============ FOUNDER FIT ============ -->
+<section id="fit">
+  <p class="eyebrow">Founder fit</p>
+  <h2>Not every good idea is good <em style="color:var(--blue)">for you</em>.</h2>
+  <p class="eyebrow">Who it's best for</p>
+  <div class="fit">
+    <div><span class="y">✓</span>Engineers who have shipped an ERP to production</div>
+    <div class="x"><span>✕</span>Founders who can't sell to finance managers</div>
+    <div><span class="y">✓</span>Founders with an accounting-firm or tax-consultant network</div>
+    <div class="x"><span>✕</span>Day job in the same category without written consent</div>
+  </div>
+  <p>You have the first half of this idea: the build, the security posture and the engineering credibility. You don't yet have the second half, a list of 20 finance managers or accountants who would take your call. That is the whole game for customer number one. An insider at an accounting firm gets a pilot in a week; a technical founder without that network spends months earning the same trust. So your first job is borrowing trust from people who already hold it (accountants, tax consultants, Accurate implementers), not writing more reports.</p>
+  <div class="demands">
+    <div class="card">
+      <p class="eyebrow indigo">What it demands</p>
+      <div class="bars" style="margin-top:14px">
+        <span>Sales</span><span class="bar"><i style="width:90%"></i></span><span class="n">9</span>
+        <span>Trust</span><span class="bar"><i style="width:100%"></i></span><span class="n">10</span>
+        <span>Domain depth</span><span class="bar"><i style="width:80%"></i></span><span class="n">8</span>
+        <span>Build</span><span class="bar"><i style="width:60%"></i></span><span class="n">6</span>
+        <span>Capital</span><span class="bar"><i style="width:30%"></i></span><span class="n">3</span>
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow green">The reality</p>
+      <div class="kv"><span>First revenue</span><b>75–105 days</b></div>
+      <div class="kv"><span>Capital in</span><b>Rp 15–40M</b></div>
+      <div class="kv"><span>Difficulty</span><b>Hard</b></div>
+    </div>
+  </div>
+  <h3 style="font-size:30px;margin-bottom:8px">So, is it good for you?</h3>
+  <p>Only if week 0 comes back clean. The build is done enough; your hours and your appetite for selling are the variables.</p>
+</section>
+
+<!-- ============ WEEK 0 GATE ============ -->
+<section id="gate">
+  <div class="gate">
+    <div class="ico" aria-hidden="true">0</div>
+    <div>
+      <p class="eyebrow indigo">Week 0 gate</p>
+      <h3>Clear these before writing more code.</h3>
+      <ol>
+        <li><b>Employment contract.</b> Read the IP, moonlighting and non-compete clauses. If ERP or accounting software is anywhere near your employer's business, get written consent or stop. Keep the clinic vertical and your employer's vendors out until you've left.</li>
+        <li><b>Your own tools.</b> Don't build on employer-provided Claude Team seats, laptops or hours: it strengthens an employer IP claim and may breach the Team plan's terms. Buy your own subscription and keep the repo on personal accounts.</li>
+        <li><b>Legal entity.</b> Corporate buyers need a PT with NIB and NPWP, and usually prefer a VAT-registered vendor. A <b>PT Perorangan</b> lets you start alone. For a regular PT with your wife at 1%, check with a notary first: many treat a husband and wife without a <i>perjanjian kawin</i> as one owner of joint marital property.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE LADDER ============ -->
+<section id="ladder">
+  <p class="eyebrow">What you'd sell</p>
+  <h2>The value ladder.</h2>
+  <p>Free Parallel Close: one month of the prospect's Accurate books, closed in Northline in a week, delivered as a report pack plus a diff sheet. Go-live fee covers migration and the first live close. Subscription per company, then payroll and HRIS on the same ledger.</p>
+  <ol class="ladder">
+    <li><span class="num">1</span><div><span class="tier">Lead magnet</span><br><b>Free Parallel Close</b> <span class="price">(Rp 0)</span><p>One month imported and closed. Full report pack, a diff sheet (target: 0 differences) and a one-page list of what slows their close. No obligation.</p></div></li>
+    <li><span class="num">2</span><div><span class="tier">Frontend</span><br><b>Migration &amp; Go-Live</b> <span class="price">(Rp 15–35M one-time)</span><p>Opening balances, master data, two training sessions, and the first live month-end close done alongside their team.</p></div></li>
+    <li><span class="num">3</span><div><span class="tier">Core</span><br><b>Northline Core</b> <span class="price">(Rp 2.5–7.5M / month per company)</span><p>Priced by profile and branch count. Accounting, inventory, sales and purchasing, 200+ reports, a dedicated instance, daily backups, export any time.</p></div></li>
+    <li><span class="num">4</span><div><span class="tier">Continuity</span><br><b>Add-ons</b> <span class="price">(Rp 15–25K per employee / month for payroll)</span><p>Coretax connector through a PJAP partner, payroll and HRIS priced under Talenta's entry tier, multi-entity consolidation, AI close checks.</p></div></li>
+    <li><span class="num">5</span><div><span class="tier">Channel</span><br><b>Accountant partner program</b> <span class="price">(20% recurring share)</span><p>Partner firms bring the client and own first-line support; you own the product and the ledger.</p></div></li>
+  </ol>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <p class="eyebrow">The plan</p>
+  <h2>If you started today.</h2>
+
+  <div class="card">
+    <h3 style="font-size:30px;margin-bottom:10px">First up.</h3>
+    <p style="margin:0">Nobody in Indonesia searches for "zero-diff Accurate migration". Finance managers trust their accountant, their tax consultant and whoever set up Accurate for them. The first customer comes through a borrowed relationship and a free Parallel Close that puts identical numbers in front of that accountant. SEO, ads and cold LinkedIn won't deliver the first ten.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">The timeline.</h3><span class="badge">~12–15 h/week</span></div>
+    <p style="color:var(--muted);margin:4px 0 6px">Realistic for evenings and weekends next to a full-time job. Ambitious because it targets cash before the end of January.</p>
+    <div class="tl">
+      <div class="step"><div class="when">Wk 0<small>19–25 Oct 2026</small></div><div><h4>Clearance gate</h4><p>Contract check, written consent if needed, personal Claude seat, PT route chosen with a notary.</p><span class="exit">Exit: go/no-go in writing</span></div></div>
+      <div class="step"><div class="when">Wk 1–6<small>26 Oct – 6 Dec</small></div><div><h4>Pilot-ready build</h4><p>Wire the 9 mock UI modules to the API for Trade profile flows; Accurate importer; one dedicated instance per customer (ADR-0032); backups and a restore drill; auth hardening; Parallel Close report generator.</p><span class="exit">Exit: Parallel Close on a stranger's data in under 3 days</span></div></div>
+      <div class="step"><div class="when">Wk 1–8<small>26 Oct – 20 Dec</small></div><div><h4>Channel, in parallel</h4><p>List 40 accounting and tax firms plus Accurate implementers; hold 20 conversations; record 7 pain quotes; sign 3–5 referral partners before their January rush.</p><span class="exit">Exit: 3 partners ready to introduce a client</span></div></div>
+      <div class="step"><div class="when">Wk 6–10<small>December 2026</small></div><div><h4>Design partners</h4><p>Two or three free Parallel Closes on November books. Fix every diff the same week.</p><span class="exit">Exit: a prospect sees 0 differences and asks for price</span></div></div>
+      <div class="step key"><div class="when">Wk 10–15<small>January 2027</small></div><div><h4>First paying customer</h4><p>Parallel-close December (year-end), sign, invoice the go-live fee. Stretch goal: a paid pilot signed in December.</p><span class="exit">Target: contract signed and setup fee paid by 31 Jan 2027 (~day 104)</span></div></div>
+      <div class="step"><div class="when">Feb–Apr<small>2027</small></div><div><h4>Go-live and repeat</h4><p>Customer one live on 1 February; 3–5 customers by end of April; Coretax connector through a PJAP API. Partners are in tax season, so lean on referrals from customer one.</p><span class="exit">Exit: 3–5 paying, one public reference</span></div></div>
+      <div class="step"><div class="when">May–Sep<small>2027</small></div><div><h4>Second product</h4><p>Payroll (PPh 21 TER, BPJS) on the ledger for existing customers, the seed of HRIS. Second profile: manufacturing or contractor (job costing exists).</p><span class="exit">Exit: 10–12 customers, payroll attached to ≥30%</span></div></div>
+      <div class="step"><div class="when">Q4<small>2027</small></div><div><h4>Quit-job gate</h4><p>Leave only when MRR is at least 1.5× your monthly take-home for three straight months, with 12+ customers and six months of runway.</p><span class="exit">Exit: decision in writing</span></div></div>
+      <div class="step"><div class="when">2028+</div><div><h4>The suite</h4><p>Retail and F&amp;B with POS, LMS, HRIS as a standalone product. Clinics only after you've left your employer.</p></div></div>
+    </div>
+  </div>
+
+  <div class="card napkin" style="margin-top:16px">
+    <div class="cardhead"><h3 style="font-size:30px">Year one, on a napkin.</h3><span class="badge">Napkin math</span></div>
+    <p style="color:var(--muted);margin:4px 0 14px">What the first push looks like if the assumptions hold. The ceiling below answers a different question: what this becomes at scale.</p>
+    <div class="ln"><span class="lbl">Firms &amp; implementers contacted (Oct–Dec)</span><span class="fill"></span><b>40</b></div>
+    <div class="ln"><span class="lbl">Become referral partners (assumption)</span><span class="fill"></span><b>25% = 10</b></div>
+    <div class="ln"><span class="lbl">Warm intros per partner (assumption)</span><span class="fill"></span><b>2 = 20</b></div>
+    <div class="ln"><span class="lbl">Intros from your own network (assumption)</span><span class="fill"></span><b>+10 = 30</b></div>
+    <div class="ln"><span class="lbl">Accept free Parallel Close (assumption)</span><span class="fill"></span><b>40% = 12</b></div>
+    <div class="ln"><span class="lbl">Convert to paid (assumption)</span><span class="fill"></span><b>40% ≈ 5</b></div>
+    <div class="ln"><span class="lbl">Go-live fee</span><span class="fill"></span><b>Rp 25M</b></div>
+    <div class="ln"><span class="lbl">Average subscription (assumption)</span><span class="fill"></span><b>Rp 4M/mo</b></div>
+    <div class="ln"><span class="lbl">Average months live in year one</span><span class="fill"></span><b>6</b></div>
+    <div class="ln"><span class="lbl">Year-one revenue (5×25M + 5×4M×6)</span><span class="fill"></span><b>~Rp 245M</b></div>
+    <div class="ln"><span class="lbl">Year-two revenue (5 renew + 15 new)</span><span class="fill"></span><b>~Rp 1.05B</b></div>
+    <p style="color:var(--muted);margin:14px 0 0">Year one doesn't replace a salary. It buys references, a partner channel and the evidence for the Q4 2027 quit decision. USD at an assumed Rp 18,000: ~US$14K then ~US$58K.</p>
+    <div class="ceiling"><p class="eyebrow">The ceiling if it compounds</p><b>US$5–15M ARR</b></div>
+    <p style="color:var(--muted);font-size:14px;margin:10px 0 0">1,500 customers × Rp 8M/month across ERP, payroll/HRIS and add-ons ≈ Rp 144B a year ≈ US$8.0M. Mekari Jurnal is estimated at US$7.5M ARR with 35,000+ businesses.</p>
+  </div>
+</section>
+
+<!-- ============ AGENTS ============ -->
+<section id="agents">
+  <p class="eyebrow">The agents</p>
+  <h2>Jam on it with your agents.</h2>
+  <p>Five parallel lanes, run on your own seats. Paste any prompt into Claude Code in this repo.</p>
+
+  <div class="card start">
+    <span class="tag">Start here</span>
+    <h3 style="font-size:34px;margin:12px 0 6px">Get the pilot-ready backlog.</h3>
+    <div class="prompt"><button class="copy" type="button">Copy</button>Read docs/business/northline-business-brief.md and its timeline. Produce a pilot-ready backlog for the Trade profile: every mock module in apps/web/src/api, the API route it needs, the zero-diff tests that guard it, and an estimate in evening-hours. Flag anything that blocks a Parallel Close.</div>
+  </div>
+
+  <div class="agents">
+    <div class="agent"><h4>Roast this idea</h4><p>The objections you'll hear from a CFO.</p><div class="prompt"><button class="copy" type="button">Copy</button>Roast this brief as the CFO of a 3-branch Indonesian distributor on Accurate. Why would you refuse to switch, and what proof would change your mind?</div></div>
+    <div class="agent"><h4>Partner outreach kit</h4><p>Bahasa Indonesia scripts for accountants.</p><div class="prompt"><button class="copy" type="button">Copy</button>Draft a WhatsApp and email sequence in Bahasa Indonesia for tax consultants, offering a free Parallel Close for one client and a 20% recurring referral share.</div></div>
+    <div class="agent"><h4>Importer lane</h4><p>Accurate data in, diff sheet out.</p><div class="prompt"><button class="copy" type="button">Copy</button>Design an Accurate → Northline importer (API or Excel export) for masters, opening balances and one month of transactions, plus a Parallel Close diff report over the verified report catalog.</div></div>
+    <div class="agent"><h4>Security pack</h4><p>Pass the vendor questionnaire.</p><div class="prompt"><button class="copy" type="button">Copy</button>Write a one-page ISO 27001-aligned security overview and a UU PDP data-processing addendum for Northline's dedicated-instance deployment on Cloudflare Workers + Neon.</div></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ============ ASIDE ============ -->
+<aside class="aside" aria-label="Brief your agent">
+  <div class="brief">
+    <span class="status">Seats not yet yours</span>
+    <h3>The prompts that brief your agent <em>on this idea</em></h3>
+    <div class="try">
+      <p class="eyebrow"><span>Try asking</span><button class="copy" type="button" style="float:none;margin:0" id="tryCopy">Copy</button></p>
+      <p id="tryText"></p>
+    </div>
+    <div class="dotsnav" id="tryDots"></div>
+    <div class="lanes"><span>Build</span><span>Importer</span><span>Proof</span><span>GTM</span><span>Review</span></div>
+  </div>
+  <div class="poll">
+    <h3>What's your call?</h3>
+    <button type="button" data-call="go" aria-pressed="false">🚀 Go, after week 0 clears</button>
+    <button type="button" data-call="wait" aria-pressed="false">⏸ Wait for written consent</button>
+    <button type="button" data-call="no" aria-pressed="false">✋ Not this idea</button>
+    <small>Saved in this browser only.</small>
+  </div>
+</aside>
+</div>
+
+<footer>Northline founder brief · 19 Oct 2026 · Figures are sourced or marked as assumptions; USD at an assumed Rp 18,000. Not legal or tax advice.</footer>
+</main>
+
+<script>
+(function(){
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var root=document.documentElement, t=store.get('nl-theme'); if(t) root.setAttribute('data-theme',t);
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    var next=dark?'light':'dark'; root.setAttribute('data-theme',next); store.set('nl-theme',next);
+  });
+  function copy(text,btn){
+    var done=function(){var o=btn.textContent;btn.textContent='Copied';setTimeout(function(){btn.textContent=o},1200)};
+    if(navigator.clipboard) navigator.clipboard.writeText(text).then(done,done); else done();
+  }
+  document.querySelectorAll('.prompt .copy').forEach(function(b){
+    b.addEventListener('click',function(){copy(b.parentNode.textContent.replace(/^Copy/,'').trim(),b)});
+  });
+  var prompts=[
+    "What has to be true for a 3-branch distributor to sign by 31 January 2027? List the risks in order.",
+    "Which mock modules in apps/web/src/api block a Trade-profile Parallel Close?",
+    "Find 40 Indonesian tax consultants and Accurate implementers in Jabodetabek I could partner with.",
+    "Re-run the year-one napkin math with my real hours per week and a Rp 3M average subscription."
+  ], i=0, txt=document.getElementById('tryText'), dots=document.getElementById('tryDots');
+  prompts.forEach(function(_,n){var d=document.createElement('button');d.type='button';d.setAttribute('aria-label','Prompt '+(n+1));d.addEventListener('click',function(){show(n)});dots.appendChild(d)});
+  function show(n){i=n;txt.textContent=prompts[n];[].forEach.call(dots.children,function(d,k){d.setAttribute('aria-current',k===n)})}
+  show(0); setInterval(function(){show((i+1)%prompts.length)},6000);
+  document.getElementById('tryCopy').addEventListener('click',function(e){copy(prompts[i],e.target)});
+  function group(sel,attr,key){
+    var btns=document.querySelectorAll(sel), saved=store.get(key);
+    btns.forEach(function(b){
+      if(b.getAttribute(attr)===saved) b.setAttribute('aria-pressed','true');
+      b.addEventListener('click',function(){btns.forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');store.set(key,b.getAttribute(attr))});
+    });
+  }
+  group('.poll button','data-call','nl-call'); group('.thumbs button','data-vote','nl-vote');
+})();
+</script>
+</body>
+</html>
