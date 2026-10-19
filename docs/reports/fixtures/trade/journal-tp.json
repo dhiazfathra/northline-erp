@@ -1,6 +1,6 @@
 {
  "dataUsaha": "Trade Portal Demo",
- "source": "Accurate Online, Trade Portal Demo sandbox (PT Automotive Shop), captured 2026-10-19. NL-TP J1-J4 posted as Jurnal Umum JV.2045.01.00001-JV.2045.02.00002; 2045 has no demo transactions. OB = net effect of the demo history before 2045 (its only balances), read from Neraca per 31 Des 2044.",
+ "source": "Accurate Online, Trade Portal Demo sandbox (PT Automotive Shop), captured 2026-10-19. NL-TP J1-J4 posted as Jurnal Umum JV.2045.01.00001-JV.2045.02.00002; 2045 has no demo transactions. OB = net effect of the demo history before 2045 (its only balances), read from Neraca per 31 Des 2044. J5 = JV.2045.04.00001 (April 2045, PPN Masukan / PPN Keluaran postings for the tax reports).",
  "accounts": [
   {
    "no": "1101",
@@ -694,6 +694,31 @@
      "side": "CREDIT",
      "amount": "500000",
      "memo": "NL-TP-J4-4"
+    }
+   ]
+  },
+  {
+   "ref": "J5",
+   "date": "2045-04-10",
+   "description": "NL-TP-J5 PPN",
+   "lines": [
+    {
+     "account": "110504",
+     "side": "DEBIT",
+     "amount": "300000",
+     "memo": "NL-TP-J5-1"
+    },
+    {
+     "account": "210201",
+     "side": "CREDIT",
+     "amount": "500000",
+     "memo": "NL-TP-J5-2"
+    },
+    {
+     "account": "110102",
+     "side": "DEBIT",
+     "amount": "200000",
+     "memo": "NL-TP-J5-3"
     }
    ]
   }

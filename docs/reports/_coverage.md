@@ -31,7 +31,7 @@ reports zero-diff; 3 cost-dependent reports (Profitabilitas per Barang, Nilai Pe
 blocked: requires average costing for Trade Portal, still verified under FIFO on Manufaktur Demo.
 Data only in Trade Portal: 38 Trade reports carry amounts; 24 have none in the earlier sandboxes' captures. Followed up:
 ledger listings, Neraca Multi Periode, Perubahan Ekuitas, Daftar Akun Kas & Bank, Rasio per Bulan and Daftar PPN Keluaran
-zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year blocked on average costing; Rekonsiliasi PPN partial; the
+zero-diff on Trade data; yearly ratio/Fokus/Neraca Multi Year blocked on average costing; Daftar PPN Masukan/Keluaran and Rekonsiliasi PPN zero-diff over four windows; the
 demo's price/discount adjustments and opening stock traced to their documents in the specs.
 Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-dependencies.md) (for review).
 
@@ -292,8 +292,8 @@ Module build order proposal: [ADR-0030](../decisions/0030-trade-portal-module-de
 | [Daftar Perubahan Aset Tetap](FixedAssetEditedListReport.md) | `FixedAssetEditedListReport` | Aset Tetap | Y | Y | Y | data | done | Fixed Assets |  |
 | [Daftar Disposisi Aset Tetap](FixedAssetDisposedListReport.md) | `FixedAssetDisposedListReport` | Aset Tetap | Y | Y | Y | data | done | Fixed Assets |  |
 | [Daftar PPN/PPnBM Keluaran](TaxationOutReport.md) | `TaxationOutReport` | Pajak | Y | Y | Y | data | done | Tax | verified on Trade Portal Demo (ADR-0029) |
-| [Daftar PPN/PPnBM Masukan](TaxationInReport.md) | `TaxationInReport` | Pajak | Y | Y | Y | data | done | Tax |  |
-| [Rekonsiliasi PPN Lebih/Kurang Bayar](TaxationInOutReport.md) | `TaxationInOutReport` | Pajak | Y | Y | Y | data | done | Tax | Trade Portal Demo: partial (multi-account sections, ADR-0029) |
+| [Daftar PPN/PPnBM Masukan](TaxationInReport.md) | `TaxationInReport` | Pajak | Y | Y | Y | data | done | Tax | verified on Trade Portal Demo (ADR-0029) |
+| [Rekonsiliasi PPN Lebih/Kurang Bayar](TaxationInOutReport.md) | `TaxationInOutReport` | Pajak | Y | Y | Y | data | done | Tax | verified on Trade Portal Demo (ADR-0029) |
 | [Faktur Penjualan SPT Masa PPN](SalesInvoiceSPTListReport.md) | `SalesInvoiceSPTListReport` | Pajak | Y | Y | Y | data | done | Tax |  |
 | [Faktur Pembelian SPT Masa PPN](PurchaseInvoiceSPTListReport.md) | `PurchaseInvoiceSPTListReport` | Pajak | Y | Y | Y | data | done | Tax |  |
 | [Daftar Bukti Potong PPh Pembelian](PurchasePaymentPPhReport.md) | `PurchasePaymentPPhReport` | Pajak | Y | Y | Y | data | done (out of scope) | Tax |  |

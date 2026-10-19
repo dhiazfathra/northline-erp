@@ -105,41 +105,72 @@ export const taxationOut = (lines: TaxLine[], from: string, to: string) => taxat
 export const taxationIn = (lines: TaxLine[], from: string, to: string) => taxationList(lines, 'IN', from, to)
 
 /**
- * Rekonsiliasi PPN Lebih/Kurang Bayar: Keluaran − Masukan. Accurate streams entries ordered by tax name with the openings
- * (no tax name) first — Masukan opening, then Keluaran opening — and each tax's Keluaran block before its Masukan block;
- * a "Pajak …"/"PPN …" heading is printed whenever the side changes. Masukan amounts print positive per row, negative in totals.
+ * Rekonsiliasi PPN Lebih/Kurang Bayar: Keluaran − Masukan over tax-account sections (Masukan = purchase accounts, Keluaran =
+ * sales accounts). Accurate streams entries and prints a side heading ("Pajak Masukan"/"Pajak Keluaran") whenever the side
+ * changes and an account heading whenever the account changes, closing each run with its own totals:
+ *   1. every account's Saldo Awal (Masukan accounts, then Keluaran), each followed by its sales-invoice Transaksi Lainnya;
+ *   2. per tax (name order) its Keluaran block, then its Masukan block;
+ *   3. the remaining Transaksi Lainnya, Masukan accounts then Keluaran, in a run of their own (headings repeat).
+ * Masukan amounts print positive per row, negative in totals. Verified: Manufaktur Demo (one tax, both sides) and Trade Portal
+ * Demo (two accounts per side, JV/PI/SI postings; fixtures/trade/trade-tp.json `tax`).
  */
-// shortcut: entry order inferred from one capture (one tax, both sides); confirm with two taxes before relying on it.
-export function taxationInOut(lines: TaxLine[], from: string, to: string): string[][] {
+export function taxationInOutBySection(lines: TaxLine[], from: string, to: string, sections: { IN: TaxSection[]; OUT: TaxSection[] }): string[][] {
   const rows: string[][] = [['Rekonsiliasi PPN Lebih/Kurang Bayar'], range(from, to), HEADER, ['PPN Lebih/Kurang Bayar']]
   const sign = (side: 'OUT' | 'IN') => (side === 'OUT' ? 1 : -1)
-  type Entry = { side: 'OUT' | 'IN'; title: string; rows: string[][]; amount: number }
-  const entries: Entry[] = (['IN', 'OUT'] as const).map(side => {
-    const v = opening(lines, side, from)
-    return { side, title: 'Saldo Awal', rows: [['-', '-', formatIdr(v)]], amount: v }
-  })
-  const inRange = [...period(lines, 'OUT', from, to), ...period(lines, 'IN', from, to)]
-  for (const tax of taxNames(inRange))
+  type Entry = { side: 'OUT' | 'IN'; account: string; title: string; rows: string[][]; amount: number; last?: boolean }
+  const inRange = (o: TaxAccountPosting) => o.date >= from && o.date <= to
+  const otherEntry = (side: 'OUT' | 'IN', sec: TaxSection, g: TaxAccountPosting[]): Entry => ({ side, account: sec.title, title: 'Transaksi Lainnya',
+    rows: g.sort((a, b) => (a.date + a.number < b.date + b.number ? -1 : 1)).map(o => [fmtDate(o.date), fmtDate(o.date), o.number, o.taxNumber, formatIdr(o.amount)].filter(c => c !== '')),
+    amount: g.reduce((t, o) => t + o.amount, 0) })
+  const entries: Entry[] = []
+  for (const side of ['IN', 'OUT'] as const)
+    for (const sec of sections[side]) {
+      entries.push({ side, account: sec.title, title: 'Saldo Awal', rows: [['-', '-', formatIdr(sec.opening)]], amount: sec.opening })
+      const si = sec.others.filter(o => inRange(o) && o.kind === 'SI')
+      if (si.length) entries.push(otherEntry(side, sec, si))
+    }
+  const taxed = [...period(lines, 'OUT', from, to), ...period(lines, 'IN', from, to)]
+  for (const tax of taxNames(taxed))
     for (const side of ['OUT', 'IN'] as const) {
       const block = period(lines, side, from, to).filter(l => l.tax === tax)
-      if (block.length) entries.push({ side, title: `${tax} (${block[0]!.rate}%)`, rows: block.map(docRow), amount: sum(block) })
+      const sec = sections[side].find(x => x.taxes.includes(tax))
+      if (block.length) entries.push({ side, account: sec?.title ?? NAME[side], title: `${tax} (${block[0]!.rate}%)`, rows: block.map(docRow), amount: sum(block) })
+    }
+  for (const side of ['IN', 'OUT'] as const)
+    for (const sec of sections[side]) {
+      const rest = sec.others.filter(o => inRange(o) && o.kind !== 'SI')
+      for (const kind of [...new Set(rest.map(o => o.kind))].sort((a, b) => kindRank(a) - kindRank(b) || (a < b ? -1 : 1)))
+        entries.push({ ...otherEntry(side, sec, rest.filter(o => o.kind === kind)), last: true })
     }
   let total = 0
   for (let i = 0; i < entries.length; ) {
-    const side = entries[i]!.side
-    let j = i, groupTotal = 0
-    rows.push([GROUP[side]], [NAME[side]])
-    for (; j < entries.length && entries[j]!.side === side; j++) {
-      const e = entries[j]!
-      rows.push([e.title], ...e.rows, [formatIdr(sign(side) * e.amount)])
-      groupTotal += sign(side) * e.amount
+    const side = entries[i]!.side, last = !!entries[i]!.last
+    let sideTotal = 0
+    rows.push([GROUP[side]])
+    // step 3 (remaining postings) always opens a new run, even on the same side and account
+    while (i < entries.length && entries[i]!.side === side && !!entries[i]!.last === last) {
+      const account = entries[i]!.account
+      let accTotal = 0
+      rows.push([account])
+      for (; i < entries.length && entries[i]!.side === side && !!entries[i]!.last === last && entries[i]!.account === account; i++) {
+        const e = entries[i]!
+        rows.push([e.title], ...e.rows, [formatIdr(sign(side) * e.amount)])
+        accTotal += sign(side) * e.amount
+      }
+      rows.push([`Total dari ${account}`, formatIdr(accTotal)])
+      sideTotal += accTotal
     }
-    rows.push([`Total dari ${NAME[side]}`, formatIdr(groupTotal)], [`Total dari ${GROUP[side]}`, formatIdr(groupTotal)])
-    total += groupTotal
-    i = j
+    rows.push([`Total dari ${GROUP[side]}`, formatIdr(sideTotal)])
+    total += sideTotal
   }
   rows.push(['Total dari PPN Lebih/Kurang Bayar', formatIdr(total)])
   return rows
+}
+
+/** One account per side (named PPN Masukan / PPN Keluaran) built from tax lines only. */
+export function taxationInOut(lines: TaxLine[], from: string, to: string): string[][] {
+  const sec = (side: 'OUT' | 'IN'): TaxSection[] => [{ title: NAME[side], opening: opening(lines, side, from), taxes: taxNames(lines), others: [] }]
+  return taxationInOutBySection(lines, from, to, { IN: sec('IN'), OUT: sec('OUT') })
 }
 
 const TAX_TYPE: Record<string, string> = { CTAS_KEPADA_SELAIN_PEMUNGUT_PPN: '01 - kepada selain Pemungut PPN' }

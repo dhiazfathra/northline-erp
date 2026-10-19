@@ -29,3 +29,7 @@ Total dari PPN Masukan | 286.000
 ## Open work
 
 - Purchase discounts and PPh 23 (`tax3`, seen on the demo purchase invoice) are not modelled.
+
+## Trade Portal Demo variation (2026-10-19)
+
+Source: Trade Portal Demo (PT Automotive Shop). Four windows Jan - Apr 2045, fixture [fixtures/trade/trade-tp.json](fixtures/trade/trade-tp.json) (`tax`), test `apps/api/test/trade-portal-trade.test.ts`: zero diff. One section per tax *purchase account* (PPN Masukan 110504; Persediaan Terkirim 110402 for PPnBM), same rules as Daftar PPN/PPnBM Keluaran's Trade variation; JV.2045.04.00001 prints as Transaksi Lainnya with its own number as faktur, amount debit - credit. See ADR-0029.

@@ -6573,5 +6573,1578 @@
    "salesAccount": "110401",
    "purchaseAccount": "110402"
   }
- ]
+ ],
+ "tax": {
+  "TaxationInReport:q1": {
+   "planId": "TaxationInReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Masukan"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:33"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationInReport:mar": {
+   "planId": "TaxationInReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Masukan"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:33"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationInReport:apr": {
+   "planId": "TaxationInReport",
+   "param": {
+    "startDate": "01/04/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Masukan"
+    ],
+    [
+     "Dari 01 Apr 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "300.000"
+    ],
+    [
+     "300.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "300.000"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:33"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationInReport:q1apr": {
+   "planId": "TaxationInReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Masukan"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "300.000"
+    ],
+    [
+     "300.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "300.000"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:33"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationOutReport:q1": {
+   "planId": "TaxationOutReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:33"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationOutReport:mar": {
+   "planId": "TaxationOutReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationOutReport:apr": {
+   "planId": "TaxationOutReport",
+   "param": {
+    "startDate": "01/04/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Apr 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "500.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "500.000"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.620.000"
+    ],
+    [
+     "-6.146.620.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationOutReport:q1apr": {
+   "planId": "TaxationOutReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Daftar PPN/PPnBM Keluaran"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "500.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "500.000"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "TaxationInOutReport:q1": {
+   "planId": "TaxationInOutReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "0"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.144.420.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-6.144.420.000"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-2.200.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-2.200.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "TaxationInOutReport:mar": {
+   "planId": "TaxationInOutReport",
+   "param": {
+    "startDate": "01/03/2045",
+    "endDate": "31/03/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "0"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Mar 2045 s/d 31 Mar 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.144.420.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-6.144.420.000"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-2.200.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-2.200.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "-6.146.620.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "TaxationInOutReport:apr": {
+   "planId": "TaxationInOutReport",
+   "param": {
+    "startDate": "01/04/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Apr 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "0"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.620.000"
+    ],
+    [
+     "-6.146.620.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.146.620.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-6.146.620.000"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Apr 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "300.000"
+    ],
+    [
+     "-300.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "-300.000"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "-300.000"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "500.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "500.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "500.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "-6.146.420.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  },
+  "TaxationInOutReport:q1apr": {
+   "planId": "TaxationInOutReport",
+   "param": {
+    "startDate": "01/01/2045",
+    "endDate": "30/04/2045"
+   },
+   "rows": [
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "0"
+    ],
+    [
+     "Persediaan Terkirim"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari Persediaan Terkirim",
+     "0"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "0"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "0"
+    ],
+    [
+     "0"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "0"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Saldo Awal"
+    ],
+    [
+     "-",
+     "-",
+     "-6.146.070.000"
+    ],
+    [
+     "-6.146.070.000"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "20 Mar 2045",
+     "20 Mar 2045",
+     "SI.2045.03.00001",
+     "1.650.000"
+    ],
+    [
+     "1.650.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 1",
+     "dari 2"
+    ],
+    [
+     "PT Automotive Shop"
+    ],
+    [
+     "Rekonsiliasi PPN Lebih/Kurang Bayar"
+    ],
+    [
+     "Dari 01 Jan 2045 s/d 30 Apr 2045"
+    ],
+    [
+     "Tanggal",
+     "Tgl Pajak",
+     "No Referensi",
+     "No. Faktur Pajak",
+     "Nilai Pajak"
+    ],
+    [
+     "Total dari Persediaan",
+     "-6.144.420.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-6.144.420.000"
+    ],
+    [
+     "Pajak Masukan"
+    ],
+    [
+     "PPN Masukan"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "300.000"
+    ],
+    [
+     "-300.000"
+    ],
+    [
+     "Total dari PPN Masukan",
+     "-300.000"
+    ],
+    [
+     "Total dari Pajak Masukan",
+     "-300.000"
+    ],
+    [
+     "Pajak Keluaran"
+    ],
+    [
+     "PPN Keluaran"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "10 Apr 2045",
+     "10 Apr 2045",
+     "JV.2045.04.00001",
+     "JV.2045.04.00001",
+     "500.000"
+    ],
+    [
+     "500.000"
+    ],
+    [
+     "Total dari PPN Keluaran",
+     "500.000"
+    ],
+    [
+     "Persediaan"
+    ],
+    [
+     "Transaksi Lainnya"
+    ],
+    [
+     "05 Mar 2045",
+     "05 Mar 2045",
+     "PI.2045.03.00003",
+     "PI.2045.03.00003",
+     "-1.000.000"
+    ],
+    [
+     "12 Mar 2045",
+     "12 Mar 2045",
+     "PI.2045.03.00004",
+     "PI.2045.03.00004",
+     "-1.200.000"
+    ],
+    [
+     "-2.200.000"
+    ],
+    [
+     "Total dari Persediaan",
+     "-2.200.000"
+    ],
+    [
+     "Total dari Pajak Keluaran",
+     "-1.700.000"
+    ],
+    [
+     "Total dari PPN Lebih/Kurang Bayar",
+     "-6.146.420.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 10:34"
+    ],
+    [
+     "Halaman 2",
+     "dari 2"
+    ]
+   ]
+  }
+ }
 }

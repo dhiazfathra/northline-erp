@@ -91,3 +91,27 @@ test('TaxationOutReport 1 Jan - 31 Mar 2045: sections per tax sales account, PPn
   const ours = T.taxationListBySection(await T.loadTaxLines(db), 'OUT', '2045-01-01', '2045-03-31', await T.loadTaxSections(db, 'OUT', '2045-01-01'))
   expect(ours).toEqual(want)
 })
+
+// Daftar PPN Masukan / Keluaran and Rekonsiliasi PPN over four windows (tax sections per account, ADR-0029 finding 10).
+// blocked: requires average costing. Amounts carrying the sale's HPP (1.650.000 average) are pinned at FIFO (1.600.000).
+const FIFO_GAP: Record<string, string> = { '1.650.000': '1.600.000', '-6.144.420.000': '-6.144.470.000', '-6.146.620.000': '-6.146.670.000', '-6.146.420.000': '-6.146.470.000' }
+const TW: Record<string, [string, string]> = { q1: ['2045-01-01', '2045-03-31'], mar: ['2045-03-01', '2045-03-31'], apr: ['2045-04-01', '2045-04-30'], q1apr: ['2045-01-01', '2045-04-30'] }
+for (const [planId, side] of [['TaxationInReport', 'IN'], ['TaxationOutReport', 'OUT'], ['TaxationInOutReport', 'BOTH']] as const)
+  for (const [w, [from, to]] of Object.entries(TW))
+    test(`${planId} ${w} (Trade Portal)`, async () => {
+      const e = (fx as any).tax[`${planId}:${w}`].rows as string[][]
+      // page furniture out; title, period line and column header repeat on every page: keep the first of each
+      const once = new Set([e[1]![0], e[2]![0], 'Tanggal'].map(String)), kept = new Set<string>()
+      const want = e.filter(r => {
+        if (/^(ACCURATE Accounting|Tercetak pada|Halaman )/.test(r[0]!) || (r.length === 1 && r[0] === e[0]![0])) return false
+        if (!once.has(r[0]!)) return true
+        if (kept.has(r[0]!)) return false
+        kept.add(r[0]!); return true
+      })
+        .map(r => r.map(c => FIFO_GAP[c] ?? c))
+      const lines = await T.loadTaxLines(db)
+      const ours = side === 'BOTH'
+        ? T.taxationInOutBySection(lines, from, to, { IN: await T.loadTaxSections(db, 'IN', from), OUT: await T.loadTaxSections(db, 'OUT', from) })
+        : T.taxationListBySection(lines, side, from, to, await T.loadTaxSections(db, side, from))
+      expect(ours).toEqual(want)
+    })

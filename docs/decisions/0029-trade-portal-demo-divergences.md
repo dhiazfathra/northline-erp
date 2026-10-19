@@ -55,8 +55,9 @@ receivable or payable documents. Of those 35, 21 had no amounts in the Manufaktu
 10. **Tax reports are per tax account.** Trade's tax master links PPnBM to Persediaan (sales 110401, purchase 110402),
    so Daftar PPN/PPnBM Keluaran lists every inventory movement under a "Persediaan" section with "Transaksi Lainnya"
    groups. The ERP now builds sections from `taxes.sales_account` (`taxationListBySection`, `loadTaxSections`);
-   zero diff on Trade except the sale's HPP (costing). Rekonsiliasi PPN with several accounts is partial (stream order
-   unknown from one capture).
+   zero diff on Trade except the sale's HPP (costing). Rekonsiliasi PPN streams openings (+ sales-invoice postings),
+   then tax blocks, then the remaining postings in a new run; settled with JV.2045.04.00001 over four windows
+   (`taxationInOutBySection`), zero diff for Masukan, Keluaran and Rekonsiliasi.
 11. **Demo data traced.** 35 opening Penyesuaian Persediaan = 6.146.070.000 = Persediaan balance = Nilai Persediaan;
    SPA.2025.06.00001 (harga) and SPA.2025.06.00002 (diskon) are the only price documents.
 
