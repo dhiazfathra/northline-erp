@@ -1,0 +1,133 @@
+{
+ "dataUsaha": "Manufaktur Demo",
+ "source": "Accurate Online sandbox (ACC_DB=manufaktur), seeded and captured 2026-10-19. Preferensi > Pembelian: akun kas Perintah Pembayaran set to 110102 Bank for the save (it was empty; Accurate refuses a payment order without it), then cleared again; the report still prints Bank. Vendor NL-PO49-V1 with a BCA account (Accurate needs the vendor bank account on every invoice line of a Transfer Bank order), PI.2049.03.00002 (30.000), and TFO.2049.03.00001 (15 Mar 2049, Tgl Batas Transfer 20 Mar 2049, Transfer Bank, pays PI.2049.03.00002 in full; saved by the form itself, status Menunggu Ditransfer). Report captured over 01/01/2049-31/12/2049, page furniture included; the company-name line is left out.",
+ "accounts": [
+  {
+   "no": "110401",
+   "name": "Persediaan Barang Jadi",
+   "type": "INVENTORY"
+  },
+  {
+   "no": "110102",
+   "name": "Bank",
+   "type": "CASH_BANK"
+  },
+  {
+   "no": "210101",
+   "name": "Hutang Usaha",
+   "type": "ACCOUNT_PAYABLE"
+  },
+  {
+   "no": "400001",
+   "name": "Penjualan",
+   "type": "REVENUE"
+  },
+  {
+   "no": "510101",
+   "name": "Beban Pokok Penjualan",
+   "type": "COGS"
+  }
+ ],
+ "vendors": [
+  {
+   "no": "NL-PO49-V1",
+   "name": "NL-PO49 Pemasok Transfer",
+   "apAccount": "210101"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-JC49-M1",
+   "name": "NL-JC49 Bahan A",
+   "type": "INVENTORY",
+   "unit": "PCS",
+   "salesAccount": "400001",
+   "inventoryAccount": "110401",
+   "cogsAccount": "510101"
+  }
+ ],
+ "documents": [
+  {
+   "kind": "PurchaseInvoice",
+   "number": "PI.2049.03.00002",
+   "vendor": "NL-PO49-V1",
+   "bill": "NL-PO49-PI2",
+   "date": "2049-03-04",
+   "description": "NL-PO49-PI2",
+   "lines": [
+    {
+     "item": "NL-JC49-M1",
+     "qty": 3,
+     "price": 10000
+    }
+   ]
+  },
+  {
+   "kind": "TransferOrder",
+   "number": "TFO.2049.03.00001",
+   "date": "2049-03-15",
+   "dueDate": "2049-03-20",
+   "bank": "110102",
+   "paymentMethod": "BANK_TRANSFER",
+   "description": "NL-PO49-TO1",
+   "lines": [
+    {
+     "invoice": "PI.2049.03.00002",
+     "amount": 30000,
+     "vendorBank": "BCA 1234567890"
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "TransferOrderListReport": {
+   "param": {
+    "startDate": "01/01/2049",
+    "endDate": "31/12/2049",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Perintah Pembayaran"
+    ],
+    [
+     "Dari 01 Jan 2049 s/d 31 Des 2049"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Bank",
+     "Metode Bayar",
+     "Status",
+     "Faktur Dibayar"
+    ],
+    [
+     "TFO.2049.03.00001",
+     "15 Mar 2049",
+     "Bank",
+     "Transfer Bank",
+     "Menunggu Ditransfer",
+     "30.000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 17:54"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  }
+ }
+}

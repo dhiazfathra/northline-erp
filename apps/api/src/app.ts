@@ -27,6 +27,9 @@ import * as K from './reports/contractor'
 import * as KS from './contractor/service'
 import * as JC from './reports/job-costing'
 import * as JCS from './inventory/job-costing'
+import * as HPP from './reports/cogs-manufacture'
+import * as TFO from './reports/transfer-orders'
+import { createTransferOrder } from './purchases/transfer-orders'
 import { createFixedAsset, disposeFixedAsset, runPeriodEnd } from './fixed-assets/service'
 import { createPurchaseReturn, createSalesReturn } from './returns/service'
 import { createItemAdjustment, createItemTransfer } from './inventory/adjustment'
@@ -190,6 +193,17 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ 'job-order-list': JC.jobOrderList, 'material-adjustment-list': JC.materialAdjustmentList, 'material-adjustment-detail': JC.materialAdjustmentDetail,
         'roll-over-list': JC.rollOverList, 'roll-over-item-detail': JC.rollOverItemDetail, 'roll-over-account-detail': JC.rollOverAccountDetail }[c.req.param('report') as 'job-order-list'](await JC.loadJobs(db), from, to))
+    })
+    // Pembelian / Penyesuaian Bahan (Harga Pokok Produksi) over a month's stock movements (P3.3); Perintah Pembayaran and its list (P3.2).
+    .get('/reports/manufacturing/:report{purchase-cogs|adjustment-cogs}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      const moves = await HPP.loadCostMoves(db, from, to)
+      return c.json(c.req.param('report') === 'purchase-cogs' ? HPP.purchaseCogsManufacture(moves) : HPP.adjustmentCogsManufacture(moves))
+    })
+    .post('/purchases/transfer-orders', async c => c.json(await createTransferOrder(db, await c.req.json()), 201))
+    .get('/reports/purchases/transfer-order-list', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json(TFO.transferOrderList(await TFO.loadTransferOrders(db), from, to))
     })
     // Proyek Kontraktor (ADR-0038): project master, RAB, MEQ, survey, project-linked documents (billing share), FPC; then its 11 reports.
     .post('/contractor/projects', async c => { await KS.upsertContractorProject(db, await c.req.json()); return c.json({ ok: true }) })

@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -542,6 +542,39 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                     report: string;
                 };
             };
+        };
+    };
+}) & {
+    "/reports/manufacturing/:report{purchase-cogs|adjustment-cogs}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/purchases/transfer-orders": {
+        $post: {
+            output: {
+                number: string;
+            };
+            outputFormat: "json";
+            status: 201;
+            input: {};
+        };
+    };
+}) & {
+    "/reports/purchases/transfer-order-list": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {};
         };
     };
 }) & {

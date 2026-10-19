@@ -223,7 +223,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Retur Pembelian | `PurchaseReturnListReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnListReport.md) |
 | Rincian Retur Pembelian | `PurchaseReturnDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseReturnDetailReport.md) |
 | Penggunaan Uang Muka Pembelian | `PurchaseInvoiceDownPaymentDetailReport` | report | FROMTO | selectedBranch= | [verified](PurchaseInvoiceDownPaymentDetailReport.md) |
-| Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [out of scope](TransferOrderListReport.md) |
+| Daftar Perintah Pembayaran | `TransferOrderListReport` | report | FROMTO | selectedBranch= | [verified](TransferOrderListReport.md) |
 | Perubahan Harga Beli Per Barang | `VendorPriceHistoryReport` | report | ASOF | selectedItem= | [verified](VendorPriceHistoryReport.md) |
 | Penyesuaian Harga Beli | `VendorPriceAdjustmentDetailReport` | report | FROMTO | — | [verified](VendorPriceAdjustmentDetailReport.md) |
 
@@ -292,8 +292,8 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Report | planId | View | Date param | Extra params | Spec |
 |---|---|---|---|---|---|
 | Jurnal Perintah Kerja | `WorkOrderJournalReport` | report | NONE | selectedWorkOrder= | [out of scope](WorkOrderJournalReport.md) |
-| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | [out of scope](AdjustmentCOGSManufactureReport.md) |
-| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | [out of scope](PurchaseCOGSManufactureReport.md) |
+| Penyesuaian Bahan (Harga Pokok Produksi) | `AdjustmentCOGSManufactureReport` | report | PERIOD | — | [verified](AdjustmentCOGSManufactureReport.md) |
+| Pembelian (Harga Pokok Produksi) | `PurchaseCOGSManufactureReport` | report | PERIOD | — | [verified](PurchaseCOGSManufactureReport.md) |
 
 ## Aset Tetap (FIXED_ASSET)
 

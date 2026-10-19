@@ -8,7 +8,7 @@ ERP module dependency is the module the report reads. The ERP already event-sour
 Cash & Bank, Fixed Assets, Tax and Payroll on top of Journal/Period/Account (see the done rows), so "blocked" marks
 only modules that do not exist yet. Proposed build order: [ADR-0021](../decisions/0021-retail-report-module-dependencies.md).
 
-Totals (counted by `bun apps/api/scripts/coverage.ts`, asserted in `apps/api/test/coverage.test.ts`): 291 rows; 274 done, 17 done (out of scope), 0 blocked (the 11 Proyek Kontraktor rows closed in P2, ADR-0038; the 6 Job Costing list/detail rows in P3.1). At the Retail pass: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
+Totals (counted by `bun apps/api/scripts/coverage.ts`, asserted in `apps/api/test/coverage.test.ts`): 291 rows; 277 done, 14 done (out of scope), 0 blocked (the 11 Proyek Kontraktor rows closed in P2, ADR-0038; the 6 Job Costing list/detail rows in P3.1; Daftar Perintah Pembayaran and the two Harga Pokok Produksi rows in P3.2/P3.3). At the Retail pass: 275 reports, 275 done. The 46 added in this pass are all verified against Retail Demo fixtures
 (ADR-0022 to ADR-0028); SalesCheckInPerSalesmanReport and ApprovalListReport on their empty layout only (see specs).
 
 Retail re-check: every done row was verified against Manufaktur Demo fixtures. Retail Demo carries data Manufaktur Demo
@@ -244,7 +244,7 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Daftar Retur Pembelian](PurchaseReturnListReport.md) | `PurchaseReturnListReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing |  |
 | [Rincian Retur Pembelian](PurchaseReturnDetailReport.md) | `PurchaseReturnDetailReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing |  |
 | [Penggunaan Uang Muka Pembelian](PurchaseInvoiceDownPaymentDetailReport.md) | `PurchaseInvoiceDownPaymentDetailReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing |  |
-| [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | Y | data | Y | empty | done (out of scope) | Purchasing |  |
+| [Daftar Perintah Pembayaran](TransferOrderListReport.md) | `TransferOrderListReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing | verified on Manufaktur Demo 2049 seed (P3.2); test: `apps/api/test/transfer-orders.test.ts`, fixture `fixtures/transfer-orders-m49.json` |
 | [Perubahan Harga Beli Per Barang](VendorPriceHistoryReport.md) | `VendorPriceHistoryReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing |  |
 | [Penyesuaian Harga Beli](VendorPriceAdjustmentDetailReport.md) | `VendorPriceAdjustmentDetailReport` | Pembelian | Y | Y | Y | data | Y | empty | done | Purchasing | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
 | [Nilai Persediaan](InventoryValuationReport.md) | `InventoryValuationReport` | Persediaan | Y | Y | Y | data | Y | data | done | Inventory | Trade Portal Demo: verified with costing method AVERAGE (ADR-0031) |
@@ -293,8 +293,8 @@ Untestable in the earlier sandboxes for lack of data, verified here: Laba/Rugi P
 | [Daftar Penyelesaian Pesanan](RollOverListReport.md) | `RollOverListReport` | Pekerjaan Pesanan | Y | Y | Y | data | Y | empty | done | Job Costing | verified on Manufaktur Demo 2049 seed (P3.1); test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/jobcosting-m49.json` |
 | [Daftar Penambahan Bahan Baku](MaterialAdjustmentListReport.md) | `MaterialAdjustmentListReport` | Pekerjaan Pesanan | Y | Y | Y | data | Y | empty | done | Job Costing | verified on Manufaktur Demo 2049 seed (P3.1); test: `apps/api/test/job-costing.test.ts`, fixture `fixtures/jobcosting-m49.json` |
 | [Jurnal Perintah Kerja](WorkOrderJournalReport.md) | `WorkOrderJournalReport` | Manufaktur | Y | Y | Y | data | Y | empty | done (out of scope) | Manufacturing |  |
-| [Penyesuaian Bahan (Harga Pokok Produksi)](AdjustmentCOGSManufactureReport.md) | `AdjustmentCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done (out of scope) | Manufacturing |  |
-| [Pembelian (Harga Pokok Produksi)](PurchaseCOGSManufactureReport.md) | `PurchaseCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done (out of scope) | Manufacturing |  |
+| [Penyesuaian Bahan (Harga Pokok Produksi)](AdjustmentCOGSManufactureReport.md) | `AdjustmentCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done | Manufacturing | verified on Manufaktur Demo 2049 seed, Jan-Mar (P3.3); test: `apps/api/test/manufacturing.test.ts`, fixture `fixtures/manufacturing-m49.json` |
+| [Pembelian (Harga Pokok Produksi)](PurchaseCOGSManufactureReport.md) | `PurchaseCOGSManufactureReport` | Manufaktur | Y | Y | Y | data | Y | empty | done | Manufacturing | verified on Manufaktur Demo 2049 seed, Jan-Mar (P3.3); test: `apps/api/test/manufacturing.test.ts`, fixture `fixtures/manufacturing-m49.json` |
 | [Daftar Aset Tetap](FixedAssetListReport.md) | `FixedAssetListReport` | Aset Tetap | Y | Y | Y | empty | Y | empty | done | Fixed Assets |  |
 | [Aset Tetap per Kategori](FixedAssetByCategoryReport.md) | `FixedAssetByCategoryReport` | Aset Tetap | Y | Y | Y | data | Y | empty | done | Fixed Assets |  |
 | [Histori Aset](FixedAssetHistoryReport.md) | `FixedAssetHistoryReport` | Aset Tetap | Y | Y | Y | data | Y | empty | done | Fixed Assets |  |

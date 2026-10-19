@@ -35,6 +35,10 @@ A new stock item NL-T30-B1 (id 400) was created with the item master's own price
 
 Both temporary documents were deleted and the preference was switched back off. The trigger is still unknown.
 
+## P3.2 attempt (2026-10-19)
+
+Still empty for [Semua Cabang] after new 2049 purchases (PI.2049.03.00001/2 of NL-JC49 Bahan A/B, new purchase costs) and a sale (SI.2049.03.00001). Stopped under the goal's 3-attempt rule; the row trigger is still unknown.
+
 ## Open work
 
 - Seed transactions that exercise this report, record calculation rules, add a zero-diff ERP test.
