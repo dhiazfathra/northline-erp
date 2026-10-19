@@ -328,6 +328,7 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Daftar Pengiriman | `ShipmentListReport` | report | NONE | — | [verified](ShipmentListReport.md) |
 | Daftar Karyawan | `SalesmanListReport` | report | NONE | — | [verified](SalesmanListReport.md) |
 | Daftar Log Aktifitas | `AuditListReport` | report | FROMTO | — | [verified](AuditListReport.md) |
+| Laporan Rincian Penyetuju Transaksi | `ApprovalListReport` | report | FROMTO_TIMESTAMP | — | [verified (empty layout)](ApprovalListReport.md) |
 | Daftar Pengguna per Cabang | `UserByBranchListReport` | report | NONE | — | [out of scope](UserByBranchListReport.md) |
 | Daftar Akses Grup | `AccessGroupPrivilegeListReport` | report | NONE | — | [out of scope](AccessGroupPrivilegeListReport.md) |
 | Daftar Hak Akses per Pengguna | `AccessPrivilegeByUserListReport` | report | NONE | selectedUser= | [out of scope](AccessPrivilegeByUserListReport.md) |

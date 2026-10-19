@@ -281,7 +281,7 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Daftar Bukti Potong PPh Penjualan](SalesReceiptPPhReport.md) | `SalesReceiptPPhReport` | Pajak | Y | Y | done (out of scope) | Tax |  |
 | [Selisih Saldo Akun Persediaan dengan Nilai Barang](ItemValueToAccountBalanceDifferenceReport.md) | `ItemValueToAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Perbedaan Persediaan Terkirim Pemindahan Barang](DifferenceGoodsTransitItemTransferReport.md) | `DifferenceGoodsTransitItemTransferReport` | Pemeriksaan | Y | Y | done | Activity log | verified on Retail Demo 2045 seed (fixtures/retail/inventory-re.json, ADR-0024) |
-| [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | partial | Activity log | blocked: requires Approval workflow |
+| [Laporan Rincian Penyetuju Transaksi](ApprovalListReport.md) | `ApprovalListReport` | Pemeriksaan | N | Y | done | Approval workflow | verified on Retail Demo (empty layout only: one-user sandbox auto-approves); test: `apps/api/test/approvals.test.ts`, fixture `fixtures/retail/approval-rf.json` (ADR-0028) |
 | [Selisih Akun Pembelian belum tertagih](UnbilledAccountBalanceDifferenceReport.md) | `UnbilledAccountBalanceDifferenceReport` | Pemeriksaan | Y | Y | done | Activity log |  |
 | [Daftar Mata Uang](CurrencyListReport.md) | `CurrencyListReport` | Lain-lain | Y | Y | done | Master data |  |
 | [Daftar FOB](FreeOnBoardListReport.md) | `FreeOnBoardListReport` | Lain-lain | Y | Y | done | Master data |  |
