@@ -129,19 +129,19 @@ lacked (salesmen, departments, branches, job costing). Where a report behaves di
 | [Grafik Penjualan Bulanan](AnnualSalesChartReport.md) | `AnnualSalesChartReport` | Penjualan | Y | Y | done | Sales |  |
 | [Porsi Penjualan per Pelanggan](TopSalesCustomerChartReport.md) | `TopSalesCustomerChartReport` | Penjualan | Y | Y | done | Sales |  |
 | [Porsi Penjualan per Barang](TopSalesItemChartReport.md) | `TopSalesItemChartReport` | Penjualan | Y | Y | done | Sales |  |
-| [Penawaran per Pelanggan (Belum Proses)](SalesQuotationByCustomerReport.md) | `SalesQuotationByCustomerReport` | Penjualan | Y | Y | partial | Sales | blocked: requires Sales Quotation |
-| [Penawaran per Barang (Belum Proses)](SalesQuotationByItemReport.md) | `SalesQuotationByItemReport` | Penjualan | Y | Y | partial | Sales | blocked: requires Sales Quotation |
-| [Pesanan per Pelanggan (Belum Proses)](SalesOrderByCustomerReport.md) | `SalesOrderByCustomerReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
-| [Pesanan per Barang (Belum Proses)](SalesOrderByItemReport.md) | `SalesOrderByItemReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
+| [Penawaran per Pelanggan (Belum Proses)](SalesQuotationByCustomerReport.md) | `SalesQuotationByCustomerReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Penawaran per Barang (Belum Proses)](SalesQuotationByItemReport.md) | `SalesQuotationByItemReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Pesanan per Pelanggan (Belum Proses)](SalesOrderByCustomerReport.md) | `SalesOrderByCustomerReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Pesanan per Barang (Belum Proses)](SalesOrderByItemReport.md) | `SalesOrderByItemReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
 | [Uang Muka Penjualan](SalesDownPaymentByCustomerReport.md) | `SalesDownPaymentByCustomerReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan Barang](ItemSalesTargetReport.md) | `ItemSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan per Kategori](ItemCategorySalesTargetReport.md) | `ItemCategorySalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
 | [Target Penjualan Penjual](SalesmanSalesTargetReport.md) | `SalesmanSalesTargetReport` | Penjualan | N | Y | done | Sales + Salesman (ADR-0023) | verified on Retail Demo NL-RC fixture |
 | [Target Penjualan per Bulan](GeneralSalesTargetReport.md) | `GeneralSalesTargetReport` | Penjualan | Y | Y | done | Sales |  |
-| [Daftar Penawaran Penjualan](SalesQuotationListReport.md) | `SalesQuotationListReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
-| [Rincian Penawaran Penjualan](SalesQuotationDetailReport.md) | `SalesQuotationDetailReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | blocked: requires Sales Quotation |
-| [Daftar Pesanan Penjualan](SalesOrderListReport.md) | `SalesOrderListReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
-| [Rincian Pesanan Penjualan](SalesOrderDetailReport.md) | `SalesOrderDetailReport` | Penjualan | Y | Y | spec (Retail Demo) | Sales | existing module; spec + verify |
+| [Daftar Penawaran Penjualan](SalesQuotationListReport.md) | `SalesQuotationListReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Rincian Penawaran Penjualan](SalesQuotationDetailReport.md) | `SalesQuotationDetailReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Daftar Pesanan Penjualan](SalesOrderListReport.md) | `SalesOrderListReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
+| [Rincian Pesanan Penjualan](SalesOrderDetailReport.md) | `SalesOrderDetailReport` | Penjualan | Y | Y | done | Sales + Quotation (ADR-0027) | verified on Retail Demo NL-RD fixture |
 | [Daftar Pengiriman Pesanan](DeliveryOrderListReport.md) | `DeliveryOrderListReport` | Penjualan | Y | Y | done | Sales |  |
 | [Rincian Pengiriman Pesanan](DeliveryOrderDetailReport.md) | `DeliveryOrderDetailReport` | Penjualan | Y | Y | done | Sales |  |
 | [Status Pengiriman Pesanan](DeliveryOrderHistorySummaryReport.md) | `DeliveryOrderHistorySummaryReport` | Penjualan | Y | Y | done | Sales |  |

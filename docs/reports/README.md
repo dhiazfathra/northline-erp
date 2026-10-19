@@ -148,6 +148,14 @@ Param date kinds: FROMTO (date range), ASOF (single date), PERIOD/PERIODFROMTO (
 | Target Penjualan Barang | `ItemSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](ItemSalesTargetReport.md) |
 | Target Penjualan per Kategori | `ItemCategorySalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](ItemCategorySalesTargetReport.md) |
 | Target Penjualan per Bulan | `GeneralSalesTargetReport` | report | ASOFYEAR | selectedBranch= | [verified](GeneralSalesTargetReport.md) |
+| Penawaran per Pelanggan (Belum Proses) | `SalesQuotationByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesQuotationByCustomerReport.md) |
+| Penawaran per Barang (Belum Proses) | `SalesQuotationByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesQuotationByItemReport.md) |
+| Daftar Penawaran Penjualan | `SalesQuotationListReport` | report | FROMTO | selectedBranch= | [verified](SalesQuotationListReport.md) |
+| Rincian Penawaran Penjualan | `SalesQuotationDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesQuotationDetailReport.md) |
+| Pesanan per Pelanggan (Belum Proses) | `SalesOrderByCustomerReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesOrderByCustomerReport.md) |
+| Pesanan per Barang (Belum Proses) | `SalesOrderByItemReport` | crosstab | FROMTO | selectedBranch= | [verified](SalesOrderByItemReport.md) |
+| Daftar Pesanan Penjualan | `SalesOrderListReport` | report | FROMTO | selectedBranch= | [verified](SalesOrderListReport.md) |
+| Rincian Pesanan Penjualan | `SalesOrderDetailReport` | report | FROMTO | selectedBranch= | [verified](SalesOrderDetailReport.md) |
 | Daftar Pengiriman Pesanan | `DeliveryOrderListReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderListReport.md) |
 | Rincian Pengiriman Pesanan | `DeliveryOrderDetailReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderDetailReport.md) |
 | Status Pengiriman Pesanan | `DeliveryOrderHistorySummaryReport` | report | FROMTO | selectedBranch= | [verified](DeliveryOrderHistorySummaryReport.md) |

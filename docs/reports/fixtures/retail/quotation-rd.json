@@ -1,0 +1,1368 @@
+{
+ "dataUsaha": "Retail Demo",
+ "source": "Accurate Online sandbox (Retail Demo), 2026-10-19. NL-RD: two services, two IDR customers; 5 quotations (2044), 5 sales orders (4 taken from quotation lines, one in part), 3 invoices billing order lines (one in part). Untaxed: the sandbox PPN is 10%, which Accurate refuses after April 2022. Reports captured over 01/01/2044-31/12/2044, so the demo documents of 2016-17 fall outside.",
+ "accounts": [
+  {
+   "no": "112.101-01",
+   "name": "Piutang Usaha Jakarta - IDR",
+   "type": "ACCOUNT_RECEIVABLE"
+  },
+  {
+   "no": "411.000-99",
+   "name": "Pendapatan Jasa",
+   "type": "REVENUE"
+  }
+ ],
+ "customers": [
+  {
+   "no": "NL-RD-C1",
+   "name": "NL-RD Pelanggan A",
+   "arAccount": "112.101-01"
+  },
+  {
+   "no": "NL-RD-C2",
+   "name": "NL-RD Pelanggan B",
+   "arAccount": "112.101-01"
+  }
+ ],
+ "items": [
+  {
+   "no": "NL-RD-S1",
+   "name": "NL-RD Jasa Kena Pajak",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "411.000-99"
+  },
+  {
+   "no": "NL-RD-S2",
+   "name": "NL-RD Jasa",
+   "type": "SERVICE",
+   "unit": "Jam",
+   "salesAccount": "411.000-99"
+  }
+ ],
+ "quotations": [
+  {
+   "number": "SQ.2044.01.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-01-10",
+   "description": "NL-RD penawaran 1",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 10,
+     "price": 100000
+    },
+    {
+     "item": "NL-RD-S2",
+     "qty": 5,
+     "price": 200000
+    }
+   ]
+  },
+  {
+   "number": "SQ.2044.02.00001",
+   "customer": "NL-RD-C2",
+   "date": "2044-02-05",
+   "description": "NL-RD penawaran 2",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 3,
+     "price": 125000
+    }
+   ]
+  },
+  {
+   "number": "SQ.2044.03.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-03-01",
+   "description": "NL-RD penawaran 3",
+   "lines": [
+    {
+     "item": "NL-RD-S2",
+     "qty": 2,
+     "price": 250000
+    }
+   ]
+  },
+  {
+   "number": "SQ.2044.03.00002",
+   "customer": "NL-RD-C2",
+   "date": "2044-03-15",
+   "description": "NL-RD penawaran 4",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 1,
+     "price": 1000000
+    },
+    {
+     "item": "NL-RD-S2",
+     "qty": 4,
+     "price": 50000
+    }
+   ]
+  },
+  {
+   "number": "SQ.2044.04.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-04-10",
+   "description": "NL-RD penawaran 5",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 8,
+     "price": 60000
+    }
+   ]
+  }
+ ],
+ "orders": [
+  {
+   "number": "SO.2044.01.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-01-15",
+   "description": "NL-RD pesanan 1",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 10,
+     "price": 100000,
+     "quotation": {
+      "number": "SQ.2044.01.00001",
+      "seq": 1
+     }
+    },
+    {
+     "item": "NL-RD-S2",
+     "qty": 5,
+     "price": 200000,
+     "quotation": {
+      "number": "SQ.2044.01.00001",
+      "seq": 2
+     }
+    }
+   ]
+  },
+  {
+   "number": "SO.2044.02.00001",
+   "customer": "NL-RD-C2",
+   "date": "2044-02-10",
+   "description": "NL-RD pesanan 2",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 3,
+     "price": 125000,
+     "quotation": {
+      "number": "SQ.2044.02.00001",
+      "seq": 1
+     }
+    }
+   ]
+  },
+  {
+   "number": "SO.2044.03.00001",
+   "customer": "NL-RD-C2",
+   "date": "2044-03-20",
+   "description": "NL-RD pesanan 3",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 1,
+     "price": 1000000,
+     "quotation": {
+      "number": "SQ.2044.03.00002",
+      "seq": 1
+     }
+    }
+   ]
+  },
+  {
+   "number": "SO.2044.04.00001",
+   "customer": "NL-RD-C2",
+   "date": "2044-04-01",
+   "description": "NL-RD pesanan 4",
+   "lines": [
+    {
+     "item": "NL-RD-S2",
+     "qty": 6,
+     "price": 100000
+    }
+   ]
+  },
+  {
+   "number": "SO.2044.04.00002",
+   "customer": "NL-RD-C1",
+   "date": "2044-04-15",
+   "description": "NL-RD pesanan 5",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "qty": 5,
+     "price": 60000,
+     "quotation": {
+      "number": "SQ.2044.04.00001",
+      "seq": 1
+     }
+    }
+   ]
+  }
+ ],
+ "invoices": [
+  {
+   "number": "SI.2044.01.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-01-25",
+   "description": "NL-RD faktur 1",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "name": "NL-RD Jasa Kena Pajak",
+     "qty": 4,
+     "price": 100000,
+     "order": {
+      "number": "SO.2044.01.00001",
+      "seq": 1
+     }
+    }
+   ]
+  },
+  {
+   "number": "SI.2044.02.00001",
+   "customer": "NL-RD-C2",
+   "date": "2044-02-20",
+   "description": "NL-RD faktur 2",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "name": "NL-RD Jasa Kena Pajak",
+     "qty": 3,
+     "price": 125000,
+     "order": {
+      "number": "SO.2044.02.00001",
+      "seq": 1
+     }
+    }
+   ]
+  },
+  {
+   "number": "SI.2044.04.00001",
+   "customer": "NL-RD-C1",
+   "date": "2044-04-20",
+   "description": "NL-RD faktur 3",
+   "lines": [
+    {
+     "item": "NL-RD-S1",
+     "name": "NL-RD Jasa Kena Pajak",
+     "qty": 5,
+     "price": 60000,
+     "order": {
+      "number": "SO.2044.04.00002",
+      "seq": 1
+     }
+    }
+   ]
+  }
+ ],
+ "reports": {
+  "SalesQuotationByCustomerReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penawaran per Pelanggan (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status"
+    ],
+    [
+     "Pelanggan",
+     "Total"
+    ],
+    [
+     "NL-RD Pelanggan A",
+     "980,000"
+    ],
+    [
+     "NL-RD Pelanggan B",
+     "1,200,000"
+    ],
+    [
+     "Total Pelanggan",
+     "2,180,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesQuotationByItemReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Penawaran per Barang (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status Penawaran Penjualan, Ditutup, Ditutup manual"
+    ],
+    [
+     "Nama Barang",
+     "Kts (Unit#1)",
+     "Kts Terproses",
+     "Total Harga"
+    ],
+    [
+     "NL-RD Jasa",
+     "6",
+     "0",
+     "700,000"
+    ],
+    [
+     "NL-RD Jasa Kena Pajak",
+     "8",
+     "5",
+     "480,000"
+    ],
+    [
+     "Total Nama Barang",
+     "14",
+     "5",
+     "1,180,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesQuotationListReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "Tanggal",
+     "Pelanggan",
+     "Total",
+     "Status"
+    ],
+    [
+     "SQ.2044.01.00001",
+     "10 Jan 2044",
+     "NL-RD Pelanggan A",
+     "2,000,000",
+     "Terproses"
+    ],
+    [
+     "SQ.2044.02.00001",
+     "05 Feb 2044",
+     "NL-RD Pelanggan B",
+     "375,000",
+     "Terproses"
+    ],
+    [
+     "SQ.2044.03.00001",
+     "01 Mar 2044",
+     "NL-RD Pelanggan A",
+     "500,000",
+     "Menunggu diproses"
+    ],
+    [
+     "SQ.2044.03.00002",
+     "15 Mar 2044",
+     "NL-RD Pelanggan B",
+     "1,200,000",
+     "Sebagian diproses"
+    ],
+    [
+     "SQ.2044.04.00001",
+     "10 Apr 2044",
+     "NL-RD Pelanggan A",
+     "480,000",
+     "Sebagian diproses"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesQuotationDetailReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SQ.2044.01.00001",
+     "Sub Total",
+     ":",
+     "2,000,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Jan 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan A",
+     "Total",
+     ":",
+     "2,000,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "10",
+     "100,000",
+     "1,000,000"
+    ],
+    [
+     "NL-RD-S2",
+     "NL-RD Jasa",
+     "5",
+     "200,000",
+     "1,000,000"
+    ],
+    [
+     "15",
+     "2,000,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 5"
+    ],
+    [
+     "Rincian Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SQ.2044.02.00001",
+     "Sub Total",
+     ":",
+     "375,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "05 Feb 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan B",
+     "Total",
+     ":",
+     "375,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "3",
+     "125,000",
+     "375,000"
+    ],
+    [
+     "3",
+     "375,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 5"
+    ],
+    [
+     "Rincian Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SQ.2044.03.00001",
+     "Sub Total",
+     ":",
+     "500,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Mar 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan A",
+     "Total",
+     ":",
+     "500,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S2",
+     "NL-RD Jasa",
+     "2",
+     "250,000",
+     "500,000"
+    ],
+    [
+     "2",
+     "500,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 3",
+     "dari 5"
+    ],
+    [
+     "Rincian Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SQ.2044.03.00002",
+     "Sub Total",
+     ":",
+     "1,200,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Mar 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan B",
+     "Total",
+     ":",
+     "1,200,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "1",
+     "1,000,000",
+     "1,000,000"
+    ],
+    [
+     "NL-RD-S2",
+     "NL-RD Jasa",
+     "4",
+     "50,000",
+     "200,000"
+    ],
+    [
+     "5",
+     "1,200,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 4",
+     "dari 5"
+    ],
+    [
+     "Rincian Penawaran Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SQ.2044.04.00001",
+     "Sub Total",
+     ":",
+     "480,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Apr 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan A",
+     "Total",
+     ":",
+     "480,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "8",
+     "60,000",
+     "480,000"
+    ],
+    [
+     "8",
+     "480,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 5",
+     "dari 5"
+    ]
+   ]
+  },
+  "SalesOrderByCustomerReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Pelanggan (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status"
+    ],
+    [
+     "Pelanggan",
+     "Total"
+    ],
+    [
+     "NL-RD Pelanggan A",
+     "2,000,000"
+    ],
+    [
+     "NL-RD Pelanggan B",
+     "1,600,000"
+    ],
+    [
+     "Total Pelanggan",
+     "3,600,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesOrderByItemReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Pesanan per Barang (Belum Proses)"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang], Filter berdasarkan : Status Pesanan Penjualan, Ditutup, Ditutup manual"
+    ],
+    [
+     "Nama Barang Barang & Jasa",
+     "Kts (Unit#1)",
+     "Kts Terproses",
+     "Total Harga"
+    ],
+    [
+     "NL-RD Jasa",
+     "11",
+     "0",
+     "1,600,000"
+    ],
+    [
+     "NL-RD Jasa Kena Pajak",
+     "11",
+     "4",
+     "2,000,000"
+    ],
+    [
+     "Total Nama Barang Barang & Jasa",
+     "22",
+     "4",
+     "3,600,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesOrderListReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Daftar Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     "No. PO",
+     "Tanggal",
+     "Pelanggan",
+     "Total",
+     "Status"
+    ],
+    [
+     "SO.2044.01.00001",
+     "15 Jan 2044",
+     "NL-RD Pelanggan A",
+     "2,000,000",
+     "Sebagian diproses"
+    ],
+    [
+     "SO.2044.02.00001",
+     "10 Feb 2044",
+     "NL-RD Pelanggan B",
+     "375,000",
+     "Terproses"
+    ],
+    [
+     "SO.2044.03.00001",
+     "20 Mar 2044",
+     "NL-RD Pelanggan B",
+     "1,000,000",
+     "Menunggu diproses"
+    ],
+    [
+     "SO.2044.04.00001",
+     "01 Apr 2044",
+     "NL-RD Pelanggan B",
+     "600,000",
+     "Menunggu diproses"
+    ],
+    [
+     "SO.2044.04.00002",
+     "15 Apr 2044",
+     "NL-RD Pelanggan A",
+     "300,000",
+     "Terproses"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 1"
+    ]
+   ]
+  },
+  "SalesOrderDetailReport": {
+   "param": {
+    "startDate": "01/01/2044",
+    "endDate": "31/12/2044",
+    "selectedBranch": [
+     {
+      "name": "[Semua Cabang]",
+      "id": null
+     }
+    ]
+   },
+   "rows": [
+    [
+     "Rincian Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SO.2044.01.00001",
+     "Sub Total",
+     ":",
+     "2,000,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Jan 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan A",
+     "Total",
+     ":",
+     "2,000,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "No. PO",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "10",
+     "100,000",
+     "1,000,000"
+    ],
+    [
+     "NL-RD-S2",
+     "NL-RD Jasa",
+     "5",
+     "200,000",
+     "1,000,000"
+    ],
+    [
+     "15",
+     "2,000,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 1",
+     "dari 5"
+    ],
+    [
+     "Rincian Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SO.2044.02.00001",
+     "Sub Total",
+     ":",
+     "375,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "10 Feb 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan B",
+     "Total",
+     ":",
+     "375,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "No. PO",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "3",
+     "125,000",
+     "375,000"
+    ],
+    [
+     "3",
+     "375,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 2",
+     "dari 5"
+    ],
+    [
+     "Rincian Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SO.2044.03.00001",
+     "Sub Total",
+     ":",
+     "1,000,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "20 Mar 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan B",
+     "Total",
+     ":",
+     "1,000,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "No. PO",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "1",
+     "1,000,000",
+     "1,000,000"
+    ],
+    [
+     "1",
+     "1,000,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 3",
+     "dari 5"
+    ],
+    [
+     "Rincian Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SO.2044.04.00001",
+     "Sub Total",
+     ":",
+     "600,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "01 Apr 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan B",
+     "Total",
+     ":",
+     "600,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "No. PO",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S2",
+     "NL-RD Jasa",
+     "6",
+     "100,000",
+     "600,000"
+    ],
+    [
+     "6",
+     "600,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 4",
+     "dari 5"
+    ],
+    [
+     "Rincian Pesanan Penjualan"
+    ],
+    [
+     "Dari 01 Jan 2044 s/d 31 Des 2044"
+    ],
+    [
+     "Cabang : [Semua Cabang]"
+    ],
+    [
+     "Nomor #",
+     ":",
+     "SO.2044.04.00002",
+     "Sub Total",
+     ":",
+     "300,000"
+    ],
+    [
+     "Tanggal",
+     ":",
+     "15 Apr 2044",
+     "Total Biaya",
+     ":",
+     "0"
+    ],
+    [
+     "Pelanggan",
+     ":",
+     "NL-RD Pelanggan A",
+     "Total",
+     ":",
+     "300,000"
+    ],
+    [
+     "Mata Uang",
+     ":",
+     "Indonesian Rupiah",
+     "Nama Biaya",
+     ":"
+    ],
+    [
+     "Kode #",
+     "No. PO",
+     "Nama Barang",
+     "Kuantitas",
+     "@Harga",
+     "Total Harga"
+    ],
+    [
+     "NL-RD-S1",
+     "NL-RD Jasa Kena Pajak",
+     "5",
+     "60,000",
+     "300,000"
+    ],
+    [
+     "5",
+     "300,000"
+    ],
+    [
+     "ACCURATE Accounting System Report"
+    ],
+    [
+     "Tercetak pada 19 October 2026 - 07:26"
+    ],
+    [
+     "Halaman 5",
+     "dari 5"
+    ]
+   ]
+  }
+ }
+}

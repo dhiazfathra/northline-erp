@@ -26,3 +26,4 @@
 | [0022](0022-branch-department-project-dimensions.md) | Branch on journal, department and project on journal line | Accepted |
 | [0023](0023-salesmen-on-sales-lines.md) | Salesmen on sales lines, commission rules, salesman targets, check-ins | Accepted |
 | [0024](0024-batch-serials-transfers-warehouses.md) | Batch serials with expiry, transfer lines and receipts, warehouse master, vendor price end date | Accepted |
+| [0027](0027-sales-quotations.md) | Sales quotations; processed quantities from line links (quotation -> order -> invoice) | Accepted |

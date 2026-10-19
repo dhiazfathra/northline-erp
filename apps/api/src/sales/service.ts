@@ -162,8 +162,8 @@ export async function createSalesInvoice(db: Db | Tx, input: SalesInvoiceInput, 
     if (inv.rate !== 1) await tx.execute(sql`UPDATE sales_invoices SET rate = ${inv.rate} WHERE number = ${number}`)
     if (inv.delivery) await tx.execute(sql`UPDATE sales_invoices SET delivery_number = ${inv.delivery} WHERE number = ${number}`)
     for (const l of lines)
-      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct, salesmen)
-        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct}, ${sql`ARRAY[${sql.join(l.salesmen.map(s => sql`${s}`), sql`, `)}]::text[]`})`)
+      await tx.execute(sql`INSERT INTO sales_invoice_lines (invoice_number, seq, item_no, name, quantity, unit_price, total, disc_pct, salesmen, order_number, order_seq)
+        VALUES (${number}, ${l.seq}, ${l.item}, ${l.name}, ${l.qty}, ${l.price}, ${l.total}, ${l.discPct}, ${sql`ARRAY[${sql.join(l.salesmen.map(s => sql`${s}`), sql`, `)}]::text[]`}, ${l.order?.number ?? null}, ${l.order?.seq ?? null})`)
     for (const d of dps) await tx.execute(sql`INSERT INTO sales_dp_usages (invoice_number, dp_number, amount) VALUES (${number}, ${d.dp}, ${d.amount})`)
     await logActivity(tx, { action, entity: 'SI', reference: number, docDate: inv.date })
     const result = { number }
@@ -281,12 +281,24 @@ export async function createSalesDownPayment(db: Db, input: SalesDownPaymentInpu
   })
 }
 
-/** Pesanan Penjualan: no journal. */
-export async function createSalesOrder(db: Db, o: { number?: string; customer: string; date: string; description?: string; lines: { item: string; qty: number; price: number }[] }) {
+type OrderLine = { item: string; qty: number; price: number }
+/** Penawaran Penjualan: no journal (ADR-0027). */
+export async function createSalesQuotation(db: Db, q: { number?: string; customer: string; date: string; description?: string; lines: OrderLine[] }) {
+  return db.transaction(async tx => {
+    const number = q.number ?? await nextNumber(tx, `SQ.${period(q.date)}`)
+    await tx.execute(sql`INSERT INTO sales_quotations VALUES (${number}, ${q.customer}, ${q.date}, ${q.description ?? ''}, ${Math.round(q.lines.reduce((s, l) => s + l.qty * l.price, 0) * 100)})`)
+    for (const [i, l] of q.lines.entries()) await tx.execute(sql`INSERT INTO sales_quotation_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${Math.round(l.price * 100)})`)
+    return { number }
+  })
+}
+
+/** Pesanan Penjualan: no journal. A line may take a quotation line (Penawaran → Pesanan), which then counts as processed. */
+export async function createSalesOrder(db: Db, o: { number?: string; customer: string; date: string; description?: string; lines: (OrderLine & { quotation?: { number: string; seq: number } })[] }) {
   return db.transaction(async tx => {
     const number = o.number ?? await nextNumber(tx, `SO.${period(o.date)}`)
     await tx.execute(sql`INSERT INTO sales_orders VALUES (${number}, ${o.customer}, ${o.date}, ${o.description ?? ''}, ${Math.round(o.lines.reduce((s, l) => s + l.qty * l.price, 0) * 100)})`)
-    for (const [i, l] of o.lines.entries()) await tx.execute(sql`INSERT INTO sales_order_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${Math.round(l.price * 100)})`)
+    for (const [i, l] of o.lines.entries())
+      await tx.execute(sql`INSERT INTO sales_order_lines (order_number, seq, item_no, quantity, unit_price, quotation_number, quotation_seq) VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty}, ${Math.round(l.price * 100)}, ${l.quotation?.number ?? null}, ${l.quotation?.seq ?? null})`)
     return { number }
   })
 }
