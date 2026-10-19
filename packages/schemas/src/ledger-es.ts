@@ -22,8 +22,10 @@ export const amountToCents = z
 export const journalSource = z.enum(['JV', 'SI', 'SR', 'PI', 'PP', 'FA', 'PE', 'SRT', 'PRT', 'SDP', 'PDP', 'IA', 'FAD', 'DO', 'OP', 'OD', 'RI', 'EXP', 'JC', 'RO'])
 export type JournalSource = z.infer<typeof journalSource>
 
-/** department / project: optional dimensions per line (ADR-0022); names of master rows. */
-export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional(), department: z.string().optional(), project: z.string().optional() })
+/** department / project: optional dimensions per line (ADR-0022); names of master rows.
+ * contractorProject / rabResource: contractor project link and the RAB resource it realises (ADR-0038). */
+export const journalLine = z.object({ account: z.string().min(1), side, amount: cents, memo: z.string().optional(), department: z.string().optional(), project: z.string().optional(),
+  contractorProject: z.string().optional(), rabResource: z.number().int().optional() })
 export type JournalLine = z.infer<typeof journalLine>
 
 // ---- commands ----

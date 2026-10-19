@@ -2021,5 +2021,1617 @@
     ]
    ]
   }
+ },
+ "contractor": {
+  "notes": {
+   "source": "Kontraktor Demo sandbox, read-only, captured 2026-10-19: detail-project-contractor/budget-plan/material-equipment/preliminary-survey/finished-project (contractor group), view-sales-invoice/sales-downpayment/sales-receipt (customer), view-purchase-invoice/purchase-payment (vendor), detail-other-payment (cash-bank), detail-item-adjustment (inventory), AllJournalReport capture for journal lines.",
+   "shape": "project{}, accounts[], items[], opening[] (IA opening stock), rab{groups>tasks>resources}, meq[], surveys[], documents[] (type PI|PPY|PAY|SID|SI|RCPT; lines link project/task/resource by names; journal = non-zero lines, project tag on every line), fpc{returns,journal}, billing[] (per SI), expected{} (self-check totals).",
+   "amounts": "decimal strings, IDR; dates ISO; accounts by no; items by no; units by name; tasks by name; resources by name within task.",
+   "billingShare": "SI.projectProgress (detail-sales-invoice, view-) stores 33/75/100 (cumulative progress at invoicing). No field stores 17. Cost-entry journal credit 110506 / Dr 5101.02 = workTotal x 33% / 17% / 50% (exact: 56356740, 29032260, 85389000); use billing[].sharePct/costEntryAmount. 75 vs 17+33=50 unreconciled (SI.2026.06.00002 optLock 17, edited several times).",
+   "stockDates": "Opening-stock adjustments IA.* are dated 2026-06-20, after the May MEQ usage; replay must load opening[] first.",
+   "fee": "SI.2026.05.00007 carries 4th line Jasa Proyek 17,800,000 (CONTRACT_FEE, no task): contract fee billed on last invoice; RAB feeContractAmount 17,826,660 (26,660 never billed).",
+   "unbilledAr": "SI.2026.05.00007 Dr 110301 6,066,600 = invoice 91,474,000 - DP applied 85,407,400."
+  },
+  "project": {
+   "no": "PRC.2026.06.00001",
+   "name": "Instalasi Solar 16K Wp - OffGrid",
+   "customer": "PT Sinar Alam Semesta",
+   "manager": "Sumarno Waluyo",
+   "targetStart": "2026-05-04",
+   "finishDate": "2026-05-22",
+   "description": "Panel 16500 Wp\nBattery 48 KWH",
+   "contractNumber": "OG-0012012",
+   "paymentType": "PAYMENT_FULL",
+   "address": "Jl Akasia Raya 6 Blok L9 no 7 RT 11 RW 9, Jakarta Timur, DKI Jakarta 13450, Indonesia",
+   "warehouse": "Utama",
+   "wipAccount": "110506",
+   "cogsAccount": "5101.02",
+   "incomeAccount": "400005",
+   "unearnedAccount": "210103",
+   "billItem": "100008",
+   "serviceBillItem": "100009",
+   "finished": true,
+   "progressPct": "100"
+  },
+  "accounts": [
+   {
+    "no": "110103",
+    "name": "BCA a/c 1234567891"
+   },
+   {
+    "no": "110301",
+    "name": "Piutang Usaha IDR"
+   },
+   {
+    "no": "110401",
+    "name": "Persediaan"
+   },
+   {
+    "no": "110506",
+    "name": "Proyek Dalam Proses"
+   },
+   {
+    "no": "210101",
+    "name": "Utang Usaha IDR"
+   },
+   {
+    "no": "210103",
+    "name": "Pendapatan Dimuka Proyek"
+   },
+   {
+    "no": "400005",
+    "name": "Pendapatan Proyek"
+   },
+   {
+    "no": "5101.02",
+    "name": "Beban Pokok Proyek"
+   }
+  ],
+  "items": [
+   {
+    "no": "100001",
+    "name": "Kabel Solar Panel Slocable 4mm",
+    "unit": "Meter",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100002",
+    "name": "Kabel Solar Panel Slocable 6mm",
+    "unit": "Meter",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100003",
+    "name": "Draining Clip (Plastik)",
+    "unit": "PCS",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100004",
+    "name": "Kabel Listrik NYM 3x2.5mm",
+    "unit": "Meter",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100005",
+    "name": "Kabel Battery 2x25mm DC",
+    "unit": "Meter",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100006",
+    "name": "MCB TOMZ 2P DC - 125 A",
+    "unit": "PCS",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100007",
+    "name": "MCB TOMZ 2P AC - 50A",
+    "unit": "PCS",
+    "type": "INVENTORY",
+    "inventoryAccount": "110401"
+   },
+   {
+    "no": "100008",
+    "name": "Bahan Proyek",
+    "unit": null,
+    "type": "NON_INVENTORY",
+    "inventoryAccount": "600020"
+   },
+   {
+    "no": "100009",
+    "name": "Jasa Proyek",
+    "unit": null,
+    "type": "NON_INVENTORY",
+    "inventoryAccount": "600020"
+   },
+   {
+    "no": "100010",
+    "name": "Jasa Tukang (Langsung)",
+    "unit": null,
+    "type": "NON_INVENTORY",
+    "inventoryAccount": "600020"
+   }
+  ],
+  "opening": [
+   {
+    "number": "IA.2026.06.00001",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang Draining Clip (Plastik)",
+    "item": "100003",
+    "qty": "1000",
+    "unit": "PCS",
+    "warehouse": "Utama",
+    "unitCost": "4100",
+    "amount": "4100000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00002",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang Kabel Battery 2x25mm DC",
+    "item": "100005",
+    "qty": "125",
+    "unit": "Meter",
+    "warehouse": "Utama",
+    "unitCost": "44000",
+    "amount": "5500000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00003",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang Kabel Listrik NYM 3x2.5mm",
+    "item": "100004",
+    "qty": "2000",
+    "unit": "Meter",
+    "warehouse": "Utama",
+    "unitCost": "9000",
+    "amount": "18000000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00004",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang Kabel Solar Panel Slocable 4mm",
+    "item": "100001",
+    "qty": "500",
+    "unit": "Meter",
+    "warehouse": "Utama",
+    "unitCost": "19400",
+    "amount": "9700000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00005",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang Kabel Solar Panel Slocable 6mm",
+    "item": "100002",
+    "qty": "600",
+    "unit": "Meter",
+    "warehouse": "Utama",
+    "unitCost": "29000",
+    "amount": "17400000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00006",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang MCB TOMZ 2P AC - 50A",
+    "item": "100007",
+    "qty": "20",
+    "unit": "PCS",
+    "warehouse": "Utama",
+    "unitCost": "85000",
+    "amount": "1700000",
+    "offsetAccount": "300001"
+   },
+   {
+    "number": "IA.2026.06.00007",
+    "date": "2026-06-20",
+    "description": "Saldo Awal barang MCB TOMZ 2P DC - 125 A",
+    "item": "100006",
+    "qty": "30",
+    "unit": "PCS",
+    "warehouse": "Utama",
+    "unitCost": "100000",
+    "amount": "3000000",
+    "offsetAccount": "300001"
+   }
+  ],
+  "rab": {
+   "number": "BGP.2026.06.00001",
+   "date": "2026-06-20",
+   "feePct": "10",
+   "contractNumber": "OG-0012012",
+   "groups": [
+    {
+     "number": "I",
+     "name": "Pemasangan Panel",
+     "tasks": [
+      {
+       "name": "Konstruksi (Rangka, skrup dan drain clip)",
+       "volume": "1",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "LS",
+        "id": 102
+       },
+       "unitCost": "3448000",
+       "bufferPct": "20",
+       "unitPrice": "4137600",
+       "startDate": "2026-05-04",
+       "endDate": "2026-05-06",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "Skrup Panel",
+         "unit": "Pack",
+         "qty": "30",
+         "unitCost": "25000"
+        },
+        {
+         "kind": "MATERIAL",
+         "item": "100003",
+         "name": "Draining Clip (Plastik)",
+         "unit": "PCS",
+         "qty": "64",
+         "unitCost": "7000"
+        },
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "Besi Galvanis",
+         "unit": "Btng",
+         "qty": "15",
+         "unitCost": "150000"
+        }
+       ]
+      },
+      {
+       "name": "PV Solar merk Lesso 550Wp",
+       "volume": "32",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "PCS",
+        "id": 50
+       },
+       "unitCost": "2000000",
+       "bufferPct": "10",
+       "unitPrice": "2200000",
+       "startDate": "2026-05-07",
+       "endDate": "2026-05-09",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "PV Solar Panel Lesso 550Wp",
+         "unit": "PCS",
+         "qty": "32",
+         "unitCost": "2000000"
+        }
+       ]
+      },
+      {
+       "name": "Jasa Pasang Rangka & Panel",
+       "volume": "7",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "Hari",
+        "id": 104
+       },
+       "unitCost": "350000",
+       "bufferPct": "10",
+       "unitPrice": "385000",
+       "startDate": "2026-05-04",
+       "endDate": "2026-05-09",
+       "resources": [
+        {
+         "kind": "COST",
+         "item": "100010",
+         "account": "600020",
+         "name": "Jasa Tukang (Langsung)",
+         "unit": "Hari",
+         "qty": "7",
+         "unitCost": "350000"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "number": "II",
+     "name": "Instalasi Inverter",
+     "tasks": [
+      {
+       "name": "Inverter Deye 10KW",
+       "volume": "1",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "PCS",
+        "id": 50
+       },
+       "unitCost": "16500000",
+       "bufferPct": "0",
+       "unitPrice": "16500000",
+       "startDate": "2026-05-12",
+       "endDate": "2026-05-12",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "Invereter DC - AC Deye 10KW",
+         "unit": "PCS",
+         "qty": "1",
+         "unitCost": "16500000"
+        }
+       ]
+      },
+      {
+       "name": "Solar Charge Controler Epever 100A",
+       "volume": "3",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "PCS",
+        "id": 50
+       },
+       "unitCost": "3620000",
+       "bufferPct": "0",
+       "unitPrice": "3620000",
+       "startDate": "2026-05-12",
+       "endDate": "2026-05-12",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "SCC Epever 100A",
+         "unit": "PCS",
+         "qty": "3",
+         "unitCost": "3500000"
+        },
+        {
+         "kind": "MATERIAL",
+         "item": "100007",
+         "name": "MCB TOMZ 2P AC - 50A",
+         "unit": "PCS",
+         "qty": "3",
+         "unitCost": "120000"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "number": "III",
+     "name": "Instalasi Battery & PLN",
+     "tasks": [
+      {
+       "name": "Shoto Battery Pack 4,8KW 100A",
+       "volume": "12",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "PCS",
+        "id": 50
+       },
+       "unitCost": "6000000",
+       "bufferPct": "0",
+       "unitPrice": "6000000",
+       "startDate": "2026-05-13",
+       "endDate": "2026-05-13",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100008",
+         "name": "Shoto Battery Pack 4,8 KW 100A",
+         "unit": "PCS",
+         "qty": "12",
+         "unitCost": "6000000"
+        }
+       ]
+      },
+      {
+       "name": "Instalasi Battery to Inverter",
+       "volume": "1",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "LS",
+        "id": 102
+       },
+       "unitCost": "750000",
+       "bufferPct": "0",
+       "unitPrice": "750000",
+       "startDate": "2026-05-14",
+       "endDate": "2026-05-14",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100005",
+         "name": "Kabel Battery 2x25mm DC",
+         "unit": "Meter",
+         "qty": "3",
+         "unitCost": "150000"
+        },
+        {
+         "kind": "MATERIAL",
+         "item": "100006",
+         "name": "MCB TOMZ 2P DC - 125 A",
+         "unit": "PCS",
+         "qty": "2",
+         "unitCost": "150000"
+        }
+       ]
+      },
+      {
+       "name": "Instalasi Inverter to PLN",
+       "volume": "10",
+       "unit": {
+        "codeUnitTax": null,
+        "optLock": 0,
+        "name": "Meter",
+        "id": 100
+       },
+       "unitCost": "77000",
+       "bufferPct": "20",
+       "unitPrice": "92400",
+       "startDate": "2026-05-14",
+       "endDate": "2026-05-14",
+       "resources": [
+        {
+         "kind": "MATERIAL",
+         "item": "100004",
+         "name": "Kabel Listrik NYM 3x2.5mm",
+         "unit": "Meter",
+         "qty": "10",
+         "unitCost": "65000"
+        },
+        {
+         "kind": "MATERIAL",
+         "item": "100007",
+         "name": "MCB TOMZ 2P AC - 50A",
+         "unit": "PCS",
+         "qty": "1",
+         "unitCost": "120000"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "meq": [
+   {
+    "number": "MEQ.2026.05.00001",
+    "date": "2026-05-08",
+    "description": "Penggunaan Draining Clip Panel beserta epmasangan di panel langsung oleh tukang",
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "246000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110401",
+      "accountName": "Persediaan",
+      "side": "CREDIT",
+      "amount": "246000",
+      "project": "PRC.2026.06.00001"
+     }
+    ],
+    "lines": [
+     {
+      "task": "Konstruksi (Rangka, skrup dan drain clip)",
+      "resource": "Draining Clip (Plastik)",
+      "item": "100003",
+      "qty": "60",
+      "unit": "PCS",
+      "warehouse": "Utama",
+      "amount": "246000"
+     }
+    ]
+   },
+   {
+    "number": "MEQ.2026.05.00003",
+    "date": "2026-05-12",
+    "description": "Instalasi Inverter butuh MCB 50A",
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "255000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110401",
+      "accountName": "Persediaan",
+      "side": "CREDIT",
+      "amount": "255000",
+      "project": "PRC.2026.06.00001"
+     }
+    ],
+    "lines": [
+     {
+      "task": "Solar Charge Controler Epever 100A",
+      "resource": "MCB TOMZ 2P AC - 50A",
+      "item": "100007",
+      "qty": "3",
+      "unit": "PCS",
+      "warehouse": "Utama",
+      "amount": "255000"
+     }
+    ]
+   },
+   {
+    "number": "MEQ.2026.05.00004",
+    "date": "2026-05-14",
+    "description": "Bahan untuk pengerjaan instalasi battery dan PLN",
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "507000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110401",
+      "accountName": "Persediaan",
+      "side": "CREDIT",
+      "amount": "507000",
+      "project": "PRC.2026.06.00001"
+     }
+    ],
+    "lines": [
+     {
+      "task": "Instalasi Battery to Inverter",
+      "resource": "Kabel Battery 2x25mm DC",
+      "item": "100005",
+      "qty": "3",
+      "unit": "Meter",
+      "warehouse": "Utama",
+      "amount": "132000"
+     },
+     {
+      "task": "Instalasi Battery to Inverter",
+      "resource": "MCB TOMZ 2P DC - 125 A",
+      "item": "100006",
+      "qty": "2",
+      "unit": "PCS",
+      "warehouse": "Utama",
+      "amount": "200000"
+     },
+     {
+      "task": "Instalasi Inverter to PLN",
+      "resource": "Kabel Listrik NYM 3x2.5mm",
+      "item": "100004",
+      "qty": "10",
+      "unit": "Meter",
+      "warehouse": "Utama",
+      "amount": "90000"
+     },
+     {
+      "task": "Instalasi Inverter to PLN",
+      "resource": "MCB TOMZ 2P AC - 50A",
+      "item": "100007",
+      "qty": "1",
+      "unit": "PCS",
+      "warehouse": "Utama",
+      "amount": "85000"
+     }
+    ]
+   }
+  ],
+  "surveys": [
+   {
+    "number": "PSV.2026.05.00001",
+    "date": "2026-05-09",
+    "surveyor": "Sumarno Waluyo",
+    "progressPct": "100",
+    "description": "Tahap Pertama Rangka dan Panel sudah selesai naik atap",
+    "lines": [
+     {
+      "task": "Konstruksi (Rangka, skrup dan drain clip)",
+      "volume": "1",
+      "progressQty": "1",
+      "portionPct": "100"
+     },
+     {
+      "task": "PV Solar merk Lesso 550Wp",
+      "volume": "32",
+      "progressQty": "32",
+      "portionPct": "100"
+     },
+     {
+      "task": "Jasa Pasang Rangka & Panel",
+      "volume": "7",
+      "progressQty": "7",
+      "portionPct": "100"
+     }
+    ]
+   },
+   {
+    "number": "PSV.2026.05.00002",
+    "date": "2026-05-12",
+    "surveyor": "Sumarno Waluyo",
+    "progressPct": "100",
+    "description": "Inverter dan SCC sudah terpasang",
+    "lines": [
+     {
+      "task": "Inverter Deye 10KW",
+      "volume": "1",
+      "progressQty": "1",
+      "portionPct": "100"
+     },
+     {
+      "task": "Solar Charge Controler Epever 100A",
+      "volume": "3",
+      "progressQty": "3",
+      "portionPct": "100"
+     }
+    ]
+   },
+   {
+    "number": "PSV.2026.05.00003",
+    "date": "2026-05-14",
+    "surveyor": "Sumarno Waluyo",
+    "progressPct": "100",
+    "description": "Pemasangan Battery dan koneksi ke PLN sudah selesai",
+    "lines": [
+     {
+      "task": "Shoto Battery Pack 4,8KW 100A",
+      "volume": "12",
+      "progressQty": "12",
+      "portionPct": "100"
+     },
+     {
+      "task": "Instalasi Battery to Inverter",
+      "volume": "1",
+      "progressQty": "1",
+      "portionPct": "100"
+     },
+     {
+      "task": "Instalasi Inverter to PLN",
+      "volume": "10",
+      "progressQty": "10",
+      "portionPct": "100"
+     }
+    ]
+   }
+  ],
+  "documents": [
+   {
+    "type": "RCPT",
+    "number": "110103.2026.05.00002",
+    "date": "2026-05-04",
+    "description": "DP Pertama Rangka & Panel",
+    "customer": "PT Sinar Alam Semesta",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "80000000",
+    "settles": [
+     {
+      "doc": "SI.2026.05.00002",
+      "amount": "80000000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "DEBIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PPY",
+    "number": "110103.2026.05.00008",
+    "date": "2026-05-04",
+    "description": "Pembelian Bahan rangka panel",
+    "vendor": "PD Bahan Baku Material",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "2850000",
+    "settles": [
+     {
+      "doc": "PI.2026.05.00002",
+      "amount": "2850000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "2850000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "CREDIT",
+      "amount": "2850000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PI",
+    "number": "PI.2026.05.00002",
+    "date": "2026-05-04",
+    "description": "Pembelian bahan untuk rangka solar panel",
+    "vendor": "PD Bahan Baku Material",
+    "apAccount": "210101",
+    "project": "PRC.2026.06.00001",
+    "total": "2850000",
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Skrup-skrup Panel dan Rangka",
+      "qty": "25",
+      "unit": "Pack",
+      "unitPrice": "24000",
+      "amount": "600000",
+      "project": "PRC.2026.06.00001",
+      "task": "Konstruksi (Rangka, skrup dan drain clip)",
+      "resource": "Skrup Panel"
+     },
+     {
+      "item": "100008",
+      "description": "besi Galvanis",
+      "qty": "15",
+      "unit": "Btng",
+      "unitPrice": "150000",
+      "amount": "2250000",
+      "project": "PRC.2026.06.00001",
+      "task": "Konstruksi (Rangka, skrup dan drain clip)",
+      "resource": "Besi Galvanis"
+     }
+    ],
+    "expenses": [],
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "2850000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "2850000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SID",
+    "number": "SI.2026.05.00002",
+    "date": "2026-05-04",
+    "description": "DP untuk tahap rangka dan panel",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "amount": "80000000",
+    "arAccount": "110301",
+    "unearnedAccount": "210103",
+    "journal": [
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "CREDIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PPY",
+    "number": "110103.2026.05.00004",
+    "date": "2026-05-05",
+    "description": "Pembayaran panel 32 lembar",
+    "vendor": "PT Panel Surya Indonesia",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "64000000",
+    "settles": [
+     {
+      "doc": "PI.2026.05.00004",
+      "amount": "64000000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "64000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "CREDIT",
+      "amount": "64000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PI",
+    "number": "PI.2026.05.00004",
+    "date": "2026-05-05",
+    "description": "Pembelian PV 32 lembar panel 550 Wp",
+    "vendor": "PT Panel Surya Indonesia",
+    "apAccount": "210101",
+    "project": "PRC.2026.06.00001",
+    "total": "64000000",
+    "lines": [
+     {
+      "item": "100008",
+      "description": "PV Solar Panel Lesso 550Wp",
+      "qty": "32",
+      "unit": "PCS",
+      "unitPrice": "2000000",
+      "amount": "64000000",
+      "project": "PRC.2026.06.00001",
+      "task": "PV Solar merk Lesso 550Wp",
+      "resource": "PV Solar Panel Lesso 550Wp"
+     }
+    ],
+    "expenses": [],
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "64000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "64000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PAY",
+    "number": "110103.2026.05.00010",
+    "date": "2026-05-09",
+    "description": "Bayar Tukang (Biaya Langsung) untuk pasang rangka dan panel 7 hari kerja",
+    "payee": "Tukang Harian lepas",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "2100000",
+    "lines": [
+     {
+      "account": "600020",
+      "accountName": "Beban Operasional Lainnya",
+      "description": "Jasa Pasang Rangka & Panel - Jasa Tukang (Langsung)",
+      "amount": "2100000",
+      "project": "PRC.2026.06.00001",
+      "task": "Jasa Pasang Rangka & Panel",
+      "resource": "Jasa Tukang (Langsung)"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "2100000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "CREDIT",
+      "amount": "2100000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "RCPT",
+    "number": "110103.2026.05.00005",
+    "date": "2026-05-10",
+    "description": "DP kedua untuk tahap inverter dan Battery",
+    "customer": "PT Sinar Alam Semesta",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "80000000",
+    "settles": [
+     {
+      "doc": "SI.2026.05.00004",
+      "amount": "80000000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "DEBIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SID",
+    "number": "SI.2026.05.00004",
+    "date": "2026-05-10",
+    "description": "DP untuk tahap instalasi inverter dan battery",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "amount": "80000000",
+    "arAccount": "110301",
+    "unearnedAccount": "210103",
+    "journal": [
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "CREDIT",
+      "amount": "80000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SI",
+    "number": "SI.2026.05.00005",
+    "date": "2026-05-10",
+    "description": "Tagihan #1 rangka dan pemasangan panel",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "arAccount": "110301",
+    "paymentTerm": "C.O.D",
+    "total": "77232600",
+    "projectProgressPct": "33",
+    "downPayments": [
+     {
+      "doc": "SI.2026.05.00002",
+      "amount": "77232600"
+     }
+    ],
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Konstruksi (Rangka, skrup dan drain clip)",
+      "qty": "1",
+      "unit": "LS",
+      "unitPrice": "4137600",
+      "amount": "4137600",
+      "project": "PRC.2026.06.00001",
+      "task": "Konstruksi (Rangka, skrup dan drain clip)"
+     },
+     {
+      "item": "100008",
+      "description": "PV Solar merk Lesso 550Wp",
+      "qty": "32",
+      "unit": "PCS",
+      "unitPrice": "2200000",
+      "amount": "70400000",
+      "project": "PRC.2026.06.00001",
+      "task": "PV Solar merk Lesso 550Wp"
+     },
+     {
+      "item": "100009",
+      "description": "Jasa Pasang Rangka & Panel",
+      "qty": "7",
+      "unit": "Hari",
+      "unitPrice": "385000",
+      "amount": "2695000",
+      "project": "PRC.2026.06.00001",
+      "task": "Jasa Pasang Rangka & Panel"
+     }
+    ],
+    "journal": [
+     {
+      "account": "5101.02",
+      "accountName": "Beban Pokok Proyek",
+      "side": "DEBIT",
+      "amount": "56356740",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "DEBIT",
+      "amount": "77232600",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "CREDIT",
+      "amount": "56356740",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "400005",
+      "accountName": "Pendapatan Proyek",
+      "side": "CREDIT",
+      "amount": "77232600",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PPY",
+    "number": "110103.2026.05.00006",
+    "date": "2026-05-11",
+    "description": "Pembayaran Inverter dan SCC",
+    "vendor": "PT Panel Surya Indonesia",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "26450000",
+    "settles": [
+     {
+      "doc": "PI.2026.05.00005",
+      "amount": "26450000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "26450000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "CREDIT",
+      "amount": "26450000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PI",
+    "number": "PI.2026.05.00005",
+    "date": "2026-05-11",
+    "description": "Pembelian Inverter Deye 10KW dan Solar Charge Controller 100A 3 unit",
+    "vendor": "PT Panel Surya Indonesia",
+    "apAccount": "210101",
+    "project": "PRC.2026.06.00001",
+    "total": "26450000",
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Invereter DC - AC Deye 10KW",
+      "qty": "1",
+      "unit": "PCS",
+      "unitPrice": "16100000",
+      "amount": "16100000",
+      "project": "PRC.2026.06.00001",
+      "task": "Inverter Deye 10KW",
+      "resource": "Invereter DC - AC Deye 10KW"
+     },
+     {
+      "item": "100008",
+      "description": "SCC Epever 100A",
+      "qty": "3",
+      "unit": "PCS",
+      "unitPrice": "3400000",
+      "amount": "10200000",
+      "project": "PRC.2026.06.00001",
+      "task": "Solar Charge Controler Epever 100A",
+      "resource": "SCC Epever 100A"
+     }
+    ],
+    "expenses": [
+     {
+      "account": "600006",
+      "accountName": "Beban Transportasi Karyawan",
+      "amount": "150000",
+      "notes": "ongkos ambil ke gudang supplier",
+      "project": "PRC.2026.06.00001"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "26300000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "150000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "26450000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SI",
+    "number": "SI.2026.06.00002",
+    "date": "2026-05-12",
+    "description": "Tagihan #2 Inverter dan SCC",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "arAccount": "110301",
+    "paymentTerm": "C.O.D",
+    "total": "27360000",
+    "projectProgressPct": "75",
+    "downPayments": [
+     {
+      "doc": "SI.2026.05.00002",
+      "amount": "2767400"
+     },
+     {
+      "doc": "SI.2026.05.00004",
+      "amount": "24592600"
+     }
+    ],
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Inverter Deye 10KW",
+      "qty": "1",
+      "unit": "PCS",
+      "unitPrice": "16500000",
+      "amount": "16500000",
+      "project": "PRC.2026.06.00001",
+      "task": "Inverter Deye 10KW"
+     },
+     {
+      "item": "100008",
+      "description": "Solar Charge Controler Epever 100A",
+      "qty": "3",
+      "unit": "PCS",
+      "unitPrice": "3620000",
+      "amount": "10860000",
+      "project": "PRC.2026.06.00001",
+      "task": "Solar Charge Controler Epever 100A"
+     }
+    ],
+    "journal": [
+     {
+      "account": "5101.02",
+      "accountName": "Beban Pokok Proyek",
+      "side": "DEBIT",
+      "amount": "29032260",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "DEBIT",
+      "amount": "27360000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "CREDIT",
+      "amount": "29032260",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "400005",
+      "accountName": "Pendapatan Proyek",
+      "side": "CREDIT",
+      "amount": "27360000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "RCPT",
+    "number": "110103.2026.05.00007",
+    "date": "2026-05-13",
+    "description": "Pembayaran DP tahap terakhir- Battery dan intalasi PLN",
+    "customer": "PT Sinar Alam Semesta",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "30000000",
+    "settles": [
+     {
+      "doc": "SI.2026.05.00006",
+      "amount": "30000000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "DEBIT",
+      "amount": "30000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "30000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SID",
+    "number": "SI.2026.05.00006",
+    "date": "2026-05-13",
+    "description": "DP untuk tahap #3 Instalasi Battery dan PLN",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "amount": "30000000",
+    "arAccount": "110301",
+    "unearnedAccount": "210103",
+    "journal": [
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "30000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "CREDIT",
+      "amount": "30000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PPY",
+    "number": "110103.2026.05.00009",
+    "date": "2026-05-14",
+    "description": "Pembayaran Pembelian Battery 12 Pack 100A",
+    "vendor": "PT Energy Solusindo Utama",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "72000000",
+    "settles": [
+     {
+      "doc": "PI.2026.05.00006",
+      "amount": "72000000"
+     }
+    ],
+    "journal": [
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "CREDIT",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "PI",
+    "number": "PI.2026.05.00006",
+    "date": "2026-05-14",
+    "description": "Pembelian Battery lifePO4 12 Pack",
+    "vendor": "PT Energy Solusindo Utama",
+    "apAccount": "210101",
+    "project": "PRC.2026.06.00001",
+    "total": "72000000",
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Shoto Battery Pack 4,8 KW 100A",
+      "qty": "12",
+      "unit": "PCS",
+      "unitPrice": "6000000",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001",
+      "task": "Shoto Battery Pack 4,8KW 100A",
+      "resource": "Shoto Battery Pack 4,8 KW 100A"
+     }
+    ],
+    "expenses": [],
+    "journal": [
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "DEBIT",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210101",
+      "accountName": "Utang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "RCPT",
+    "number": "110103.2026.05.00011",
+    "date": "2026-05-15",
+    "description": "pembayaran pelunasan tahap 3 - selesai",
+    "customer": "PT Sinar Alam Semesta",
+    "bank": "110103",
+    "project": "PRC.2026.06.00001",
+    "amount": "6066600",
+    "settles": [
+     {
+      "doc": "SI.2026.05.00007",
+      "amount": "6066600"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110103",
+      "accountName": "BCA a/c 1234567891",
+      "side": "DEBIT",
+      "amount": "6066600",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "CREDIT",
+      "amount": "6066600",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   },
+   {
+    "type": "SI",
+    "number": "SI.2026.05.00007",
+    "date": "2026-05-15",
+    "description": "Tagihan #3 Battery dan Instalasi",
+    "customer": "PT Sinar Alam Semesta",
+    "project": "PRC.2026.06.00001",
+    "arAccount": "110301",
+    "paymentTerm": "C.O.D",
+    "total": "91474000",
+    "projectProgressPct": "100",
+    "downPayments": [
+     {
+      "doc": "SI.2026.05.00004",
+      "amount": "55407400"
+     },
+     {
+      "doc": "SI.2026.05.00006",
+      "amount": "30000000"
+     }
+    ],
+    "lines": [
+     {
+      "item": "100008",
+      "description": "Shoto Battery Pack 4,8KW 100A",
+      "qty": "12",
+      "unit": "PCS",
+      "unitPrice": "6000000",
+      "amount": "72000000",
+      "project": "PRC.2026.06.00001",
+      "task": "Shoto Battery Pack 4,8KW 100A"
+     },
+     {
+      "item": "100008",
+      "description": "Instalasi Battery to Inverter",
+      "qty": "1",
+      "unit": "LS",
+      "unitPrice": "750000",
+      "amount": "750000",
+      "project": "PRC.2026.06.00001",
+      "task": "Instalasi Battery to Inverter"
+     },
+     {
+      "item": "100008",
+      "description": "Instalasi Inverter to PLN",
+      "qty": "10",
+      "unit": "Meter",
+      "unitPrice": "92400",
+      "amount": "924000",
+      "project": "PRC.2026.06.00001",
+      "task": "Instalasi Inverter to PLN"
+     },
+     {
+      "item": "100009",
+      "description": "Tagihan - Instalasi Solar 16K Wp - OffGrid",
+      "qty": "1",
+      "unit": null,
+      "unitPrice": "17800000",
+      "amount": "17800000",
+      "project": "PRC.2026.06.00001",
+      "kind": "CONTRACT_FEE"
+     }
+    ],
+    "journal": [
+     {
+      "account": "110301",
+      "accountName": "Piutang Usaha IDR",
+      "side": "DEBIT",
+      "amount": "6066600",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "5101.02",
+      "accountName": "Beban Pokok Proyek",
+      "side": "DEBIT",
+      "amount": "85389000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "210103",
+      "accountName": "Pendapatan Dimuka Proyek",
+      "side": "DEBIT",
+      "amount": "85407400",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "110506",
+      "accountName": "Proyek Dalam Proses",
+      "side": "CREDIT",
+      "amount": "85389000",
+      "project": "PRC.2026.06.00001"
+     },
+     {
+      "account": "400005",
+      "accountName": "Pendapatan Proyek",
+      "side": "CREDIT",
+      "amount": "91474000",
+      "project": "PRC.2026.06.00001"
+     }
+    ]
+   }
+  ],
+  "fpc": {
+   "number": "FPC.2026.07.00003",
+   "date": "2026-07-01",
+   "description": "proyek selesai, terpasang dan run",
+   "progressSurveyPct": "100",
+   "progressBilledPct": "100",
+   "billed": "196066600",
+   "returns": [
+    {
+     "item": "100003",
+     "qty": "3",
+     "unit": "PCS",
+     "warehouse": "Utama",
+     "amount": "12300"
+    }
+   ],
+   "journal": [
+    {
+     "account": "110506",
+     "accountName": "Proyek Dalam Proses",
+     "side": "CREDIT",
+     "amount": "12300",
+     "project": "PRC.2026.06.00001"
+    },
+    {
+     "account": "110506",
+     "accountName": "Proyek Dalam Proses",
+     "side": "DEBIT",
+     "amount": "2382300",
+     "project": "PRC.2026.06.00001"
+    },
+    {
+     "account": "5101.02",
+     "accountName": "Beban Pokok Proyek",
+     "side": "CREDIT",
+     "amount": "2382300",
+     "project": "PRC.2026.06.00001"
+    },
+    {
+     "account": "110401",
+     "accountName": "Persediaan",
+     "side": "DEBIT",
+     "amount": "12300",
+     "project": "PRC.2026.06.00001"
+    }
+   ]
+  },
+  "billing": [
+   {
+    "invoice": "SI.2026.05.00005",
+    "groups": [
+     "I"
+    ],
+    "projectProgressPct": "33",
+    "costEntryAmount": "56356740",
+    "sharePct": "33",
+    "revenue": "77232600"
+   },
+   {
+    "invoice": "SI.2026.06.00002",
+    "groups": [
+     "II"
+    ],
+    "projectProgressPct": "75",
+    "costEntryAmount": "29032260",
+    "sharePct": "17",
+    "revenue": "27360000"
+   },
+   {
+    "invoice": "SI.2026.05.00007",
+    "groups": [
+     "III"
+    ],
+    "projectProgressPct": "100",
+    "costEntryAmount": "85389000",
+    "sharePct": "50",
+    "revenue": "91474000"
+   }
+  ],
+  "expected": {
+   "workTotal": "170778000",
+   "bufferTotal": "7488600",
+   "grandTotal": "196093260",
+   "meqTotals": [
+    "246000",
+    "255000",
+    "507000"
+   ],
+   "wip110506Debit": "170790300",
+   "wip110506Credit": "170790300"
+  }
  }
 }

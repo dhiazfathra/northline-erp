@@ -50,13 +50,13 @@ export const ledgerProjection: Projection = {
 }
 
 /** Adds a journal's lines to journal_lines and the daily/period totals. */
-async function postLines(tx: Tx, journalId: string, date: string, lines: { account: string; side: string; amount: number; memo?: string; department?: string; project?: string }[]) {
+async function postLines(tx: Tx, journalId: string, date: string, lines: { account: string; side: string; amount: number; memo?: string; department?: string; project?: string; contractorProject?: string; rabResource?: number }[]) {
   let total = 0
   for (const [i, l] of lines.entries()) {
     const debit = l.side === 'DEBIT' ? l.amount : 0, credit = l.side === 'CREDIT' ? l.amount : 0
     total += debit
-    await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo, department, project)
-      VALUES (${journalId}, ${i + 1}, ${date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null}, ${l.department ?? null}, ${l.project ?? null})`)
+    await tx.execute(sql`INSERT INTO journal_lines (journal_id, line_no, date, account_no, debit, credit, memo, department, project, contractor_project, rab_resource)
+      VALUES (${journalId}, ${i + 1}, ${date}, ${l.account}, ${debit}, ${credit}, ${l.memo ?? null}, ${l.department ?? null}, ${l.project ?? null}, ${l.contractorProject ?? null}, ${l.rabResource ?? null})`)
     await tx.execute(sql`INSERT INTO account_daily_balances (account_no, date, debit, credit) VALUES (${l.account}, ${day(date)}, ${debit}, ${credit})
       ON CONFLICT (account_no, date) DO UPDATE SET debit = account_daily_balances.debit + EXCLUDED.debit, credit = account_daily_balances.credit + EXCLUDED.credit`)
   }
