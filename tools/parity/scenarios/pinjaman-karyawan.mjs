@@ -7,8 +7,8 @@ const inputs = { date: '2051-01-12', start: '2051-02-12', employee: 'E.00001', d
 
 export default {
   title: 'Pinjaman Karyawan', module: 'Buku Besar', dir: 'buku-besar/pinjaman-karyawan', mod: LOAN_MOD,
-  accuratePath: 'Buku Besar > Pinjaman Karyawan', erpRoute: 'POST/PUT/DELETE /api/employee-loans',
-  steps: ['Create a 300.000 interest-free loan to E.00001 Karyawan Produksi (receivable NL-T1-1201), dated 12 Jan 2051.', 'Edit it: new description, 360.000.',
+  accuratePath: 'Buku Besar > Pinjaman Karyawan', erpRoute: 'POST/PUT/DELETE /api/employee-loans', adrs: ['ADR-0041', 'ADR-0045'],
+  steps: ['Create a 300.000 interest-free loan to E.00001 Karyawan Produksi (receivable NL-T1-1201), dated 12 Jan 2051.', 'Edit it: new description, 360.000 (Accurate refuses: the employee still owes this loan).',
     'Read Keseluruhan Jurnal for the day (a loan posts nothing until it is disbursed).', 'Save a loan without an employee: rejected.', 'Delete it; read the journal and the list again.'],
   inputs,
   accurate: (ctx) => accFlow(ctx, {
@@ -30,12 +30,9 @@ export default {
     list: () => '/reports/employee-loans/list',
   }),
   compare: (a, e) => compareFlow(a, e),
-  // Stop rule (docs/goals/full-parity-v2.md): the edit's form shape was not found in 3 attempts. The form's wire with a new
-  // amount and description, and with the description alone, is refused ("Karyawan ... Masih Memiliki Pinjaman Yang Belum Lunas",
-  // the loan counted against itself); the form's own Simpan on the reopened loan stops at "Nama Bank harus diisi" (the
-  // bank-name lookup does not resolve the wire's text). Create, rejected save, delete and the list compare as recorded below.
-  stopped: 'Accurate edit shape not found after 3 attempts',
-  stoppedNote: 'Stop rule (docs/goals/full-parity-v2.md): the edit\'s form shape was not found in 3 attempts. The form\'s wire with a new amount and description, and with the description alone, is refused ("Karyawan ... Masih Memiliki Pinjaman Yang Belum Lunas", the loan counted against itself); the form\'s own Simpan on the reopened loan stops at "Nama Bank harus diisi" (the bank-name lookup does not resolve the text the wire saved). Create, the rejected save, delete and the list compare as below; on the Accurate side "number kept on edit" and "journal after edit" show the unedited loan. See ADR-0041.',
+  // Accurate refuses every save of a loan while its employee has a loan with a balance left, the loan being saved included
+  // ("Karyawan ... Masih Memiliki Pinjaman Yang Belum Lunas"); the edit is refused the same way on the form's own Simpan with Nama Bank
+  // filled in (ADR-0045), and a second loan for the employee is refused. The ERP does the same, so the edit step compares as a refusal.
   accepted: {
     defaults: 'D1: the API takes every value explicitly; today\'s date is a client default, not an API default.',
     'header fields without an ERP counterpart': 'D3: the ERP loan has no installment schedule (duration, start date, installment type), interest or penalty accounts, employee bank details or employee fee yet (ADR-0041).',

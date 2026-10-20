@@ -1,7 +1,8 @@
 import * as ML from './master/lists'
 import { createCashDocument, createExpenseAccrual, deleteCashDocument, deleteExpenseAccrual, editCashDocument, editExpenseAccrual } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
-import { createEmployeeLoan, createLoanDisbursement, deleteEmployeeLoan, deleteLoanDisbursement, editEmployeeLoan, editLoanDisbursement, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
+import { createBankTransfer, deleteBankTransfer, editBankTransfer } from './cash-bank/transfers'
+import { createEmployeeLoan, createLoanDisbursement, createLoanInstallment, createLoanSettlement, deleteLoanInstallment, deleteLoanSettlement, editLoanInstallment, editLoanSettlement, deleteEmployeeLoan, deleteLoanDisbursement, editEmployeeLoan, editLoanDisbursement, loadLoans, loanHistory, loanInstallments, loanList, upsertEmployee } from './payroll/loans'
 import * as PAY from './payroll/payroll'
 import { sql } from 'drizzle-orm'
 import { Hono, type Context } from 'hono'
@@ -380,6 +381,15 @@ export function createApp(db: Db) {
   api.post('/employee-loan-disbursements', async c => c.json(await createLoanDisbursement(db, await body(c)), 201))
   api.put('/employee-loan-disbursements/:number', async c => c.json(await editLoanDisbursement(db, c.req.param('number'), await body(c))))
   api.delete('/employee-loan-disbursements/:number', async c => c.json(await deleteLoanDisbursement(db, c.req.param('number'), await key(c))))
+  api.post('/employee-loan-settlements', async c => c.json(await createLoanSettlement(db, await body(c)), 201))
+  api.put('/employee-loan-settlements/:number', async c => c.json(await editLoanSettlement(db, c.req.param('number'), await body(c))))
+  api.delete('/employee-loan-settlements/:number', async c => c.json(await deleteLoanSettlement(db, c.req.param('number'), await key(c))))
+  api.post('/employee-loan-installments', async c => c.json(await createLoanInstallment(db, await body(c)), 201))
+  api.put('/employee-loan-installments/:number', async c => c.json(await editLoanInstallment(db, c.req.param('number'), await body(c))))
+  api.delete('/employee-loan-installments/:number', async c => c.json(await deleteLoanInstallment(db, c.req.param('number'), await key(c))))
+  api.post('/cash-bank/transfers', async c => c.json(await createBankTransfer(db, await body(c)), 201))
+  api.put('/cash-bank/transfers/:number', async c => c.json(await editBankTransfer(db, c.req.param('number'), await body(c))))
+  api.delete('/cash-bank/transfers/:number', async c => c.json(await deleteBankTransfer(db, c.req.param('number'), await key(c))))
   // P4.2 batch 2
   api.put('/period-ends/:period', async c => c.json(await editPeriodEnd(db, c.req.param('period'), await body(c))))
   api.delete('/period-ends/:period', async c => c.json(await deletePeriodEnd(db, c.req.param('period'), await key(c))))

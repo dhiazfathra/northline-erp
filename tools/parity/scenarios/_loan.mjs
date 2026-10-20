@@ -7,4 +7,4 @@ export const IDS = { employee: 50, receivable: 651, penalty: 700, bank: 650 }; /
 export const accLoan = ({ date, start, description, amount, employeeId = IDS.employee }) => ({ 'param.transDate': dmy(date), 'param.startDateInstallment': dmy(start),
   'param.number': description, 'param.employeeId': employeeId, 'param.description': description, 'param.loanAmount': amount, 'param.loanDuration': 3, 'param.installmentType': 'NOINTEREST',
   'param.receivableAccountId': IDS.receivable, 'param.penaltyAccountId': IDS.penalty, 'param.bankAccount': '000', 'param.bankAccountName': 'NL-P4', 'param.bankName': 'Bank Uji' });
-export const erpLoan = ({ date, description, amount }) => ({ employee: 'E.00001', date, description, amount, receivableAccount: 'NL-T1-1201' });
+export const erpLoan = ({ date, description, amount }) => ({ employee: 'E.00001', date, description, amount, receivableAccount: 'NL-T1-1201', penaltyAccount: 'NL-T1-4001' });

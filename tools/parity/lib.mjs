@@ -214,7 +214,7 @@ export async function accFlow({ app, log, shot }, s) {
   log('journal after delete', afterDelete, 'list before/after', listed, listedAfter);
   await accShot(app, shot('delete'), { mod: s.mod });
   if (s.teardown) await s.teardown(app, x, log);
-  return { extra, fields: fieldGap(f.body, s.fieldMap), defaults, number, editedNumber: e?.r?.number ?? view?.number, view, journal,
+  return { extra, fields: fieldGap(f.body, s.fieldMap), defaults, number, editedNumber: e?.r?.number ?? view?.number, edit: e?.s ? 'saved' : accMessage(e), view, journal,
     reject: { saved: !!rj?.s, message: accMessage(rj) }, deleted: !!d?.s, afterDelete, listed: listed.includes(number), listedAfter: listedAfter.includes(number) };
 }
 
@@ -246,14 +246,14 @@ export async function erpFlow({ log, shot, browser }, s) {
   log('journal after delete', afterDelete, 'list before/after', listed, listedAfter);
   await erpShot(browser, shot('delete'), `${dq[0]} ${dq[1]}`, dq[2], { ...d, journalAfterDelete: afterDelete, listedAfterDelete: listedAfter });
   if (s.teardown) await s.teardown(send, x);
-  return { extra, fields: [], defaults: s.defaults, number, editedNumber, journal: j, reject: { saved: rj.status < 300, message: erpMessage(rj.body) },
+  return { extra, fields: [], defaults: s.defaults, number, editedNumber, edit: e.status < 300 ? 'saved' : erpMessage(e.body), journal: j, reject: { saved: rj.status < 300, message: erpMessage(rj.body) },
     deleted: d.status < 300, afterDelete, listed, listedAfter };
 }
 
 /** The aspects every scenario compares; `extra` adds form-specific rows. */
 export const compareFlow = (a, e, extra = []) => [
   row('numbering', numFmt(a.number), numFmt(e.number)), row('number kept on edit', a.editedNumber === a.number, e.editedNumber === e.number),
-  row('journal after edit', seqMask(a.journal), seqMask(e.journal)),
+  row('edit', a.edit, e.edit), row('journal after edit', seqMask(a.journal), seqMask(e.journal)),
   row('rejected save', a.reject.saved, e.reject.saved), row('validation message', a.reject.message, e.reject.message),
   row('delete', a.deleted, e.deleted), row('journal after delete', seqMask(a.afterDelete), seqMask(e.afterDelete)),
   row('list/search after create', a.listed, e.listed), row('list/search after delete', a.listedAfter, e.listedAfter),

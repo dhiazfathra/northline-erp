@@ -1,0 +1,20 @@
+# Transfer Bank — inputs {"date":"2051-01-17","from":"NL-T1-1101","to":"110101","amount":100000,"description":"NL-P4-BT1","edit":{"description":"NL-P4-BT1 edit","amount":125000},"reject":{"description":"NL-P4-BT1 tanpa tujuan"}}
+## Accurate
+new form defaults {"date":"today","rate":1}
+create true BT.2051.01.00002
+edit true BT.2051.01.00002
+journal after edit [["Tanggal",":","17 Jan 2051","No. Trans #",":","BT.2051.01.00002"],["Tipe Transaksi",":","Transfer Bank","Deskripsi",":","NL-P4-BT1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110101","Kas Kecil","125.000","0"],["NL-T1-1101","NL-T1 Kas","0","125.000"],["125.000","125.000"]]
+reject false Ke Kas/Bank harus diisi
+reject (form Simpan) {"shown":["Data Baru","*","BT.2051.01.00002","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Dari Kas/Bank harus diisi","Ke Kas/Bank harus diisi","Nilai Transfer harus diisi"],"sent":[]}
+delete true Transfer Bank "BT.2051.01.00002" berhasil dihapus
+journal after delete [] list before/after ["BT.2051.01.00002"] []
+## ERP (local seeded instance)
+setup account POST /ledger/commands 202 {"globalPosition":100,"streams":["account-110101"]}
+create POST /cash-bank/transfers 201 {"number":"BT.2051.01.00001"}
+edit PUT /cash-bank/transfers/BT.2051.01.00001 200 {"number":"BT.2051.01.00001"}
+journal after edit [["Tanggal",":","17 Jan 2051","No. Trans #",":","BT.2051.01.00001"],["Tipe Transaksi",":","Transfer Bank","Deskripsi",":","NL-P4-BT1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110101","Kas Kecil","125.000","0"],["NL-T1-1101","NL-T1 Kas","0","125.000"],["125.000","125.000"]]
+reject POST /cash-bank/transfers 409 {"error":"Ke Kas/Bank harus diisi"}
+delete DELETE /cash-bank/transfers/BT.2051.01.00001 200 {"number":"BT.2051.01.00001"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041, ADR-0045)

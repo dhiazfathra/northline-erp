@@ -12,12 +12,13 @@ type LoanInput = {
     interestRate?: number;
     description?: string;
     receivableAccount?: string;
+    penaltyAccount?: string;
 };
 /** Pinjaman Karyawan: no journal (Accurate posts on Pencairan Pinjaman). Number omitted → EPL.yyyy.mm.nnnnn. */
 export declare function createEmployeeLoan(db: Db | Tx, l: LoanInput): Promise<{
     number: string;
 }>;
-/** Edited in place; a disbursed loan is read-only in Accurate. */
+/** A disbursed loan is read-only in Accurate; any other loan with a balance refuses its own edit (see assertNoUnpaidLoan), so an edit only passes for a fully paid loan. */
 export declare function editEmployeeLoan(db: Db, number: string, l: LoanInput): Promise<{
     number: string;
 }>;
@@ -41,6 +42,35 @@ export declare function deleteLoanDisbursement(db: Db, number: string, idempoten
 }>;
 /** Edited in place under the same number. */
 export declare function editLoanDisbursement(db: Db, number: string, d: DisbursementInput): Promise<{
+    number: string;
+}>;
+type PaymentInput = {
+    idempotencyKey: string;
+    number?: string;
+    loan?: string;
+    bank: string;
+    date: string;
+    description?: string;
+    amount?: number;
+};
+/** Accurate refuses a settlement edit that changes the cash paid or the date ("Sisa Angsuran & Penalty tidak boleh kurang dari Jumlah Pokok Dibayarkan", seen for both, ADR-0045). */
+declare function editSettlement(db: Db, n: string, d: PaymentInput): Promise<{
+    number: string;
+}>;
+export declare const createLoanSettlement: (db: Db | Tx, d: PaymentInput) => Promise<{
+    number: string;
+}>;
+export declare const editLoanSettlement: typeof editSettlement;
+export declare const deleteLoanSettlement: (db: Db, n: string, key: string) => Promise<{
+    number: string;
+}>;
+export declare const createLoanInstallment: (db: Db | Tx, d: PaymentInput) => Promise<{
+    number: string;
+}>;
+export declare const editLoanInstallment: (db: Db, n: string, d: PaymentInput) => Promise<{
+    number: string;
+}>;
+export declare const deleteLoanInstallment: (db: Db, n: string, key: string) => Promise<{
     number: string;
 }>;
 type Loan = {

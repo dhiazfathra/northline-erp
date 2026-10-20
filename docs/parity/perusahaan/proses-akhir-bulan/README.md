@@ -2,7 +2,7 @@
 
 Module: Perusahaan. Accurate: Perusahaan > Proses Akhir Bulan (`accurate__company__period-end`), Manufaktur Demo. ERP: POST/PUT/DELETE /api/period-ends.
 
-**Verdict:** stopped: journal after edit (gain/loss revaluation); the fix would change done reports (journal after edit, defaults, header fields without an ERP counterpart)
+**Verdict:** accepted divergence (ADR-0042, ADR-0045)
 
 Date: 2026-10-19. Commit: `<commit-sha>` (placeholder, filled in at commit; run on `9db4af4` plus the batch's uncommitted fixes).
 Script: [`tools/parity/scenarios/proses-akhir-bulan.mjs`](../../../../tools/parity/scenarios/proses-akhir-bulan.mjs), runner `tools/parity/run.mjs`.

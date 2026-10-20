@@ -1,19 +1,19 @@
 # Pinjaman Karyawan — inputs {"date":"2051-01-12","start":"2051-02-12","employee":"E.00001","description":"NL-P4-L1","amount":300000,"receivableAccount":"NL-T1-1201","edit":{"description":"NL-P4-L1 edit","amount":360000},"reject":{"description":"NL-P4-L1 tanpa karyawan"}}
 ## Accurate
 new form defaults {"date":"today","installmentType":"NOINTEREST","interestRate":0}
-create true EPL.2051.01.00010
+create true EPL.2051.01.00045
 edit false Karyawan Karyawan Produksi Masih Memiliki Pinjaman Yang Belum Lunas
 journal after edit []
 reject false Karyawan harus diisi
-reject (form Simpan) {"shown":["Data Baru","*","EPL.2051.01.00010","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Karyawan harus diisi","Lama Pinjaman harus diisi","Jumlah Pinjaman harus diisi"],"sent":[]}
-delete true Pinjaman Karyawan "EPL.2051.01.00010" berhasil dihapus
-journal after delete [] list before/after ["EPL.2051.01.00010"] []
+reject (form Simpan) {"shown":["Data Baru","*","EPL.2051.01.00045","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Karyawan harus diisi","Lama Pinjaman harus diisi","Jumlah Pinjaman harus diisi"],"sent":[]}
+delete true Pinjaman Karyawan "EPL.2051.01.00045" berhasil dihapus
+journal after delete [] list before/after ["EPL.2051.01.00045"] []
 ## ERP (local seeded instance)
-create POST /employee-loans 201 {"number":"EPL.2051.01.00001"}
-edit PUT /employee-loans/EPL.2051.01.00001 200 {"number":"EPL.2051.01.00001"}
+create POST /employee-loans 201 {"number":"EPL.2051.01.00002"}
+edit PUT /employee-loans/EPL.2051.01.00002 409 {"error":"Karyawan Karyawan Produksi Masih Memiliki Pinjaman Yang Belum Lunas"}
 journal after edit []
 reject POST /employee-loans 409 {"error":"Karyawan harus diisi"}
-delete DELETE /employee-loans/EPL.2051.01.00001 200 {"number":"EPL.2051.01.00001"}
+delete DELETE /employee-loans/EPL.2051.01.00002 200 {"number":"EPL.2051.01.00002"}
 journal after delete [] list before/after true false
 ## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
-verdict stopped: Accurate edit shape not found after 3 attempts
+verdict accepted divergence (ADR-0041, ADR-0045)

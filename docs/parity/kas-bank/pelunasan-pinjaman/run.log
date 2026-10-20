@@ -1,0 +1,32 @@
+# Pelunasan Pinjaman — inputs {"loan":{"date":"2051-01-13","start":"2051-02-13","description":"NL-P4-LS1 pinjaman","amount":300000},"disbursed":"2051-01-14","date":"2051-01-15","bank":"NL-T1-1101","description":"NL-P4-LS1","edit":{"amount":100000},"reject":{"date":"2051-01-15"}}
+## Accurate
+setup loan true EPL.2051.01.00044
+setup disbursement true ELD.2051.01.00025
+new form defaults {"date":"today","bank":"none","penalty":0}
+create true ELS.2051.01.00007
+edit false Sisa Angsuran & Penalty tidak boleh kurang dari Jumlah Pokok Dibayarkan
+journal after edit [["Tanggal"],["Tipe Transaksi"],[":"],[":"],["15 Jan 2051"],["Pelunasan Pinjaman"],["No. Trans #"],["Deskripsi"],[":"],[":"],["ELS.2051.01.00007"],["Pelunasan Pinjaman EPL.2051.01.00044"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1101","NL-T1 Kas","0","0"],["NL-T1-1201","NL-T1 Peralatan","0","300.000"],["NL-T1-4001","NL-T1 Pendapatan","300.000","0"],["300.000","300.000"]]
+reject false Upsss... Telah terjadi permasalahan pada saat pemrosesan aktivitas Anda. Permasalahan ini sudah kami terima secara otomatis, dan akan segera ditelusuri oleh tim terkait. Kami mohon maaf atas ketidaknyamanan yang terjadi.
+
+Kode Referensi:
+ersen-369-3bb40f528ef5ddf5092ba8faafee8b3e
+reject (form Simpan) {"shown":["Data Baru","*","ELS.2051.01.00007","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Nomor Pinjaman harus diisi","Kas/Bank harus diisi","OK"],"sent":[]}
+delete settled loan false Tidak dapat menghapus Pinjaman Karyawan karena telah digunakan di Pencairan Pinjaman
+delete true Pelunasan Pinjaman "ELS.2051.01.00007" berhasil dihapus
+journal after delete [] list before/after ["ELS.2051.01.00007"] []
+teardown disbursement true Pencairan Pinjaman "ELD.2051.01.00025" berhasil dihapus
+teardown loan true Pinjaman Karyawan "EPL.2051.01.00044" berhasil dihapus
+## ERP (local seeded instance)
+setup loan POST /employee-loans 201 {"number":"EPL.2051.01.00001"}
+setup disbursement POST /employee-loan-disbursements 201 {"number":"ELD.2051.01.00001"}
+create POST /employee-loan-settlements 201 {"number":"ELS.2051.01.00001"}
+edit PUT /employee-loan-settlements/ELS.2051.01.00001 409 {"error":"Sisa Angsuran & Penalty tidak boleh kurang dari Jumlah Pokok Dibayarkan"}
+journal after edit [["Tanggal",":","15 Jan 2051","No. Trans #",":","ELS.2051.01.00001"],["Tipe Transaksi",":","Pelunasan Pinjaman","Deskripsi",":","Pelunasan Pinjaman EPL.2051.01.00001"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["NL-T1-1201","NL-T1 Peralatan","0","300.000"],["NL-T1-4001","NL-T1 Pendapatan","300.000","0"],["300.000","300.000"]]
+reject POST /employee-loan-settlements 409 {"error":"Nomor Pinjaman harus diisi"}
+delete settled loan DELETE /employee-loans/EPL.2051.01.00001 409 {"error":"Tidak dapat menghapus Pinjaman Karyawan karena telah digunakan di Pencairan Pinjaman"}
+delete DELETE /employee-loan-settlements/ELS.2051.01.00001 200 {"number":"ELS.2051.01.00001"}
+journal after delete [] list before/after true false
+teardown disbursement DELETE /employee-loan-disbursements/ELD.2051.01.00001 200 {"number":"ELD.2051.01.00001"}
+teardown loan DELETE /employee-loans/EPL.2051.01.00001 200 {"number":"EPL.2051.01.00001"}
+## Compare 4 differing aspect(s): journal after edit, validation message, defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041, ADR-0045)

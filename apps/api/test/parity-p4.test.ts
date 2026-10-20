@@ -81,7 +81,9 @@ test('Pinjaman Karyawan and Pencairan Pinjaman: EPL/ELD numbers, Dr receivable /
   await expect(L.editEmployeeLoan(f.db, loan, { employee: 'E.00001', date: '2051-01-13', amount: 1 })).rejects.toThrow('sudah dicairkan')
   await L.deleteLoanDisbursement(f.db, number, 'ld1-delete')
   expect(await journal('2051-01-14')).toEqual([])
-  expect(await L.editEmployeeLoan(f.db, loan, { employee: 'E.00001', date: '2051-01-13', amount: 360000, description: 'NL-P4-LD1 edit' })).toEqual({ number: loan })
+  // Accurate refuses the edit of a loan with a balance (the loan counts against itself, ADR-0045)
+  await expect(L.editEmployeeLoan(f.db, loan, { employee: 'E.00001', date: '2051-01-13', amount: 360000, description: 'NL-P4-LD1 edit' })).rejects.toThrow('Karyawan Karyawan Produksi Masih Memiliki Pinjaman Yang Belum Lunas')
+  await expect(L.createEmployeeLoan(f.db, { employee: 'E.00001', date: '2051-01-13', amount: 1 })).rejects.toThrow('Masih Memiliki Pinjaman Yang Belum Lunas')
   expect(await L.deleteEmployeeLoan(f.db, loan)).toEqual({ number: loan })
 })
 
@@ -332,4 +334,46 @@ test('Pekerjaan Pesanan, Penambahan Bahan Baku, Penyelesaian Pesanan: JC/MA/RO j
   await JC.deleteRollOver(f.db, on, 'ro1-delete')
   expect(await journal('2051-03-18')).toEqual([])
   await JC.deleteJobOrder(f.db, r.number, 'ro1-job-delete')
+})
+
+// P4.2 batch 5 (docs/parity, ADR-0045): Pelunasan Pinjaman, Pembayaran Angsuran and Transfer Bank, with the journals Accurate printed (Manufaktur Demo, 2051).
+test('Pelunasan Pinjaman and Pembayaran Angsuran: Dr bank / Cr receivable, the unpaid balance on the penalty account, settlement edit refused', async () => {
+  await open(['NL-T1-4001', 'NL-T1 Pendapatan', 'REVENUE'])
+  const mk = async (n: number) => { const { number: loan } = await L.createEmployeeLoan(f.db, { employee: 'E.00001', date: '2051-01-13', amount: 300000, receivableAccount: 'NL-T1-1201', penaltyAccount: 'NL-T1-4001' })
+    await L.createLoanDisbursement(f.db, { idempotencyKey: `ls${n}-dis`, loan, bank: 'NL-T1-1101', date: '2051-01-14' }); return loan }
+  const loan = await mk(1)
+  await expect(L.createLoanSettlement(f.db, { idempotencyKey: 'ls1-bad', bank: 'NL-T1-1101', date: '2051-01-15' })).rejects.toThrow('Nomor Pinjaman harus diisi')
+  const { number } = await L.createLoanSettlement(f.db, { idempotencyKey: 'ls1-create', loan, bank: 'NL-T1-1101', date: '2051-01-15' })
+  expect(number).toBe('ELS.2051.01.00001')
+  expect(await journal('2051-01-15')).toEqual([...head('15 Jan 2051', number, 'Pelunasan Pinjaman', `Pelunasan Pinjaman ${loan}`),
+    ['NL-T1-1201', 'NL-T1 Peralatan', '0', '300.000'], ['NL-T1-4001', 'NL-T1 Pendapatan', '300.000', '0'], ['300.000', '300.000']])
+  for (const e of [{ amount: 100000, date: '2051-01-15' }, { date: '2051-01-16' }])
+    await expect(L.editLoanSettlement(f.db, number, { idempotencyKey: `ls1-edit-${e.date}${e.amount ?? ''}`, loan, bank: 'NL-T1-1101', ...e } as any)).rejects.toThrow('Sisa Angsuran & Penalty tidak boleh kurang dari Jumlah Pokok Dibayarkan')
+  await expect(L.deleteEmployeeLoan(f.db, loan)).rejects.toThrow('Tidak dapat menghapus Pinjaman Karyawan karena telah digunakan di')
+  await L.deleteLoanSettlement(f.db, number, 'ls1-delete')
+  expect(await journal('2051-01-15')).toEqual([])
+  const loan2 = loan // balance is back: the installment pays part of it
+  const { number: ins } = await L.createLoanInstallment(f.db, { idempotencyKey: 'li1-create', loan: loan2, bank: 'NL-T1-1101', date: '2051-03-15', amount: 100000, description: 'NL-P4-LI1' })
+  expect(ins).toBe('ELI.2051.03.00001')
+  await L.editLoanInstallment(f.db, ins, { idempotencyKey: 'li1-edit', loan: loan2, bank: 'NL-T1-1101', date: '2051-03-15', amount: 120000, description: 'NL-P4-LI1 edit' })
+  expect(await journal('2051-03-15')).toEqual([...head('15 Mar 2051', ins, 'Pembayaran Angsuran', 'NL-P4-LI1 edit'),
+    ['NL-T1-1101', 'NL-T1 Kas', '120.000', '0'], ['NL-T1-1201', 'NL-T1 Peralatan', '0', '120.000'], ['120.000', '120.000']])
+  await L.deleteLoanInstallment(f.db, ins, 'li1-delete')
+  expect(await journal('2051-03-15')).toEqual([])
+})
+
+test('Transfer Bank: BT number, Dr destination / Cr source, Accurate\'s messages, edit in place and delete', async () => {
+  await open(['110101', 'Kas Kecil', 'CASH_BANK'])
+  const T = await import('../src/cash-bank/transfers')
+  const t = { date: '2051-01-17', from: 'NL-T1-1101', to: '110101', amount: 100000 }
+  await expect(T.createBankTransfer(f.db, { ...t, idempotencyKey: 'bt1-bad', to: '' })).rejects.toThrow('Ke Kas/Bank harus diisi')
+  await expect(T.createBankTransfer(f.db, { ...t, idempotencyKey: 'bt1-bad-from', from: '' })).rejects.toThrow('Dari Kas/Bank harus diisi')
+  await expect(T.createBankTransfer(f.db, { ...t, idempotencyKey: 'bt1-bad-amt', amount: 0 })).rejects.toThrow('Nilai Transfer harus diisi')
+  const { number } = await T.createBankTransfer(f.db, { ...t, idempotencyKey: 'bt1-create', description: 'NL-P4-BT1' })
+  expect(number).toBe('BT.2051.01.00001')
+  expect(await T.editBankTransfer(f.db, number, { ...t, idempotencyKey: 'bt1-edit', amount: 125000, description: 'NL-P4-BT1 edit' })).toEqual({ number })
+  expect(await journal('2051-01-17')).toEqual([...head('17 Jan 2051', number, 'Transfer Bank', 'NL-P4-BT1 edit'),
+    ['110101', 'Kas Kecil', '125.000', '0'], ['NL-T1-1101', 'NL-T1 Kas', '0', '125.000'], ['125.000', '125.000']])
+  await T.deleteBankTransfer(f.db, number, 'bt1-delete')
+  expect(await journal('2051-01-17')).toEqual([])
 })
