@@ -9,11 +9,12 @@ import * as PAY from '../src/payroll/payroll'
 import * as P from '../src/purchases/service'
 import * as R from '../src/returns/service'
 import * as IA from '../src/inventory/adjustment'
+import * as JC from '../src/inventory/job-costing'
 import { handle } from '../src/ledger/handler'
 import * as L from '../src/payroll/loans'
 import { catchUp, ledgerProjection } from '../src/projections'
 import { queryGeneralLedger } from '../src/reports/queries'
-import { createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteSalesDownPayment, deleteSalesInvoice, deleteSalesReceipt, editSalesDownPayment, editSalesReceipt, upsertCustomer, upsertItem } from '../src/sales/service'
+import { createDeliveryOrder, deleteDeliveryOrder, editDeliveryOrder, createSalesDownPayment, createSalesInvoice, createSalesReceipt, deleteSalesDownPayment, deleteSalesInvoice, deleteSalesReceipt, editSalesDownPayment, editSalesReceipt, upsertCustomer, upsertItem } from '../src/sales/service'
 import { fixtureDb } from './fixture-db'
 
 let f: Awaited<ReturnType<typeof fixtureDb>>
@@ -248,4 +249,87 @@ test('Aset Tetap, Perubahan and Disposisi: FAA/FAE/FAD numbers, edit in place, A
   await FA.deleteDisposal(f.db, d.number, 'fad1-delete')
   expect(await journal('2051-03-13')).toEqual([])
   await FA.deleteFixedAsset(f.db, d0.number, 'fad1-asset-delete')
+})
+
+// P4.2 batch 4 (ADR-0044): Manufaktur Demo journals for NL-T4 Barang A at 14.600 a unit (FIFO), dated Mar 2051.
+test('Pengiriman, Penerimaan Barang, Uang Muka Pembelian, Pemindahan Barang: edit in place, Accurate\'s texts, delete takes journal and stock back', async () => {
+  await open(['110402', 'Persediaan Terkirim', 'INVENTORY'], ['110302', 'Uang Muka Pembelian IDR', 'ACCOUNT_RECEIVABLE'], ['210203', 'Hutang Pembelian Belum Ditagih', 'OTHER_CURRENT_LIABILITY'])
+  await upsertItem(f.db, { no: 'NL-T4-B1', name: 'NL-T4 Barang A', type: 'INVENTORY', unit: 'PCS', salesAccount: '400001', inventoryAccount: '110401', cogsAccount: '500001', deliveredAccount: '110402' })
+  await IA.createItemAdjustment(f.db, { idempotencyKey: 'b4-stock-open', date: '2051-03-01', account: '300001', lines: [{ item: 'NL-T4-B1', direction: 'IN', qty: 20, unitCost: 14600 }] })
+  const moves = async (doc: string) => (await f.client.unsafe(`SELECT count(*)::int AS n FROM stock_moves WHERE doc_number = '${doc}'`))[0]!.n
+
+  const d = { customer: 'NL-T2-C1', date: '2051-03-10' }
+  const { number: dn } = await createDeliveryOrder(f.db, { ...d, idempotencyKey: 'do1-create', description: 'NL-P4-DO1', lines: [{ item: 'NL-T4-B1', qty: 1 }] })
+  expect(await editDeliveryOrder(f.db, dn, { ...d, idempotencyKey: 'do1-edit-qty', description: 'NL-P4-DO1 edit', lines: [{ item: 'NL-T4-B1', qty: 2 }] })).toEqual({ number: dn })
+  expect(await journal('2051-03-10')).toEqual([...head('10 Mar 2051', dn, 'Pengiriman Pesanan', 'NL-P4-DO1 edit'),
+    ['110402', 'Persediaan Terkirim', '29.200', '0'], ['110401', 'Persediaan Barang Jadi', '0', '29.200'], ['29.200', '29.200']])
+  await expect(createDeliveryOrder(f.db, { ...d, idempotencyKey: 'do1-bad-empty', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await deleteDeliveryOrder(f.db, dn, 'do1-delete')
+  expect([await journal('2051-03-10'), await moves(dn)]).toEqual([[], 0])
+
+  const ri = { vendor: 'NL-T3-V1', date: '2051-03-11', receiveNumber: 'NL-P4-RI1-R' }
+  const { number: rn } = await P.createReceiveItem(f.db, { ...ri, idempotencyKey: 'ri1-create', description: 'NL-P4-RI1', lines: [{ item: 'NL-T4-B1', qty: 2, price: 15000 }] })
+  expect(await P.editReceiveItem(f.db, rn, { ...ri, idempotencyKey: 'ri1-edit-qty', description: 'NL-P4-RI1 edit', lines: [{ item: 'NL-T4-B1', qty: 3, price: 15000 }] })).toEqual({ number: rn })
+  expect(await journal('2051-03-11')).toEqual([...head('11 Mar 2051', rn, 'Penerimaan Barang', 'NL-P4-RI1 edit'),
+    ['110401', 'Persediaan Barang Jadi', '45.000', '0'], ['210203', 'Hutang Pembelian Belum Ditagih', '0', '45.000'], ['45.000', '45.000']])
+  await expect(P.createReceiveItem(f.db, { ...ri, idempotencyKey: 'ri1-bad-empty', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await P.deleteReceiveItem(f.db, rn, 'ri1-delete')
+  expect([await journal('2051-03-11'), await moves(rn)]).toEqual([[], 0])
+
+  const dp = { vendor: 'NL-T3-V1', date: '2051-03-12', dpAccount: '110302' }
+  const { number: pn } = await P.createPurchaseDownPayment(f.db, { ...dp, idempotencyKey: 'pdp1-create', bill: 'NL-P4-PDP1', description: 'NL-P4-PDP1', amount: 300000 })
+  expect(await P.editPurchaseDownPayment(f.db, pn, { ...dp, idempotencyKey: 'pdp1-edit', bill: 'NL-P4-PDP1', description: 'NL-P4-PDP1 edit', amount: 330000 })).toEqual({ number: pn })
+  expect(await journal('2051-03-12')).toEqual([...head('12 Mar 2051', pn, 'Uang Muka Pembelian', 'NL-P4-PDP1 edit'),
+    ['110302', 'Uang Muka Pembelian IDR', '330.000', '0'], ['210101', 'Hutang Usaha IDR', '0', '330.000'], ['330.000', '330.000']])
+  await expect(P.createPurchaseDownPayment(f.db, { ...dp, idempotencyKey: 'pdp1-bad', bill: 'NL-P4-PDP1-X', amount: 0 })).rejects.toThrow('Uang muka harus lebih besar dari nol')
+  await P.deletePurchaseDownPayment(f.db, pn, 'pdp1-delete')
+  expect(await journal('2051-03-12')).toEqual([])
+
+  const it = { date: '2051-03-13', direction: 'OUT' as const, warehouse: 'Utama', referenceWarehouse: 'NL-Gudang B' }
+  const { number: tn } = await IA.createItemTransfer(f.db, { ...it, idempotencyKey: 'it1-create', description: 'NL-P4-IT1', lines: [{ item: 'NL-T4-B1', qty: 1 }] })
+  expect(await IA.editItemTransfer(f.db, tn, { ...it, idempotencyKey: 'it1-edit-qty', description: 'NL-P4-IT1 edit', lines: [{ item: 'NL-T4-B1', qty: 2 }] })).toEqual({ number: tn })
+  const [q] = await f.client.unsafe(`SELECT sum(quantity)::int AS q FROM stock_moves WHERE doc_number = '${tn}' AND warehouse = '${IA.TRANSIT}'`)
+  expect([q!.q, await journal('2051-03-13')]).toEqual([2, []]) // 2 in transit, no journal
+  await expect(IA.createItemTransfer(f.db, { ...it, idempotencyKey: 'it1-bad-empty', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await IA.deleteItemTransfer(f.db, tn, 'it1-delete')
+  expect(await moves(tn)).toBe(0)
+})
+
+test('Pekerjaan Pesanan, Penambahan Bahan Baku, Penyelesaian Pesanan: JC/MA/RO journals after edit, Accurate\'s texts, delete', async () => {
+  await open(['110403', 'Persediaan Dalam Proses', 'INVENTORY'], ['600001', 'Beban Iklan', 'EXPENSE'], ['600002', 'Beban Komisi', 'EXPENSE'])
+  const job = (key: string, date: string, description: string, qty: number, expense = 10000) => JC.createJobOrder(f.db, { idempotencyKey: key, date, description, wipAccount: '110403',
+    materials: [{ item: 'NL-T4-B1', qty }], expenses: expense ? [{ account: '600001', name: 'NL-P4 Ongkos Kerja', amount: expense }] : [] })
+  const { number: jn } = await job('jc1-create', '2051-03-14', 'NL-P4-JC1', 1)
+  expect(await JC.editJobOrder(f.db, jn, { idempotencyKey: 'jc1-edit-qty', date: '2051-03-14', description: 'NL-P4-JC1 edit', wipAccount: '110403',
+    materials: [{ item: 'NL-T4-B1', qty: 2 }], expenses: [{ account: '600001', name: 'NL-P4 Ongkos Kerja', amount: 10000 }] })).toEqual({ number: jn })
+  expect(await journal('2051-03-14')).toEqual([...head('14 Mar 2051', jn, 'Pekerjaan Pesanan', 'NL-P4-JC1 edit'),
+    ['110403', 'Persediaan Dalam Proses', '39.200', '0'], ['110401', 'Persediaan Barang Jadi', '0', '29.200'], ['600001', 'Beban Iklan', '0', '10.000'], ['39.200', '39.200']])
+  await expect(JC.createJobOrder(f.db, { idempotencyKey: 'jc1-bad-empty', date: '2051-03-14', wipAccount: '110403' })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await JC.deleteJobOrder(f.db, jn, 'jc1-delete')
+  expect(await journal('2051-03-14')).toEqual([])
+
+  const m = await job('ma1-job-create', '2051-03-15', 'NL-P4-MA1 pekerjaan', 1, 0)
+  const ma = { job: m.number, type: 'ITEM_PICK' as const, date: '2051-03-16' }
+  const { number: an } = await JC.createMaterialAdjustment(f.db, { ...ma, idempotencyKey: 'ma1-create', description: 'NL-P4-MA1', lines: [{ item: 'NL-T4-B1', qty: 1 }] })
+  expect(await JC.editMaterialAdjustment(f.db, an, { ...ma, idempotencyKey: 'ma1-edit-qty', description: 'NL-P4-MA1 edit', lines: [{ item: 'NL-T4-B1', qty: 2 }] })).toEqual({ number: an })
+  expect(await journal('2051-03-16')).toEqual([...head('16 Mar 2051', an, 'Penambahan Bahan Baku', 'NL-P4-MA1 edit'),
+    ['110403', 'Persediaan Dalam Proses', '29.200', '0'], ['110401', 'Persediaan Barang Jadi', '0', '29.200'], ['29.200', '29.200']])
+  await expect(JC.createMaterialAdjustment(f.db, { ...ma, idempotencyKey: 'ma1-bad-empty', lines: [] })).rejects.toThrow('Detail dari transaksi belum diisi!')
+  await expect(JC.deleteJobOrder(f.db, m.number, 'ma1-job-delete-used')).rejects.toThrow('sudah dipakai transaksi lain')
+  await JC.deleteMaterialAdjustment(f.db, an, 'ma1-delete')
+  expect(await journal('2051-03-16')).toEqual([])
+  await JC.deleteJobOrder(f.db, m.number, 'ma1-job-delete')
+
+  const r = await job('ro1-job-create', '2051-03-17', 'NL-P4-RO1 pekerjaan', 1)
+  const ro = { job: r.number, date: '2051-03-18', accounts: [{ account: '600002', name: 'NL-P4 Biaya Selesai', portion: 100 }] }
+  const { number: on } = await JC.createRollOver(f.db, { ...ro, idempotencyKey: 'ro1-create', description: 'NL-P4-RO1' })
+  expect(await JC.editRollOver(f.db, on, { ...ro, idempotencyKey: 'ro1-edit-desc', description: 'NL-P4-RO1 edit' })).toEqual({ number: on })
+  // Accurate also prints a 0/0 line on the job's difference account (ADR-0044 D3)
+  expect(await journal('2051-03-18')).toEqual([...head('18 Mar 2051', on, 'Penyelesaian Pesanan', 'NL-P4-RO1 edit'),
+    ['600002', 'Beban Komisi', '24.600', '0'], ['110403', 'Persediaan Dalam Proses', '0', '24.600'], ['24.600', '24.600']])
+  await expect(JC.createRollOver(f.db, { job: r.number, date: '2051-03-18', idempotencyKey: 'ro1-bad-material', lines: [{ item: 'NL-T4-B1', qty: 1, portion: 100 }] }))
+    .rejects.toThrow('NL-T4 Barang A adalah termasuk dalam bahan baku. Tidak bisa di selesaikan ke barang tersebut.')
+  await JC.deleteRollOver(f.db, on, 'ro1-delete')
+  expect(await journal('2051-03-18')).toEqual([])
+  await JC.deleteJobOrder(f.db, r.number, 'ro1-job-delete')
 })

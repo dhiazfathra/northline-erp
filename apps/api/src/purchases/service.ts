@@ -201,7 +201,7 @@ export async function editPurchasePayment(db: Db, number: string, input: Purchas
   })
 }
 
-export async function createPurchaseDownPayment(db: Db, input: PurchaseDownPaymentInput) {
+export async function createPurchaseDownPayment(db: Db | Tx, input: PurchaseDownPaymentInput) {
   const dp = purchaseDownPaymentInput.parse(input)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${dp.idempotencyKey}`)
@@ -219,6 +219,38 @@ export async function createPurchaseDownPayment(db: Db, input: PurchaseDownPayme
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${dp.idempotencyKey}, 'CreatePurchaseDownPayment', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removePurchaseDownPayment(tx: Tx, number: string, idempotencyKey: string) {
+  const [dp] = await tx.execute(sql`SELECT journal_id FROM purchase_invoices WHERE number = ${number} AND kind = 'DP' FOR UPDATE`)
+  if (!dp) throw new DomainError(`Uang muka ${number} tidak ditemukan`)
+  const [used] = await tx.execute(sql`SELECT 1 FROM purchase_dp_usages WHERE dp_number = ${number} LIMIT 1`)
+  if (used) throw new DomainError(`Uang muka ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM purchase_invoices WHERE number = ${number}`).catch(e => {
+    throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`Uang muka ${number} sudah dipakai transaksi lain`) : e
+  })
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: dp.journal_id as string })
+}
+
+export async function deletePurchaseDownPayment(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchaseDownPayment(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeletePurchaseDownPayment', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editPurchaseDownPayment(db: Db, number: string, input: PurchaseDownPaymentInput) {
+  const dp = purchaseDownPaymentInput.parse(input)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${dp.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removePurchaseDownPayment(tx, number, dp.idempotencyKey)
+    return createPurchaseDownPayment(tx, { ...input, number: input.number ?? number })
   })
 }
 
@@ -242,11 +274,14 @@ export const UNBILLED_ACCOUNT = '210203'
 
 /** Penerimaan Barang: unpriced (unlinked) receipts add quantity only; priced receipts also journal to the unbilled account.
  *  shortcut: receipt does not move stock here; stock moves on the invoice (matches the unlinked sandbox case), link receipts to invoices when GRNI is modelled. */
-export async function createReceiveItem(db: Db, input: z.input<typeof orderInput> & { receiveNumber: string }) {
-  const o = orderInput.parse(input)
+const receiveInput = orderInput.extend({ idempotencyKey: z.string().min(8).optional(), receiveNumber: z.string(),
+  lines: orderInput.shape.lines.unwrap().array().min(1, 'Detail dari transaksi belum diisi!') }) // Accurate's text
+export async function createReceiveItem(db: Db | Tx, input: z.input<typeof receiveInput>) {
+  const o = receiveInput.parse(input)
   return db.transaction(async tx => {
+    if (o.idempotencyKey) { const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${o.idempotencyKey}`); if (done) return done.result as { number: string } }
     const number = o.number ?? await nextNumber(tx, `RI.${period(o.date)}`)
-    await tx.execute(sql`INSERT INTO receive_items (number, vendor_no, date, receive_number, description) VALUES (${number}, ${o.vendor}, ${o.date}, ${input.receiveNumber}, ${o.description})`)
+    await tx.execute(sql`INSERT INTO receive_items (number, vendor_no, date, receive_number, description) VALUES (${number}, ${o.vendor}, ${o.date}, ${o.receiveNumber}, ${o.description})`)
     for (const [i, l] of o.lines.entries()) {
       await tx.execute(sql`INSERT INTO receive_item_lines VALUES (${number}, ${i + 1}, ${l.item}, ${l.qty})`)
       // Unlinked receipt: Accurate adds the quantity at zero value (fixtures/adjustment-t10.json opens at 21 units).
@@ -258,13 +293,48 @@ export async function createReceiveItem(db: Db, input: z.input<typeof orderInput
     if (priced.length) {
       const inv = new Map((await tx.execute(sql`SELECT no, inventory_account FROM items`)).map(r => [r.no as string, r.inventory_account as string]))
       const ls = merge(priced.map(l => ({ account: inv.get(l.item)!, amount: Math.round(l.qty * l.price! * 100) })))
+      const journalId = crypto.randomUUID()
       await handleTx(tx, {
-        type: 'PostJournal', idempotencyKey: `ri:${number}:journal`, journalId: crypto.randomUUID(), number, sourceType: 'RI', date: o.date, description: o.description,
+        type: 'PostJournal', idempotencyKey: o.idempotencyKey ? `${o.idempotencyKey}:journal` : `ri:${number}:journal`, journalId, number, sourceType: 'RI', date: o.date, description: o.description,
         lines: [...ls.map(d => ({ account: d.account, side: 'DEBIT' as const, amount: rupiah(d.amount) })),
           { account: UNBILLED_ACCOUNT, side: 'CREDIT' as const, amount: rupiah(ls.reduce((t, d) => t + d.amount, 0)) }],
       })
+      await tx.execute(sql`UPDATE receive_items SET journal_id = ${journalId} WHERE number = ${number}`)
     }
+    if (o.idempotencyKey) await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${o.idempotencyKey}, 'CreateReceiveItem', ${JSON.stringify({ number })}::jsonb)`)
     return { number }
+  })
+}
+
+async function removeReceiveItem(tx: Tx, number: string, idempotencyKey: string) {
+  const [ri] = await tx.execute(sql`SELECT journal_id FROM receive_items WHERE number = ${number} FOR UPDATE`)
+  if (!ri) throw new DomainError(`Penerimaan ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM receive_item_lines WHERE receive_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'RI' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM receive_items WHERE number = ${number}`).catch(e => {
+    throw (e?.cause ?? e)?.code === '23503' ? new DomainError(`Penerimaan ${number} sudah dipakai transaksi lain`) : e
+  })
+  if (ri.journal_id) await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: ri.journal_id as string })
+}
+
+export async function deleteReceiveItem(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeReceiveItem(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteReceiveItem', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editReceiveItem(db: Db, number: string, input: z.input<typeof receiveInput> & { idempotencyKey: string }) {
+  const o = receiveInput.parse(input)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${input.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeReceiveItem(tx, number, input.idempotencyKey)
+    return createReceiveItem(tx, { ...o, number: o.number ?? number })
   })
 }
 

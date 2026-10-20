@@ -1,5 +1,5 @@
 import { customerInput, itemInput, type SalesDownPaymentInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales';
-import type { z } from 'zod';
+import { z } from 'zod';
 import type { Db, Tx } from '../db';
 export declare function upsertCustomer(db: Db, input: z.input<typeof customerInput>): Promise<void>;
 export declare function upsertItem(db: Db, input: z.input<typeof itemInput>): Promise<void>;
@@ -95,18 +95,26 @@ export declare function createSalesOrder(db: Db, o: {
     number: string;
 }>;
 /** Pengiriman Pesanan: stock leaves at FIFO cost into the delivered-goods account (Dr Persediaan Terkirim / Cr Persediaan). */
-export declare function createDeliveryOrder(db: Db, d: {
-    idempotencyKey: string;
-    number?: string;
-    customer: string;
-    order?: string;
-    date: string;
-    description?: string;
-    lines: {
-        item: string;
-        qty: number;
-    }[];
-}): Promise<{
+declare const deliveryInput: z.ZodObject<{
+    idempotencyKey: z.ZodString;
+    number: z.ZodOptional<z.ZodString>;
+    customer: z.ZodString;
+    order: z.ZodOptional<z.ZodString>;
+    date: z.ZodString;
+    description: z.ZodOptional<z.ZodString>;
+    lines: z.ZodArray<z.ZodObject<{
+        item: z.ZodString;
+        qty: z.ZodNumber;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export declare function createDeliveryOrder(db: Db | Tx, raw: z.input<typeof deliveryInput>): Promise<{
+    number: string;
+}>;
+export declare function deleteDeliveryOrder(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editDeliveryOrder(db: Db, number: string, raw: z.input<typeof deliveryInput>): Promise<{
     number: string;
 }>;
 /** Tukar Faktur: bundles invoices for collection; no journal. */

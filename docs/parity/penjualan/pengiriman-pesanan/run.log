@@ -1,0 +1,19 @@
+# Pengiriman Pesanan — inputs {"date":"2051-03-10","customer":"NL-T2-C1","description":"NL-P4-DO1","lines":[{"item":"NL-T4-B1","qty":1}],"edit":{"description":"NL-P4-DO1 edit","qty":2},"reject":{"description":"NL-P4-DO1 tanpa rincian"}}
+## Accurate
+new form defaults {"date":"today","branch":"Kantor Pusat"}
+create true DO.2051.03.00003
+edit true DO.2051.03.00003
+journal after edit [["Tanggal",":","10 Mar 2051","No. Trans #",":","DO.2051.03.00003"],["Tipe Transaksi",":","Pengiriman Pesanan","Deskripsi",":","NL-P4-DO1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110402","Persediaan Terkirim","29.200","0"],["110401","Persediaan Barang Jadi","0","29.200"],["29.200","29.200"]]
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Kirim ke harus diisi","Rincian Barang harus diisi","OK","Salin"],"sent":[]}
+delete true Pengiriman Pesanan "DO.2051.03.00003" berhasil dihapus
+journal after delete [] list before/after ["DO.2051.03.00003"] []
+## ERP (local seeded instance)
+create POST /sales/deliveries 201 {"number":"DO.2051.03.00003"}
+edit PUT /sales/deliveries/DO.2051.03.00003 200 {"number":"DO.2051.03.00003"}
+journal after edit [["Tanggal",":","10 Mar 2051","No. Trans #",":","DO.2051.03.00003"],["Tipe Transaksi",":","Pengiriman Pesanan","Deskripsi",":","NL-P4-DO1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110402","Persediaan Terkirim","29.200","0"],["110401","Persediaan Barang Jadi","0","29.200"],["29.200","29.200"]]
+reject POST /sales/deliveries 422 {"error":"validation","issues":[{"origin":"array","code":"too_small","minimum":1,"inclusive":true,"path":["lines"],"message":"Detail dari transaksi belum diisi!"}]}
+delete DELETE /sales/deliveries/DO.2051.03.00003 200 {"number":"DO.2051.03.00003"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

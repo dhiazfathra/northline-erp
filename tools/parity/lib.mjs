@@ -155,6 +155,7 @@ export const seqMask = (rows) => JSON.parse(JSON.stringify(rows).replace(/(\.\d{
 const TECHNICAL = /^(uniqueDataNumber|transaction|id|optLock|createdBy|typeAutoNumber|countAutoNumber|transactionType|transactionTypeName|transactionId|transNumber|recurringDetail|ignoreWarning|isLoading|draft|isReadOnly|journal|attachmentCount|commentCount|approval\w*|rejectionReason|saveAsStatusType|userPrinted|printUserName|printedTime|posCreateDate|settingId|needDetailResult|forceCalculate\w*|canProcess|lastCash\w*|total\w*|ft\w*|prime\w*|tax\d*Amount\w*|owing\w*|status\w*|has\w*|is[A-Z]\w*|\w*History|\w*List|detail\w*)$/;
 /** Header fields of an Accurate form with no ERP counterpart in `map` (keys: Accurate field, values: ERP field). */
 export function fieldGap(body, map) {
+  if (typeof body._param === 'string') body = JSON.parse(body._param); // transaction forms post one nested `_param`
   const custom = []; const gap = new Set();
   for (const k0 of Object.keys(body)) {
     const k = k0.replace(/^param\./, '').replace(/(IdId|Id)$/, '');

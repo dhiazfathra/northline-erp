@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm'
 import { customerInput, itemInput, salesDownPaymentInput, salesInvoiceInput, salesReceiptInput, type SalesDownPaymentInput, type SalesInvoiceInput, type SalesReceiptInput } from '@northline/schemas/sales'
-import type { z } from 'zod'
+import { z } from 'zod'
 import type { Db, Tx } from '../db'
 import { DomainError } from '../ledger/deciders'
 import { handleTx } from '../ledger/handler'
@@ -387,7 +387,10 @@ export async function createSalesOrder(db: Db, o: { number?: string; customer: s
 }
 
 /** Pengiriman Pesanan: stock leaves at FIFO cost into the delivered-goods account (Dr Persediaan Terkirim / Cr Persediaan). */
-export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; number?: string; customer: string; order?: string; date: string; description?: string; lines: { item: string; qty: number }[] }) {
+const deliveryInput = z.object({ idempotencyKey: z.string().min(8), number: z.string().optional(), customer: z.string(), order: z.string().optional(), date: z.string(), description: z.string().optional(),
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive() })).min(1, 'Detail dari transaksi belum diisi!') }) // Accurate's text
+export async function createDeliveryOrder(db: Db | Tx, raw: z.input<typeof deliveryInput>) {
+  const d = deliveryInput.parse(raw)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
     if (done) return done.result as { number: string }
@@ -413,6 +416,38 @@ export async function createDeliveryOrder(db: Db, d: { idempotencyKey: string; n
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${d.idempotencyKey}, 'CreateDeliveryOrder', ${JSON.stringify(result)}::jsonb)`)
     return result
+  })
+}
+
+async function removeDeliveryOrder(tx: Tx, number: string, idempotencyKey: string) {
+  const [d] = await tx.execute(sql`SELECT journal_id FROM delivery_orders WHERE number = ${number} FOR UPDATE`)
+  if (!d) throw new DomainError(`Pengiriman ${number} tidak ditemukan`)
+  const [billed] = await tx.execute(sql`SELECT 1 FROM sales_invoices WHERE delivery_number = ${number} LIMIT 1`)
+  if (billed) throw new DomainError(`Pengiriman ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM delivery_order_lines WHERE delivery_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'DO' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM delivery_orders WHERE number = ${number}`)
+  await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: d.journal_id as string })
+}
+
+export async function deleteDeliveryOrder(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeDeliveryOrder(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteDeliveryOrder', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editDeliveryOrder(db: Db, number: string, raw: z.input<typeof deliveryInput>) {
+  const d = deliveryInput.parse(raw)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${d.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeDeliveryOrder(tx, number, d.idempotencyKey)
+    return createDeliveryOrder(tx, { ...d, number: d.number ?? number })
   })
 }
 

@@ -128,6 +128,8 @@ export type SalesDownPaymentInput = z.input<typeof salesDownPaymentInput>
 /** Uang Muka Pembelian: a purchase invoice of kind DP, Dr down-payment asset / Cr payable. */
 export const purchaseDownPaymentInput = z.object({
   idempotencyKey: z.string().min(8), number: code.optional(), vendor: code, bill: code, date: isoDate,
-  description: z.string().default(''), amount: amountToCents, dpAccount: code,
+  description: z.string().default(''), dpAccount: code,
+  // Accurate's text for a zero down payment (docs/parity/pembelian/uang-muka-pembelian)
+  amount: z.union([z.number(), z.string()]).refine(v => Number(v) > 0, 'Uang muka harus lebih besar dari nol').pipe(amountToCents),
 })
 export type PurchaseDownPaymentInput = z.input<typeof purchaseDownPaymentInput>

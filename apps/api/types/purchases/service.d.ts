@@ -22,7 +22,14 @@ export declare function deletePurchasePayment(db: Db, number: string, idempotenc
 export declare function editPurchasePayment(db: Db, number: string, input: PurchasePaymentInput): Promise<{
     number: string;
 }>;
-export declare function createPurchaseDownPayment(db: Db, input: PurchaseDownPaymentInput): Promise<{
+export declare function createPurchaseDownPayment(db: Db | Tx, input: PurchaseDownPaymentInput): Promise<{
+    number: string;
+}>;
+export declare function deletePurchaseDownPayment(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editPurchaseDownPayment(db: Db, number: string, input: PurchaseDownPaymentInput): Promise<{
     number: string;
 }>;
 declare const orderInput: z.ZodObject<{
@@ -43,8 +50,28 @@ export declare function createPurchaseOrder(db: Db, input: z.input<typeof orderI
 export declare const UNBILLED_ACCOUNT = "210203";
 /** Penerimaan Barang: unpriced (unlinked) receipts add quantity only; priced receipts also journal to the unbilled account.
  *  shortcut: receipt does not move stock here; stock moves on the invoice (matches the unlinked sandbox case), link receipts to invoices when GRNI is modelled. */
-export declare function createReceiveItem(db: Db, input: z.input<typeof orderInput> & {
-    receiveNumber: string;
+declare const receiveInput: z.ZodObject<{
+    number: z.ZodOptional<z.ZodString>;
+    vendor: z.ZodString;
+    date: z.ZodString;
+    description: z.ZodDefault<z.ZodString>;
+    idempotencyKey: z.ZodOptional<z.ZodString>;
+    receiveNumber: z.ZodString;
+    lines: z.ZodArray<z.ZodObject<{
+        item: z.ZodString;
+        qty: z.ZodNumber;
+        price: z.ZodOptional<z.ZodNumber>;
+    }, z.core.$strip>>;
+}, z.core.$strip>;
+export declare function createReceiveItem(db: Db | Tx, input: z.input<typeof receiveInput>): Promise<{
+    number: string;
+}>;
+export declare function deleteReceiveItem(db: Db, number: string, idempotencyKey: string): Promise<{
+    number: string;
+}>;
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export declare function editReceiveItem(db: Db, number: string, input: z.input<typeof receiveInput> & {
+    idempotencyKey: string;
 }): Promise<{
     number: string;
 }>;

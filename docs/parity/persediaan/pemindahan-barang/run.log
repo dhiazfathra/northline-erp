@@ -1,0 +1,19 @@
+# Pemindahan Barang — inputs {"date":"2051-03-13","warehouse":"Utama","referenceWarehouse":"NL-Gudang B","description":"NL-P4-IT1","lines":[{"item":"NL-T4-B1","qty":1}],"edit":{"description":"NL-P4-IT1 edit","qty":2},"reject":{"description":"NL-P4-IT1 tanpa rincian"}}
+## Accurate
+new form defaults {"date":"today","direction":"TRANSFER_OUT","transit":"Transit (AOL System)","branch":"Kantor Pusat"}
+create true IT.2051.03.00002
+edit true IT.2051.03.00002
+journal after edit []
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Gudang harus diisi","Gudang Tujuan harus diisi","Rincian Barang harus diisi","OK","Salin"],"sent":[]}
+delete true Pemindahan Barang "IT.2051.03.00002" berhasil dihapus
+journal after delete [] list before/after ["IT.2051.03.00002"] []
+## ERP (local seeded instance)
+create POST /inventory/transfers 201 {"number":"IT.2051.03.00002"}
+edit PUT /inventory/transfers/IT.2051.03.00002 200 {"number":"IT.2051.03.00002"}
+journal after edit []
+reject POST /inventory/transfers 422 {"error":"validation","issues":[{"origin":"array","code":"too_small","minimum":1,"inclusive":true,"path":["lines"],"message":"Detail dari transaksi belum diisi!"}]}
+delete DELETE /inventory/transfers/IT.2051.03.00002 200 {"number":"IT.2051.03.00002"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

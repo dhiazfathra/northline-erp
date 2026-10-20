@@ -15,9 +15,9 @@ const jobInput = z.object({
   idempotencyKey: z.string().min(8), number: z.string().optional(), date: z.string(), description: z.string().default(''), wipAccount: z.string(), customer: z.string().optional(),
   materials: z.array(z.object({ item: z.string(), qty: z.number().positive() })).default([]),
   expenses: z.array(z.object({ account: z.string(), name: z.string(), amount: z.number().positive() })).default([]),
-}).refine(j => j.materials.length + j.expenses.length > 0, 'Pekerjaan pesanan butuh bahan atau biaya')
+}).refine(j => j.materials.length + j.expenses.length > 0, 'Detail dari transaksi belum diisi!') // Accurate's text
 
-export async function createJobOrder(db: Db, raw: z.input<typeof jobInput>) {
+export async function createJobOrder(db: Db | Tx, raw: z.input<typeof jobInput>) {
   const j = jobInput.parse(raw)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${j.idempotencyKey}`)
@@ -59,14 +59,13 @@ const rollInput = z.object({
 }).refine(r => (r.lines.length > 0) !== (r.accounts.length > 0), 'Penyelesaian ke barang atau ke akun')
   .refine(r => Math.abs([...r.lines, ...r.accounts].reduce((s, l) => s + l.portion, 0) - 100) < 1e-9, 'Alokasi harus berjumlah 100%')
 
-export async function createRollOver(db: Db, raw: z.input<typeof rollInput>) {
+export async function createRollOver(db: Db | Tx, raw: z.input<typeof rollInput>) {
   const r = rollInput.parse(raw)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${r.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const [job] = await tx.execute(sql`SELECT j.total, j.wip_account, to_char(j.date,'YYYY-MM-DD') AS date, ro.number AS ro FROM job_orders j LEFT JOIN roll_overs ro ON ro.job_number = j.number WHERE j.number = ${r.job}`)
     if (!job) throw new DomainError(`Pekerjaan pesanan ${r.job} tidak ditemukan`)
-    if (job.ro) throw new DomainError(`Pekerjaan pesanan ${r.job} sudah selesai (${job.ro})`)
     if (r.date < (job.date as string)) throw new DomainError('Tanggal penyelesaian sebelum tanggal pekerjaan')
     const total = await jobTotal(tx, r.job, Number(job.total))
     const outs: { item: string | null; account: string | null; name: string | null; qty: number; portion: number; amount: number; dr: string }[] = []
@@ -77,6 +76,9 @@ export async function createRollOver(db: Db, raw: z.input<typeof rollInput>) {
       if (l.item) {
         const [it] = await tx.execute(sql`SELECT inventory_account FROM items WHERE no = ${l.item} AND type = 'INVENTORY'`)
         if (!it) throw new DomainError(`Barang persediaan ${l.item} tidak ditemukan`)
+        const [mat] = await tx.execute(sql`SELECT name FROM job_order_lines WHERE job_number = ${r.job} AND item_no = ${l.item} LIMIT 1`)
+        // Accurate's two texts, as it returns them for a finished item that is one of the job's materials
+        if (mat) throw new DomainError(`${mat.name} adalah termasuk dalam bahan baku. Tidak bisa di selesaikan ke barang tersebut.; Penyelesaian ke Barang "${mat.name}" tidak benar. Barang ini merupakan barang yang terdapat pada rincian barang pekerjaan pesanan`)
         dr = it.inventory_account as string
       } else {
         const [own] = await tx.execute(sql`SELECT a.name FROM job_order_lines l JOIN accounts a ON a.no = l.account_no WHERE l.job_number = ${r.job} AND l.account_no = ${l.account}`)
@@ -87,6 +89,8 @@ export async function createRollOver(db: Db, raw: z.input<typeof rollInput>) {
       const amount = i === targets.length - 1 ? total - outs.reduce((s, o) => s + o.amount, 0) : Math.round(total * l.portion / 100)
       outs.push({ item: l.item, account: l.account, name: l.name, qty: l.qty, portion: l.portion, amount, dr })
     }
+    // after the lines, as Accurate reports a bad finished item before an already-finished job
+    if (job.ro) throw new DomainError(`Pekerjaan pesanan ${r.job} sudah selesai (${job.ro})`)
     const number = r.number ?? await nextNumber(tx, `RO.${period(r.date)}`)
     const journalId = crypto.randomUUID()
     await handleTx(tx, {
@@ -114,12 +118,12 @@ async function jobTotal(tx: Tx, job: string, base: number) {
 
 const adjInput = z.object({
   idempotencyKey: z.string().min(8), number: z.string().optional(), job: z.string(), type: z.enum(['ITEM_PICK', 'ITEM_RETURN']), date: z.string(), description: z.string().default(''),
-  lines: z.array(z.object({ item: z.string(), qty: z.number().positive() })).min(1),
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
 })
 
 /** Penambahan Bahan Baku (MA): Ambil Barang issues more material into an open job at FIFO cost (Dr WIP / Cr inventory);
  * Retur Barang takes material back at the job's average issued unit cost of that item (Dr inventory / Cr WIP). */
-export async function createMaterialAdjustment(db: Db, raw: z.input<typeof adjInput>) {
+export async function createMaterialAdjustment(db: Db | Tx, raw: z.input<typeof adjInput>) {
   const a = adjInput.parse(raw)
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
@@ -161,3 +165,62 @@ export async function createMaterialAdjustment(db: Db, raw: z.input<typeof adjIn
     return result
   })
 }
+
+// Edit in place (same number) and delete, as Accurate does (P4.2 batch 4): the document, its stock moves and its journal are taken back.
+type Remove = (tx: Tx, number: string, idempotencyKey: string) => Promise<void>
+const unpost = (tx: Tx, idempotencyKey: string, journalId: unknown) => handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: journalId as string })
+
+const removeJobOrder: Remove = async (tx, number, key) => {
+  const [j] = await tx.execute(sql`SELECT journal_id FROM job_orders WHERE number = ${number} FOR UPDATE`)
+  if (!j) throw new DomainError(`Pekerjaan pesanan ${number} tidak ditemukan`)
+  const [used] = await tx.execute(sql`SELECT 1 FROM roll_overs WHERE job_number = ${number} UNION ALL SELECT 1 FROM material_adjustments WHERE job_number = ${number} LIMIT 1`)
+  if (used) throw new DomainError(`Pekerjaan pesanan ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM job_order_lines WHERE job_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'JC' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM job_orders WHERE number = ${number}`)
+  await unpost(tx, key, j.journal_id)
+}
+const removeMaterialAdjustment: Remove = async (tx, number, key) => {
+  const [m] = await tx.execute(sql`SELECT m.journal_id, ro.number AS ro FROM material_adjustments m LEFT JOIN roll_overs ro ON ro.job_number = m.job_number WHERE m.number = ${number} FOR UPDATE OF m`)
+  if (!m) throw new DomainError(`Penambahan bahan baku ${number} tidak ditemukan`)
+  if (m.ro) throw new DomainError(`Pekerjaan pesanan sudah selesai (${m.ro})`)
+  await tx.execute(sql`DELETE FROM material_adjustment_lines WHERE adjustment_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'MA' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM material_adjustments WHERE number = ${number}`)
+  await unpost(tx, key, m.journal_id)
+}
+const removeRollOver: Remove = async (tx, number, key) => {
+  const [r] = await tx.execute(sql`SELECT journal_id FROM roll_overs WHERE number = ${number} FOR UPDATE`)
+  if (!r) throw new DomainError(`Penyelesaian pesanan ${number} tidak ditemukan`)
+  await tx.execute(sql`DELETE FROM roll_over_lines WHERE roll_over_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'RO' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM roll_overs WHERE number = ${number}`)
+  await unpost(tx, key, r.journal_id)
+}
+
+function deleter(remove: Remove, type: string) {
+  return (db: Db, number: string, idempotencyKey: string) => db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await remove(tx, number, idempotencyKey)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, ${type}, ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+function editor<I extends { idempotencyKey: string; number?: string }>(remove: Remove, create: (tx: Tx, raw: I) => Promise<{ number: string }>, parse: (raw: I) => unknown) {
+  return (db: Db, number: string, raw: I) => {
+    parse(raw) // a bad edit is refused before anything is taken back
+    return db.transaction(async tx => {
+      const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
+      if (done) return done.result as { number: string }
+      await remove(tx, number, raw.idempotencyKey)
+      return create(tx, { ...raw, number: raw.number ?? number })
+    })
+  }
+}
+export const deleteJobOrder = deleter(removeJobOrder, 'DeleteJobOrder')
+export const deleteMaterialAdjustment = deleter(removeMaterialAdjustment, 'DeleteMaterialAdjustment')
+export const deleteRollOver = deleter(removeRollOver, 'DeleteRollOver')
+export const editJobOrder = editor<z.input<typeof jobInput>>(removeJobOrder, createJobOrder, r => jobInput.parse(r))
+export const editMaterialAdjustment = editor<z.input<typeof adjInput>>(removeMaterialAdjustment, createMaterialAdjustment, r => adjInput.parse(r))
+export const editRollOver = editor<z.input<typeof rollInput>>(removeRollOver, createRollOver, r => rollInput.parse(r))

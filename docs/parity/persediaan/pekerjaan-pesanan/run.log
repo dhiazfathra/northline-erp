@@ -1,0 +1,22 @@
+# Pekerjaan Pesanan — inputs {"date":"2051-03-14","wipAccount":"110403","description":"NL-P4-JC1","materials":[{"item":"NL-T4-B1","qty":1}],"expenses":[{"account":"600001","name":"NL-P4 Ongkos Kerja","amount":10000}],"edit":{"description":"NL-P4-JC1 edit","qty":2},"reject":{"description":"NL-P4-JC1 tanpa rincian"}}
+## Accurate
+new form defaults {"date":"today","jobAccount":null,"branch":"Kantor Pusat"}
+create true JC.2051.03.00005
+edit true JC.2051.03.00005
+journal after edit [["Tanggal",":","14 Mar 2051","No. Trans #",":","JC.2051.03.00005"],["Tipe Transaksi",":","Pekerjaan Pesanan","Deskripsi",":","NL-P4-JC1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110403","Persediaan Dalam Proses","39.200","0"],["110401","Persediaan Barang Jadi","0","29.200"],["600001","Beban Iklan","0","10.000"],["39.200","39.200"]]
+reject false Detail dari transaksi belum diisi!
+reject (form Simpan) {"shown":["*","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","Rincian Barang / Biaya Lainnya harus diisi","OK","Salin"],"sent":[]}
+delete true Pekerjaan Pesanan "JC.2051.03.00005" berhasil dihapus
+journal after delete [] list before/after ["JC.2051.03.00005"] []
+## ERP (local seeded instance)
+setup account POST /ledger/commands 202 {"streams":["account-110403"],"globalPosition":114}
+setup account POST /ledger/commands 202 {"streams":["account-510102"],"globalPosition":115}
+setup account POST /ledger/commands 202 {"streams":["account-600001"],"globalPosition":116}
+create POST /job-costing/job-orders 201 {"number":"JC.2051.03.00004"}
+edit PUT /job-costing/job-orders/JC.2051.03.00004 200 {"number":"JC.2051.03.00004"}
+journal after edit [["Tanggal",":","14 Mar 2051","No. Trans #",":","JC.2051.03.00004"],["Tipe Transaksi",":","Pekerjaan Pesanan","Deskripsi",":","NL-P4-JC1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["110403","Persediaan Dalam Proses","39.200","0"],["110401","Persediaan Barang Jadi","0","29.200"],["600001","Beban Iklan","0","10.000"],["39.200","39.200"]]
+reject POST /job-costing/job-orders 422 {"error":"validation","issues":[{"code":"custom","path":[],"message":"Detail dari transaksi belum diisi!"}]}
+delete DELETE /job-costing/job-orders/JC.2051.03.00004 200 {"number":"JC.2051.03.00004"}
+journal after delete [] list before/after true false
+## Compare 2 differing aspect(s): defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041)

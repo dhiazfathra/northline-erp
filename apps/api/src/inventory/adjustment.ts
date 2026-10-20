@@ -83,9 +83,15 @@ export async function editItemAdjustment(db: Db, number: string, raw: z.input<ty
 export const TRANSIT = 'Transit (AOL System)'
 /** Pemindahan Barang: Kirim (OUT) moves stock into the transit warehouse, Terima (IN) out of it. No journal, no value.
  *  A receipt names its send (`from`); serial/batch numbers move with their line (ADR-0024). */
-export async function createItemTransfer(db: Db, t: { number?: string; date: string; direction: 'OUT' | 'IN'; warehouse: string; referenceWarehouse: string; description?: string; from?: string
-  lines: { item: string; qty: number; serials?: { no: string; qty: number }[] }[] }) {
+const transferInput = z.object({
+  idempotencyKey: z.string().min(8).optional(), number: z.string().optional(), date: z.string(), direction: z.enum(['OUT', 'IN']), warehouse: z.string(), referenceWarehouse: z.string(),
+  description: z.string().optional(), from: z.string().optional(),
+  lines: z.array(z.object({ item: z.string(), qty: z.number().positive(), serials: z.array(z.object({ no: z.string(), qty: z.number() })).optional() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
+})
+export async function createItemTransfer(db: Db | Tx, raw: z.input<typeof transferInput>) {
+  const t = transferInput.parse(raw)
   return db.transaction(async tx => {
+    if (t.idempotencyKey) { const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${t.idempotencyKey}`); if (done) return done.result as { number: string } }
     const number = t.number ?? await nextNumber(tx, `IT.${period(t.date)}`)
     await tx.execute(sql`INSERT INTO item_transfers (number, date, direction, warehouse, reference_warehouse, description, from_number)
       VALUES (${number}, ${t.date}, ${t.direction}, ${t.warehouse}, ${t.referenceWarehouse}, ${t.description ?? ''}, ${t.from ?? null})`)
@@ -98,7 +104,40 @@ export async function createItemTransfer(db: Db, t: { number?: string; date: str
       for (const s of l.serials ?? []) for (const [w, q] of [[from, -s.qty], [to, s.qty]] as const)
         await tx.execute(sql`INSERT INTO serial_numbers (item_no, serial, date, doc_type, doc_number, quantity, warehouse) VALUES (${l.item}, ${s.no}, ${t.date}, 'IT', ${number}, ${q}, ${w})`)
     }
+    if (t.idempotencyKey) await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${t.idempotencyKey}, 'CreateItemTransfer', ${JSON.stringify({ number })}::jsonb)`)
     return { number }
+  })
+}
+
+async function removeItemTransfer(tx: Tx, number: string) {
+  const [it] = await tx.execute(sql`SELECT 1 FROM item_transfers WHERE number = ${number} FOR UPDATE`)
+  if (!it) throw new DomainError(`Pemindahan ${number} tidak ditemukan`)
+  const [received] = await tx.execute(sql`SELECT 1 FROM item_transfers WHERE from_number = ${number} LIMIT 1`)
+  if (received) throw new DomainError(`Pemindahan ${number} sudah dipakai transaksi lain`)
+  await tx.execute(sql`DELETE FROM item_transfer_lines WHERE transfer_number = ${number}`)
+  await tx.execute(sql`DELETE FROM serial_numbers WHERE doc_type = 'IT' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM stock_moves WHERE doc_type = 'IT' AND doc_number = ${number}`)
+  await tx.execute(sql`DELETE FROM item_transfers WHERE number = ${number}`)
+}
+
+export async function deleteItemTransfer(db: Db, number: string, idempotencyKey: string) {
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeItemTransfer(tx, number)
+    await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${idempotencyKey}, 'DeleteItemTransfer', ${JSON.stringify({ number })}::jsonb)`)
+    return { number }
+  })
+}
+
+/** Edited in place under the same number, as Accurate does: taken back and saved again. */
+export async function editItemTransfer(db: Db, number: string, raw: z.input<typeof transferInput> & { idempotencyKey: string }) {
+  const t = transferInput.parse(raw)
+  return db.transaction(async tx => {
+    const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${raw.idempotencyKey}`)
+    if (done) return done.result as { number: string }
+    await removeItemTransfer(tx, number)
+    return createItemTransfer(tx, { ...t, number: t.number ?? number })
   })
 }
 

@@ -1,0 +1,27 @@
+# Penyelesaian Pesanan — inputs {"job":{"date":"2051-03-17","description":"NL-P4-RO1 pekerjaan","materials":[{"item":"NL-T4-B1","qty":1}],"expenses":[{"account":"600001","name":"NL-P4 Ongkos Kerja","amount":10000}]},"date":"2051-03-18","description":"NL-P4-RO1","accounts":[{"account":"600002","name":"NL-P4 Biaya Selesai","portion":100}],"edit":{"description":"NL-P4-RO1 edit"},"reject":{"description":"NL-P4-RO1 ke bahan baku","lines":[{"item":"NL-T4-B1","qty":1,"portion":100}]}}
+## Accurate
+setup job order true JC.2051.03.00007
+new form defaults {"date":"today","rollOverType":"ITEM","branch":"Kantor Pusat"}
+create true RO.2051.03.00002
+edit true RO.2051.03.00002
+journal after edit [["Tanggal",":","18 Mar 2051","No. Trans #",":","RO.2051.03.00002"],["Tipe Transaksi",":","Penyelesaian Pesanan","Deskripsi",":","NL-P4-RO1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600002","Beban Komisi","24.600","0"],["510102","Selisih Biaya Produksi","0","0"],["110403","Persediaan Dalam Proses","0","24.600"],["24.600","24.600"]]
+reject false NL-T4 Barang A adalah termasuk dalam bahan baku. Tidak bisa di selesaikan ke barang tersebut.; Penyelesaian ke Barang "NL-T4 Barang A" tidak benar. Barang ini merupakan barang yang terdapat pada rincian barang pekerjaan pesanan
+reject (form Simpan) {"shown":["Data Baru","*","RO.2051.03.00002","Terjadi Permasalahan pada Pemrosesan","Silakan perbaiki permasalahan berikut ini:","No Pekerjaan # harus diisi","Rincian Barang / Penyelesaian ke Akun harus diisi","OK"],"sent":[]}
+delete true Penyelesaian Pesanan "RO.2051.03.00002" berhasil dihapus
+journal after delete [] list before/after ["RO.2051.03.00002"] []
+teardown job order true Pekerjaan Pesanan "JC.2051.03.00007" berhasil dihapus
+## ERP (local seeded instance)
+setup account POST /ledger/commands 202 {"streams":["account-110403"],"globalPosition":114}
+setup account POST /ledger/commands 202 {"streams":["account-510102"],"globalPosition":115}
+setup account POST /ledger/commands 202 {"streams":["account-600001"],"globalPosition":116}
+setup account POST /ledger/commands 202 {"streams":["account-600002"],"globalPosition":127}
+setup job order POST /job-costing/job-orders 201 {"number":"JC.2051.03.00006"}
+create POST /job-costing/roll-overs 201 {"number":"RO.2051.03.00002"}
+edit PUT /job-costing/roll-overs/RO.2051.03.00002 200 {"number":"RO.2051.03.00002"}
+journal after edit [["Tanggal",":","18 Mar 2051","No. Trans #",":","RO.2051.03.00002"],["Tipe Transaksi",":","Penyelesaian Pesanan","Deskripsi",":","NL-P4-RO1 edit"],["Kode Perkiraan","Nama Perkiraan","Debit","Kredit"],["600002","Beban Komisi","24.600","0"],["110403","Persediaan Dalam Proses","0","24.600"],["24.600","24.600"]]
+reject POST /job-costing/roll-overs 409 {"error":"NL-T4 Barang A adalah termasuk dalam bahan baku. Tidak bisa di selesaikan ke barang tersebut.; Penyelesaian ke Barang \"NL-T4 Barang A\" tidak benar. Barang ini merupakan barang yang terdapat pada rincian barang pekerjaan pesanan"}
+delete DELETE /job-costing/roll-overs/RO.2051.03.00002 200 {"number":"RO.2051.03.00002"}
+journal after delete [] list before/after true false
+teardown job order DELETE /job-costing/job-orders/JC.2051.03.00006 200 {"number":"JC.2051.03.00006"}
+## Compare 3 differing aspect(s): journal after edit, defaults, header fields without an ERP counterpart
+verdict accepted divergence (ADR-0041, ADR-0044)

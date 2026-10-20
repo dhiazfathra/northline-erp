@@ -54,6 +54,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'POST /api/sales/quotations': 'penjualan.penawaran_penjualan',
   'POST /api/sales/orders': 'penjualan.pesanan_penjualan',
   'POST /api/sales/deliveries': 'penjualan.pengiriman_pesanan',
+  'PUT /api/sales/deliveries/:number': 'penjualan.pengiriman_pesanan',
+  'DELETE /api/sales/deliveries/:number': 'penjualan.pengiriman_pesanan',
   'GET /api/reports/deliveries/:report{list|detail|history}': { list: 'DeliveryOrderListReport', detail: 'DeliveryOrderDetailReport', history: 'DeliveryOrderHistorySummaryReport' },
   'POST /api/sales/exchange-invoices': 'penjualan.tukar_faktur',
   'GET /api/reports/exchange-invoices': 'ExchangeInvoiceDetailReport',
@@ -90,6 +92,12 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/dimensions/:report{by-branch|by-department|by-project|department-multi-period|project-multi-period|compare-department|compare-project|analysis-department|analysis-project}': FULL_ACCESS,
   // shortcut: Pekerjaan Pesanan's menu (job orders, Penyelesaian) is not in the catalog; its reports are.
   'POST /api/job-costing/:kind{job-orders|material-adjustments|roll-overs}': { 'job-orders': FULL_ACCESS, 'material-adjustments': 'persediaan.penambahan_bahan_baku', 'roll-overs': FULL_ACCESS },
+  'PUT /api/job-costing/job-orders/:number': FULL_ACCESS,
+  'DELETE /api/job-costing/job-orders/:number': FULL_ACCESS,
+  'PUT /api/job-costing/material-adjustments/:number': 'persediaan.penambahan_bahan_baku',
+  'DELETE /api/job-costing/material-adjustments/:number': 'persediaan.penambahan_bahan_baku',
+  'PUT /api/job-costing/roll-overs/:number': FULL_ACCESS,
+  'DELETE /api/job-costing/roll-overs/:number': FULL_ACCESS,
   'GET /api/reports/job-costing/:report{job-order-list|material-adjustment-list|material-adjustment-detail|roll-over-list|roll-over-item-detail|roll-over-account-detail}': {
     'job-order-list': 'JobOrderListReport', 'material-adjustment-list': 'MaterialAdjustmentListReport', 'material-adjustment-detail': 'MaterialAdjustmentDetailReport',
     'roll-over-list': 'RollOverListReport', 'roll-over-item-detail': 'RollOverItemDetailReport', 'roll-over-account-detail': 'RollOverAccountDetailReport' },
@@ -128,8 +136,12 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'PUT /api/purchases/invoices/:number': 'pembelian.faktur_pembelian',
   'DELETE /api/purchases/invoices/:number': 'pembelian.faktur_pembelian',
   'POST /api/purchases/down-payments': 'pembelian.uang_muka_pembelian',
+  'PUT /api/purchases/down-payments/:number': 'pembelian.uang_muka_pembelian',
+  'DELETE /api/purchases/down-payments/:number': 'pembelian.uang_muka_pembelian',
   'POST /api/purchases/orders': 'pembelian.pesanan_pembelian',
   'POST /api/purchases/receive-items': 'pembelian.penerimaan_barang',
+  'PUT /api/purchases/receive-items/:number': 'pembelian.penerimaan_barang',
+  'DELETE /api/purchases/receive-items/:number': 'pembelian.penerimaan_barang',
   'GET /api/reports/orders/:report{order-list|order-detail|order-by-item|order-by-vendor|receive-list|receive-detail}': {
     'order-list': 'PurchaseOrderListReport', 'order-detail': 'PurchaseOrderDetailReport', 'order-by-item': 'PurchaseOrderByItemReport',
     'order-by-vendor': 'PurchaseOrderByVendorReport', 'receive-list': 'ReceiveItemListReport', 'receive-detail': 'ReceiveItemDetailReport' },
@@ -141,6 +153,8 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/requisitions/:report{list|detail|by-item|order-status}': {
     list: 'PurchaseRequisitionListReport', detail: 'PurchaseRequisitionDetailReport', 'by-item': 'PurchaseRequisitionByItemReport', 'order-status': 'PurchaseRequisitionOrderStatusReport' },
   'POST /api/inventory/transfers': 'persediaan.pemindahan_barang',
+  'PUT /api/inventory/transfers/:number': 'persediaan.pemindahan_barang',
+  'DELETE /api/inventory/transfers/:number': 'persediaan.pemindahan_barang',
   'GET /api/reports/inventory/transfers': 'ItemTransferListReport',
   'POST /api/purchases/payments': 'pembelian.pembayaran_pembelian',
   'PUT /api/purchases/payments/:number': 'pembelian.pembayaran_pembelian',
@@ -155,9 +169,9 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/parties/:report{customer-list|vendor-list|sales-flow|purchase-flow|selling-frequency|profitability-by-invoice|profitability-by-customer}': {
     'customer-list': 'CustomerListReport', 'vendor-list': 'VendorListReport', 'sales-flow': 'SalesFlowHistoryReport', 'purchase-flow': 'PurchaseFlowHistoryReport',
     'selling-frequency': 'SellingItemFrequencyReport', 'profitability-by-invoice': 'ProfitabilityBySalesInvoiceReport', 'profitability-by-customer': 'ProfitabilityByCustomerReport' },
-  'GET /api/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item}': {
+  'GET /api/reports/inventory/:report{valuation|stock-card|valuation-detail|aging|profitability-by-item|warehouse-summary}': {
     valuation: 'InventoryValuationReport', 'stock-card': 'InventoryStockCardReport', 'valuation-detail': 'InventoryValuationDetailReport',
-    aging: 'InventoryAgingReport', 'profitability-by-item': 'ProfitabilityByItemReport' },
+    aging: 'InventoryAgingReport', 'profitability-by-item': 'ProfitabilityByItemReport', 'warehouse-summary': 'WarehouseMutationSummaryReport' },
   'POST /api/fixed-assets': 'aset_tetap.aset_tetap',
   'POST /api/fixed-assets/disposals': 'aset_tetap.disposisi_aset',
   'PUT /api/fixed-assets/disposals/:number': 'aset_tetap.disposisi_aset',
