@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Northline User Guide</title>
+<meta name="description" content="Northline ERP user guide: what works today, how to use it, every report, access control, the REST API, hosting and what is not available yet.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script>
+  // Same tokens as apps/web/src/index.css: dark by default, [data-mode=light] overrides.
+  try { const m = localStorage.getItem('nl-mode'); document.documentElement.dataset.mode = m || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') } catch (e) {}
+</script>
+<style>
+:root{
+  --fg:255,255,255;--ink:#f4f4f5;--paper:#141415;--card:rgba(60,60,64,.28);--line:rgba(255,255,255,.1);--panel:rgba(40,40,44,.55);
+  --muted:rgba(var(--fg),.64);--faint:rgba(var(--fg),.46);--code:rgba(0,0,0,.3);
+  --bg-grad:radial-gradient(38% 46% at 100% 0%,rgba(236,72,153,.42) 0%,rgba(139,92,246,.3) 30%,rgba(59,130,246,.18) 50%,transparent 72%),
+    radial-gradient(22% 28% at 100% 0%,rgba(250,170,90,.22) 0%,transparent 70%),radial-gradient(30% 35% at 8% 92%,rgba(59,130,246,.14),transparent 70%),
+    radial-gradient(26% 30% at 55% 55%,rgba(168,85,247,.08),transparent 70%),radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px) 0 0/28px 28px,#141415;
+  /* Availability hues, validated for colour-vision deficiency (dataviz validate_palette.js); every badge also carries its label */
+  --live:#0d9488;--api:#3b82f6;--prev:#d97706;
+}
+[data-mode=light]{
+  --fg:20,20,24;--ink:#151517;--paper:#fafafa;--card:rgba(255,255,255,.42);--line:rgba(0,0,0,.08);--panel:rgba(255,255,255,.6);--code:rgba(255,255,255,.55);
+  --bg-grad:radial-gradient(38% 46% at 100% 0%,rgba(236,72,153,.336) 0%,rgba(139,92,246,.24) 30%,rgba(59,130,246,.144) 50%,transparent 72%),
+    radial-gradient(22% 28% at 100% 0%,rgba(250,170,90,.176) 0%,transparent 70%),radial-gradient(30% 35% at 8% 92%,rgba(59,130,246,.112),transparent 70%),
+    radial-gradient(26% 30% at 55% 55%,rgba(168,85,247,.064),transparent 70%),radial-gradient(rgba(20,20,24,.12) 1px,transparent 1.2px) 0 0/28px 28px,#f3f3f2;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg-grad);background-attachment:fixed;color:var(--ink);font:300 16px/1.6 Outfit,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:underline;text-decoration-color:rgba(var(--fg),.3);text-underline-offset:3px}
+a:hover{text-decoration-color:#ec4899}
+h1,h2,h3,h4{font-weight:400;margin:0;letter-spacing:-.015em}
+p{margin:10px 0 0}
+b,strong{font-weight:500}
+code{font:400 .86em ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(var(--fg),.08);padding:1px 5px;border-radius:6px;overflow-wrap:anywhere}
+pre{position:relative;margin:12px 0 0;background:var(--code);border:1px solid var(--line);border-radius:14px;padding:38px 16px 14px;overflow:auto;font:400 13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}
+pre code{background:none;padding:0;overflow-wrap:normal}
+kbd{font:500 12px ui-monospace,SFMono-Regular,Menlo,monospace;padding:1px 6px;border-radius:6px;border:1px solid var(--line);background:rgba(var(--fg),.06)}
+.copy{position:absolute;top:8px;right:8px;font:500 12px Outfit,sans-serif;padding:3px 9px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer}
+.copy:hover{color:var(--ink)}
+.g{border-radius:24px;background:var(--card);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(var(--fg),.08),0 10px 30px rgba(0,0,0,.12);border:1px solid rgba(var(--fg),.14)}
+.pad{padding:20px 22px}
+.eyebrow{font:500 12px/1 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.mut{color:var(--muted)}
+:focus-visible{outline:2px solid #a855f7;outline-offset:2px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:10;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(var(--fg),.03);border-bottom:1px solid var(--line)}
+.top .in{max-width:1320px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mark{display:grid;grid-template-columns:repeat(3,5px);gap:2px}
+.mark i{width:5px;height:5px;border-radius:2px;background:linear-gradient(135deg,#ec4899,#a855f7)}
+.mark i:nth-child(odd){opacity:.55}
+.brand b{letter-spacing:.01em}
+.crumb{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sp{flex:1}
+.pill{font-size:13px;border-radius:999px;padding:5px 12px;background:rgba(var(--fg),.08);border:1px solid var(--line);white-space:nowrap}
+.btn{cursor:pointer;border-radius:12px;border:1px solid var(--line);background:rgba(var(--fg),.06);color:var(--ink);font:400 14px Outfit,sans-serif;padding:6px 12px}
+.btn:hover{background:rgba(var(--fg),.12)}
+.search{position:relative;min-width:0}
+.search input,.ctl input,.ctl select{font:400 14px Outfit,sans-serif;color:var(--ink);background:rgba(var(--fg),.06);border:1px solid var(--line);border-radius:12px;padding:7px 12px}
+.search input{width:260px;max-width:100%}
+.ctl select option{background:var(--paper);color:var(--ink)}
+.hits{position:absolute;right:0;top:calc(100% + 8px);width:min(460px,calc(100vw - 32px));max-height:62vh;overflow:auto;padding:6px;z-index:30;background:var(--panel)}
+.hit{display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:baseline;width:100%;text-align:left;padding:8px 10px;border-radius:12px;border:0;background:none;color:var(--ink);font:400 14px Outfit,sans-serif;cursor:pointer}
+.hit:hover,.hit:focus-visible,.hit.on{background:rgba(var(--fg),.1)}
+.hit small{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.hit span{overflow-wrap:anywhere}
+
+/* shell */
+.shell{max-width:1320px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:236px minmax(0,1fr);gap:36px}
+.toc{position:sticky;top:58px;align-self:start;max-height:calc(100vh - 70px);overflow:auto;padding:26px 0}
+.toc summary{display:none}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc a{display:block;padding:6px 12px;border-radius:10px;text-decoration:none;color:var(--muted);font-size:14.5px;line-height:1.35}
+.toc a:hover{background:rgba(var(--fg),.06);color:var(--ink)}
+.toc a.on{background:rgba(var(--fg),.09);color:var(--ink);box-shadow:inset 3px 0 0 #ec4899}
+main{min-width:0;padding-bottom:80px}
+@keyframes up{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+section{margin-top:72px;scroll-margin-top:70px;animation:up .5s ease both}
+section h2{font-size:clamp(26px,3.4vw,38px);font-weight:300}
+section h3{font-size:20px;margin-top:30px;scroll-margin-top:70px}
+section h4{font-size:16px;font-weight:500;margin-top:18px}
+.lead{color:var(--muted);max-width:76ch;margin-top:8px}
+
+/* hero */
+.hero{margin-top:36px}
+.hero h1{font-size:clamp(34px,5.4vw,62px);font-weight:200;line-height:1.05;max-width:17ch}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#ec4899,#a855f7 55%,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{font-size:18px;margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:28px}
+.stat{padding:18px 20px}
+.stat b{display:block;font-size:42px;font-weight:200;line-height:1}
+.stat span{display:block;color:var(--muted);font-size:14px;margin-top:8px;line-height:1.4}
+
+/* availability badges */
+.st{display:inline-flex;align-items:center;gap:6px;font:500 12.5px/1 Outfit,sans-serif;padding:4px 9px 4px 8px;border-radius:999px;border:1px solid var(--line);background:rgba(var(--fg),.06);color:var(--ink);white-space:nowrap;vertical-align:2px}
+.st::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c)}
+.st.live{--c:var(--live)}.st.api{--c:var(--api)}.st.prev{--c:var(--prev)}
+.st.no{border-style:dashed;background:transparent;color:var(--muted)}.st.no::before{background:none;border:1.5px solid var(--muted);width:5px;height:5px}
+.avail{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;margin:14px 0 0;align-items:baseline}
+.avail dd{margin:0;color:var(--muted)}
+
+/* generic layouts */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;margin-top:18px}
+.tw{overflow-x:auto;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:12.5px;padding:7px 10px 7px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px 9px 0;border-bottom:1px dashed var(--line);vertical-align:top}
+td small{display:block;color:var(--muted);font-size:12px}
+ul.dec,ol.dec{margin:8px 0 0;padding-left:20px}
+ul.dec li,ol.dec li{margin:6px 0}
+.note{margin-top:16px;padding:14px 18px;border-radius:16px;border:1px solid var(--line);background:rgba(var(--fg),.04);box-shadow:inset 3px 0 0 var(--c,#a855f7);font-size:15px}
+.note.warn{--c:var(--prev)}
+.note p:first-child{margin-top:0}
+
+/* modules */
+.mod{padding:22px 24px;margin-top:16px;scroll-margin-top:70px}
+.mod header{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.mod header h3{margin:0 auto 0 0;font-size:22px}
+.mod .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:4px 26px}
+.mod h4{color:var(--muted);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;margin-top:18px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;font-size:14px}
+.flow span{padding:4px 10px;border-radius:10px;background:var(--panel);border:1px solid rgba(var(--fg),.14)}
+.flow i{font-style:normal;color:var(--faint)}
+
+/* workflows */
+.wf{padding:22px 24px;margin-top:16px}
+.wf ol{list-style:none;margin:14px 0 0;padding:0;counter-reset:s}
+.wf li{counter-increment:s;position:relative;padding:0 0 18px 46px}
+.wf li::before{content:counter(s);position:absolute;left:0;top:0;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;font-weight:500;font-size:14px;color:#fff;background:linear-gradient(135deg,#ec4899,#a855f7)}
+.wf li:not(:last-child)::after{content:'';position:absolute;left:14px;top:34px;bottom:4px;width:2px;background:var(--line)}
+
+/* catalog + api index */
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:16px}
+.ctl input{flex:1 1 220px;min-width:0}
+.ctl .count{color:var(--muted);font-size:13.5px;margin-left:auto}
+.pane{max-height:min(72vh,760px);overflow:auto;overscroll-behavior:contain;margin-top:12px;padding-right:4px}
+.pane thead th{position:sticky;top:0;z-index:1;background:var(--paper)}
+.pane .tag h4{position:sticky;top:0;z-index:1;background:var(--paper);padding:6px 0;margin-top:12px}
+#rtable td:first-child b{display:block;font-weight:400}
+#rtable code{font-size:12px}
+.ep{display:grid;grid-template-columns:70px minmax(0,1fr);gap:4px 12px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+.ep .path{font:400 13.5px ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+.ep small{grid-column:2;color:var(--muted);font-size:12.5px;overflow-wrap:anywhere}
+.mt{display:inline-block;text-align:center;font:600 11.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;padding:5px 6px;border-radius:6px;background:rgba(var(--fg),.08);box-shadow:inset 3px 0 0 var(--c)}
+.mt.GET{--c:var(--api)}.mt.POST{--c:var(--live)}.mt.PUT{--c:var(--prev)}.mt.DELETE{--c:#ec4899}
+.tag h4{margin:22px 0 4px;font-size:15px;font-weight:500;color:var(--ink);text-transform:none;letter-spacing:0}
+dl.gl{display:grid;grid-template-columns:minmax(150px,auto) 1fr;gap:8px 18px;margin:14px 0 0}
+dl.gl dt{font-weight:500}
+dl.gl dd{margin:0;color:var(--muted)}
+details.faq{padding:14px 18px;margin-top:10px;border-radius:16px}
+details.faq summary{cursor:pointer;font-weight:400;font-size:16px}
+details.faq p{color:var(--muted)}
+footer{margin-top:64px;font-size:13px;color:var(--muted)}
+footer p{margin:6px 0}
+
+@media (max-width:1000px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .toc{position:static;max-height:none;padding:14px 0 0}
+  .toc summary{display:block;cursor:pointer;padding:10px 14px;border-radius:14px;background:rgba(var(--fg),.06);border:1px solid var(--line)}
+  .toc ol{padding:8px 0}
+}
+@media (max-width:640px){
+  .top .pill,.top .crumb{display:none}
+  .search input{width:100%}
+  dl.gl{grid-template-columns:1fr;gap:2px 0}dl.gl dd{margin-bottom:10px}
+  .avail{grid-template-columns:1fr;gap:4px}.avail dd{margin-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}section{animation:none}}
+@media print{
+  :root,[data-mode=light],[data-mode=dark]{--fg:20,20,24;--ink:#111;--muted:#444;--faint:#666;--line:rgba(0,0,0,.18);--card:#fff;--panel:#fff;--code:#f6f6f6}
+  body{background:#fff;font-size:12pt}
+  .top,.toc,.ctl,.copy,#hits{display:none!important}
+  .shell{display:block;padding:0}
+  .g{backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  section{animation:none;margin-top:28px}
+  .tw,.pane{overflow:visible;max-height:none}
+  .pane thead th,.pane .tag h4{position:static}
+  a{text-decoration:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="#welcome"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Northline</b></a>
+  <span class="crumb">User guide</span><span class="sp"></span>
+  <div class="search"><input id="q" type="search" placeholder="Search the guide   /" aria-label="Search the guide" autocomplete="off"><div id="hits" class="hits g" hidden></div></div>
+  <span class="pill">Edition 21 Oct 2026</span>
+  <button class="btn" id="mode" type="button" aria-label="Switch light or dark mode">◐</button>
+</div></header>
+
+<div class="shell">
+<details class="toc" id="toc"><summary>Contents</summary><nav aria-label="Contents"><ol>
+  <li><a href="#welcome">Welcome</a></li>
+  <li><a href="#start">Getting started</a></li>
+  <li><a href="#concepts">How your books are kept</a></li>
+  <li><a href="#modules">Modules</a></li>
+  <li><a href="#workflows">Step-by-step workflows</a></li>
+  <li><a href="#screens">Web app screens</a></li>
+  <li><a href="#reports">Reports</a></li>
+  <li><a href="#access">Users, access and audit</a></li>
+  <li><a href="#api">API and integrations</a></li>
+  <li><a href="#hosting">Hosting, security and backups</a></li>
+  <li><a href="#limits">Not available yet</a></li>
+  <li><a href="#glossary">Glossary</a></li>
+  <li><a href="#faq">FAQ and support</a></li>
+</ol></nav></details>
+
+<main id="main">
+<section id="welcome" class="hero">
+  <p class="eyebrow">Northline ERP · user guide · edition 21 Oct 2026</p>
+  <h1>Accounting that matches Accurate <em>to the cell.</em></h1>
+  <p class="lead">Northline is an accounting ERP for Indonesian businesses. Each report is tested against Accurate Online, the accounting system many Indonesian companies already use, and has to reproduce its numbers with zero difference. This guide covers what you can do with Northline today, how to do it, and what is not available yet.</p>
+  <div class="stats">
+    <div class="g stat"><b data-n="done">288</b><span>of <i data-n="total">291</i> Accurate reports verified with zero difference</span></div>
+    <div class="g stat"><b data-n="ops">147</b><span>API operations across every module</span></div>
+    <div class="g stat"><b>4</b><span>demo companies: manufacturing, retail, trading and contracting</span></div>
+    <div class="g stat"><b data-n="groups">18</b><span>report groups, from financial statements to tax</span></div>
+  </div>
+  <div class="g pad" style="margin-top:14px">
+    <h3 style="margin:0">Read this first: what "available" means</h3>
+    <p class="mut">You reach Northline in two ways: the web app in your browser, and the REST API that other software (or your IT team) calls. Every feature in this guide carries one of these labels.</p>
+    <dl class="avail">
+      <dt><span class="st live">Live</span></dt><dd>Works in the web app on your company's data.</dd>
+      <dt><span class="st api">API</span></dt><dd>Works today through the REST API. The web screen for it is not connected yet.</dd>
+      <dt><span class="st prev">Preview</span></dt><dd>The web screen exists and shows sample data, so you can see the layout. Nothing you enter there is saved.</dd>
+      <dt><span class="st no">Not yet</span></dt><dd>Not available. See <a href="#limits">Not available yet</a>.</dd>
+    </dl>
+  </div>
+  <div class="g pad" style="margin-top:14px">
+    <h3 style="margin:0">What works today</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Area</th><th>Web app</th><th>API</th></tr></thead>
+      <tbody>
+        <tr><td>Sign-in and sessions</td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td>Trial balance</td><td><span class="st live">Live</span><small>fixed period in this build</small></td><td><span class="st api">API</span><small>any period</small></td></tr>
+        <tr><td>Costing method, ageing basis, report style</td><td><span class="st live">Live</span><small>Preferensi</small></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-ledger">General ledger and chart of accounts</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-sales">Sales</a>, <a href="#m-purchasing">purchasing</a> and <a href="#m-returns">returns</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-inventory">Inventory</a> and <a href="#m-jobs">job costing</a></td><td><span class="st prev">Preview</span><small>stock adjustments only</small></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-cash">Cash and bank</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span><small>no bank reconciliation</small></td></tr>
+        <tr><td><a href="#m-assets">Fixed assets and depreciation</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-payroll">Payroll, employee loans, accrued expenses</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-contractor">Contractor projects</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span><small>full access</small></td></tr>
+        <tr><td><a href="#reports">Reports</a></td><td><span class="st prev">Preview</span><small>14 sample reports</small></td><td><span class="st api">API</span><small><span data-n="http">187</span> of <span data-n="done">288</span> verified reports</small></td></tr>
+        <tr><td><a href="#access">Access groups and activity log</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td>Switching or creating companies</td><td><span class="st prev">Preview</span></td><td><span class="st no">Not yet</span></td></tr>
+        <tr><td>Import, printing, export, e-Faktur</td><td><span class="st no">Not yet</span></td><td><span class="st no">Not yet</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="start">
+  <p class="eyebrow">Getting started</p><h2>Sign in and find your way around</h2>
+  <p class="lead">Northline runs in any current browser on a computer, tablet or phone; the layout adapts to the screen. There is nothing to install.</p>
+  <div class="g wf">
+    <h3 style="margin:0">Your first session</h3>
+    <ol>
+      <li><b>Get your account.</b> Your Northline administrator creates your user with your work email and a password of at least 8 characters. A new user can do nothing until the administrator adds them to an access group or gives them full access (see <a href="#access">access</a>). There is no self sign-up, and no password reset by email yet: ask the administrator for a new password.</li>
+      <li><b>Sign in.</b> Open your Northline address. On the <i>Masuk</i> (Sign in) page enter your email and <i>Kata sandi</i> (password), then press <i>Masuk</i>. A wrong email or password shows <i>Email atau kata sandi salah</i>. After 10 wrong attempts for one email within 15 minutes, that email cannot sign in until the 15 minutes are up.</li>
+      <li><b>Pick the company.</b> You arrive at <i>Pilih perusahaan</i> (Choose a company). In this build the list is a preview with sample companies: your live data is the company your Northline address serves, whichever card you choose.</li>
+      <li><b>Set the two company rules that matter first.</b> In <i>Pengaturan › Preferensi</i>, choose the costing method on the <i>Persediaan</i> tab before any stock is recorded, and the ageing basis and report style on the <i>Lainnya</i> tab. Both save straight to your books.</li>
+      <li><b>Check your numbers.</b> Open <i>Daftar Laporan</i> and choose <i>Neraca Percobaan</i> to see the trial balance from your live data. This build shows a fixed period, 1 September to 17 October 2026; the API returns any period.</li>
+    </ol>
+  </div>
+  <div class="note warn"><p><b>Signing out does not end your session yet.</b> In this build, <i>Keluar</i> (Sign out) returns you to the sign-in page, but your session stays valid for up to 7 days. On a shared computer, use a private browser window and close it when you finish, or clear this site's cookies.</p></div>
+  <h3>Finding your way</h3>
+  <div class="grid">
+    <div class="g pad"><h4 style="margin:0">Top bar</h4><ul class="dec">
+      <li>The Northline logo returns to <i>Ringkasan</i> (Overview).</li>
+      <li><i>Gelap | Terang</i> switches dark and light mode; <i>EN | ID</i> switches English and Indonesian. Both are remembered by your browser. Some labels stay in Indonesian.</li>
+      <li><i>Semua Modul</i> (All modules) opens the menu; your initials open the account menu with <i>Ganti perusahaan</i> and <i>Keluar</i>.</li>
+    </ul></div>
+    <div class="g pad"><h4 style="margin:0">All modules menu</h4><ul class="dec">
+      <li>Ten modules: Pengaturan, Perusahaan, Buku Besar, Kas &amp; Bank, Penjualan, Pembelian, Persediaan, Manufaktur, SmartLink Tax and Daftar Laporan.</li>
+      <li>Colours mark the kind of screen: green for transactions, blue for master data, red for setup, yellow for reports and tools.</li>
+      <li>A dashed card with a lock needs a feature switched on in <i>Preferensi</i>. Most entries without their own screen open an empty list for now; see <a href="#screens">screens</a>.</li>
+    </ul></div>
+    <div class="g pad"><h4 style="margin:0">Tabs, search and shortcuts</h4><ul class="dec">
+      <li>Each screen opens in a tab; <i>● edit</i> marks a tab with unsaved changes. Tabs reset when you reload the page.</li>
+      <li><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> searches the menu. <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>S</kbd> saves an open document form. <kbd>Enter</kbd> applies a list search.</li>
+      <li>Amounts show with thousands separators and dates as dd/mm/yyyy.</li>
+    </ul></div>
+  </div>
+  <h3>Demo companies</h3>
+  <p class="mut">Trials run on demo data that mirrors one of four Accurate demo companies. The live demo serves one of them at a time.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Demo</th><th>What it shows</th><th>Costing</th></tr></thead>
+    <tbody>
+      <tr><td><b>Manufaktur Demo</b></td><td>The broadest set: sales, purchasing, stock, fixed assets, payroll, cash and bank, tax</td><td>FIFO</td></tr>
+      <tr><td><b>Retail Demo</b></td><td>Branches, departments, salespeople and commissions, budgets, quotations, approvals, job costing</td><td>FIFO</td></tr>
+      <tr><td><b>Trade Portal Demo</b></td><td>A trading company's purchases, sales and stock</td><td>Average</td></tr>
+      <tr><td><b>Kontraktor Demo</b></td><td>Contractor projects: budget (RAB), material usage, surveys, project profit</td><td>Average</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="concepts">
+  <p class="eyebrow">Concepts</p><h2>How your books are kept</h2>
+  <p class="lead">A few rules hold everywhere in Northline. Knowing them makes every report and error message easier to read.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Every document posts its own journal</h3>
+      <p>You never type the journal for an invoice or a payment. Posting the document writes the double entry for you, and the general ledger reports show which document it came from in the <i>Tipe Transaksi</i> column, using Accurate's labels:</p>
+      <div class="flow" style="margin-top:12px"><span>Jurnal Umum</span><span>Faktur Penjualan</span><span>Penerimaan Penjualan</span><span>Uang Muka Penjualan</span><span>Pengiriman Pesanan</span><span>Retur Penjualan</span><span>Faktur Pembelian</span><span>Pembayaran Pembelian</span><span>Uang Muka Pembelian</span><span>Penerimaan Barang</span><span>Retur Pembelian</span><span>Penyesuaian Persediaan</span><span>Pembayaran</span><span>Penerimaan</span><span>Transfer Bank</span><span>Aset Tetap</span><span>Disposisi Aset Tetap</span><span>Proses Akhir Bulan (Penyusutan)</span><span>Pencatatan Beban</span><span>Pencatatan Gaji</span><span>Pencairan Pinjaman</span><span>Pembayaran Angsuran</span><span>Pelunasan Pinjaman</span><span>Pekerjaan Pesanan</span><span>Penambahan Bahan Baku</span><span>Penyelesaian Pesanan</span></div>
+    </div>
+    <div class="g pad"><h3 style="margin:0">Debits always equal credits</h3>
+      <p>Amounts are kept as whole cents (two decimals), so totals never drift through rounding. The database itself rejects any journal whose debits and credits differ, so an unbalanced entry cannot be saved, even through a bug.</p>
+      <h4>Nothing is overwritten</h4>
+      <p>Each posting is stored as an event in an append-only log that the database will not let anyone change or delete. Balances and reports are computed from the log, so every figure can be traced back to the documents that produced it. Editing a document takes the old one back and saves the new one under the same number; deleting it removes it from your books, while the log keeps the history.</p>
+    </div>
+    <div class="g pad"><h3 style="margin:0">Document numbers</h3>
+      <p>Northline numbers documents by type and month, the way Accurate does: <code>SI.2026.03.00001</code> is the first sales invoice of March 2026, and <code>JV.2026.03.00001</code> the first general journal. Each sequence starts again every month, and a deleted number is not reused. Receipts, payments and deposits are numbered per bank account, for example <code>1101.2026.03.00001</code>. You can give a document your own number instead.</p>
+      <h4>Retries are safe</h4>
+      <p>Documents that post to your books take an idempotency key: required on most, optional on goods receipts and payroll runs. If a connection drops and the same request arrives twice, Northline applies it once and returns the first result. Use a new key for each new document: Northline does not compare the contents, so a reused key returns the earlier document.</p>
+    </div>
+    <div class="g pad"><h3 style="margin:0">Company settings that change the numbers</h3><ul class="dec">
+      <li><b>Costing method</b>: FIFO or moving average for the whole company. It decides the cost of goods sold and the stock value. Choose it before your first stock transaction: after that it is locked.</li>
+      <li><b>Ageing basis</b>: whether receivable and payable ageing counts days from the due date or from the invoice date. You can change it at any time.</li>
+      <li><b>Report style</b>: Retail or Standard layout for the department and project profit and loss reports.</li>
+      <li><b>Dimensions</b>: give a general journal a branch, and each of its lines a department or project, then report profit by each. Sales, purchase and stock documents post to the default branch and carry no dimensions yet.</li>
+      <li><b>Currencies</b>: the books are kept in rupiah. A customer can be billed in another currency: the invoice and the receipt each carry their exchange rate, and the difference is booked as a realised gain or loss. The <i>Laba/Rugi Tidak Terealisasi</i> report shows the unrealised gain or loss on open foreign-currency receivables; no revaluation journal is posted. Purchases, cash and bank are in rupiah only.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="modules">
+  <p class="eyebrow">Modules</p><h2>What each module does</h2>
+  <p class="lead">Each module below lists what you can do, the rules Northline enforces (with the exact message you will see, in Indonesian as in Accurate), and what is not covered yet. Field-by-field request bodies are in <a href="#workflows">Step by step</a>.</p>
+
+  <article class="g mod" id="m-ledger"><header><h3>General ledger and chart of accounts</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Buku Besar · Akun Perkiraan · Jurnal Umum · Tutup Buku</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Open accounts in a parent and child chart, then rename, suspend or delete them. Each account has one of 16 types: Kas &amp; Bank, Piutang Usaha, Persediaan, Aset Lancar Lainnya, Aset Tetap, Akumulasi Penyusutan, Aset Lainnya, Utang Usaha, Liabilitas Jangka Pendek, Liabilitas Jangka Panjang, Modal, Pendapatan, Beban Pokok Penjualan, Beban, Pendapatan Lainnya, Beban Lainnya.</li>
+        <li>Post, edit, delete or reverse a general journal. A journal has at least two lines; it can carry a branch, and each line a memo, a department and a project.</li>
+        <li>Close a month to lock it, and reopen it.</li>
+        <li>All of this goes through one endpoint, <code>POST /api/ledger/commands</code>, with ten command types: <code>OpenAccount</code>, <code>RenameAccount</code>, <code>SuspendAccount</code>, <code>DeleteAccount</code>, <code>PostJournal</code>, <code>EditJournal</code>, <code>DeleteJournal</code>, <code>ReverseJournal</code>, <code>ClosePeriod</code>, <code>ReopenPeriod</code>.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>Debits must equal credits: <i>Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit</i>. A journal of zero: <i>Jurnal tanpa nilai</i>.</li>
+        <li>Unknown or suspended accounts are refused: <i>Akun tidak dikenal: …</i>, <i>Akun … nonaktif</i>.</li>
+        <li>A closed month blocks creating, editing and deleting every document dated in it: <i>Periode 2026-03 sudah ditutup</i>.</li>
+        <li>An account that has been used cannot be deleted: <i>Akun … sudah dipakai</i>. Suspend it instead.</li>
+        <li>Reversing keeps the original and posts a new journal with the sides swapped.</li>
+        <li>There is no year-end closing entry: reports carry earlier years' profit into retained earnings.</li>
+      </ul></div>
+    </div>
+    <p class="mut"><b>Not yet:</b> reactivating a suspended account, or changing an account's type or parent.</p>
+  </article>
+
+  <article class="g mod" id="m-sales"><header><h3>Sales and receivables</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Penjualan · Piutang</p>
+    <div class="flow"><span>Penawaran</span><i>→</i><span>Pesanan</span><i>→</i><span>Pengiriman</span><i>→</i><span>Faktur Penjualan</span><i>→</i><span>Penerimaan</span></div>
+    <p class="mut" style="font-size:14px">Each step is optional and refers back to the one before it. A down payment (<i>Uang Muka</i>) is applied on an invoice; a return (<i>Retur</i>) and an invoice exchange (<i>Tukar Faktur</i>) refer to invoices.</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Keep customers (receivable account, currency, credit limit, tax document type) and items: service, inventory, non-inventory or group.</li>
+        <li>Record quotations, sales orders, delivery orders, invoices, receipts, down payments, returns and invoice exchanges (<i>Tukar Faktur</i>).</li>
+        <li>On an invoice: line and invoice discounts, PPN when the invoice is taxable, payment in instalments, down payments applied, the delivery or order lines it bills, up to five salespeople per line, the e-Faktur number, and an exchange rate for a foreign-currency customer.</li>
+        <li>On a receipt: settle several invoices of one customer, or one instalment; record PPh the customer withheld, with its <i>bukti potong</i> number; date a cheque; money beyond the invoices becomes customer credit.</li>
+        <li>Delivering stock moves its cost to a goods-delivered account; the invoice then moves it to cost of goods sold.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>Stock leaves at FIFO or average cost: <i>Stok tidak cukup (kurang 3)</i> when there is not enough.</li>
+        <li>A receipt cannot exceed what is owed: <i>Pembayaran … melebihi sisa piutang</i>.</li>
+        <li>Instalments must add up to the invoice: <i>Jumlah cicilan harus sama dengan total faktur</i>.</li>
+        <li>An invoice that has receipts, returns or an invoice exchange cannot be edited or deleted: <i>Faktur … sudah dipakai transaksi lain</i>. Remove those first.</li>
+        <li>Quotations, orders and invoice exchanges cannot be edited or deleted, and have no idempotency key.</li>
+      </ul></div>
+    </div>
+    <p class="mut"><b>Not enforced yet:</b> credit limits, sales approvals, and invoiced quantity against the order or delivery. <b>Not yet:</b> price lists, and setting up salespeople and commission rules.</p>
+  </article>
+
+  <article class="g mod" id="m-purchasing"><header><h3>Purchasing and payables</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Pembelian · Utang</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Keep vendors (number, name and payable account).</li>
+        <li>Record purchase requisitions, purchase orders, goods receipts, vendor invoices, payments, down payments and returns.</li>
+        <li>On a vendor invoice: the vendor's own bill number, item lines, extra cost lines (<i>Biaya</i>) booked straight to an account, serial or batch numbers with expiry dates, PPN when taxable, and down payments applied.</li>
+        <li>On a payment: settle several invoices of one vendor and record PPh you withheld, with its <i>bukti potong</i> number.</li>
+        <li>Prepare payment orders (<i>Perintah Pembayaran</i>) by bank transfer, virtual account or cheque.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>A vendor's bill number can be used once: <i>No Faktur "…" sudah ada untuk pemasok …</i>.</li>
+        <li>A payment cannot exceed what is owed: <i>Pembayaran … melebihi sisa utang</i>.</li>
+        <li>Serial numbers must match the quantity: <i>Jumlah nomor seri … harus sama dengan kuantitas</i>.</li>
+        <li>Payment orders record the instruction only: they post nothing and stay <i>Menunggu Ditransfer</i>.</li>
+      </ul></div>
+    </div>
+    <div class="note warn"><p><b>Record stock from the vendor invoice only.</b> Requisitions, orders, goods receipts and invoices are not linked to each other yet. A goods receipt and a vendor invoice for the same goods would each add the stock, so record either one, not both. Purchases are in rupiah only and have no discount fields.</p></div>
+  </article>
+
+  <article class="g mod" id="m-returns"><header><h3>Returns</h3><span class="st api">API</span></header>
+    <p class="mut">Retur Penjualan · Retur Pembelian</p>
+    <ul class="dec">
+      <li>Return goods or value against one sales invoice (reduces what the customer owes) or one purchase invoice (reduces what you owe).</li>
+      <li>Returned quantity cannot exceed the invoice: <i>Retur … melebihi kuantitas faktur</i>. The price is yours to set.</li>
+      <li>Stock comes back at cost: with FIFO, the latest purchase cost on or before the return date; with average, the cost the invoice booked.</li>
+      <li><b>Not yet:</b> returns without an invoice, and reversing PPN on a return.</li>
+    </ul>
+  </article>
+
+  <article class="g mod" id="m-inventory"><header><h3>Inventory and warehouses</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Persediaan · Gudang</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Adjust stock in (at a unit cost you give) or out (at FIFO or average cost) against an offset account, for example to load opening stock.</li>
+        <li>Move stock between warehouses in two steps: send it out to the transit warehouse, then receive it in.</li>
+        <li>Track serial and batch numbers on purchase invoices and warehouse transfers.</li>
+        <li>Choose FIFO or moving-average costing once, before the first stock movement.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>Stock is checked against the item's total in all warehouses on the document date, not per warehouse.</li>
+        <li>Enter stock documents in date order: a back-dated document is not re-costed.</li>
+        <li>Warehouses are named on each document; the default is <i>Utama</i>.</li>
+        <li>The costing method locks after the first movement: <i>Metode persediaan tidak dapat diubah setelah ada transaksi persediaan</i>.</li>
+      </ul></div>
+    </div>
+    <p class="mut"><b>Not yet:</b> stock opname, a warehouse list, per-warehouse stock checks, serial numbers on sales, and stock checks on transfers.</p>
+  </article>
+
+  <article class="g mod" id="m-jobs"><header><h3>Job costing</h3><span class="st api">API</span></header>
+    <p class="mut">Pekerjaan Pesanan · Penambahan Bahan Baku · Penyelesaian Pesanan</p>
+    <div class="flow"><span>Pekerjaan Pesanan</span><i>→</i><span>Ambil / Retur Bahan</span><i>→</i><span>Penyelesaian Pesanan</span></div>
+    <ul class="dec">
+      <li>Open a job order that issues materials from stock and books extra costs into a work-in-progress account.</li>
+      <li>Add materials to an open job or return unused ones.</li>
+      <li>Finish the job once: move its total cost into finished items or into accounts, by percentage. Shares must total 100: <i>Alokasi harus berjumlah 100%</i>.</li>
+      <li>Opening and finishing jobs needs full access; adding or returning materials has its own privilege.</li>
+    </ul>
+  </article>
+
+  <article class="g mod" id="m-cash"><header><h3>Cash and bank</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Kas &amp; Bank · Pembayaran · Penerimaan · Transfer Bank</p>
+    <ul class="dec">
+      <li>Record payments (<i>Pembayaran</i>) and deposits (<i>Penerimaan</i>) with several lines and a cheque number, and transfers between two cash or bank accounts. Edit or delete them.</li>
+      <li>The account must be a cash or bank account: <i>… bukan akun Kas &amp; Bank</i>. A document needs lines: <i>Detail dari transaksi belum diisi!</i></li>
+      <li>Transfers need both accounts and an amount: <i>Dari Kas/Bank harus diisi</i>, <i>Ke Kas/Bank harus diisi</i>, <i>Nilai Transfer harus diisi</i>.</li>
+      <li>Deposits use the payment privilege (<i>Pembayaran</i>) for now.</li>
+      <li><b>Not yet:</b> bank reconciliation, bank statement import, and foreign-currency bank accounts.</li>
+    </ul>
+  </article>
+
+  <article class="g mod" id="m-assets"><header><h3>Fixed assets and month-end depreciation</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+    <p class="mut">Aset Tetap · Perubahan Aset · Disposisi Aset · Proses Akhir Bulan</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Register an asset: category, acquisition date, the date use starts, useful life in months, its three accounts (asset, accumulated depreciation, expense), one or more acquisition costs, and an optional tax life.</li>
+        <li>Change its useful life, or dispose of it with or without a sale price; the gain or loss is booked.</li>
+        <li>Run month-end depreciation (<i>Proses Akhir Bulan</i>) once per month, then edit or undo the run.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>Depreciation is straight-line. The last month takes the rounding, so book value ends at exactly zero.</li>
+        <li>One run per month: <i>Proses akhir bulan … sudah dijalankan</i>.</li>
+        <li>An asset that has been depreciated, changed or disposed of cannot be edited or deleted: <i>Aset … sudah dipakai transaksi lain</i>.</li>
+      </ul></div>
+    </div>
+    <p class="mut"><b>Not yet:</b> declining-balance depreciation, changing an asset's cost, and a list of disposed assets.</p>
+  </article>
+
+  <article class="g mod" id="m-payroll"><header><h3>Payroll, employee loans and accrued expenses</h3><span class="st api">API</span></header>
+    <p class="mut">Karyawan · Pencatatan Gaji · PPh 21 · Pinjaman Karyawan · Pencatatan Beban</p>
+    <div class="cols">
+      <div><h4>What you can do</h4><ul class="dec">
+        <li>Keep employees with their tax status: TK0 to TK3, K0 to K3.</li>
+        <li>Record a monthly payroll run from 19 named pay items: income (such as <i>Gaji Pokok</i>, <i>Tunjangan Transportasi</i>, <i>Tunjangan Lembur</i>), benefits paid to BPJS, deductions and pension contributions. BPJS amounts are entered, not calculated.</li>
+        <li>PPh 21 is calculated for you: the TER monthly rate (category A, B or C from the tax status) from January to November, and the annual Pasal 17 true-up in December. You can type a PPh figure to override it.</li>
+        <li>Optionally post the salary journal: expense per pay item, PPh payable and salary payable.</li>
+        <li>Record an employee loan, its disbursement, instalments and final settlement.</li>
+        <li>Record an accrued expense (<i>Pencatatan Beban</i>) with a due date, booked to a payable account.</li>
+      </ul></div>
+      <div><h4>Rules to know</h4><ul class="dec">
+        <li>Worked example: TK0 with <i>Gaji Pokok</i> Rp 10,000,000 gives PPh 21 of Rp 200,000 and pay of Rp 9,800,000.</li>
+        <li>One open loan per employee: <i>Karyawan … Masih Memiliki Pinjaman Yang Belum Lunas</i>.</li>
+        <li>A settlement below the balance books the shortfall to the loan's penalty account.</li>
+        <li>Disbursing, collecting and settling loans needs full access.</li>
+      </ul></div>
+    </div>
+    <p class="mut"><b>Not yet:</b> annualising PPh 21 for employees who join or leave mid-year, loan interest and repayment schedules, and payslips.</p>
+  </article>
+
+  <article class="g mod" id="m-contractor"><header><h3>Contractor projects</h3><span class="st api">API</span></header>
+    <p class="mut">Proyek Kontraktor · RAB · Bahan Baku Terpakai · Survei · Penyelesaian Proyek</p>
+    <div class="flow"><span>Proyek</span><i>→</i><span>RAB</span><i>→</i><span>Bahan Baku Terpakai</span><i>→</i><span>Survei progres</span><i>→</i><span>Penyelesaian Proyek</span></div>
+    <ul class="dec">
+      <li>Register a project with its work-in-progress, cost-of-sales and income accounts.</li>
+      <li>Build its budget (<i>RAB</i>): groups, tasks and cost resources, with a buffer percentage per task and a fee percentage.</li>
+      <li>Issue stock against budget tasks, record progress surveys, and post project-tagged journals for purchases, payments, receipts and billing (billing can recognise cost by a share of the budget). These journals do not create invoices or payments in Sales or Purchasing.</li>
+      <li>Finish the project: leftover stock returns at its usage cost and the remaining work in progress closes to cost of sales.</li>
+      <li>All contractor documents need full access, and cannot be edited or deleted yet.</li>
+    </ul>
+  </article>
+
+  <article class="g mod" id="m-tax"><header><h3>Tax: PPN and PPh</h3><span class="st api">API</span></header>
+    <p class="mut">Pajak · PPN · PPh · Bukti Potong</p>
+    <ul class="dec">
+      <li><b>PPN</b> is added on top of the price (exclusive) when a sales or purchase invoice is marked taxable. The rate comes from the item's default tax, so give each taxable item a tax. Prices that already include PPN are not supported yet.</li>
+      <li>PPN = DPP × rate, rounded to the rupiah. On sales, DPP is the line totals after line discounts, less each line's share of the invoice discount.</li>
+      <li><b>PPh withheld</b> is recorded on a receipt or payment line with the <i>bukti potong</i> number, the DPP and the rate. The invoice is still settled in full; the bank moves the amount less the PPh.</li>
+      <li>Tax rates are set up by your Northline administrator; the tax list is read-only in the app.</li>
+      <li>A sales invoice already reported in an SPT Masa cannot be edited or deleted: <i>Faktur … sudah masuk SPT Masa</i>.</li>
+      <li><b>Not yet:</b> e-Faktur export to Coretax, PPN reports, filing the SPT Masa from Northline, and recording PPh deposits (NTPN).</li>
+    </ul>
+  </article>
+
+  <article class="g mod" id="m-master"><header><h3>Company setup and master lists</h3><span class="st api">API</span><span class="st live">Live: Preferensi</span></header>
+    <p class="mut">Cabang · Departemen · Proyek · Preferensi</p>
+    <ul class="dec">
+      <li>Create branches, departments and projects by name (full access). A default branch, <i>Kantor Pusat</i>, exists from the start.</li>
+      <li>Read the lists of currencies, FOB terms, taxes, shipping methods, employees and fiscal asset categories. Except employees, these are set up by your Northline administrator.</li>
+      <li>Company preferences: costing method, ageing basis and report style (see <a href="#concepts">How your books are kept</a>).</li>
+      <li><b>Not yet:</b> deleting branches, departments or projects.</li>
+    </ul>
+  </article>
+</section>
+
+<section id="workflows">
+  <p class="eyebrow">Workflows</p><h2>Step by step</h2>
+  <p class="lead">Until the web screens are connected, these are the everyday tasks done through the API. Each example is the shape the automated tests send. Account numbers, item codes and names are examples: use your own. Sign in first as shown in <a href="#api">the API section</a>; every call below adds <code>-b jar -H 'content-type: application/json'</code>.</p>
+
+  <article class="g wf" id="w-setup"><h3 style="margin:0">1 · Set up your books (once)</h3><ol>
+    <li><b>Open your accounts</b>, parents first. Add <code>"parentNo"</code> for a sub-account.
+<pre><code>POST /api/ledger/commands
+{"type":"OpenAccount","idempotencyKey":"acct-1101","no":"1101","name":"Bank BCA","accountType":"CASH_BANK"}</code></pre></li>
+    <li><b>Choose the costing method</b> in <i>Preferensi › Persediaan</i>, or with <code>PUT /api/settings/costing-method</code> and <code>{"method":"AVERAGE"}</code>. It locks once stock moves.</li>
+    <li><b>Add customers, vendors and items.</b> A stock item needs an inventory and a cost-of-sales account; give taxable items their default tax with <code>"tax"</code>.
+<pre><code>POST /api/sales/customers
+{"no":"C.00001","name":"PT Pelanggan Jaya","arAccount":"1103"}
+POST /api/purchases/vendors
+{"no":"V.00001","name":"PT Pemasok Utama","apAccount":"2101"}
+POST /api/sales/items
+{"no":"BRG-A","name":"Barang A","type":"INVENTORY","unit":"PCS","salesAccount":"4101","inventoryAccount":"1104","cogsAccount":"5101"}</code></pre></li>
+    <li><b>Add branches, departments and projects</b> if you report by them (full access): <code>POST /api/master/departments</code> with <code>{"name":"Penjualan"}</code>.</li>
+    <li><b>Enter opening balances</b> as a general journal dated the day before you start (step 2 shows the shape), and opening stock as an inventory adjustment against your opening-balance equity account:
+<pre><code>POST /api/inventory/adjustments
+{"idempotencyKey":"stock-open-0001","date":"2025-12-31","account":"3001","lines":[{"item":"BRG-A","direction":"IN","qty":20,"unitCost":14600}]}</code></pre></li>
+  </ol></article>
+
+  <article class="g wf" id="w-journal"><h3 style="margin:0">2 · Post a general journal</h3><ol>
+    <li><b>Post it.</b> <code>journalId</code> is a new UUID you generate; amounts are decimals with up to 2 places.
+<pre><code>POST /api/ledger/commands
+{"type":"PostJournal","idempotencyKey":"jv-2026-03-0001","journalId":"0b9f6a2e-5c1d-4e8a-9f3b-2a7c6d1e4f50",
+ "date":"2026-03-03","description":"Biaya listrik Maret",
+ "lines":[{"account":"6105","side":"DEBIT","amount":"1500000"},{"account":"1101","side":"CREDIT","amount":"1500000"}]}</code></pre>
+      The reply is <code>202</code> with a <code>globalPosition</code>. The journal gets the next number, such as <code>JV.2026.03.00001</code>.</li>
+    <li><b>Correct it.</b> <code>EditJournal</code> replaces it in place; <code>ReverseJournal</code> keeps it and posts the opposite entry; <code>DeleteJournal</code> removes it. Each takes the <code>journalId</code> and a new idempotency key.
+<pre><code>{"type":"ReverseJournal","idempotencyKey":"jv-2026-03-0001-rev","journalId":"0b9f6a2e-5c1d-4e8a-9f3b-2a7c6d1e4f50",
+ "reversalJournalId":"7d3e1c9a-2b4f-4a6e-8c5d-1f0e9b8a7c62","date":"2026-03-31","reason":"salah akun"}</code></pre></li>
+  </ol></article>
+
+  <article class="g wf" id="w-sell"><h3 style="margin:0">3 · Sell and collect</h3><ol>
+    <li><b>Invoice the customer.</b> Add <code>"taxable":true</code> to add PPN from each item's default tax, <code>"installments"</code> to split the due amount, or discounts: a line <code>"discPct"</code> needs the item's sales discount account, and an invoice <code>"discPct"</code> needs <code>"discountAccount"</code>.
+<pre><code>POST /api/sales/invoices
+{"idempotencyKey":"si-2026-03-0001","customer":"C.00001","date":"2026-03-06","dueDate":"2026-04-05",
+ "lines":[{"item":"BRG-A","name":"Barang A","qty":2,"price":100000}]}</code></pre>
+      The reply is <code>201</code> with the number, such as <code>{"number":"SI.2026.03.00001"}</code>. Stock leaves at cost; this invoice totals Rp 200,000.</li>
+    <li><b>Record the payment.</b> One receipt can settle several invoices. If the customer withheld PPh, add <code>"pph":{"tax":"…","number":"&lt;bukti potong&gt;","dpp":…,"rate":…}</code> to the line.
+<pre><code>POST /api/sales/receipts
+{"idempotencyKey":"sr-2026-03-0001","customer":"C.00001","bank":"1101","date":"2026-03-20",
+ "payments":[{"invoice":"SI.2026.03.00001","amount":200000}]}</code></pre></li>
+    <li><b>Check what is still owed:</b> <code>GET /api/reports/receivables/outstanding?asOf=2026-03-31</code>, or ageing with <code>/receivables/aging</code>.</li>
+  </ol></article>
+
+  <article class="g wf" id="w-buy"><h3 style="margin:0">4 · Buy and pay</h3><ol>
+    <li><b>Record the vendor's invoice</b> with the vendor's own bill number. Inventory lines add stock at the line value; <code>"expenses"</code> lines go straight to an account.
+<pre><code>POST /api/purchases/invoices
+{"idempotencyKey":"pi-2026-03-0001","vendor":"V.00001","bill":"INV/2026/03/118","date":"2026-03-02",
+ "lines":[{"item":"BRG-A","qty":10,"price":15000}]}</code></pre></li>
+    <li><b>Pay it</b>, withholding PPh 23 if it applies. The invoice is settled in full; the bank pays the amount less the PPh (here Rp 147,000). The tax named must exist in your tax list.
+<pre><code>POST /api/purchases/payments
+{"idempotencyKey":"pp-2026-03-0001","vendor":"V.00001","bank":"1101","date":"2026-03-15",
+ "payments":[{"invoice":"PI.2026.03.00001","amount":150000,"pph":{"tax":"PPh 23","number":"BP-2026-0001","dpp":150000,"rate":2}}]}</code></pre></li>
+    <li><b>Check what you owe:</b> <code>GET /api/reports/payables/outstanding?asOf=2026-03-31</code>.</li>
+  </ol></article>
+
+  <article class="g wf" id="w-close"><h3 style="margin:0">5 · Close the month</h3><ol>
+    <li><b>Run depreciation</b> for the month. It posts one journal for all assets due and is named after the month.
+<pre><code>POST /api/period-ends
+{"idempotencyKey":"pe-2026-03","period":"2026-03"}          → {"number":"Maret 2026"}</code></pre></li>
+    <li><b>Review</b> the trial balance, profit and loss and balance sheet: <code>/api/reports/trial-balance?from=2026-03-01&amp;to=2026-03-31</code>, <code>/api/reports/profit-loss?…</code>, <code>/api/reports/balance-sheet?asOf=2026-03-31</code>.</li>
+    <li><b>Lock the month</b> so nothing dated in it can change. <code>ReopenPeriod</code> unlocks it.
+<pre><code>POST /api/ledger/commands
+{"type":"ClosePeriod","idempotencyKey":"close-2026-03","period":"2026-03"}</code></pre></li>
+  </ol></article>
+
+  <article class="g wf" id="w-payroll"><h3 style="margin:0">6 · Run payroll</h3><ol>
+    <li><b>Add the employee</b> with their PTKP status.
+<pre><code>POST /api/employees
+{"no":"E.00001","name":"Siti Rahma","taxStatus":"TK0"}</code></pre></li>
+    <li><b>Record the month's run.</b> With <code>payableAccount</code>, <code>pphAccount</code> and an expense account per pay item, Northline also posts the salary journal.
+<pre><code>POST /api/payroll/runs
+{"idempotencyKey":"epy-2026-03","date":"2026-03-28","year":2026,"month":3,
+ "payableAccount":"2106","pphAccount":"2105","feeAccounts":{"Gaji Pokok":"6101","Tunjangan Transportasi":"6102"},
+ "lines":[{"employee":"E.00001","fees":{"Gaji Pokok":10000000,"Tunjangan Transportasi":1000000}}]}</code></pre>
+      For this TK0 employee the reply shows income Rp 11,000,000, PPh 21 Rp 330,000 (TER 3%) and pay Rp 10,670,000.</li>
+  </ol></article>
+
+  <article class="g wf" id="w-access"><h3 style="margin:0">7 · Give a colleague access</h3><ol>
+    <li><b>Ask your Northline administrator</b> to create the user with their work email.</li>
+    <li><b>Grant privileges through an access group</b> (needs full access). Keys come from Accurate's <i>Akses Grup</i> list; actions are <code>enable</code>, <code>create</code>, <code>edit</code>, <code>delete</code> and <code>view</code>. Saving a group again replaces its members and privileges.
+<pre><code>POST /api/access/groups
+{"name":"Tim Penjualan","users":["rina@perusahaan.co.id"],
+ "privileges":{"penjualan.faktur_penjualan":["create","edit","delete","view"],
+               "penjualan.penerimaan_penjualan":["create","view"],"AgingReceivableReport":["view"]}}</code></pre></li>
+    <li><b>Confirm</b> with <code>GET /api/reports/access/group-privileges</code>.</li>
+  </ol></article>
+</section>
+
+<section id="screens">
+  <p class="eyebrow">Web app</p><h2>Screen by screen</h2>
+  <p class="lead">Every screen in the web app, with what it shows and whether it uses your data. Preview screens keep what you type only until you reload the page; nothing reaches your books.</p>
+  <div class="grid">
+    <article class="g mod"><header><h3>Masuk · Sign in</h3><span class="st live">Live</span></header><p><code>/auth</code></p><ul class="dec">
+      <li>Email and password, with a show-password button. Errors: <i>Masukkan email yang valid</i>, <i>Minimal 8 karakter</i>, <i>Email atau kata sandi salah</i>.</li>
+      <li><i>Lupa kata sandi?</i> only shows a message; no reset email is sent.</li></ul></article>
+    <article class="g mod"><header><h3>Ringkasan · Overview</h3><span class="st prev">Preview</span></header><p><code>/</code></p><ul class="dec">
+      <li>Quick actions (Quote, Order, Invoice, Purchase request, Purchase order), KPI cards, review cards and tiles for selling, buying and payments.</li>
+      <li>The <b>+</b> button opens <i>Transaksi Baru</i> (New transaction); creating one only shows a confirmation.</li></ul></article>
+    <article class="g mod"><header><h3>Pilih perusahaan · Companies</h3><span class="st prev">Preview</span></header><p><code>/workspaces</code> · <code>/workspaces/new</code></p><ul class="dec">
+      <li>Company cards, invitations, search, and a form to create a company (name, alias, type of business, industry, headcount, logo).</li>
+      <li>Switching or creating a company does not change which books you see.</li></ul></article>
+    <article class="g mod"><header><h3>Akun Perkiraan · Chart of accounts</h3><span class="st prev">Preview</span></header><p><code>/accounts</code> · <code>/accounts/new</code></p><ul class="dec">
+      <li>List with search and a type filter; parents first, children indented.</li>
+      <li>Account form: <i>Umum</i> (type, parent, code, name, bank details), <i>Saldo Awal</i> (opening balance), <i>Akses Pengguna</i>, <i>Sub Akun</i>. Save and delete are not connected yet: use the <a href="#m-ledger">ledger commands</a>.</li></ul></article>
+    <article class="g mod"><header><h3>Documents</h3><span class="st prev">Preview</span></header><p><code>/docs/&lt;type&gt;</code>, 14 types</p><ul class="dec">
+      <li>Jurnal Umum, Pembayaran, Penerimaan, Penawaran Penjualan, Pesanan Penjualan, Uang Muka Penjualan, Faktur Penjualan, Penerimaan Penjualan, Retur Penjualan, Pesanan Pembelian, Faktur Pembelian, Pembayaran Pembelian, Retur Pembelian, Penyesuaian Persediaan.</li>
+      <li>Lists with search and, for invoices, <i>Belum Lunas</i>, <i>Terbayar Sebagian</i> and <i>Lunas</i> filters. Forms for item documents, journals and payments, with <i>Simpan</i> (<kbd>Ctrl</kbd>+<kbd>S</kbd>), <i>Cetak</i>, <i>Lampiran</i> and <i>Hapus</i>.</li>
+      <li>Missing fields open <i>Terjadi Permasalahan pada Pemrosesan</i> with one line per field. Saving is not connected yet: use the <a href="#workflows">API</a>.</li></ul></article>
+    <article class="g mod"><header><h3>Neraca Percobaan · Trial balance</h3><span class="st live">Live</span></header><p><code>/ledger/trial-balance</code></p><ul class="dec">
+      <li>Opening balance, movements and closing balance, debit and credit, for every account, with totals and a <i>Neraca seimbang</i> badge when they balance.</li>
+      <li>The period is fixed at 1 September to 17 October 2026 in this build. Clicking a row opens a journal-line dialog that does not post anything.</li></ul></article>
+    <article class="g mod"><header><h3>Daftar Laporan · Reports</h3><span class="st prev">Preview</span></header><p><code>/reports</code> · <code>/reports/&lt;id&gt;</code></p><ul class="dec">
+      <li>16 categories, search, favourites and 14 sample reports. <i>Neraca Percobaan</i> opens the live trial balance.</li>
+      <li>The viewer has parameters (dates, branch, currency, columns), zoom, print, drill-down to transactions, and a layout editor (columns, filters, header and footer, paper, fonts, number and date formats, rows).</li>
+      <li>Export to PDF, Excel and CSV is not built yet. Every other report comes through the <a href="#reports">API</a>.</li></ul></article>
+    <article class="g mod"><header><h3>Analisa AI · AI analysis</h3><span class="st prev">Preview</span></header><p><code>/reports/&lt;id&gt;?ai=1</code> · <code>/ai/history</code></p><ul class="dec">
+      <li>A side panel on a report for questions, and a history of conversations.</li>
+      <li>Answers are fixed samples, not analysis of your data.</li></ul></article>
+    <article class="g mod"><header><h3>Preferensi · Preferences</h3><span class="st live">Live</span><span class="st prev">Preview</span></header><p><code>/settings/preferences</code></p><ul class="dec">
+      <li><b>Live:</b> <i>Persediaan</i> (costing method, locked after the first stock movement) and <i>Lainnya</i> (ageing basis and report style), saved at once.</li>
+      <li><b>Preview:</b> <i>Fitur</i> switches and <i>Akun Bawaan</i> (default accounts). The other tabs say they are not available in this version.</li></ul></article>
+    <article class="g mod"><header><h3>Aset Tetap · Fixed assets</h3><span class="st prev">Preview</span></header><p><code>/fixed-assets</code> · <code>/fixed-assets/new</code></p><ul class="dec">
+      <li>Asset list, and a form with depreciation method, category, accounts, useful life, expenses, location and attachments.</li>
+      <li>In this build a new asset cannot be saved because the expense picker is empty. Register assets through the <a href="#m-assets">API</a>.</li>
+      <li><i>Pengeluaran Aset</i> (<code>/asset-modules</code>) and <i>Aset per Lokasi</i> (<code>/asset-modules/by-location</code>) are previews reached by address only.</li></ul></article>
+    <article class="g mod"><header><h3>Rekonsiliasi Bank · Bank reconciliation</h3><span class="st prev">Preview</span></header><p><code>/cash-bank/reconciliation</code></p><ul class="dec">
+      <li>Book entries for a bank account, each with <i>Ada di Rekening Koran</i> to mark it as on the bank statement.</li>
+      <li>Matching is not saved, and bank reconciliation is not in the API yet.</li></ul></article>
+    <article class="g mod"><header><h3>Proses Akhir Bulan · Month-end</h3><span class="st prev">Preview</span></header><p><code>/ledger/month-end</code></p><ul class="dec">
+      <li>Shows a planned exchange-rate revaluation run with its journal preview, and a run history.</li>
+      <li>The month-end run that works today is fixed-asset depreciation through the <a href="#m-assets">API</a>; it does not revalue currencies.</li></ul></article>
+    <article class="g mod"><header><h3>Other menu entries</h3><span class="st prev">Preview</span></header><p><code>/modules/&lt;name&gt;</code></p><ul class="dec">
+      <li>Of the 89 menu entries, 64 open the same placeholder list: users, group access, numbering, print templates, bank transfer, goods receipts, stock opname, every Manufaktur entry, every SmartLink Tax entry, and the SPT and <i>bukti potong</i> reports, among others.</li>
+      <li>Customers, vendors, items and taxes show sample rows.</li></ul></article>
+  </div>
+</section>
+
+<section id="reports">
+  <p class="eyebrow">Reports</p><h2>Every report, and how to get it</h2>
+  <p class="lead">Northline rebuilds Accurate's report list under the same names: <b data-n="total">291</b> reports in <b data-n="groups">18</b> groups. <b data-n="done">288</b> are verified. For each one, an automated test gives Northline the same transactions as an Accurate demo company and requires the identical report, cell for cell.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">How to get a report today</h3>
+      <p>The report screens in the web app are previews, so reports come through the API for now. <b data-n="http">152</b> reports have their own endpoint, listed in the catalog below. Ask for the same period you would pick in Accurate:</p>
+<pre><code>curl -b jar "$BASE/api/reports/trial-balance?from=2026-01-01&amp;to=2026-03-31"
+curl -b jar "$BASE/api/reports/profit-loss?from=2026-01-01&amp;to=2026-03-31"
+curl -b jar "$BASE/api/reports/balance-sheet?asOf=2026-03-31"
+curl -b jar "$BASE/api/reports/receivables/aging?asOf=2026-03-31&amp;basis=DUE_DATE"</code></pre>
+    </div>
+    <div class="g pad"><h3 style="margin:0">Parameters</h3><div class="tw"><table>
+      <thead><tr><th>Parameter</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>from</code>, <code>to</code></td><td>Date range reports (<code>YYYY-MM-DD</code>)</td></tr>
+        <tr><td><code>asOf</code></td><td>Position on one date: balance sheet, ageing, outstanding lists</td></tr>
+        <tr><td><code>year</code>, <code>month</code></td><td>Yearly and monthly reports, such as retained earnings and financial ratios</td></tr>
+        <tr><td><code>monthly=true</code></td><td>Cash flow split by month</td></tr>
+        <tr><td><code>showZeroBalance</code>, <code>showParentAccount</code></td><td>Statement layout, as in Accurate (defaults: hide zero balances, show parent accounts)</td></tr>
+        <tr><td><code>basis</code></td><td>Ageing by <code>DUE_DATE</code> or <code>INVOICE_DATE</code>; overrides your company setting for one request</td></tr>
+        <tr><td><code>bank</code>, <code>warehouse</code>, <code>item</code>, <code>project</code></td><td>Narrow a report to one or more banks, warehouses, items or projects (repeat the parameter)</td></tr>
+      </tbody></table></div>
+      <p class="mut">The <i>Period</i> column in the catalog says which kind of date a report takes.</p>
+    </div>
+  </div>
+  <h3>Report catalog</h3>
+  <p class="mut">All <span data-n="total">291</span> reports, with Accurate's name and report ID. <span class="st api">API</span> reports have an endpoint today. <span class="st no">Verified, not exposed yet</span> reports are computed and tested but have no route of their own yet. Three are not available.</p>
+  <div class="g pad" style="margin-top:16px">
+    <div class="ctl">
+      <input id="rq" type="search" placeholder="Find a report: name, Accurate ID or endpoint" aria-label="Find a report">
+      <select id="rg" aria-label="Report group"><option value="">All groups</option></select>
+      <select id="rs" aria-label="Availability"><option value="">Any availability</option><option value="api">Fetch through the API</option><option value="soon">Verified, not exposed yet</option><option value="no">Not available</option></select>
+      <span class="count" id="rcount" aria-live="polite"></span>
+    </div>
+    <div class="tw pane"><table id="rtable"><thead><tr><th>Report (Accurate name and ID)</th><th>Group</th><th>Type</th><th>Period</th><th>How to get it</th></tr></thead><tbody id="rbody"></tbody></table></div>
+  </div>
+</section>
+
+<section id="access">
+  <p class="eyebrow">Administration</p><h2>Users, access and audit</h2>
+  <p class="lead">Northline uses Accurate's access model, so an Accurate administrator will recognise it: users get privileges through access groups, privilege by privilege and action by action.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Users</h3><ul class="dec">
+      <li>Your Northline administrator creates users; there is no user screen or user API yet.</li>
+      <li>A new user has <b>no access</b> until they join an access group or are given full access.</li>
+      <li><b>Full access</b> opens everything. A few areas need it whatever the groups say: access groups and branch access, branches, departments and projects, job orders and their completion, contractor projects, employee loan disbursements, instalments and settlements, the approval report, and the department and project reports.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">Access groups</h3><ul class="dec">
+      <li>The privilege list is Accurate's <i>Akses Grup</i> list: <b>466 privileges</b> in 11 groups (Perusahaan, Buku Besar, Kas/Bank, Penjualan, Pembelian, Persediaan, Aset Tetap, Target, Kalender, Widget and Laporan), 248 of them reports.</li>
+      <li>Each privilege allows some of five actions: <i>Aktif</i> (enable), <i>Buat</i> (create), <i>Ubah</i> (edit), <i>Hapus</i> (delete) and <i>Lihat</i> (view). Reports are view-only.</li>
+      <li>Reading needs <i>view</i>, creating <i>create</i>, changing <i>edit</i> and removing <i>delete</i>; a privilege that only has <i>Aktif</i> needs that.</li>
+      <li>Saving a group replaces its whole member list and privilege set. Groups cannot be deleted yet.</li>
+      <li>A request without the privilege is refused with <code>403</code>.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">Stored but not enforced yet</h3><ul class="dec">
+      <li>A group's day and time window (shown as <i>Senin-Jumat, 00.00 - 23.59</i>).</li>
+      <li>Which users each branch admits.</li>
+      <li>The <i>Akses Lainnya</i> switches.</li>
+      <li>Approval rules (<i>Penyetuju Transaksi</i>): the approval report lists approval steps, but saving a document does not wait for approval.</li>
+    </ul></div>
+  </div>
+  <h3>Activity log</h3>
+  <p class="mut"><i>Log Aktifitas</i> records who changed what, when and from which IP address. It is written in the same transaction as the change, so a refused change leaves no entry, and the database will not let anyone alter or delete it.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Recorded today</th><th>Not recorded yet</th></tr></thead>
+    <tbody><tr>
+      <td>General journals, accounts, customers and contacts, items, sales invoices, and preference changes, each as <i>Buat</i>, <i>Ubah</i> or <i>Hapus</i></td>
+      <td>Cash and bank documents, purchases, stock documents, fixed assets, payroll, loans, month-end runs, master lists and access groups. Their postings still keep their full history in the event log.</td>
+    </tr></tbody>
+  </table></div>
+  <p class="mut">Report: <code>GET /api/reports/activity-log?from=…&amp;to=…</code>, with dates in Jakarta time. Access reports: <code>/api/reports/access/group-privileges</code>, <code>/api/reports/access/user-by-branch</code> and <code>/api/reports/access/privileges-by-user?users=…</code> (user numbers).</p>
+</section>
+
+<section id="api">
+  <p class="eyebrow">Integrations</p><h2>The REST API</h2>
+  <p class="lead">Everything Northline does is available over a JSON API at <code>/api</code> on your Northline address. The web app uses the same API, so an integration can do everything a person can, within the same privileges.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Sign in from code</h3>
+      <p class="mut">Sign in once, keep the <code>nl_session</code> cookie, and send it with every call. The session lasts 7 days.</p>
+<pre><code>BASE=https://northline-erp.dhiazfathra.workers.dev   # your Northline address
+curl -c jar -H 'content-type: application/json' \
+  -d '{"email":"you@company.co.id","password":"••••••••"}' $BASE/api/auth/login
+curl -b jar $BASE/api/me            # {"userId": 1}
+curl -b jar -X POST $BASE/api/auth/logout</code></pre>
+      <p class="mut">Passwords have at least 8 characters. A wrong email or password returns <code>401</code> with <i>"Email atau kata sandi salah"</i>.</p>
+    </div>
+    <div class="g pad"><h3 style="margin:0">Conventions</h3><ul class="dec">
+      <li><b>Dates</b> are <code>YYYY-MM-DD</code>; periods are <code>YYYY-MM</code>.</li>
+      <li><b>Amounts you send</b> are decimal numbers or strings with at most 2 decimals (<code>1500000</code>, <code>"1500000.50"</code>). Northline stores them as whole cents, so debits always equal credits exactly.</li>
+      <li><b>Report responses</b> follow Accurate's layout. Most return rows of text formatted the way Accurate prints them (<code>"1.250.000"</code>). The trial balance returns structured rows with amounts in whole cents.</li>
+      <li><b>Creating</b> a document returns <code>201</code>; a ledger command returns <code>202</code>.</li>
+      <li><b>Deleting</b> a document needs a JSON body with an <code>idempotencyKey</code> of at least 8 characters, so a retried request cannot delete twice.</li>
+      <li><b>Request size</b> is limited to 1 MB.</li>
+      <li><b>Reads follow writes within moments.</b> A ledger command answers <code>202</code> with a <code>globalPosition</code>; pass it as <code>after=</code> to the trial balance to wait until reports include it.</li>
+      <li><b>Validation is uneven.</b> Most documents return <code>422</code> naming the bad field. Cash documents, disposals, employees, loans, payroll runs, quotations, orders, purchase orders and requisitions do not validate every field yet, so a malformed value there can return <code>500</code>.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">Errors</h3><div class="tw"><table>
+      <thead><tr><th>Status</th><th>Body</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>401</code></td><td><code>{"error":"unauthenticated"}</code></td><td>No valid session. Sign in again.</td></tr>
+        <tr><td><code>403</code></td><td><code>{"error":"forbidden"}</code></td><td>Your access group lacks the privilege for this route.</td></tr>
+        <tr><td><code>404</code></td><td><code>{"error":"… not found"}</code></td><td>The document does not exist.</td></tr>
+        <tr><td><code>409</code></td><td><code>{"error":"&lt;reason&gt;"}</code></td><td>A business rule refused the change, for example an unbalanced journal or a closed period. The reason is in Indonesian.</td></tr>
+        <tr><td><code>413</code></td><td><code>{"error":"payload too large"}</code></td><td>The request is over 1 MB.</td></tr>
+        <tr><td><code>422</code></td><td><code>{"error":"validation","issues":[…]}</code></td><td>A field is missing or malformed; <code>issues</code> names each one.</td></tr>
+        <tr><td><code>429</code></td><td><code>{"error":"Terlalu banyak percobaan, coba lagi nanti"}</code></td><td>Too many failed sign-ins for this email. Wait 15 minutes.</td></tr>
+        <tr><td><code>500</code></td><td><code>{"error":"internal"}</code></td><td>Unexpected failure. Retry once, then contact support with the time of the call.</td></tr>
+      </tbody></table></div></div>
+  </div>
+  <div class="note"><p><b>Live reference.</b> Signed-in users can open <code>/api/docs</code> for an interactive API reference, and <code>/api/openapi.json</code> for the OpenAPI 3.1 file. Both are generated from the running route table, so they never list a route that does not exist. They list paths and methods; the field lists for each request are in <a href="#modules">Modules</a>.</p></div>
+  <h3>Every endpoint</h3>
+  <p class="mut">Generated from the code. <i>Access</i> names the privilege an access group needs; most report privileges carry the Accurate report ID.</p>
+  <div class="g pad" style="margin-top:16px">
+    <div class="ctl">
+      <input id="aq" type="search" placeholder="Filter endpoints: path, method or value" aria-label="Filter endpoints">
+      <select id="ag" aria-label="Endpoint group"><option value="">All groups</option></select>
+      <span class="count" id="acount" aria-live="polite"></span>
+    </div>
+    <div id="alist" class="pane"></div>
+  </div>
+</section>
+
+<section id="hosting">
+  <p class="eyebrow">Operations</p><h2>Hosting, security and backups</h2>
+  <p class="lead">Northline runs on managed cloud services, so there is no server for you to maintain. Each customer's books are meant to live in that customer's own PostgreSQL database.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Where it runs</h3><ul class="dec">
+      <li>The web app and the API run on <b>Cloudflare Workers</b>, Cloudflare's global network.</li>
+      <li>The books are stored in <b>PostgreSQL</b> hosted by <b>Neon</b>. Neon has no Indonesian region; the nearest is Singapore (checked 21 Oct 2026).</li>
+      <li>If your data must stay in Indonesia, or your policy requires your own hardware, ask about the on-premise option. It runs the same software on servers you own. It is planned, not yet packaged.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">How sign-in is protected</h3><ul class="dec">
+      <li>Passwords are stored only as PBKDF2-SHA256 hashes (100,000 rounds, a random salt per user).</li>
+      <li>Your session is a random cookie that page scripts cannot read and other sites cannot send (httpOnly, SameSite=Strict). It lasts 7 days, and the server keeps only a hash of it. Signing out deletes it.</li>
+      <li>After 10 wrong passwords for one email within 15 minutes, sign-in for that email pauses with <i>"Terlalu banyak percobaan, coba lagi nanti"</i>. The count is kept per server instance.</li>
+      <li>An unknown email and a wrong password take the same time to reject, so nobody can probe which accounts exist.</li>
+      <li>Every API route needs a named privilege. An automated test stops any release that adds a route without one.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">How your numbers are protected</h3><ul class="dec">
+      <li>Each posting is stored as an event in an append-only log. Balances and reports are computed from that log.</li>
+      <li>The database itself refuses a journal whose debits and credits differ, even if the application had a bug.</li>
+      <li>Balances can be rebuilt from the log at any time and compared with the trial balance, which proves the totals from history.</li>
+    </ul></div>
+  </div>
+  <h3>Backups and recovery</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Protection</th><th>What it does</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Point-in-time restore</td><td>Neon keeps a restorable history of the database: 7 days on its Launch plan, 30 days on Scale (Neon's terms on 21 Oct 2026).</td><td><span class="st live">Available</span><small>on paid Neon plans</small></td></tr>
+      <tr><td>Nightly copies outside Neon</td><td>A nightly database dump to Cloudflare R2, 30 copies kept, so a copy exists outside the database provider.</td><td><span class="st no">Not yet</span></td></tr>
+      <tr><td>Monthly restore drill</td><td>Restore the latest backup into a scratch database, run the smoke test and record the time it took.</td><td><span class="st no">Not yet</span></td></tr>
+      <tr><td>Demo companies</td><td>The live demo holds demo data only and can be rebuilt from scratch at any time.</td><td><span class="st live">Live</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Deployment options</h3>
+  <p class="mut">Only the trial tier runs today (the live demo). The other tiers are proposed and each is offered only after its load test passes, so this table describes intent, not a commitment.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Tier</th><th>For</th><th>Users</th><th>How it would run</th></tr></thead>
+    <tbody>
+      <tr><td><b>T0 Trial</b><small>running</small></td><td>Evaluation on demo data</td><td>a few</td><td>Free Cloudflare and Neon plans</td></tr>
+      <tr><td><b>T1 Small</b><small>proposed</small></td><td>Small firms leaving spreadsheets or Accurate</td><td>up to 25</td><td>Shared Northline service, a Neon database per customer</td></tr>
+      <tr><td><b>T2 Mid-market</b><small>proposed</small></td><td>Growing firms with branches</td><td>up to 150</td><td>As T1, on Neon Scale (SLA, 30-day restore), connection pooling</td></tr>
+      <tr><td><b>T3 Enterprise</b><small>proposed</small></td><td>Large firms</td><td>up to 1,000</td><td>Background processing, report replicas and single sign-on; or on-premise</td></tr>
+      <tr><td><b>T4 Large group</b><small>proposed</small></td><td>Groups with several companies</td><td>more than 1,000</td><td>As T3, plus a disaster-recovery copy in a second region or site</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="limits">
+  <p class="eyebrow">Honest limits</p><h2>Not available yet</h2>
+  <p class="lead">This is the full list of what Northline does not do yet, so you can plan around it. Nothing on this page has a committed date.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Not available yet</h3><ul class="dec">
+      <li><b>Most web screens are previews.</b> Sign-in, the trial balance and the costing, ageing and report-style settings use your data; the other screens show sample data. Everything else reaches your books through the API.</li>
+      <li><b>Sign-out that ends the session</b>, password reset, and a screen or API for managing users.</li>
+      <li><b>Enforcing</b> approval rules, credit limits, access-group time windows and branch admission. They are stored, not applied.</li>
+      <li><b>Linked purchasing documents.</b> Requisitions, orders, goods receipts and invoices are separate; see <a href="#m-purchasing">purchasing</a>.</li>
+      <li><b>Prices that include PPN</b>, PPN on returns, and dimensions on sales, purchase and stock documents.</li>
+      <li><b>Report export</b> to PDF, Excel or CSV, and printing beyond the browser's print button.</li>
+      <li><b>Switching between companies</b> from the web app.</li>
+      <li><b>Data import.</b> No import from Accurate, Excel or CSV.</li>
+      <li><b>Printable documents.</b> No printouts or PDFs of invoices, delivery orders, purchase orders, receipts or payment vouchers.</li>
+      <li><b>e-Faktur through Coretax.</b> No export of VAT invoices to the tax office's Coretax system.</li>
+      <li><b>Bank and marketplace links.</b> No bank feeds, e-banking, payment gateway or marketplace integration.</li>
+      <li><b>Point of sale and CRM.</b> No POS, leads or sales pipeline.</li>
+      <li><b>Production orders.</b> No bills of materials or manufacturing orders. Job costing is available.</li>
+      <li><b>Single sign-on and two-factor sign-in.</b></li>
+      <li><b>Self-service companies.</b> Creating a company and switching between companies are preview screens.</li>
+      <li><b>Nightly off-site backups and restore drills</b> (see <a href="#hosting">backups</a>).</li>
+      <li><b>Three Accurate reports:</b> Pembayaran PPh Penjualan, Monitoring HPP and Jurnal Perintah Kerja. Their Accurate output could not be captured, so they are not built.</li>
+      <li><b><span data-n="soon">some</span> verified reports have no API route of their own yet.</b> Their numbers are computed and tested; they become reachable with the report screens. The <a href="#reports">catalog</a> marks each one.</li>
+    </ul></div>
+    <div class="g pad"><h3 style="margin:0">Next on the roadmap</h3><ol class="dec">
+      <li>Connect every web screen to your live data, reports first.</li>
+      <li>Nightly off-site backups, a monthly restore drill and alerts.</li>
+      <li>Parallel Close: run Northline beside your Accurate company for a month, with your written consent and read-only access, and compare every report.</li>
+      <li>Import from Accurate's Excel exports: accounts, customers, vendors, items, warehouses and opening balances.</li>
+      <li>A company per customer, created and routed automatically.</li>
+      <li>Printable sales invoices, delivery orders, purchase orders, receipts and payment vouchers.</li>
+      <li>Coretax e-Faktur export.</li>
+      <li>Published load tests for each deployment tier.</li>
+    </ol>
+    <p class="mut">The order follows Northline's published plan, which ranks work by impact, effort and certainty. Ask your Northline contact for current status.</p></div>
+  </div>
+</section>
+
+<section id="glossary">
+  <p class="eyebrow">Glossary</p><h2>Indonesian terms you will see</h2>
+  <p class="lead">Northline keeps Accurate's Indonesian names for reports and documents, so the people who use Accurate today recognise them. Search the guide for any term.</p>
+  <div class="grid">
+    <div class="g pad"><h3 style="margin:0">Ledger and statements</h3><dl class="gl">
+      <dt>Akun</dt><dd>Account in the chart of accounts</dd>
+      <dt>Buku Besar</dt><dd>General ledger</dd>
+      <dt>Jurnal Umum</dt><dd>General journal entry</dd>
+      <dt>Neraca Percobaan</dt><dd>Trial balance</dd>
+      <dt>Neraca</dt><dd>Balance sheet; <i>Skontro</i> is the side-by-side layout</dd>
+      <dt>Laba/Rugi</dt><dd>Profit and loss statement</dd>
+      <dt>Arus Kas</dt><dd>Cash flow statement (<i>Langsung</i> direct, <i>Tak Langsung</i> indirect)</dd>
+      <dt>Laba Ditahan</dt><dd>Retained earnings</dd>
+      <dt>Ekuitas</dt><dd>Owner's equity</dd>
+      <dt>Harta, Kewajiban, Modal</dt><dd>Assets, liabilities, capital</dd>
+      <dt>Pendapatan, Beban/Biaya</dt><dd>Revenue, expense</dd>
+      <dt>Tutup Buku</dt><dd>Period-end close</dd>
+      <dt>Mata Uang, Kurs</dt><dd>Currency, exchange rate</dd>
+      <dt>Cabang, Departemen, Proyek</dt><dd>Branch, department, project: the dimensions you can tag postings with</dd>
+      <dt>Anggaran</dt><dd>Budget</dd>
+    </dl></div>
+    <div class="g pad"><h3 style="margin:0">Sales and purchasing</h3><dl class="gl">
+      <dt>Pelanggan, Pemasok</dt><dd>Customer, vendor</dd>
+      <dt>Penawaran Penjualan</dt><dd>Sales quotation</dd>
+      <dt>Pesanan Penjualan</dt><dd>Sales order</dd>
+      <dt>Pengiriman Pesanan</dt><dd>Delivery order</dd>
+      <dt>Faktur Penjualan</dt><dd>Sales invoice</dd>
+      <dt>Penerimaan Penjualan</dt><dd>Customer receipt (payment received)</dd>
+      <dt>Uang Muka</dt><dd>Down payment</dd>
+      <dt>Retur</dt><dd>Return</dd>
+      <dt>Tukar Faktur</dt><dd>Invoice exchange: handing invoices to the customer for collection</dd>
+      <dt>Permintaan Pembelian</dt><dd>Purchase requisition</dd>
+      <dt>Pesanan Pembelian</dt><dd>Purchase order</dd>
+      <dt>Penerimaan Barang</dt><dd>Goods receipt</dd>
+      <dt>Faktur Pembelian</dt><dd>Vendor bill</dd>
+      <dt>Pembayaran Pembelian</dt><dd>Vendor payment</dd>
+      <dt>Piutang, Utang</dt><dd>Receivables, payables; <i>Umur</i> means ageing</dd>
+      <dt>Penjual, Komisi</dt><dd>Salesperson, commission</dd>
+    </dl></div>
+    <div class="g pad"><h3 style="margin:0">Stock, assets, payroll and tax</h3><dl class="gl">
+      <dt>Barang, Gudang</dt><dd>Item, warehouse</dd>
+      <dt>Persediaan</dt><dd>Inventory</dd>
+      <dt>Kartu Stok</dt><dd>Stock card: every movement of one item</dd>
+      <dt>Penyesuaian Persediaan</dt><dd>Inventory adjustment</dd>
+      <dt>Pemindahan Barang</dt><dd>Transfer between warehouses</dd>
+      <dt>HPP</dt><dd>Cost of goods sold (<i>Harga Pokok Penjualan</i>)</dd>
+      <dt>Pekerjaan Pesanan</dt><dd>Job order (job costing)</dd>
+      <dt>RAB</dt><dd>Contractor's cost budget (<i>Rencana Anggaran Biaya</i>)</dd>
+      <dt>Aset Tetap, Penyusutan</dt><dd>Fixed asset, depreciation</dd>
+      <dt>Karyawan, Gaji</dt><dd>Employee, salary</dd>
+      <dt>Pinjaman Karyawan</dt><dd>Employee loan</dd>
+      <dt>PPN</dt><dd>Value added tax</dd>
+      <dt>PPh 21, PPh 23</dt><dd>Income tax withheld on employees, and on services paid to others</dd>
+      <dt>TER</dt><dd>Average effective rate used for monthly PPh 21 (<i>Tarif Efektif Rata-rata</i>)</dd>
+      <dt>e-Faktur, Coretax</dt><dd>Electronic VAT invoice, and the tax office's system that receives it</dd>
+      <dt>Data Usaha</dt><dd>A company database in Accurate</dd>
+    </dl></div>
+  </div>
+</section>
+
+<section id="faq">
+  <p class="eyebrow">Questions</p><h2>FAQ and support</h2>
+  <details class="faq g"><summary>Why do some screens show sample data?</summary>
+    <p>The web app is being connected to the API screen by screen. Preview screens show the finished layout with sample data so you can review it; nothing typed there is saved. Sign-in, the trial balance and the report settings already use your books. Everything else works through the API today.</p></details>
+  <details class="faq g"><summary>Will my reports match Accurate?</summary>
+    <p><span data-n="done">288</span> of <span data-n="total">291</span> reports are verified with zero difference against reports captured from four Accurate demo companies (manufacturing, retail, trading and contracting). Your own books are the real test. The planned Parallel Close runs Northline beside your Accurate company for a month and compares every report.</p></details>
+  <details class="faq g"><summary>Can I import my Accurate data?</summary>
+    <p>Not yet. Import from Accurate's Excel exports is on the roadmap. Today your IT team or partner can load master data and opening balances through the API.</p></details>
+  <details class="faq g"><summary>Can I print invoices or create e-Faktur?</summary>
+    <p>Not yet. Printable documents and the Coretax e-Faktur export are both on the roadmap.</p></details>
+  <details class="faq g"><summary>Where is my data stored, and can I get it out?</summary>
+    <p>In a PostgreSQL database hosted by Neon (the nearest region to Indonesia is Singapore). Every report is available as JSON through the API, and the database is standard PostgreSQL, so a full copy can be exported with standard tools.</p></details>
+  <details class="faq g"><summary>Who can see what?</summary>
+    <p>A new user starts with no access at all. Your Northline administrator creates users, and a full-access user grants privileges through access groups, report by report and document by document. See <a href="#access">Users, access and audit</a>.</p></details>
+  <details class="faq g"><summary>I saved a document on a screen and it disappeared after reloading. Why?</summary>
+    <p>That screen is a preview: it keeps what you type until the page reloads, and nothing reaches your books. Record the document through the API (see <a href="#workflows">Step by step</a>) until the screen is connected.</p></details>
+  <details class="faq g"><summary>Can prices include PPN?</summary>
+    <p>Not yet. PPN is added on top of the price when an invoice is marked taxable, at the rate of each item's default tax.</p></details>
+  <details class="faq g"><summary>A request returned 409. What now?</summary>
+    <p>A business rule refused it, and the message says which one, in the same Indonesian wording Accurate uses: for example an unbalanced journal, a closed month, not enough stock, or paying more than is owed. Fix the cause and send it again. A refused request saves nothing, so sending the corrected request with a new idempotency key is always safe.</p></details>
+  <details class="faq g"><summary>How much does Northline cost?</summary>
+    <p>There is no public price list yet. Ask your Northline contact for a quote for your number of users and deployment tier.</p></details>
+  <details class="faq g"><summary>Who do I contact for help?</summary>
+    <p>The person or partner who set up your Northline account. When reporting a problem, include the time, the screen or endpoint, and the error message shown.</p></details>
+</section>
+
+<footer>
+  <p>Generated facts (report catalog, endpoint list, counts) come from the code on <span id="gen">the build date</span>: <code>bun apps/api/scripts/user-guide.ts</code>. Sources: <code>docs/reports/_coverage.md</code>, <code>apps/api/src/app.ts</code>, <code>apps/api/src/route-privileges.ts</code>.</p>
+  <p>Northline ERP. Accurate and Accurate Online are trademarks of their owner; Northline is not affiliated with them.</p>
+</footer>
+</main>
+</div>
+
+<script id="data" type="application/json">{"generated":"2026-10-21","counts":{"total":291,"done":288,"outOfScope":0,"blocked":0,"acceptedDivergence":3},"reports":[{"n":"Laba/Rugi (Standar)","id":"ProfitLossStandardReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"FROMTO","api":"/api/reports/profit-loss"},{"n":"Neraca (Standar)","id":"BalanceSheetStandardReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"ASOF","api":"/api/reports/balance-sheet"},{"n":"Laba/Rugi (Multi Periode)","id":"ProfitLossMultiPeriodReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"PERIODFROMTO"},{"n":"Neraca (Multi Periode)","id":"BalanceSheetMultiPeriodReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"PERIODFROMTO"},{"n":"Laba/Rugi (Multi Year)","id":"ProfitLossMultiYearReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"ASOFYEAR"},{"n":"Neraca (Multi Year)","id":"BalanceSheetMultiYearReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"ASOFYEAR"},{"n":"Arus Kas (Tak Langsung)","id":"CashFlowIndirectReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/indirect"},{"n":"Proyeksi Ketersediaan Kas","id":"CashAvailabilityChartReport","g":"Keuangan","ok":true,"view":"chart","date":"FROMTO"},{"n":"Proyeksi Kas per Bulan","id":"CashProjectionReport","g":"Keuangan","ok":true,"view":"report","date":"NONE"},{"n":"Laba/Rugi (Perbandingan Periode)","id":"ProfitLossComparePeriodReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"COMPAREFROMTO"},{"n":"Laba/Rugi (Kuartal)","id":"ProfitLossQuarterReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"ASOFYEAR"},{"n":"Laba/Rugi (Perbandingan Anggaran)","id":"ProfitLossCompareBudgetReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"PERIODFROMTO"},{"n":"Laba/Rugi Cabang","id":"ProfitLossByBranchReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"FROMTO","api":"/api/reports/dimensions/by-branch?from=…&to=…&branch=…"},{"n":"Neraca (Perbandingan Periode)","id":"BalanceSheetComparePeriodReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"DATECOMPARE"},{"n":"Neraca (Induk Skontro)","id":"BalanceSheetParentScontroReport","g":"Keuangan","ok":true,"view":"financialstatement","date":"ASOF","same":"/api/reports/balance-sheet?asOf=…"},{"n":"Arus Kas (Langsung)","id":"CashFlowDirectReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/direct"},{"n":"Rincian Arus Kas (Tak Langsung)","id":"CashFlowDetailIndirectReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/indirect-detail"},{"n":"Rasio Keuangan (Per Tahun)","id":"FinancialRatioReport","g":"Keuangan","ok":true,"view":"report","date":"ASOFYEAR","api":"/api/reports/financial-ratios"},{"n":"Rasio Keuangan (Per Bulan)","id":"FinancialRatioPerMonthReport","g":"Keuangan","ok":true,"view":"report","date":"PERIOD","api":"/api/reports/financial-ratios?year=…&month=…"},{"n":"Fokus Keuangan","id":"FinancialFocusReport","g":"Keuangan","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Laba Ditahan","id":"RetainedEarningReport","g":"Keuangan","ok":true,"view":"report","date":"ASOFYEAR","api":"/api/reports/retained-earnings"},{"n":"Perubahan Ekuitas Pemilik","id":"OwnerEquityChangedReport","g":"Keuangan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/owner-equity-change"},{"n":"Grafik Perbandingan Nilai Akun","id":"AccountValueCompareChartReport","g":"Keuangan","ok":true,"view":"chart","date":"FROMTO"},{"n":"Grafik Pendapatan berbanding Biaya","id":"RevenueToExpenseComparisonChartReport","g":"Keuangan","ok":true,"view":"chart","date":"FROMTO","api":"/api/reports/charts/revenue-vs-expense"},{"n":"Grafik Harta Bersih","id":"NetWorthChartReport","g":"Keuangan","ok":true,"view":"chart","date":"PERIODFROMTO","api":"/api/reports/charts/net-worth"},{"n":"Grafik Rasio Likuiditas","id":"LiquidityRatioChartReport","g":"Keuangan","ok":true,"view":"chart","date":"PERIODFROMTO","api":"/api/reports/charts/liquidity"},{"n":"Grafik Pengembalian Aset","id":"ReturnOnAssetChartReport","g":"Keuangan","ok":true,"view":"chart","date":"PERIODFROMTO","api":"/api/reports/charts/roa"},{"n":"Grafik Pengembalian pada Modal","id":"ReturnOnEquityChartReport","g":"Keuangan","ok":true,"view":"chart","date":"PERIODFROMTO","api":"/api/reports/charts/roe"},{"n":"Arus Kas Multi Period (Langsung)","id":"CashFlowDirectMultiPeriodReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/direct?from=…&to=…&monthly=true"},{"n":"Arus Kas Multi Period (Tak Langsung)","id":"CashFlowIndirectMultiPeriodReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/indirect?from=…&to=…&monthly=true"},{"n":"Rincian Arus Kas Multi Period (Tak Langsung)","id":"CashFlowDetailIndirectMultiPeriodReport","g":"Keuangan","ok":true,"view":"report","date":"PERIODFROMTO","api":"/api/reports/cash-flow/indirect-detail?from=…&to=…&monthly=true"},{"n":"Keseluruhan Jurnal","id":"AllJournalReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/all-journals"},{"n":"Keseluruhan Jurnal (CSV)","id":"AllJournalDownloadReport","g":"Buku Besar","ok":true,"view":"download","date":"FROMTO","same":"/api/reports/general-ledger/all-journals?from=…&to=…"},{"n":"Ringkasan Buku Besar","id":"GeneralLedgerSummaryReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/summary"},{"n":"Histori Buku Besar","id":"GeneralLedgerHistoryReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/history"},{"n":"Histori Buku Besar (CSV)","id":"GeneralLedgerHistoryDownloadReport","g":"Buku Besar","ok":true,"view":"download","date":"FROMTO","same":"/api/reports/general-ledger/history?from=…&to=…"},{"n":"Rincian Buku Besar","id":"GeneralLedgerDetailReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/detail"},{"n":"Rincian Buku Besar (CSV)","id":"GeneralLedgerDetailDownloadReport","g":"Buku Besar","ok":true,"view":"download","date":"FROMTO","same":"/api/reports/general-ledger/detail?from=…&to=…"},{"n":"Rincian Jurnal Akun","id":"JournalDetailListReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/account-journal-detail"},{"n":"Rincian Jurnal Akun (CSV)","id":"JournalDetailListDownloadReport","g":"Buku Besar","ok":true,"view":"download","date":"FROMTO","same":"/api/reports/general-ledger/account-journal-detail?from=…&to=…"},{"n":"Laba/Rugi Terealisasi","id":"RealizeGainLossReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO"},{"n":"Laba/Rugi Tidak Terealisasi","id":"UnRealizeGainLossReport","g":"Buku Besar","ok":true,"view":"report","date":"PERIODFROMTO"},{"n":"Neraca Percobaan","id":"TrialBalanceReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/trial-balance"},{"n":"Jurnal Umum","id":"JournalListReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/general-ledger/journal-list"},{"n":"Daftar Akun Perkiraan","id":"GlAccountListReport","g":"Buku Besar","ok":true,"view":"report","date":"ASOF","api":"/api/reports/general-ledger/account-list"},{"n":"Rincian Gaji Karyawan per Bulan","id":"EmployeePaymentByEmployeeReport","g":"Buku Besar","ok":true,"view":"crosstab","date":"PERIOD","api":"/api/reports/payroll/monthly"},{"n":"Rincian Gaji Karyawan per Tahun","id":"EmployeePaymentYearlyByEmployeeReport","g":"Buku Besar","ok":true,"view":"crosstab","date":"ASOFYEAR","api":"/api/reports/payroll/yearly"},{"n":"Pajak Penghasilan Karyawan","id":"EmployeePphReport","g":"Buku Besar","ok":true,"view":"crosstab","date":"ASOFYEAR","api":"/api/reports/payroll/pph"},{"n":"Porsi Gaji Karyawan","id":"EmployeeSalaryProportionReport","g":"Buku Besar","ok":true,"view":"chart","date":"ASOFYEAR","api":"/api/reports/payroll/share"},{"n":"Gaji Karyawan per Tahun","id":"EmployeeSalaryPerYearReport","g":"Buku Besar","ok":true,"view":"chart","date":"NONE","api":"/api/reports/payroll/per-year"},{"n":"Ringkasan Pencatatan Beban","id":"ExpenseAccrualSummaryReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO"},{"n":"Rincian Pencatatan Beban","id":"ExpenseAccrualDetailReport","g":"Buku Besar","ok":true,"view":"report","date":"FROMTO"},{"n":"Laba/Rugi Departemen","id":"ProfitLossByDepartmentReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"FROMTO","api":"/api/reports/dimensions/by-department?from=…&to=…&department=…"},{"n":"Laba/Rugi Departemen (Perbandingan Anggaran)","id":"ProfitLossCompareBudgetDepartmentReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"PERIODFROMTO"},{"n":"Laba/Rugi Departemen (Multi Periode)","id":"ProfitLossDepartmentMultiPeriodReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"PERIODFROMTO","api":"/api/reports/dimensions/department-multi-period?from=…&to=…&department=…&style=retail"},{"n":"Laba/Rugi Departemen (Perbandingan Periode)","id":"ProfitLossComparePeriodPerDepartmentReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"COMPAREFROMTO","api":"/api/reports/dimensions/compare-department?from=…&to=…&compareFrom=…&compareTo=…&department=…&style=retail"},{"n":"Laba/Rugi Proyek (Perbandingan Periode)","id":"ProfitLossComparePeriodPerProjectReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"COMPAREFROMTO","api":"/api/reports/dimensions/compare-project?from=…&to=…&compareFrom=…&compareTo=…&project=…"},{"n":"Analisa Laba/Rugi Departemen","id":"AnalysisProfitLossDepartmentReport","g":"Pusat Laba & Biaya","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/dimensions/analysis-department?from=…&to=…"},{"n":"Histori Bank","id":"BankBookReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/bank-book"},{"n":"Transaksi Bank Terekonsiliasi","id":"ReconciledBankReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO"},{"n":"Transaksi Bank belum Terekonsiliasi","id":"UnreconciledBankReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/unreconciled"},{"n":"Ringkasan Pembayaran per Bank","id":"PaymentByBankSummaryReport","g":"Kas & Bank","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/cash-bank/payment-by-bank"},{"n":"Ringkasan Penerimaan per Bank","id":"DepositByBankSummaryReport","g":"Kas & Bank","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/cash-bank/deposit-by-bank"},{"n":"Giro Mundur (Belum Jatuh Tempo)","id":"OutstandingChequeReport","g":"Kas & Bank","ok":true,"view":"report","date":"ASOF"},{"n":"Arus Kas per Akun","id":"CashFlowbyAccountReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/cash-flow-by-account"},{"n":"Rincian Pembayaran per Bank","id":"PaymentByBankDetailReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/payment-by-bank-detail"},{"n":"Rincian Penerimaan per Bank","id":"DepositByBankDetailReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/deposit-by-bank-detail"},{"n":"Daftar Kas","id":"CashBankAccountListReport","g":"Kas & Bank","ok":true,"view":"report","date":"ASOF","api":"/api/reports/cash-bank/cash-list"},{"n":"Rekening Koran","id":"BankStatementReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/statement"},{"n":"Ringkasan Daftar Pembayaran","id":"PaymentListReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/payment-list"},{"n":"Ringkasan Daftar Penerimaan","id":"DepositListReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/deposit-list"},{"n":"Rincian Beban Pembayaran","id":"PaymentLoadReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/cash-bank/payment-load"},{"n":"Rekonsiliasi Bank (Jurnal terhadap Rekening Koran)","id":"BankReconcileBookToStatementReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO"},{"n":"Rekonsiliasi Bank (Rekening Koran terhadap Jurnal)","id":"BankReconcileStatementToBookReport","g":"Kas & Bank","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Piutang Karyawan","id":"EmployeeLoanListReport","g":"Kas & Bank","ok":true,"view":"report","date":"NONE","api":"/api/reports/employee-loans/list"},{"n":"Angsuran Pinjaman per Karyawan","id":"EmployeeLoanInstallmentByEmployeeReport","g":"Kas & Bank","ok":true,"view":"report","date":"NONE","api":"/api/reports/employee-loans/installments"},{"n":"History Peminjaman per Karyawan","id":"EmployeeLoanHistoryReport","g":"Kas & Bank","ok":true,"view":"report","date":"NONE","api":"/api/reports/employee-loans/history"},{"n":"Faktur Belum Lunas","id":"OutstandingSalesInvoiceReport","g":"Piutang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/receivables/outstanding"},{"n":"Faktur Belum Lunas per Pelanggan","id":"OutstandingSalesInvoicePerCustomerReport","g":"Piutang","ok":true,"view":"crosstab","date":"ASOF","api":"/api/reports/receivables/outstanding-per-customer"},{"n":"Umur Piutang","id":"AgingReceivableReport","g":"Piutang","ok":true,"view":"crosstab","date":"ASOF","api":"/api/reports/receivables/aging"},{"n":"Buku Besar Pembantu Piutang","id":"ARLedgerReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/ar-ledger"},{"n":"Histori Piutang","id":"ARHistoryReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/ar-history"},{"n":"Rata-rata Pembayaran Pelanggan","id":"OwingCollectionPerCustomerReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/owing-collection"},{"n":"Rincian Umur Piutang","id":"AgingReceivableDetailReport","g":"Piutang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/receivables/aging-detail"},{"n":"Grafik Umur Piutang","id":"AgingReceivableChartReport","g":"Piutang","ok":true,"view":"chart","date":"ASOF","api":"/api/reports/charts/ar-aging"},{"n":"Rincian Buku Besar Pembantu Piutang","id":"ARLedgerDetailReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/ar-ledger-detail"},{"n":"Pernyataan Piutang","id":"CustomerStatementReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/customer-statement"},{"n":"Grafik Rata-rata Pembayaran Pelanggan","id":"OwingCollectionGraphReport","g":"Piutang","ok":true,"view":"chart","date":"FROMTO","api":"/api/reports/charts/collection-days"},{"n":"Pembayaran Faktur","id":"SalesInvoicePaidReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/invoice-paid"},{"n":"Pembayaran PPh Penjualan","id":"SalesInvoicePphPaidReport","g":"Piutang","ok":false,"view":"report","date":"FROMTO"},{"n":"Sisa Kredit Pelanggan","id":"CustomerExistingCreditListReport","g":"Piutang","ok":true,"view":"crosstab","date":"ASOF"},{"n":"Penerimaan Penjualan","id":"SalesReceiptListReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/receipt-list"},{"n":"Rincian Penerimaan Penjualan","id":"SalesReceiptListDetailReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/receipt-detail"},{"n":"Daftar Pelanggan","id":"CustomerListReport","g":"Piutang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/parties/customer-list"},{"n":"Limit Piutang Pelanggan","id":"CustomerLimitReport","g":"Piutang","ok":true,"view":"report","date":"NONE"},{"n":"Rincian Tukar Faktur","id":"ExchangeInvoiceDetailReport","g":"Piutang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/exchange-invoices"},{"n":"Penjualan per Pelanggan","id":"ViewSalesByCustomerReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/receivables/sales-by-customer"},{"n":"Penjualan per Barang","id":"ViewSalesByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/receivables/by-item"},{"n":"Penjualan per Merek","id":"ViewSalesByBrandReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Penjualan Barang per Pelanggan","id":"ViewSalesItemByCustomerReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/receivables/item-by-customer"},{"n":"Penjualan Barang per Gudang","id":"ViewSalesItemByWarehouseReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Penjualan Pelanggan per Barang","id":"ViewSalesCustomerByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/receivables/customer-by-item"},{"n":"Histori Proses Penjualan","id":"SalesFlowHistoryReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/parties/sales-flow"},{"n":"Rincian Penjualan per Pelanggan","id":"ViewSalesByCustomerDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/by-customer-detail"},{"n":"Rincian Penjualan per Barang","id":"ViewSalesByItemDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/by-item-detail"},{"n":"Penjualan per Cabang","id":"ViewSalesByBranchReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/receivables/by-branch"},{"n":"Penjualan Barang per Cabang","id":"ViewSalesItemByBranchReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Retur Penjualan per Barang","id":"SalesReturnByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/returns/sales/by-item"},{"n":"Grafik Penjualan Bulanan","id":"AnnualSalesChartReport","g":"Penjualan","ok":true,"view":"chart","date":"FROMTO","api":"/api/reports/charts/monthly-sales"},{"n":"Porsi Penjualan per Pelanggan","id":"TopSalesCustomerChartReport","g":"Penjualan","ok":true,"view":"chart","date":"FROMTO","api":"/api/reports/charts/customer-share"},{"n":"Porsi Penjualan per Barang","id":"TopSalesItemChartReport","g":"Penjualan","ok":true,"view":"chart","date":"FROMTO","api":"/api/reports/charts/item-share"},{"n":"Penawaran per Pelanggan (Belum Proses)","id":"SalesQuotationByCustomerReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Penawaran per Barang (Belum Proses)","id":"SalesQuotationByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Pesanan per Pelanggan (Belum Proses)","id":"SalesOrderByCustomerReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Pesanan per Barang (Belum Proses)","id":"SalesOrderByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Uang Muka Penjualan","id":"SalesDownPaymentByCustomerReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/down-payments"},{"n":"Target Penjualan Barang","id":"ItemSalesTargetReport","g":"Penjualan","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Target Penjualan per Kategori","id":"ItemCategorySalesTargetReport","g":"Penjualan","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Target Penjualan Penjual","id":"SalesmanSalesTargetReport","g":"Penjualan","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Target Penjualan per Bulan","id":"GeneralSalesTargetReport","g":"Penjualan","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Daftar Penawaran Penjualan","id":"SalesQuotationListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Rincian Penawaran Penjualan","id":"SalesQuotationDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Pesanan Penjualan","id":"SalesOrderListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Rincian Pesanan Penjualan","id":"SalesOrderDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Pengiriman Pesanan","id":"DeliveryOrderListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/deliveries/list"},{"n":"Rincian Pengiriman Pesanan","id":"DeliveryOrderDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/deliveries/detail"},{"n":"Status Pengiriman Pesanan","id":"DeliveryOrderHistorySummaryReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/deliveries/history"},{"n":"Daftar Faktur Penjualan","id":"SalesInvoiceListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/invoice-list"},{"n":"Rincian Faktur Penjualan","id":"SalesInvoiceDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/invoice-detail"},{"n":"Grafik Penjualan","id":"SalesInvoiceChartReport","g":"Penjualan","ok":true,"view":"chart","date":"YEARTODATE","same":"/api/reports/charts/monthly-sales?from=…&to=…"},{"n":"Daftar Retur Penjualan","id":"SalesReturnListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/returns/sales/list"},{"n":"Rincian Retur Penjualan","id":"SalesReturnDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/returns/sales/detail"},{"n":"Penggunaan Uang Muka Penjualan","id":"SalesInvoiceDownPaymentDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/receivables/down-payment-usage"},{"n":"Pembayaran Cicilan","id":"SalesInvoicePaidInstallmentListReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Cicilan Belum Terbayar","id":"SalesInvoiceUnpaidInstallmentListReport","g":"Penjualan","ok":true,"view":"report","date":"ASOF"},{"n":"Monitoring HPP","id":"CogsMonitoringReport","g":"Penjualan","ok":false,"view":"report","date":"NONE"},{"n":"Profitabilitas per Faktur","id":"ProfitabilityBySalesInvoiceReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/parties/profitability-by-invoice"},{"n":"Profitabilitas per Barang","id":"ProfitabilityByItemReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/inventory/profitability-by-item"},{"n":"Profitabilitas per Pelanggan","id":"ProfitabilityByCustomerReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/parties/profitability-by-customer"},{"n":"Perubahan Harga Jual Per Barang","id":"SellingPriceAdjustmentHistoryReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Penyesuaian Harga Jual","id":"SellingPriceAdjustmentDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Penyesuaian Harga Jual per Kategori","id":"SellingPriceAdjustmentDetailPerCategoryReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Penyesuaian Diskon Jual","id":"SellingDiscountAdjustmentDetailReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO"},{"n":"Penyesuaian Diskon Jual per Kategori","id":"SellingDiscountAdjustmentDetailPerCategoryReport","g":"Penjualan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Barang Paling Laku","id":"SellingItemFrequencyReport","g":"Penjualan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/parties/selling-frequency"},{"n":"Faktur Belum Lunas per Penjual","id":"OutstandingInvoicePerSalesmanReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"ASOF"},{"n":"Umur Piutang per Penjual","id":"AgingReceivablePerSalesmanReport","g":"Tenaga Penjual","ok":true,"view":"crosstab","date":"ASOF"},{"n":"Rincian Umur Piutang per Penjual","id":"AgingReceivableDetailPerSalesmanReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"ASOF"},{"n":"Penjualan Barang per Penjual","id":"SalesSalesmanByItemReport","g":"Tenaga Penjual","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Faktur Penjualan per Penjual","id":"SalesInvoiceListBySalesmanReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Retur Penjualan per Penjual","id":"SalesReturnListBySalesmanReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Ringkasan Komisi (Dihitung per Periode)","id":"SalesmanCommissionByPeriodSummaryReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"PERIOD"},{"n":"Ringkasan Komisi (Dihitung per Faktur)","id":"SalesmanCommissionByInvoiceSummaryReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Rincian Komisi (Dihitung per Faktur)","id":"SalesmanCommissionByInvoiceDetailReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Rincian Komisi Penjual (Dihitung per Periode)","id":"SalesmanCommissionByPeriodDetailReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"PERIOD"},{"n":"Daftar Komisi Penjual","id":"SalesmanCommissionListReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"NONE"},{"n":"Check In per Karyawan","id":"SalesCheckInPerSalesmanReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Histori Transaksi per Penjual","id":"TransactionPerSalesmanListReport","g":"Tenaga Penjual","ok":true,"view":"report","date":"FROMTO"},{"n":"Faktur Belum Lunas","id":"OutstandingPurchaseInvoiceReport","g":"Utang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/payables/outstanding"},{"n":"Faktur Belum Lunas per Pemasok","id":"OutstandingPurchaseInvoicePerVendorReport","g":"Utang","ok":true,"view":"crosstab","date":"ASOF","api":"/api/reports/payables/outstanding-per-vendor"},{"n":"Umur Utang","id":"AgingPayableReport","g":"Utang","ok":true,"view":"crosstab","date":"ASOF","api":"/api/reports/payables/aging"},{"n":"Buku Besar Pembantu Utang","id":"APLedgerReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/ap-ledger"},{"n":"Histori Utang","id":"APHistoryReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/ap-history"},{"n":"Rincian Umur Utang","id":"AgingPayableDetailReport","g":"Utang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/payables/aging-detail"},{"n":"Rincian Buku Besar Pembantu Utang","id":"APLedgerDetailReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/ap-ledger-detail"},{"n":"Grafik Umur Utang","id":"AgingPayableChartReport","g":"Utang","ok":true,"view":"chart","date":"ASOF","api":"/api/reports/charts/ap-aging"},{"n":"Pernyataan Utang","id":"VendorStatementReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/vendor-statement"},{"n":"Pembayaran Faktur","id":"PurchaseInvoicePaidReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/invoice-paid"},{"n":"Pembayaran PPh Pembelian","id":"PurchaseInvoicePphPaidReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/tax/purchase-invoice-pph-paid"},{"n":"Pembayaran Pembelian","id":"PurchasePaymentListReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/payment-list"},{"n":"Rincian Pembayaran Pembelian","id":"PurchasePaymentListDetailReport","g":"Utang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/payment-detail"},{"n":"Utang per Bulan","id":"VendorPayablePerMonthReport","g":"Utang","ok":true,"view":"report","date":"ASOFYEAR","api":"/api/reports/payables/per-month"},{"n":"Daftar Pemasok","id":"VendorListReport","g":"Utang","ok":true,"view":"report","date":"ASOF","api":"/api/reports/parties/vendor-list"},{"n":"Pembelian per Pemasok","id":"PurchaseByVendorReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/payables/by-vendor"},{"n":"Pembelian per Barang","id":"PurchaseByItemReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/payables/by-item"},{"n":"Pembelian per Biaya","id":"PurchaseByExpenseReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Uang Muka Pembelian","id":"PurchaseDownPaymentByVendorReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/down-payments"},{"n":"Histori Proses Pembelian","id":"PurchaseFlowHistoryReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/parties/purchase-flow"},{"n":"Rincian Pembelian per Pemasok","id":"PurchaseByVendorDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/by-vendor-detail"},{"n":"Rincian Pembelian per Barang","id":"PurchaseByItemDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/by-item-detail"},{"n":"Retur Pembelian per Barang","id":"PurchaseReturnByItemReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/returns/purchase/by-item"},{"n":"Pesanan per Pemasok (Belum Proses)","id":"PurchaseOrderByVendorReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/orders/order-by-vendor"},{"n":"Pesanan per Barang (Belum Proses)","id":"PurchaseOrderByItemReport","g":"Pembelian","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/orders/order-by-item"},{"n":"Daftar Pesanan Pembelian","id":"PurchaseOrderListReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/orders/order-list"},{"n":"Rincian Pesanan Pembelian","id":"PurchaseOrderDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/orders/order-detail"},{"n":"Daftar Penerimaan Barang","id":"ReceiveItemListReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/orders/receive-list"},{"n":"Rincian Penerimaan Barang","id":"ReceiveItemDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/orders/receive-detail"},{"n":"Daftar Faktur Pembelian","id":"PurchaseInvoiceListReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/invoice-list"},{"n":"Rincian Faktur Pembelian","id":"PurchaseInvoiceDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/invoice-detail"},{"n":"Daftar Retur Pembelian","id":"PurchaseReturnListReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/returns/purchase/list"},{"n":"Rincian Retur Pembelian","id":"PurchaseReturnDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/returns/purchase/detail"},{"n":"Penggunaan Uang Muka Pembelian","id":"PurchaseInvoiceDownPaymentDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/payables/down-payment-usage"},{"n":"Daftar Perintah Pembayaran","id":"TransferOrderListReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/purchases/transfer-order-list"},{"n":"Perubahan Harga Beli Per Barang","id":"VendorPriceHistoryReport","g":"Pembelian","ok":true,"view":"report","date":"ASOF"},{"n":"Penyesuaian Harga Beli","id":"VendorPriceAdjustmentDetailReport","g":"Pembelian","ok":true,"view":"report","date":"FROMTO"},{"n":"Nilai Persediaan","id":"InventoryValuationReport","g":"Persediaan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/inventory/valuation"},{"n":"Rincian Nilai Persediaan (CSV)","id":"InventoryValuationDetailDownloadReport","g":"Persediaan","ok":true,"view":"download","date":"FROMTO","same":"/api/reports/inventory/valuation-detail?item=…&from=…&to=…"},{"n":"Ketersediaan Stok Penjualan","id":"InventoryAnalysisReport","g":"Persediaan","ok":true,"view":"report","date":"ASOF"},{"n":"Umur Persediaan","id":"InventoryAgingReport","g":"Persediaan","ok":true,"view":"crosstab","date":"ASOF","api":"/api/reports/inventory/aging"},{"n":"Umur Persediaan per Gudang","id":"InventoryAgingByWarehouseReport","g":"Persediaan","ok":true,"view":"crosstab","date":"ASOF"},{"n":"Rincian Nilai Persediaan","id":"InventoryValuationDetailReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/inventory/valuation-detail"},{"n":"Rincian Ketersediaan Stok Penjualan","id":"InventoryAnalysisDetailReport","g":"Persediaan","ok":true,"view":"report","date":"ASOF"},{"n":"Rincian Umur Persediaan","id":"InventoryAgingDetailReport","g":"Persediaan","ok":true,"view":"report","date":"ASOF"},{"n":"Kartu Stok Persediaan","id":"InventoryStockCardReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/inventory/stock-card"},{"n":"Permintaan per Barang (Belum Proses)","id":"PurchaseRequisitionByItemReport","g":"Persediaan","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/requisitions/by-item"},{"n":"Daftar Permintaan Barang","id":"PurchaseRequisitionListReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/requisitions/list"},{"n":"Rincian Permintaan Barang","id":"PurchaseRequisitionDetailReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/requisitions/detail"},{"n":"Status Pesanan Permintaan Barang","id":"PurchaseRequisitionOrderStatusReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/requisitions/order-status"},{"n":"Barang Grup","id":"ItemGroupDetailReport","g":"Persediaan","ok":true,"view":"report","date":"NONE"},{"n":"Penyesuaian Stok Barang","id":"InventoryAdjustmentDetailReport","g":"Persediaan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/inventory/adjustments"},{"n":"Daftar Barang dan Jasa","id":"ItemListReport","g":"Persediaan","ok":true,"view":"report","date":"ASOF"},{"n":"Umur Nomor Seri/Batch","id":"SerialNumberAgingDetailReport","g":"Persediaan","ok":true,"view":"report","date":"ASOF"},{"n":"Analisa Nilai Persediaan","id":"AnalysisInventoryValuationReport","g":"Persediaan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Kuantitas Barang per Gudang","id":"QuantityItemByWarehouseReport","g":"Gudang","ok":true,"view":"crosstab","date":"ASOF"},{"n":"Mutasi per Barang","id":"ItemMutationByWarehouseReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Mutasi per Gudang","id":"WarehouseMutationByItemReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Ringkasan Mutasi Gudang","id":"WarehouseMutationSummaryReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/inventory/warehouse-summary"},{"n":"Stok Nomor Seri/Produksi","id":"SerialNumberStockReport","g":"Gudang","ok":true,"view":"report","date":"ASOF"},{"n":"Stok Nomor Seri/Produksi per Gudang","id":"SerialNumberStockPerWarehouseReport","g":"Gudang","ok":true,"view":"report","date":"ASOF"},{"n":"Stok Nomor Seri/Produksi per Barang","id":"SerialNumberStockPerItemReport","g":"Gudang","ok":true,"view":"report","date":"ASOF"},{"n":"Lembar Penghitungan Stok","id":"PhysicalInventoryCountSheetReport","g":"Gudang","ok":true,"view":"report","date":"ASOF"},{"n":"Rincian Pemindahan Barang","id":"ItemTransferDetailReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Barang Diterima Sebagian","id":"UncompletedItemTransferReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Gudang","id":"WarehouseListReport","g":"Gudang","ok":true,"view":"report","date":"NONE"},{"n":"Mutasi Nomor Seri/Produksi","id":"ReceivedDeliveredSerialNumberReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Histori Nomor Seri/Produksi","id":"SerialNumberMutationReport","g":"Gudang","ok":true,"view":"report","date":"NONE"},{"n":"Sisa Umur Per Nomor Produksi","id":"RemainingAgeSerialNumberDetailReport","g":"Gudang","ok":true,"view":"report","date":"ASOF"},{"n":"Nomor Produksi Segera Kadaluarsa","id":"SerialNumberExpiredSoonReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Ringkasan Pemindahan Barang","id":"ItemTransferListReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/inventory/transfers"},{"n":"Pergerakan Stok per Barang","id":"StockMovementByWarehouseReport","g":"Gudang","ok":true,"view":"report","date":"FROMTO"},{"n":"Bahan dan Biaya Pekerjaan per Bulan","id":"JobCostingByMonthReport","g":"Pekerjaan Pesanan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Histori Pekerjaan Pesanan","id":"JobCostingHistoryDetailReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO"},{"n":"Penyelesaian Barang/Biaya per Bulan","id":"FinishedJobCostByMonth","g":"Pekerjaan Pesanan","ok":true,"view":"crosstab","date":"FROMTO"},{"n":"Rincian Jurnal Pekerjaan Pesanan","id":"JobCostingJournalDetailReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"NONE"},{"n":"Rincian Penambahan Bahan Baku","id":"MaterialAdjustmentDetailReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/material-adjustment-detail"},{"n":"Rincian Barang Penyelesaian Pesanan ","id":"RollOverItemDetailReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/roll-over-item-detail"},{"n":"Rincian Akun Penyelesaian Pesanan ","id":"RollOverAccountDetailReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/roll-over-account-detail"},{"n":"Daftar Pekerjaan Pesanan ","id":"JobOrderListReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/job-order-list"},{"n":"Daftar Penyelesaian Pesanan","id":"RollOverListReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/roll-over-list"},{"n":"Daftar Penambahan Bahan Baku","id":"MaterialAdjustmentListReport","g":"Pekerjaan Pesanan","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/job-costing/material-adjustment-list"},{"n":"Jurnal Perintah Kerja","id":"WorkOrderJournalReport","g":"Manufaktur","ok":false,"view":"report","date":"NONE"},{"n":"Penyesuaian Bahan (Harga Pokok Produksi)","id":"AdjustmentCOGSManufactureReport","g":"Manufaktur","ok":true,"view":"report","date":"PERIOD","api":"/api/reports/manufacturing/adjustment-cogs"},{"n":"Pembelian (Harga Pokok Produksi)","id":"PurchaseCOGSManufactureReport","g":"Manufaktur","ok":true,"view":"report","date":"PERIOD","api":"/api/reports/manufacturing/purchase-cogs"},{"n":"Daftar Aset Tetap","id":"FixedAssetListReport","g":"Aset Tetap","ok":true,"view":"report","date":"NONE","api":"/api/reports/fixed-assets/list"},{"n":"Aset Tetap per Kategori","id":"FixedAssetByCategoryReport","g":"Aset Tetap","ok":true,"view":"report","date":"ASOF","api":"/api/reports/fixed-assets/by-category"},{"n":"Histori Aset","id":"FixedAssetHistoryReport","g":"Aset Tetap","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/fixed-assets/history"},{"n":"Jurnal Aset","id":"FixedAssetJournalReport","g":"Aset Tetap","ok":true,"view":"report","date":"NONE","api":"/api/reports/fixed-assets/journal"},{"n":"Perbedaan Penyusutan","id":"DifferentIntermDepreciationReport","g":"Aset Tetap","ok":true,"view":"report","date":"ASOFYEAR"},{"n":"Histori Lokasi Aset","id":"AssetLocationHistoryReport","g":"Aset Tetap","ok":true,"view":"report","date":"NONE"},{"n":"Detail Aset Tetap","id":"FixedAssetDetailReport","g":"Aset Tetap","ok":true,"view":"report","date":"NONE","api":"/api/reports/fixed-assets/detail"},{"n":"Histori Perubahan Aset","id":"FixedAssetEditedHistoryReport","g":"Aset Tetap","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Kategori Aset Tetap Pajak","id":"FiscalFaTypeListReport","g":"Aset Tetap","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/fiscal-fa-types"},{"n":"Daftar Perubahan Aset Tetap","id":"FixedAssetEditedListReport","g":"Aset Tetap","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/fixed-assets-edited"},{"n":"Daftar Disposisi Aset Tetap","id":"FixedAssetDisposedListReport","g":"Aset Tetap","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar PPN/PPnBM Keluaran","id":"TaxationOutReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar PPN/PPnBM Masukan","id":"TaxationInReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO"},{"n":"Rekonsiliasi PPN Lebih/Kurang Bayar","id":"TaxationInOutReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO"},{"n":"Faktur Penjualan SPT Masa PPN","id":"SalesInvoiceSPTListReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO"},{"n":"Faktur Pembelian SPT Masa PPN","id":"PurchaseInvoiceSPTListReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Bukti Potong PPh Pembelian","id":"PurchasePaymentPPhReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/tax/purchase-payment-pph"},{"n":"Daftar Bukti Potong PPh Penjualan","id":"SalesReceiptPPhReport","g":"Pajak","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/tax/sales-receipt-pph"},{"n":"Selisih Saldo Akun Persediaan dengan Nilai Barang","id":"ItemValueToAccountBalanceDifferenceReport","g":"Pemeriksaan","ok":true,"view":"report","date":"FROMTO"},{"n":"Perbedaan Persediaan Terkirim Pemindahan Barang","id":"DifferenceGoodsTransitItemTransferReport","g":"Pemeriksaan","ok":true,"view":"report","date":"ASOF"},{"n":"Laporan Rincian Penyetuju Transaksi","id":"ApprovalListReport","g":"Pemeriksaan","ok":true,"view":"report","date":"FROMTO_TIMESTAMP","api":"/api/reports/approvals?from=…&to=…"},{"n":"Selisih Akun Pembelian belum tertagih","id":"UnbilledAccountBalanceDifferenceReport","g":"Pemeriksaan","ok":true,"view":"report","date":"FROMTO"},{"n":"Daftar Mata Uang","id":"CurrencyListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/currencies"},{"n":"Daftar FOB","id":"FreeOnBoardListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/fob"},{"n":"Daftar Pajak","id":"TaxListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/taxes"},{"n":"Daftar Pengiriman","id":"ShipmentListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/shipments"},{"n":"Daftar Karyawan","id":"SalesmanListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/employees"},{"n":"Daftar Departemen","id":"DepartmentListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/departments"},{"n":"Daftar Log Aktifitas","id":"AuditListReport","g":"Lain-lain","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/activity-log"},{"n":"Daftar Pengguna per Cabang","id":"UserByBranchListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/access/user-by-branch"},{"n":"Daftar Akses Grup","id":"AccessGroupPrivilegeListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/access/group-privileges"},{"n":"Daftar Hak Akses per Pengguna","id":"AccessPrivilegeByUserListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/access/privileges-by-user"},{"n":"Laba/Rugi Proyek","id":"ProfitLossByProjectReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"FROMTO","api":"/api/reports/dimensions/by-project?from=…&to=…&project=…&style=standard"},{"n":"Laba/Rugi Proyek (Perbandingan Anggaran)","id":"ProfitLossCompareBudgetProjectReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"PERIODFROMTO"},{"n":"Laba/Rugi Proyek (Multi Periode)","id":"ProfitLossProjectMultiPeriodReport","g":"Pusat Laba & Biaya","ok":true,"view":"financialstatement","date":"PERIODFROMTO","api":"/api/reports/dimensions/project-multi-period?from=…&to=…&project=…&style=standard"},{"n":"Analisa Laba/Rugi Proyek","id":"AnalysisProfitLossProjectReport","g":"Pusat Laba & Biaya","ok":true,"view":"crosstab","date":"FROMTO","api":"/api/reports/dimensions/analysis-project?from=…&to=…"},{"n":"Laba/Rugi Proyek Kontraktor","id":"ProfitLossByProjectContractorReport","g":"Proyek Kontraktor","ok":true,"view":"financialstatement","date":"NONE","api":"/api/reports/contractor/profit-loss?from=…&to=…&project=…"},{"n":"Progres Proyek ","id":"ProjectContractorProgressReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"ASOF","api":"/api/reports/contractor/progress?project=…&asOf=…"},{"n":"Daftar Proyek Kontraktor","id":"ProjectContractorListReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/project-list?from=…&to=…"},{"n":"Daftar Survei Proyek","id":"SurveyListReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/survey-list?from=…&to=…"},{"n":"Daftar Anggaran","id":"ContractorBudgetPlanReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/budget-plan?from=…&to=…"},{"n":"Daftar Bahan Baku Terpakai","id":"MaterialEquipmentReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/material-usage?from=…&to=…"},{"n":"Rincian Survei Proyek","id":"ContractorSurveyDetailReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/survey-detail?from=…&to=…"},{"n":"Rincian Bahan Baku Terpakai","id":"MaterialEquipmentDetailReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"FROMTO","api":"/api/reports/contractor/material-usage-detail?from=…&to=…"},{"n":"Anggaran & Realisasi Proyek ","id":"ProjectBudgetComparisonReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"NONE","api":"/api/reports/contractor/budget-comparison?project=…"},{"n":"Jurnal Proyek Dalam Proses","id":"ProjectContractorJournalReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"NONE","api":"/api/reports/contractor/journal?project=…"},{"n":"Mutasi Bank per Proyek","id":"BankMutationByProjectContractorReport","g":"Proyek Kontraktor","ok":true,"view":"report","date":"NONE","api":"/api/reports/contractor/bank-mutation?project=…"},{"n":"Daftar Proyek","id":"ProjectListReport","g":"Lain-lain","ok":true,"view":"report","date":"NONE","api":"/api/reports/master/projects"}],"routes":[{"m":"POST","p":"/api/auth/login","tag":"auth","e":{},"priv":"public"},{"m":"POST","p":"/api/auth/logout","tag":"auth","e":{},"priv":"public"},{"m":"GET","p":"/api/me","tag":"me","e":{},"priv":"signed in"},{"m":"POST","p":"/api/ledger/commands","tag":"ledger","e":{},"priv":"buku_besar.jurnal_umum"},{"m":"GET","p":"/api/reports/trial-balance","tag":"reports","e":{},"priv":"TrialBalanceReport"},{"m":"GET","p":"/api/reports/activity-log","tag":"reports","e":{},"priv":"AuditListReport"},{"m":"GET","p":"/api/reports/approvals","tag":"reports","e":{},"priv":"full_access"},{"m":"GET","p":"/api/reports/profit-loss","tag":"reports","e":{},"priv":"ProfitLossStandardReport"},{"m":"GET","p":"/api/reports/general-ledger/{report}","tag":"reports","e":{"report":["journal-list","all-journals","history","summary","detail","account-journal-detail","account-list"]},"priv":"per report"},{"m":"GET","p":"/api/reports/retained-earnings","tag":"reports","e":{},"priv":"RetainedEarningReport"},{"m":"GET","p":"/api/reports/owner-equity-change","tag":"reports","e":{},"priv":"OwnerEquityChangedReport"},{"m":"GET","p":"/api/reports/cash-flow/{report}","tag":"reports","e":{"report":["direct","indirect","indirect-detail"]},"priv":"per report"},{"m":"GET","p":"/api/reports/financial-ratios","tag":"reports","e":{},"priv":"FinancialRatioReport"},{"m":"GET","p":"/api/reports/cash-bank/{report}","tag":"reports","e":{"report":["payment-list","deposit-list","payment-by-bank","deposit-by-bank","payment-by-bank-detail","deposit-by-bank-detail","payment-load","unreconciled","statement"]},"priv":"per report"},{"m":"GET","p":"/api/reports/cash-bank/cash-list","tag":"reports","e":{},"priv":"CashBankAccountListReport"},{"m":"GET","p":"/api/settings/costing-method","tag":"settings","e":{},"priv":"perusahaan.preferensi"},{"m":"PUT","p":"/api/settings/costing-method","tag":"settings","e":{},"priv":"perusahaan.preferensi"},{"m":"GET","p":"/api/settings/report-preferences","tag":"settings","e":{},"priv":"perusahaan.preferensi"},{"m":"PUT","p":"/api/settings/report-preferences","tag":"settings","e":{},"priv":"perusahaan.preferensi"},{"m":"POST","p":"/api/sales/customers","tag":"sales","e":{},"priv":"penjualan.pelanggan"},{"m":"POST","p":"/api/sales/items","tag":"sales","e":{},"priv":"persediaan.barang_jasa"},{"m":"DELETE","p":"/api/sales/{kind}/{no}","tag":"sales","e":{"kind":["customers","items"]},"priv":"per report"},{"m":"POST","p":"/api/sales/invoices","tag":"sales","e":{},"priv":"penjualan.faktur_penjualan"},{"m":"PUT","p":"/api/sales/invoices/{number}","tag":"sales","e":{},"priv":"penjualan.faktur_penjualan"},{"m":"DELETE","p":"/api/sales/invoices/{number}","tag":"sales","e":{},"priv":"penjualan.faktur_penjualan"},{"m":"POST","p":"/api/sales/down-payments","tag":"sales","e":{},"priv":"penjualan.uang_muka_penjualan"},{"m":"POST","p":"/api/sales/quotations","tag":"sales","e":{},"priv":"penjualan.penawaran_penjualan"},{"m":"POST","p":"/api/sales/orders","tag":"sales","e":{},"priv":"penjualan.pesanan_penjualan"},{"m":"POST","p":"/api/sales/deliveries","tag":"sales","e":{},"priv":"penjualan.pengiriman_pesanan"},{"m":"GET","p":"/api/reports/deliveries/{report}","tag":"reports","e":{"report":["list","detail","history"]},"priv":"per report"},{"m":"POST","p":"/api/sales/exchange-invoices","tag":"sales","e":{},"priv":"penjualan.tukar_faktur"},{"m":"GET","p":"/api/reports/exchange-invoices","tag":"reports","e":{},"priv":"ExchangeInvoiceDetailReport"},{"m":"POST","p":"/api/employees","tag":"employees","e":{},"priv":"perusahaan.karyawan"},{"m":"POST","p":"/api/employee-loans","tag":"employee-loans","e":{},"priv":"buku_besar.pinjaman_karyawan"},{"m":"POST","p":"/api/payroll/runs","tag":"payroll","e":{},"priv":"buku_besar.pencatatan_gaji"},{"m":"GET","p":"/api/reports/payroll/{report}","tag":"reports","e":{"report":["monthly","yearly","pph","share","per-year"]},"priv":"per report"},{"m":"GET","p":"/api/reports/employee-loans/{report}","tag":"reports","e":{"report":["list","installments","history"]},"priv":"per report"},{"m":"POST","p":"/api/cash-bank/documents","tag":"cash-bank","e":{},"priv":"kas_bank.pembayaran"},{"m":"POST","p":"/api/master/{kind}","tag":"master","e":{"kind":["branches","departments","projects"]},"priv":"full_access"},{"m":"GET","p":"/api/reports/master/departments","tag":"reports","e":{},"priv":"full_access"},{"m":"GET","p":"/api/reports/master/projects","tag":"reports","e":{},"priv":"full_access"},{"m":"GET","p":"/api/reports/dimensions/{report}","tag":"reports","e":{"report":["by-branch","by-department","by-project","department-multi-period","project-multi-period","compare-department","compare-project","analysis-department","analysis-project"]},"priv":"full_access"},{"m":"POST","p":"/api/job-costing/{kind}","tag":"job-costing","e":{"kind":["job-orders","material-adjustments","roll-overs"]},"priv":"per report"},{"m":"GET","p":"/api/reports/job-costing/{report}","tag":"reports","e":{"report":["job-order-list","material-adjustment-list","material-adjustment-detail","roll-over-list","roll-over-item-detail","roll-over-account-detail"]},"priv":"per report"},{"m":"GET","p":"/api/reports/manufacturing/{report}","tag":"reports","e":{"report":["purchase-cogs","adjustment-cogs"]},"priv":"per report"},{"m":"POST","p":"/api/purchases/transfer-orders","tag":"purchases","e":{},"priv":"pembelian.transfer_pemasok"},{"m":"GET","p":"/api/reports/purchases/transfer-order-list","tag":"reports","e":{},"priv":"TransferOrderListReport"},{"m":"POST","p":"/api/access/groups","tag":"access","e":{},"priv":"full_access"},{"m":"POST","p":"/api/access/branches","tag":"access","e":{},"priv":"full_access"},{"m":"GET","p":"/api/reports/access/user-by-branch","tag":"reports","e":{},"priv":"UserByBranchListReport"},{"m":"GET","p":"/api/reports/access/group-privileges","tag":"reports","e":{},"priv":"AccessGroupPrivilegeListReport"},{"m":"GET","p":"/api/reports/access/privileges-by-user","tag":"reports","e":{},"priv":"AccessPrivilegeByUserListReport"},{"m":"GET","p":"/api/reports/tax/{report}","tag":"reports","e":{"report":["sales-receipt-pph","purchase-payment-pph","purchase-invoice-pph-paid"]},"priv":"per report"},{"m":"POST","p":"/api/contractor/projects","tag":"contractor","e":{},"priv":"full_access"},{"m":"POST","p":"/api/contractor/{kind}","tag":"contractor","e":{"kind":["rabs","material-usages","surveys","documents","completions"]},"priv":"full_access"},{"m":"GET","p":"/api/reports/contractor/{report}","tag":"reports","e":{"report":["project-list","budget-plan","budget-comparison","journal","material-usage","material-usage-detail","survey-list","survey-detail","progress","bank-mutation","profit-loss"]},"priv":"full_access"},{"m":"GET","p":"/api/reports/master/{list}","tag":"reports","e":{"list":["currencies","fob","taxes","shipments","employees","fiscal-fa-types"]},"priv":"per report"},{"m":"POST","p":"/api/sales/receipts","tag":"sales","e":{},"priv":"penjualan.penerimaan_penjualan"},{"m":"GET","p":"/api/reports/receivables/{report}","tag":"reports","e":{"report":["invoice-list","sales-by-customer","receipt-list","ar-ledger","ar-history","customer-statement","outstanding","aging","aging-detail","outstanding-per-customer","ar-ledger-detail","invoice-paid","receipt-detail","owing-collection","by-item","item-by-customer","customer-by-item","by-customer-detail","by-item-detail","by-branch","invoice-detail","down-payments","down-payment-usage"]},"priv":"per report"},{"m":"POST","p":"/api/purchases/vendors","tag":"purchases","e":{},"priv":"pembelian.pemasok"},{"m":"POST","p":"/api/purchases/invoices","tag":"purchases","e":{},"priv":"pembelian.faktur_pembelian"},{"m":"POST","p":"/api/purchases/down-payments","tag":"purchases","e":{},"priv":"pembelian.uang_muka_pembelian"},{"m":"POST","p":"/api/purchases/orders","tag":"purchases","e":{},"priv":"pembelian.pesanan_pembelian"},{"m":"POST","p":"/api/purchases/receive-items","tag":"purchases","e":{},"priv":"pembelian.penerimaan_barang"},{"m":"GET","p":"/api/reports/orders/{report}","tag":"reports","e":{"report":["order-list","order-detail","order-by-item","order-by-vendor","receive-list","receive-detail"]},"priv":"per report"},{"m":"POST","p":"/api/inventory/adjustments","tag":"inventory","e":{},"priv":"persediaan.penyesuaian_persediaan"},{"m":"GET","p":"/api/reports/inventory/adjustments","tag":"reports","e":{},"priv":"InventoryAdjustmentDetailReport"},{"m":"POST","p":"/api/purchases/requisitions","tag":"purchases","e":{},"priv":"persediaan.permintaan_barang"},{"m":"GET","p":"/api/reports/requisitions/{report}","tag":"reports","e":{"report":["list","detail","by-item","order-status"]},"priv":"per report"},{"m":"POST","p":"/api/inventory/transfers","tag":"inventory","e":{},"priv":"persediaan.pemindahan_barang"},{"m":"GET","p":"/api/reports/inventory/transfers","tag":"reports","e":{},"priv":"ItemTransferListReport"},{"m":"POST","p":"/api/purchases/payments","tag":"purchases","e":{},"priv":"pembelian.pembayaran_pembelian"},{"m":"GET","p":"/api/reports/payables/{report}","tag":"reports","e":{"report":["invoice-list","payment-list","ap-ledger","ap-history","vendor-statement","ap-ledger-detail","invoice-paid","by-vendor","outstanding","aging","outstanding-per-vendor","aging-detail","by-item","by-item-detail","by-vendor-detail","payment-detail","invoice-detail","per-month","down-payments","down-payment-usage"]},"priv":"per report"},{"m":"GET","p":"/api/reports/parties/{report}","tag":"reports","e":{"report":["customer-list","vendor-list","sales-flow","purchase-flow","selling-frequency","profitability-by-invoice","profitability-by-customer"]},"priv":"per report"},{"m":"GET","p":"/api/reports/inventory/{report}","tag":"reports","e":{"report":["valuation","stock-card","valuation-detail","aging","profitability-by-item","warehouse-summary"]},"priv":"per report"},{"m":"POST","p":"/api/fixed-assets","tag":"fixed-assets","e":{},"priv":"aset_tetap.aset_tetap"},{"m":"POST","p":"/api/fixed-assets/disposals","tag":"fixed-assets","e":{},"priv":"aset_tetap.disposisi_aset"},{"m":"POST","p":"/api/period-ends","tag":"period-ends","e":{},"priv":"perusahaan.proses_akhir_bulan"},{"m":"GET","p":"/api/reports/fixed-assets/{report}","tag":"reports","e":{"report":["list","by-category","history","journal","detail"]},"priv":"per report"},{"m":"POST","p":"/api/sales/returns","tag":"sales","e":{},"priv":"penjualan.retur_penjualan"},{"m":"POST","p":"/api/purchases/returns","tag":"purchases","e":{},"priv":"pembelian.retur_pembelian"},{"m":"GET","p":"/api/reports/returns/{side}/{report}","tag":"reports","e":{"side":["sales","purchase"],"report":["list","detail","by-item"]},"priv":"per report"},{"m":"GET","p":"/api/reports/charts/{chart}","tag":"reports","e":{"chart":["monthly-sales","customer-share","item-share"]},"priv":"per report"},{"m":"GET","p":"/api/reports/charts/collection-days","tag":"reports","e":{},"priv":"OwingCollectionGraphReport"},{"m":"GET","p":"/api/reports/balance-sheet","tag":"reports","e":{},"priv":"BalanceSheetStandardReport"},{"m":"PUT","p":"/api/cash-bank/documents/{number}","tag":"cash-bank","e":{},"priv":"kas_bank.pembayaran"},{"m":"DELETE","p":"/api/cash-bank/documents/{number}","tag":"cash-bank","e":{},"priv":"kas_bank.pembayaran"},{"m":"PUT","p":"/api/sales/down-payments/{number}","tag":"sales","e":{},"priv":"penjualan.uang_muka_penjualan"},{"m":"DELETE","p":"/api/sales/down-payments/{number}","tag":"sales","e":{},"priv":"penjualan.uang_muka_penjualan"},{"m":"PUT","p":"/api/employee-loans/{number}","tag":"employee-loans","e":{},"priv":"buku_besar.pinjaman_karyawan"},{"m":"DELETE","p":"/api/employee-loans/{number}","tag":"employee-loans","e":{},"priv":"buku_besar.pinjaman_karyawan"},{"m":"POST","p":"/api/employee-loan-disbursements","tag":"employee-loan-disbursements","e":{},"priv":"full_access"},{"m":"PUT","p":"/api/employee-loan-disbursements/{number}","tag":"employee-loan-disbursements","e":{},"priv":"full_access"},{"m":"DELETE","p":"/api/employee-loan-disbursements/{number}","tag":"employee-loan-disbursements","e":{},"priv":"full_access"},{"m":"POST","p":"/api/employee-loan-settlements","tag":"employee-loan-settlements","e":{},"priv":"full_access"},{"m":"PUT","p":"/api/employee-loan-settlements/{number}","tag":"employee-loan-settlements","e":{},"priv":"full_access"},{"m":"DELETE","p":"/api/employee-loan-settlements/{number}","tag":"employee-loan-settlements","e":{},"priv":"full_access"},{"m":"POST","p":"/api/employee-loan-installments","tag":"employee-loan-installments","e":{},"priv":"full_access"},{"m":"PUT","p":"/api/employee-loan-installments/{number}","tag":"employee-loan-installments","e":{},"priv":"full_access"},{"m":"DELETE","p":"/api/employee-loan-installments/{number}","tag":"employee-loan-installments","e":{},"priv":"full_access"},{"m":"POST","p":"/api/cash-bank/transfers","tag":"cash-bank","e":{},"priv":"kas_bank.transfer_kas_bank"},{"m":"PUT","p":"/api/cash-bank/transfers/{number}","tag":"cash-bank","e":{},"priv":"kas_bank.transfer_kas_bank"},{"m":"DELETE","p":"/api/cash-bank/transfers/{number}","tag":"cash-bank","e":{},"priv":"kas_bank.transfer_kas_bank"},{"m":"PUT","p":"/api/period-ends/{period}","tag":"period-ends","e":{},"priv":"perusahaan.proses_akhir_bulan"},{"m":"DELETE","p":"/api/period-ends/{period}","tag":"period-ends","e":{},"priv":"perusahaan.proses_akhir_bulan"},{"m":"PUT","p":"/api/payroll/runs/{number}","tag":"payroll","e":{},"priv":"buku_besar.pencatatan_gaji"},{"m":"DELETE","p":"/api/payroll/runs/{number}","tag":"payroll","e":{},"priv":"buku_besar.pencatatan_gaji"},{"m":"POST","p":"/api/expense-accruals","tag":"expense-accruals","e":{},"priv":"buku_besar.pencatatan_beban"},{"m":"PUT","p":"/api/expense-accruals/{number}","tag":"expense-accruals","e":{},"priv":"buku_besar.pencatatan_beban"},{"m":"DELETE","p":"/api/expense-accruals/{number}","tag":"expense-accruals","e":{},"priv":"buku_besar.pencatatan_beban"},{"m":"PUT","p":"/api/sales/receipts/{number}","tag":"sales","e":{},"priv":"penjualan.penerimaan_penjualan"},{"m":"DELETE","p":"/api/sales/receipts/{number}","tag":"sales","e":{},"priv":"penjualan.penerimaan_penjualan"},{"m":"PUT","p":"/api/sales/returns/{number}","tag":"sales","e":{},"priv":"penjualan.retur_penjualan"},{"m":"DELETE","p":"/api/sales/returns/{number}","tag":"sales","e":{},"priv":"penjualan.retur_penjualan"},{"m":"PUT","p":"/api/purchases/invoices/{number}","tag":"purchases","e":{},"priv":"pembelian.faktur_pembelian"},{"m":"DELETE","p":"/api/purchases/invoices/{number}","tag":"purchases","e":{},"priv":"pembelian.faktur_pembelian"},{"m":"PUT","p":"/api/purchases/payments/{number}","tag":"purchases","e":{},"priv":"pembelian.pembayaran_pembelian"},{"m":"DELETE","p":"/api/purchases/payments/{number}","tag":"purchases","e":{},"priv":"pembelian.pembayaran_pembelian"},{"m":"PUT","p":"/api/purchases/returns/{number}","tag":"purchases","e":{},"priv":"pembelian.retur_pembelian"},{"m":"DELETE","p":"/api/purchases/returns/{number}","tag":"purchases","e":{},"priv":"pembelian.retur_pembelian"},{"m":"PUT","p":"/api/inventory/adjustments/{number}","tag":"inventory","e":{},"priv":"persediaan.penyesuaian_persediaan"},{"m":"DELETE","p":"/api/inventory/adjustments/{number}","tag":"inventory","e":{},"priv":"persediaan.penyesuaian_persediaan"},{"m":"GET","p":"/api/reports/fixed-assets-edited","tag":"reports","e":{},"priv":"FixedAssetEditedListReport"},{"m":"POST","p":"/api/fixed-assets/edits","tag":"fixed-assets","e":{},"priv":"aset_tetap.perubahan_aset"},{"m":"PUT","p":"/api/fixed-assets/edits/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.perubahan_aset"},{"m":"DELETE","p":"/api/fixed-assets/edits/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.perubahan_aset"},{"m":"PUT","p":"/api/fixed-assets/disposals/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.disposisi_aset"},{"m":"DELETE","p":"/api/fixed-assets/disposals/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.disposisi_aset"},{"m":"PUT","p":"/api/fixed-assets/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.aset_tetap"},{"m":"DELETE","p":"/api/fixed-assets/{number}","tag":"fixed-assets","e":{},"priv":"aset_tetap.aset_tetap"},{"m":"PUT","p":"/api/sales/deliveries/{number}","tag":"sales","e":{},"priv":"penjualan.pengiriman_pesanan"},{"m":"DELETE","p":"/api/sales/deliveries/{number}","tag":"sales","e":{},"priv":"penjualan.pengiriman_pesanan"},{"m":"PUT","p":"/api/purchases/receive-items/{number}","tag":"purchases","e":{},"priv":"pembelian.penerimaan_barang"},{"m":"DELETE","p":"/api/purchases/receive-items/{number}","tag":"purchases","e":{},"priv":"pembelian.penerimaan_barang"},{"m":"PUT","p":"/api/purchases/down-payments/{number}","tag":"purchases","e":{},"priv":"pembelian.uang_muka_pembelian"},{"m":"DELETE","p":"/api/purchases/down-payments/{number}","tag":"purchases","e":{},"priv":"pembelian.uang_muka_pembelian"},{"m":"PUT","p":"/api/inventory/transfers/{number}","tag":"inventory","e":{},"priv":"persediaan.pemindahan_barang"},{"m":"DELETE","p":"/api/inventory/transfers/{number}","tag":"inventory","e":{},"priv":"persediaan.pemindahan_barang"},{"m":"PUT","p":"/api/job-costing/job-orders/{number}","tag":"job-costing","e":{},"priv":"full_access"},{"m":"DELETE","p":"/api/job-costing/job-orders/{number}","tag":"job-costing","e":{},"priv":"full_access"},{"m":"PUT","p":"/api/job-costing/material-adjustments/{number}","tag":"job-costing","e":{},"priv":"persediaan.penambahan_bahan_baku"},{"m":"DELETE","p":"/api/job-costing/material-adjustments/{number}","tag":"job-costing","e":{},"priv":"persediaan.penambahan_bahan_baku"},{"m":"PUT","p":"/api/job-costing/roll-overs/{number}","tag":"job-costing","e":{},"priv":"full_access"},{"m":"DELETE","p":"/api/job-costing/roll-overs/{number}","tag":"job-costing","e":{},"priv":"full_access"},{"m":"GET","p":"/api/openapi.json","tag":"openapi.json","e":{},"priv":"signed in"},{"m":"GET","p":"/api/docs","tag":"docs","e":{},"priv":"signed in"},{"m":"GET","p":"/*","tag":"api","e":{},"priv":"public"}]}</script>
+<script>
+const $ = (s, el = document) => el.querySelector(s), $$ = (s, el = document) => [...el.querySelectorAll(s)]
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+const D = JSON.parse($('#data').textContent || '{}'), R = D.reports || [], A = D.routes || []
+
+$('#mode').onclick = () => {
+  const m = document.documentElement.dataset.mode === 'dark' ? 'light' : 'dark'
+  document.documentElement.dataset.mode = m
+  try { localStorage.setItem('nl-mode', m) } catch (e) {}
+}
+
+// Contents: a sidebar on wide screens, a collapsible block on narrow ones
+const toc = $('#toc'), wide = matchMedia('(min-width:1001px)')
+const syncToc = () => { toc.open = wide.matches }
+syncToc(); wide.addEventListener('change', syncToc)
+const links = new Map($$('.toc a').map(a => [a.hash.slice(1), a]))
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return
+  links.forEach(a => a.classList.remove('on')); links.get(e.target.id)?.classList.add('on')
+}), { rootMargin: '-45% 0px -50% 0px' })
+$$('main > section').forEach(s => io.observe(s))
+
+// Report catalog
+const GROUP = { Keuangan: 'Financial statements', 'Pusat Laba & Biaya': 'Profit and cost centres', 'Buku Besar': 'General ledger', 'Kas & Bank': 'Cash and bank',
+  Piutang: 'Receivables', Penjualan: 'Sales', 'Tenaga Penjual': 'Salespeople', Utang: 'Payables', Pembelian: 'Purchasing', Persediaan: 'Inventory',
+  Gudang: 'Warehouse', 'Pekerjaan Pesanan': 'Job orders', Manufaktur: 'Manufacturing', 'Aset Tetap': 'Fixed assets', Pajak: 'Tax', Pemeriksaan: 'Audit',
+  'Lain-lain': 'Other lists', 'Proyek Kontraktor': 'Contractor projects' }
+const VIEW = { report: 'Table', chart: 'Chart', financialstatement: 'Statement', crosstab: 'Cross-tab', download: 'Download' }
+const DATE = { FROMTO: 'Date range', ASOF: 'As of a date', PERIOD: 'One month', PERIODFROMTO: 'Month range', ASOFYEAR: 'One year',
+  COMPAREFROMTO: 'Two date ranges', DATECOMPARE: 'Two dates', YEARTODATE: 'Year to date', NONE: 'None' }
+const how = r => !r.ok ? '<span class="st no">Not available</span>'
+  : r.api ? `<span class="st api">API</span> <code>${esc(r.api)}</code>`
+  : r.same ? `<span class="st api">API</span> <code>${esc(r.same)}</code><small>Same figures; Accurate's ${r.view === 'download' || /Download/.test(r.id) ? 'download file' : r.view === 'chart' ? 'chart points' : 'side-by-side layout'} is not built</small>`
+  : '<span class="st no">Verified, not exposed yet</span>'
+const avail = r => !r.ok ? 'no' : r.api || r.same ? 'api' : 'soon'
+
+// Counts from the generated data block
+const N = { done: D.counts?.done, total: D.counts?.total, ops: A.length, groups: new Set(R.map(r => r.g)).size,
+  http: R.filter(r => avail(r) === 'api').length, soon: R.filter(r => avail(r) === 'soon').length, missing: R.filter(r => !r.ok).length }
+$$('[data-n]').forEach(el => { const v = N[el.dataset.n]; if (v != null) el.textContent = v.toLocaleString('en') })
+if (D.generated) $('#gen').textContent = D.generated
+const groups = [...new Set(R.map(r => r.g))].sort((a, b) => (GROUP[a] || a).localeCompare(GROUP[b] || b))
+$('#rg').innerHTML += groups.map(g => `<option value="${esc(g)}">${esc(GROUP[g] || g)} (${esc(g)})</option>`).join('')
+function renderReports() {
+  const q = $('#rq').value.trim().toLowerCase(), g = $('#rg').value, s = $('#rs').value
+  const rows = R.filter(r => (!g || r.g === g) && (!s || avail(r) === s)
+    && (!q || `${r.n} ${r.id} ${GROUP[r.g] || ''} ${r.g} ${r.api || r.same || ''}`.toLowerCase().includes(q)))
+  $('#rbody').innerHTML = rows.map(r => `<tr id="r-${r.id}"><td><b>${esc(r.n)}</b><small>${r.id}</small></td><td>${esc(GROUP[r.g] || r.g)}<small>${esc(r.g)}</small></td>`
+    + `<td>${VIEW[r.view] || '<span class="mut">n/a</span>'}</td><td>${DATE[r.date] || '<span class="mut">n/a</span>'}</td><td>${how(r)}</td></tr>`).join('')
+    || '<tr><td colspan="5" class="mut">No report matches. Clear the filters or try the Accurate name.</td></tr>'
+  $('#rcount').textContent = `${rows.length} of ${R.length}`
+}
+['input', 'change'].forEach(ev => ['#rq', '#rg', '#rs'].forEach(s => $(s).addEventListener(ev, renderReports)))
+renderReports()
+
+// Endpoint index
+const tags = [...new Set(A.map(r => r.tag))].sort()
+$('#ag').innerHTML += tags.map(t => `<option>${esc(t)}</option>`).join('')
+function renderApi() {
+  const q = $('#aq').value.trim().toLowerCase(), t = $('#ag').value
+  const rows = A.filter(r => (!t || r.tag === t) && (!q || `${r.m} ${r.p} ${Object.values(r.e).flat().join(' ')} ${r.priv || ''}`.toLowerCase().includes(q)))
+  $('#alist').innerHTML = tags.filter(x => rows.some(r => r.tag === x)).map(x => `<div class="tag"><h4>/api/${esc(x)}</h4>` + rows.filter(r => r.tag === x).map(r =>
+    `<div class="ep"><span class="mt ${r.m}">${r.m}</span><span class="path">${esc(r.p)}</span>`
+    + Object.entries(r.e).map(([k, v]) => `<small><code>{${esc(k)}}</code> ${v.map(esc).join(' · ')}</small>`).join('')
+    + (r.priv ? `<small>Access: ${esc(r.priv)}</small>` : '') + '</div>').join('') + '</div>').join('') || '<p class="mut">No endpoint matches.</p>'
+  $('#acount').textContent = `${rows.length} of ${A.length}`
+}
+['input', 'change'].forEach(ev => ['#aq', '#ag'].forEach(s => $(s).addEventListener(ev, renderApi)))
+renderApi()
+
+// Copy buttons on code samples
+$$('pre').forEach(p => {
+  const b = Object.assign(document.createElement('button'), { className: 'copy', type: 'button', textContent: 'Copy' })
+  b.onclick = async () => { try { await navigator.clipboard.writeText(p.querySelector('code')?.innerText ?? p.innerText); b.textContent = 'Copied' } catch (e) { b.textContent = 'Select and copy' } setTimeout(() => (b.textContent = 'Copy'), 1600) }
+  p.append(b)
+})
+
+// Search: headings, reports, endpoints and glossary terms
+const idx = [
+  ...$$('main h2, main h3, main .mod, main .wf').map(el => ({ k: 'Section', t: el.matches('.mod,.wf') ? el.querySelector('h3')?.textContent : el.textContent, go: () => (el.closest('[id]') || el).scrollIntoView() })),
+  ...$$('dl.gl dt').map(el => ({ k: 'Term', t: `${el.textContent}: ${el.nextElementSibling?.textContent || ''}`, go: () => el.scrollIntoView({ block: 'center' }) })),
+  ...R.map(r => ({ k: 'Report', t: `${r.n} (${r.id})`, go: () => { $('#rq').value = r.id; $('#rg').value = ''; $('#rs').value = ''; renderReports(); $('#reports').scrollIntoView() } })),
+  ...A.map(r => ({ k: r.m, t: r.p, go: () => { $('#aq').value = r.p; $('#ag').value = ''; renderApi(); $('#api').scrollIntoView() } })),
+].filter(x => x.t)
+const q = $('#q'), hits = $('#hits')
+let found = []
+q.addEventListener('input', () => {
+  const s = q.value.trim().toLowerCase()
+  found = s.length < 2 ? [] : idx.filter(x => x.t.toLowerCase().includes(s)).slice(0, 14)
+  hits.innerHTML = found.map((x, i) => `<button class="hit" type="button" data-i="${i}"><small>${esc(x.k)}</small><span>${esc(x.t)}</span></button>`).join('')
+    || (s.length < 2 ? '' : '<p class="mut" style="margin:8px 10px">Nothing found.</p>')
+  hits.hidden = s.length < 2
+})
+hits.addEventListener('click', e => { const b = e.target.closest('.hit'); if (b) { found[b.dataset.i].go(); hits.hidden = true } })
+q.addEventListener('keydown', e => { if (e.key === 'Enter' && found[0]) { found[0].go(); hits.hidden = true } if (e.key === 'Escape') { hits.hidden = true; q.blur() } })
+document.addEventListener('keydown', e => { if (e.key === '/' && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName)) { e.preventDefault(); q.focus() } })
+document.addEventListener('click', e => { if (!e.target.closest('.search')) hits.hidden = true })
+</script>
+</body>
+</html>

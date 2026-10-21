@@ -5,6 +5,7 @@ An event-sourced accounting ERP whose reports are tested to match [Accurate Onli
 **Live demo:** https://northline-erp.dhiazfathra.workers.dev (seeded data; login on request) ·
 **Status:** actively developed. The API and reports are tested; most of the web UI still runs on mock data (5 of 43 data calls in `apps/web/src/api` reach the API).
 **Direction:** [strategy, parity matrix and scale tiers](docs/strategy/README.md) ([one-page visual](docs/strategy/northline-strategy.html)).
+**For customers:** [user guide](docs/guide/northline-user-guide.html): what works today, workflows, all 291 reports, access, API, hosting and limits.
 
 ## Why it is interesting
 
@@ -50,6 +51,7 @@ Production (Cloudflare Worker + Neon) is deployed only on demand with `pnpm depl
 | `docs/decisions` | Architecture decision records |
 | `docs/strategy` | Strategic direction, parity matrix, scale tiers and cost model (`node tools/cost-model.mjs`) |
 | `docs/runbooks` | How to operate each scale tier |
+| `docs/guide` | Customer user guide (one HTML page); refresh its report and endpoint data with `bun apps/api/scripts/user-guide.ts` |
 | `docs/deploy.md` | Cloudflare Workers + Neon deploy · [risk register](docs/risks.md) |
 
 ## Licence
