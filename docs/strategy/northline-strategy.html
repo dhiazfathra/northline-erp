@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Northline Strategy</title>
+<meta name="description" content="Northline ERP strategic direction on 2026-10-21: four goals, a ranked roadmap, scale tiers and an auditable cost model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script>
+  // Same tokens as apps/web/src/index.css: dark by default, [data-mode=light] overrides.
+  try { const m = localStorage.getItem('nl-mode'); document.documentElement.dataset.mode = m || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark') } catch (e) {}
+</script>
+<style>
+:root{
+  --fg:255,255,255;--ink:#f4f4f5;--paper:#141415;--card:rgba(60,60,64,.28);--line:rgba(255,255,255,.1);--panel:rgba(40,40,44,.55);
+  --muted:rgba(var(--fg),.64);--faint:rgba(var(--fg),.46);--track:rgba(var(--fg),.1);
+  --bg-grad:radial-gradient(38% 46% at 100% 0%,rgba(236,72,153,.42) 0%,rgba(139,92,246,.3) 30%,rgba(59,130,246,.18) 50%,transparent 72%),
+    radial-gradient(22% 28% at 100% 0%,rgba(250,170,90,.22) 0%,transparent 70%),radial-gradient(30% 35% at 8% 92%,rgba(59,130,246,.14),transparent 70%),
+    radial-gradient(26% 30% at 55% 55%,rgba(168,85,247,.08),transparent 70%),radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px) 0 0/28px 28px,#141415;
+  /* Horizon hues, order validated for colour-vision deficiency (dataviz validate_palette.js, dark #141415 and light #f3f3f2) */
+  --h0:#ec4899;--h1:#3b82f6;--h2:#d97706;--h3:#a855f7;--h4:#0d9488;--sl:#a855f7;--op:#ec4899;
+}
+[data-mode=light]{
+  --fg:20,20,24;--ink:#151517;--paper:#fafafa;--card:rgba(255,255,255,.42);--line:rgba(0,0,0,.08);--panel:rgba(255,255,255,.6);
+  --bg-grad:radial-gradient(38% 46% at 100% 0%,rgba(236,72,153,.336) 0%,rgba(139,92,246,.24) 30%,rgba(59,130,246,.144) 50%,transparent 72%),
+    radial-gradient(22% 28% at 100% 0%,rgba(250,170,90,.176) 0%,transparent 70%),radial-gradient(30% 35% at 8% 92%,rgba(59,130,246,.112),transparent 70%),
+    radial-gradient(26% 30% at 55% 55%,rgba(168,85,247,.064),transparent 70%),radial-gradient(rgba(20,20,24,.12) 1px,transparent 1.2px) 0 0/28px 28px,#f3f3f2;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--bg-grad);background-attachment:fixed;color:var(--ink);font:300 16px/1.55 Outfit,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:underline;text-decoration-color:rgba(var(--fg),.3);text-underline-offset:3px}
+a:hover{text-decoration-color:#ec4899}
+h1,h2,h3{font-weight:400;margin:0;letter-spacing:-.015em}
+code{font:400 .86em ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(var(--fg),.08);padding:1px 5px;border-radius:6px}
+.g{border-radius:24px;background:var(--card);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(var(--fg),.08),0 10px 30px rgba(0,0,0,.12);border:1px solid rgba(var(--fg),.14)}
+.eyebrow{font:500 12px/1 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.sub{color:var(--muted);margin:8px 0 0;max-width:72ch}
+.wrap{max-width:1240px;margin:0 auto;padding:0 16px 72px}
+@keyframes up{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+section{margin-top:56px;animation:up .5s ease both}
+section>.sh h2{font-size:clamp(26px,3.4vw,38px);font-weight:300}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);background:rgba(var(--fg),.03);border-bottom:1px solid var(--line)}
+.top .in{max-width:1240px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.mark{display:grid;grid-template-columns:repeat(3,5px);gap:2px}
+.mark i{width:5px;height:5px;border-radius:2px;background:linear-gradient(135deg,#ec4899,#a855f7)}
+.mark i:nth-child(odd){opacity:.55}
+.top b{font-weight:500;letter-spacing:.01em}
+.crumb{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sp{flex:1}
+.pill{font-size:13px;border-radius:999px;padding:5px 12px;background:rgba(var(--fg),.08);border:1px solid var(--line);white-space:nowrap}
+.btn{cursor:pointer;border-radius:12px;border:1px solid var(--line);background:rgba(var(--fg),.06);color:var(--ink);font:400 14px Outfit,sans-serif;padding:6px 12px}
+.btn:hover{background:rgba(var(--fg),.12)}
+:focus-visible{outline:2px solid #a855f7;outline-offset:2px}
+
+/* hero */
+.hero{margin-top:40px}
+.hero h1{font-size:clamp(34px,5.6vw,64px);font-weight:200;line-height:1.04;max-width:18ch}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,#ec4899,#a855f7 55%,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:18px;color:var(--muted);max-width:70ch;margin:16px 0 0}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:30px}
+.goal{padding:20px 22px;display:flex;flex-direction:column;gap:10px}
+.goal .big{font-size:44px;font-weight:200;line-height:1}
+.goal .big small{font-size:14px;font-weight:300;color:var(--muted);margin-left:6px;letter-spacing:0}
+.meter{display:flex;gap:2px;height:10px}
+.meter span{border-radius:4px;min-width:4px}
+.meter .b{background:#a855f7}
+.meter .p{background:repeating-linear-gradient(135deg,#a855f7 0 3px,rgba(168,85,247,.28) 3px 6px)}
+.meter .t{background:var(--track);flex:1}
+.keys{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.keys i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.goal .done{font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:auto}
+.goal .done b{font-weight:500;color:var(--ink)}
+.state{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+.state>div{padding:16px 20px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{font-size:13px;padding:3px 10px;border-radius:999px;background:rgba(var(--fg),.07);border:1px solid var(--line)}
+.tag.no{border-style:dashed;background:transparent;color:var(--muted)}
+
+/* matrix */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:18px 0 12px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+.mwrap{padding:14px;overflow-x:auto}
+.matrix{display:grid;grid-template-columns:76px repeat(5,minmax(118px,1fr));gap:4px;min-width:700px}
+.mh{font-size:12.5px;color:var(--muted);padding:6px 8px;text-align:center}
+.mh b{display:block;font-weight:500;color:var(--ink);font-size:14px}
+.ml{font-size:12.5px;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;text-align:right}
+.ml b{font-weight:500;color:var(--ink);margin-right:4px}
+.cell{min-height:64px;border-radius:12px;background:rgba(var(--fg),.035);padding:6px;display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start}
+.cell.hot{background:linear-gradient(135deg,rgba(236,72,153,.16),rgba(168,85,247,.12));box-shadow:inset 0 0 0 1px rgba(236,72,153,.28)}
+.chip{cursor:default;font:500 13px Outfit,sans-serif;color:var(--ink);background:var(--panel);border:1px solid rgba(var(--fg),.16);border-radius:8px;
+  padding:3px 8px 3px 10px;box-shadow:inset 3px 0 0 var(--c);min-height:28px}
+.chip.amb{border-style:dashed;border-color:rgba(var(--fg),.42)}
+.chip:hover,.chip:focus-visible{background:rgba(var(--fg),.16)}
+
+/* lanes */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:14px;margin-top:22px}
+.lane{padding:18px 18px 10px}
+.lane header{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.lane header i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:none;align-self:center}
+.lane h3{font-size:19px;font-weight:400}
+.lane .when{font-size:13px;color:var(--muted);margin:0 0 10px 18px}
+.lane ol{list-style:none;margin:0;padding:0}
+.lane li{display:grid;grid-template-columns:34px 1fr 64px;gap:4px 10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.lane .id{font-weight:500;font-size:13px;color:var(--muted)}
+.lane .t{font-size:14.5px;line-height:1.3}
+.lane .dw{grid-column:2/4;font-size:12.5px;color:var(--muted);line-height:1.35}
+.sc{display:flex;align-items:center;gap:6px;justify-self:end;font-size:13px}
+.sc span{display:block;width:34px;height:6px;border-radius:4px;background:var(--track);overflow:hidden}
+.sc span i{display:block;height:100%;border-radius:4px;background:var(--c)}
+.sc.neg{color:var(--faint)}
+
+/* tiers + cost */
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:22px}
+.tier{padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.tier .n{font-size:13px;color:var(--muted)}
+.tier h3{font-size:20px;font-weight:400}
+.tier .u{font-size:28px;font-weight:200;line-height:1.1}
+.tier dl{margin:4px 0 0;font-size:13.5px;display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.tier dt{color:var(--muted)}
+.tier dd{margin:0}
+.cost{margin-top:14px;padding:20px 22px}
+.crow{display:grid;grid-template-columns:150px 1fr 56px;gap:6px 14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.crow:first-of-type{border-top:0}
+.crow .lab b{display:block;font-weight:500}
+.crow .lab small{color:var(--muted);font-size:12.5px}
+.bars{display:flex;flex-direction:column;gap:2px}
+.bar{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.bar i{display:block;height:10px;border-radius:0 4px 4px 0;min-width:3px}
+.bar i.s{background:var(--sl)}
+.bar i.o{background:var(--op)}
+.bar b{font-weight:500;color:var(--ink)}
+.ratio{font-size:22px;font-weight:200;text-align:right}
+.ratio small{display:block;font-size:11.5px;color:var(--muted);font-weight:300}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:14px}
+.notes p{margin:0;padding:16px 18px;font-size:15px}
+.notes b{font-weight:500}
+
+/* evidence */
+.steps{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;counter-reset:s}
+.steps li{padding:16px 18px;counter-increment:s;font-size:14.5px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;margin-bottom:10px;font-weight:500;color:#fff;background:linear-gradient(135deg,#ec4899,#a855f7)}
+.steps b{display:block;font-weight:500;margin-bottom:2px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:14px}
+.two>div{padding:18px 20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:12.5px;padding:6px 8px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:8px 8px 8px 0;border-bottom:1px dashed var(--line);vertical-align:top}
+ul.dec{margin:8px 0 0;padding-left:18px}
+ul.dec li{margin:6px 0}
+footer{margin-top:56px;font-size:13px;color:var(--muted)}
+footer p{margin:6px 0}
+#tip{position:fixed;z-index:20;max-width:300px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.4;white-space:pre-line;pointer-events:none;
+  color:var(--ink);background:var(--panel);backdrop-filter:blur(28px) saturate(220%);-webkit-backdrop-filter:blur(28px) saturate(220%);
+  border:1px solid rgba(var(--fg),.22);box-shadow:0 18px 40px rgba(0,0,0,.3)}
+@media (max-width:640px){
+  .top .pill{display:none}
+  .crow{grid-template-columns:1fr 48px}.crow .lab{grid-column:1/3}
+  .lane li{grid-template-columns:30px 1fr 58px}
+}
+@media (prefers-reduced-motion:reduce){section{animation:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  <b>Northline</b><span class="crumb">Strategic direction</span><span class="sp"></span>
+  <span class="pill">Proposed · ADR-0046 to 0048</span>
+  <button class="btn" id="mode" type="button" aria-label="Switch light or dark mode">◐</button>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <p class="eyebrow">21 Oct 2026 · source: docs/strategy/README.md</p>
+  <h1>Make what customers touch real. <em>Prove it. Then widen.</em></h1>
+  <p class="lede">Wire the UI to the API and add import, printing, e-Faktur and backups. Prove the result with a zero-diff Parallel Close against Accurate. Then widen to Odoo Community breadth, sold the way Impact sells (industry packs plus services), with published prices and published benchmarks.</p>
+  <div class="goals" id="goals"></div>
+  <div class="state">
+    <div class="g"><p class="eyebrow">Built and tested</p><div class="tags" id="have"></div></div>
+    <div class="g"><p class="eyebrow">Not built yet</p><div class="tags" id="miss"></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><p class="eyebrow">What to do first</p><h2>Impact against effort</h2>
+  <p class="sub">Start top-left. Score = 2 × Impact − Effort − Ambiguity. Dashed chips need research or an owner decision first (ambiguity 3 or more). The highlighted cells are high impact for three days' work or less. Hover over or tab to a chip for details.</p></div>
+  <div class="legend" id="hz-legend"></div>
+  <div class="g mwrap"><div class="matrix" id="matrix"></div></div>
+</section>
+
+<section>
+  <div class="sh"><p class="eyebrow">Roadmap</p><h2>Five horizons, each ranked by score</h2>
+  <p class="sub">Horizons follow the go-to-market: buyers leave Accurate first, so Accurate parity gates the rest. Within a horizon, the highest score goes first. A paying co-build (ADR-0033) can pull one item forward.</p></div>
+  <div class="lanes" id="lanes"></div>
+</section>
+
+<section>
+  <div class="sh"><p class="eyebrow">Scale and cost</p><h2>Five tiers, one codebase</h2>
+  <p class="sub">Serverless (Cloudflare Workers + Neon) is the default. On-premise is for data residency, or for loads past Neon's 56 CU ceiling (ADR-0047). Cloud prices were read on 21 Oct 2026. On-premise hardware prices are budgetary. Table view and sources: <a href="scale-and-cost.md">scale-and-cost.md</a>. Recompute with <code>node tools/cost-model.mjs</code>.</p></div>
+  <div class="tiers" id="tiers"></div>
+  <div class="g cost">
+    <p class="eyebrow" style="margin-bottom:6px">Monthly cost per instance, including ops staff · each tier on its own scale</p>
+    <div class="legend" style="margin:0 0 6px"><span><i style="background:var(--sl)"></i>Serverless + ops</span><span><i style="background:var(--op)"></i>On-premise TCO (CapEx over 60 months + OpEx)</span><span>n× = on-premise ÷ serverless</span></div>
+    <div id="cost"></div>
+  </div>
+  <div class="notes">
+    <p class="g"><b>Infra stays under Rp 100k per user per month</b> at every tier: Rp 34k at T1, rising to Rp 100k at T4.</p>
+    <p class="g"><b>On-premise costs 1.9 to 7.8 times more</b> once staff is counted. Sell it for residency, priced as a project: the customer buys the hardware.</p>
+    <p class="g"><b>Don't fight Accurate on price at 10 users.</b> Cost to serve is Rp 940k against Accurate's Rp 533k list price. T0 and T1 are the funnel.</p>
+    <p class="g"><b>Neon compute is 60 to 90% of the bill.</b> T4 uses 32 of Neon's 56 CU maximum, so benchmark it before selling it.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><p class="eyebrow">Evidence before claims · ADR-0048</p><h2>No tier is sold until its benchmark passes</h2>
+  <p class="sub">Correctness already has proof: 288 zero-diff reports. Scale gets the same treatment. A 4-hour run costs about $17 on Neon at T3 and $92 at T4.</p></div>
+  <ol class="steps">
+    <li class="g"><b>Generate volume</b>Post one month of tier volume through the real command handlers. Bulk-load older months, then rebuild projections and check that the trial balance matches.</li>
+    <li class="g"><b>Drive load</b>k6 write mix (invoices, receipts, journals) and report mix (Neraca, Laba/Rugi, aging) at tier peak.</li>
+    <li class="g"><b>Size the database to the tier</b>Use a throwaway Neon branch at the tier's CU, delete it afterwards, and record the run's cost.</li>
+    <li class="g"><b>Gate</b>The tier's SLOs must hold: write p95 at most 500 to 800 ms, report p95 at most 3 to 5 s. The Accurate zero-diff suite must stay green.</li>
+    <li class="g"><b>Publish</b>Write <code>docs/scale/results/&lt;tier&gt;-&lt;date&gt;.md</code>. Sales material may cite passing tiers only.</li>
+  </ol>
+  <div class="two">
+    <div class="g"><p class="eyebrow">Move up a tier when a trigger holds for two weeks</p>
+      <table><thead><tr><th>Move</th><th>Trigger</th></tr></thead><tbody>
+        <tr><td>T0 → T1</td><td>A signed customer, or real data entered</td></tr>
+        <tr><td>T1 → T2</td><td>More than 25 users, more than 5k documents a month, or report p95 over 3 s</td></tr>
+        <tr><td>T2 → T3</td><td>More than 150 users, more than 50k documents a month, a database over 200 GB, or a residency requirement</td></tr>
+        <tr><td>T3 → T4</td><td>More than 1,000 users, consolidation of a second entity, or an RTO under 1 h</td></tr>
+      </tbody></table></div>
+    <div class="g"><p class="eyebrow">Owner decisions blocking H0 (item N3)</p>
+      <ul class="dec">
+        <li>Accept or reject ADR-0031 steps 3 to 5, ADR-0032 and ADR-0033, all Proposed since 19 Oct</li>
+        <li>Accept or reject <a href="../decisions/0046-product-direction-and-ranking.md">ADR-0046</a>, <a href="../decisions/0047-deployment-tiers.md">0047</a> and <a href="../decisions/0048-scale-claims-need-benchmarks.md">0048</a></li>
+        <li>Pick a licence. Recommended: proprietary, a per-contract licence, and source escrow from T3</li>
+        <li>Keep the Go port parked until a benchmark fails (<a href="../migration/hono-to-go.md">hono-to-go.md</a>)</li>
+      </ul>
+      <p class="sub" style="font-size:14px">Docs: <a href="README.md">strategy</a> · <a href="parity-matrix.md">parity matrix</a> · <a href="scale-and-cost.md">scale and cost</a> · <a href="../runbooks/scale-tiers.md">runbooks</a></p></div>
+  </div>
+</section>
+
+<footer>
+  <p>Sources, all read on 21 Oct 2026:</p>
+  <ul>
+    <li><a href="https://accurate.id/harga/">accurate.id/harga</a>: Rp 333,000 base plus Rp 22,200 per user</li>
+    <li>github.com/odoo/odoo branch 20.0: 34 modules marked <code>application: True</code></li>
+    <li><a href="https://www.impactfirst.co/id/">impactfirst.co</a></li>
+    <li><a href="https://neon.com/pricing">neon.com/pricing</a></li>
+    <li><a href="https://developers.cloudflare.com/workers/platform/pricing/">Workers pricing</a></li>
+    <li><a href="https://www.hetzner.com/dedicated-rootserver/matrix-ax/">Hetzner AX</a>, as a market reference</li>
+  </ul>
+  <p>Planning rate: Rp 18,000 per US$. The cost figures are the output of <code>tools/cost-model.mjs</code>. If you change a price there, update this page too.</p>
+</footer>
+</main>
+<div id="tip" role="tooltip" hidden></div>
+
+<script>
+const $ = (id) => document.getElementById(id)
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+
+const GOALS = [
+  { k: 'Accurate parity', big: '288', of: '/ 291 reports zero-diff', b: 288, p: 3, n: 291, keys: ['verified', 'accepted divergence'],
+    note: 'The UI reaches the live API in 5 of 43 data calls.', done: 'A company closes a month in the UI alone, with zero diff against Accurate.' },
+  { k: 'Odoo 20.0 Community', big: '4 + 5', of: '/ 34 apps', b: 4, p: 5, n: 34, keys: ['built', 'partial'],
+    note: 'Ahead of Community: payroll, fixed assets and budgets, which Odoo sells in Enterprise.', done: 'Each app is built, integrated or an accepted divergence.' },
+  { k: 'Compete with Impact', big: '7 + 6', of: '/ 33 products', b: 7, p: 6, n: 33, keys: ['built', 'partial'],
+    note: '4 of 14 industries have demo data. Services exist only as briefs.', done: 'Every product, industry, service and resource has a Northline offer.' },
+  { k: 'Enterprise scale', big: '1', of: '/ 5 tiers proven', b: 1, p: 4, n: 5, keys: ['proven', 'modelled'],
+    note: 'T1 to T4 are costed from vendor prices but not yet benchmarked.', done: 'Each tier has a passing benchmark, a drilled runbook and a traced cost.' },
+]
+$('goals').innerHTML = GOALS.map((g) => `<div class="g goal">
+  <p class="eyebrow" style="margin:0">${g.k}</p>
+  <div class="big">${g.big}<small>${g.of}</small></div>
+  <div class="meter" role="img" aria-label="${g.b} ${g.keys[0]}, ${g.p} ${g.keys[1]}, ${g.n - g.b - g.p} not yet, of ${g.n}">
+    <span class="b" style="flex:${g.b}"></span><span class="p" style="flex:${g.p}"></span><span class="t" style="flex:${g.n - g.b - g.p}"></span></div>
+  <div class="keys"><span><i style="background:#a855f7"></i>${g.keys[0]}</span><span><i class="p" style="background:repeating-linear-gradient(135deg,#a855f7 0 3px,rgba(168,85,247,.28) 3px 6px)"></i>${g.keys[1]}</span><span><i style="background:var(--track)"></i>not yet</span></div>
+  <div style="font-size:14px">${g.note}</div>
+  <div class="done"><b>Done when:</b> ${g.done}</div></div>`).join('')
+
+$('have').innerHTML = ['Event-sourced ledger', 'Sales', 'Purchasing', 'Inventory: FIFO, average, batch, serial', 'Cash & bank', 'Fixed assets',
+  'Payroll: PPh 21 TER, BPJS', 'Budgets', 'Approvals', 'Job costing', 'Contractor RAB', 'Access groups', 'Activity log', '291 Accurate reports']
+  .map((t) => `<span class="tag">${t}</span>`).join('')
+$('miss').innerHTML = ['UI on the live API', 'Import', 'Printing', 'Coretax e-Faktur', 'Backups', 'Tenant routing', 'Webhooks', 'Bank feeds', 'POS', 'CRM',
+  'Bills of materials', 'Consolidation', 'Load tests', 'Licence'].map((t) => `<span class="tag no">${t}</span>`).join('')
+
+// Every backlog item once: [id, title, impact, effort, ambiguity, horizon, done-when (H0 only)]. Mirrors docs/strategy/README.md.
+const ITEMS = [
+  ['N1', 'Wire the web UI to the API', 5, 3, 1, 0, 'Only the workspace and AI calls stay mock; the Playwright flows pass'],
+  ['N2', 'Backups, restore drill, alerts', 4, 1, 1, 0, 'A drill log records the restore time; risk R7 is closed'],
+  ['N4', 'Productize Parallel Close', 5, 2, 2, 0, 'One non-demo company shows zero diff, or every divergence is explained'],
+  ['N3', 'Owner decisions: ADRs and licence', 4, 1, 2, 0, 'Every ADR reads Accepted or Rejected'],
+  ['N5', 'Import from Accurate', 5, 3, 2, 0, 'A demo company imports and its Neraca matches Accurate at cutover'],
+  ['N6', 'Tenant routing and provisioning', 4, 2, 2, 0, 'Two tenants on one Worker; a cross-tenant request fails closed'],
+  ['N7', 'Printable documents', 4, 2, 2, 0, 'Five documents print, with totals equal to the API'],
+  ['N8', 'Coretax e-Faktur export', 5, 3, 3, 0, 'An export imports into Coretax with no errors'],
+  ['N9', 'Benchmark harness', 4, 2, 2, 0, 'T1 and T2 results are committed and passing'],
+  ['X1', 'Excel/CSV import of invoices and journals', 4, 2, 1, 1], ['X2', 'API keys and signed webhooks', 4, 2, 2, 1],
+  ['X3', 'Bank statement import and auto-match', 4, 3, 2, 1], ['X4', 'Business profile and per-company settings', 4, 3, 2, 1],
+  ['X5', 'Bills of materials, work orders, production', 4, 3, 2, 1], ['X6', 'Mobile web app (Accurate Lite)', 3, 2, 2, 1],
+  ['X7', 'POS with QRIS', 4, 4, 2, 1], ['X8', 'Multi-entity consolidation', 4, 4, 3, 1],
+  ['X9', 'Marketplace links through an aggregator', 3, 3, 3, 1], ['X10', 'e-Meterai through a PJAP', 2, 2, 3, 1],
+  ['L1', 'CRM pipeline', 4, 2, 1, 2], ['L2', 'HR core: attendance, time off', 4, 3, 2, 2], ['L3', 'Inventory depth: reordering, barcode', 4, 3, 2, 2],
+  ['L4', 'Project tasks and timesheets', 3, 2, 1, 2], ['L5', 'Employee expense claims', 3, 2, 1, 2], ['L6', 'Maintenance and repair', 2, 2, 1, 2],
+  ['L7', 'Recruitment, skills, fleet', 2, 2, 1, 2], ['L8', 'MRP depth: routings, work centres', 3, 4, 2, 2],
+  ['L9', 'Discuss, calendar, to-do (integrate)', 2, 3, 2, 2], ['L10', 'Website and marketing apps (integrate)', 2, 5, 3, 2],
+  ['S1', 'Public price list and cost-to-serve', 4, 1, 2, 3], ['S2', 'Package 4 industry packs', 4, 2, 1, 3], ['S3', 'Services page', 4, 1, 2, 3],
+  ['S4', 'Case studies, guides, tutorials', 3, 2, 1, 3], ['S5', '9 new industry packs', 4, 3, 3, 3], ['S6', 'WhatsApp omnichannel inbox', 3, 3, 3, 3],
+  ['S7', 'WMS, TMS, MES, PLM, QA, CMMS, LMS', 3, 5, 3, 3], ['S8', 'Business directory', 1, 2, 1, 3],
+  ['E2', 'SSO, MFA, audit export', 4, 2, 2, 4], ['E1', 'T3 runtime: Hyperdrive, Queues, replica', 4, 3, 2, 4],
+  ['E3', 'On-premise package', 4, 3, 2, 4], ['E4', 'ISO 27001 readiness', 4, 4, 3, 4], ['E5', 'Go port, only if a benchmark fails', 2, 5, 2, 4],
+].map(([id, t, i, e, a, h, dw]) => ({ id, t, i, e, a, h, dw, s: 2 * i - e - a }))
+
+const HZ = [
+  ['H0', 'Now · make it sellable', 'to 15 Dec 2026, ahead of the first contract (31 Jan 2027)'],
+  ['H1', 'Next · finish Accurate parity', 'Q1 2027'],
+  ['H2', 'Odoo Community breadth', 'Q2 to Q3 2027'],
+  ['H3', 'Impact-grade packs and services', 'from Q1 2027, alongside H1'],
+  ['H4', 'Enterprise scale', 'from Q3 2027, gated by benchmarks'],
+]
+$('hz-legend').innerHTML = HZ.map(([k, t], i) => `<span><i style="background:var(--h${i})"></i>${k} ${t}</span>`).join('') +
+  '<span style="border:1px dashed rgba(var(--fg),.42);border-radius:6px;padding:0 6px">dashed = ambiguity 3 or more</span>'
+
+const tipFor = (x) => `${x.id} · ${x.t}\nImpact ${x.i} · Effort ${x.e} · Ambiguity ${x.a} → score ${x.s}\n${HZ[x.h][0]} ${HZ[x.h][1]}`
+const EFFORT = ['a day or less', 'up to 3 days', 'up to 2 weeks', 'up to 6 weeks', 'more than 6 weeks']
+let m = '<div></div>' + EFFORT.map((d, j) => `<div class="mh"><b>Effort ${j + 1}</b>${d}</div>`).join('')
+for (let i = 5; i >= 1; i--) {
+  m += `<div class="ml"><b>Impact</b>${i}</div>`
+  for (let e = 1; e <= 5; e++) {
+    const xs = ITEMS.filter((x) => x.i === i && x.e === e).sort((a, b) => b.s - a.s)
+    m += `<div class="cell${i >= 4 && e <= 2 ? ' hot' : ''}">` + xs.map((x) =>
+      `<button type="button" class="chip${x.a >= 3 ? ' amb' : ''}" style="--c:var(--h${x.h})" data-tip="${esc(tipFor(x))}" aria-label="${esc(tipFor(x))}">${x.id}</button>`).join('') + '</div>'
+  }
+}
+$('matrix').innerHTML = m
+
+$('lanes').innerHTML = HZ.map(([k, t, w], h) => `<div class="g lane" style="--c:var(--h${h})">
+  <header><i></i><h3>${k} · ${t}</h3></header><p class="when">${w}</p><ol>` +
+  ITEMS.filter((x) => x.h === h).sort((a, b) => b.s - a.s).map((x) => `<li>
+    <span class="id">${x.id}</span><span class="t">${x.t}</span>
+    <span class="sc${x.s <= 0 ? ' neg' : ''}" data-tip="${esc(tipFor(x))}"><span><i style="width:${Math.max(0, x.s) / 6 * 100}%"></i></span>${x.s}</span>
+    ${x.dw ? `<span class="dw">Done when: ${x.dw}</span>` : ''}</li>`).join('') + '</ol></div>').join('')
+
+const TIERS = [
+  ['T0', 'Trial', '≤ 3', '300 documents/mo', 'Workers Free + Neon Free', 'best effort'],
+  ['T1', 'Small', '≤ 25', '5k documents/mo', 'Neon Launch, a project per tenant', '99.5% · RTO 4 h'],
+  ['T2', 'Mid-market', '≤ 150', '50k documents/mo', 'Neon Scale + Hyperdrive', '99.9% · RTO 1 h'],
+  ['T3', 'Enterprise', '≤ 1,000', '500k documents/mo', 'Queues projector, replica, SSO; on-prem HA option', '99.9% · RTO 1 h'],
+  ['T4', 'Large group', '> 1,000', '5M documents/mo', 'Multi-company, DR region; on-prem + DR site option', '99.95% · RTO 15 min'],
+]
+$('tiers').innerHTML = TIERS.map(([id, n, u, d, dep, slo]) => `<div class="g tier"><span class="n">${id}</span><h3>${n}</h3>
+  <div class="u">${u}<small style="font-size:13px;color:var(--muted)"> users</small></div>
+  <dl><dt>Volume</dt><dd>${d}</dd><dt>Runs on</dt><dd>${dep}</dd><dt>SLO</dt><dd>${slo}</dd></dl></div>`).join('')
+
+// node tools/cost-model.mjs output, Rp million per month: [tier, label, serverless + ops, on-prem TCO, CapEx, serverless infra Rp/user]
+const COST = [
+  ['T1', 'Small · 10 users', 0.94, 7.3, 'Rp 125M', 'Rp 34k'],
+  ['T2', 'Mid-market · 75 users', 4.7, 24.1, 'Rp 530M', 'Rp 43k'],
+  ['T3', 'Enterprise · 400 users', 38.0, 82.7, 'Rp 1.63B', 'Rp 80k'],
+  ['T4', 'Large group · 2,000 users', 214.3, 415.6, 'Rp 10.5B', 'Rp 100k'],
+]
+const rpm = (x) => `Rp ${x < 1 ? Math.round(x * 1000) + 'k' : x.toFixed(1) + 'M'}`
+$('cost').innerHTML = COST.map(([t, l, s, o, cap, pu]) => `<div class="crow">
+  <div class="lab"><b>${t}</b><small>${l}</small></div>
+  <div class="bars">
+    <div class="bar" data-tip="${t} serverless + ops: ${rpm(s)} a month\nInfra alone: ${pu} per user a month"><i class="s" style="width:${s / o * 70}%"></i><b>${rpm(s)}</b></div>
+    <div class="bar" data-tip="${t} on-premise: ${rpm(o)} a month\nCapEx ${cap}, spread over 60 months, plus support, site, backup and staff"><i class="o" style="width:70%"></i><b>${rpm(o)}</b></div>
+  </div>
+  <div class="ratio">${(o / s).toFixed(1)}×</div></div>`).join('')
+
+// One tooltip for every [data-tip], on hover and on keyboard focus.
+const tip = $('tip')
+function show(el) {
+  tip.textContent = el.dataset.tip; tip.hidden = false
+  const r = el.getBoundingClientRect()
+  const x = Math.min(innerWidth - tip.offsetWidth - 8, Math.max(8, r.left + r.width / 2 - tip.offsetWidth / 2))
+  const y = r.top - tip.offsetHeight - 10 < 8 ? r.bottom + 10 : r.top - tip.offsetHeight - 10
+  tip.style.left = x + 'px'; tip.style.top = y + 'px'
+}
+for (const [on, off] of [['pointerover', 'pointerout'], ['focusin', 'focusout']]) {
+  document.addEventListener(on, (e) => { const el = e.target.closest('[data-tip]'); if (el) show(el) })
+  document.addEventListener(off, (e) => { if (e.target.closest('[data-tip]')) tip.hidden = true })
+}
+addEventListener('scroll', () => { tip.hidden = true }, { passive: true })
+
+$('mode').addEventListener('click', () => {
+  const r = document.documentElement
+  r.dataset.mode = r.dataset.mode === 'light' ? 'dark' : 'light'
+  try { localStorage.setItem('nl-mode', r.dataset.mode) } catch (e) {}
+})
+</script>
+</body>
+</html>

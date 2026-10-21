@@ -47,3 +47,6 @@
 | [0043](0043-p4-batch-3-screen-divergences.md) | P4 batch 3 screen parity: edit/delete for purchase payments, returns, adjustments and fixed assets; Aset Tetap is Tier 1 | Accepted |
 | [0044](0044-p4-batch-4-screen-divergences.md) | P4 batch 4 screen parity: edit/delete for deliveries, receipts, purchase down payments, transfers and job costing; roll-over zero line accepted; Pekerjaan Pesanan is Tier 1; Kontraktor forms stopped | Accepted |
 | [0045](0045-p4-tier1-closure.md) | P4 Tier 1 closure: loan payments and bank transfers built, loan edit refusal matched; five forms accepted divergence | Accepted |
+| [0046](0046-product-direction-and-ranking.md) | Product direction: Accurate parity first, Odoo Community breadth second, sold as industry packs and services; work ranked by 2 × Impact − Effort − Ambiguity | Proposed |
+| [0047](0047-deployment-tiers.md) | Five deployment tiers: Workers + Neon by default, one Worker routing tenants to a Neon project each, on-premise for residency or beyond Neon's ceiling | Proposed |
+| [0048](0048-scale-claims-need-benchmarks.md) | No scale claim without a published benchmark; the Go port waits for one | Proposed |
