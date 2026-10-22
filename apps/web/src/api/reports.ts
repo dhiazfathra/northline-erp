@@ -130,7 +130,7 @@ export async function fetchReport(id: string, s: { from?: string; to: string }):
   const curKeys = rowKeys(cur.map((r) => ({ k: r.kind, t: r.label })))
   const k = { heading: 'sec', account: 'acc', total: 'tot' } as const
   const rupiah = (c?: number) => (c === undefined ? undefined : c / 100)
-  return { rows: cur.map((r, i) => ({ k: k[r.kind], t: r.label, cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(curKeys[i]!) ?? 0) })) }
+  return { rows: cur.map((r, i) => ({ k: k[r.kind], t: r.label, key: curKeys[i], cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(curKeys[i]!) ?? 0) })) }
 }
 
 export const reportRowsQuery = (id: string, s: { from?: string; to: string }) =>

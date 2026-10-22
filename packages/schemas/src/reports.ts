@@ -18,6 +18,8 @@ export type Report = z.infer<typeof reportSchema>
 export const reportRowSchema = z.object({
   k: z.enum(['sec', 'grp', 'acc', 'sub', 'tot']),
   t: z.string(),
+  /** Source row identity from the API; survives renames in a saved layout. Rows the user added have none. */
+  key: z.string().optional(),
   code: z.string().optional(),
   cur: z.number().optional(),
   prev: z.number().optional(),
