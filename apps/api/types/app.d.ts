@@ -670,7 +670,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
         };
     };
 }) & {
-    "/reports/tax/ppn/:report{out|in|in-out}": {
+    "/reports/tax/ppn/:report{in-out|out|in}": {
         $get: {
             output: string[][];
             outputFormat: "json";

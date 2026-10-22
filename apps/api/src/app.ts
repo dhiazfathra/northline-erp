@@ -235,7 +235,7 @@ export function createApp(db: Db) {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ 'sales-receipt-pph': PPH.salesReceiptPph, 'purchase-payment-pph': PPH.purchasePaymentPph, 'purchase-invoice-pph-paid': PPH.purchaseInvoicePphPaid }[c.req.param('report') as 'sales-receipt-pph'](await PPH.loadPphLines(db), from, to))
     })
-    .get('/reports/tax/ppn/:report{out|in|in-out}', async c => {
+    .get('/reports/tax/ppn/:report{in-out|out|in}', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ out: TAX.taxationOut, in: TAX.taxationIn, 'in-out': TAX.taxationInOut }[c.req.param('report') as 'out'](await TAX.loadTaxLines(db), from, to))
     })
