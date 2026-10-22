@@ -67,7 +67,10 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
   const pre = cols.filter((c) => c.on && c.id === 'code')
   const num = cols.filter((c) => c.on && c.id !== 'code')
   const grid = [...pre.map(() => '64px'), 'minmax(0,1fr)', ...num.map((c) => (c.id === 'pct' ? '76px' : '118px'))].join(' ')
-  const src = rowsQ.data ? (layout.rows ?? rowsQ.data) : placeholder
+  const data = rowsQ.data
+  const tabular = data && 'grid' in data ? data.grid : undefined
+  const apiRows = data && 'rows' in data ? data.rows : undefined
+  const src = apiRows ? (layout.rows ?? apiRows) : placeholder
   const rows = applyFilters(src, layout.flt).filter((r) => opts.includes('total') || (r.k !== 'sub' && r.k !== 'tot'))
   const F = layout.fonts
   const fs = (k: keyof Layout['fonts']): CSSProperties => ({ ...fontCss(F[k]), whiteSpace: F[k].wrap ? 'normal' : 'nowrap' })
@@ -100,10 +103,12 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-[.5px] opacity-60">{cat ? t(cat.name) : ''}</div>
           <h1 className={cn('mt-1 tracking-[-.3px]', isDesktop ? 'text-[30px]' : isMobile ? 'text-[24px]' : 'text-[28px]')}>{name}</h1>
-          <div className="mt-1.5 flex items-center gap-1.5 text-[11.5px] opacity-60">
-            <i className="ph-light ph-magnifying-glass-plus text-[14px]" />
-            {t(tx.hint)}
-          </div>
+          {rows.some((r) => r.k === 'acc' && r.code) && (
+            <div className="mt-1.5 flex items-center gap-1.5 text-[11.5px] opacity-60">
+              <i className="ph-light ph-magnifying-glass-plus text-[14px]" />
+              {t(tx.hint)}
+            </div>
+          )}
         </div>
         <div className="box-border flex max-w-full flex-wrap items-center gap-0.5 rounded-[21px] border border-[rgba(var(--fg),.12)] bg-[rgba(var(--fg),.08)] p-1">
           <Link to="/reports" title={L.rpBack} aria-label={L.rpBack} className={tbtn}>
@@ -185,6 +190,8 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
                 ))}
               </div>
             )}
+            {rowsQ.isError && <div className="mt-7 text-[#dc2626]">{rowsQ.error.message}</div>}
+            {tabular ? <GridTable grid={tabular} /> : <>
             {head && layout.show.colT && (
               <div className="mt-7 grid gap-x-3.5 border-b border-[#18181b] uppercase tracking-[.7px]" style={{ gridTemplateColumns: grid, ...fontCss(F.col), textAlign: undefined }}>
                 {pre.map((c) => (
@@ -247,6 +254,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
                 })}
               </div>
             </div>
+            </>}
             <div className="mt-auto flex flex-col gap-2 pt-12">
               {foot && layout.show.add && layout.text.add && <div style={fontCss(F.add)}>{layout.text.add}</div>}
               {foot && (
@@ -262,7 +270,38 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
         {ai && rep && <AiPanel report={name} onClose={() => setAi(false)} />}
       </div>
       {drill && <DrillDialog code={drill.code!} name={drill.t} search={search} onClose={() => setDrill(null)} />}
-      {md && <LayoutDialog open onClose={() => setMd(false)} id={id} name={name} layout={layout} cols={cols} rows={rowsQ.data ?? []} />}
+      {md && <LayoutDialog open onClose={() => setMd(false)} id={id} name={name} layout={layout} cols={cols} rows={apiRows ?? []} />}
     </div>
+  )
+}
+
+const numeric = /^-?[\d.]+(,\d+)?$/
+/**
+ * Accurate's tabular reports as the API returns them. The widest row sets the column count; a one-cell row is a group
+ * heading; a shorter all-number row is a subtotal, so it is pushed right to sit under the number columns.
+ */
+function GridTable({ grid }: { grid: string[][] }) {
+  const n = Math.max(1, ...grid.map((r) => r.length))
+  return (
+    <table className="mt-7 w-full border-collapse text-[11.5px]">
+      <tbody>
+        {grid.map((r, i) => {
+          const cells = r.length > 1 && r.length < n && r.every((c) => numeric.test(c)) ? [...Array<string>(n - r.length).fill(''), ...r] : r
+          return (
+            <tr key={i} className={cn(i === 0 && 'border-b border-[#18181b] uppercase tracking-[.5px]', r.length === 1 && 'font-medium')}>
+              {r.length === 1 ? (
+                <td colSpan={n} className="px-2 pt-3 pb-1">{r[0]}</td>
+              ) : (
+                cells.map((c, j) => (
+                  <td key={j} className={cn('px-2 py-1 align-top', numeric.test(c) && 'text-right whitespace-nowrap tabular-nums', c.startsWith('-') && numeric.test(c) && 'text-[#dc2626]')}>
+                    {c}
+                  </td>
+                ))
+              )}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   )
 }

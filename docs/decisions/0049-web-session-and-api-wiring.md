@@ -28,6 +28,12 @@ screen reads `mock()` sample data. It also found two session defects:
 - **Screens leave `mock()` in this order:** reports (the 180 reports with an endpoint), then documents, then
   accounts, fixed assets and the overview. Each step swaps `mock()` for the `api` client and reruns the PLAN.md
   Playwright flows against a seeded local API. N1 is done when only `workspaces.ts` and `ai.ts` call `mock()`.
+- **Reports (step 1, 2026-10-22).** The 14 catalog reports call the API (`fetchReport` in `apps/web/src/api/reports.ts`).
+  Neraca and Laba/Rugi keep the statement layout: the API's `{label, amount, kind}` rows become `ReportRow`s and a
+  second call fills the comparison column. The other 12 answer Accurate's grid (`string[][]`) and render as a plain
+  table, without the layout editor. Rekap PPN needed a route: `GET /api/reports/tax/ppn/{out|in|in-out}`
+  (TaxationOutReport, TaxationInReport, TaxationInOutReport). Drill-down, favourites, branch and currency stay on
+  sample data until their endpoints exist.
 
 ## Alternatives Considered
 

@@ -1,6 +1,6 @@
 import type { Db } from './db';
 import * as R from './reports/receivables';
-export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
+export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{}, (import("hono/types").BlankSchema | import("hono/types").MergeSchemaPath<(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((({
     "/me": {
         $get: {
             output: {
@@ -18,14 +18,14 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                 error: string;
             };
             outputFormat: "json";
-            status: 401;
+            status: 429;
             input: {};
         } | {
             output: {
                 error: string;
             };
             outputFormat: "json";
-            status: 429;
+            status: 401;
             input: {};
         } | {
             output: {
@@ -455,20 +455,20 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
 }) & {
     "/reports/employee-loans/:report{list|installments|history}": {
         $get: {
-            output: {
-                error: string;
-            };
+            output: string[][];
             outputFormat: "json";
-            status: 404;
+            status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {
                 param: {
                     report: string;
                 };
             };
         } | {
-            output: string[][];
+            output: {
+                error: string;
+            };
             outputFormat: "json";
-            status: import("hono/utils/http-status").ContentfulStatusCode;
+            status: 404;
             input: {
                 param: {
                     report: string;
@@ -658,6 +658,19 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
     };
 }) & {
     "/reports/tax/:report{sales-receipt-pph|purchase-payment-pph|purchase-invoice-pph-paid}": {
+        $get: {
+            output: string[][];
+            outputFormat: "json";
+            status: import("hono/utils/http-status").ContentfulStatusCode;
+            input: {
+                param: {
+                    report: string;
+                };
+            };
+        };
+    };
+}) & {
+    "/reports/tax/ppn/:report{out|in|in-out}": {
         $get: {
             output: string[][];
             outputFormat: "json";
@@ -963,20 +976,20 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
 }) & {
     "/reports/fixed-assets/:report{list|by-category|history|journal|detail}": {
         $get: {
-            output: {
-                error: string;
-            };
+            output: string[][];
             outputFormat: "json";
-            status: 404;
+            status: import("hono/utils/http-status").ContentfulStatusCode;
             input: {
                 param: {
                     report: string;
                 };
             };
         } | {
-            output: string[][];
+            output: {
+                error: string;
+            };
             outputFormat: "json";
-            status: import("hono/utils/http-status").ContentfulStatusCode;
+            status: 404;
             input: {
                 param: {
                     report: string;
