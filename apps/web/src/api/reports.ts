@@ -103,6 +103,17 @@ async function get<T>(path: string, q: Record<string, string>): Promise<T> {
  * Point-in-time reports compare with the day before `to`; ranges with the same-length window right before `from`.
  * A range report opened without `from` runs from 1 January of `to`'s year.
  */
+/** Stable key per row: kind and label, plus the occurrence number, so two accounts with the same name stay apart. */
+export function rowKeys(rows: { k: string; t: string }[]): string[] {
+  const seen = new Map<string, number>()
+  return rows.map((r) => {
+    const base = `${r.k}:${r.t}`
+    const n = seen.get(base) ?? 0
+    seen.set(base, n + 1)
+    return `${base}#${n}`
+  })
+}
+
 export async function fetchReport(id: string, s: { from?: string; to: string }): Promise<ReportData> {
   const src = sources[id]
   if (!src) throw new Error(`Laporan ${id} belum tersedia`)
@@ -114,10 +125,12 @@ export async function fetchReport(id: string, s: { from?: string; to: string }):
     get<Tree>(src.path, q(from, s.to)),
     get<Tree>(src.path, src.range ? q(isoShift(from, -days - 1), isoShift(from, -1)) : q(from, isoShift(s.to, -1))),
   ])
-  const before = new Map(prev.map((r) => [`${r.kind}:${r.label}`, r.amount]))
+  const prevKeys = rowKeys(prev.map((r) => ({ k: r.kind, t: r.label })))
+  const before = new Map(prev.map((r, i) => [prevKeys[i]!, r.amount]))
+  const curKeys = rowKeys(cur.map((r) => ({ k: r.kind, t: r.label })))
   const k = { heading: 'sec', account: 'acc', total: 'tot' } as const
   const rupiah = (c?: number) => (c === undefined ? undefined : c / 100)
-  return { rows: cur.map((r) => ({ k: k[r.kind], t: r.label, cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(`${r.kind}:${r.label}`) ?? 0) })) }
+  return { rows: cur.map((r, i) => ({ k: k[r.kind], t: r.label, cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(curKeys[i]!) ?? 0) })) }
 }
 
 export const reportRowsQuery = (id: string, s: { from?: string; to: string }) =>

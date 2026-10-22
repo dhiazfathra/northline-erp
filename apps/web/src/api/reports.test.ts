@@ -28,3 +28,9 @@ test('grid report: one request, grid passed through', async () => {
   expect(await fetchReport('pajak', { from: '2026-01-01', to: '2026-01-31' })).toEqual({ grid: [['Pajak', 'Total'], ['PPN', '1.000']] })
   expect(urls).toEqual(['/api/reports/tax/ppn/in-out?from=2026-01-01&to=2026-01-31'])
 })
+
+test('two accounts with the same name keep their own comparison figures', async () => {
+  stub((u) => [{ label: 'Kas', kind: 'account', amount: u.endsWith('2026-03-01') ? 100 : 10 }, { label: 'Kas', kind: 'account', amount: u.endsWith('2026-03-01') ? 200 : 20 }])
+  const data = await fetchReport('neraca', { to: '2026-03-01' })
+  expect(data).toEqual({ rows: [{ k: 'acc', t: 'Kas', cur: 1, prev: 0.1 }, { k: 'acc', t: 'Kas', cur: 2, prev: 0.2 }] })
+})

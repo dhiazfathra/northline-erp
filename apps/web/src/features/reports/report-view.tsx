@@ -2,7 +2,7 @@ import type { ReportRow, ReportSearch } from '@northline/schemas/reports'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useState, type CSSProperties } from 'react'
-import { reportCats, reportLayoutQuery, reportRowsQuery, reportsQuery } from '@/api/reports'
+import { reportCats, reportLayoutQuery, reportRowsQuery, reportsQuery, rowKeys } from '@/api/reports'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
@@ -42,6 +42,15 @@ const rowKind: Record<ReportRow['k'], CSSProperties> = {
 const skel: CSSProperties = { color: 'transparent', backgroundImage: 'linear-gradient(90deg,#f1f1f4 0%,#e0e0e8 18%,#f1f1f4 36%)', backgroundSize: '300% 100%', animation: 'shim 1.4s linear infinite', borderRadius: 4, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }
 const placeholder: ReportRow[] = Array.from({ length: 14 }, (_, i) => (i % 5 ? { k: 'acc', t: 'Memuat akun laporan', cur: 12_450_000 } : { k: 'grp', t: 'Memuat grup' }))
 const MM = 3.78
+/** A saved layout keeps its row order and wording; the figures always come from the current API rows. Rows the user added keep their own. */
+function withLiveFigures(saved: ReportRow[], live: ReportRow[]): ReportRow[] {
+  const liveKeys = rowKeys(live)
+  const byKey = new Map(live.map((r, i) => [liveKeys[i]!, r]))
+  return rowKeys(saved).map((key, i) => {
+    const r = byKey.get(key)
+    return r ? { ...saved[i]!, cur: r.cur, prev: r.prev } : saved[i]!
+  })
+}
 
 export function ReportView({ id, search }: { id: string; search: ReportSearch }) {
   const { L, isMobile, isDesktop, showToast } = useShell()
@@ -70,7 +79,7 @@ export function ReportView({ id, search }: { id: string; search: ReportSearch })
   const data = rowsQ.data
   const tabular = data && 'grid' in data ? data.grid : undefined
   const apiRows = data && 'rows' in data ? data.rows : undefined
-  const src = apiRows ? (layout.rows ?? apiRows) : placeholder
+  const src = apiRows ? (layout.rows ? withLiveFigures(layout.rows, apiRows) : apiRows) : rowsQ.isError ? [] : placeholder
   const rows = applyFilters(src, layout.flt).filter((r) => opts.includes('total') || (r.k !== 'sub' && r.k !== 'tot'))
   const F = layout.fonts
   const fs = (k: keyof Layout['fonts']): CSSProperties => ({ ...fontCss(F[k]), whiteSpace: F[k].wrap ? 'normal' : 'nowrap' })
