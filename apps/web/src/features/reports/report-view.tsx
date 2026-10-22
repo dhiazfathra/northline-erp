@@ -42,12 +42,11 @@ const rowKind: Record<ReportRow['k'], CSSProperties> = {
 const skel: CSSProperties = { color: 'transparent', backgroundImage: 'linear-gradient(90deg,#f1f1f4 0%,#e0e0e8 18%,#f1f1f4 36%)', backgroundSize: '300% 100%', animation: 'shim 1.4s linear infinite', borderRadius: 4, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }
 const placeholder: ReportRow[] = Array.from({ length: 14 }, (_, i) => (i % 5 ? { k: 'acc', t: 'Memuat akun laporan', cur: 12_450_000 } : { k: 'grp', t: 'Memuat grup' }))
 const MM = 3.78
-/** A saved layout keeps its row order and wording; the figures always come from the current API rows, matched by source key; a keyed row with no live match shows no figures. Rows the user added keep their own. */
+/** A saved layout keeps its row order and wording; the figures always come from the current API rows, matched by source key; a row with no key or no live match shows no figures. */
 function withLiveFigures(saved: ReportRow[], live: ReportRow[]): ReportRow[] {
   const byKey = new Map(live.map((r) => [r.key, r]))
   return saved.map((s) => {
-    if (s.key === undefined) return s
-    const r = byKey.get(s.key)
+    const r = s.key === undefined ? undefined : byKey.get(s.key)
     return { ...s, cur: r?.cur, prev: r?.prev }
   })
 }
