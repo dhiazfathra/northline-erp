@@ -1,5 +1,7 @@
 import { signInSchema, type SignInInput } from '@northline/schemas/auth'
 import { api } from '@/api/client'
+import { meQuery } from '@/api/session'
+import { useQueryClient } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -27,6 +29,7 @@ export function SignIn() {
   const { L, isMobile, isDesktop, showToast } = useShell()
   const t = useT()
   const navigate = useNavigate()
+  const qc = useQueryClient()
   const [showPw, setShowPw] = useState(false)
   const { register, handleSubmit, formState } = useForm<SignInInput>({ resolver: zodResolver(signInSchema), defaultValues: { email: '', password: '' } })
   const { errors, isSubmitting } = formState
@@ -34,6 +37,7 @@ export function SignIn() {
   const onSubmit = async (v: SignInInput) => {
     const res = await api.auth.login.$post({ json: v })
     if (!res.ok) return showToast(t(tx.failed))
+    qc.removeQueries({ queryKey: meQuery.queryKey })
     navigate({ to: '/workspaces' })
   }
 

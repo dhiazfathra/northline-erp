@@ -8,7 +8,9 @@ export const meQuery = {
   queryKey: ['me'],
   queryFn: async () => {
     const res = await api.me.$get()
-    return res.ok ? await res.json() : null
+    if (res.status === 401) return null
+    if (!res.ok) throw new Error(`GET /api/me failed: ${res.status}`)
+    return await res.json()
   },
   staleTime: 60_000,
 }
