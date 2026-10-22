@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
+import { useSignOut } from '@/api/session'
 import { currentWorkspaceQuery, invitesQuery, useRespondInvite, useSwitchWorkspace, workspacesQuery } from '@/api/workspaces'
 import { Input } from '@/components/ui/input'
 import { useShell, useT } from '@/lib/shell'
@@ -14,6 +15,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
   const { L, isMobile, isDesktop, showToast } = useShell()
   const t = useT()
   const navigate = useNavigate()
+  const signOut = useSignOut()
   const { data: rows = [] } = useQuery(workspacesQuery)
   const { data: invites = [] } = useQuery(invitesQuery)
   const { data: cur } = useQuery(currentWorkspaceQuery)
@@ -36,7 +38,7 @@ export function WorkspaceSwitcher({ creating = false }: { creating?: boolean }) 
 
   return (
     <div className="flex min-h-0 flex-1 animate-[fade_.25s] flex-col overflow-y-auto">
-      <BareHeader onSignOut={() => navigate({ to: '/auth' })} />
+      <BareHeader onSignOut={signOut} />
       <div className={cn('box-border flex flex-1 justify-center', isDesktop ? 'px-10 pt-3 pb-12' : isMobile ? 'px-4 pt-3 pb-7' : 'px-6 pt-5 pb-9')}>
         <div className="flex w-full max-w-[620px] animate-[pop_.25s_ease-out] flex-col">
           <button

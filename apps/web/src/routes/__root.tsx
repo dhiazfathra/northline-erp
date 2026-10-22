@@ -1,12 +1,17 @@
 import type { QueryClient } from '@tanstack/react-query'
-import { Outlet, createRootRouteWithContext, useLocation } from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext, redirect, useLocation } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
+import { signedIn } from '@/api/session'
 import { Header } from '@/components/shell/header'
 import { MegaMenu, RefreshLoader, SearchDialog, Toast, useRefreshPhase } from '@/components/shell/overlays'
 import { TabBar } from '@/components/shell/tab-bar'
 import { ShellProvider, useShell } from '@/lib/shell'
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Every screen except sign-in needs a live session; the API enforces it too, this only stops a signed-out user seeing the shell.
+  beforeLoad: async ({ context, location }) => {
+    if (!location.pathname.startsWith('/auth') && !(await signedIn(context.queryClient))) throw redirect({ to: '/auth' })
+  },
   component: () => (
     <ShellProvider>
       <Root />
