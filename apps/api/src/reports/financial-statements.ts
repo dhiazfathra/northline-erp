@@ -4,7 +4,8 @@ import { fiscalYearStart, formatIdr, PROFIT_LOSS_TYPES, type AccountType, type D
 
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 
-export interface StatementLine { label: string; amount?: number; kind: 'heading' | 'account' | 'total' }
+/** `account` is the account number on account lines, so callers can match the same account across periods (names can repeat). */
+export interface StatementLine { label: string; amount?: number; kind: 'heading' | 'account' | 'total'; account?: string }
 export interface StatementOptions { showZeroBalance: boolean; showParentAccount: boolean }
 
 /** Natural-side sign: credit-normal types report C−D, the rest D−C. */
@@ -36,7 +37,7 @@ function accountLines(accounts: TbAccount[], net: Net, types: AccountType[], o: 
     if (!children.length && set.has(a.type)) total += sum
     for (const c of children) sum += walk(c)
     const show = set.has(a.type) && (o.showZeroBalance || sum !== 0) && (!children.length || o.showParentAccount)
-    if (show) lines.splice(at, 0, { label: a.name, amount: sum, kind: 'account' })
+    if (show) lines.splice(at, 0, { label: a.name, amount: sum, kind: 'account', account: a.no })
     return sum
   }
   for (const r of kids.get(null) ?? []) walk(r)

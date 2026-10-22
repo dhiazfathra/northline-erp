@@ -29,6 +29,14 @@ test('grid report: one request, grid passed through', async () => {
   expect(urls).toEqual(['/api/reports/tax/ppn/in-out?from=2026-01-01&to=2026-01-31'])
 })
 
+test('same-named accounts match by account number, even when one is absent from the earlier period', async () => {
+  stub((u) => (u.endsWith('2026-03-01')
+    ? [{ label: 'Kas', kind: 'account', account: '1101', amount: 100 }, { label: 'Kas', kind: 'account', account: '1102', amount: 200 }]
+    : [{ label: 'Kas', kind: 'account', account: '1102', amount: 20 }]))
+  const data = await fetchReport('neraca', { to: '2026-03-01' })
+  expect(data).toEqual({ rows: [{ k: 'acc', t: 'Kas', key: 'account#1101', cur: 1, prev: 0 }, { k: 'acc', t: 'Kas', key: 'account#1102', cur: 2, prev: 0.2 }] })
+})
+
 test('two accounts with the same name keep their own comparison figures', async () => {
   stub((u) => [{ label: 'Kas', kind: 'account', amount: u.endsWith('2026-03-01') ? 100 : 10 }, { label: 'Kas', kind: 'account', amount: u.endsWith('2026-03-01') ? 200 : 20 }])
   const data = await fetchReport('neraca', { to: '2026-03-01' })

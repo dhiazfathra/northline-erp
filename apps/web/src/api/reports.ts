@@ -83,7 +83,7 @@ const sources: Record<string, { path: string; tree?: true; range?: true }> = {
   'jurnal-sumber': { path: 'general-ledger/journal-list', range: true },
 }
 
-type Tree = { label: string; amount?: number; kind: 'heading' | 'account' | 'total' }[]
+type Tree = { label: string; amount?: number; kind: 'heading' | 'account' | 'total'; account?: string }[]
 /** `rows` for the statement layout (current vs comparison column); `grid` for Accurate's tabular reports, header row first. */
 export type ReportData = { rows: ReportRow[] } | { grid: string[][] }
 
@@ -103,10 +103,14 @@ async function get<T>(path: string, q: Record<string, string>): Promise<T> {
  * Point-in-time reports compare with the day before `to`; ranges with the same-length window right before `from`.
  * A range report opened without `from` runs from 1 January of `to`'s year.
  */
-/** Stable key per row: kind and label, plus the occurrence number, so two accounts with the same name stay apart. */
-export function rowKeys(rows: { k: string; t: string }[]): string[] {
+/**
+ * Stable key per row. Account lines carry their account number, which is unique even when names repeat; other rows use
+ * kind and label plus the occurrence number.
+ */
+export function rowKeys(rows: { k: string; t: string; account?: string }[]): string[] {
   const seen = new Map<string, number>()
   return rows.map((r) => {
+    if (r.account) return `account#${r.account}`
     const base = `${r.k}:${r.t}`
     const n = seen.get(base) ?? 0
     seen.set(base, n + 1)
@@ -125,9 +129,9 @@ export async function fetchReport(id: string, s: { from?: string; to: string }):
     get<Tree>(src.path, q(from, s.to)),
     get<Tree>(src.path, src.range ? q(isoShift(from, -days - 1), isoShift(from, -1)) : q(from, isoShift(s.to, -1))),
   ])
-  const prevKeys = rowKeys(prev.map((r) => ({ k: r.kind, t: r.label })))
+  const prevKeys = rowKeys(prev.map((r) => ({ k: r.kind, t: r.label, account: r.account })))
   const before = new Map(prev.map((r, i) => [prevKeys[i]!, r.amount]))
-  const curKeys = rowKeys(cur.map((r) => ({ k: r.kind, t: r.label })))
+  const curKeys = rowKeys(cur.map((r) => ({ k: r.kind, t: r.label, account: r.account })))
   const k = { heading: 'sec', account: 'acc', total: 'tot' } as const
   const rupiah = (c?: number) => (c === undefined ? undefined : c / 100)
   return { rows: cur.map((r, i) => ({ k: k[r.kind], t: r.label, key: curKeys[i], cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(curKeys[i]!) ?? 0) })) }

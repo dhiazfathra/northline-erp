@@ -115,6 +115,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                 label: string;
                 amount?: number;
                 kind: 'heading' | 'account' | 'total';
+                account?: string;
             }[];
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
@@ -1108,6 +1109,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                 label: string;
                 amount?: number;
                 kind: 'heading' | 'account' | 'total';
+                account?: string;
             }[];
             outputFormat: "json";
             status: import("hono/utils/http-status").ContentfulStatusCode;
