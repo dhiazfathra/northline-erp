@@ -1,4 +1,4 @@
-import { accounts, balances, balanceSheet, idr, journals, naturalBalance, parseDate, profitAndLoss, type Account, type AccountType } from '@northline/schemas/fixtures'
+import { accounts, balanceSheet, idr, journals, parseDate, profitAndLoss } from '@northline/schemas/fixtures'
 import type { AiMessage, Report, ReportRow } from '@northline/schemas/reports'
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
 import { layoutDefault, type Layout } from '@/features/reports/model'
@@ -64,165 +64,84 @@ export function useStarReport() {
   })
 }
 
-// ---- report rows derived from the fixture ledger ----
+// ---- report rows from the API ----
 
-const dmy = (iso: string) => iso.split('-').reverse().join('/')
-/** dd/mm/yyyy of `iso` shifted by `days` (local time). */
-const shift = (iso: string, days: number) => {
-  const d = new Date(`${iso}T00:00:00`)
-  d.setDate(d.getDate() + days)
-  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`
-}
-const dayBefore = (iso: string) => shift(iso, -1)
-const acc = (code: string) => accounts.find((a) => a.code === code)!
-const kids = (code: string) => accounts.filter((a) => a.parent === code)
-
-type Bal = Map<string, number>
-/** Amount of `a` in `dir`'s direction (contra/opposite-side accounts come out negative). */
-const inDir = (a: Account, dir: 'D' | 'K', bal: Bal) => (kids(a.code).length ? naturalBalance(a.code, bal) * (a.normal === dir ? 1 : -1) : (bal.get(a.code) ?? 0) * (dir === 'D' ? 1 : -1))
-
-/** An account row; parents become a group row (sum of children) followed by their children. */
-function accRows(code: string, dir: 'D' | 'K', cur: Bal, prev: Bal): ReportRow[] {
-  const a = acc(code)
-  const ks = kids(code)
-  const row = { code, t: a.name, cur: inDir(a, dir, cur), prev: inDir(a, dir, prev) }
-  return ks.length ? [{ k: 'grp', ...row }, ...ks.map((k) => ({ k: 'acc' as const, code: k.code, t: k.name, cur: inDir(k, dir, cur), prev: inDir(k, dir, prev) }))] : [{ k: 'acc', ...row }]
-}
-const tot = (k: 'sub' | 'tot', t: string, cur: number, prev: number): ReportRow => ({ k, t, cur, prev })
-const sec = (t: string): ReportRow => ({ k: 'sec', t })
-const ofType = (...ts: AccountType[]) => accounts.filter((a) => ts.includes(a.type) && !a.parent).map((a) => a.code)
-const sumRows = (rows: ReportRow[], key: 'cur' | 'prev') => rows.filter((x) => (x.k === 'acc' && !acc(x.code!).parent) || x.k === 'grp').reduce((s, x) => s + (x[key] ?? 0), 0)
-
-function labaRugi(cur: Bal, prev: Bal): ReportRow[] {
-  const [p, q] = [profitAndLoss(cur), profitAndLoss(prev)]
-  return [
-    sec('Pendapatan'),
-    ...accRows('4000', 'K', cur, prev),
-    ...accRows('440101', 'K', cur, prev),
-    tot('sub', 'Total Pendapatan', p.revenue, q.revenue),
-    sec('Beban Pokok Penjualan'),
-    ...accRows('510101', 'D', cur, prev),
-    tot('tot', 'Laba Kotor', p.grossProfit, q.grossProfit),
-    sec('Beban Operasional'),
-    ...accRows('6000', 'D', cur, prev),
-    tot('tot', 'Laba Operasional', p.grossProfit - p.opex, q.grossProfit - q.opex),
-    sec('Pendapatan & Beban Lain-lain'),
-    ...accRows('720102', 'K', cur, prev),
-    ...accRows('7201', 'K', cur, prev),
-    tot('sub', 'Total Pendapatan & Beban Lain-lain', p.otherIncome - p.otherExpense, q.otherIncome - q.otherExpense),
-    tot('tot', 'Laba Bersih', p.netIncome, q.netIncome),
-  ]
+/** Each catalog report and the API request that returns it. `tree` endpoints answer {label, amount, kind}[] in cents; the rest answer Accurate's grid (string[][]). */
+const sources: Record<string, { path: string; tree?: true; range?: true }> = {
+  neraca: { path: 'balance-sheet', tree: true },
+  'laba-rugi': { path: 'profit-loss', tree: true, range: true },
+  'arus-kas': { path: 'cash-flow/indirect', range: true },
+  'saldo-akun': { path: 'general-ledger/summary', range: true },
+  'kas-bank': { path: 'cash-bank/cash-flow-by-account', range: true },
+  penjualan: { path: 'receivables/sales-by-customer', range: true },
+  piutang: { path: 'receivables/outstanding' },
+  pembelian: { path: 'payables/by-vendor', range: true },
+  utang: { path: 'payables/outstanding' },
+  persediaan: { path: 'inventory/valuation', range: true },
+  'aset-tetap': { path: 'fixed-assets/list' },
+  pajak: { path: 'tax/ppn/in-out', range: true },
+  'jurnal-sumber': { path: 'general-ledger/journal-list', range: true },
 }
 
-function neraca(cur: Bal, prev: Bal): ReportRow[] {
-  const [b, c] = [balanceSheet(cur), balanceSheet(prev)]
-  const block = (codes: string[], dir: 'D' | 'K') => codes.flatMap((x) => accRows(x, dir, cur, prev))
-  return [
-    sec('Aset'),
-    ...block(['1100', '110301', '110401', '110501', '1200'], 'D'),
-    tot('tot', 'Total Aset', b.assets, c.assets),
-    sec('Liabilitas'),
-    ...block(['210101', '210102', '210201', '210301'], 'K'),
-    tot('sub', 'Total Liabilitas', b.liabilities, c.liabilities),
-    sec('Ekuitas'),
-    ...block(['3001', '300001'], 'K'),
-    { k: 'acc', t: 'Laba Tahun Berjalan', cur: b.currentEarnings, prev: c.currentEarnings },
-    tot('sub', 'Total Ekuitas', b.equity, c.equity),
-    tot('tot', 'Total Liabilitas dan Ekuitas', b.liabilities + b.equity, c.liabilities + c.equity),
-  ]
+type Tree = { label: string; amount?: number; kind: 'heading' | 'account' | 'total'; account?: string }[]
+/** `rows` for the statement layout (current vs comparison column); `grid` for Accurate's tabular reports, header row first. */
+export type ReportData = { rows: ReportRow[] } | { grid: string[][] }
+
+const isoShift = (iso: string, days: number) => {
+  const d = new Date(`${iso}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + days)
+  return d.toISOString().slice(0, 10)
+}
+// Plain fetch: the paths are chosen at runtime, which the typed hono client cannot express.
+async function get<T>(path: string, q: Record<string, string>): Promise<T> {
+  const res = await fetch(`/api/reports/${path}?${new URLSearchParams(q)}`, { credentials: 'same-origin' })
+  if (!res.ok) throw new Error(`Laporan gagal dimuat (${res.status})`)
+  return res.json() as Promise<T>
 }
 
-/** Equity credits from inventory adjustments / fixed-asset opening balances: no cash moved. */
-const nonCash = (from: number, to: number, source: string) =>
-  journals.filter((j) => j.source === source && parseDate(j.date) >= from && parseDate(j.date) <= to).reduce((s, j) => s + j.lines.filter((l) => l.account === '300001').reduce((x, l) => x + l.credit - l.debit, 0), 0)
-
-function cashFlow(fromIso: string, toIso: string): ReportRow[] {
-  const [from, to] = [dmy(fromIso), dmy(toIso)]
-  const mv = balances(from, to)
-  const d = (code: string) => mv.get(code) ?? 0 // debit-positive movement
-  const pl = profitAndLoss(mv)
-  const ncInv = nonCash(parseDate(from), parseDate(to), 'Penyesuaian Persediaan')
-  const ncFa = nonCash(parseDate(from), parseDate(to), 'Aset Tetap')
-  const line = (t: string, v: number, code?: string): ReportRow => ({ k: 'acc', t, cur: v, code })
-  const op = [
-    line('Laba Bersih', pl.netIncome),
-    line('Beban Penyusutan', d('6101'), '6101'),
-    line('Rugi Pelepasan Aset Tetap', d('7201'), '7201'),
-    line('Kenaikan Piutang Usaha', -d('110301'), '110301'),
-    line('Kenaikan Persediaan (di luar penyesuaian non-kas)', -(d('110401') - ncInv), '110401'),
-    line('Kenaikan PPN Masukan', -d('110501'), '110501'),
-    ...['210101', '210102', '210201', '210301'].map((c) => line(`Kenaikan ${acc(c).name}`, -d(c), c)),
-  ]
-  const opT = op.reduce((s, x) => s + x.cur!, 0)
-  // shortcut: assumes disposals have no proceeds (true for the fixtures); add a proceeds line when sales of assets exist.
-  const invT = -(naturalBalance('1200', mv) + d('6101') + d('7201') - ncFa)
-  const fin = [line('Setoran Modal', -d('3001'), '3001')]
-  const finT = fin.reduce((s, x) => s + x.cur!, 0)
-  const opening = naturalBalance('1100', balances('01/01/2000', dayBefore(fromIso)))
-  const closing = naturalBalance('1100', balances('01/01/2000', to))
-  return [
-    sec('Arus Kas dari Aktivitas Operasi'),
-    ...op,
-    tot('sub', 'Kas Bersih dari Aktivitas Operasi', opT, 0),
-    sec('Arus Kas dari Aktivitas Investasi'),
-    line('Perolehan Aset Tetap (tunai)', invT, '1201'),
-    tot('sub', 'Kas Bersih dari Aktivitas Investasi', invT, 0),
-    sec('Arus Kas dari Aktivitas Pendanaan'),
-    ...fin,
-    tot('sub', 'Kas Bersih dari Aktivitas Pendanaan', finT, 0),
-    tot('tot', 'Kenaikan (Penurunan) Kas', opT + invT + finT, 0),
-    line('Kas Awal Periode', opening),
-    tot('tot', 'Kas Akhir Periode', opening + opT + invT + finT, 0),
-    ...kids('1100').map((k) => ({ ...line(`· ${k.name}`, naturalBalance(k.code, balances('01/01/2000', to)), k.code), k: 'acc' as const })),
-    tot('sub', 'Saldo Kas dan Setara Kas (Neraca)', closing, 0),
-    sec('Transaksi Non-Kas'),
-    line('Penyesuaian persediaan ke Ekuitas Saldo Awal', ncInv),
-    line('Saldo awal aset tetap ke Ekuitas Saldo Awal', ncFa),
-  ]
+/**
+ * Point-in-time reports compare with the day before `to`; ranges with the same-length window right before `from`.
+ * A range report opened without `from` runs from 1 January of `to`'s year.
+ */
+/**
+ * Stable key per row. Account lines carry their account number, which is unique even when names repeat; other rows use
+ * kind and label plus the occurrence number.
+ */
+export function rowKeys(rows: { k: string; t: string; account?: string }[]): string[] {
+  const seen = new Map<string, number>()
+  return rows.map((r) => {
+    if (r.account) return `account#${r.account}`
+    const base = `${r.k}:${r.t}`
+    const n = seen.get(base) ?? 0
+    seen.set(base, n + 1)
+    return `${base}#${n}`
+  })
 }
 
-function simple(codes: string[], dir: 'D' | 'K', title: string, cur: Bal, prev: Bal): ReportRow[] {
-  const rows = codes.flatMap((c) => accRows(c, dir, cur, prev))
-  return [sec(title), ...rows, tot('tot', 'Total', sumRows(rows, 'cur'), sumRows(rows, 'prev'))]
-}
-
-function bySource(fromIso: string, toIso: string): ReportRow[] {
-  const [a, b] = [parseDate(dmy(fromIso)), parseDate(dmy(toIso))]
-  const m = new Map<string, number>()
-  for (const j of journals) if (parseDate(j.date) >= a && parseDate(j.date) <= b) m.set(j.source, (m.get(j.source) ?? 0) + j.lines.reduce((s, l) => s + l.debit, 0))
-  const rows: ReportRow[] = [...m].map(([t, v]) => ({ k: 'acc', t, cur: v }))
-  return [sec('Jurnal per Sumber'), ...rows, tot('tot', 'Total Debit', rows.reduce((s, x) => s + x.cur!, 0), 0)]
-}
-
-export function buildRows(id: string, s: { from?: string; to: string }): ReportRow[] {
-  const from = s.from ?? '2000-01-01'
-  // point-in-time reports compare with the previous day; ranges with the period before `from`
-  const cur = s.from ? balances(dmy(from), dmy(s.to)) : balances('01/01/2000', dmy(s.to))
-  const prev = balances('01/01/2000', dayBefore(s.from ?? s.to))
-  // ranges compare with the same-length window right before `from`
-  const days = Math.round((parseDate(dmy(s.to)) - parseDate(dmy(from))) / 864e5)
-  const prevWin = s.from ? balances(shift(from, -days - 1), dayBefore(from)) : prev
-  if (id === 'laba-rugi') return labaRugi(cur, prevWin)
-  if (id === 'neraca') return neraca(balances('01/01/2000', dmy(s.to)), prev)
-  if (id === 'arus-kas') return cashFlow(from, s.to)
-  if (id === 'jurnal-sumber') return bySource(from, s.to)
-  const spec: Record<string, [string[], 'D' | 'K', string]> = {
-    'saldo-akun': [accounts.filter((a) => !a.parent).map((a) => a.code), 'D', 'Saldo Akun (debit positif)'],
-    'kas-bank': [['1100'], 'D', 'Kas & Bank'],
-    penjualan: [[...ofType('Pendapatan')], 'K', 'Pendapatan Penjualan'],
-    piutang: [['110301'], 'D', 'Piutang Usaha'],
-    pembelian: [['6002', '110401'], 'D', 'Pembelian'],
-    utang: [ofType('Utang Usaha', 'Liabilitas Jangka Pendek'), 'K', 'Utang & Liabilitas Jangka Pendek'],
-    persediaan: [['110401'], 'D', 'Persediaan'],
-    'aset-tetap': [['1200'], 'D', 'Aset Tetap'],
-    pajak: [['210201', '110501', '210301'], 'K', 'PPN & PPh 23'],
-  }
-  const x = spec[id]
-  return x ? simple(x[0], x[1], x[2], id === 'penjualan' || id === 'pembelian' || id === 'pajak' ? cur : balances('01/01/2000', dmy(s.to)), id === 'penjualan' || id === 'pembelian' || id === 'pajak' ? prevWin : prev) : []
+export async function fetchReport(id: string, s: { from?: string; to: string }): Promise<ReportData> {
+  const src = sources[id]
+  if (!src) throw new Error(`Laporan ${id} belum tersedia`)
+  const from = s.from ?? `${s.to.slice(0, 4)}-01-01`
+  const q = (f: string, t: string): Record<string, string> => (src.range ? { from: f, to: t } : { asOf: t })
+  if (!src.tree) return { grid: await get<string[][]>(src.path, q(from, s.to)) }
+  const days = Math.round((Date.parse(s.to) - Date.parse(from)) / 864e5)
+  const [cur, prev] = await Promise.all([
+    get<Tree>(src.path, q(from, s.to)),
+    get<Tree>(src.path, src.range ? q(isoShift(from, -days - 1), isoShift(from, -1)) : q(from, isoShift(s.to, -1))),
+  ])
+  const prevKeys = rowKeys(prev.map((r) => ({ k: r.kind, t: r.label, account: r.account })))
+  const before = new Map(prev.map((r, i) => [prevKeys[i]!, r.amount]))
+  const curKeys = rowKeys(cur.map((r) => ({ k: r.kind, t: r.label, account: r.account })))
+  const k = { heading: 'sec', account: 'acc', total: 'tot' } as const
+  const rupiah = (c?: number) => (c === undefined ? undefined : c / 100)
+  return { rows: cur.map((r, i) => ({ k: k[r.kind], t: r.label, key: curKeys[i], cur: rupiah(r.amount), prev: r.amount === undefined ? undefined : rupiah(before.get(curKeys[i]!) ?? 0) })) }
 }
 
 export const reportRowsQuery = (id: string, s: { from?: string; to: string }) =>
-  queryOptions({ queryKey: ['reports', id, 'rows', s.from, s.to], queryFn: () => mock(buildRows(id, s), 1400) })
+  queryOptions({ queryKey: ['reports', id, 'rows', s.from, s.to], queryFn: () => fetchReport(id, s) })
+
+const dmy = (iso: string) => iso.split('-').reverse().join('/')
+const kids = (code: string) => accounts.filter((a) => a.parent === code)
 
 /** Fixture journal lines posted to `code` within the report period (drill-down). */
 export const drillQuery = (code: string, s: { from?: string; to: string }) =>

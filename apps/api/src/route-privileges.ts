@@ -119,6 +119,7 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/access/user-by-branch': 'UserByBranchListReport',
   'GET /api/reports/access/group-privileges': 'AccessGroupPrivilegeListReport',
   'GET /api/reports/access/privileges-by-user': 'AccessPrivilegeByUserListReport',
+  'GET /api/reports/tax/ppn/:report{in-out|out|in}': { out: 'TaxationOutReport', in: 'TaxationInReport', 'in-out': 'TaxationInOutReport' },
   'GET /api/reports/tax/:report{sales-receipt-pph|purchase-payment-pph|purchase-invoice-pph-paid}': {
     'sales-receipt-pph': 'SalesReceiptPPhReport', 'purchase-payment-pph': 'PurchasePaymentPPhReport', 'purchase-invoice-pph-paid': 'PurchaseInvoicePphPaidReport' },
   // shortcut: Proyek Kontraktor (ADR-0038) is not in the Manufaktur catalog; full access until Kontraktor Demo's Akses Grup is captured.

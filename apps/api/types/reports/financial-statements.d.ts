@@ -1,9 +1,11 @@
 import { type DailyBalance, type LedgerSettings, type TbAccount } from './trial-balance';
 export declare const MONTHS: string[];
+/** `account` is the account number on account lines, so callers can match the same account across periods (names can repeat). */
 export interface StatementLine {
     label: string;
     amount?: number;
     kind: 'heading' | 'account' | 'total';
+    account?: string;
 }
 export interface StatementOptions {
     showZeroBalance: boolean;

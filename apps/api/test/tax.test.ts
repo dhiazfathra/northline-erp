@@ -126,3 +126,19 @@ test('CashAvailabilityChartReport (ADR-0011): ERP cash events sit on Accurate x-
   expect(ev).toEqual([{ date: '2026-11-20', delta: 50_000_000 }, { date: '2026-12-05', delta: -30_000_000 }])
   for (const e of ev) expect(ch.xAxis).toContain(e.date)
 })
+
+test('HTTP: PPN report routes serve the same grids and need the report privilege', async () => {
+  const { createApp } = await import('../src/app')
+  const { createUser } = await import('../src/auth')
+  const { createFullUser } = await import('./fixture-db')
+  const app = createApp(f.db)
+  await createFullUser(f.db, 'nl-ppn@example.test', 'rahasia-123')
+  await createUser(f.db, 'nl-ppn-none@example.test', 'rahasia-123')
+  const login = async (email: string) => (await app.request('/api/auth/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, password: 'rahasia-123' }) })).headers.get('set-cookie')!.split(';')[0]!
+  const [full, none] = [await login('nl-ppn@example.test'), await login('nl-ppn-none@example.test')]
+  const q = `from=${W.from}&to=${W.to}`
+  const res = await app.request(`/api/reports/tax/ppn/in-out?${q}`, { headers: { cookie: full } })
+  expect(res.status).toBe(200)
+  expect(await res.json()).toEqual(T.taxationInOut(await T.loadTaxLines(f.db), W.from, W.to))
+  expect((await app.request(`/api/reports/tax/ppn/in-out?${q}`, { headers: { cookie: none } })).status).toBe(403)
+})

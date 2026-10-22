@@ -33,6 +33,7 @@ import * as JCS from './inventory/job-costing'
 import * as HPP from './reports/cogs-manufacture'
 import * as TFO from './reports/transfer-orders'
 import * as PPH from './reports/pph'
+import * as TAX from './reports/tax'
 import { createTransferOrder } from './purchases/transfer-orders'
 import * as ACC from './reports/access'
 import { setBranchUsers, upsertAccessGroup } from './access/service'
@@ -233,6 +234,10 @@ export function createApp(db: Db) {
     .get('/reports/tax/:report{sales-receipt-pph|purchase-payment-pph|purchase-invoice-pph-paid}', async c => {
       const { from, to } = trialBalanceQuery.parse(c.req.query())
       return c.json({ 'sales-receipt-pph': PPH.salesReceiptPph, 'purchase-payment-pph': PPH.purchasePaymentPph, 'purchase-invoice-pph-paid': PPH.purchaseInvoicePphPaid }[c.req.param('report') as 'sales-receipt-pph'](await PPH.loadPphLines(db), from, to))
+    })
+    .get('/reports/tax/ppn/:report{in-out|out|in}', async c => {
+      const { from, to } = trialBalanceQuery.parse(c.req.query())
+      return c.json({ out: TAX.taxationOut, in: TAX.taxationIn, 'in-out': TAX.taxationInOut }[c.req.param('report') as 'out'](await TAX.loadTaxLines(db), from, to))
     })
     // Proyek Kontraktor (ADR-0038): project master, RAB, MEQ, survey, project-linked documents (billing share), FPC; then its 11 reports.
     .post('/contractor/projects', async c => { await KS.upsertContractorProject(db, await c.req.json()); return c.json({ ok: true }) })
