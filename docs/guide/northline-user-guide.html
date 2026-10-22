@@ -270,7 +270,7 @@ footer p{margin:6px 0}
       <li><b>Check your numbers.</b> Open <i>Daftar Laporan</i> and choose <i>Neraca Percobaan</i> to see the trial balance from your live data. This build shows a fixed period, 1 September to 17 October 2026; the API returns any period.</li>
     </ol>
   </div>
-  <div class="note warn"><p><b>Signing out does not end your session yet.</b> In this build, <i>Keluar</i> (Sign out) returns you to the sign-in page, but your session stays valid for up to 7 days. On a shared computer, use a private browser window and close it when you finish, or clear this site's cookies.</p></div>
+  <div class="note"><p><b>Signing out ends your session.</b> <i>Keluar</i> (Sign out) closes the session on the server and clears this browser's copy of your data. If you are signed out, or your session has expired, every screen sends you back to the sign-in page.</p></div>
   <h3>Finding your way</h3>
   <div class="grid">
     <div class="g pad"><h4 style="margin:0">Top bar</h4><ul class="dec">
@@ -837,7 +837,7 @@ curl -b jar -X POST $BASE/api/auth/logout</code></pre>
   <div class="grid">
     <div class="g pad"><h3 style="margin:0">Not available yet</h3><ul class="dec">
       <li><b>Most web screens are previews.</b> Sign-in, the trial balance and the costing, ageing and report-style settings use your data; the other screens show sample data. Everything else reaches your books through the API.</li>
-      <li><b>Sign-out that ends the session</b>, password reset, and a screen or API for managing users.</li>
+      <li>Password reset, and a screen or API for managing users.</li>
       <li><b>Enforcing</b> approval rules, credit limits, access-group time windows and branch admission. They are stored, not applied.</li>
       <li><b>Linked purchasing documents.</b> Requisitions, orders, goods receipts and invoices are separate; see <a href="#m-purchasing">purchasing</a>.</li>
       <li><b>Prices that include PPN</b>, PPN on returns, and dimensions on sales, purchase and stock documents.</li>

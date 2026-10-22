@@ -1,5 +1,6 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useSignOut } from '@/api/session'
 import { useCurrentWorkspace } from '@/api/workspaces'
 import { useShell } from '@/lib/shell'
 import { cn } from '@/lib/utils'
@@ -28,6 +29,7 @@ function Segmented<T extends string>({ value, options, onChange, pad }: { value:
 export function Header() {
   const { L, mode, setMode, lang, setLang, isMobile, isDesktop, megaOpen, setMegaOpen } = useShell()
   const navigate = useNavigate()
+  const signOut = useSignOut()
   const ws = useCurrentWorkspace()
   const p = (d: string, t: string, m: string) => (isDesktop ? d : isMobile ? m : t)
   return (
@@ -82,7 +84,7 @@ export function Header() {
             <DropdownMenuItem className="rounded-[10px] px-2.5 py-[9px] text-xs focus:bg-[rgba(var(--fg),.1)] focus:text-(--ink)" onSelect={() => navigate({ to: '/workspaces' })}>
               {L.switchWs}
             </DropdownMenuItem>
-            <DropdownMenuItem className="rounded-[10px] px-2.5 py-[9px] text-xs opacity-70 focus:bg-[rgba(var(--fg),.1)] focus:text-(--ink)" onSelect={() => navigate({ to: '/auth' })}>
+            <DropdownMenuItem className="rounded-[10px] px-2.5 py-[9px] text-xs opacity-70 focus:bg-[rgba(var(--fg),.1)] focus:text-(--ink)" onSelect={signOut}>
               {L.signOut}
             </DropdownMenuItem>
           </DropdownMenuContent>
