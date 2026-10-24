@@ -49,7 +49,7 @@
     {
       "id": "P7",
       "text": "Baseline taken from a green `bun loop evals` (evidence/strategy-loop)",
-      "done": false
+      "done": true
     }
   ],
   "items": [

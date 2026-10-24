@@ -15,7 +15,7 @@ No item in progress. Next: `bun loop start`.
 - [x] P4: `bun loop pr`, `pr-body restore|verify` around the loop markers
 - [x] P5: `bun loop evals`: G1–G10 twice on a fresh local DB, screenshots and videos
 - [x] P6: `[G3]` round-trip and `[G6]` picker flows tagged in `tools/e2e`, counts ratcheted in the baseline
-- [ ] P7: Baseline taken from a green `bun loop evals` (evidence/strategy-loop)
+- [x] P7: Baseline taken from a green `bun loop evals` (evidence/strategy-loop)
 
 ## Baseline
 
