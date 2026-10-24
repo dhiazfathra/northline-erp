@@ -97,7 +97,8 @@ independent review of that version found 24 problems, 14 of them high; the decis
   head. `bun loop pr` adopts the PR and puts the loop section, pinned to the pushed commit, above the no-mistakes
   text. `bun loop cr` lists unresolved threads and review-body findings one line each and prints a thread's fix on
   demand. It also replies and resolves, and waits (30 minutes at most) until CodeRabbit approves, reviews the head,
-  rate-limits after the last push, or has done 2 rounds. The gate exit wants no-mistakes and pass^2 evals on the
+  rate-limits after the last push, or has done 2 rounds. Only a review with a body counts as a round: CodeRabbit's
+  replies in threads arrive as empty reviews. The gate exit wants no-mistakes and pass^2 evals on the
   current commit, so a follow-up fix cannot slip past either. The retro goes out through `bun loop nm` in the done
   stage.
 - **Self-improvement needs a check.** `bun loop retro` writes the run facts (failed runs, plan changes,
@@ -113,9 +114,12 @@ independent review of that version found 24 problems, 14 of them high; the decis
   upstream that made "pushed" unreachable, a never-run done-when, guard bypasses and logs leaking into a public
   repo. Round 3 had 15 (1 high: a rate-limit notice judged against the wrong push time). Round 4, on the round-3
   fixes, had no high findings and 7 medium ones: an unlocked evidence ledger, a run lock scoped to one worktree, a
-  quote-blind guard split, and four smaller ones. Each finding was fixed, or declined below with a reason. The loop's own pass^2 evals also caught real problems: a test hook timing out on a fresh
-  database, the API suite hanging when the host disk filled and stopped the Docker VM, and the evidence prune
-  deleting the last green run.
+  quote-blind guard split, and four smaller ones. CodeRabbit then reviewed the PR. Its first round raised 11 threads,
+  all fixed and resolved. Its second round was rate-limited, the terminal state this loop expects. Each finding was
+  fixed, or declined below with a reason. The loop's own pass^2 evals also caught real problems: a test hook timing
+  out on a fresh database, the API suite hanging when the host disk filled and stopped the Docker VM, and the
+  evidence prune deleting the last green run. Driving CodeRabbit by hand on this PR showed that thread replies
+  arrive as reviews, and that the "Review rate limited" wording was unhandled. Both are now handled and tested.
 
 ## Alternatives Considered
 
