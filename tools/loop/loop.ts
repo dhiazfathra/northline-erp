@@ -273,7 +273,8 @@ async function check(s: State) {
   const c = ctx(runDir(it, id), s)
   const sha = codeSha()
   const t = performance.now()
-  const steps = await runSteps([...STATIC, ...TESTS], c, true)
+  // Static steps first, then the suites, so typecheck load never slows a test hook into a timeout.
+  const steps = [...(await runSteps(STATIC, c, true)), ...(await runSteps(TESTS, c, true))]
   printSteps(steps, c.dir)
   const run: Run = { id, item: it, stage: s.stage ?? '-', kind: 'check', sha, ok: steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, metrics: c.metrics }
   record(run)

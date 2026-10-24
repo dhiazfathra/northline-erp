@@ -42,7 +42,8 @@ const testApi = (name: string, file?: string): Step => ({
   run: async (c) => {
     const db = file ? null : await exec(c, `${name}-db`, ['bun', 'apps/api/scripts/e2e-db.ts', 'reset'], ROOT, TEST_DB)
     if (db?.code) return { ok: false, note: `test database: ${lastLine(db.out + db.err)}` }
-    const r = await exec(c, name, ['bun', 'test', ...(file ? [file] : [])], API, { TEST_DATABASE_URL: `${PG}/${TEST_DB.E2E_DB}` })
+    // 20 s per test and hook: the first file migrates a brand-new database, which takes over bun's 5 s default under load.
+    const r = await exec(c, name, ['bun', 'test', '--timeout', '20000', ...(file ? [file] : [])], API, { TEST_DATABASE_URL: `${PG}/${TEST_DB.E2E_DB}` })
     return bunTest(r.out + r.err, r.code)
   },
 })
