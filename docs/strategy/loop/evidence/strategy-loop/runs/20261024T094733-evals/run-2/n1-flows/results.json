@@ -1,0 +1,699 @@
+{
+  "base": "http://localhost:5180",
+  "flows": [
+    {
+      "name": "sign in",
+      "ok": true,
+      "fail": null,
+      "ms": 1602,
+      "shot": "shots/sign-in.jpg",
+      "video": "videos/sign-in.webm"
+    },
+    {
+      "name": "route /",
+      "ok": true,
+      "fail": null,
+      "ms": 1418
+    },
+    {
+      "name": "route /accounts",
+      "ok": true,
+      "fail": null,
+      "ms": 1085
+    },
+    {
+      "name": "route /accounts/new",
+      "ok": true,
+      "fail": null,
+      "ms": 1060
+    },
+    {
+      "name": "route /ai/history",
+      "ok": true,
+      "fail": null,
+      "ms": 1094
+    },
+    {
+      "name": "route /asset-modules",
+      "ok": true,
+      "fail": null,
+      "ms": 1055
+    },
+    {
+      "name": "route /asset-modules/by-location",
+      "ok": true,
+      "fail": null,
+      "ms": 1067
+    },
+    {
+      "name": "route /asset-modules/new",
+      "ok": true,
+      "fail": null,
+      "ms": 1125
+    },
+    {
+      "name": "route /cash-bank/reconciliation",
+      "ok": true,
+      "fail": null,
+      "ms": 1044
+    },
+    {
+      "name": "route /docs/cash-payment",
+      "ok": true,
+      "fail": null,
+      "ms": 1068
+    },
+    {
+      "name": "route /docs/cash-receipt",
+      "ok": true,
+      "fail": null,
+      "ms": 1033
+    },
+    {
+      "name": "route /docs/journal",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /docs/purchase-invoice",
+      "ok": true,
+      "fail": null,
+      "ms": 1044
+    },
+    {
+      "name": "route /docs/purchase-order",
+      "ok": true,
+      "fail": null,
+      "ms": 1052
+    },
+    {
+      "name": "route /docs/purchase-payment",
+      "ok": true,
+      "fail": null,
+      "ms": 1039
+    },
+    {
+      "name": "route /docs/purchase-return",
+      "ok": true,
+      "fail": null,
+      "ms": 1042
+    },
+    {
+      "name": "route /docs/sales-down-payment",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /docs/sales-invoice",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /docs/sales-order",
+      "ok": true,
+      "fail": null,
+      "ms": 1038
+    },
+    {
+      "name": "route /docs/sales-quotation",
+      "ok": true,
+      "fail": null,
+      "ms": 1037
+    },
+    {
+      "name": "route /docs/sales-receipt",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /docs/sales-return",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /docs/stock-adjustment",
+      "ok": true,
+      "fail": null,
+      "ms": 1058
+    },
+    {
+      "name": "route /fixed-assets",
+      "ok": true,
+      "fail": null,
+      "ms": 1035
+    },
+    {
+      "name": "route /fixed-assets/new",
+      "ok": true,
+      "fail": null,
+      "ms": 1102
+    },
+    {
+      "name": "route /ledger/month-end",
+      "ok": true,
+      "fail": null,
+      "ms": 1058
+    },
+    {
+      "name": "route /ledger/trial-balance",
+      "ok": true,
+      "fail": null,
+      "ms": 1044
+    },
+    {
+      "name": "route /modules/",
+      "ok": true,
+      "fail": null,
+      "ms": 1049
+    },
+    {
+      "name": "route /modules/account-history",
+      "ok": true,
+      "fail": null,
+      "ms": 1030
+    },
+    {
+      "name": "route /modules/activity-log",
+      "ok": true,
+      "fail": null,
+      "ms": 1038
+    },
+    {
+      "name": "route /modules/alokasi-expense-produksi",
+      "ok": true,
+      "fail": null,
+      "ms": 1031
+    },
+    {
+      "name": "route /modules/bank-history",
+      "ok": true,
+      "fail": null,
+      "ms": 1039
+    },
+    {
+      "name": "route /modules/bank-statement",
+      "ok": true,
+      "fail": null,
+      "ms": 1034
+    },
+    {
+      "name": "route /modules/bank-transfer",
+      "ok": true,
+      "fail": null,
+      "ms": 1089
+    },
+    {
+      "name": "route /modules/calendar",
+      "ok": true,
+      "fail": null,
+      "ms": 1025
+    },
+    {
+      "name": "route /modules/contacts",
+      "ok": true,
+      "fail": null,
+      "ms": 1023
+    },
+    {
+      "name": "route /modules/customer-categories",
+      "ok": true,
+      "fail": null,
+      "ms": 1038
+    },
+    {
+      "name": "route /modules/customers",
+      "ok": true,
+      "fail": null,
+      "ms": 1045
+    },
+    {
+      "name": "route /modules/e-faktur-ctas",
+      "ok": true,
+      "fail": null,
+      "ms": 1023
+    },
+    {
+      "name": "route /modules/e-faktur-legacy",
+      "ok": true,
+      "fail": null,
+      "ms": 1050
+    },
+    {
+      "name": "route /modules/employees",
+      "ok": true,
+      "fail": null,
+      "ms": 1036
+    },
+    {
+      "name": "route /modules/expense-entry",
+      "ok": true,
+      "fail": null,
+      "ms": 1037
+    },
+    {
+      "name": "route /modules/favorite-transactions",
+      "ok": true,
+      "fail": null,
+      "ms": 1042
+    },
+    {
+      "name": "route /modules/fob",
+      "ok": true,
+      "fail": null,
+      "ms": 1035
+    },
+    {
+      "name": "route /modules/formula-produksi",
+      "ok": true,
+      "fail": null,
+      "ms": 1036
+    },
+    {
+      "name": "route /modules/goods-receipts",
+      "ok": true,
+      "fail": null,
+      "ms": 1058
+    },
+    {
+      "name": "route /modules/group-access",
+      "ok": true,
+      "fail": null,
+      "ms": 1096
+    },
+    {
+      "name": "route /modules/income-tax-art-21-return",
+      "ok": true,
+      "fail": null,
+      "ms": 1049
+    },
+    {
+      "name": "route /modules/income-tax-art-21-withholding-slip",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /modules/item-brands",
+      "ok": true,
+      "fail": null,
+      "ms": 1258
+    },
+    {
+      "name": "route /modules/item-categories",
+      "ok": true,
+      "fail": null,
+      "ms": 1027
+    },
+    {
+      "name": "route /modules/item-requests",
+      "ok": true,
+      "fail": null,
+      "ms": 1641
+    },
+    {
+      "name": "route /modules/item-units",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /modules/items",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /modules/jadwal-produksi",
+      "ok": true,
+      "fail": null,
+      "ms": 1024
+    },
+    {
+      "name": "route /modules/journal-activity-log",
+      "ok": true,
+      "fail": null,
+      "ms": 1031
+    },
+    {
+      "name": "route /modules/minimum-stock-items",
+      "ok": true,
+      "fail": null,
+      "ms": 1022
+    },
+    {
+      "name": "route /modules/monitor-perintah-kerja",
+      "ok": true,
+      "fail": null,
+      "ms": 1038
+    },
+    {
+      "name": "route /modules/northline-store",
+      "ok": true,
+      "fail": null,
+      "ms": 1024
+    },
+    {
+      "name": "route /modules/numbering",
+      "ok": true,
+      "fail": null,
+      "ms": 1045
+    },
+    {
+      "name": "route /modules/order-delivery",
+      "ok": true,
+      "fail": null,
+      "ms": 1088
+    },
+    {
+      "name": "route /modules/payment-orders",
+      "ok": true,
+      "fail": null,
+      "ms": 1059
+    },
+    {
+      "name": "route /modules/payment-terms",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /modules/payroll-entry",
+      "ok": true,
+      "fail": null,
+      "ms": 1049
+    },
+    {
+      "name": "route /modules/pemenuhan-materials-baku",
+      "ok": true,
+      "fail": null,
+      "ms": 1053
+    },
+    {
+      "name": "route /modules/pengambilan-materials-baku",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /modules/penyelesaian-item-jadi",
+      "ok": true,
+      "fail": null,
+      "ms": 1040
+    },
+    {
+      "name": "route /modules/perintah-kerja",
+      "ok": true,
+      "fail": null,
+      "ms": 1048
+    },
+    {
+      "name": "route /modules/persiapan-materials-baku",
+      "ok": true,
+      "fail": null,
+      "ms": 1037
+    },
+    {
+      "name": "route /modules/price-discount-adjustments",
+      "ok": true,
+      "fail": null,
+      "ms": 1059
+    },
+    {
+      "name": "route /modules/print-templates",
+      "ok": true,
+      "fail": null,
+      "ms": 1043
+    },
+    {
+      "name": "route /modules/purchase-down-payments",
+      "ok": true,
+      "fail": null,
+      "ms": 1046
+    },
+    {
+      "name": "route /modules/recurring-transactions",
+      "ok": true,
+      "fail": null,
+      "ms": 1039
+    },
+    {
+      "name": "route /modules/rencana-produksi",
+      "ok": true,
+      "fail": null,
+      "ms": 1052
+    },
+    {
+      "name": "route /modules/salary-allowances",
+      "ok": true,
+      "fail": null,
+      "ms": 1050
+    },
+    {
+      "name": "route /modules/sales-categories",
+      "ok": true,
+      "fail": null,
+      "ms": 1048
+    },
+    {
+      "name": "route /modules/shipping",
+      "ok": true,
+      "fail": null,
+      "ms": 1051
+    },
+    {
+      "name": "route /modules/smartlink-e-banking",
+      "ok": true,
+      "fail": null,
+      "ms": 1057
+    },
+    {
+      "name": "route /modules/smartlink-e-commerce",
+      "ok": true,
+      "fail": null,
+      "ms": 1172
+    },
+    {
+      "name": "route /modules/smartlink-e-payment",
+      "ok": true,
+      "fail": null,
+      "ms": 1166
+    },
+    {
+      "name": "route /modules/smartlink-virtual-account",
+      "ok": true,
+      "fail": null,
+      "ms": 1057
+    },
+    {
+      "name": "route /modules/standard-expense-produksi",
+      "ok": true,
+      "fail": null,
+      "ms": 1067
+    },
+    {
+      "name": "route /modules/stock-count-orders",
+      "ok": true,
+      "fail": null,
+      "ms": 1046
+    },
+    {
+      "name": "route /modules/stock-count-results",
+      "ok": true,
+      "fail": null,
+      "ms": 1031
+    },
+    {
+      "name": "route /modules/supplier-categories",
+      "ok": true,
+      "fail": null,
+      "ms": 1054
+    },
+    {
+      "name": "route /modules/supplier-transfers",
+      "ok": true,
+      "fail": null,
+      "ms": 1098
+    },
+    {
+      "name": "route /modules/tahapan-proses",
+      "ok": true,
+      "fail": null,
+      "ms": 1059
+    },
+    {
+      "name": "route /modules/tax-invoice-email",
+      "ok": true,
+      "fail": null,
+      "ms": 1062
+    },
+    {
+      "name": "route /modules/taxes",
+      "ok": true,
+      "fail": null,
+      "ms": 1084
+    },
+    {
+      "name": "route /modules/users",
+      "ok": true,
+      "fail": null,
+      "ms": 1077
+    },
+    {
+      "name": "route /modules/vat-lgst-return",
+      "ok": true,
+      "fail": null,
+      "ms": 1070
+    },
+    {
+      "name": "route /modules/vendors",
+      "ok": true,
+      "fail": null,
+      "ms": 1050
+    },
+    {
+      "name": "route /modules/warehouses",
+      "ok": true,
+      "fail": null,
+      "ms": 1128
+    },
+    {
+      "name": "route /reports",
+      "ok": true,
+      "fail": null,
+      "ms": 2862
+    },
+    {
+      "name": "route /settings/preferences",
+      "ok": true,
+      "fail": null,
+      "ms": 1107
+    },
+    {
+      "name": "route /workspaces",
+      "ok": true,
+      "fail": null,
+      "ms": 1677
+    },
+    {
+      "name": "route /workspaces/new",
+      "ok": true,
+      "fail": null,
+      "ms": 1433
+    },
+    {
+      "name": "mega menu → page + tab",
+      "ok": true,
+      "fail": null,
+      "ms": 3633
+    },
+    {
+      "name": "⌘K search",
+      "ok": true,
+      "fail": null,
+      "ms": 1573
+    },
+    {
+      "name": "ID/EN toggle",
+      "ok": true,
+      "fail": null,
+      "ms": 1472
+    },
+    {
+      "name": "[G6] doc form add item + save (sales invoice)",
+      "ok": true,
+      "fail": null,
+      "ms": 2361,
+      "shot": "shots/g6-doc-form-add-item-save-sales-invoice.jpg",
+      "video": "videos/g6-doc-form-add-item-save-sales-invoice.webm"
+    },
+    {
+      "name": "dirty-tab close confirm",
+      "ok": true,
+      "fail": null,
+      "ms": 1789
+    },
+    {
+      "name": "trial-balance journal dialog + required error",
+      "ok": true,
+      "fail": null,
+      "ms": 1383
+    },
+    {
+      "name": "overview new-transaction modal → full doc form",
+      "ok": true,
+      "fail": null,
+      "ms": 1740
+    },
+    {
+      "name": "report params → view → AI panel",
+      "ok": true,
+      "fail": null,
+      "ms": 2070
+    },
+    {
+      "name": "[G3] report star toggles and persists across reload",
+      "ok": true,
+      "fail": null,
+      "ms": 2170,
+      "shot": "shots/g3-report-star-toggles-and-persists-across-reload.jpg",
+      "video": "videos/g3-report-star-toggles-and-persists-across-reload.webm"
+    },
+    {
+      "name": "asset expenditure create",
+      "ok": true,
+      "fail": null,
+      "ms": 1584
+    },
+    {
+      "name": "[G6] fixed-asset validation + create",
+      "ok": true,
+      "fail": null,
+      "ms": 3805,
+      "shot": "shots/g6-fixed-asset-validation-create.jpg",
+      "video": "videos/g6-fixed-asset-validation-create.webm"
+    },
+    {
+      "name": "[G3] account row → form (+ save details)",
+      "ok": true,
+      "fail": null,
+      "ms": 2215,
+      "shot": "shots/g3-account-row-form-save-details.jpg",
+      "video": "videos/g3-account-row-form-save-details.webm"
+    },
+    {
+      "name": "AI-history delete confirm",
+      "ok": true,
+      "fail": null,
+      "ms": 1370
+    },
+    {
+      "name": "month-end screen loads",
+      "ok": true,
+      "fail": null,
+      "ms": 1101
+    },
+    {
+      "name": "bank reconciliation screen loads",
+      "ok": true,
+      "fail": null,
+      "ms": 1344
+    },
+    {
+      "name": "asset per location loads",
+      "ok": true,
+      "fail": null,
+      "ms": 1082
+    },
+    {
+      "name": "workspace switch",
+      "ok": true,
+      "fail": null,
+      "ms": 3044
+    }
+  ]
+}
