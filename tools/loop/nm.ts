@@ -7,7 +7,7 @@ export type Decision =
   | { kind: 'respond'; args: string[] }
   | { kind: 'stop'; why: string }
   | { kind: 'done'; outcome: string; sync: boolean }
-  | { kind: 'failed'; outcome: string }
+  | { kind: 'failed'; outcome: string; sync: boolean }
   | { kind: 'reattach' }
 
 /** Splits one TOON table row; quoted cells may hold commas and "" escapes. */
@@ -41,7 +41,9 @@ export function findings(out: string): Finding[] {
 }
 
 const field = (out: string, key: string) => out.match(new RegExp(`^${key}: (.+)$`, 'm'))?.[1]?.trim()
-const PASS = ['checks-passed', 'passed', 'passed-with-skips', 'passed-with-override']
+const PASS = ['checks-passed', 'passed']
+// An approved test or CI exception, or skipped publication or CI: the owner sees those, the loop never accepts them.
+const OWNER_OUTCOMES = ['passed-with-override', 'passed-with-skips']
 
 /** branch_sync.next_action, keys in any order: the indented lines under `next_action:`. */
 export function nextAction(out: string) {
@@ -55,11 +57,12 @@ export function decide(out: string): Decision {
   const outcome = field(out, 'outcome')
   const action = nextAction(out)
   if (outcome) {
-    if (!PASS.includes(outcome)) return { kind: 'failed', outcome }
-    if (!action || action.code === 'none') return { kind: 'done', outcome, sync: false }
-    if (action.code === 'sync') return { kind: 'done', outcome, sync: true }
-    // recover_custody and adopt_published can drop or replace commits: the owner runs those.
-    return { kind: 'stop', why: `no-mistakes ${outcome}, but the branch needs ${action.code}${action.command ? ` (${action.command})` : ''}` }
+    if (OWNER_OUTCOMES.includes(outcome)) return { kind: 'stop', why: `no-mistakes ended ${outcome}: the owner decides whether that is acceptable` }
+    // recover_custody and adopt_published can drop or replace commits: the owner runs those, whatever the outcome.
+    if (action && !['none', 'sync'].includes(action.code))
+      return { kind: 'stop', why: `no-mistakes ${outcome}, but the branch needs ${action.code}${action.command ? ` (${action.command})` : ''}` }
+    const sync = action?.code === 'sync'
+    return PASS.includes(outcome) ? { kind: 'done', outcome, sync } : { kind: 'failed', outcome, sync }
   }
   if (action?.code === 'continue_active_run') return { kind: 'reattach' }
   const gate = field(out, 'gate')
@@ -74,7 +77,7 @@ export function decide(out: string): Decision {
 
 const axi = (args: string[]) => {
   const r = sh(['no-mistakes', 'axi', ...args])
-  return `${r.out}\n${r.err}`
+  return Object.assign(`${r.out}\n${r.err}`, { ok: r.ok })
 }
 
 /** Runs or reattaches the pipeline for HEAD until an outcome or a stop. Each call blocks up to no-mistakes' 8-minute hold. */
@@ -89,7 +92,11 @@ export function drive(intent: string, log: (line: string) => void): Decision {
       log('hold elapsed: reattach')
       out = axi(['run', '--intent', intent])
     } else {
-      if (d.kind === 'done' && d.sync) axi(['sync'])
+      // The branch must be synced before any local commit, on success and failure alike.
+      if ((d.kind === 'done' || d.kind === 'failed') && d.sync) {
+        const s = axi(['sync'])
+        if (!s.ok) return { kind: 'stop', why: `no-mistakes axi sync failed: ${s.trim().split('\n').at(-1)}` }
+      }
       return d
     }
   }

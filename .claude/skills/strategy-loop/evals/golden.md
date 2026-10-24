@@ -19,6 +19,7 @@ when both runs pass (pass^2). Baselines live in `docs/strategy/loop/state.json` 
 | G9 | Full test suites | `bun test` in api (on the loop's own database), web and `tools/loop`: 0 failures | `test-api`, `test-web`, `test-loop` | Baseline |
 | G10 | PR body survives the gate | The PR body holds the current loop section between the markers; n/a before the PR exists | `pr-body` | N1: no-mistakes overwrote the body |
 | G11 | The item's done-when | The plan's done-when command exits 0 (and does not reach production); n/a without a plan | `done-when` | Review round 2: done-when was never run |
+| G12 | Promised flows exist | Every flow name in the plan's `evalCases` is an e2e flow that ran and passed; n/a when the plan promises none | `e2e` | Review round 3: promised flows were never checked |
 
 ## Adding a case
 

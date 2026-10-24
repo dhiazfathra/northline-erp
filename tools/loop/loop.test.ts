@@ -2,6 +2,7 @@ import { afterAll, describe, expect, setDefaultTimeout, test } from 'bun:test'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { judge, redact, sameDeclarations } from './checks'
 import { bodyFindings, bodyOk, detail, headline, withSection } from './gh'
 import { blocked } from './guard'
 import { type Plan, planDiff, renderState, type State } from './lib'
@@ -96,8 +97,13 @@ describe('no-mistakes decisions', () => {
   test('outcomes end the drive; a held wait reattaches', () => {
     expect(decide('outcome: checks-passed\nbranch_sync:\n  next_action:\n    code: sync')).toEqual({ kind: 'done', outcome: 'checks-passed', sync: true })
     expect(decide('outcome: passed')).toEqual({ kind: 'done', outcome: 'passed', sync: false })
-    expect(decide('outcome: failed')).toEqual({ kind: 'failed', outcome: 'failed' })
+    expect(decide('outcome: failed')).toEqual({ kind: 'failed', outcome: 'failed', sync: false })
+    expect(decide('outcome: failed\nbranch_sync:\n  next_action:\n    code: sync')).toEqual({ kind: 'failed', outcome: 'failed', sync: true })
     expect(decide('run: 01ABC\nstatus: running')).toEqual({ kind: 'reattach' })
+  })
+  test('an override or a skip is never the loop’s to accept', () => {
+    expect(decide('outcome: passed-with-override').kind).toBe('stop')
+    expect(decide('outcome: passed-with-skips').kind).toBe('stop')
   })
   test('branch custody: sync is run, a live run is reattached, recovery goes to the owner', () => {
     const sync = 'branch_sync:\n  state: behind\n  next_action:\n    command: no-mistakes axi sync\n    code: sync\noutcome: checks-passed'
@@ -123,19 +129,52 @@ describe('production guard', () => {
     './node_modules/.bin/wrangler deploy',
     'bash -c "wrangler deploy"',
     'cat ../northline-erp/.env',
+    'sleep 1 & wrangler deploy',
+    '(wrangler deploy)',
+    'if true; then wrangler deploy; fi',
+    "sed -i '' 's/build/done/' docs/strategy/loop/state.json",
+    'echo {} > tools/loop/guard.ts',
+    'bun loop budget 40 --reason more',
+    'bun run loop phase0 P7 done --reason x',
   ])('blocks %p', (command) => expect(bash(command)).toBeTruthy())
-  test.each(['git commit -m "docs: neon backup notes"', 'grep -n neon docs/strategy/README.md', 'bun test', 'cat .env.example'])('allows %p', (command) =>
+  test.each(['git commit -m "docs: neon backup notes"', 'grep -n neon docs/strategy/README.md', 'bun test', 'cat .env.example', 'bun loop status', 'bun loop render'])('allows %p', (command) =>
     expect(bash(command)).toBeNull(),
   )
   test('MCP, edits and reads', () => {
     expect(blocked('mcp__plugin_neon_neon__run_sql')).toBeTruthy()
     expect(blocked('mcp__plugin_cloudflare_cloudflare__execute')).toBeTruthy()
     expect(blocked('mcp__serena__find_symbol')).toBeNull()
+    expect(blocked('mcp__serena__replace_content', { relative_path: 'docs/strategy/loop/state.json' })).toBeTruthy()
+    expect(blocked('Grep', { pattern: 'URL', path: '/r/.env' })).toBeTruthy()
     expect(blocked('Edit', { file_path: '/r/docs/strategy/loop/state.json' })).toBeTruthy()
     expect(blocked('Write', { file_path: '/r/tools/loop/guard.ts' })).toBeTruthy()
     expect(blocked('Edit', { file_path: '/r/tools/loop/checks.ts' })).toBeNull()
     expect(blocked('Read', { file_path: '/r/.env' })).toBeTruthy()
     expect(blocked('Read', { file_path: '/r/apps/api/src/db.ts' })).toBeNull()
+  })
+})
+
+describe('checks', () => {
+  test('committed tails carry no credentials or tokens', () => {
+    expect(redact('connect postgres://app:s3cret@db.example.com/x failed')).toBe('connect postgres://***@db.example.com/x failed')
+    expect(redact('Authorization: Bearer abcdefghijklmnopqrstuvwxyz123456')).toBe('Authorization: Bearer ***')
+    expect(redact('webhook https://hooks.example.com/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')).toContain('/***')
+    expect(redact('commit 0123456789abcdef0123456789abcdef01234567')).toContain('0123456789abcdef0123456789abcdef01234567')
+  })
+  test('declaration files differing only in union order are the same', () => {
+    expect(sameDeclarations('type A = 401 | 429;', 'type A = 429 | 401;')).toBe(true)
+    expect(sameDeclarations('type A = 401 | 429;', 'type A = 401 | 500;')).toBe(false)
+    // The shape tsc actually reordered in apps/api/types/auth.d.ts: whole object members of a union.
+    const one = '} | {\n    status: 429;\n} | {\n    status: 401;\n}'
+    expect(sameDeclarations(one, '} | {\n    status: 401;\n} | {\n    status: 429;\n}')).toBe(true)
+    expect(sameDeclarations(one, '} | {\n    status: 401;\n} | {\n    status: 403;\n}')).toBe(false)
+  })
+  test('G12: every promised flow ran and passed', () => {
+    const s = { plan: { evalCases: ['[N2] restore drill'] }, baseline: { g3Flows: 0, g6Flows: 0 } } as unknown as State
+    const round = (flows: { name: string; ok: boolean }[]) => judge({ steps: {}, flows: flows.map((f) => ({ ...f, file: 'x', fail: null })), prBody: null }, s).G12
+    expect(round([{ name: '[N2] restore drill', ok: true }])).toBe(true)
+    expect(round([{ name: '[N2] restore drill', ok: false }])).toBe(false)
+    expect(round([])).toBe(false)
   })
 })
 
@@ -223,9 +262,9 @@ describe('bun loop', () => {
 
   test('the guard hook blocks production commands only while an item is in progress', () => {
     const r = repo()
-    const hook = (stage: string) => {
+    const hook = (stage: string, published = false) => {
       const f = path.join(r.root, 'docs/strategy/loop/state.json')
-      writeFileSync(f, JSON.stringify({ ...JSON.parse(readFileSync(f, 'utf8')), stage }))
+      writeFileSync(f, JSON.stringify({ ...JSON.parse(readFileSync(f, 'utf8')), stage, published }))
       const p = Bun.spawnSync(['bun', path.join(import.meta.dir, 'guard.ts')], {
         cwd: r.root,
         env: { ...process.env, CLAUDE_PROJECT_DIR: r.root },
@@ -235,7 +274,8 @@ describe('bun loop', () => {
       return { code: p.exitCode, err: p.stderr.toString() }
     }
     expect(hook('build')).toMatchObject({ code: 2, err: expect.stringContaining('N2 is in progress') })
-    expect(hook('done').code).toBe(0)
+    expect(hook('done').code).toBe(2) // the done stage still pushes through the gate
+    expect(hook('done', true).code).toBe(0)
     // Main after the merge holds N2's state but is not on N2's branch: nothing is in progress there.
     r.git('checkout', '-q', '-b', 'main')
     expect(hook('retro').code).toBe(0)

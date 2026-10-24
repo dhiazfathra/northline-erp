@@ -28,10 +28,12 @@ const graphql = (query: string, vars: Record<string, string | number>) =>
 export function section(s: State) {
   if (!s.item || !s.plan || !s.branch) throw new Error('no item with a plan in progress')
   const { owner, name } = repo()
-  // Pinned to the pushed head, not the branch name, so the links outlive the branch's deletion on merge; local-only
-  // state commits after the push leave the section (and so the body check) unchanged.
+  // Pinned to the pushed head (fetched now), not the branch name, so the links outlive the branch's deletion on merge
+  // and local-only state commits after the push leave the section, and so the body check, unchanged.
+  sh(['git', 'fetch', '-q', 'origin', s.branch])
   const pushed = sh(['git', 'rev-parse', '--verify', '-q', `origin/${s.branch}`])
-  const sha = pushed.ok ? pushed.out : sh(['git', 'rev-parse', 'HEAD']).out
+  if (!pushed.ok) throw new Error(`origin/${s.branch} does not exist yet: \`bun loop nm\` pushes it`)
+  const sha = pushed.out
   const blob = `https://github.com/${owner}/${name}/blob/${sha}/docs/strategy/loop`
   const raw = `https://raw.githubusercontent.com/${owner}/${name}/${sha}/docs/strategy/loop/evidence/${s.item}`
   const ev = runs(s.item).findLast((r) => r.kind === 'evals')

@@ -1,5 +1,5 @@
 // Steps behind `bun loop check` and `bun loop evals` (ADR-0050). Each step writes its full output to the run's
-// evidence dir and returns one line; the golden cases G1–G11 are judged from step results, never by the agent.
+// evidence dir and returns one line; the golden cases G1–G12 are judged from step results, never by the agent.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import net from 'node:net'
 import path from 'node:path'
@@ -43,17 +43,39 @@ const cmd = (name: string, argv: string[], cwd: string): Step => ({
 })
 
 const TSC = path.join(API, 'node_modules/.bin/tsc')
-// apps/api's `typecheck` script also regenerates the tracked apps/api/types/*.d.ts (and tsc may reorder unions there),
-// so the loop checks the declaration build into a scratch dir instead of touching tracked files.
+const files = (dir: string, at = ''): string[] =>
+  readdirSync(path.join(dir, at), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(dir, path.join(at, e.name)) : [path.join(at, e.name)]))
+// tsc may print a union's members in a different order run to run, on one line (`401 | 429`) or as multi-line object
+// members, so files compare as a multiset of lines with each one-line union run sorted.
+export const sameDeclarations = (a: string, b: string) => {
+  const run = /(?:[^\s|;,(){}<>[\]]+ \| )+[^\s|;,(){}<>[\]]+/g
+  const norm = (s: string) => s.split('\n').map((l) => l.trimEnd().replace(run, (m) => m.split(' | ').sort().join(' | '))).sort().join('\n')
+  return norm(a) === norm(b)
+}
+// apps/api's `typecheck` script also regenerates the tracked apps/api/types/*.d.ts that web compiles against. The loop
+// builds them into a scratch dir instead and fails when the tracked ones are stale, so web is never checked against
+// old API types and no check rewrites tracked files.
 const typecheckApi: Step = {
   name: 'typecheck-api',
   run: async (c) => {
     const a = await exec(c, 'typecheck-api', [TSC, '--noEmit'], API)
     if (a.code) return { ok: false, note: `exit ${a.code}` }
-    const b = await exec(c, 'typecheck-api-types', [TSC, '-p', 'tsconfig.types.json', '--outDir', path.join(c.dir, 'types')], API)
-    return { ok: !b.code, note: b.code ? `declaration build: exit ${b.code} (typecheck-api-types.log)` : '' }
+    const out = path.join(c.dir, 'types')
+    const b = await exec(c, 'typecheck-api-types', [TSC, '-p', 'tsconfig.types.json', '--outDir', out], API)
+    if (b.code) return { ok: false, note: `declaration build: exit ${b.code} (typecheck-api-types.log)` }
+    const tracked = path.join(API, 'types')
+    const names = [...new Set([...files(out), ...files(tracked)])]
+    const stale = names.filter((f) => !existsSync(path.join(out, f)) || !existsSync(path.join(tracked, f)) || !sameDeclarations(readFileSync(path.join(out, f), 'utf8'), readFileSync(path.join(tracked, f), 'utf8')))
+    return { ok: !stale.length, note: stale.length ? `apps/api/types is stale (${stale.slice(0, 2).join(', ')}): run \`bun run --cwd apps/api typecheck\` and commit` : '' }
   },
 }
+
+/** Connection strings and token-shaped values out of anything that is committed (tails, notes): the repo is public. */
+export const redact = (s: string) =>
+  s
+    .replace(/\b([a-z][a-z0-9+.-]*:\/\/)[^\s:/@]+:[^\s@/]+@/gi, '$1***@')
+    .replace(/\b(bearer|token|secret|password|apikey|api_key)(\s*[:=]\s*|\s+)["']?[^\s"']{8,}/gi, '$1$2***')
+    .replace(/\b[A-Za-z0-9_-]{32,}\b/g, (m) => (/^[a-f0-9]{40}$/.test(m) ? m : '***'))
 
 const bunTest = (out: string, code: number) => {
   const n = (k: string) => Number(out.match(new RegExp(`^\\s*(\\d+) ${k}$`, 'm'))?.[1] ?? 0)
@@ -278,9 +300,9 @@ export async function runSteps(steps: Step[], c: Ctx, parallel: boolean): Promis
     const t = performance.now()
     const r = await s.run(c).catch((e: Error) => ({ ok: false, note: String(e.message).split('\n')[0]! }))
     const log = path.join(c.dir, `${s.name}.log`)
-    // Logs stay local (gitignored); a failing step keeps its last lines in runs.jsonl, which is committed.
-    const tail = !r.ok && existsSync(log) ? readFileSync(log, 'utf8').split('\n').filter((l) => l.trim()).slice(-15).map((l) => l.slice(0, 200)) : undefined
-    return { name: s.name, ...r, ms: Math.round(performance.now() - t), ...(tail && { tail }) }
+    // Logs stay local (gitignored); a failing step keeps its last lines, redacted, in runs.jsonl, which is committed.
+    const tail = !r.ok && existsSync(log) ? readFileSync(log, 'utf8').split('\n').filter((l) => l.trim()).slice(-15).map((l) => redact(l).slice(0, 200)) : undefined
+    return { name: s.name, ok: r.ok, note: redact(r.note), ms: Math.round(performance.now() - t), ...(tail && { tail }) }
   }
   if (parallel) return Promise.all(steps.map(one))
   const out: StepResult[] = []
@@ -313,6 +335,7 @@ export const CASES: { id: string; name: string; passWhen: string; steps: string;
   { id: 'G9', name: 'Full test suites', passWhen: "`bun test` in api (on the loop's own database), web and `tools/loop`: 0 failures", steps: '`test-api`, `test-web`, `test-loop`', source: 'Baseline', judge: (r) => ok(r, 'test-api', 'test-web', 'test-loop') },
   { id: 'G10', name: 'PR body survives the gate', passWhen: 'The PR body holds the current loop section between the markers; n/a before the PR exists', steps: '`pr-body`', source: 'N1: no-mistakes overwrote the body', judge: (r) => r.prBody },
   { id: 'G11', name: "The item's done-when", passWhen: "The plan's done-when command exits 0 (and does not reach production); n/a without a plan", steps: '`done-when`', source: 'Review round 2: done-when was never run', judge: (r, s) => (s.plan?.doneWhen ? ok(r, 'done-when') : null) },
+  { id: 'G12', name: 'Promised flows exist', passWhen: "Every flow name in the plan's `evalCases` is an e2e flow that ran and passed; n/a when the plan promises none", steps: '`e2e`', source: 'Review round 3: promised flows were never checked', judge: (r, s) => (s.plan?.evalCases.length ? s.plan.evalCases.every((name) => r.flows.some((f) => f.name === name && f.ok)) : null) },
 ]
 
 export const judge = (r: Round, s: State) => Object.fromEntries(CASES.map((k) => [k.id, k.judge(r, s)]))

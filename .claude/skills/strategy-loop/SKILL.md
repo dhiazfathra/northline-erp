@@ -32,13 +32,13 @@ prints the part you need. Run `bun loop evals` and `bun loop nm` in the backgrou
 - When the plan stops matching reality, pipe the revised plan into `bun loop plan - --reason "<what reality showed>"`.
   A changed done-when or a dropped eval flow is marked ⚠ in the changelog and the PR body for the owner.
 - Production, secrets and outside parties are owner steps: put them in the plan's `ownerSteps`, never run them. While
-  an item is in progress a hook blocks Neon and Cloudflare tools, wrangler, deploy commands, `.env` files and edits to
-  `docs/strategy/loop/` (only `bun loop` writes there).
+  an item is in progress a hook blocks Neon and Cloudflare tools, wrangler, deploy commands, `.env` files, writes to
+  `docs/strategy/loop/` by anything but `bun loop`, and the owner's levers (`bun loop budget`, `phase0`, `init`).
 
 ## Stop and ask the owner
 
 Any `bun loop` command that exits 3 prints `STOP: <reason>`. Stop there and report the reason with the evidence path.
 The CLI stops on: the same case failing in two evals runs, the same step failing three check runs, Accurate reports
-changing, a no-mistakes finding or branch state only the owner may resolve, the item's time budget (the owner extends
-it with `bun loop budget`), an item that is owner-only, blocked or has no done-when, and an unmerged earlier PR. Also
-stop when a step needs a decision only the owner can make.
+changing, a no-mistakes finding, outcome or branch state only the owner may resolve, the item's time budget (the
+owner extends it from a terminal), an item that is owner-only, blocked or has no done-when, and an unmerged earlier
+PR. Also stop when a step needs a decision only the owner can make.

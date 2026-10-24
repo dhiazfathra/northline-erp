@@ -22,6 +22,7 @@ export type State = {
   nm: string | null
   nmSha: string | null // the code commit no-mistakes last passed; the gate exit wants it to be the current one
   pushedAt: string | null // when no-mistakes last pushed; a CodeRabbit limit notice older than this is stale
+  published?: boolean // the done stage pushed the retro and final state; the guard stands down
   baseline: Record<string, number>
   phase0: { id: string; text: string; done: boolean }[]
   items: Item[]
@@ -36,6 +37,7 @@ export type Run = {
   item: string
   stage: string
   kind: string
+  plan?: number // plan version the run was judged under
   sha: string
   ok: boolean
   ms: number

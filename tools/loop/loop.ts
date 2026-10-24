@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync
 import path from 'node:path'
 import { blob, CASES, changedSinceMain, claimMigration, ctx, judge, killChildren, LOOP_FILES, type Metrics, renderGolden, runSteps, STACK, STATIC, TESTS } from './checks'
 import { adoptPr, crStatus, headline, replyResolve, restoreBody, TERMINAL, threadBody, verifyBody } from './gh'
-import { activeWorktree } from './guard'
+import { activeWorktree, blocked } from './guard'
 import {
   branch, changelog, codeSha, evidenceDir, LOOP, load, newRunId, now, planDiff, record, renderEvidence, ROOT, runDir, runs, save, sh,
   type Plan, type Run, type Stage, STAGES, type State, type StepResult, Stop,
@@ -13,7 +13,32 @@ import {
 import { drive } from './nm'
 
 const SKILL = path.join(ROOT, '.claude/skills/strategy-loop')
-const NM_LOCK = path.join(LOOP, '.nm.lock') // gitignored; present while `bun loop nm` owns the branch
+// Gitignored pid files: NM_LOCK while `bun loop nm` owns the branch, RUN_LOCK while check, evals or e2e hold the test
+// databases and ports. A lock whose process is gone (killed session) is stale and ignored.
+const NM_LOCK = path.join(LOOP, '.nm.lock')
+const RUN_LOCK = path.join(LOOP, '.run.lock')
+const held = (f: string) => {
+  if (!existsSync(f)) return false
+  try {
+    process.kill(Number(readFileSync(f, 'utf8')), 0)
+    return true
+  } catch {
+    return false
+  }
+}
+function locked<T>(f: string, what: string, fn: () => T): T {
+  if (held(f)) throw new Error(`${what} is already running (pid ${readFileSync(f, 'utf8')}); wait for it`)
+  writeFileSync(f, String(process.pid))
+  try {
+    const r = fn()
+    if (r instanceof Promise) return r.finally(() => rmSync(f, { force: true })) as T
+    rmSync(f, { force: true })
+    return r
+  } catch (e) {
+    rmSync(f, { force: true })
+    throw e
+  }
+}
 const [cmd = 'status', ...args] = process.argv.slice(2)
 const flag = (k: string) => { const i = args.indexOf(`--${k}`); return i < 0 ? undefined : args.splice(i, 2)[1] }
 const usage = (u: string): never => { console.error(`usage: bun loop ${u}`); process.exit(2) }
@@ -21,7 +46,7 @@ const usage = (u: string): never => { console.error(`usage: bun loop ${u}`); pro
 const here = (s: State) => !!s.item && branch() === s.branch
 // Evidence outside an item (e.g. checking the loop's own branch) is filed under the branch name.
 const label = (s: State) => (here(s) ? s.item! : branch().replace(/^feat\//, '').replace(/[^\w.-]+/g, '-'))
-const NM_PASS = ['checks-passed', 'passed', 'passed-with-skips', 'passed-with-override']
+const NM_PASS = ['checks-passed', 'passed'] // nm.ts turns overrides and skips into a stop for the owner
 
 // ── backlog rows from docs/strategy/README.md ──
 type Row = { id: string; name: string; ambiguity: number; score: number; steps: string; done: string; horizon: string }
@@ -48,22 +73,30 @@ const elsewhere = () => {
 
 // ── exit checks, shared by `next` (printed) and `advance` (enforced) ──
 type Check = [string, (s: State) => boolean]
+/** The latest run of a kind passed on this code and, for evals, under this plan version (done-when, promised flows). */
 const lastOk = (s: State, kind: string) => {
   const r = runs(s.item!).findLast((x) => x.kind === kind)
-  return !!r?.ok && r.sha === codeSha() && !r.sha.endsWith('+dirty')
+  return !!r?.ok && r.sha === codeSha() && !r.sha.endsWith('+dirty') && (kind !== 'evals' || r.plan === s.plan?.version)
 }
-/** No code commit is missing from origin/<branch> (fetched now; the branch has no upstream, by design). */
+/** HEAD and origin/<branch> hold the same code: nothing unpushed, nothing pushed by someone else (fetched now). */
 const pushed = (s: State) => {
   sh(['git', 'fetch', '-q', 'origin', s.branch!])
-  const remote = sh(['git', 'rev-parse', '--verify', '-q', `origin/${s.branch}`])
-  return remote.ok && !sh(['git', 'log', `origin/${s.branch}..HEAD`, '--format=%h', '--', '.', ':(exclude)docs/strategy/loop']).out
+  const remote = `origin/${s.branch}`
+  return (
+    sh(['git', 'rev-parse', '--verify', '-q', remote]).ok &&
+    sh(['git', 'merge-base', '--is-ancestor', remote, 'HEAD']).ok &&
+    !sh(['git', 'log', `${remote}..HEAD`, '--format=%h', '--', '.', ':(exclude)docs/strategy/loop']).out
+  )
 }
+/** done-when must fail before the work: a command that already passes proves nothing. */
+const redFirst = (s: State) => !!s.plan?.doneWhen && !blocked('Bash', { command: s.plan.doneWhen }) && Bun.spawnSync(['bash', '-c', s.plan.doneWhen], { cwd: ROOT, stdout: 'ignore', stderr: 'ignore', timeout: 300_000 }).exitCode !== 0
 const archReport = (s: State) => path.join(ROOT, 'docs/reports/architecture', `${s.item}.html`)
 const retroFile = (s: State) => readdirSync(path.join(ROOT, 'docs/retro')).find((f) => f.endsWith(`-${s.item}.md`))
 const EVALS: Check = ['bun loop evals passed pass^2 on the current commit', (s) => lastOk(s, 'evals')]
 const EXIT: Record<Stage, Check[]> = {
   plan: [
     ['plan set with a done-when command', (s) => !!s.plan?.doneWhen],
+    ['done-when fails now, before the work (red first), and stays off production', redFirst],
     ['every slice names its files', (s) => !!s.plan?.slices.length && s.plan.slices.every((x) => x.files.length)],
   ],
   build: [
@@ -95,9 +128,10 @@ const STEPS: Record<Stage, (s: State) => string[]> = {
     '`bun loop item` prints the backlog row (steps, done when); read nothing else of docs/strategy/README.md.',
     'Pipe the plan as JSON into `bun loop plan - --reason "initial plan"` (docs/strategy/loop/ is written only by bun loop):',
     '  {"title":"feat(<scope>): <item> <summary>","doneWhen":"<command that exits 0 when the item is done>",',
-    '   "slices":[{"id":"S1","title":"…","files":["…"]}],"evalCases":["[G3] <form> round trip", …],',
+    '   "slices":[{"id":"S1","title":"…","files":["…"]}],"evalCases":["<exact e2e flow name>", …],',
     '   "ownerSteps":["<anything that needs production, secrets or an outside party>"]}',
-    'done-when runs in every evals round after the stack stops, so it must work against the repo alone.',
+    'done-when must fail now (advance checks it, red first) and runs in every evals round after the stack stops, so it',
+    '  works against the repo alone. Each evalCases entry is the exact name of a flow that must pass (G12).',
     'The loop never runs owner steps; the PR body lists them for the owner.',
   ],
   build: (s) => {
@@ -149,7 +183,7 @@ const STEPS: Record<Stage, (s: State) => string[]> = {
 const budget = (s: State) => {
   const h = s.startedAt ? (Date.now() - Date.parse(s.startedAt)) / 3_600_000 : 0
   if (here(s) && s.stage !== 'done' && h > s.budgetHours)
-    throw new Stop(`${s.item} has run ${h.toFixed(1)} h, over its ${s.budgetHours} h budget (the owner can run \`bun loop budget <hours> --reason\`)`)
+    throw new Stop(`${s.item} has run ${h.toFixed(1)} h, over its ${s.budgetHours} h budget (an owner decision: they run \`bun loop budget\` in a terminal)`)
 }
 
 // ── commands ──
@@ -195,7 +229,7 @@ const item = (s: State, id: string) => {
 // pruning, so files from intermediate runs never reach history. Refuses while no-mistakes owns the branch.
 const STATE_FILES = ['state.json', 'STATE.md', 'CHANGELOG.md'].map((f) => `docs/strategy/loop/${f}`)
 const commit = (msg: string, evidence = false) => {
-  if (existsSync(NM_LOCK) && cmd !== 'nm') throw new Error('bun loop nm is running and owns the branch; wait for it')
+  if (held(NM_LOCK) && cmd !== 'nm') throw new Error('bun loop nm is running and owns the branch; wait for it')
   const paths = evidence ? ['docs/strategy/loop'] : STATE_FILES.filter((f) => existsSync(path.join(ROOT, f)))
   const add = sh(['git', 'add', '--', ...paths])
   if (!add.ok) throw new Error(`git add: ${add.err}`)
@@ -204,9 +238,14 @@ const commit = (msg: string, evidence = false) => {
   if (!c.ok) throw new Error(`git commit: ${c.err}`)
 }
 
-function start(s: State, id?: string) {
+function start(local: State, id?: string) {
   const busy = elsewhere()
   if (busy) throw new Stop(busy)
+  // Decide from origin/main's state, which the new worktree is cut from, not from a possibly unpulled checkout.
+  const f = sh(['git', 'fetch', '-q', 'origin', 'main'])
+  if (!f.ok) throw new Error(`git fetch origin main: ${f.err}`)
+  const remote = sh(['git', 'show', 'origin/main:docs/strategy/loop/state.json'])
+  const s: State = remote.ok ? JSON.parse(remote.out) : local
   const merged = (n: number | null) => !!n && sh(['gh', 'pr', 'view', String(n), '--json', 'state', '--jq', '.state']).out === 'MERGED'
   // The final `done` commit may not have been pushed, so main can still say `retro`: a merged PR settles it.
   if (s.item && s.stage !== 'done' && !merged(s.pr)) throw new Stop(`${s.item} is still at stage ${s.stage}; finish it first`)
@@ -225,10 +264,8 @@ function start(s: State, id?: string) {
   const br = `feat/${row.id.toLowerCase()}-${slug}`
   const dir = path.resolve(ROOT, '..', `northline-${row.id.toLowerCase()}`)
   // --no-track: an upstream of origin/main would make every pushed-check compare against main.
-  for (const c of [['git', 'fetch', '-q', 'origin', 'main'], ['git', 'worktree', 'add', '-q', '--no-track', '-b', br, dir, 'origin/main']]) {
-    const r = sh(c)
-    if (!r.ok) throw new Error(`${c.join(' ')}: ${r.err}`)
-  }
+  const w = sh(['git', 'worktree', 'add', '-q', '--no-track', '-b', br, dir, 'origin/main'])
+  if (!w.ok) throw new Error(`git worktree add ${br}: ${w.err}`)
   const r = sh(['bun', import.meta.path, 'init', row.id, br, waiting.map((i) => i.id).join(',')], dir, { LOOP_ROOT: dir })
   if (!r.ok) throw new Error(r.err || r.out)
   console.log(`${row.id} started in ${dir} on ${br}. There: bun install, then bun loop next`)
@@ -236,7 +273,7 @@ function start(s: State, id?: string) {
 
 function init(s: State, id: string, br: string, merged: string) {
   for (const m of merged.split(',').filter(Boolean)) item(s, m).status = 'merged'
-  Object.assign(s, { item: id, stage: 'plan', branch: br, pr: null, nm: null, nmSha: null, pushedAt: null, plan: null, arch: [], startedAt: new Date().toISOString() })
+  Object.assign(s, { item: id, stage: 'plan', branch: br, pr: null, nm: null, nmSha: null, pushedAt: null, published: false, plan: null, arch: [], startedAt: new Date().toISOString() })
   item(s, id).status = 'in progress'
   save(s)
   commit(`chore(loop): start ${id}`)
@@ -293,7 +330,7 @@ async function check(s: State) {
   // Static steps first, then the suites, so typecheck load never slows a test hook into a timeout.
   const steps = [...(await runSteps(STATIC, c, true)), ...(await runSteps(TESTS, c, true))]
   printSteps(steps, c.dir)
-  const run: Run = { id, item: it, stage: s.stage ?? '-', kind: 'check', sha, ok: steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, metrics: c.metrics }
+  const run: Run = { id, item: it, stage: s.stage ?? '-', kind: 'check', plan: s.plan?.version, sha, ok: steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, metrics: c.metrics }
   record(run)
   console.log(`check ${run.ok ? 'pass' : 'FAIL'} on ${sha}${sha.endsWith('+dirty') ? ' (uncommitted code: commit, then check again)' : ''}`)
   stops(it, 'check', steps)
@@ -335,7 +372,7 @@ async function evals(s: State, once: boolean, media?: string) {
   console.log('── cases')
   for (const k of CASES) console.log(`${k.id.padEnd(4)} ${cases[k.id]!.map((v) => (v === null ? 'n/a ' : v ? 'pass' : 'FAIL')).join(' ')}  ${pass(cases[k.id]!) ? '✓' : '✗'}  ${k.name}`)
   const kind = once ? 'evals-once' : 'evals'
-  const run: Run = { id, item: it, stage: s.stage ?? '-', kind, sha, ok: Object.values(cases).every(pass) && steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, cases, metrics, flows }
+  const run: Run = { id, item: it, stage: s.stage ?? '-', kind, plan: s.plan?.version, sha, ok: Object.values(cases).every(pass) && steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, cases, metrics, flows }
   const prev = runs(it).findLast((r) => r.kind === 'evals')
   record(run)
   console.log(`evals ${run.ok ? 'pass' : 'FAIL'}${once ? ' (one run: does not satisfy advance)' : ' pass^2'} on ${sha} · evidence ${path.relative(ROOT, path.join(evidenceDir(it), 'README.md'))}`)
@@ -355,7 +392,7 @@ async function e2eOnly(s: State, media?: string) {
   const steps = await runSteps(STACK, c, false)
   printSteps(steps, c.dir)
   for (const f of c.flows.filter((x) => !x.ok)) console.log(`      FAIL ${f.name}: ${f.fail}${f.shot ? ` → ${path.relative(ROOT, path.join(c.dir, f.file, f.shot))}` : ''}`)
-  const run: Run = { id, item: it, stage: s.stage ?? '-', kind: 'e2e', sha, ok: steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, flows: c.flows, metrics: c.metrics }
+  const run: Run = { id, item: it, stage: s.stage ?? '-', kind: 'e2e', plan: s.plan?.version, sha, ok: steps.every((x) => x.ok), ms: Math.round(performance.now() - t), steps, flows: c.flows, metrics: c.metrics }
   record(run)
   if (!run.ok) process.exit(1)
 }
@@ -484,25 +521,21 @@ async function main() {
       return commit(`chore(loop): ${s.item} ${x!.id} ${x!.status}`)
     }
     case 'migration': if (!args[0]) usage('migration <name>'); return console.log(claimMigration(args[0]!))
-    case 'check': return check(s)
-    case 'evals': { const media = flag('media'); return evals(s, args.includes('--once'), media) }
-    case 'e2e': return e2eOnly(s, flag('media'))
+    // One run at a time: check, evals and e2e share the test databases and the port range.
+    case 'check': return locked(RUN_LOCK, 'a check, evals or e2e run', () => check(s))
+    case 'evals': { const media = flag('media'); return locked(RUN_LOCK, 'a check, evals or e2e run', () => evals(s, args.includes('--once'), media)) }
+    case 'e2e': { const media = flag('media'); return locked(RUN_LOCK, 'a check, evals or e2e run', () => e2eOnly(s, media)) }
     case 'baseline': return baseline(s)
     case 'nm': {
       need()
-      if (existsSync(NM_LOCK)) throw new Error(`bun loop nm already running (${NM_LOCK})`)
       const intent = sh(['bun', import.meta.path, 'prompt', 'intent']).out
-      writeFileSync(NM_LOCK, String(process.pid))
-      let d: ReturnType<typeof drive>
-      try {
-        d = drive(intent, (l) => console.log(l))
-      } finally {
-        rmSync(NM_LOCK, { force: true })
-      }
+      // Taken before the push: CodeRabbit edits its limit notice right after the push, long before the drive returns.
+      const t0 = new Date().toISOString()
+      const d = locked(NM_LOCK, 'bun loop nm', () => drive(intent, (l) => console.log(l)))
       if (d.kind === 'stop') throw new Stop(d.why)
       // Re-read: `bun loop pr` or `cr` may have written state while the pipeline ran; patch only what nm owns.
       const fresh = load()
-      Object.assign(fresh, { nm: d.kind === 'done' || d.kind === 'failed' ? d.outcome : null, nmSha: codeSha(), pushedAt: d.kind === 'done' ? new Date().toISOString() : fresh.pushedAt })
+      Object.assign(fresh, { nm: d.kind === 'done' || d.kind === 'failed' ? d.outcome : null, nmSha: codeSha(), pushedAt: d.kind === 'done' ? t0 : fresh.pushedAt })
       save(fresh)
       commit(`chore(loop): ${fresh.item} no-mistakes ${fresh.nm}`)
       console.log(`no-mistakes ${fresh.nm} on ${fresh.nmSha}${d.kind === 'failed' ? ': read `no-mistakes axi status`, fix, commit, run `bun loop nm` again' : ''}`)
@@ -510,10 +543,12 @@ async function main() {
     }
     case 'pr': {
       need()
-      if (existsSync(NM_LOCK)) throw new Error('bun loop nm is still running; adopt the PR after it finishes')
+      if (held(NM_LOCK)) throw new Error('bun loop nm is still running; adopt the PR after it finishes')
       const n = adoptPr(s)
+      // In the done stage this is the last step: the retro and final state are out, so the guard stands down.
+      if (s.stage === 'done') s.published = true
       save(s)
-      commit(`chore(loop): ${s.item} PR #${n}`)
+      commit(`chore(loop): ${s.item} PR #${n}${s.published ? ' (published)' : ''}`)
       return console.log(`PR #${n}`)
     }
     case 'pr-body': {

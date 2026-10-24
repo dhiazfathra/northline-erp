@@ -41,35 +41,42 @@ independent review of that version found 24 problems, 14 of them high; the decis
   version and appends a structural diff (slices added, removed, retitled, re-filed or reordered; done-when; promised
   eval flows; owner steps) to `docs/strategy/loop/CHANGELOG.md`. A changed done-when or a dropped eval flow is marked ⚠
   and repeated in the PR body. Slice progress is not a plan change and is not logged. The owner's levers
-  (`bun loop budget`, `bun loop phase0`) are logged the same way.
-- **Done-when is executed.** The plan's done-when command runs in every evals round as case G11, after the e2e stack
-  stops, and fails if it would reach production.
+  (`bun loop budget`, `bun loop phase0`) are logged the same way, and the guard keeps the agent from running them.
+- **Done-when is executed, and so are the promises.** Leaving the plan stage requires the done-when command to fail
+  (red first: a command that already passes proves nothing). It then runs in every evals round as case G11, after the
+  e2e stack stops, and fails if it would reach production. G12 requires every flow name the plan promised to have run
+  and passed. An evals run only counts under the plan version it ran with.
 - **Hard limits are tools.**
   - `bun loop migration <name>` creates the next migration and registers it in `db.ts`; the `migrations` check
     fails on a duplicate number or an unregistered file.
-  - `bun loop check` runs typecheck (api, web, `tools/loop`; the API declaration build goes to a scratch dir, never
-    over the tracked `apps/api/types`), oxlint against its baseline, the api, web and loop test suites (api on the
-    loop's own database), the migration registry, the `mock()` count, the zero-diff count, the Accurate-report diff
-    and the state check. Every step has a timeout, and an interrupted run kills the servers it started. CI runs the
-    same command on every push and PR.
-  - A PreToolUse hook (`tools/loop/guard.ts`) acts while a worktree is on an item's branch with the item not done. It
-    blocks Neon and Cloudflare MCP tools and the neon, neonctl and wrangler CLIs through any wrapper (`env`,
-    `bunx`/`npx`, `pnpm dlx`, `bun x`, `bash -c`, paths). It also blocks `NEON_*`, `neon.tech`, `.env` files,
-    `deploy:prod` and `switch:prod`, plus edits to `docs/strategy/loop/`, the project settings and the guard itself.
-    It fails closed. It is a tripwire, not a sandbox: loop sessions should also run without production credentials.
-    The e2e database script refuses any host but localhost.
+  - `bun loop check` runs typecheck (api, web, `tools/loop`). The API declaration build goes to a scratch dir and is
+    compared with the tracked `apps/api/types`, ignoring union order, so web is never checked against stale API types
+    and no check rewrites tracked files. It also runs oxlint against its baseline, the api, web and loop test suites
+    (api on the loop's own database), the migration registry, the `mock()` count, the zero-diff count, the
+    Accurate-report diff and the state check. Every step has a timeout, an interrupted run kills the servers it
+    started, and check, evals and e2e take turns through a lock because they share the test databases and ports. CI
+    runs the same command on every push and PR.
+  - A PreToolUse hook (`tools/loop/guard.ts`) acts while a worktree is on an item's branch, from the plan stage until
+    the done stage has published. It blocks Neon and Cloudflare MCP tools and the neon, neonctl and wrangler CLIs
+    through any wrapper (`env`, `bunx`/`npx`, `pnpm dlx`, `bun x`, `bash -c`, `&`, subshells, `if`/`do` bodies,
+    paths). It also blocks `NEON_*`, `neon.tech`, `.env` files (Bash, Read, Grep), `deploy:prod` and `switch:prod`. It
+    blocks any write to the loop state, the project settings or the guard (Edit, Write, Bash or MCP) except through
+    `bun loop`, and the owner's levers `budget`, `phase0` and `init`. It fails closed. It is a tripwire, not a sandbox:
+    loop sessions should also run without production credentials. The e2e database script refuses any host but
+    localhost.
 - **Evals first, pass^2 where it matters.** `bun loop evals` runs the static steps once (they cannot flake) and the
   test suites and the e2e stack twice, each on a fresh local database with the API and web on free ports. Cases
-  G1–G11 are judged from step results. `[G3]` round-trip and `[G6]` picker flows are counted, and their counts, the
+  G1–G12 are judged from step results. `[G3]` round-trip and `[G6]` picker flows are counted, and their counts, the
   `mock()` count, oxlint warnings and the zero-diff count move only through `bun loop baseline`, which ratchets them
   in the improving direction.
 - **Evidence is a by-product.** Every check, e2e and evals run appends to `evidence/<item>/runs.jsonl` and writes a
   log per step. E2e runs keep a screenshot and a video for each failed flow and each flow tagged `[<item>]` (at most
   20 a run), plus `results.json`. The rendered `evidence/<item>/README.md` shows runs, the pass^2 table, the last
-  lines of every failing step, and the media. The PR body links it and inlines up to four screenshots. In git: the
-  README, runs.jsonl, results.json and screenshots, committed on stage moves only. Local only (gitignored): full logs,
-  which the repo is public for, and videos, which are large. The latest run of each kind keeps its files, older
-  failing runs keep their logs, and earlier evals rounds keep media only for failures.
+  lines of every failing step (with credentials and token-shaped strings redacted), and the media. The PR body links
+  it and inlines up to four screenshots. In git: the README, runs.jsonl, results.json and screenshots, committed on
+  stage moves only. Local only (gitignored): full logs, because the repo is public, and videos, because they are
+  large. The latest run and the latest passing run of each kind keep their files. Older failing runs keep their
+  logs, and earlier evals rounds keep media only for failures.
 - **One subagent.** The `e2e-verifier` agent (`.claude/agents/e2e-verifier.md`) writes flows under `tools/e2e/`
   and reports failures without seeing the diff; the main agent fixes the app. In N1 it was the only orchestration
   with a measured payoff (5 bugs that unit tests missed).
@@ -81,9 +88,11 @@ independent review of that version found 24 problems, 14 of them high; the decis
   before the gate means no-mistakes and CodeRabbit review the final diff once.
 - **The gate is driven, not narrated.** `bun loop nm` drives `no-mistakes axi` without `--yes`: auto-fix findings
   go back to the pipeline, no-op findings are approved, and ask-user, protected-path or unvalidated-work findings
-  stop the loop for the owner. Of no-mistakes' branch-custody actions it runs only `sync`; it reattaches to a live
-  run and leaves recovery or adoption to the owner. While it runs, a lock keeps other `bun loop` commands from
-  committing on the branch it owns. no-mistakes pushes and opens the PR, so CodeRabbit's first review sees the gated
+  stop the loop for the owner, as does an outcome that passed with an override or with skips. Of no-mistakes'
+  branch-custody actions it runs only `sync`, after a failed run too, and stops if the sync fails. It reattaches to a
+  live run and leaves recovery or adoption to the owner. While it runs, a lock (released if its process dies) keeps
+  other `bun loop` commands from committing on the branch it owns. "Pushed" means HEAD and `origin/<branch>` hold the
+  same code, with nothing missing on either side. no-mistakes pushes and opens the PR, so CodeRabbit's first review sees the gated
   head. `bun loop pr` adopts the PR and puts the loop section, pinned to the pushed commit, above the no-mistakes
   text. `bun loop cr` lists unresolved threads and review-body findings one line each and prints a thread's fix on
   demand. It also replies and resolves, and waits (30 minutes at most) until CodeRabbit approves, reviews the head,
@@ -98,10 +107,13 @@ independent review of that version found 24 problems, 14 of them high; the decis
 - **Stop and ask the owner** (CLI exit 3): the same case fails in two evals runs, the same step fails in three check
   runs, Accurate reports change, no-mistakes needs the owner, the item passes its time budget (12 h by default; the
   owner extends it with `bun loop budget`), or `start` refuses an item.
-- **Reviewed twice before it runs.** An independent review of each version fed this ADR. Round 1, on the prose
-  design, had 24 findings. Round 2, on the tooling, had 20, among them a tracked-file rewrite, an upstream that made
-  "pushed" unreachable, a never-run done-when, guard bypasses and evidence leaking logs into a public repo. Each was
-  fixed, or declined below with a reason.
+- **Reviewed three times before it runs.** An independent review of each version fed this ADR. Round 1, on the prose
+  design, had 24 findings (14 high). Round 2, on the tooling, had 20 (7 high), among them a tracked-file rewrite, an
+  upstream that made "pushed" unreachable, a never-run done-when, guard bypasses and logs leaking into a public
+  repo. Round 3 had 15 (1 high: a rate-limit notice judged against the wrong push time). Each was fixed, or declined
+  below with a reason. The loop's own pass^2 evals also caught real problems: a test hook timing out on a fresh
+  database, the API suite hanging when the host disk filled and stopped the Docker VM, and the evidence prune
+  deleting the last green run.
 
 ## Alternatives Considered
 
