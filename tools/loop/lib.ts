@@ -190,7 +190,10 @@ export function runs(item: string): Run[] {
 export function record(run: Run) {
   const dir = evidenceDir(run.item)
   mkdirSync(dir, { recursive: true })
-  appendFileSync(path.join(dir, 'runs.jsonl'), JSON.stringify(run) + '\n')
+  // A torn last line (an interrupted append) gets its newline first, so this record stays whole on a line of its own.
+  const ledger = path.join(dir, 'runs.jsonl')
+  const torn = existsSync(ledger) && !/(^|\n)$/.test(readFileSync(ledger, 'utf8'))
+  appendFileSync(ledger, (torn ? '\n' : '') + JSON.stringify(run) + '\n')
   // Bounded evidence: the latest run of each kind and the latest passing one (the last known good) keep logs and
   // media, older failing runs keep their logs, older passing runs keep only their runs.jsonl line.
   const all = runs(run.item)
