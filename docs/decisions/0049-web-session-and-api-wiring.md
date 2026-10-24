@@ -44,7 +44,8 @@ screen reads `mock()` sample data. It also found two session defects:
   feature switches and default accounts, fixed-asset details plus the Pengeluaran Aset document, and account details.
 - **A form field the API cannot hold is disabled or refused, never dropped.** Examples: opening balance (enter it as
   a journal), currency revaluation at month-end, tax-inclusive prices, payment discounts, invoice discounts without a
-  discount account, edits to quotations and orders (create only), fixed-asset attachments. Each is refused with 409
+  discount account, edits to quotations and orders (create only), fixed-asset attachments,
+  edits to stock adjustments with OUT lines or a non-default offset account, edits to sales receipts with PPh. Each is refused with 409
   or hidden in the form, with a one-line reason.
 
 ## Alternatives Considered
