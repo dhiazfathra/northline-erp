@@ -1,0 +1,5 @@
+{
+  "extends": "../../apps/api/tsconfig.json",
+  "compilerOptions": { "typeRoots": ["../../apps/api/node_modules/@types"] },
+  "include": ["."]
+}

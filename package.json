@@ -13,7 +13,8 @@
     "seed": "bun apps/api/scripts/seed.ts",
     "e2e": "node tools/e2e/n1-flows.mjs",
     "deploy:prod": "bun apps/api/scripts/deploy-prod.ts",
-    "switch:prod": "bun apps/api/scripts/switch-prod.ts"
+    "switch:prod": "bun apps/api/scripts/switch-prod.ts",
+    "loop": "bun tools/loop/loop.ts"
   },
   "devDependencies": {
     "playwright": "1.64.1"
