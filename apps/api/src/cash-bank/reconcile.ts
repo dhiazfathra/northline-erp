@@ -8,8 +8,12 @@ import { DomainError } from '../ledger/deciders'
  */
 export async function reconcileBankEntry(db: Db, r: { bank: string; document: string; statementDate: string; statementDescription: string; by: string; /** day the reconciliation was done (default now) */ reconciledAt?: string }) {
   const [doc] = await db.execute(sql`SELECT bank_no FROM sales_receipts WHERE number = ${r.document}`)
-  if (!doc) throw new DomainError(`Transaksi ${r.document} tidak ditemukan`)
-  if (doc.bank_no !== r.bank) throw new DomainError(`${r.document} bukan transaksi akun ${r.bank}`)
+  // any other document: its journal must post to the bank account (Rekonsiliasi Bank screen, ADR-0049)
+  const banks = doc ? [doc.bank_no] : (await db.execute(sql`SELECT l.account_no FROM journals j JOIN journal_lines l USING (journal_id) WHERE j.number = ${r.document}`)).map(l => l.account_no)
+  if (!banks.length) throw new DomainError(`Transaksi ${r.document} tidak ditemukan`)
+  if (!banks.includes(r.bank)) throw new DomainError(`${r.document} bukan transaksi akun ${r.bank}`)
+  const [dup] = await db.execute(sql`SELECT 1 FROM bank_reconciliations WHERE doc_number = ${r.document}`)
+  if (dup) throw new DomainError(`${r.document} sudah direkonsiliasi`)
   await db.execute(sql`INSERT INTO bank_reconciliations (bank_no, doc_number, statement_date, statement_description, reconciled_by, created_at)
     VALUES (${r.bank}, ${r.document}, ${r.statementDate}, ${r.statementDescription}, ${r.by}, COALESCE(${r.reconciledAt ?? null}::timestamptz, now()))`)
 }

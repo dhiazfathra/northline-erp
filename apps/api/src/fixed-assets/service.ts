@@ -24,6 +24,9 @@ export const fixedAssetInput = z.object({
   expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
   /** Fiscal category (Aset Fiskal), e.g. Gol 1 [Garis Lurus] = 48 months straight line (docs/reports/DifferentIntermDepreciationReport.md). */
   fiscalLifeMonths: z.number().int().positive().optional(),
+  // Aset Tetap form details (migration 0066); salvage in rupiah like the expenditures.
+  location: z.string().default(''), department: z.string().default(''), note: z.string().default(''), tax: z.boolean().default(false),
+  qty: z.number().int().positive().default(1), salvage: z.union([z.number(), z.string()]).default(0).transform(v => Math.round(Number(v) * 100)),
 })
 
 export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedAssetInput>) {
@@ -32,6 +35,7 @@ export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedA
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
     if (done) return done.result as { number: string }
     const cost = a.expenditures.reduce((s, e) => s + e.amount, 0)
+    if (a.salvage < 0 || a.salvage >= cost) throw new DomainError('Nilai sisa harus lebih kecil dari nilai aset')
     const number = a.number ?? await nextNumber(tx, `FAA.${period(a.date)}`)
     // The sandbox's acquisition also consumes the month's Jurnal Umum counter (its first depreciation is JV.yyyy.mm.00002).
     await nextNumber(tx, `JV.${period(a.date)}`)
@@ -42,6 +46,7 @@ export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedA
     })
     await tx.execute(sql`INSERT INTO fixed_assets (number, description, category, date, usage_date, life_months, method, asset_account, accumulated_account, expense_account, cost, journal_id)
       VALUES (${number}, ${a.description}, ${a.category}, ${a.date}, ${a.usageDate ?? a.date}, ${a.lifeMonths}, 'STRAIGHTLINE', ${a.assetAccount}, ${a.accumulatedAccount}, ${a.expenseAccount}, ${cost}, ${journalId})`)
+    await tx.execute(sql`UPDATE fixed_assets SET location = ${a.location}, department = ${a.department}, note = ${a.note}, tax = ${a.tax}, qty = ${a.qty}, salvage = ${a.salvage} WHERE number = ${number}`)
     if (a.fiscalLifeMonths) await tx.execute(sql`UPDATE fixed_assets SET fiscal_life_months = ${a.fiscalLifeMonths} WHERE number = ${number}`)
     for (const [i, e] of a.expenditures.entries())
       await tx.execute(sql`INSERT INTO fixed_asset_expenditures (asset_number, seq, name, date, amount, account) VALUES (${number}, ${i + 1}, ${e.name}, ${e.date}, ${e.amount}, ${e.account})`)
@@ -70,7 +75,7 @@ export async function runPeriodEnd(db: Db | Tx, input: { idempotencyKey: string;
     const date = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10)
     const number = `${BULAN[m - 1]} ${y}`
     await tx.execute(sql`INSERT INTO period_ends (period, number, date) VALUES (${p}, ${number}, ${date})`)
-    const assets = await tx.execute(sql`SELECT a.number, a.cost, a.life_months, to_char(a.usage_date,'YYYY-MM') AS start, a.accumulated_account, a.expense_account,
+    const assets = await tx.execute(sql`SELECT a.number, a.cost - a.salvage AS cost, a.life_months, to_char(a.usage_date,'YYYY-MM') AS start, a.accumulated_account, a.expense_account,
       (SELECT COUNT(*) FROM depreciations d WHERE d.asset_number = a.number) AS done FROM fixed_assets a WHERE a.usage_date <= ${date} ORDER BY a.number`)
     const deps: { asset: string; amount: number; exp: string; acc: string }[] = []
     for (const a of assets) {
@@ -183,6 +188,8 @@ async function removeFixedAsset(tx: Tx, number: string, idempotencyKey: string) 
   const [used] = await tx.execute(sql`SELECT 1 FROM depreciations WHERE asset_number = ${number} UNION ALL SELECT 1 FROM fixed_asset_disposals WHERE asset_number = ${number}
     UNION ALL SELECT 1 FROM fixed_asset_edits WHERE asset_number = ${number} LIMIT 1`)
   if (used) throw new DomainError(`Aset ${number} sudah dipakai transaksi lain`)
+  const [ax] = await tx.execute(sql`SELECT expenditure_number FROM asset_expenditure_lines WHERE asset_number = ${number} LIMIT 1`)
+  if (ax) throw new DomainError(`Aset ${number} dipakai di Pengeluaran Aset ${ax.expenditure_number}`)
   await tx.execute(sql`DELETE FROM fixed_asset_expenditures WHERE asset_number = ${number}`)
   await tx.execute(sql`DELETE FROM fixed_assets WHERE number = ${number}`)
   await handleTx(tx, { type: 'DeleteJournal', idempotencyKey: `${idempotencyKey}:unpost`, journalId: a.journal_id as string })

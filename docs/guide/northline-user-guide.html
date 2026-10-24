@@ -241,14 +241,14 @@ footer p{margin:6px 0}
         <tr><td>Sign-in and sessions</td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
         <tr><td>Trial balance</td><td><span class="st live">Live</span><small>fixed period in this build</small></td><td><span class="st api">API</span><small>any period</small></td></tr>
         <tr><td>Costing method, ageing basis, report style</td><td><span class="st live">Live</span><small>Preferensi</small></td><td><span class="st api">API</span></td></tr>
-        <tr><td><a href="#m-ledger">General ledger and chart of accounts</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
-        <tr><td><a href="#m-sales">Sales</a>, <a href="#m-purchasing">purchasing</a> and <a href="#m-returns">returns</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
-        <tr><td><a href="#m-inventory">Inventory</a> and <a href="#m-jobs">job costing</a></td><td><span class="st prev">Preview</span><small>stock adjustments only</small></td><td><span class="st api">API</span></td></tr>
-        <tr><td><a href="#m-cash">Cash and bank</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span><small>no bank reconciliation</small></td></tr>
-        <tr><td><a href="#m-assets">Fixed assets and depreciation</a></td><td><span class="st prev">Preview</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-ledger">General ledger and chart of accounts</a></td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-sales">Sales</a>, <a href="#m-purchasing">purchasing</a> and <a href="#m-returns">returns</a></td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-inventory">Inventory</a> and <a href="#m-jobs">job costing</a></td><td><span class="st live">Live</span><small>stock adjustments only</small></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-cash">Cash and bank</a></td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
+        <tr><td><a href="#m-assets">Fixed assets and depreciation</a></td><td><span class="st live">Live</span></td><td><span class="st api">API</span></td></tr>
         <tr><td><a href="#m-payroll">Payroll, employee loans, accrued expenses</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span></td></tr>
         <tr><td><a href="#m-contractor">Contractor projects</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span><small>full access</small></td></tr>
-        <tr><td><a href="#reports">Reports</a></td><td><span class="st prev">Preview</span><small>14 sample reports</small></td><td><span class="st api">API</span><small><span data-n="http">187</span> of <span data-n="done">288</span> verified reports</small></td></tr>
+        <tr><td><a href="#reports">Reports</a></td><td><span class="st live">Live</span><small>14 reports; AI panel is a preview</small></td><td><span class="st api">API</span><small><span data-n="http">187</span> of <span data-n="done">288</span> verified reports</small></td></tr>
         <tr><td><a href="#access">Access groups and activity log</a></td><td><span class="st no">Not yet</span></td><td><span class="st api">API</span></td></tr>
         <tr><td>Switching or creating companies</td><td><span class="st prev">Preview</span></td><td><span class="st no">Not yet</span></td></tr>
         <tr><td>Import, printing, export, e-Faktur</td><td><span class="st no">Not yet</span></td><td><span class="st no">Not yet</span></td></tr>
@@ -334,7 +334,7 @@ footer p{margin:6px 0}
   <p class="eyebrow">Modules</p><h2>What each module does</h2>
   <p class="lead">Each module below lists what you can do, the rules Northline enforces (with the exact message you will see, in Indonesian as in Accurate), and what is not covered yet. Field-by-field request bodies are in <a href="#workflows">Step by step</a>.</p>
 
-  <article class="g mod" id="m-ledger"><header><h3>General ledger and chart of accounts</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-ledger"><header><h3>General ledger and chart of accounts</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Buku Besar · Akun Perkiraan · Jurnal Umum · Tutup Buku</p>
     <div class="cols">
       <div><h4>What you can do</h4><ul class="dec">
@@ -355,7 +355,7 @@ footer p{margin:6px 0}
     <p class="mut"><b>Not yet:</b> reactivating a suspended account, or changing an account's type or parent.</p>
   </article>
 
-  <article class="g mod" id="m-sales"><header><h3>Sales and receivables</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-sales"><header><h3>Sales and receivables</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Penjualan · Piutang</p>
     <div class="flow"><span>Penawaran</span><i>→</i><span>Pesanan</span><i>→</i><span>Pengiriman</span><i>→</i><span>Faktur Penjualan</span><i>→</i><span>Penerimaan</span></div>
     <p class="mut" style="font-size:14px">Each step is optional and refers back to the one before it. A down payment (<i>Uang Muka</i>) is applied on an invoice; a return (<i>Retur</i>) and an invoice exchange (<i>Tukar Faktur</i>) refer to invoices.</p>
@@ -378,7 +378,7 @@ footer p{margin:6px 0}
     <p class="mut"><b>Not enforced yet:</b> credit limits, sales approvals, and invoiced quantity against the order or delivery. <b>Not yet:</b> price lists, and setting up salespeople and commission rules.</p>
   </article>
 
-  <article class="g mod" id="m-purchasing"><header><h3>Purchasing and payables</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-purchasing"><header><h3>Purchasing and payables</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Pembelian · Utang</p>
     <div class="cols">
       <div><h4>What you can do</h4><ul class="dec">
@@ -408,7 +408,7 @@ footer p{margin:6px 0}
     </ul>
   </article>
 
-  <article class="g mod" id="m-inventory"><header><h3>Inventory and warehouses</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-inventory"><header><h3>Inventory and warehouses</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Persediaan · Gudang</p>
     <div class="cols">
       <div><h4>What you can do</h4><ul class="dec">
@@ -438,18 +438,19 @@ footer p{margin:6px 0}
     </ul>
   </article>
 
-  <article class="g mod" id="m-cash"><header><h3>Cash and bank</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-cash"><header><h3>Cash and bank</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Kas &amp; Bank · Pembayaran · Penerimaan · Transfer Bank</p>
     <ul class="dec">
       <li>Record payments (<i>Pembayaran</i>) and deposits (<i>Penerimaan</i>) with several lines and a cheque number, and transfers between two cash or bank accounts. Edit or delete them.</li>
       <li>The account must be a cash or bank account: <i>… bukan akun Kas &amp; Bank</i>. A document needs lines: <i>Detail dari transaksi belum diisi!</i></li>
       <li>Transfers need both accounts and an amount: <i>Dari Kas/Bank harus diisi</i>, <i>Ke Kas/Bank harus diisi</i>, <i>Nilai Transfer harus diisi</i>.</li>
       <li>Deposits use the payment privilege (<i>Pembayaran</i>) for now.</li>
-      <li><b>Not yet:</b> bank reconciliation, bank statement import, and foreign-currency bank accounts.</li>
+      <li>Bank reconciliation works in the web app; a document can be reconciled once.</li>
+      <li><b>Not yet:</b> bank statement import, and foreign-currency bank accounts.</li>
     </ul>
   </article>
 
-  <article class="g mod" id="m-assets"><header><h3>Fixed assets and month-end depreciation</h3><span class="st api">API</span><span class="st prev">Preview screens</span></header>
+  <article class="g mod" id="m-assets"><header><h3>Fixed assets and month-end depreciation</h3><span class="st api">API</span><span class="st live">Live screens</span></header>
     <p class="mut">Aset Tetap · Perubahan Aset · Disposisi Aset · Proses Akhir Bulan</p>
     <div class="cols">
       <div><h4>What you can do</h4><ul class="dec">
@@ -616,47 +617,51 @@ POST /api/sales/items
 
 <section id="screens">
   <p class="eyebrow">Web app</p><h2>Screen by screen</h2>
-  <p class="lead">Every screen in the web app, with what it shows and whether it uses your data. Preview screens keep what you type only until you reload the page; nothing reaches your books.</p>
+  <p class="lead">Every screen in the web app, with what it shows and whether it uses your data. Live screens save to your books. The company switcher and the AI panel are still previews: they keep what you type only until you reload the page.</p>
   <div class="grid">
     <article class="g mod"><header><h3>Masuk · Sign in</h3><span class="st live">Live</span></header><p><code>/auth</code></p><ul class="dec">
       <li>Email and password, with a show-password button. Errors: <i>Masukkan email yang valid</i>, <i>Minimal 8 karakter</i>, <i>Email atau kata sandi salah</i>.</li>
       <li><i>Lupa kata sandi?</i> only shows a message; no reset email is sent.</li></ul></article>
-    <article class="g mod"><header><h3>Ringkasan · Overview</h3><span class="st prev">Preview</span></header><p><code>/</code></p><ul class="dec">
+    <article class="g mod"><header><h3>Ringkasan · Overview</h3><span class="st live">Live</span></header><p><code>/</code></p><ul class="dec">
       <li>Quick actions (Quote, Order, Invoice, Purchase request, Purchase order), KPI cards, review cards and tiles for selling, buying and payments.</li>
-      <li>The <b>+</b> button opens <i>Transaksi Baru</i> (New transaction); creating one only shows a confirmation.</li></ul></article>
+      <li>Figures come from your books: revenue, gross profit, overdue receivables, open payables and document counts. The change % shows "—" and the charts are flat for now.</li>
+      <li>The <b>+</b> button opens <i>Transaksi Baru</i> (New transaction), which then opens the full document form. What you typed is not carried over.</li></ul></article>
     <article class="g mod"><header><h3>Pilih perusahaan · Companies</h3><span class="st prev">Preview</span></header><p><code>/workspaces</code> · <code>/workspaces/new</code></p><ul class="dec">
       <li>Company cards, invitations, search, and a form to create a company (name, alias, type of business, industry, headcount, logo).</li>
       <li>Switching or creating a company does not change which books you see.</li></ul></article>
-    <article class="g mod"><header><h3>Akun Perkiraan · Chart of accounts</h3><span class="st prev">Preview</span></header><p><code>/accounts</code> · <code>/accounts/new</code></p><ul class="dec">
+    <article class="g mod"><header><h3>Akun Perkiraan · Chart of accounts</h3><span class="st live">Live</span></header><p><code>/accounts</code> · <code>/accounts/new</code></p><ul class="dec">
       <li>List with search and a type filter; parents first, children indented.</li>
-      <li>Account form: <i>Umum</i> (type, parent, code, name, bank details), <i>Saldo Awal</i> (opening balance), <i>Akses Pengguna</i>, <i>Sub Akun</i>. Save and delete are not connected yet: use the <a href="#m-ledger">ledger commands</a>.</li></ul></article>
-    <article class="g mod"><header><h3>Documents</h3><span class="st prev">Preview</span></header><p><code>/docs/&lt;type&gt;</code>, 14 types</p><ul class="dec">
+      <li>Account form: <i>Umum</i> (type, parent, code, name, bank details), <i>Saldo Awal</i> (opening balance), <i>Akses Pengguna</i>, <i>Sub Akun</i>.</li>
+      <li>List, create, rename and delete save to your books, as do the note, bank details and user access. Code, type and parent cannot change after the account is created. The opening balance input is disabled: enter it as a <i>Jurnal Umum</i> (General Journal).</li></ul></article>
+    <article class="g mod"><header><h3>Documents</h3><span class="st live">Live</span></header><p><code>/docs/&lt;type&gt;</code>, 14 types</p><ul class="dec">
       <li>Jurnal Umum, Pembayaran, Penerimaan, Penawaran Penjualan, Pesanan Penjualan, Uang Muka Penjualan, Faktur Penjualan, Penerimaan Penjualan, Retur Penjualan, Pesanan Pembelian, Faktur Pembelian, Pembayaran Pembelian, Retur Pembelian, Penyesuaian Persediaan.</li>
       <li>Lists with search and, for invoices, <i>Belum Lunas</i>, <i>Terbayar Sebagian</i> and <i>Lunas</i> filters. Forms for item documents, journals and payments, with <i>Simpan</i> (<kbd>Ctrl</kbd>+<kbd>S</kbd>), <i>Cetak</i>, <i>Lampiran</i> and <i>Hapus</i>.</li>
-      <li>Missing fields open <i>Terjadi Permasalahan pada Pemrosesan</i> with one line per field. Saving is not connected yet: use the <a href="#workflows">API</a>.</li></ul></article>
+      <li>Missing fields open <i>Terjadi Permasalahan pada Pemrosesan</i> with one line per field. List, create, edit and delete save to your books.</li>
+      <li>Not yet: editing or deleting <i>Penawaran Penjualan</i>, <i>Pesanan Penjualan</i> and <i>Pesanan Pembelian</i> (create only), prices that include tax, payment discounts, an invoice-level discount, and PPh on sales receipts. Stock adjustments only increase stock.</li>
+      <li>An invoice with a payment cannot be deleted. A journal that belongs to a document is edited from that document, not from <i>Jurnal Umum</i>.</li></ul></article>
     <article class="g mod"><header><h3>Neraca Percobaan · Trial balance</h3><span class="st live">Live</span></header><p><code>/ledger/trial-balance</code></p><ul class="dec">
       <li>Opening balance, movements and closing balance, debit and credit, for every account, with totals and a <i>Neraca seimbang</i> badge when they balance.</li>
       <li>The period is fixed at 1 September to 17 October 2026 in this build. Clicking a row opens a journal-line dialog that does not post anything.</li></ul></article>
     <article class="g mod"><header><h3>Daftar Laporan · Reports</h3><span class="st live">Live</span></header><p><code>/reports</code> · <code>/reports/&lt;id&gt;</code></p><ul class="dec">
       <li>16 categories, search and favourites. The 14 reports in the list show your live data: Neraca and Laba/Rugi (with the previous period beside them), Arus Kas, Saldo Akun, Kas &amp; Bank, sales and purchases by party, outstanding receivables and payables, Nilai Persediaan, Daftar Aset Tetap, Rekonsiliasi PPN and the journal list. <i>Neraca Percobaan</i> opens the trial balance.</li>
-      <li>The viewer has dates, zoom and print. Neraca and Laba/Rugi also take the layout editor (columns, filters, header and footer, paper, fonts, number and date formats, rows); the other reports show Accurate's columns as they are. The branch and currency choices, drill-down and favourites are not applied to the data yet.</li>
+      <li>The viewer has dates, zoom and print. Neraca and Laba/Rugi also take the layout editor (columns, filters, header and footer, paper, fonts, number and date formats, rows); the other reports show Accurate's columns as they are. Favourites and saved layouts are kept per user, and drill-down shows the real journal lines. The branch and currency choices are not applied to the data yet.</li>
       <li>Export to PDF, Excel and CSV is not built yet. Every other report comes through the <a href="#reports">API</a>.</li></ul></article>
     <article class="g mod"><header><h3>Analisa AI · AI analysis</h3><span class="st prev">Preview</span></header><p><code>/reports/&lt;id&gt;?ai=1</code> · <code>/ai/history</code></p><ul class="dec">
       <li>A side panel on a report for questions, and a history of conversations.</li>
       <li>Answers are fixed samples, not analysis of your data.</li></ul></article>
-    <article class="g mod"><header><h3>Preferensi · Preferences</h3><span class="st live">Live</span><span class="st prev">Preview</span></header><p><code>/settings/preferences</code></p><ul class="dec">
+    <article class="g mod"><header><h3>Preferensi · Preferences</h3><span class="st live">Live</span></header><p><code>/settings/preferences</code></p><ul class="dec">
       <li><b>Live:</b> <i>Persediaan</i> (costing method, locked after the first stock movement) and <i>Lainnya</i> (ageing basis and report style), saved at once.</li>
-      <li><b>Preview:</b> <i>Fitur</i> switches and <i>Akun Bawaan</i> (default accounts). The other tabs say they are not available in this version.</li></ul></article>
-    <article class="g mod"><header><h3>Aset Tetap · Fixed assets</h3><span class="st prev">Preview</span></header><p><code>/fixed-assets</code> · <code>/fixed-assets/new</code></p><ul class="dec">
+      <li><b>Live:</b> <i>Fitur</i> switches and <i>Akun Bawaan</i> (default accounts) read and save from your books; the default accounts list is empty until you set it. The other tabs say they are not available in this version.</li></ul></article>
+    <article class="g mod"><header><h3>Aset Tetap · Fixed assets</h3><span class="st live">Live</span></header><p><code>/fixed-assets</code> · <code>/fixed-assets/new</code></p><ul class="dec">
       <li>Asset list, and a form with depreciation method, category, accounts, useful life, expenses, location and attachments.</li>
-      <li>In this build a new asset cannot be saved because the expense picker is empty. Register assets through the <a href="#m-assets">API</a>.</li>
-      <li><i>Pengeluaran Aset</i> (<code>/asset-modules</code>) and <i>Aset per Lokasi</i> (<code>/asset-modules/by-location</code>) are previews reached by address only.</li></ul></article>
-    <article class="g mod"><header><h3>Rekonsiliasi Bank · Bank reconciliation</h3><span class="st prev">Preview</span></header><p><code>/cash-bank/reconciliation</code></p><ul class="dec">
+      <li>List, create, edit and delete save to your books, including location, department, note, tax, quantity and salvage value. Depreciation is straight-line only, on cost minus salvage. Attachments are not available yet. An asset used in a <i>Pengeluaran Aset</i> cannot be deleted.</li>
+      <li><i>Pengeluaran Aset</i> (<code>/asset-modules</code>) saves as <i>Draf</i> with an AX number; there is no approval step, journal or down payment yet. <i>Aset per Lokasi</i> (<code>/asset-modules/by-location</code>) groups assets by branch location; the branch address stays blank until it can be set. Both are reached by address only.</li></ul></article>
+    <article class="g mod"><header><h3>Rekonsiliasi Bank · Bank reconciliation</h3><span class="st live">Live</span></header><p><code>/cash-bank/reconciliation</code></p><ul class="dec">
       <li>Book entries for a bank account, each with <i>Ada di Rekening Koran</i> to mark it as on the bank statement.</li>
-      <li>Matching is not saved, and bank reconciliation is not in the API yet.</li></ul></article>
-    <article class="g mod"><header><h3>Proses Akhir Bulan · Month-end</h3><span class="st prev">Preview</span></header><p><code>/ledger/month-end</code></p><ul class="dec">
-      <li>Shows a planned exchange-rate revaluation run with its journal preview, and a run history.</li>
-      <li>The month-end run that works today is fixed-asset depreciation through the <a href="#m-assets">API</a>; it does not revalue currencies.</li></ul></article>
+      <li>Matching saves to your books. A document can be reconciled once.</li></ul></article>
+    <article class="g mod"><header><h3>Proses Akhir Bulan · Month-end</h3><span class="st live">Live</span></header><p><code>/ledger/month-end</code></p><ul class="dec">
+      <li>Runs fixed-asset depreciation for the month, with a run history.</li>
+      <li>Currency revaluation is not supported yet, so the exchange-rate field is read-only.</li></ul></article>
     <article class="g mod"><header><h3>Other menu entries</h3><span class="st prev">Preview</span></header><p><code>/modules/&lt;name&gt;</code></p><ul class="dec">
       <li>Of the 89 menu entries, 64 open the same placeholder list: users, group access, numbering, print templates, bank transfer, goods receipts, stock opname, every Manufaktur entry, every SmartLink Tax entry, and the SPT and <i>bukti potong</i> reports, among others.</li>
       <li>Customers, vendors, items and taxes show sample rows.</li></ul></article>
@@ -836,7 +841,7 @@ curl -b jar -X POST $BASE/api/auth/logout</code></pre>
   <p class="lead">This is the full list of what Northline does not do yet, so you can plan around it. Nothing on this page has a committed date.</p>
   <div class="grid">
     <div class="g pad"><h3 style="margin:0">Not available yet</h3><ul class="dec">
-      <li><b>Most web screens are previews.</b> Sign-in, the trial balance and the costing, ageing and report-style settings use your data; the other screens show sample data. Everything else reaches your books through the API.</li>
+      <li><b>Two web screens are previews.</b> The company switcher and the AI panel show sample data. Every other screen uses your books, with the limits noted in <a href="#screens">Screen by screen</a>.</li>
       <li>Password reset, and a screen or API for managing users.</li>
       <li><b>Enforcing</b> approval rules, credit limits, access-group time windows and branch admission. They are stored, not applied.</li>
       <li><b>Linked purchasing documents.</b> Requisitions, orders, goods receipts and invoices are separate; see <a href="#m-purchasing">purchasing</a>.</li>
@@ -856,7 +861,7 @@ curl -b jar -X POST $BASE/api/auth/logout</code></pre>
       <li><b><span data-n="soon">some</span> verified reports have no API route of their own yet.</b> Their numbers are computed and tested; they become reachable with the report screens. The <a href="#reports">catalog</a> marks each one.</li>
     </ul></div>
     <div class="g pad"><h3 style="margin:0">Next on the roadmap</h3><ol class="dec">
-      <li>Connect every web screen to your live data, reports first.</li>
+      <li>Connect the company switcher and the AI panel to your live data (every other screen is connected).</li>
       <li>Nightly off-site backups, a monthly restore drill and alerts.</li>
       <li>Parallel Close: run Northline beside your Accurate company for a month, with your written consent and read-only access, and compare every report.</li>
       <li>Import from Accurate's Excel exports: accounts, customers, vendors, items, warehouses and opening balances.</li>
@@ -932,7 +937,7 @@ curl -b jar -X POST $BASE/api/auth/logout</code></pre>
 <section id="faq">
   <p class="eyebrow">Questions</p><h2>FAQ and support</h2>
   <details class="faq g"><summary>Why do some screens show sample data?</summary>
-    <p>The web app is being connected to the API screen by screen. Preview screens show the finished layout with sample data so you can review it; nothing typed there is saved. Sign-in, the trial balance and the report settings already use your books. Everything else works through the API today.</p></details>
+    <p>Only two screens still do: the company switcher (<code>/workspaces</code>) and the AI panel. They show the finished layout with sample data so you can review it; nothing typed there is saved. Every other web screen uses your books.</p></details>
   <details class="faq g"><summary>Will my reports match Accurate?</summary>
     <p><span data-n="done">288</span> of <span data-n="total">291</span> reports are verified with zero difference against reports captured from four Accurate demo companies (manufacturing, retail, trading and contracting). Your own books are the real test. The planned Parallel Close runs Northline beside your Accurate company for a month and compares every report.</p></details>
   <details class="faq g"><summary>Can I import my Accurate data?</summary>

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
-import { assetExpendituresQuery, branches } from '@/api/asset-modules'
+import { assetExpendituresQuery, branchesQuery } from '@/api/asset-modules'
 import { Dropdown } from '@/components/dropdown'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useShell, useT } from '@/lib/shell'
@@ -24,6 +24,7 @@ export function AssetList() {
   const t = useT()
   const nav = useNavigate()
   const { data, isPending } = useQuery(assetExpendituresQuery)
+  const { data: branches = [] } = useQuery(branchesQuery)
   const [status, setStatus] = useState('')
   const [branch, setBranch] = useState('')
   const [draft, setDraft] = useState('')

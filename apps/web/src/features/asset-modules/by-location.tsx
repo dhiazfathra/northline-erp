@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { assetLocationsQuery, branches } from '@/api/asset-modules'
+import { assetLocationsQuery, branchesQuery } from '@/api/asset-modules'
 import { Dropdown } from '@/components/dropdown'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useShell, useT } from '@/lib/shell'
@@ -17,6 +17,7 @@ export function AssetsByLocation() {
   const [branch, setBranch] = useState('Semua')
   const [date, setDate] = useState('2026-10-17')
   const { data, isPending } = useQuery(assetLocationsQuery(branch, date))
+  const { data: branches = [] } = useQuery(branchesQuery)
   const dd = 'h-9 rounded-[18px] px-3 py-[9px] text-[12px]'
 
   return (

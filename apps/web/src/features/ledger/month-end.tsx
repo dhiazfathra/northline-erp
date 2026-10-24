@@ -33,28 +33,26 @@ export function MonthEnd() {
   const run = useRunMonthEnd()
   const { control, register, handleSubmit } = useForm<MonthEndInput>({
     resolver: zodResolver(monthEndSchema),
-    defaultValues: { month: 10, year: 2026, usdRate: '' },
+    defaultValues: { month: 10, year: 2026, usdRate: '0' }, // revaluation unsupported: rate stays 0, so no preview journal
   })
   const [month, year, rate] = useWatch({ control, name: ['month', 'year', 'usdRate'] })
   const r = parseRate(rate)
   const diff = r > 0 ? Math.round(usdBalance * (r - bookRate)) : 0
   const period = `${months[lang][month - 1]} ${year}`
-  const periodId = `${months.id[month - 1]} ${year}`
 
   const doRun = () =>
     run.mutate(
-      { name: `Proses Akhir Bulan ${periodId}`, date: '17/10/2026', note: `JV.2026.10.00024 · Revaluasi kurs US Dollar ${fmt(r)}` },
+      { month, year },
       {
         onSuccess: () => {
           setEarly(false)
-          showToast(t({ id: `Proses akhir bulan ${period} tersimpan · JV.2026.10.00024`, en: `Month-end for ${period} saved · JV.2026.10.00024` }))
+          showToast(t({ id: `Proses akhir bulan ${period} tersimpan`, en: `Month-end for ${period} saved` }))
           setTab('list')
         },
       },
     )
   const save = handleSubmit(
     (v) => {
-      if (Number.isNaN(r) || r <= 0) return setProblems([t({ id: 'Nilai tukar US Dollar tidak valid', en: 'US Dollar rate is invalid' })])
       // Today is 17/10/2026, so October 2026 (or later) has not ended yet.
       if (v.year * 12 + v.month >= 2026 * 12 + 10 && !early) return setEarly(true)
       doRun()
@@ -139,12 +137,18 @@ export function MonthEnd() {
                   <span>US Dollar</span>
                   <input
                     {...register('usdRate')}
+                    readOnly
+                    value=""
+                    placeholder="—"
                     inputMode="decimal"
                     aria-label={t({ id: 'Nilai Tukar US Dollar', en: 'US Dollar exchange rate' })}
                     className="box-border w-full rounded-[10px] border border-[rgba(var(--fg),.18)] bg-[rgba(var(--fg),.06)] px-2.5 py-[7px] text-right text-[13px] text-(--ink) tabular-nums outline-none"
                   />
                 </div>
               </div>
+              <span className="max-w-[520px] text-xs opacity-75">
+                {t({ id: 'Revaluasi kurs belum didukung: proses akhir bulan hanya membukukan penyusutan aset tetap.', en: 'Exchange revaluation is not supported yet: month-end only posts fixed-asset depreciation.' })}
+              </span>
               {early && (
                 <div role="alertdialog" aria-label={t({ id: 'Konfirmasi', en: 'Confirm' })} className="flex max-w-[520px] flex-col gap-2.5 rounded-2xl border border-[#f59e0b] bg-[rgba(245,158,11,.1)] px-4 py-3.5 text-[13px]">
                   <span className="flex items-start gap-2">

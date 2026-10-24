@@ -1,4 +1,5 @@
 import * as ML from './master/lists'
+import { webDocRoutes } from './web/docs'
 import { createCashDocument, createExpenseAccrual, deleteCashDocument, deleteExpenseAccrual, editCashDocument, editExpenseAccrual } from './cash-bank/service'
 import * as CB from './reports/cash-bank'
 import { createBankTransfer, deleteBankTransfer, editBankTransfer } from './cash-bank/transfers'
@@ -14,7 +15,11 @@ import type { Db } from './db'
 import { authRoutes, requireSession, type AuthEnv } from './auth'
 import { serveSpa } from './spa'
 import { requirePrivilege } from './route-privileges'
+import { fixedAssetRoutes } from './web/fixed-assets'
+import { ledgerWebRoutes } from './web/ledger'
 import { openApiSpec } from './openapi'
+import { webReportRoutes } from './web/reports'
+import { webOverviewRoutes } from './web/overview'
 import { Scalar } from '@scalar/hono-api-reference'
 import { withActor } from './activity/log'
 import { auditList, loadActivity } from './reports/activity-log'
@@ -74,6 +79,7 @@ export function createApp(db: Db) {
     .use('*', (c, next) => withActor({ userId: c.get('userId'), ip: clientIp(c) }, next))
     // every route needs its Akses Grup privilege (ADR-0040; table in route-privileges.ts)
     .use('*', requirePrivilege(db))
+    .route('/fixed-assets', fixedAssetRoutes(db))
     .get('/me', c => c.json({ userId: c.get('userId') }))
     .post('/ledger/commands', async c => {
       // handle() owns parsing (amounts → cents); parsing here too would convert twice
@@ -377,6 +383,11 @@ export function createApp(db: Db) {
   const keyed = z.object({ idempotencyKey: z.string().min(8) }).passthrough()
   const key = async (c: Context) => keyed.parse(await c.req.json()).idempotencyKey
   const body = async (c: Context) => keyed.parse(await c.req.json()) as any // the service validates the rest
+  // plain-fetch web routes stay out of AppType: one more chained .route() overflows TS's instantiation depth (TS2589)
+  api.route('/web/reports', webReportRoutes(db))
+  api.route('/web', webOverviewRoutes(db))
+  api.route('/ledger', ledgerWebRoutes(db))
+  api.route('/web/docs', webDocRoutes(db))
   api.put('/cash-bank/documents/:number', async c => c.json(await editCashDocument(db, c.req.param('number'), await body(c))))
   api.delete('/cash-bank/documents/:number', async c => c.json(await deleteCashDocument(db, c.req.param('number'), await key(c))))
   api.put('/sales/down-payments/:number', async c => c.json(await editSalesDownPayment(db, c.req.param('number'), await body(c))))

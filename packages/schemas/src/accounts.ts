@@ -1,8 +1,15 @@
 import { z } from 'zod'
 
-import { accounts } from './fixtures'
+import type { accountType } from './ledger-es'
 
-export const accountTypes: string[] = [...new Set(accounts.map((a) => a.type))]
+/** Accurate's label per ledger account type (same text as the API's ACCOUNT_TYPE_LABEL). */
+export const accountTypeLabel: Record<z.infer<typeof accountType>, string> = {
+  CASH_BANK: 'Kas & Bank', ACCOUNT_RECEIVABLE: 'Piutang Usaha', INVENTORY: 'Persediaan', OTHER_CURRENT_ASSET: 'Aset Lancar Lainnya',
+  FIXED_ASSET: 'Aset Tetap', ACCUMULATED_DEPRECIATION: 'Akumulasi Penyusutan', OTHER_ASSET: 'Aset Lainnya', ACCOUNT_PAYABLE: 'Utang Usaha',
+  OTHER_CURRENT_LIABILITY: 'Liabilitas Jangka Pendek', LONG_TERM_LIABILITY: 'Liabilitas Jangka Panjang', EQUITY: 'Modal',
+  REVENUE: 'Pendapatan', COGS: 'Beban Pokok Penjualan', EXPENSE: 'Beban', OTHER_INCOME: 'Pendapatan Lainnya', OTHER_EXPENSE: 'Beban Lainnya',
+}
+export const accountTypes: string[] = Object.values(accountTypeLabel)
 
 export const accountInputSchema = z
   .object({

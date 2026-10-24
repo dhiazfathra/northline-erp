@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { newTxSchema, txTypes, type NewTxInput } from '@northline/schemas/overview'
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-import { useCreateTx } from '@/api/overview'
+import { useOpenTxForm } from '@/api/overview'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
@@ -16,16 +16,15 @@ const typeName: Record<NewTxInput['type'], { id: string; en: string }> = {
 }
 const tx = {
   title: { id: 'Transaksi Baru', en: 'New Transaction' },
-  create: { id: 'Buat', en: 'Create' },
-  created: { id: 'dibuat', en: 'created' },
+  create: { id: 'Lanjut ke', en: 'Continue to' },
 }
 const inputCls = 'field rounded-[14px] px-[14px] py-[12px] text-[13px] text-(--ink) outline-none'
 const labelCls = 'flex flex-col gap-[6px] text-[11px] opacity-85'
 
 export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { L, isMobile, showToast } = useShell()
+  const { L, isMobile } = useShell()
   const t = useT()
-  const create = useCreateTx()
+  const openForm = useOpenTxForm()
   const { register, handleSubmit, control, setValue, reset, formState } = useForm<NewTxInput>({
     resolver: zodResolver(newTxSchema),
     defaultValues: { type: 'invoice', counterparty: '', amount: '', due: L.dueVal },
@@ -35,9 +34,8 @@ export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => vo
   }, [open, reset, L.dueVal])
   const type = useWatch({ control, name: 'type' })
   const submit = handleSubmit(async (v) => {
-    await create.mutateAsync(v)
-    showToast(`${t(typeName[v.type])} ${t(tx.created)} · ${v.counterparty}`)
     onClose()
+    await openForm(v.type)
   })
   const bad = (k: keyof NewTxInput) => formState.errors[k] && 'border-[#f87171]'
 
@@ -93,7 +91,7 @@ export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => vo
             <button type="button" className="cursor-pointer rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[12px] text-[13px]" onClick={onClose}>
               {L.cancel}
             </button>
-            <button type="submit" disabled={create.isPending} className="cursor-pointer rounded-[20px] bg-(--ink) px-[20px] py-[12px] text-[13px] font-normal text-(--paper) disabled:opacity-60">
+            <button type="submit" className="cursor-pointer rounded-[20px] bg-(--ink) px-[20px] py-[12px] text-[13px] font-normal text-(--paper) disabled:opacity-60">
               {t(tx.create)} {t(typeName[type])}
             </button>
           </div>
