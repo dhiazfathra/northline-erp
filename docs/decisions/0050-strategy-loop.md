@@ -49,14 +49,14 @@ independent review of that version found 24 problems, 14 of them high; the decis
 - **Hard limits are tools.**
   - `bun loop migration <name>` creates the next migration and registers it in `db.ts`; the `migrations` check
     fails on a duplicate number or an unregistered file.
-  - `bun loop check` runs typecheck (api, web, `tools/loop`). The API declaration build goes to a scratch dir and is
+  - `bun loop check` runs typecheck (api, web) and `go vet` on `tools/loop`. The API declaration build goes to a scratch dir and is
     compared with the tracked `apps/api/types`, ignoring union order, so web is never checked against stale API types
     and no check rewrites tracked files. It also runs oxlint against its baseline, the api, web and loop test suites
     (api on the loop's own database), the migration registry, the `mock()` count, the zero-diff count, the
     Accurate-report diff and the state check. Every step has a timeout, an interrupted run kills the servers it
     started, and check, evals and e2e take turns through a lock because they share the test databases and ports. CI
     runs the same command on every push and PR.
-  - A PreToolUse hook (`tools/loop/guard.ts`) acts while a worktree is on an item's branch, from the plan stage until
+  - A PreToolUse hook (`loop guard`, in `tools/loop/guard.go`) acts while a worktree is on an item's branch, from the plan stage until
     the done stage has published. It blocks Neon and Cloudflare MCP tools and the neon, neonctl and wrangler CLIs
     through any wrapper (`env`, `bunx`/`npx`, `pnpm dlx`, `bun x`, `bash -c`, `&`, subshells, `if`/`do` bodies,
     paths). It also blocks `NEON_*`, `neon.tech`, `.env` files (Bash, Read, Grep), `deploy:prod` and `switch:prod`. It
@@ -183,3 +183,15 @@ independent review of that version found 24 problems, 14 of them high; the decis
 - CodeRabbit's free tier allows about 2 reviews per window, so many items will end at "rate-limited", recorded with
   the head SHA.
 - Each item adds an HTML architecture report under `docs/reports/architecture/`.
+
+## Go port
+- `tools/loop` is a Go module (stdlib only) since 2026-10-24, ported file for file from the original TypeScript with
+  the same commands, output, exit codes and state.json; STATE.md, golden.md and the evidence pages render
+  byte-identical.
+- Why: one static binary with no runtime dependency on the repo's node_modules; a faster hook, since the guard runs on
+  every Bash, Edit, Write, Read and MCP call (about 35 ms through the cached binary, against about 300 ms for
+  `go run`); and no third-party packages in the code that guards production.
+- `tools/loop/loop.sh` rebuilds the binary into the gitignored `tools/loop/.bin/` when a Go source is newer, then
+  execs it. `bun loop` and the hook (`loop.sh guard`) both go through it, and a failed build exits 2, so the hook
+  still fails closed. The guard dispatches from `guard.go`'s `init`, before the rest of the CLI runs. The
+  `typecheck-loop` and `test-loop` steps run `go vet` and `go test`.

@@ -894,7 +894,7 @@ func b(v bool) *bool { return &v }
 var CASES = []Case{
 	{"G1", "Migrations apply from empty", "Every migration file is registered once in `db.ts` under a unique number; a fresh database migrates and seeds", "`migrations`, `db`, `seed`", "N1: two agents took 0064",
 		func(r Round, s *State) *bool { return b(r.ok("migrations", "db", "seed")) }},
-	{"G2", "Typecheck and lint", "`tsc` clean in api (with `tsconfig.types.json`), web and `tools/loop`; oxlint 0 errors, warnings ≤ `oxlintWarnings`", "`typecheck-api`, `typecheck-web`, `typecheck-loop`, `lint-web`", "N1: TS2589 in `app.ts`",
+	{"G2", "Typecheck and lint", "`tsc` clean in api (with `tsconfig.types.json`) and web, `go vet` clean in `tools/loop`; oxlint 0 errors, warnings ≤ `oxlintWarnings`", "`typecheck-api`, `typecheck-web`, `typecheck-loop`, `lint-web`", "N1: TS2589 in `app.ts`",
 		func(r Round, s *State) *bool {
 			return b(r.ok("typecheck-api", "typecheck-web", "typecheck-loop", "lint-web"))
 		}},
@@ -920,7 +920,7 @@ var CASES = []Case{
 		func(r Round, s *State) *bool { return b(r.ok("mocks")) }},
 	{"G8", "Books balance", "After the e2e run, debits = credits in every month of `journal_lines`", "`balance`", "ERP invariant",
 		func(r Round, s *State) *bool { return b(r.ok("balance")) }},
-	{"G9", "Full test suites", "`bun test` in api (on the loop's own database), web and `tools/loop`: 0 failures", "`test-api`, `test-web`, `test-loop`", "Baseline",
+	{"G9", "Full test suites", "`bun test` in api (on the loop's own database) and web, `go test` in `tools/loop`: 0 failures", "`test-api`, `test-web`, `test-loop`", "Baseline",
 		func(r Round, s *State) *bool { return b(r.ok("test-api", "test-web", "test-loop")) }},
 	{"G10", "PR body survives the gate", "The PR body holds the current loop section between the markers; n/a before the PR exists", "`pr-body`", "N1: no-mistakes overwrote the body",
 		func(r Round, s *State) *bool { return r.PrBody }},
@@ -957,7 +957,7 @@ func renderGolden() string {
 	L := []string{
 		"# Golden evals",
 		"",
-		"Rendered from `CASES` in `tools/loop/checks.ts` by `bun loop render`; edit the code, not this file. `bun loop evals`",
+		"Rendered from `CASES` in `tools/loop/checks.go` by `bun loop render`; edit the code, not this file. `bun loop evals`",
 		"runs the static steps once and the tests and e2e stack twice, each on a fresh local database; a case passes only",
 		"when both runs pass (pass^2). Baselines live in `docs/strategy/loop/state.json` and move only through",
 		"`bun loop baseline`, which ratchets them in the improving direction. Logs, screenshots and videos land in",

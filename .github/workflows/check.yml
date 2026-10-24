@@ -24,6 +24,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.2
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: tools/loop/go.mod
+          cache-dependency-path: tools/loop/go.mod
       - run: bun install --frozen-lockfile
       - run: bun loop check
       - if: always()

@@ -3,7 +3,7 @@
     "PreToolUse": [
       {
         "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit|Read|Grep|mcp__.*",
-        "hooks": [{ "type": "command", "command": "bun \"$CLAUDE_PROJECT_DIR/tools/loop/guard.ts\"" }]
+        "hooks": [{ "type": "command", "command": "\"$CLAUDE_PROJECT_DIR/tools/loop/loop.sh\" guard" }]
       }
     ]
   }
