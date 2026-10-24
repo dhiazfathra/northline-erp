@@ -16,7 +16,8 @@ failing runs keep their logs; failing steps keep their last lines below.
 | 20261024T101808-check | - | check | `8d9d369` | pass | 1m27s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
 | [20261024T101954-evals](runs/20261024T101954-evals/) | - | evals | `8d9d369` | pass | 8m45s | 27/27 ok |
 | [20261024T104606-check](runs/20261024T104606-check/) | - | check | `d5072f5` | **FAIL** | 32.0s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✗ · test-web ✓ · test-loop ✓ |
-| [20261024T104740-check](runs/20261024T104740-check/) | - | check | `d5072f5` | pass | 1m23s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
+| 20261024T104740-check | - | check | `d5072f5` | pass | 1m23s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
+| [20261024T105246-check](runs/20261024T105246-check/) | - | check | `cfb6f0c` | pass | 1m20s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
 
 ## Golden evals: 20261024T101954-evals on `8d9d369`
 
@@ -99,8 +100,8 @@ No failures.
 
 | Flow | Result | Screenshot | Video |
 | --- | --- | --- | --- |
-| sign in | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/sign-in.jpg" width="320"> | [webm](runs/20261024T101954-evals/run-2/n1-flows/videos/sign-in.webm) (local) |
-| [G6] doc form add item + save (sales invoice) | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g6-doc-form-add-item-save-sales-invoice.jpg" width="320"> | [webm](runs/20261024T101954-evals/run-2/n1-flows/videos/g6-doc-form-add-item-save-sales-invoice.webm) (local) |
-| [G3] report star toggles and persists across reload | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g3-report-star-toggles-and-persists-across-reload.jpg" width="320"> | [webm](runs/20261024T101954-evals/run-2/n1-flows/videos/g3-report-star-toggles-and-persists-across-reload.webm) (local) |
-| [G6] fixed-asset validation + create | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g6-fixed-asset-validation-create.jpg" width="320"> | [webm](runs/20261024T101954-evals/run-2/n1-flows/videos/g6-fixed-asset-validation-create.webm) (local) |
-| [G3] account row → form (+ save details) | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g3-account-row-form-save-details.jpg" width="320"> | [webm](runs/20261024T101954-evals/run-2/n1-flows/videos/g3-account-row-form-save-details.webm) (local) |
+| sign in | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/sign-in.jpg" width="320"> | local: `runs/20261024T101954-evals/run-2/n1-flows/videos/sign-in.webm` |
+| [G6] doc form add item + save (sales invoice) | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g6-doc-form-add-item-save-sales-invoice.jpg" width="320"> | local: `runs/20261024T101954-evals/run-2/n1-flows/videos/g6-doc-form-add-item-save-sales-invoice.webm` |
+| [G3] report star toggles and persists across reload | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g3-report-star-toggles-and-persists-across-reload.jpg" width="320"> | local: `runs/20261024T101954-evals/run-2/n1-flows/videos/g3-report-star-toggles-and-persists-across-reload.webm` |
+| [G6] fixed-asset validation + create | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g6-fixed-asset-validation-create.jpg" width="320"> | local: `runs/20261024T101954-evals/run-2/n1-flows/videos/g6-fixed-asset-validation-create.webm` |
+| [G3] account row → form (+ save details) | pass | <img src="runs/20261024T101954-evals/run-2/n1-flows/shots/g3-account-row-form-save-details.jpg" width="320"> | local: `runs/20261024T101954-evals/run-2/n1-flows/videos/g3-account-row-form-save-details.webm` |
