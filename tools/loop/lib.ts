@@ -1,6 +1,6 @@
 // Loop state, plan changelog and evidence records (ADR-0050). state.json is the only source of truth: STATE.md,
 // CHANGELOG.md entries and evidence/<item>/README.md are rendered from it and from runs.jsonl, never edited by hand.
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 export const ROOT = process.env.LOOP_ROOT ?? path.resolve(import.meta.dir, '../..')
@@ -63,9 +63,15 @@ export const codeSha = () => {
 
 const STATE = () => path.join(LOOP, 'state.json')
 export const load = (): State => JSON.parse(readFileSync(STATE(), 'utf8'))
+/** Write a whole file or nothing: a temp file in the same dir, then a rename, so an interrupted write never truncates. */
+export function writeAtomic(f: string, body: string) {
+  const tmp = `${f}.${process.pid}.tmp`
+  writeFileSync(tmp, body)
+  renameSync(tmp, f)
+}
 export function save(s: State) {
-  writeFileSync(STATE(), JSON.stringify(s, null, 2) + '\n')
-  writeFileSync(path.join(LOOP, 'STATE.md'), renderState(s))
+  writeAtomic(STATE(), JSON.stringify(s, null, 2) + '\n')
+  writeAtomic(path.join(LOOP, 'STATE.md'), renderState(s))
 }
 
 const row = (...c: (string | number | null | undefined)[]) => `| ${c.map((v) => v ?? '').join(' | ')} |`
@@ -170,7 +176,15 @@ export const newRunId = (kind: string) => `${new Date().toISOString().replace(/[
 
 export function runs(item: string): Run[] {
   const f = path.join(evidenceDir(item), 'runs.jsonl')
-  return existsSync(f) ? readFileSync(f, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : []
+  // A line torn by an interrupted append is skipped, not fatal: the runs around it still count.
+  const parse = (l: string): Run[] => {
+    try {
+      return [JSON.parse(l)]
+    } catch {
+      return []
+    }
+  }
+  return existsSync(f) ? readFileSync(f, 'utf8').split('\n').filter(Boolean).flatMap(parse) : []
 }
 
 export function record(run: Run) {
@@ -251,7 +265,8 @@ export function renderEvidence(item: string, all: Run[]) {
         row('Flow', 'Result', 'Screenshot', 'Video'),
         rule(4),
         ...media.map((f) =>
-          row(f.name.replaceAll('|', '\\|'), f.ok ? 'pass' : 'FAIL', f.shot && `<img src="${at(f, f.shot)}" width="320">`, f.video && `[webm](${at(f, f.video)}) (local)`),
+          // Videos are gitignored, so they are named, not linked: a link would 404 on GitHub.
+          row(f.name.replaceAll('|', '\\|'), f.ok ? 'pass' : 'FAIL', f.shot && `<img src="${at(f, f.shot)}" width="320">`, f.video && `local: \`${at(f, f.video)}\``),
         ),
       )
   }

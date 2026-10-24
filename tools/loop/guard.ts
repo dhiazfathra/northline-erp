@@ -15,8 +15,9 @@ const WRAPPERS = new Set(['env', 'exec', 'time', 'nohup', 'sudo', 'bunx', 'npx',
 // The ledger exit checks trust (runs.jsonl) and the rendered files count as state too.
 const LOCKED = /docs\/strategy\/loop\/(state\.json|STATE\.md|CHANGELOG\.md)|runs\.jsonl|\.claude\/settings(\.local)?\.json|tools\/loop\/guard\.ts/
 const LOCKED_DIR = /(^|\/)docs\/strategy\/loop\/|(^|\/)\.claude\/settings(\.local)?\.json$|(^|\/)tools\/loop\/guard\.ts$/
-const OWNER = /\bbun\s+(run\s+)?loop\s+(budget|phase0|init)\b/
-const ENV_FILE = /(^|\/)\.env(\.[a-z]+)?$/
+// Any spelling of the CLI: `bun loop budget`, `bun run loop -- phase0`, `bun tools/loop/loop.ts init`.
+const OWNER = /\bloop(\.ts)?\s+(--\s+)?(budget|phase0|init)\b/
+const ENV_FILE = /(^|\/)\.env(\.[\w-]+)*$/
 
 /** The program each shell segment runs, through wrappers (`env A=1`, `bunx`, `pnpm dlx`, `bun x`, `bash -c "…"`). */
 export function programs(command: string): string[] {
@@ -53,8 +54,9 @@ export function blocked(tool: string, input: Input & Record<string, unknown> = {
   if (tool === 'Grep') return [input.path, input.glob].some((p) => p && /\.env(\.[a-z]+)?\b/.test(p) && !p.includes('.env.example')) ? 'Grep over .env files' : null
   if (tool !== 'Bash') return null
   const cmd = input.command ?? ''
-  // Only the CLI may touch the locked files; reading state goes through `bun loop status`.
-  const viaCli = /^\s*bun\s+(run\s+)?loop\b/.test(cmd) && !/[;&|]/.test(cmd)
+  // Only the CLI may touch the locked files; reading state goes through `bun loop status`. A plain invocation only: no
+  // chaining, redirection or substitution that could write a locked file around it.
+  const viaCli = /^\s*bun\s+(run\s+)?loop\b/.test(cmd) && !/[;&|<>\n`]|\$\(/.test(cmd)
   if (OWNER.test(cmd)) return `${cmd} (an owner lever: the owner runs it in a terminal)`
   if (LOCKED.test(cmd) && !viaCli) return `${cmd} (names a file only bun loop writes)`
   return SECRET.test(cmd) || programs(cmd).some((p) => CLI.has(p)) ? cmd : null

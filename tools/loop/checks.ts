@@ -11,7 +11,8 @@ const API = path.join(ROOT, 'apps/api')
 const WEB = path.join(ROOT, 'apps/web')
 const MIGRATIONS = path.join(API, 'migrations')
 const DB_TS = path.join(API, 'src/db.ts')
-const PG = 'postgres://postgres:northline@localhost:55432' // the local docker Postgres (root `bun run dev:db`, CI service)
+// The local docker Postgres (root `bun run dev:db`, CI service); E2E_PG moves every connection, as in e2e-db.ts.
+const PG = process.env.E2E_PG ?? 'postgres://postgres:northline@localhost:55432'
 const TEST_DB = { E2E_DB: 'northline_loop_test' } // the loop's own test database: other worktrees' tests cannot deadlock it
 const LOGIN = { NL_EMAIL: 'e2e@northline.test', NL_PASSWORD: 'e2e-secret-pass' } // tools/e2e defaults
 

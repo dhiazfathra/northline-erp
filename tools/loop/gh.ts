@@ -109,7 +109,20 @@ const Q = `query($owner:String!,$name:String!,$n:Int!){repository(owner:$owner,n
   headRefOid reviewDecision commits(last:1){nodes{commit{committedDate}}}
   reviews(last:50){nodes{author{login} state body commit{oid}}}
   comments(last:30){nodes{author{login} body updatedAt}}
-  reviewThreads(first:100){nodes{id isResolved path line comments(first:1){nodes{author{login} body}}}}}}}`
+  reviewThreads(first:100){pageInfo{hasNextPage endCursor} nodes{id isResolved path line comments(first:1){nodes{author{login} body}}}}}}}`
+const MORE_THREADS = `query($owner:String!,$name:String!,$n:Int!,$after:String!){repository(owner:$owner,name:$name){pullRequest(number:$n){
+  reviewThreads(first:100,after:$after){pageInfo{hasNextPage endCursor} nodes{id isResolved path line comments(first:1){nodes{author{login} body}}}}}}}`
+/** Every review thread, past the first page too: the gate must not pass with unresolved threads on page two. */
+function allThreads(n: number, first: { pageInfo: { hasNextPage: boolean; endCursor: string }; nodes: any[] }) {
+  const nodes = [...first.nodes]
+  let page = first.pageInfo
+  while (page.hasNextPage) {
+    const next = graphql(MORE_THREADS, { ...repo(), n, after: page.endCursor }).repository.pullRequest.reviewThreads
+    nodes.push(...next.nodes)
+    page = next.pageInfo
+  }
+  return nodes
+}
 
 export type CrState = 'open-threads' | 'approved' | 'rate-limited' | 'reviewed' | 'rounds-exhausted' | 'pending'
 export const TERMINAL: CrState[] = ['approved', 'rate-limited', 'reviewed', 'rounds-exhausted']
@@ -121,7 +134,7 @@ export function crStatus(n: number, since?: string | null) {
   const pr = graphql(Q, { ...repo(), n }).repository.pullRequest
   const reviews = pr.reviews.nodes.filter((r: any) => isCr(r.author?.login))
   const rounds = new Set(reviews.map((r: any) => r.commit?.oid)).size
-  const threads = pr.reviewThreads.nodes.filter((t: any) => !t.isResolved && isCr(t.comments.nodes[0]?.author?.login))
+  const threads = allThreads(n, pr.reviewThreads).filter((t: any) => !t.isResolved && isCr(t.comments.nodes[0]?.author?.login))
   const headAt = since ?? pr.commits.nodes[0]?.commit.committedDate ?? ''
   const limited = pr.comments.nodes.some((c: any) => isCr(c.author?.login) && LIMITED.test(c.body) && c.updatedAt > headAt)
   const last = reviews.at(-1)
@@ -183,7 +196,7 @@ export function bodyFindings(body: string) {
 }
 
 export const threadBody = (n: number, id: string) => {
-  const t = graphql(Q, { ...repo(), n }).repository.pullRequest.reviewThreads.nodes.find((x: any) => x.id === id)
+  const t = allThreads(n, graphql(Q, { ...repo(), n }).repository.pullRequest.reviewThreads).find((x: any) => x.id === id)
   if (!t) throw new Error(`no thread ${id} on #${n}`)
   return `${t.path}:${t.line}\n${headline(t.comments.nodes[0].body)}\n\n${detail(t.comments.nodes[0].body)}`
 }

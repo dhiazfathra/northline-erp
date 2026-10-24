@@ -101,6 +101,11 @@ describe('no-mistakes decisions', () => {
     expect(decide('outcome: failed\nbranch_sync:\n  next_action:\n    code: sync')).toEqual({ kind: 'failed', outcome: 'failed', sync: true })
     expect(decide('run: 01ABC\nstatus: running')).toEqual({ kind: 'reattach' })
   })
+  test('a gate it cannot read is never approved', () => {
+    expect(decide('gate: review\nnote: something new').kind).toBe('stop')
+    expect(decide(gate(['r1,warning,x.ts,,escalate,a'])).kind).toBe('stop')
+    expect(decide('gate: review\nfindings[2]{id,severity,file,line,action,description}:\n  r1,warning,x.ts,,no-op,a\nhelp[1]:\n  x').kind).toBe('stop')
+  })
   test('an override or a skip is never the loop’s to accept', () => {
     expect(decide('outcome: passed-with-override').kind).toBe('stop')
     expect(decide('outcome: passed-with-skips').kind).toBe('stop')
@@ -139,6 +144,10 @@ describe('production guard', () => {
     `echo '{"ok":true}' >> docs/strategy/loop/evidence/N2/runs.jsonl`,
     'echo x >> docs/strategy/loop/CHANGELOG.md',
     'echo "$(wrangler whoami)"',
+    'bun tools/loop/loop.ts budget 40 --reason more',
+    'bun run loop -- init N9 feat/n9 x',
+    'bun loop status > docs/strategy/loop/state.json',
+    'cat ../northline-erp/.env.production.local',
   ])('blocks %p', (command) => expect(bash(command)).toBeTruthy())
   test.each([
     'git commit -m "docs: neon backup notes"',
@@ -160,6 +169,7 @@ describe('production guard', () => {
     expect(blocked('Edit', { file_path: '/r/tools/loop/checks.ts' })).toBeNull()
     expect(blocked('Read', { file_path: '/r/.env' })).toBeTruthy()
     expect(blocked('Read', { file_path: '/r/.env.example' })).toBeNull()
+    expect(blocked('Read', { file_path: '/r/.env.production.local' })).toBeTruthy()
     expect(blocked('Read', { file_path: '/r/apps/api/src/db.ts' })).toBeNull()
   })
 })

@@ -68,6 +68,10 @@ export function decide(out: string): Decision {
   const gate = field(out, 'gate')
   if (!gate) return { kind: 'reattach' }
   const f = findings(out)
+  // A gate the parser cannot read, or a finding with an action it does not know, is never approved blindly.
+  const declared = Number(out.match(/^findings\[(\d+)\]/m)?.[1] ?? -1)
+  if (declared !== f.length || f.some((x) => !['auto-fix', 'no-op', 'ask-user'].includes(x.action)))
+    return { kind: 'stop', why: `no-mistakes ${gate}: gate output not understood (${declared < 0 ? 'no findings table' : `${f.length} of ${declared} findings read`}); the owner decides` }
   const owner = f.filter((x) => x.action === 'ask-user')
   if (owner.length || /protected-path-refusal|test-agent-unvalidated-work/.test(out))
     return { kind: 'stop', why: `no-mistakes ${gate} needs the owner: ${owner.map((x) => `${x.id} ${x.file}: ${x.description}`).join('; ') || 'protected path or unvalidated work'}` }

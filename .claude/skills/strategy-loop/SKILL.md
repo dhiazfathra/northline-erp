@@ -32,8 +32,10 @@ prints the part you need. Run `bun loop evals` and `bun loop nm` in the backgrou
 - When the plan stops matching reality, pipe the revised plan into `bun loop plan - --reason "<what reality showed>"`.
   A changed done-when or a dropped eval flow is marked ⚠ in the changelog and the PR body for the owner.
 - Production, secrets and outside parties are owner steps: put them in the plan's `ownerSteps`, never run them. While
-  an item is in progress a hook blocks Neon and Cloudflare tools, wrangler, deploy commands, `.env` files, writes to
-  `docs/strategy/loop/` by anything but `bun loop`, and the owner's levers (`bun loop budget`, `phase0`, `init`).
+  an item is in progress a hook blocks Neon and Cloudflare tools, wrangler, deploy commands and `.env` files. It also
+  blocks Edit/Write anywhere in `docs/strategy/loop/`, and any Bash or MCP write to the loop's state, changelog, run
+  ledgers, settings or guard, so only `bun loop` writes them. It blocks the owner's levers (`budget`, `phase0`, `init`)
+  in any spelling of the CLI.
 
 ## Stop and ask the owner
 
