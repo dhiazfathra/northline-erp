@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { assetExpenditureFormSchema, type AssetExpenditureForm } from '@northline/schemas/asset-modules'
+import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useEffect, type ReactNode } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
-import { fixedAssets, useCreateAssetExpenditure } from '@/api/asset-modules'
+import { assetOptionsQuery, useCreateAssetExpenditure } from '@/api/asset-modules'
 import { Dropdown } from '@/components/dropdown'
 import { DatePicker } from '@/features/fixed-assets/parts'
 import { useShell, useT } from '@/lib/shell'
@@ -11,7 +12,6 @@ import { DocFrame } from './doc-header'
 import { idr, S } from './strings'
 
 const PATH = '/asset-modules/new'
-const DP = { dpp: 1_000_000, ppn: 110_000 }
 const assetLabel = (a: { code: string; name: string }) => `${a.code} · ${a.name}`
 const inputCls = 'w-full min-w-0 flex-1 rounded-[14px] bg-[rgba(var(--fg),.06)] px-[14px] py-[11px] text-[13px] text-(--ink) outline-none'
 const bd = (bad?: unknown) => (bad ? 'border border-[#ec4899]' : 'border border-[rgba(var(--fg),.18)]')
@@ -34,17 +34,18 @@ export function AssetForm() {
   const t = useT()
   const nav = useNavigate()
   const create = useCreateAssetExpenditure()
-  const { register, control, handleSubmit, getValues, setValue, formState } = useForm<AssetExpenditureForm>({
+  const { data: fixedAssets = [] } = useQuery(assetOptionsQuery)
+  const { register, control, handleSubmit, getValues, formState } = useForm<AssetExpenditureForm>({
     resolver: zodResolver(assetExpenditureFormSchema),
     defaultValues: { date: '17/10/2026', description: '', assetCode: '', qty: '1', note: '', dpp: '', applyDp: false, lines: [] },
   })
   const { fields, append, remove } = useFieldArray({ control, name: 'lines' })
   const { errors, isDirty } = formState
-  const [code, qty, dppS, applyDp] = useWatch({ control, name: ['assetCode', 'qty', 'dpp', 'applyDp'] })
+  const [code, qty, dppS] = useWatch({ control, name: ['assetCode', 'qty', 'dpp'] })
   const picked = fixedAssets.find((a) => assetLabel(a) === code)
   const dpp = Number(dppS || 0)
   const ppn = Math.round(dpp * 0.11)
-  const total = dpp + ppn - (applyDp ? DP.dpp + DP.ppn : 0)
+  const total = dpp + ppn
 
   useEffect(() => {
     setDirty(PATH, isDirty)
@@ -178,29 +179,7 @@ export function AssetForm() {
           </div>
         </div>
 
-        <div className="mt-[22px] flex items-center gap-3 rounded-2xl border border-dashed border-[rgba(var(--fg),.3)] px-[18px] py-4">
-          <i className="ph-light ph-hand-coins text-[22px] opacity-80" />
-          <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-            <span className="text-[14px]">Uang Muka</span>
-            <div className="grid grid-cols-[24px_minmax(0,1.4fr)_repeat(3,minmax(0,1fr))] items-center gap-2.5 text-[12.5px]">
-              <button
-                type="button"
-                role="checkbox"
-                aria-checked={applyDp}
-                aria-label="Terapkan uang muka SI.2026.10.00003"
-                onClick={() => setValue('applyDp', !applyDp, { shouldDirty: true })}
-                className="flex size-5 cursor-pointer items-center justify-center rounded-md border border-[rgba(var(--fg),.5)] p-0 text-[12px] text-(--paper)"
-                style={{ background: applyDp ? 'var(--ink)' : 'transparent' }}
-              >
-                {applyDp ? '✓' : ''}
-              </button>
-              <span className="truncate">SI.2026.10.00003 · 04 Okt 2026</span>
-              <span className="text-right tabular-nums">DPP {idr(DP.dpp)}</span>
-              <span className="text-right tabular-nums">PPN {idr(DP.ppn)}</span>
-              <span className="text-right tabular-nums">{idr(DP.dpp + DP.ppn)}</span>
-            </div>
-          </div>
-        </div>
+        {/* Uang Muka hidden: the API has no down payments for asset expenditures yet. */}
 
         <div className="mt-[14px] flex flex-wrap items-center justify-end gap-2.5">
           {[

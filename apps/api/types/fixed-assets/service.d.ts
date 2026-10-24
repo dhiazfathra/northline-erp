@@ -17,8 +17,15 @@ export declare const fixedAssetInput: z.ZodObject<{
         date: z.ZodString;
         amount: z.ZodPipe<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>, z.ZodTransform<number, string | number>>;
         account: z.ZodString;
+        expenditure: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
     fiscalLifeMonths: z.ZodOptional<z.ZodNumber>;
+    location: z.ZodDefault<z.ZodString>;
+    department: z.ZodDefault<z.ZodString>;
+    note: z.ZodDefault<z.ZodString>;
+    tax: z.ZodDefault<z.ZodBoolean>;
+    qty: z.ZodDefault<z.ZodNumber>;
+    salvage: z.ZodPipe<z.ZodDefault<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>>, z.ZodTransform<number, string | number>>;
 }, z.core.$strip>;
 export declare function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedAssetInput>): Promise<{
     number: string;

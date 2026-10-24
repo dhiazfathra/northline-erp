@@ -1,10 +1,11 @@
 import { journalDocSchema, type JournalDocInput } from '@northline/schemas/docs'
-import { accounts, idr, leafAccounts } from '@northline/schemas/fixtures'
+import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Dialog, RadioGroup, Switch } from 'radix-ui'
 import { useEffect, useState } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
-import { docMeta, nextNumber, useSaveDoc } from '@/api/docs'
+import { useLeafAccounts } from '@/api/accounts'
+import { useSaveDoc } from '@/api/docs'
 import { Dropdown } from '@/components/dropdown'
 import { Seg, overlayCls, panelCls } from '@/features/ledger/ui'
 import { useShell, useT } from '@/lib/shell'
@@ -13,14 +14,17 @@ import { DatePicker } from '@/features/fixed-assets/parts'
 import { FormFrame, Head, Info, Rail, noteCls, Totals, lbl, req, required, toNum, type FormProps } from './shell'
 
 type Line = JournalDocInput['lines'][number]
-const accName = (code: string) => accounts.find((a) => a.code === code)?.name ?? ''
-const options = leafAccounts.map((a) => `${a.code} ${a.name}`)
+function useAccountPicker() {
+  const leaf = useLeafAccounts()
+  return { options: leaf.map((a) => `${a.code} ${a.name}`), accName: (code: string) => leaf.find((a) => a.code === code)?.name ?? '' }
+}
 const cols = 'grid-cols-[110px_minmax(0,1.6fr)_minmax(0,1.4fr)_1fr_1fr_28px]'
 
 export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onSaved, onDelete, report, onClose }: FormProps<JournalDocInput>) {
   const { L, isMobile, showToast } = useShell()
   const t = useT()
   const save = useSaveDoc()
+  const { options, accName } = useAccountPicker()
   const { register, control, handleSubmit, subscribe } = useForm<JournalDocInput>({ resolver: zodResolver(journalDocSchema), defaultValues: values })
   const { fields, append, update, remove } = useFieldArray({ control, name: 'lines' })
   const lines = useWatch({ control, name: 'lines' })
@@ -35,14 +39,14 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
     (v) => {
       if (record && type === 'journal' && record.source !== 'Jurnal Umum') return report([`Jurnal ${record.jv} dibuat oleh ${record.source} ${record.no}; ubah dari dokumen sumbernya`])
       if (diff !== 0) return report(['Jurnal yang anda masukkan tidak seimbang antara debit dengan kredit'])
-      const no = record ? record.no : v.autoNo ? nextNumber(docMeta[type].prefix) : v.number
       save.mutate(
-        { id: record?.id, type, source: record?.source ?? docLabel, no, date: v.date, party: '', description: v.description, total: debit, values: { ...v, number: no } },
+        { id: record?.id, type, values: v },
         {
-          onSuccess: () => {
-            showToast(`${docLabel} "${no}" berhasil disimpan`)
+          onSuccess: ({ number }) => {
+            showToast(`${docLabel} "${number}" berhasil disimpan`)
             onSaved()
           },
+          onError: (e) => report([e.message]),
         },
       )
     },
@@ -66,7 +70,7 @@ export function JournalForm({ type, docLabel, record, values, dirty, onEdit, onS
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
                 <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
+                  <input {...register('number')} placeholder={field.value ? L.auto : undefined} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>
@@ -220,6 +224,7 @@ function LineDialog({ edit, onClose, onDone }: { edit: { i: number; line: Line }
 
 function LineBody({ line, onDone }: { line: Line; onDone: (l: Line) => void }) {
   const t = useT()
+  const { accName } = useAccountPicker()
   const [tab, setTab] = useState('d')
   const [side, setSide] = useState(line.credit ? 'credit' : 'debit')
   const [amt, setAmt] = useState(line.debit || line.credit ? idr(line.debit || line.credit) : '')

@@ -1,9 +1,11 @@
 import { paymentDocSchema, type PaymentDocInput } from '@northline/schemas/docs'
-import { accounts, idr } from '@northline/schemas/fixtures'
+import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
-import { nextNumber, openInvoices, partiesFor, payTotals, pphOf, useSaveDoc, vendors } from '@/api/docs'
+import { useLeafAccounts } from '@/api/accounts'
+import { docsQuery, openInvoices, payTotals, pphOf, useParties, useSaveDoc, vendors } from '@/api/docs'
 import { Dropdown } from '@/components/dropdown'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
@@ -12,16 +14,18 @@ import { Check, NumCell } from './item-form'
 import { AutoSwitch } from './journal-form'
 import { FormFrame, Head, Info, Rail, noteCls, Totals, lbl, req, required, type FormProps } from './shell'
 
-const banks = accounts.filter((a) => a.parent === '1100').map((a) => `${a.code} ${a.name}`)
 const cols = 'grid-cols-[1.4fr_.9fr_1fr_1fr_1.2fr_1fr_.9fr]'
 
 export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onSaved, onDelete, report, onClose, partyLabel }: FormProps<PaymentDocInput> & { partyLabel: string }) {
   const { L, showToast } = useShell()
   const t = useT()
   const save = useSaveDoc()
+  const parties = useParties(type)
+  const banks = useLeafAccounts().filter((a) => a.type === 'Kas & Bank').map((a) => `${a.code} ${a.name}`)
   const { register, control, handleSubmit, subscribe } = useForm<PaymentDocInput>({ resolver: zodResolver(paymentDocSchema), defaultValues: values })
   const { fields, replace } = useFieldArray({ control, name: 'lines' })
   const v = useWatch({ control }) as PaymentDocInput
+  const { data: invoices } = useQuery(docsQuery(type === 'sales-receipt' ? 'sales-invoice' : 'purchase-invoice'))
   const tot = payTotals(v.lines)
   const pphAllowed = type === 'purchase-payment' && !!vendors.find((x) => x.name === v.party)?.pph23
 
@@ -32,14 +36,14 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
       const lines = x.lines.filter((l) => l.pay > 0)
       if (!lines.length) return report([`${t({ id: 'Bayar', en: 'Payment' })} harus diisi`])
       if (x.amount < payTotals(lines).net) return report(['Nilai Pembayaran tidak mencukupi untuk melunasi pembayaran!'])
-      const no = record ? record.no : x.autoNo ? nextNumber(`${x.bank.split(' ')[0]}.2026.10.`) : x.number
       save.mutate(
-        { id: record?.id, type, source: record?.source ?? docLabel, no, date: x.date, party: x.party, description: x.description, total: x.amount, values: { ...x, lines, number: no } },
+        { id: record?.id, type, values: { ...x, lines } },
         {
-          onSuccess: () => {
-            showToast(`${docLabel} "${no}" berhasil disimpan`)
+          onSuccess: ({ number }) => {
+            showToast(`${docLabel} "${number}" berhasil disimpan`)
             onSaved()
           },
+          onError: (e) => report([e.message]),
         },
       )
     },
@@ -61,10 +65,10 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
                 <Dropdown
                   value={field.value}
                   disabled={!!record}
-                  options={partiesFor(type)}
+                  options={parties}
                   onSelect={(p) => {
                     field.onChange(p)
-                    replace(p ? openInvoices(type, p, record?.id) : [])
+                    replace(p ? openInvoices(invoices, p) : [])
                   }}
                   className="h-[41px]"
                 />
@@ -86,7 +90,7 @@ export function PaymentForm({ type, docLabel, record, values, dirty, onEdit, onS
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
                 <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
+                  <input {...register('number')} placeholder={field.value ? L.auto : undefined} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>

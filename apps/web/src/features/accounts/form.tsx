@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { accountInputSchema, accountTypes, type Account, type AccountInput } from '@northline/schemas/accounts'
-import { accountLines, accountUsers, bankOptions, toTree, useAccounts, useDeleteAccount, useSaveAccount } from '@/api/accounts'
+import { accountUsers, bankOptions, toTree, useAccountLines, useAccounts, useDeleteAccount, useSaveAccount } from '@/api/accounts'
 import { Dropdown } from '@/components/dropdown'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useShell, useT } from '@/lib/shell'
@@ -19,7 +19,7 @@ const T = {
   lines: { id: 'Rincian Jurnal', en: 'Journal Lines' }, noLines: { id: 'Belum ada transaksi', en: 'No transactions yet' }, debit: { id: 'Debit', en: 'Debit' }, credit: { id: 'Kredit', en: 'Credit' },
   nowNote: { id: 'Saldo dihitung dari seluruh transaksi yang telah diposting per 17/10/2026.', en: 'Balance is computed from all posted transactions as of 17/10/2026.' },
   bankInfo: { id: 'Informasi Bank', en: 'Bank Info' }, bank: { id: 'Bank', en: 'Bank' }, accNo: { id: 'No. Rekening', en: 'Account No.' }, accName: { id: 'Atas Nama', en: 'Account Holder' },
-  openT: { id: 'Saldo Awal', en: 'Opening Balance' }, amt: { id: 'Jumlah', en: 'Amount' }, asOf: { id: 'Per Tanggal', en: 'As of' },
+  openT: { id: 'Saldo Awal', en: 'Opening Balance' }, openHint: { id: 'Isi saldo awal lewat Jurnal Umum setelah akun dibuat.', en: 'Enter the opening balance with a General Journal after creating the account.' }, amt: { id: 'Jumlah', en: 'Amount' }, asOf: { id: 'Per Tanggal', en: 'As of' },
   access: { id: 'Akses Pengguna', en: 'User Access' }, allU: { id: 'Semua pengguna dapat menggunakan akun ini', en: 'All users can use this account' },
   del: { id: 'Hapus', en: 'Delete' }, saved: { id: 'Akun disimpan', en: 'Account saved' }, deleted: { id: 'Akun dihapus', en: 'Account deleted' },
   newRec: { id: 'Akun Baru', en: 'New Account' }, notFound: { id: 'Akun tidak ditemukan', en: 'Account not found' },
@@ -67,12 +67,13 @@ export function AccountForm({ id }: { id?: string }) {
 }
 
 function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
-  const { L, lang, isMobile, setDirty, showToast, mode } = useShell()
+  const { L, lang, isMobile, setDirty, showToast } = useShell()
   const t = useT()
   const nav = useNavigate()
   const path = useLocation().pathname
   const save = useSaveAccount()
   const del = useDeleteAccount()
+  const lines = useAccountLines(acc?.code ?? '').data ?? []
   const isNew = !acc
   const [cur, setCur] = useState<Sec>('gen')
   const { register, control, handleSubmit, setValue, formState } = useForm<AccountInput>({
@@ -90,10 +91,15 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
   const kids = acc ? toTree(all).filter((x) => x.parentId === acc.id) : []
   const secs: Sec[] = isNew ? ['gen', 'saldo', 'users'] : ['gen', 'kids', 'users']
 
+  const [openKey] = useState(() => crypto.randomUUID())
   const close = () => nav({ to: '/accounts' })
   const onSave = handleSubmit(
     async (input) => {
-      await save.mutateAsync({ id: acc?.id, input })
+      try {
+        await save.mutateAsync({ id: acc?.id, input, openKey })
+      } catch (e) {
+        return showToast((e as Error).message)
+      }
       setDirty(path, false)
       showToast(t(T.saved))
       close()
@@ -121,8 +127,9 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                   )} />
                 ) : <input value={v.type} readOnly className={ro} />}
               </Field>
-              <Check on={v.isSub} onClick={() => setValue('isSub', !v.isSub, { shouldDirty: true })}>{t(T.subAcc)}</Check>
-              {v.isSub && (
+              {isNew && <Check on={v.isSub} onClick={() => setValue('isSub', !v.isSub, { shouldDirty: true })}>{t(T.subAcc)}</Check>}
+              {!isNew && acc?.parentId && <Field label={t(T.parent)}><input value={(() => { const p = parents.find((x) => x.id === acc.parentId); return p ? label(p) : acc.parentId })()} readOnly className={ro} /></Field>}
+              {isNew && v.isSub && (
                 <Field label={t(T.parent)} req>
                   <Controller control={control} name="parentId" render={({ field }) => (
                     <Dropdown value={(() => { const p = parents.find((x) => x.id === field.value); return p ? label(p) : '' })()}
@@ -131,7 +138,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                   )} />
                 </Field>
               )}
-              <Field label={t(T.code)} req><input {...register('code')} className={`${inp} tabular-nums ${errors.code ? bad : ''}`} /></Field>
+              <Field label={t(T.code)} req>{isNew ? <input {...register('code')} className={`${inp} tabular-nums ${errors.code ? bad : ''}`} /> : <input value={v.code} readOnly className={`${ro} tabular-nums`} />}</Field>
               <Field label={t(T.name)} req>
                 <input {...register('name')} className={`${inp} ${errors.name ? bad : ''}`} />
                 <span className="italic opacity-50">{t(T.hint)}</span>
@@ -153,7 +160,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                   </div>
                   <div className="border-b border-[rgba(var(--fg),.12)] py-[10px] text-[16px]">{t(T.lines)}</div>
                   <div className="flex flex-col text-[12px]">
-                    {accountLines(acc.code).map((l, i) => (
+                    {lines.map((l, i) => (
                       <div key={i} data-rf-row="1" className="grid grid-cols-[1fr_auto_auto] gap-x-[12px] border-b border-[rgba(var(--fg),.07)] py-[8px]">
                         <span className="min-w-0 truncate tabular-nums">{l.jv}{l.no !== l.jv && <span className="opacity-55"> · {l.no}</span>}</span>
                         <span className="w-[96px] text-right tabular-nums">{l.debit ? fmtIdr(l.debit) : ''}</span>
@@ -161,7 +168,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
                         <span className="col-span-3 truncate text-[11px] opacity-55">{l.date} · {l.description}</span>
                       </div>
                     ))}
-                    {!accountLines(acc.code).length && <div className="py-[12px] text-center opacity-55">{t(T.noLines)}</div>}
+                    {!lines.length && <div className="py-[12px] text-center opacity-55">{t(T.noLines)}</div>}
                   </div>
                 </>
               )}
@@ -184,12 +191,11 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
             <Field label={t(T.amt)}>
               <span className="field flex items-center overflow-hidden">
                 <span className="px-[12px] text-[12px] opacity-55">Rp</span>
-                <input inputMode="numeric" value={v.opening ? fmtIdr(v.opening) : ''}
-                  onChange={(e) => setValue('opening', Number(e.target.value.replace(/\D/g, '')) || 0, { shouldDirty: true })}
+                <input inputMode="numeric" value="" readOnly disabled placeholder="—"
                   className="min-w-0 flex-1 border-none bg-transparent py-[11px] pr-[14px] text-right text-[13px] tabular-nums text-[var(--ink)] outline-none" />
               </span>
             </Field>
-            <Field label={t(T.asOf)}><input type="date" {...register('openDate')} className={`${inp} py-[10px]`} style={{ colorScheme: mode }} /></Field>
+            <span className="text-[12px] opacity-70">{t(T.openHint)}</span>
           </div>
         )}
         {cur === 'users' && (
@@ -222,7 +228,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
             className={`cursor-pointer rounded-[20px] bg-[var(--ink)] px-[22px] py-[12px] text-center text-[13px] font-normal text-[var(--paper)] disabled:opacity-60 ${isMobile ? 'flex-1' : ''}`}>{L.save}</button>
           <button type="button" onClick={close} className="cursor-pointer rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[12px] text-[13px]">{L.cancel}</button>
           {acc && (
-            <button type="button" onClick={async () => { await del.mutateAsync(acc.id); setDirty(path, false); showToast(t(T.deleted)); close() }}
+            <button type="button" onClick={() => del.mutate(acc.id, { onSuccess: () => { setDirty(path, false); showToast(t(T.deleted)); close() }, onError: (e) => showToast(e.message) })}
               className="ml-auto cursor-pointer rounded-[20px] bg-[rgba(239,68,68,.14)] px-[18px] py-[12px] text-[13px] text-[#ef4444]">{t(T.del)}</button>
           )}
         </div>

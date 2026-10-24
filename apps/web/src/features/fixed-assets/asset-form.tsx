@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { fixedAssetFormSchema, type AssetFile, type FixedAsset, type FixedAssetForm } from '@northline/schemas/fixed-assets'
+import { fixedAssetFormSchema, type AssetExpense, type AssetFile, type FixedAsset, type FixedAssetForm } from '@northline/schemas/fixed-assets'
 import { accounts as fixtureAccounts } from '@northline/schemas/fixtures'
 import { useQuery } from '@tanstack/react-query'
+import { assetExpendituresQuery, branchesQuery } from '@/api/asset-modules'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
-import { accounts, assetJournals, assetTotal, categories, codeTypes, departments, expenditures, fixedAssetQuery, locations, methods, useDeleteFixedAsset, useSaveFixedAsset } from '@/api/fixed-assets'
+import { useLeafAccounts } from '@/api/accounts'
+import { assetJournals, assetTotal, categories, codeTypes, departments, fixedAssetQuery, methods, useDeleteFixedAsset, useSaveFixedAsset } from '@/api/fixed-assets'
 import { Dropdown } from '@/components/dropdown'
 import {
   AlertDialog,
@@ -24,6 +26,9 @@ import { Switch } from '@/components/ui/switch'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { Check, DatePicker, DocHeader, Picker, menuPanel, fmtDate, fmtIdr, parseNum, tx } from './parts'
+
+// The API has no file storage yet: attachments are hidden rather than pretending to save them.
+const filesStored = false
 
 const faT = {
   newTitle: { id: 'Aset Tetap Baru', en: 'New Fixed Asset' },
@@ -121,7 +126,7 @@ function Field({ label, req, children, className }: { label: string; req?: boole
 }
 
 export function AssetForm({ id }: { id?: string }) {
-  const { data, isPending } = useQuery({ ...fixedAssetQuery(id ?? ''), enabled: !!id })
+  const { data, isPending, error } = useQuery({ ...fixedAssetQuery(id ?? ''), enabled: !!id })
   const t = useT()
   if (id && isPending)
     return (
@@ -132,7 +137,7 @@ export function AssetForm({ id }: { id?: string }) {
   if (id && !data)
     return (
       <DocHeader label={t(tx.title)}>
-        <div className="glass-card p-10 text-center text-[13px] opacity-60">{t(faT.notFound)}</div>
+        <div className="glass-card p-10 text-center text-[13px] opacity-60">{error ? error.message : t(faT.notFound)}</div>
       </DocHeader>
     )
   return <AssetFormBody key={id ?? 'new'} asset={data ?? undefined} />
@@ -140,6 +145,12 @@ export function AssetForm({ id }: { id?: string }) {
 
 function AssetFormBody({ asset }: { asset?: FixedAsset }) {
   const t = useT()
+  const { data: locations = [] } = useQuery(branchesQuery)
+  // Posted asset expenditures (Pengeluaran Aset) are what an asset capitalises.
+  const { data: expenditures = [] } = useQuery({
+    ...assetExpendituresQuery,
+    select: (xs) => xs.map((x): AssetExpense => ({ code: x.number, expenditure: x.number, desc: x.description, date: x.date.split('/').reverse().join('-'), amount: x.total })),
+  })
   const { L, isMobile, showToast, setDirty, removeTab } = useShell()
   const { pathname } = useLocation()
   const nav = useNavigate()
@@ -220,6 +231,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
   const history = asset ? assetJournals(asset.code) : []
   const inBg = ro ? 'bg-[rgba(var(--fg),.03)]' : 'bg-[rgba(var(--fg),.06)]'
   const inp = cn('w-full rounded-[14px] border border-[rgba(var(--fg),.18)] px-[14px] py-[11px] text-[13px] text-(--ink) outline-none', inBg)
+  const accounts = useLeafAccounts()
   const accOpts = (type: string) => accounts.filter((a) => a.type === type).map((a) => ({ v: a.code, n: a.name, c: a.code, t: a.type }))
   const plain = (xs: string[]) => xs.map((x) => ({ v: x, n: x }))
 
@@ -283,7 +295,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
           </div>
 
           <div className="ml-auto flex flex-none flex-wrap items-center gap-2 pt-5">
-            <Popover open={attOpen} onOpenChange={setAttOpen}>
+            {filesStored && (<Popover open={attOpen} onOpenChange={setAttOpen}>
               <PopoverTrigger asChild>
                 <span className={cn('flex cursor-pointer items-center gap-2 rounded-[18px] border border-[rgba(var(--fg),.18)] px-[14px] py-[9px] text-[12px] hover:bg-[rgba(var(--fg),.14)]', attOpen ? 'bg-[rgba(var(--fg),.14)]' : 'bg-[rgba(var(--fg),.06)]')}>
                   <i className="ph-light ph-paperclip text-[16px]" />
@@ -353,7 +365,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
                   {!v.files.length && <div className="px-1 pt-2.5 pb-0.5 text-center text-[12px] opacity-50">{t(faT.attNone)}</div>}
                 </div>
               </PopoverContent>
-            </Popover>
+            </Popover>)}
             {ro && (
               <>
                 <DropdownMenu>
@@ -480,7 +492,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
           {sec === 'oth' && (
             <div className="grid animate-[fade_.2s] grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] items-start gap-x-10 gap-y-4">
               <div className="flex min-w-0 flex-col gap-[14px]">
-                {picker('location', t(faT.loc), t(faT.locPh), plain(locations))}
+                {picker('location', t(faT.loc), t(faT.locPh), plain(locations.filter((b) => b !== 'Semua')))}
                 {picker('department', t(faT.dept), t(faT.deptPh), plain(departments), false)}
                 {ro && (
                   <Field label={t(faT.branch)}>

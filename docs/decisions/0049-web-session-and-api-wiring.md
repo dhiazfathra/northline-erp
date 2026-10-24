@@ -34,6 +34,22 @@ screen reads `mock()` sample data. It also found two session defects:
   table, without the layout editor. Rekap PPN needed a route: `GET /api/reports/tax/ppn/{in-out|out|in}`
   (TaxationOutReport, TaxationInReport, TaxationInOutReport). Drill-down, favourites, branch and currency stay on
   sample data until their endpoints exist.
+- **Documents, accounts, fixed assets and the overview (steps 2 to 5, 2026-10-24).** Every screen except the
+  workspace switcher and the AI panel now reads and writes the API; `rg -c 'mock\(' apps/web/src/api` finds only
+  `workspaces.ts` and `ai.ts`. Screen-shaped reads live under `apps/api/src/web/` (`/api/web/docs/*`,
+  `/api/web/reports/*`, `/api/web/overview`, `/api/web/modules/*`, `/api/ledger/*`, `/api/fixed-assets/*`) and every
+  write goes through the existing command routes and services, so posting rules stay in one place. These sub-apps
+  are mounted outside the typed `AppType` chain (it hit TS2589) and the web calls them with plain `fetch`.
+  Migrations 0064 to 0067 add what the screens needed and nothing held: per-user report favourites and layouts,
+  feature switches and default accounts, fixed-asset details plus the Pengeluaran Aset document, and account details.
+- **A form field the API cannot hold is disabled or refused, never dropped.** Examples: opening balance (enter it as
+  a journal), currency revaluation at month-end, tax-inclusive prices, payment discounts, invoice discounts without a
+  discount account, edits to quotations and orders (create only), fixed-asset attachments,
+  edits to stock adjustments with OUT lines or a non-default offset account, edits to sales receipts with PPh. Each is refused with 409
+  or hidden in the form, with a one-line reason.
+  Each document type's form shows only the header fields its service stores (`storedInfo` in
+  `packages/schemas/src/docs.ts`); the API refuses an unstored discount, tax flag or PO number with 409. Payment terms become the due date on sales and purchase invoices;
+  no other type stores them, so their forms hide terms and the API ignores the value.
 
 ## Alternatives Considered
 
@@ -51,3 +67,6 @@ screen reads `mock()` sample data. It also found two session defects:
 - Every first navigation costs one `GET /api/me`; the query cache absorbs repeats for 60 s.
 - A session that expires while the app is open is noticed at most 60 s later, on the next navigation.
 - The customer guide no longer warns that sign-out keeps the session.
+- The overview's "new transaction" quick form opens the full document form instead of creating anything; KPI deltas
+  and sparklines show a flat baseline until a time-series query exists.
+- Each refused field above is a backlog item, not a silent gap.

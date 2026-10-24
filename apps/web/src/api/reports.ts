@@ -1,8 +1,6 @@
-import { accounts, balanceSheet, idr, journals, parseDate, profitAndLoss } from '@northline/schemas/fixtures'
-import type { AiMessage, Report, ReportRow } from '@northline/schemas/reports'
+import type { Report, ReportRow } from '@northline/schemas/reports'
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
 import { layoutDefault, type Layout } from '@/features/reports/model'
-import { mock } from './mock'
 
 type T = { id: string; en: string }
 /** The 16 report groups. 'memorize' holds the reports the user starred. */
@@ -50,18 +48,28 @@ const reports: Report[] = [
   r('jurnal-sumber', 'other', 'anl', 'ph-light ph-notebook', 'range', { id: 'Ringkasan Jurnal per Sumber', en: 'Journals by Source' }, { id: 'Total debit jurnal per jenis transaksi sumber.', en: 'Journal debit totals per source transaction type.' }),
 ]
 
-export const reportsQuery = queryOptions({ queryKey: ['reports'], queryFn: () => mock(reports) })
+/** The catalog is defined here; which reports the user starred comes from the API. */
+export const reportsQuery = queryOptions({
+  queryKey: ['reports'],
+  queryFn: async () => {
+    const starred = new Set(await web<string[]>('favourites'))
+    return reports.map((x) => ({ ...x, starred: starred.has(x.id) }))
+  },
+})
 
 export function useStarReport() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: string) => {
-      const x = reports.find((y) => y.id === id)!
-      x.starred = !x.starred
-      return mock(x, 150)
-    },
+    mutationFn: (id: string) => web<{ id: string; starred: boolean }>(`favourites/${encodeURIComponent(id)}`, { method: 'POST' }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['reports'] }),
   })
+}
+
+/** The signed-in user's report state (favourites, layouts, drill-down) under /api/web/reports. */
+async function web<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`/api/web/reports/${path}`, { credentials: 'same-origin', ...init })
+  if (!res.ok) throw new Error(`Permintaan gagal (${res.status})`)
+  return res.json() as Promise<T>
 }
 
 // ---- report rows from the API ----
@@ -140,59 +148,28 @@ export async function fetchReport(id: string, s: { from?: string; to: string }):
 export const reportRowsQuery = (id: string, s: { from?: string; to: string }) =>
   queryOptions({ queryKey: ['reports', id, 'rows', s.from, s.to], queryFn: () => fetchReport(id, s) })
 
-const dmy = (iso: string) => iso.split('-').reverse().join('/')
-const kids = (code: string) => accounts.filter((a) => a.parent === code)
-
-/** Fixture journal lines posted to `code` within the report period (drill-down). */
+export type DrillLine = { no: string; date: string; source: string; desc: string; debit: number; credit: number }
+/** Journal lines posted to `code` (and its sub-accounts) within the report period, in rupiah. */
 export const drillQuery = (code: string, s: { from?: string; to: string }) =>
   queryOptions({
     queryKey: ['reports', 'drill', code, s.from, s.to],
-    queryFn: () => {
-      const [a, b] = [parseDate(dmy(s.from ?? '2000-01-01')), parseDate(dmy(s.to))]
-      const codes = [code, ...kids(code).map((k) => k.code)]
-      const lines = journals
-        .filter((j) => parseDate(j.date) >= a && parseDate(j.date) <= b)
-        .flatMap((j) => j.lines.filter((l) => codes.includes(l.account)).map((l) => ({ no: j.no, jv: j.jv, date: j.date, source: j.source, desc: j.description, debit: l.debit, credit: l.credit })))
-        .sort((x, y) => parseDate(x.date) - parseDate(y.date))
-      return mock(lines, 300)
+    queryFn: async () => {
+      const lines = await web<DrillLine[]>(`drill?${new URLSearchParams({ account: code, from: s.from ?? '2000-01-01', to: s.to })}`)
+      // jv: the journal number; ledger journals are numbered by their source document, so it equals `no`.
+      return lines.map((l) => ({ ...l, jv: l.no, date: l.date.split('-').reverse().join('/'), debit: l.debit / 100, credit: l.credit / 100 }))
     },
   })
 
-// ---- AI panel: canned replies quoting fixture figures ----
-const pl = profitAndLoss()
-const bs = balanceSheet()
-const answers = [
-  `Laba bersih ${idr(pl.netIncome)} terutama karena rugi pelepasan aset tetap ${idr(pl.otherExpense)}. Tanpa pos itu, laba operasional ${idr(pl.grossProfit - pl.opex)}.`,
-  `Pendapatan Operasional ${idr(pl.pendapatanOperasional)}, dikurangi Diskon Penjualan IDR menjadi ${idr(pl.revenue)}. Beban pokok penjualan ${idr(pl.cogs)}, laba kotor ${idr(pl.grossProfit)}.`,
-  `Kas dan setara kas ${idr(bs.cash)} jauh di atas liabilitas ${idr(bs.liabilities)}, jadi likuiditas kuat.`,
-  `Aset ${idr(bs.assets)} = Liabilitas ${idr(bs.liabilities)} + Ekuitas ${idr(bs.equity)}. Neraca seimbang.`,
-]
-let turn = 0
-const now = () => new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
-export const aiGreeting = (report: string): AiMessage => ({
-  id: 'g',
-  bot: true,
-  t: `Saya sudah membaca ${report} PT Harbor Nusantara. Laba bersih periode ini ${idr(pl.netIncome)}, terbebani rugi pelepasan aset ${idr(pl.otherExpense)}. Tanyakan apa saja tentang angka di laporan ini.`,
-  tm: '10:24',
-  cr: '1 kredit',
-})
-
-export function useAskAi() {
-  return useMutation({
-    mutationFn: (_q: string): Promise<AiMessage> => mock({ id: `b${Date.now()}`, bot: true, t: answers[turn++ % answers.length], tm: now(), cr: '2 kredit' }, 1600),
+export const reportLayoutQuery = (id: string) =>
+  queryOptions({
+    queryKey: ['reports', id, 'layout'],
+    queryFn: async () => (await web<{ layout: Layout | null }>(`layouts/${encodeURIComponent(id)}`)).layout ?? layoutDefault,
   })
-}
-export const aiNow = now
-
-const layouts: Record<string, Layout> = {}
-export const reportLayoutQuery = (id: string) => queryOptions({ queryKey: ['reports', id, 'layout'], queryFn: () => mock(layouts[id] ?? layoutDefault, 0) })
 export function useSaveLayout(id: string) {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (l: Layout) => {
-      layouts[id] = l
-      return mock(l, 300)
-    },
+    mutationFn: async (l: Layout) =>
+      (await web<{ layout: Layout }>(`layouts/${encodeURIComponent(id)}`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(l) })).layout,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['reports', id, 'layout'] }),
   })
 }

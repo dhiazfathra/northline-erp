@@ -1,9 +1,9 @@
 import type { DocRow, DocStatus, DocType, DocValues, ItemDocInput, JournalDocInput, PaymentDocInput } from '@northline/schemas/docs'
 import { idr } from '@northline/schemas/fixtures'
 import { useQuery } from '@tanstack/react-query'
-import { useLocation } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PaidInvoiceError, docMeta, docsQuery, nextNumber, useDeleteDoc } from '@/api/docs'
+import { PaidInvoiceError, docMeta, docsQuery, useDeleteDoc } from '@/api/docs'
 import { Confirm, ConfirmAction, ConfirmCancel, Frame, btnOutline } from '@/features/ledger/ui'
 import type { Lang } from '@/lib/i18n'
 import { navFor } from '@/lib/nav'
@@ -32,10 +32,11 @@ const statusL: Record<DocStatus, T & { icon: string; rgb: string }> = {
 }
 
 function blank(type: DocType): DocValues {
-  const head = { date: '17/10/2026', autoNo: true, number: nextNumber(docMeta[type].prefix), description: '' }
+  // The API assigns the number on save when autoNo is on, so none is previewed here.
+  const head = { date: new Date().toLocaleDateString('en-GB'), autoNo: true, number: '', description: '' }
   const kind = docMeta[type].kind
   if (kind === 'journal') return { ...head, lines: [] }
-  if (kind === 'payment') return { ...head, party: '', bank: '1101 Bank Uji', amount: 0, lines: [] }
+  if (kind === 'payment') return { ...head, party: '', bank: '', amount: 0, lines: [] }
   return { ...head, party: '', items: [], discPct: 0, taxable: false, inclusive: false, terms: 'Net 30', poNo: '', supplierNo: '', dp: [], invoice: '' }
 }
 
@@ -64,7 +65,7 @@ interface TabState {
 const store: Partial<Record<DocType, TabState>> = {}
 const stateOf = (t: DocType) => (store[t] ??= { forms: [], active: 'list', seq: 0, q: '', applied: '', status: null })
 
-export function DocScreen({ type }: { type: DocType }) {
+export function DocScreen({ type, fresh = false }: { type: DocType; fresh?: boolean }) {
   const { L, setDirty, showToast } = useShell()
   const t = useT()
   const { pathname } = useLocation()
@@ -95,13 +96,23 @@ export function DocScreen({ type }: { type: DocType }) {
   }
   const edit = useCallback((id: number, values: DocValues) => setForms((f) => f.map((x) => (x.id === id ? { ...x, values, edited: true } : x))), [])
   const current = forms.find((f) => f.id === active)
+  // Arriving with ?new=1 opens one blank form, then drops the flag so a reload shows the list; the ref keeps StrictMode from opening two.
+  const navigate = useNavigate()
+  const freshDone = useRef(false)
+  useEffect(() => {
+    if (!fresh || freshDone.current) return
+    freshDone.current = true
+    open()
+    void navigate({ to: '.', search: {}, replace: true })
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- runs once on arrival; `open` is a fresh closure each render
+  }, [fresh, navigate])
 
   const confirmDelete = () => {
     if (!del) return
     const { draft, no } = del
     setDel(null)
     if (!draft.record) return close(draft.id)
-    remove.mutate(draft.record.id, {
+    remove.mutate({ type, id: draft.record.id }, {
       onSuccess: () => {
         showToast(`${docLabel} "${no}" berhasil dihapus`)
         close(draft.id)

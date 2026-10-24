@@ -1,38 +1,66 @@
-import type { Account, AccountInput } from '@northline/schemas/accounts'
+import { accountTypeLabel, type Account, type AccountInput } from '@northline/schemas/accounts'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { accounts as fixtureAccounts, journals, naturalBalance, parseDate } from '@northline/schemas/fixtures'
-import { mock } from './mock'
-
-const base = { note: '', bank: '', accNo: '', accName: '', opening: 0, openDate: '2026-01-01', allUsers: true, users: [] as string[] }
-let accounts: Account[] = fixtureAccounts.map((x) => ({ ...base, id: x.code, code: x.code, name: x.name, type: x.type, parentId: x.parent ?? null, balance: naturalBalance(x.code), contra: x.contra }))
-
-/** Journal lines posted to an account or any of its descendants, oldest first. */
-export function accountLines(code: string) {
-  const own = (c: string): boolean => !!c && (c === code || own(fixtureAccounts.find((x) => x.code === c)?.parent ?? ''))
-  return journals
-    .flatMap((j) => j.lines.filter((l) => own(l.account)).map((l) => ({ ...l, jv: j.jv, no: j.no, date: j.date, description: j.description })))
-    .sort((x, y) => parseDate(x.date) - parseDate(y.date))
-}
+import { api } from './client'
+import { ledgerApi } from './ledger'
 
 export const accountUsers = ['Dhiaz Fathra', 'Arif Santoso', 'Rina Wulandari', 'Budi Hartono']
 export const bankOptions = ['BCA', 'Mandiri', 'BNI', 'BRI', 'CIMB Niaga']
 
-export const accountsQuery = queryOptions({ queryKey: ['accounts'], queryFn: () => mock(accounts) })
-export const useAccounts = () => useQuery(accountsQuery)
-
-function fromInput(id: string, v: AccountInput, balance: number): Account {
-  const { isSub, parentId, ...rest } = v
-  return { ...rest, id, parentId: isSub ? parentId : null, balance }
+const dmy = (iso: string) => iso.split('-').reverse().join('/')
+const fail = async (res: Response, what: string) => {
+  if (res.ok) return
+  const b = (await res.json().catch(() => ({}))) as { error?: string; issues?: { message: string }[] }
+  throw new Error(b.issues?.[0]?.message ?? b.error ?? `${what} (${res.status})`)
 }
+// Projection position of the last account command, so the refetch waits until the accounts table has it.
+let after = 0
+
+// Opening balance is entered as a Jurnal Umum (the form says so), so the account itself carries none.
+const noOpening = { opening: 0, openDate: '' }
+export const accountsQuery = queryOptions({
+  queryKey: ['accounts'],
+  queryFn: async (): Promise<Account[]> => {
+    const res = await ledgerApi.accounts.$get({ query: { after: String(after) } })
+    await fail(res, 'Akun gagal dimuat')
+    return (await res.json()).map((a) => ({
+      ...a, ...noOpening, id: a.no, code: a.no, name: a.name, type: accountTypeLabel[a.type], parentId: a.parentNo, balance: a.balance / 100, contra: a.type === 'ACCUMULATED_DEPRECIATION',
+    }))
+  },
+})
+export const useAccounts = () => useQuery(accountsQuery)
+/** Postable accounts (nothing rolls up into them), for the account pickers. */
+export const useLeafAccounts = () => useQuery({ ...accountsQuery, select: (all) => all.filter((a) => !all.some((c) => c.parentId === a.id)) }).data ?? []
+
+/** Journal lines posted to an account or any of its descendants, oldest first (cents → rupiah). */
+export const useAccountLines = (code: string) =>
+  useQuery({
+    queryKey: ['accounts', code, 'lines'],
+    enabled: !!code,
+    queryFn: async () => {
+      const res = await ledgerApi.accounts[':no'].lines.$get({ param: { no: code } })
+      await fail(res, 'Transaksi akun gagal dimuat')
+      return (await res.json()).map((l) => ({ jv: l.number, no: l.number, date: dmy(l.date), description: l.description, debit: l.debit / 100, credit: l.credit / 100 }))
+    },
+  })
+
+const command = async (body: Record<string, unknown>, idempotencyKey: string = crypto.randomUUID()) => {
+  const res = await api.ledger.commands.$post({ json: { idempotencyKey, ...body } as never })
+  await fail(res, 'Gagal menyimpan')
+  after = Math.max(after, ((await res.json()) as { globalPosition: number }).globalPosition)
+}
+const typeOf = (label: string) => Object.entries(accountTypeLabel).find(([, l]) => l === label)?.[0]
 
 export function useSaveAccount() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, input }: { id?: string; input: AccountInput }) => {
-      const old = accounts.find((x) => x.id === id)
-      const acc = fromInput(old?.id ?? `acc-${Date.now()}`, input, old?.balance ?? input.opening)
-      accounts = old ? accounts.map((x) => (x.id === acc.id ? acc : x)) : [...accounts, acc]
-      return mock(acc, 400)
+    /** openKey: one per new-account form, so a retry after a failed details save replays OpenAccount instead of refusing it */
+    mutationFn: async ({ id, input, openKey }: { id?: string; input: AccountInput; openKey?: string }) => {
+      // the ledger keys accounts by number and only renames an open account; the form locks code, type and parent on edit
+      if (!id) await command({ type: 'OpenAccount', no: input.code, name: input.name, accountType: typeOf(input.type), parentNo: input.isSub ? input.parentId : undefined }, openKey)
+      else await command({ type: 'RenameAccount', no: id, name: input.name })
+      const { note, bank, accNo, accName, allUsers, users } = input
+      const res = await ledgerApi.accounts[':no'].details.$put({ param: { no: id ?? input.code }, json: { note, bank, accNo, accName, allUsers, users } } as never)
+      await fail(res, 'Detail akun gagal disimpan')
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['accounts'] }),
   })
@@ -41,10 +69,7 @@ export function useSaveAccount() {
 export function useDeleteAccount() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: string) => {
-      accounts = accounts.filter((x) => x.id !== id && x.parentId !== id)
-      return mock(null, 300)
-    },
+    mutationFn: (id: string) => command({ type: 'DeleteAccount', no: id }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['accounts'] }),
   })
 }

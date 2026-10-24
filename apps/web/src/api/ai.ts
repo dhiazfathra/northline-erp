@@ -1,4 +1,6 @@
 import type { AiConversation } from '@northline/schemas/ai'
+import { balanceSheet, idr, profitAndLoss } from '@northline/schemas/fixtures'
+import type { AiMessage } from '@northline/schemas/reports'
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
 import { mock } from './mock'
 
@@ -47,3 +49,29 @@ export function useDeleteConversation() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['ai', 'history'] }),
   })
 }
+
+// ---- report AI panel: canned replies quoting fixture figures (no AI backend yet) ----
+const pl = profitAndLoss()
+const bs = balanceSheet()
+const answers = [
+  `Laba bersih ${idr(pl.netIncome)} terutama karena rugi pelepasan aset tetap ${idr(pl.otherExpense)}. Tanpa pos itu, laba operasional ${idr(pl.grossProfit - pl.opex)}.`,
+  `Pendapatan Operasional ${idr(pl.pendapatanOperasional)}, dikurangi Diskon Penjualan IDR menjadi ${idr(pl.revenue)}. Beban pokok penjualan ${idr(pl.cogs)}, laba kotor ${idr(pl.grossProfit)}.`,
+  `Kas dan setara kas ${idr(bs.cash)} jauh di atas liabilitas ${idr(bs.liabilities)}, jadi likuiditas kuat.`,
+  `Aset ${idr(bs.assets)} = Liabilitas ${idr(bs.liabilities)} + Ekuitas ${idr(bs.equity)}. Neraca seimbang.`,
+]
+let turn = 0
+const now = () => new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+export const aiGreeting = (report: string): AiMessage => ({
+  id: 'g',
+  bot: true,
+  t: `Saya sudah membaca ${report} PT Harbor Nusantara. Laba bersih periode ini ${idr(pl.netIncome)}, terbebani rugi pelepasan aset ${idr(pl.otherExpense)}. Tanyakan apa saja tentang angka di laporan ini.`,
+  tm: '10:24',
+  cr: '1 kredit',
+})
+
+export function useAskAi() {
+  return useMutation({
+    mutationFn: (_q: string): Promise<AiMessage> => mock({ id: `b${Date.now()}`, bot: true, t: answers[turn++ % answers.length], tm: now(), cr: '2 kredit' }, 1600),
+  })
+}
+export const aiNow = now

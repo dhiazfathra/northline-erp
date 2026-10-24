@@ -9,6 +9,10 @@ export const assetExpenseSchema = z.object({
   /** ISO yyyy-mm-dd */
   date: z.string().min(1),
   amount: z.number().positive(),
+  /** Credit account of a saved expense row; new rows have none. */
+  account: z.string().optional(),
+  /** Pengeluaran Aset number when the row was picked from one; the API refuses picking it twice. */
+  expenditure: z.string().optional(),
 })
 export type AssetExpense = z.infer<typeof assetExpenseSchema>
 

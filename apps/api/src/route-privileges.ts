@@ -11,7 +11,9 @@ import { ACTIONS, PRIVILEGES } from './access/service'
 /** No session needed. */
 export const PUBLIC_ROUTES = ['POST /api/auth/login', 'POST /api/auth/logout', 'GET /*']
 /** Any signed-in user: who am I, and the API reference (ADR-0020). */
-export const SESSION_ROUTES = ['GET /api/me', 'GET /api/openapi.json', 'GET /api/docs']
+export const SESSION_ROUTES = ['GET /api/me', 'GET /api/openapi.json', 'GET /api/docs',
+  // the signed-in user's own report favourites and layouts (ADR-0049)
+  'GET /api/web/reports/favourites', 'POST /api/web/reports/favourites/:id', 'GET /api/web/reports/layouts/:id', 'PUT /api/web/reports/layouts/:id']
 /** Not in the privilege catalog (Manufaktur Demo has no such menu): only users with full access. */
 export const FULL_ACCESS = 'full_access'
 
@@ -19,8 +21,16 @@ type Action = (typeof ACTIONS)[number]
 /** A catalog key, or per `{a|b}` path value (joined with '/' when a route has two) a catalog key. */
 type Entry = string | Record<string, string>
 
+const WEB_DOCS: Record<string, string> = {
+  'sales-quotation': 'penjualan.penawaran_penjualan', 'sales-order': 'penjualan.pesanan_penjualan', 'sales-down-payment': 'penjualan.uang_muka_penjualan',
+  'sales-invoice': 'penjualan.faktur_penjualan', 'sales-receipt': 'penjualan.penerimaan_penjualan', 'sales-return': 'penjualan.retur_penjualan',
+  'purchase-order': 'pembelian.pesanan_pembelian', 'purchase-invoice': 'pembelian.faktur_pembelian', 'purchase-payment': 'pembelian.pembayaran_pembelian',
+  'purchase-return': 'pembelian.retur_pembelian', 'cash-receipt': 'kas_bank.penerimaan', 'cash-payment': 'kas_bank.pembayaran', journal: 'buku_besar.jurnal_umum',
+  'stock-adjustment': 'persediaan.penyesuaian_persediaan',
+}
+
 export const ROUTE_PRIVILEGES: Record<string, Entry> = {
-  // shortcut: one key for every ledger command (OpenAccount, PostJournal, ...); split per command type if accounts get their own UI.
+  // account commands are re-keyed by body type in requirePrivilege (ACCOUNT_COMMANDS)
   'POST /api/ledger/commands': 'buku_besar.jurnal_umum',
   'GET /api/reports/trial-balance': 'TrialBalanceReport',
   'GET /api/reports/activity-log': 'AuditListReport',
@@ -188,6 +198,12 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'DELETE /api/fixed-assets/disposals/:number': 'aset_tetap.disposisi_aset',
   'PUT /api/fixed-assets/:number': 'aset_tetap.aset_tetap',
   'DELETE /api/fixed-assets/:number': 'aset_tetap.aset_tetap',
+  'GET /api/fixed-assets': 'FixedAssetListReport',
+  'GET /api/fixed-assets/:number': 'FixedAssetDetailReport',
+  'GET /api/fixed-assets/branches': 'FixedAssetListReport',
+  'GET /api/fixed-assets/locations': 'aset_tetap.aset_per_lokasi',
+  'GET /api/fixed-assets/expenditures': 'FixedAssetListReport',
+  'POST /api/fixed-assets/expenditures': 'aset_tetap.aset_tetap',
   'POST /api/fixed-assets/edits': 'aset_tetap.perubahan_aset',
   'GET /api/reports/fixed-assets-edited': 'FixedAssetEditedListReport',
   'PUT /api/fixed-assets/edits/:number': 'aset_tetap.perubahan_aset',
@@ -213,11 +229,32 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'GET /api/reports/charts/collection-days': 'OwingCollectionGraphReport',
   'GET /api/reports/charts/:chart{monthly-sales|customer-share|item-share}': { 'monthly-sales': 'AnnualSalesChartReport', 'customer-share': 'TopSalesCustomerChartReport', 'item-share': 'TopSalesItemChartReport' },
   'GET /api/reports/balance-sheet': 'BalanceSheetStandardReport',
+  'GET /api/ledger/accounts': 'buku_besar.akun_perkiraan',
+  'GET /api/ledger/accounts/:no/lines': 'buku_besar.akun_perkiraan',
+  'PUT /api/ledger/accounts/:no/details': 'buku_besar.akun_perkiraan',
+  'GET /api/ledger/banks': 'kas_bank.rekonsiliasi_bank',
+  'POST /api/ledger/banks/reconcile': 'kas_bank.rekonsiliasi_bank',
+  'GET /api/ledger/period-ends': 'perusahaan.proses_akhir_bulan', // no Lihat/Aktif action: read with the create grant
+  'GET /api/ledger/features': 'perusahaan.preferensi',
+  'PUT /api/ledger/features': 'perusahaan.preferensi',
+  'GET /api/ledger/default-accounts': 'perusahaan.preferensi',
+  'GET /api/web/reports/drill': 'GeneralLedgerDetailReport',
+  // shortcut: the dashboard shows P&L, receivable and payable figures under one key; split per KPI if groups need finer control.
+  'GET /api/web/overview': 'ProfitLossStandardReport',
+  'GET /api/web/modules/:module{customers|vendors|items|taxes}': { customers: 'CustomerListReport', vendors: 'VendorListReport', items: 'ItemListReport', taxes: 'TaxListReport' },
+  // Document screens (N1): each doc type under its own menu key.
+  'GET /api/web/docs/:type{sales-quotation|sales-order|sales-down-payment|sales-invoice|sales-receipt|sales-return|purchase-order|purchase-invoice|purchase-payment|purchase-return|cash-receipt|cash-payment|journal|stock-adjustment}': WEB_DOCS,
+  'POST /api/web/docs/:type{sales-quotation|sales-order|sales-down-payment|sales-invoice|sales-receipt|sales-return|purchase-order|purchase-invoice|purchase-payment|purchase-return|cash-receipt|cash-payment|journal|stock-adjustment}': WEB_DOCS,
+  'PUT /api/web/docs/:type{sales-quotation|sales-order|sales-down-payment|sales-invoice|sales-receipt|sales-return|purchase-order|purchase-invoice|purchase-payment|purchase-return|cash-receipt|cash-payment|journal|stock-adjustment}/:id': WEB_DOCS,
+  'DELETE /api/web/docs/:type{sales-quotation|sales-order|sales-down-payment|sales-invoice|sales-receipt|sales-return|purchase-order|purchase-invoice|purchase-payment|purchase-return|cash-receipt|cash-payment|journal|stock-adjustment}/:id': WEB_DOCS,
 }
+
+/** Account commands on POST /api/ledger/commands need the Akun Perkiraan grant, not Jurnal Umum (accounts screen, ADR-0049). */
+const ACCOUNT_COMMANDS: Record<string, Action> = { OpenAccount: 'create', RenameAccount: 'edit', SuspendAccount: 'edit', DeleteAccount: 'delete' }
 
 const METHOD_ACTION: Record<string, Action> = { GET: 'view', POST: 'create', PUT: 'edit', DELETE: 'delete' }
 
-/** The key and action a request needs: the method's action when the key has it, else Aktif. Undefined = not mapped (deny). */
+/** The key and action a request needs: the method's action when the key has it, else Aktif (else Buat for a GET). Undefined = not mapped (deny). */
 export function requiredPrivilege(method: string, route: string, path: string): { key: string; action: Action } | undefined {
   const e = ROUTE_PRIVILEGES[`${method} ${route}`]
   if (e === undefined) return
@@ -225,7 +262,8 @@ export function requiredPrivilege(method: string, route: string, path: string): 
   const key = typeof e === 'string' ? e : e[route.split('/').flatMap((s, i) => s.includes('{') ? [got[i]] : []).join('/')]
   if (key === FULL_ACCESS) return { key, action: 'enable' }
   const mask = key && PRIVILEGES.get(key)
-  const action = mask ? ([METHOD_ACTION[method], 'enable'] as Action[]).find(a => mask[ACTIONS.indexOf(a)] === 'x') : undefined
+  // a GET on a key with neither Lihat nor Aktif (Proses Akhir Bulan) is read by whoever may create it
+  const action = mask ? ([METHOD_ACTION[method], 'enable', ...(method === 'GET' ? ['create'] : [])] as Action[]).find(a => mask[ACTIONS.indexOf(a)] === 'x') : undefined
   return action && { key: key!, action }
 }
 
@@ -235,7 +273,11 @@ export const requirePrivilege = (db: Db): MiddlewareHandler<AuthEnv> => async (c
   if (!route) return next() // no handler: hono answers 404
   const id = `${route.method} ${route.path}`
   if (SESSION_ROUTES.includes(id) || PUBLIC_ROUTES.includes(id)) return next()
-  const need = requiredPrivilege(route.method, route.path, c.req.path)
+  let need = requiredPrivilege(route.method, route.path, c.req.path)
+  if (id === 'POST /api/ledger/commands') { // hono caches the parsed body, so the handler reads it again for free
+    const action = ACCOUNT_COMMANDS[await c.req.json().then(b => b?.type, () => undefined)]
+    if (action) need = { key: 'buku_besar.akun_perkiraan', action }
+  }
   // shortcut: the group's time restriction (restriction_days/from/to) is not checked; every captured group is 00.00-23.59.
   const [r] = need ? await db.execute(sql`SELECT u.full_access OR (${need.key} <> ${FULL_ACCESS} AND EXISTS (
       SELECT 1 FROM access_group_users gu JOIN access_groups g ON g.name = gu.group_name

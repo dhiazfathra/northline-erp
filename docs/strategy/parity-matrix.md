@@ -37,7 +37,7 @@ Source: accurate.id, accurate.id/online/fitur/ and accurate.id/harga/, read 2026
 | Import and export | Partial: CSV download on 5 reports; no import | N5, X1 |
 | Printable forms | Gap | N7 |
 | ISO 27001 certificate | Gap | E4 |
-| Web app on live data | Partial: 5 of 43 data calls reach the API | N1 |
+| Web app on live data | Built: every screen except workspaces and the AI panel (ADR-0049) | — |
 
 ## 2. Odoo 20.0 Community
 
