@@ -127,14 +127,22 @@ function allThreads(n: number, first: { pageInfo: { hasNextPage: boolean; endCur
 export type CrState = 'open-threads' | 'approved' | 'rate-limited' | 'reviewed' | 'rounds-exhausted' | 'pending'
 export const TERMINAL: CrState[] = ['approved', 'rate-limited', 'reviewed', 'rounds-exhausted']
 // CodeRabbit edits its walkthrough comment in place, so only a limit notice updated after the head commit counts.
-const LIMITED = /rate limited by coderabbit\.ai|review limit reached|rate limit exceeded/i
+// Seen so far: "rate limited by coderabbit.ai", "Review limit reached", "Review rate limited" (a manual request).
+const LIMITED = /rate[ -]limit|review limit reached/i
 
 /** `since`: when no-mistakes last pushed (state.pushedAt); a limit notice from before that push is about an older head. */
 export function crStatus(n: number, since?: string | null) {
   const pr = graphql(Q, { ...repo(), n }).repository.pullRequest
-  const reviews = pr.reviews.nodes.filter((r: any) => isCr(r.author?.login))
+  return crSummary(pr, allThreads(n, pr.reviewThreads), since)
+}
+
+/** The gate's view of CodeRabbit, from the PR data alone (pure, so it is tested on recorded shapes). */
+export function crSummary(pr: any, allThreadNodes: any[], since?: string | null) {
+  // CodeRabbit's replies in threads also arrive as COMMENTED reviews, with an empty body; only a review with a body
+  // ("Actionable comments posted: n") is a review round.
+  const reviews = pr.reviews.nodes.filter((r: any) => isCr(r.author?.login) && r.body?.trim())
   const rounds = new Set(reviews.map((r: any) => r.commit?.oid)).size
-  const threads = allThreads(n, pr.reviewThreads).filter((t: any) => !t.isResolved && isCr(t.comments.nodes[0]?.author?.login))
+  const threads = allThreadNodes.filter((t: any) => !t.isResolved && isCr(t.comments.nodes[0]?.author?.login))
   const headAt = since ?? pr.commits.nodes[0]?.commit.committedDate ?? ''
   const limited = pr.comments.nodes.some((c: any) => isCr(c.author?.login) && LIMITED.test(c.body) && c.updatedAt > headAt)
   const last = reviews.at(-1)

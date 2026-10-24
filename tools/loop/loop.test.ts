@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { judge, redact, sameDeclarations } from './checks'
-import { bodyFindings, bodyOk, detail, headline, withSection } from './gh'
+import { bodyFindings, bodyOk, crSummary, detail, headline, withSection } from './gh'
 import { blocked } from './guard'
 import { type Plan, planDiff, renderState, type State } from './lib'
 import { cells, decide, findings, nextAction } from './nm'
@@ -77,6 +77,27 @@ describe('CodeRabbit comments', () => {
       'outside apps/web/src/features/accounts/form.tsx:76 [Minor] Do not report a failed journal-line request as an empty account.',
       'outside docs/guide/northline-user-guide.html:245-246 [Minor] Split returns from job costing in the Live status table.',
     ])
+  })
+})
+
+describe('CodeRabbit gate state', () => {
+  // The shapes PR #4 produced: one real review, then CodeRabbit's thread replies as empty COMMENTED reviews.
+  const cr = { login: 'coderabbitai' }
+  const pr = (head: string, extra: object[] = [], comments: object[] = []) => ({
+    headRefOid: head,
+    reviewDecision: 'CHANGES_REQUESTED',
+    commits: { nodes: [{ commit: { committedDate: '2026-10-24T10:50:00Z' } }] },
+    reviews: { nodes: [{ author: cr, state: 'CHANGES_REQUESTED', body: '**Actionable comments posted: 11**', commit: { oid: 'a' } }, ...extra] },
+    comments: { nodes: comments },
+  })
+  const reply = (oid: string) => ({ author: cr, state: 'COMMENTED', body: '', commit: { oid } })
+  test('thread replies are not review rounds and do not mark the head reviewed', () => {
+    expect(crSummary(pr('c', [reply('b'), reply('c')]), [])).toMatchObject({ state: 'pending', rounds: 1 })
+  })
+  test('a manual request answered "Review rate limited" after the push is terminal', () => {
+    const limited = { author: cr, updatedAt: '2026-10-24T11:02:30Z', body: '⚠️ Action not completed\n\nReview rate limited.' }
+    expect(crSummary(pr('c', [], [limited]), [], '2026-10-24T11:00:00Z').state).toBe('rate-limited')
+    expect(crSummary(pr('c', [], [limited]), [], '2026-10-24T11:05:00Z').state).toBe('pending')
   })
 })
 
