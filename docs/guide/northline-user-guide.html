@@ -525,7 +525,7 @@ footer p{margin:6px 0}
 
 <section id="workflows">
   <p class="eyebrow">Workflows</p><h2>Step by step</h2>
-  <p class="lead">Until the web screens are connected, these are the everyday tasks done through the API. Each example is the shape the automated tests send. Account numbers, item codes and names are examples: use your own. Sign in first as shown in <a href="#api">the API section</a>; every call below adds <code>-b jar -H 'content-type: application/json'</code>.</p>
+  <p class="lead">The web screens do these everyday tasks; the API does the same from other software or scripts. Each example is the shape the automated tests send. Account numbers, item codes and names are examples: use your own. Sign in first as shown in <a href="#api">the API section</a>; every call below adds <code>-b jar -H 'content-type: application/json'</code>.</p>
 
   <article class="g wf" id="w-setup"><h3 style="margin:0">1 · Set up your books (once)</h3><ol>
     <li><b>Open your accounts</b>, parents first. Add <code>"parentNo"</code> for a sub-account.
@@ -664,7 +664,7 @@ POST /api/sales/items
       <li>Currency revaluation is not supported yet, so the exchange-rate field is read-only.</li></ul></article>
     <article class="g mod"><header><h3>Other menu entries</h3><span class="st prev">Preview</span></header><p><code>/modules/&lt;name&gt;</code></p><ul class="dec">
       <li>Of the 89 menu entries, 64 open the same placeholder list: users, group access, numbering, print templates, bank transfer, goods receipts, stock opname, every Manufaktur entry, every SmartLink Tax entry, and the SPT and <i>bukti potong</i> reports, among others.</li>
-      <li>Customers, vendors, items and taxes show sample rows.</li></ul></article>
+      <li>Customers, vendors, items and taxes are live lists from your books (items show no stock yet).</li></ul></article>
   </div>
 </section>
 
