@@ -13,8 +13,10 @@ failing runs keep their logs; failing steps keep their last lines below.
 | [20261024T094733-evals](runs/20261024T094733-evals/) | - | evals | `cb454f8` | **FAIL** | 10m23s | 26/27 ok |
 | [20261024T100450-evals](runs/20261024T100450-evals/) | - | evals | `367f177` | **FAIL** | 2m7s | 13/27 ok |
 | [20261024T100918-e2e](runs/20261024T100918-e2e/) | - | e2e | `b1bc113` | pass | 2m48s | db ✓ · seed ✓ · e2e ✓ · balance ✓ · access ✓ · done-when ✓ |
-| [20261024T101808-check](runs/20261024T101808-check/) | - | check | `8d9d369` | pass | 1m27s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
+| 20261024T101808-check | - | check | `8d9d369` | pass | 1m27s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
 | [20261024T101954-evals](runs/20261024T101954-evals/) | - | evals | `8d9d369` | pass | 8m45s | 27/27 ok |
+| [20261024T104606-check](runs/20261024T104606-check/) | - | check | `d5072f5` | **FAIL** | 32.0s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✗ · test-web ✓ · test-loop ✓ |
+| [20261024T104740-check](runs/20261024T104740-check/) | - | check | `d5072f5` | pass | 1m23s | migrations ✓ · mocks ✓ · coverage ✓ · parity ✓ · state ✓ · typecheck-api ✓ · typecheck-web ✓ · typecheck-loop ✓ · lint-web ✓ · test-api ✓ · test-web ✓ · test-loop ✓ |
 
 ## Golden evals: 20261024T101954-evals on `8d9d369`
 
