@@ -46,10 +46,16 @@ const TSC = path.join(API, 'node_modules/.bin/tsc')
 const files = (dir: string, at = ''): string[] =>
   readdirSync(path.join(dir, at), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(dir, path.join(at, e.name)) : [path.join(at, e.name)]))
 // tsc may print a union's members in a different order run to run, on one line (`401 | 429`) or as multi-line object
-// members, so files compare as a multiset of lines with each one-line union run sorted.
+// members. So each top-level chunk (a column-0 line and the lines indented under it) compares as a multiset of lines
+// with one-line union runs sorted, and the files as a multiset of chunks: a member moved between declarations shows.
 export const sameDeclarations = (a: string, b: string) => {
   const run = /(?:[^\s|;,(){}<>[\]]+ \| )+[^\s|;,(){}<>[\]]+/g
-  const norm = (s: string) => s.split('\n').map((l) => l.trimEnd().replace(run, (m) => m.split(' | ').sort().join(' | '))).sort().join('\n')
+  const norm = (s: string) =>
+    s
+      .split(/\n(?=\S)/)
+      .map((chunk) => chunk.split('\n').map((l) => l.trimEnd().replace(run, (m) => m.split(' | ').sort().join(' | '))).sort().join('\n'))
+      .sort()
+      .join('\n\0')
   return norm(a) === norm(b)
 }
 // apps/api's `typecheck` script also regenerates the tracked apps/api/types/*.d.ts that web compiles against. The loop

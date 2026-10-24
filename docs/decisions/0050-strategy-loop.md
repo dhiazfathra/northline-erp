@@ -60,7 +60,8 @@ independent review of that version found 24 problems, 14 of them high; the decis
     the done stage has published. It blocks Neon and Cloudflare MCP tools and the neon, neonctl and wrangler CLIs
     through any wrapper (`env`, `bunx`/`npx`, `pnpm dlx`, `bun x`, `bash -c`, `&`, subshells, `if`/`do` bodies,
     paths). It also blocks `NEON_*`, `neon.tech`, `.env` files (Bash, Read, Grep), `deploy:prod` and `switch:prod`. It
-    blocks any write to the loop state, the project settings or the guard (Edit, Write, Bash or MCP) except through
+    blocks any write to the loop state (state.json, STATE.md, CHANGELOG.md, the runs.jsonl ledgers), the project settings or
+    the guard (Edit, Write, Bash or MCP) except through
     `bun loop`, and the owner's levers `budget`, `phase0` and `init`. It fails closed. It is a tripwire, not a sandbox:
     loop sessions should also run without production credentials. The e2e database script refuses any host but
     localhost.
@@ -107,11 +108,12 @@ independent review of that version found 24 problems, 14 of them high; the decis
 - **Stop and ask the owner** (CLI exit 3): the same case fails in two evals runs, the same step fails in three check
   runs, Accurate reports change, no-mistakes needs the owner, the item passes its time budget (12 h by default; the
   owner extends it with `bun loop budget`), or `start` refuses an item.
-- **Reviewed three times before it runs.** An independent review of each version fed this ADR. Round 1, on the prose
+- **Reviewed four times before it runs.** An independent review of each version fed this ADR. Round 1, on the prose
   design, had 24 findings (14 high). Round 2, on the tooling, had 20 (7 high), among them a tracked-file rewrite, an
   upstream that made "pushed" unreachable, a never-run done-when, guard bypasses and logs leaking into a public
-  repo. Round 3 had 15 (1 high: a rate-limit notice judged against the wrong push time). Each was fixed, or declined
-  below with a reason. The loop's own pass^2 evals also caught real problems: a test hook timing out on a fresh
+  repo. Round 3 had 15 (1 high: a rate-limit notice judged against the wrong push time). Round 4, on the round-3
+  fixes, had no high findings and 7 medium ones: an unlocked evidence ledger, a run lock scoped to one worktree, a
+  quote-blind guard split, and four smaller ones. Each finding was fixed, or declined below with a reason. The loop's own pass^2 evals also caught real problems: a test hook timing out on a fresh
   database, the API suite hanging when the host disk filled and stopped the Docker VM, and the evidence prune
   deleting the last green run.
 

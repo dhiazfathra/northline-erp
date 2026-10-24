@@ -11,7 +11,8 @@ Rules:
 - Write only under `tools/e2e/`. If a flow fails because the app is wrong, do not fix the app: report it.
 - Follow the harness in `tools/e2e/n1-flows.mjs`: one `flow()` per behaviour, English UI copy, `go()`, `btn()`, a fresh
   page per flow. Copy its head into a new `tools/e2e/<item>-flows.mjs` rather than growing n1-flows.mjs.
-- Name item flows `[<item>] <behaviour>` so `bun loop evals` keeps their screenshot and video.
+- Name item flows `[<item>] <behaviour>` so `bun loop evals` keeps their screenshot and video. A flow the plan promised
+  keeps the promised name verbatim (case G12 matches it exactly).
 - Tag a round-trip flow `[G3]`: save, reload, compare every field; a field the API cannot store must be disabled in the
   form and answered with 409. Tag a picker flow `[G6]`: save a document with an option the seeded API returned.
 - Run `bun loop e2e` to try your flows; it starts its own database, API and web server on free ports.

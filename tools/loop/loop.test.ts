@@ -136,10 +136,19 @@ describe('production guard', () => {
     'echo {} > tools/loop/guard.ts',
     'bun loop budget 40 --reason more',
     'bun run loop phase0 P7 done --reason x',
+    `echo '{"ok":true}' >> docs/strategy/loop/evidence/N2/runs.jsonl`,
+    'echo x >> docs/strategy/loop/CHANGELOG.md',
+    'echo "$(wrangler whoami)"',
   ])('blocks %p', (command) => expect(bash(command)).toBeTruthy())
-  test.each(['git commit -m "docs: neon backup notes"', 'grep -n neon docs/strategy/README.md', 'bun test', 'cat .env.example', 'bun loop status', 'bun loop render'])('allows %p', (command) =>
-    expect(bash(command)).toBeNull(),
-  )
+  test.each([
+    'git commit -m "docs: neon backup notes"',
+    'git commit -m "fix(neon): retry the dump"',
+    'grep -n neon docs/strategy/README.md',
+    'bun test',
+    'cat .env.example',
+    'bun loop status',
+    'bun loop render',
+  ])('allows %p', (command) => expect(bash(command)).toBeNull())
   test('MCP, edits and reads', () => {
     expect(blocked('mcp__plugin_neon_neon__run_sql')).toBeTruthy()
     expect(blocked('mcp__plugin_cloudflare_cloudflare__execute')).toBeTruthy()
@@ -150,6 +159,7 @@ describe('production guard', () => {
     expect(blocked('Write', { file_path: '/r/tools/loop/guard.ts' })).toBeTruthy()
     expect(blocked('Edit', { file_path: '/r/tools/loop/checks.ts' })).toBeNull()
     expect(blocked('Read', { file_path: '/r/.env' })).toBeTruthy()
+    expect(blocked('Read', { file_path: '/r/.env.example' })).toBeNull()
     expect(blocked('Read', { file_path: '/r/apps/api/src/db.ts' })).toBeNull()
   })
 })
@@ -168,6 +178,8 @@ describe('checks', () => {
     const one = '} | {\n    status: 429;\n} | {\n    status: 401;\n}'
     expect(sameDeclarations(one, '} | {\n    status: 401;\n} | {\n    status: 429;\n}')).toBe(true)
     expect(sameDeclarations(one, '} | {\n    status: 401;\n} | {\n    status: 403;\n}')).toBe(false)
+    // A member moved from one declaration to another is a real change.
+    expect(sameDeclarations('interface A {\n    id: string;\n}\ninterface B {\n}', 'interface A {\n}\ninterface B {\n    id: string;\n}')).toBe(false)
   })
   test('G12: every promised flow ran and passed', () => {
     const s = { plan: { evalCases: ['[N2] restore drill'] }, baseline: { g3Flows: 0, g6Flows: 0 } } as unknown as State

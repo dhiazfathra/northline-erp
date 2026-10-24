@@ -2,6 +2,7 @@
 // judgment work, and `advance` moves the stage only when the exit checks pass. Exit codes: 0 ok, 1 failed, 2 usage,
 // 3 stop and ask the owner.
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { blob, CASES, changedSinceMain, claimMigration, ctx, judge, killChildren, LOOP_FILES, type Metrics, renderGolden, runSteps, STACK, STATIC, TESTS } from './checks'
 import { adoptPr, crStatus, headline, replyResolve, restoreBody, TERMINAL, threadBody, verifyBody } from './gh'
@@ -13,10 +14,11 @@ import {
 import { drive } from './nm'
 
 const SKILL = path.join(ROOT, '.claude/skills/strategy-loop')
-// Gitignored pid files: NM_LOCK while `bun loop nm` owns the branch, RUN_LOCK while check, evals or e2e hold the test
-// databases and ports. A lock whose process is gone (killed session) is stale and ignored.
+// Pid files: NM_LOCK (gitignored, per worktree) while `bun loop nm` owns the branch; RUN_LOCK while check, evals or e2e
+// hold the test databases and ports, which every worktree on this machine shares, so it lives in the temp dir. A lock
+// whose process is gone (killed session) is stale and ignored.
 const NM_LOCK = path.join(LOOP, '.nm.lock')
-const RUN_LOCK = path.join(LOOP, '.run.lock')
+const RUN_LOCK = path.join(tmpdir(), 'northline-loop-run.lock')
 const held = (f: string) => {
   if (!existsSync(f)) return false
   try {
@@ -545,8 +547,9 @@ async function main() {
       need()
       if (held(NM_LOCK)) throw new Error('bun loop nm is still running; adopt the PR after it finishes')
       const n = adoptPr(s)
-      // In the done stage this is the last step: the retro and final state are out, so the guard stands down.
-      if (s.stage === 'done') s.published = true
+      // In the done stage this is the last step: once the retro and final state are out through a passing gate on this
+      // code, the guard stands down and the item counts as finished.
+      if (s.stage === 'done') s.published = NM_PASS.includes(s.nm ?? '') && s.nmSha === codeSha() && pushed(s)
       save(s)
       commit(`chore(loop): ${s.item} PR #${n}${s.published ? ' (published)' : ''}`)
       return console.log(`PR #${n}`)
