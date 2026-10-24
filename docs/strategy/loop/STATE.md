@@ -1,43 +1,51 @@
 # Strategy loop state
 
-Written and revised by the `strategy-loop` skill ([ADR-0050](../../decisions/0050-strategy-loop.md)). Owner edits
-welcome; the loop reads this file first.
+Rendered from [state.json](state.json) by `bun loop` ([ADR-0050](../../decisions/0050-strategy-loop.md)); do not edit
+by hand. Plan and loop changes: [CHANGELOG.md](CHANGELOG.md). Verification runs: `evidence/<item>/README.md`.
 
-## Phase 0 (before N2)
+## Now
 
-- [ ] `tools/loop/next-migration.ts`: claims the next free number in `apps/api/migrations`, refuses duplicates.
-- [ ] `tools/loop/check.ts`: api and web typecheck, oxlint against the warning baseline, `bun test` (api, web),
-      duplicate migration numbers, `mock()` count against the baseline. Exit non-zero on any failure.
-- [ ] `.github/workflows/check.yml`: runs `tools/loop/check.ts` with a Postgres service on every push and PR.
-- [ ] `tools/loop/pr-body.ts`: `render`, `set`, `append-no-mistakes`, `verify` around the loop markers.
-- [ ] `tools/loop/evals.ts`: runs G1–G10 twice, prints pass^2 per case.
-- [ ] Round-trip and picker checks (G3, G6) added to `tools/e2e/n1-flows.mjs`.
-- [ ] Baseline recorded below.
+No item in progress. Next: `bun loop start`.
+
+## Phase 0
+
+- [x] P1: `bun loop` CLI: state, stage gates, plan changelog, evidence index
+- [x] P2: `bun loop migration <name>` claims the number and registers it in `db.ts`
+- [x] P3: `bun loop check` and `.github/workflows/check.yml` running it on every push and PR
+- [x] P4: `bun loop pr`, `pr-body restore|verify` around the loop markers
+- [x] P5: `bun loop evals`: G1–G10 twice on a fresh local DB, screenshots and videos
+- [x] P6: `[G3]` round-trip and `[G6]` picker flows tagged in `tools/e2e`, counts ratcheted in the baseline
+- [ ] P7: Baseline taken from a green `bun loop evals` (evidence/strategy-loop)
 
 ## Baseline
 
-| Measure | Value | Date |
-|---|---|---|
-| Accurate zero-diff | 288 / 291 | 2026-10-21 |
-| `mock()` files | 2 (`workspaces.ts`, `ai.ts`), after PR #3 merges | 2026-10-24 |
-| oxlint warnings (web) | 1 | 2026-10-24 |
-| API tests | 434 pass | 2026-10-24 |
+| Measure | Value |
+| --- | --- |
+| `accurateZeroDiff` | 288 |
+| `mockCalls` | 9 |
+| `oxlintWarnings` | 1 |
+| `g3Flows` | 2 |
+| `g6Flows` | 2 |
 
 ## Items
 
 | Item | Status | PR | Evals | CodeRabbit | Notes |
-|---|---|---|---|---|---|
-| N1 | done, awaiting merge | #3 | e2e 114/114 (not pass^2) | rate limited at `09fc5c9` | Retro: docs/retro/2026-10-24-n1.md |
-| N2 | next | | | | Backups, restore drill, alerts |
-| N3 | owner-only | | | | Owner decisions on ADRs and licence |
-| N4 | blocked | | | | Needs a prospect's Data Usaha and consent |
-| N5 | queued | | | | |
+| --- | --- | --- | --- | --- | --- |
+| N1 | awaiting merge | #3 | e2e 114/114 (not pass^2) | rate-limited at 09fc5c9 | Retro: docs/retro/2026-10-24-n1.md |
+| N2 | queued |  |  |  | Loop scope: backup workflow and a restore drill against local Postgres. Owner steps: R2 and Neon secrets, first production dump, 5xx alert |
+| N3 | owner-only |  |  |  | Owner decisions on ADRs and licence |
+| N4 | blocked |  |  |  | Needs a prospect's Data Usaha and consent |
+| N10 | done |  |  |  | Done in the strategy change |
 
-## Current plan
+## Plan
 
-(empty: the loop writes the plan for the current item here)
+(none)
+
+## Architecture suggestions
+
+(none)
 
 ## Learnings
 
-- From N1: one writer for shared files (`app.ts`, `route-privileges.ts`, `db.ts`, migrations); e2e before PR;
-  save the PR body before `/no-mistakes`.
+- N1 (G1): One writer for shared files (`app.ts`, `route-privileges.ts`, `db.ts`, migrations); migrations only via `bun loop migration`.
+- N1 (G10): The PR body's loop section is rendered from state, so `/no-mistakes` overwriting it costs one `bun loop pr-body restore`.

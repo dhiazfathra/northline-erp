@@ -1,16 +1,12 @@
 # Loop prompt
 
-Paste this to start or resume the loop (or use it with `/loop` for self-paced iterations):
+One session per item keeps the context small; `docs/strategy/loop/state.json` is the hand-off between sessions.
+Start or resume with:
 
 ```
 /strategy-loop
-Work the strategy backlog from docs/strategy/loop/STATE.md. Finish the current item through every stage of the
-skill, then start the next one. Stop and ask me only on the skill's stop conditions. Report one line per stage
-reached and the PR link per item.
+Run `bun loop status` and work the current item to `done` through `bun loop next` and `bun loop advance`. Stop on any
+STOP line and report it with the evidence path. At the end, report the PR link and the evals result.
 ```
 
-Single item:
-
-```
-/strategy-loop N2 only. Stop after its retro.
-```
+After the owner merges the item's PR, a new session with the same prompt starts the next item.
