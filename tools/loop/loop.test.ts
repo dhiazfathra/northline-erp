@@ -1,5 +1,5 @@
-import { describe, expect, setDefaultTimeout, test } from 'bun:test'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { afterAll, describe, expect, setDefaultTimeout, test } from 'bun:test'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { bodyFindings, bodyOk, detail, headline, withSection } from './gh'
@@ -152,9 +152,12 @@ describe('renderState', () => {
 
 // ── the CLI against a throwaway repo ──
 const CLI = path.join(import.meta.dir, 'loop.ts')
+const made: string[] = []
+afterAll(() => made.forEach((d) => rmSync(d, { recursive: true, force: true })))
 /** A throwaway repo in its own parent dir (start puts the item worktree next to it). `main`: no item yet, with an origin. */
 function repo(main = false) {
   const parent = mkdtempSync(path.join(tmpdir(), 'loop-test-'))
+  made.push(parent)
   const root = path.join(parent, 'repo')
   const w = (f: string, body: string) => { mkdirSync(path.dirname(path.join(root, f)), { recursive: true }); writeFileSync(path.join(root, f), body) }
   const state: State = {
