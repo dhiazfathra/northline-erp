@@ -11,7 +11,17 @@ import path from 'node:path'
 
 const SECRET = /deploy[:-]prod|switch[:-]prod|NEON_[A-Z_]+|neon\.tech|(^|[\s'"=/<])\.env(?!\.example)(\.[a-z]+)?\b/
 const CLI = new Set(['neon', 'neonctl', 'wrangler'])
-const WRAPPERS = new Set(['env', 'exec', 'time', 'nohup', 'sudo', 'bunx', 'npx', 'command', 'do', 'then', 'else', 'if', 'while', 'until', '!'])
+const WRAPPERS = new Set(['env', 'exec', 'time', 'nohup', 'nice', 'timeout', 'sudo', 'bunx', 'npx', 'command', 'do', 'then', 'else', 'if', 'while', 'until', '!'])
+// Wrapper options that take the next word as their value (`env -u NAME`, `sudo -u user`), so it is not the program.
+const OPERAND: Record<string, string[]> = {
+  env: ['-u', '-C', '-S', '--unset', '--chdir', '--split-string'],
+  exec: ['-a'],
+  nice: ['-n', '--adjustment'],
+  timeout: ['-s', '-k', '--signal', '--kill-after'],
+  sudo: ['-u', '-g', '-C', '-D', '-h', '-p', '-R', '-r', '-t', '-T', '-U', '--user', '--group', '--chdir', '--host', '--prompt'],
+  bunx: ['-p', '--package'],
+  npx: ['-p', '--package'],
+}
 // The ledger exit checks trust (runs.jsonl) and the rendered files count as state too.
 const LOCKED = /docs\/strategy\/loop\/(state\.json|STATE\.md|CHANGELOG\.md)|runs\.jsonl|\.claude\/settings(\.local)?\.json|tools\/loop\/guard\.ts/
 const LOCKED_DIR = /(^|\/)docs\/strategy\/loop\/|(^|\/)\.claude\/settings(\.local)?\.json$|(^|\/)tools\/loop\/guard\.ts$/
@@ -30,10 +40,16 @@ export function programs(command: string): string[] {
   for (const segment of bare.split(/\n|;|&&|\|\||\||&|\(|\)|\{|\}/)) {
     const words = segment.trim().split(/\s+/).filter(Boolean)
     let i = 0
+    let wrapper = ''
     while (i < words.length) {
       const w = words[i]!
       const base = path.basename(w)
-      if (/^[A-Z_][A-Z0-9_]*=/.test(w) || WRAPPERS.has(base) || w.startsWith('-')) i++
+      if (WRAPPERS.has(base)) {
+        wrapper = base
+        i++
+      } else if (OPERAND[wrapper]?.includes(w)) i += 2
+      // timeout's first operand is the duration (`timeout 5m wrangler …`).
+      else if (/^[A-Z_][A-Z0-9_]*=/.test(w) || w.startsWith('-') || (wrapper === 'timeout' && /^\d+(\.\d+)?[smhd]?$/.test(w))) i++
       else if ((base === 'pnpm' && ['dlx', 'exec'].includes(words[i + 1] ?? '')) || (base === 'bun' && words[i + 1] === 'x')) i += 2
       else {
         out.push(base)

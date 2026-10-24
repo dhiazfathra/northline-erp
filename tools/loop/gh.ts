@@ -148,7 +148,8 @@ export function crSummary(pr: any, allThreadNodes: any[], since?: string | null)
   const last = reviews.at(-1)
   const state: CrState = threads.length
     ? 'open-threads'
-    : pr.reviewDecision === 'APPROVED' || (last?.state === 'APPROVED' && last.commit?.oid === pr.headRefOid)
+    : // CodeRabbit's own approval of this head; a human's approval (PR-wide reviewDecision) is not CodeRabbit's.
+      pr.reviews.nodes.some((r: any) => isCr(r.author?.login) && r.state === 'APPROVED' && r.commit?.oid === pr.headRefOid)
       ? 'approved'
       : limited
         ? 'rate-limited'

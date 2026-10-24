@@ -8,7 +8,7 @@ import { blob, CASES, changedSinceMain, claimMigration, ctx, judge, killChildren
 import { adoptPr, crStatus, headline, replyResolve, restoreBody, TERMINAL, threadBody, verifyBody } from './gh'
 import { activeWorktree, blocked } from './guard'
 import {
-  branch, changelog, codeSha, evidenceDir, LOOP, load, newRunId, now, planDiff, record, renderEvidence, ROOT, runDir, runs, save, sh,
+  branch, changelog, codeSha, evidenceDir, held, LOOP, load, locked, pushHead, newRunId, now, planDiff, record, renderEvidence, ROOT, runDir, runs, save, sh,
   type Plan, type Run, type Stage, STAGES, type State, type StepResult, Stop,
 } from './lib'
 import { drive } from './nm'
@@ -16,31 +16,9 @@ import { drive } from './nm'
 const SKILL = path.join(ROOT, '.claude/skills/strategy-loop')
 // Pid files: NM_LOCK (gitignored, per worktree) while `bun loop nm` owns the branch; RUN_LOCK while check, evals or e2e
 // hold the test databases and ports, which every worktree on this machine shares, so it lives in the temp dir. A lock
-// whose process is gone (killed session) is stale and ignored.
+// whose process is gone (killed session) is stale and taken over.
 const NM_LOCK = path.join(LOOP, '.nm.lock')
 const RUN_LOCK = path.join(tmpdir(), 'northline-loop-run.lock')
-const held = (f: string) => {
-  if (!existsSync(f)) return false
-  try {
-    process.kill(Number(readFileSync(f, 'utf8')), 0)
-    return true
-  } catch {
-    return false
-  }
-}
-function locked<T>(f: string, what: string, fn: () => T): T {
-  if (held(f)) throw new Error(`${what} is already running (pid ${readFileSync(f, 'utf8')}); wait for it`)
-  writeFileSync(f, String(process.pid))
-  try {
-    const r = fn()
-    if (r instanceof Promise) return r.finally(() => rmSync(f, { force: true })) as T
-    rmSync(f, { force: true })
-    return r
-  } catch (e) {
-    rmSync(f, { force: true })
-    throw e
-  }
-}
 const [cmd = 'status', ...args] = process.argv.slice(2)
 const flag = (k: string) => { const i = args.indexOf(`--${k}`); return i < 0 ? undefined : args.splice(i, 2)[1] }
 const usage = (u: string): never => { console.error(`usage: bun loop ${u}`); process.exit(2) }
@@ -552,7 +530,14 @@ async function main() {
       if (s.stage === 'done') s.published = NM_PASS.includes(s.nm ?? '') && s.nmSha === codeSha() && pushed(s)
       save(s)
       commit(`chore(loop): ${s.item} PR #${n}${s.published ? ' (published)' : ''}`)
-      return console.log(`PR #${n}`)
+      // pushed() ignores loop-state commits, so the publication commit itself must reach origin before it counts.
+      if (s.published && !pushHead(s.branch!)) {
+        s.published = false
+        save(s)
+        commit(`chore(loop): ${s.item} publication not pushed`)
+        throw new Error(`could not push the publication commit to origin/${s.branch}; push it, then run bun loop pr again`)
+      }
+      return console.log(`PR #${n}${s.published ? ' (published)' : ''}`)
     }
     case 'pr-body': {
       need()

@@ -5,7 +5,7 @@ import path from 'node:path'
 import { judge, redact, sameDeclarations } from './checks'
 import { bodyFindings, bodyOk, crSummary, detail, headline, withSection } from './gh'
 import { blocked } from './guard'
-import { type Plan, planDiff, renderState, type State } from './lib'
+import { held, locked, type Plan, planDiff, pushHead, renderState, sh, type State } from './lib'
 import { cells, decide, findings, nextAction } from './nm'
 
 const plan = (over: Partial<Plan> = {}): Plan => ({
@@ -94,6 +94,13 @@ describe('CodeRabbit gate state', () => {
   test('thread replies are not review rounds and do not mark the head reviewed', () => {
     expect(crSummary(pr('c', [reply('b'), reply('c')]), [])).toMatchObject({ state: 'pending', rounds: 1 })
   })
+  test("a human's approval is not CodeRabbit's; CodeRabbit's approval counts only on the current head", () => {
+    const human = { author: { login: 'dhiazfathra' }, state: 'APPROVED', body: 'lgtm', commit: { oid: 'c' } }
+    expect(crSummary({ ...pr('c', [human]), reviewDecision: 'APPROVED' }, []).state).toBe('pending')
+    const approve = (oid: string) => ({ author: cr, state: 'APPROVED', body: '', commit: { oid } })
+    expect(crSummary(pr('c', [approve('b')]), []).state).not.toBe('approved')
+    expect(crSummary(pr('c', [approve('c')]), []).state).toBe('approved')
+  })
   test('a manual request answered "Review rate limited" after the push is terminal', () => {
     const limited = { author: cr, updatedAt: '2026-10-24T11:02:30Z', body: '⚠️ Action not completed\n\nReview rate limited.' }
     expect(crSummary(pr('c', [], [limited]), [], '2026-10-24T11:00:00Z').state).toBe('rate-limited')
@@ -169,6 +176,14 @@ describe('production guard', () => {
     'bun run loop -- init N9 feat/n9 x',
     'bun loop status > docs/strategy/loop/state.json',
     'cat ../northline-erp/.env.production.local',
+    'env -u UNUSED neonctl branches list',
+    'env -C /tmp -u X wrangler deploy',
+    'sudo -u deploy wrangler deploy',
+    'nice -n 5 wrangler deploy',
+    'timeout 5m wrangler deploy',
+    'timeout -s KILL 30 neon branches list',
+    'exec -a x wrangler deploy',
+    'npx -p wrangler wrangler deploy',
   ])('blocks %p', (command) => expect(bash(command)).toBeTruthy())
   test.each([
     'git commit -m "docs: neon backup notes"',
@@ -211,6 +226,12 @@ describe('checks', () => {
     expect(sameDeclarations(one, '} | {\n    status: 401;\n} | {\n    status: 403;\n}')).toBe(false)
     // A member moved from one declaration to another is a real change.
     expect(sameDeclarations('interface A {\n    id: string;\n}\ninterface B {\n}', 'interface A {\n}\ninterface B {\n    id: string;\n}')).toBe(false)
+    // ...and so is a field moved between nested objects inside one declaration.
+    const nested = (a: string, b: string) => `type T = {\n    x: {\n${a}    };\n    y: {\n${b}    };\n};`
+    expect(sameDeclarations(nested('        id: string;\n', ''), nested('', '        id: string;\n'))).toBe(false)
+    // Object members reordered inside a nested union still compare equal.
+    const inner = (a: string, b: string) => `type T = {\n    r: {\n        s: ${a};\n    } | {\n        s: ${b};\n    };\n};`
+    expect(sameDeclarations(inner('1', '2'), inner('2', '1'))).toBe(true)
   })
   test('G12: every promised flow ran and passed', () => {
     const s = { plan: { evalCases: ['[N2] restore drill'] }, baseline: { g3Flows: 0, g6Flows: 0 } } as unknown as State
@@ -340,5 +361,43 @@ describe('bun loop', () => {
     expect(r.run('learn', '--check', 'G99', 'something').out).toContain('--check must name a case or step that exists')
     expect(r.run('learn', '--check', 'G1', 'claim migrations through the CLI').code).toBe(0)
     expect(r.read('docs/strategy/loop/CHANGELOG.md')).toContain('- Check: G1')
+  })
+})
+
+describe('locks and publication', () => {
+  const dir = mkdtempSync(path.join(tmpdir(), 'loop-lock-'))
+  afterAll(() => rmSync(dir, { recursive: true, force: true }))
+  const dead = () => { const p = Bun.spawnSync(['true']); return p.pid }
+  test('a live lock refuses and is left alone; a stale one is taken over and released', () => {
+    const f = path.join(dir, 'run.lock')
+    writeFileSync(f, String(process.pid))
+    expect(() => locked(f, 'x', () => 1)).toThrow(/already running/)
+    expect(readFileSync(f, 'utf8')).toBe(String(process.pid))
+    writeFileSync(f, String(dead()))
+    expect(locked(f, 'x', () => held(f) && readFileSync(f, 'utf8'))).toBe(String(process.pid))
+    expect(held(f)).toBe(false)
+  })
+  test('a lock file still being created (empty) counts as live', () => {
+    const f = path.join(dir, 'empty.lock')
+    writeFileSync(f, '')
+    expect(() => locked(f, 'x', () => 1)).toThrow(/already running/)
+  })
+  test('the publication commit is pushed and confirmed on the remote', () => {
+    const remote = path.join(dir, 'remote.git')
+    const work = path.join(dir, 'work')
+    sh(['git', 'init', '-q', '--bare', remote], dir)
+    sh(['git', 'clone', '-q', remote, work], dir)
+    const git = (...a: string[]) => sh(['git', '-c', 'user.email=t@t', '-c', 'user.name=t', ...a], work)
+    git('checkout', '-q', '-b', 'feat/x')
+    git('commit', '-q', '--allow-empty', '-m', 'code')
+    expect(pushHead('feat/x', work)).toBe(true)
+    git('commit', '-q', '--allow-empty', '-m', 'chore(loop): published')
+    const head = git('rev-parse', 'HEAD').out
+    expect(pushHead('feat/x', work)).toBe(true)
+    expect(sh(['git', 'rev-parse', 'feat/x'], remote).out).toBe(head)
+    // A remote that moved on (someone else pushed) rejects the non-forced push: not published.
+    git('reset', '-q', '--hard', 'HEAD~1')
+    git('commit', '-q', '--allow-empty', '-m', 'diverged')
+    expect(pushHead('feat/x', work)).toBe(false)
   })
 })

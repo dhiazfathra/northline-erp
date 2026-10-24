@@ -47,14 +47,42 @@ const TSC = path.join(API, 'node_modules/.bin/tsc')
 const files = (dir: string, at = ''): string[] =>
   readdirSync(path.join(dir, at), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(dir, path.join(at, e.name)) : [path.join(at, e.name)]))
 // tsc may print a union's members in a different order run to run, on one line (`401 | 429`) or as multi-line object
-// members. So each top-level chunk (a column-0 line and the lines indented under it) compares as a multiset of lines
-// with one-line union runs sorted, and the files as a multiset of chunks: a member moved between declarations shows.
+// members (`{ … } | { … }`). Only that order is normalised: one-line runs and runs of brace groups are sorted, every
+// line keeps its place, so a field moved between objects shows. Top-level declarations compare as a multiset.
+const closing = (s: string, i: number) => {
+  for (let d = 0, j = i; j < s.length; j++) {
+    if (s[j] === '{') d++
+    else if (s[j] === '}' && --d === 0) return j
+  }
+  return -1
+}
+const objectUnions = (s: string): string => {
+  let out = ''
+  let i = 0
+  while (i < s.length) {
+    const groups: string[] = []
+    let j = i
+    while (s[j] === '{') {
+      const end = closing(s, j)
+      if (end < 0) break
+      groups.push(`{${objectUnions(s.slice(j + 1, end))}}`)
+      j = end + 1
+      if (!s.startsWith(' | {', j)) break
+      j += 3
+    }
+    if (groups.length) {
+      out += groups.sort().join(' | ')
+      i = j
+    } else out += s[i++]
+  }
+  return out
+}
 export const sameDeclarations = (a: string, b: string) => {
   const run = /(?:[^\s|;,(){}<>[\]]+ \| )+[^\s|;,(){}<>[\]]+/g
   const norm = (s: string) =>
     s
       .split(/\n(?=\S)/)
-      .map((chunk) => chunk.split('\n').map((l) => l.trimEnd().replace(run, (m) => m.split(' | ').sort().join(' | '))).sort().join('\n'))
+      .map((chunk) => objectUnions(chunk.split('\n').map((l) => l.trimEnd().replace(run, (m) => m.split(' | ').sort().join(' | '))).join('\n')))
       .sort()
       .join('\n\0')
   return norm(a) === norm(b)

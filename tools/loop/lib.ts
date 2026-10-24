@@ -1,6 +1,6 @@
 // Loop state, plan changelog and evidence records (ADR-0050). state.json is the only source of truth: STATE.md,
 // CHANGELOG.md entries and evidence/<item>/README.md are rendered from it and from runs.jsonl, never edited by hand.
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, closeSync, existsSync, mkdirSync, openSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 export const ROOT = process.env.LOOP_ROOT ?? path.resolve(import.meta.dir, '../..')
@@ -52,6 +52,49 @@ export class Stop extends Error {} // exit 3: a stop condition from the skill; t
 export const sh = (cmd: string[], cwd = ROOT, env: Record<string, string> = {}) => {
   const p = Bun.spawnSync(cmd, { cwd, env: { ...process.env, ...env }, stdout: 'pipe', stderr: 'pipe' })
   return { ok: p.exitCode === 0, out: p.stdout.toString().trim(), err: p.stderr.toString().trim() }
+}
+/** A pid file whose process is alive. One whose process is gone (a killed session) is stale. */
+export const held = (f: string) => {
+  try {
+    process.kill(Number(readFileSync(f, 'utf8')), 0)
+    return true
+  } catch {
+    return false
+  }
+}
+/** Runs fn holding pid file f, created exclusively ('wx') so two processes cannot both pass the check. */
+export function locked<T>(f: string, what: string, fn: () => T): T {
+  for (let tries = 0; ; tries++) {
+    try {
+      closeSync(openSync(f, 'wx'))
+      writeFileSync(f, String(process.pid))
+      break
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code !== 'EEXIST') throw e
+      // An empty file is a lock being written right now: treat it as live.
+      if (held(f) || !readFileSync(f, 'utf8') || tries > 2) throw new Error(`${what} is already running (pid ${readFileSync(f, 'utf8')}); wait for it`)
+      // shortcut: two processes taking over the same stale lock at once can race on this rm; a stale lock is rare.
+      rmSync(f, { force: true })
+    }
+  }
+  const release = () => rmSync(f, { force: true })
+  try {
+    const r = fn()
+    if (r instanceof Promise) return r.finally(release) as T
+    release()
+    return r
+  } catch (e) {
+    release()
+    throw e
+  }
+}
+/** Pushes HEAD to origin/<br> (never forced) and confirms the remote head is HEAD. */
+export function pushHead(br: string, cwd = ROOT) {
+  const p = sh(['git', 'push', '-q', 'origin', `HEAD:refs/heads/${br}`], cwd)
+  if (!p.ok) return false
+  sh(['git', 'fetch', '-q', 'origin', br], cwd)
+  const head = sh(['git', 'rev-parse', 'HEAD'], cwd).out
+  return !!head && sh(['git', 'rev-parse', `origin/${br}`], cwd).out === head
 }
 export const branch = () => sh(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).out
 const OUTSIDE_LOOP = ['--', '.', ':(exclude)docs/strategy/loop']
