@@ -236,6 +236,8 @@ async function save(db: Db, type: DocType, idempotencyKey: string, raw: unknown,
     }
     case 'sales-receipt': {
       const v = paymentDocSchema.parse(raw); noUnsupported(v)
+      if (current && (await db.execute(sql`SELECT 1 FROM sales_receipt_lines WHERE receipt_number = ${current} AND pph_amount > 0 LIMIT 1`)).length)
+        throw new DomainError('Penerimaan dengan PPh belum bisa diubah dari formulir ini')
       // shortcut: PPh on sales receipts needs a bukti-potong tax the form does not ask for; only purchase payments withhold PPh 23 here
       const input = { ...head(v), customer: await partyNo(db, 'customers', v.party), bank: v.bank.split(' ')[0]!, amount: v.amount,
         payments: v.lines.filter(l => l.pay > 0).map(l => ({ invoice: l.invoice, amount: l.pay })) }
@@ -257,6 +259,9 @@ async function save(db: Db, type: DocType, idempotencyKey: string, raw: unknown,
     }
     case 'stock-adjustment': {
       const v = itemDocSchema.parse(raw)
+      if (current && (await db.execute(sql`SELECT 1 FROM item_adjustments a WHERE a.number = ${current} AND (a.account <> ${ADJUST_ACCOUNT}
+        OR EXISTS (SELECT 1 FROM item_adjustment_lines l WHERE l.adjustment_number = a.number AND l.direction = 'OUT'))`)).length)
+        throw new DomainError('Penyesuaian dengan pengurangan atau akun lain belum bisa diubah dari formulir ini')
       // shortcut: the form has no direction or offset account; every line is an increase at its price, offset to ADJUST_ACCOUNT
       const input = { ...head(v), account: ADJUST_ACCOUNT, lines: v.items.map(i => ({ item: i.code, direction: 'IN' as const, qty: i.qty, unitCost: i.price })) }
       return current ? editItemAdjustment(db, current, input) : createItemAdjustment(db, input)
