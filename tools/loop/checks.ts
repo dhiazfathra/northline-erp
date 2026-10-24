@@ -1,9 +1,10 @@
 // Steps behind `bun loop check` and `bun loop evals` (ADR-0050). Each step writes its full output to the run's
-// evidence dir and returns one line; the golden cases G1–G10 are judged from step results, never by the agent.
+// evidence dir and returns one line; the golden cases G1–G11 are judged from step results, never by the agent.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import net from 'node:net'
 import path from 'node:path'
 import { coverageCounts } from '../../apps/api/scripts/coverage'
+import { blocked } from './guard'
 import { LOOP, renderState, ROOT, type Run, sh, type State, type StepResult } from './lib'
 
 const API = path.join(ROOT, 'apps/api')
@@ -18,11 +19,20 @@ export type Metrics = Partial<Record<'mockCalls' | 'oxlintWarnings' | 'accurateZ
 type Ctx = { dir: string; state: State; media: string; flows: NonNullable<Run['flows']>; metrics: Metrics }
 type Step = { name: string; run: (c: Ctx) => Promise<{ ok: boolean; note: string }> }
 
-async function exec(c: Ctx, name: string, cmd: string[], cwd = ROOT, env: Record<string, string> = {}) {
+// Every child the loop starts, so an interrupted run (SIGINT, SIGTERM, a harness timeout) leaves no server behind.
+const children = new Set<{ kill: (sig?: number | NodeJS.Signals) => void }>()
+export const killChildren = () => children.forEach((p) => p.kill('SIGTERM'))
+
+async function exec(c: Ctx, name: string, cmd: string[], cwd = ROOT, env: Record<string, string> = {}, minutes = 10) {
   const p = Bun.spawn(cmd, { cwd, env: { ...process.env, ...env }, stdout: 'pipe', stderr: 'pipe' })
+  children.add(p)
+  const timer = setTimeout(() => p.kill('SIGTERM'), minutes * 60_000)
   const [out, err] = await Promise.all([new Response(p.stdout).text(), new Response(p.stderr).text()])
   const code = await p.exited
-  const log = `$ ${cmd.join(' ')}  (in ${path.relative(ROOT, cwd) || '.'})\n${out}${err}\nexit ${code}\n`
+  clearTimeout(timer)
+  children.delete(p)
+  const timedOut = p.signalCode === 'SIGTERM' ? `\nkilled after ${minutes} min\n` : ''
+  const log = `$ ${cmd.join(' ')}  (in ${path.relative(ROOT, cwd) || '.'})\n${out}${err}${timedOut}\nexit ${code}\n`
   writeFileSync(path.join(c.dir, `${name}.log`), log.length > 200_000 ? `…trimmed\n${log.slice(-200_000)}` : log)
   return { code, out, err }
 }
@@ -31,6 +41,19 @@ const cmd = (name: string, argv: string[], cwd: string): Step => ({
   name,
   run: async (c) => { const { code } = await exec(c, name, argv, cwd); return { ok: code === 0, note: code ? `exit ${code}` : '' } },
 })
+
+const TSC = path.join(API, 'node_modules/.bin/tsc')
+// apps/api's `typecheck` script also regenerates the tracked apps/api/types/*.d.ts (and tsc may reorder unions there),
+// so the loop checks the declaration build into a scratch dir instead of touching tracked files.
+const typecheckApi: Step = {
+  name: 'typecheck-api',
+  run: async (c) => {
+    const a = await exec(c, 'typecheck-api', [TSC, '--noEmit'], API)
+    if (a.code) return { ok: false, note: `exit ${a.code}` }
+    const b = await exec(c, 'typecheck-api-types', [TSC, '-p', 'tsconfig.types.json', '--outDir', path.join(c.dir, 'types')], API)
+    return { ok: !b.code, note: b.code ? `declaration build: exit ${b.code} (typecheck-api-types.log)` : '' }
+  },
+}
 
 const bunTest = (out: string, code: number) => {
   const n = (k: string) => Number(out.match(new RegExp(`^\\s*(\\d+) ${k}$`, 'm'))?.[1] ?? 0)
@@ -43,7 +66,7 @@ const testApi = (name: string, file?: string): Step => ({
     const db = file ? null : await exec(c, `${name}-db`, ['bun', 'apps/api/scripts/e2e-db.ts', 'reset'], ROOT, TEST_DB)
     if (db?.code) return { ok: false, note: `test database: ${lastLine(db.out + db.err)}` }
     // 20 s per test and hook: the first file migrates a brand-new database, which takes over bun's 5 s default under load.
-    const r = await exec(c, name, ['bun', 'test', '--timeout', '20000', ...(file ? [file] : [])], API, { TEST_DATABASE_URL: `${PG}/${TEST_DB.E2E_DB}` })
+    const r = await exec(c, name, ['bun', 'test', '--timeout', '20000', ...(file ? [file] : [])], API, { TEST_DATABASE_URL: `${PG}/${TEST_DB.E2E_DB}` }, 20)
     return bunTest(r.out + r.err, r.code)
   },
 })
@@ -92,13 +115,15 @@ export function mockCalls() {
     .reduce((n, f) => n + (readFileSync(path.join(dir, f), 'utf8').match(/\bmock\(/g)?.length ?? 0), 0)
 }
 
-const changedSinceMain = (...paths: string[]) => {
+export const changedSinceMain = (...paths: string[]) => {
   const base = sh(['git', 'merge-base', 'HEAD', 'origin/main']).out
   const diff = sh(['git', 'diff', '--name-only', base, '--', ...paths]).out
   const untracked = sh(['git', 'ls-files', '--others', '--exclude-standard', '--', ...paths]).out
   return [...new Set([diff, untracked].join('\n').split('\n').filter(Boolean))]
 }
-const LOOP_FILES = ['tools/loop', '.claude/skills/strategy-loop', '.claude/agents', '.claude/settings.json']
+// The loop's own controls: changing one needs `bun loop learn`, which records the file's content hash.
+export const LOOP_FILES = ['tools/loop', '.claude/skills/strategy-loop', '.claude/agents', '.claude/settings.json', 'apps/api/scripts/e2e-db.ts', 'apps/api/scripts/coverage.ts', '.github/workflows/check.yml']
+export const blob = (f: string) => sh(['git', 'hash-object', '--', f]).out
 
 export const STATIC: Step[] = [
   { name: 'migrations', run: async () => { const p = migrationProblems(); return { ok: !p.length, note: p.join('; ') } } },
@@ -122,19 +147,28 @@ export const STATIC: Step[] = [
     },
   },
   {
-    // STATE.md is rendered, never hand-edited; changes to the loop itself need `bun loop learn` (at most 2 per item).
+    // State changes only through `bun loop`: STATE.md matches state.json, state.json has no uncommitted edits, every
+    // commit that touched it is a `chore(loop):` commit, and each changed loop file is the exact content a
+    // `bun loop learn` recorded.
     name: 'state',
     run: async (c) => {
-      const md = readFileSync(path.join(LOOP, 'STATE.md'), 'utf8') === renderState(c.state)
-      const loop = c.state.item ? changedSinceMain(...LOOP_FILES) : []
-      const learned = c.state.learnings.some((l) => l.item === c.state.item)
-      const note = !md ? 'STATE.md differs from state.json (bun loop render)' : loop.length && !learned ? `loop files changed without bun loop learn: ${loop[0]}` : ''
-      return { ok: md && (!loop.length || learned), note }
+      const problems: string[] = []
+      if (readFileSync(path.join(LOOP, 'STATE.md'), 'utf8') !== renderState(c.state)) problems.push('STATE.md differs from state.json')
+      if (c.state.item) {
+        if (sh(['git', 'status', '--porcelain', '--', 'docs/strategy/loop/state.json']).out) problems.push('state.json has uncommitted edits')
+        const base = sh(['git', 'merge-base', 'HEAD', 'origin/main']).out
+        const foreign = sh(['git', 'log', '--format=%h %s', `${base}..HEAD`, '--', 'docs/strategy/loop/state.json']).out.split('\n').filter((l) => l && !/^\w+ chore\(loop\):/.test(l))
+        if (foreign.length) problems.push(`state.json changed outside bun loop: ${foreign[0]}`)
+        const learned = new Set(c.state.learnings.filter((l) => l.item === c.state.item).flatMap((l) => Object.entries(l.files ?? {}).map(([f, h]) => `${f}@${h}`)))
+        const unlearned = changedSinceMain(...LOOP_FILES).filter((f) => !learned.has(`${f}@${existsSync(path.join(ROOT, f)) ? blob(f) : 'deleted'}`))
+        if (unlearned.length) problems.push(`loop files changed without bun loop learn: ${unlearned.slice(0, 2).join(', ')}`)
+      }
+      return { ok: !problems.length, note: problems.join('; ') }
     },
   },
-  cmd('typecheck-api', ['bun', 'run', 'typecheck'], API),
+  typecheckApi,
   cmd('typecheck-web', ['bun', 'run', 'typecheck'], WEB),
-  cmd('typecheck-loop', [path.join(API, 'node_modules/.bin/tsc'), '-p', 'tools/loop'], ROOT),
+  cmd('typecheck-loop', [TSC, '-p', 'tools/loop'], ROOT),
   {
     name: 'lint-web',
     run: async (c) => {
@@ -168,14 +202,17 @@ const freePort = async (from: number) => {
 
 async function ready(url: string, seconds: number) {
   for (let i = 0; i < seconds * 2; i++) {
-    if (await fetch(url).then(() => true, () => false)) return true
+    if (await fetch(url, { signal: AbortSignal.timeout(2000) }).then(() => true, () => false)) return true
     await Bun.sleep(500)
   }
   return false
 }
 
-const serve = (argv: string[], cwd: string, log: string, env: Record<string, string>) =>
-  Bun.spawn(['bash', '-c', 'exec "$@" >"$LOG" 2>&1', 'serve', ...argv], { cwd, env: { ...process.env, ...env, LOG: log } })
+const serve = (argv: string[], cwd: string, log: string, env: Record<string, string>) => {
+  const p = Bun.spawn(['bash', '-c', 'exec "$@" >"$LOG" 2>&1', 'serve', ...argv], { cwd, env: { ...process.env, ...env, LOG: log } })
+  children.add(p)
+  return p
+}
 
 async function e2e(c: Ctx) {
   const [apiPort, webPort] = [await freePort(3100), await freePort(5180)]
@@ -188,7 +225,7 @@ async function e2e(c: Ctx) {
       const file = f.replace(/\.mjs$/, '')
       const out = path.join(c.dir, file)
       mkdirSync(out, { recursive: true })
-      await exec(c, file, ['node', `tools/e2e/${f}`], ROOT, { E2E_BASE_URL: `http://localhost:${webPort}`, E2E_EVIDENCE_DIR: out, E2E_MEDIA: c.media })
+      await exec(c, file, ['node', `tools/e2e/${f}`], ROOT, { E2E_BASE_URL: `http://localhost:${webPort}`, E2E_EVIDENCE_DIR: out, E2E_MEDIA: c.media }, 30)
       const results = path.join(out, 'results.json')
       if (!existsSync(results)) c.flows.push({ file, name: `${f} crashed`, ok: false, fail: `no results.json, see ${file}.log` })
       else for (const r of JSON.parse(readFileSync(results, 'utf8')).flows) c.flows.push({ file, ...r })
@@ -198,9 +235,11 @@ async function e2e(c: Ctx) {
     const pass = c.flows.filter((f) => f.ok).length
     return { ok: c.flows.length > 0 && pass === c.flows.length, note: `${pass}/${c.flows.length} flows` }
   } finally {
-    api.kill()
-    web.kill()
-    await Promise.all([api.exited, web.exited])
+    for (const p of [api, web]) {
+      p.kill()
+      await p.exited
+      children.delete(p)
+    }
   }
 }
 
@@ -220,6 +259,17 @@ export const STACK: Step[] = [
   { name: 'e2e', run: e2e },
   script('balance', ['bun', 'apps/api/scripts/e2e-db.ts', 'balance']),
   testApi('access', 'test/access-enforcement.test.ts'),
+  {
+    // The item's own acceptance command, run after the stack stops; the guard hook cannot see inside `bun loop`.
+    name: 'done-when',
+    run: async (c) => {
+      const cmd = c.state.plan?.doneWhen
+      if (!cmd) return { ok: true, note: 'n/a: no plan' }
+      if (blocked('Bash', { command: cmd })) return { ok: false, note: 'done-when reaches production or secrets: an owner step' }
+      const r = await exec(c, 'done-when', ['bash', '-c', cmd], ROOT)
+      return { ok: !r.code, note: r.code ? `exit ${r.code}: ${lastLine(r.out + r.err)}` : cmd }
+    },
+  },
 ]
 
 /** Runs steps in parallel (independent checks) or in order, skipping the rest after a failed `db` or `seed`. */
@@ -227,7 +277,10 @@ export async function runSteps(steps: Step[], c: Ctx, parallel: boolean): Promis
   const one = async (s: Step): Promise<StepResult> => {
     const t = performance.now()
     const r = await s.run(c).catch((e: Error) => ({ ok: false, note: String(e.message).split('\n')[0]! }))
-    return { name: s.name, ...r, ms: Math.round(performance.now() - t) }
+    const log = path.join(c.dir, `${s.name}.log`)
+    // Logs stay local (gitignored); a failing step keeps its last lines in runs.jsonl, which is committed.
+    const tail = !r.ok && existsSync(log) ? readFileSync(log, 'utf8').split('\n').filter((l) => l.trim()).slice(-15).map((l) => l.slice(0, 200)) : undefined
+    return { name: s.name, ...r, ms: Math.round(performance.now() - t), ...(tail && { tail }) }
   }
   if (parallel) return Promise.all(steps.map(one))
   const out: StepResult[] = []
@@ -259,6 +312,7 @@ export const CASES: { id: string; name: string; passWhen: string; steps: string;
   { id: 'G8', name: 'Books balance', passWhen: 'After the e2e run, debits = credits in every month of `journal_lines`', steps: '`balance`', source: 'ERP invariant', judge: (r) => ok(r, 'balance') },
   { id: 'G9', name: 'Full test suites', passWhen: "`bun test` in api (on the loop's own database), web and `tools/loop`: 0 failures", steps: '`test-api`, `test-web`, `test-loop`', source: 'Baseline', judge: (r) => ok(r, 'test-api', 'test-web', 'test-loop') },
   { id: 'G10', name: 'PR body survives the gate', passWhen: 'The PR body holds the current loop section between the markers; n/a before the PR exists', steps: '`pr-body`', source: 'N1: no-mistakes overwrote the body', judge: (r) => r.prBody },
+  { id: 'G11', name: "The item's done-when", passWhen: "The plan's done-when command exits 0 (and does not reach production); n/a without a plan", steps: '`done-when`', source: 'Review round 2: done-when was never run', judge: (r, s) => (s.plan?.doneWhen ? ok(r, 'done-when') : null) },
 ]
 
 export const judge = (r: Round, s: State) => Object.fromEntries(CASES.map((k) => [k.id, k.judge(r, s)]))

@@ -26,58 +26,82 @@ independent review of that version found 24 problems, 14 of them high; the decis
 - **One main loop, one item per session.** The `strategy-loop` skill is a short driver: `bun loop next` prints the
   current stage's steps and exit checks, the agent does the judgment work, `bun loop advance` moves the stage only
   when its exit checks pass. Stages, in order: plan, build, verify, arch, gate, retro, done.
-- **State is data, docs are rendered.** `docs/strategy/loop/state.json` is the only state; the CLI writes it.
-  `STATE.md`, the golden-eval table, each item's evidence index and the PR body's loop section are rendered from it,
-  and a `state` check fails when `STATE.md` was edited by hand. State lives on the item branch; the next item starts
-  only after the previous item's PR is merged, so main always holds the latest state.
+- **State is data, docs are rendered.** `docs/strategy/loop/state.json` is the only state, and only the CLI writes
+  it: each change is its own `chore(loop):` commit of the loop's files alone. `STATE.md`, the golden-eval table, each
+  item's evidence index and the PR body's loop section are rendered from it. The `state` check fails when `STATE.md`
+  differs from a render, when `state.json` has uncommitted edits, or when a commit outside `bun loop` touched it.
+  State lives on the item branch, and an item counts as "here" only in the worktree on its branch. The done stage
+  pushes the final state, and the next item starts only after the previous PR is merged, so main holds the latest
+  state and a merged item is never mistaken for one in progress.
 - **Items are picked, not chosen.** `bun loop start` takes the next row of the strategy README in order, skips rows
   marked done, owner-only, blocked or awaiting merge, and stops on ambiguity 5, a missing "done when", an unmerged
-  earlier PR or open phase-0 work. It creates `../northline-<item>` on `feat/<item>-<slug>` from `origin/main`.
-- **The plan is revisable and every revision is logged.** `bun loop plan <file> --reason` validates the plan,
-  bumps its version and appends a structural diff (slices added, removed, retitled, re-filed or reordered; done-when;
-  promised eval flows; owner steps) to `docs/strategy/loop/CHANGELOG.md`. A changed done-when or a dropped eval flow
-  is marked ⚠ and repeated in the PR body. Slice progress is not a plan change and is not logged.
+  earlier PR, an item in progress elsewhere or open phase-0 work. It creates `../northline-<item>` on
+  `feat/<item>-<slug>` from `origin/main` with no upstream, so "pushed" always means "on `origin/<branch>`".
+- **The plan is revisable and every revision is logged.** `bun loop plan - --reason` validates the plan, bumps its
+  version and appends a structural diff (slices added, removed, retitled, re-filed or reordered; done-when; promised
+  eval flows; owner steps) to `docs/strategy/loop/CHANGELOG.md`. A changed done-when or a dropped eval flow is marked ⚠
+  and repeated in the PR body. Slice progress is not a plan change and is not logged. The owner's levers
+  (`bun loop budget`, `bun loop phase0`) are logged the same way.
+- **Done-when is executed.** The plan's done-when command runs in every evals round as case G11, after the e2e stack
+  stops, and fails if it would reach production.
 - **Hard limits are tools.**
   - `bun loop migration <name>` creates the next migration and registers it in `db.ts`; the `migrations` check
     fails on a duplicate number or an unregistered file.
-  - `bun loop check` runs typecheck (api, web, `tools/loop`), oxlint against its baseline, both test suites on the
-    loop's own database, the migration registry, the `mock()` count, the zero-diff count, the Accurate-report diff
-    and the state check. CI runs the same command on every push and PR.
-  - A PreToolUse hook (`tools/loop/guard.ts`) blocks Neon CLI and MCP tools, `NEON_*`, `neon.tech`, wrangler,
-    `deploy:prod` and `switch:prod` while any worktree has an item in progress. The e2e database script refuses any
-    host but localhost.
+  - `bun loop check` runs typecheck (api, web, `tools/loop`; the API declaration build goes to a scratch dir, never
+    over the tracked `apps/api/types`), oxlint against its baseline, the api, web and loop test suites (api on the
+    loop's own database), the migration registry, the `mock()` count, the zero-diff count, the Accurate-report diff
+    and the state check. Every step has a timeout, and an interrupted run kills the servers it started. CI runs the
+    same command on every push and PR.
+  - A PreToolUse hook (`tools/loop/guard.ts`) acts while a worktree is on an item's branch with the item not done. It
+    blocks Neon and Cloudflare MCP tools and the neon, neonctl and wrangler CLIs through any wrapper (`env`,
+    `bunx`/`npx`, `pnpm dlx`, `bun x`, `bash -c`, paths). It also blocks `NEON_*`, `neon.tech`, `.env` files,
+    `deploy:prod` and `switch:prod`, plus edits to `docs/strategy/loop/`, the project settings and the guard itself.
+    It fails closed. It is a tripwire, not a sandbox: loop sessions should also run without production credentials.
+    The e2e database script refuses any host but localhost.
 - **Evals first, pass^2 where it matters.** `bun loop evals` runs the static steps once (they cannot flake) and the
   test suites and the e2e stack twice, each on a fresh local database with the API and web on free ports. Cases
-  G1–G10 are judged from step results. `[G3]` round-trip and `[G6]` picker flows are counted, and their counts, the
+  G1–G11 are judged from step results. `[G3]` round-trip and `[G6]` picker flows are counted, and their counts, the
   `mock()` count, oxlint warnings and the zero-diff count move only through `bun loop baseline`, which ratchets them
   in the improving direction.
-- **Evidence is a by-product.** Every check, e2e and evals run appends to `evidence/<item>/runs.jsonl` and keeps
-  its logs. E2e runs keep a screenshot and a video for each failed flow and each flow tagged `[<item>]` (at most 20
-  a run), plus `results.json`. The rendered `evidence/<item>/README.md` shows runs, the pass^2 table and the media;
-  the PR body links it and inlines up to four screenshots. Passing runs keep only their latest logs and media.
+- **Evidence is a by-product.** Every check, e2e and evals run appends to `evidence/<item>/runs.jsonl` and writes a
+  log per step. E2e runs keep a screenshot and a video for each failed flow and each flow tagged `[<item>]` (at most
+  20 a run), plus `results.json`. The rendered `evidence/<item>/README.md` shows runs, the pass^2 table, the last
+  lines of every failing step, and the media. The PR body links it and inlines up to four screenshots. In git: the
+  README, runs.jsonl, results.json and screenshots, committed on stage moves only. Local only (gitignored): full logs,
+  which the repo is public for, and videos, which are large. The latest run of each kind keeps its files, older
+  failing runs keep their logs, and earlier evals rounds keep media only for failures.
 - **One subagent.** The `e2e-verifier` agent (`.claude/agents/e2e-verifier.md`) writes flows under `tools/e2e/`
   and reports failures without seeing the diff; the main agent fixes the app. In N1 it was the only orchestration
   with a measured payoff (5 bugs that unit tests missed).
 - **The architecture pass runs before the gate.** `/improve-codebase-architecture` cannot be invoked by the model
   and is interactive, so `bun loop prompt architecture` runs its method with overrides: scope is the item's changed
   files, ADRs are read from `docs/decisions/`, the report goes to `docs/reports/architecture/<item>.html`, and there
-  is no grilling. Every candidate is recorded with `bun loop arch add` and implemented as its own commit; one that
-  keeps a check red after one fix round is reverted and logged. Running it before the gate means no-mistakes and
-  CodeRabbit review the final diff once.
+  is no grilling. Every candidate is recorded with `bun loop arch add` (or `bun loop arch none` with a reason) and
+  implemented as its own commit; one that keeps a check red after one fix round is reverted and logged. Running it
+  before the gate means no-mistakes and CodeRabbit review the final diff once.
 - **The gate is driven, not narrated.** `bun loop nm` drives `no-mistakes axi` without `--yes`: auto-fix findings
   go back to the pipeline, no-op findings are approved, and ask-user, protected-path or unvalidated-work findings
-  stop the loop for the owner. no-mistakes pushes and opens the PR, so CodeRabbit's first review sees the gated
-  head. `bun loop pr` adopts the PR and puts the loop section above the no-mistakes text. `bun loop cr` lists
-  unresolved threads one line each, prints CodeRabbit's own agent prompt for a thread on demand, replies and
-  resolves, and waits (30 minutes at most) until CodeRabbit approves, reviews the head, rate-limits or has done 2
-  rounds. Follow-up fixes and the retro go out through `bun loop nm` again.
+  stop the loop for the owner. Of no-mistakes' branch-custody actions it runs only `sync`; it reattaches to a live
+  run and leaves recovery or adoption to the owner. While it runs, a lock keeps other `bun loop` commands from
+  committing on the branch it owns. no-mistakes pushes and opens the PR, so CodeRabbit's first review sees the gated
+  head. `bun loop pr` adopts the PR and puts the loop section, pinned to the pushed commit, above the no-mistakes
+  text. `bun loop cr` lists unresolved threads and review-body findings one line each and prints a thread's fix on
+  demand. It also replies and resolves, and waits (30 minutes at most) until CodeRabbit approves, reviews the head,
+  rate-limits after the last push, or has done 2 rounds. The gate exit wants no-mistakes and pass^2 evals on the
+  current commit, so a follow-up fix cannot slip past either. The retro goes out through `bun loop nm` in the done
+  stage.
 - **Self-improvement needs a check.** `bun loop retro` writes the run facts (failed runs, plan changes,
   architecture outcomes, time against budget, gate results) and leaves TODOs for the judgment parts.
-  `bun loop learn --check <case or step>` records a change to the loop and refuses one without an existing case or
-  step or past 2 per item; the `state` check fails when loop files changed without one.
+  `bun loop learn --check <case or step>` records a change to the loop. It refuses a change without an existing case
+  or step, refuses more than 2 per item, and stores the content hash of every loop file it covers. The `state` check
+  fails on any changed loop file whose content no learning covers. Loop files include the eval scripts and CI.
 - **Stop and ask the owner** (CLI exit 3): the same case fails in two evals runs, the same step fails in three check
-  runs, Accurate reports change, no-mistakes needs the owner, the item passes its time budget (12 h by default), or
-  `start` refuses an item.
+  runs, Accurate reports change, no-mistakes needs the owner, the item passes its time budget (12 h by default; the
+  owner extends it with `bun loop budget`), or `start` refuses an item.
+- **Reviewed twice before it runs.** An independent review of each version fed this ADR. Round 1, on the prose
+  design, had 24 findings. Round 2, on the tooling, had 20, among them a tracked-file rewrite, an upstream that made
+  "pushed" unreachable, a never-run done-when, guard bypasses and evidence leaking logs into a public repo. Each was
+  fixed, or declined below with a reason.
 
 ## Alternatives Considered
 
@@ -116,16 +140,28 @@ independent review of that version found 24 problems, 14 of them high; the decis
 
 ### Playwright traces for every flow
 - Pros: the richest failure evidence.
-- Cons: megabytes per flow, in git.
+- Cons: megabytes per flow.
 - Rejected: a screenshot, a video and the console and API errors in `results.json` cover the failures seen so far.
+
+### Block every MCP tool not on an allowlist while an item runs
+- Raised in review round 2.
+- Rejected: the read-only and code-navigation servers are part of normal work. Neon and Cloudflare, the two that
+  reach production, are blocked by name.
+
+### Pause the budget clock while the loop waits on the owner
+- Raised in review round 2: wall-clock time counts the owner's response time and CodeRabbit waits.
+- Rejected: the clock needs a reliable "stopped" signal the loop does not have. The owner extends a budget with
+  `bun loop budget <hours> --reason`, which is logged.
 
 ## Consequences
 - Items take longer in wall-clock terms because slices run one after another; the bet, as in the guide, is less
   rework.
 - One item at a time end to end: the next item waits for the owner's merge. N2 runs with its production steps
   (secrets, the first dump, alerts) listed as owner steps.
-- The repo gains a CI workflow, a project hook and about 1,000 lines of loop tooling with its own tests.
-- Evidence (logs, screenshots, short webm videos) is committed per item, at most 20 media flows per e2e run.
+- The repo gains a CI workflow, a project hook on Bash, Edit, Write, Read and MCP calls, and about 1,500 lines of
+  loop tooling with its own tests.
+- Evidence in git per item: a README, runs.jsonl, results.json and up to 20 screenshots per e2e run (about 80 KB
+  each). Full logs and videos stay in the item's worktree.
 - CodeRabbit's free tier allows about 2 reviews per window, so many items will end at "rate-limited", recorded with
   the head SHA.
 - Each item adds an HTML architecture report under `docs/reports/architecture/`.

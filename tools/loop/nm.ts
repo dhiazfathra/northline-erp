@@ -43,10 +43,25 @@ export function findings(out: string): Finding[] {
 const field = (out: string, key: string) => out.match(new RegExp(`^${key}: (.+)$`, 'm'))?.[1]?.trim()
 const PASS = ['checks-passed', 'passed', 'passed-with-skips', 'passed-with-override']
 
+/** branch_sync.next_action, keys in any order: the indented lines under `next_action:`. */
+export function nextAction(out: string) {
+  const block = out.match(/^([ \t]*)next_action:\n((?:\1[ \t]+.*(?:\n|$))*)/m)?.[2] ?? ''
+  const code = block.match(/^[ \t]+code: (\S+)/m)?.[1]
+  return code ? { code, command: block.match(/^[ \t]+command: (.+)$/m)?.[1]?.trim() } : null
+}
+
 /** The whole decision table. Pure, so it is tested on recorded output without a pipeline. */
 export function decide(out: string): Decision {
   const outcome = field(out, 'outcome')
-  if (outcome) return PASS.includes(outcome) ? { kind: 'done', outcome, sync: /next_action:\s*\n\s+code: sync\b/.test(out) } : { kind: 'failed', outcome }
+  const action = nextAction(out)
+  if (outcome) {
+    if (!PASS.includes(outcome)) return { kind: 'failed', outcome }
+    if (!action || action.code === 'none') return { kind: 'done', outcome, sync: false }
+    if (action.code === 'sync') return { kind: 'done', outcome, sync: true }
+    // recover_custody and adopt_published can drop or replace commits: the owner runs those.
+    return { kind: 'stop', why: `no-mistakes ${outcome}, but the branch needs ${action.code}${action.command ? ` (${action.command})` : ''}` }
+  }
+  if (action?.code === 'continue_active_run') return { kind: 'reattach' }
   const gate = field(out, 'gate')
   if (!gate) return { kind: 'reattach' }
   const f = findings(out)

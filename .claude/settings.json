@@ -2,7 +2,7 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash|mcp__.*neon.*",
+        "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit|Read|mcp__.*",
         "hooks": [{ "type": "command", "command": "bun \"$CLAUDE_PROJECT_DIR/tools/loop/guard.ts\"" }]
       }
     ]

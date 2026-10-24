@@ -6,6 +6,8 @@
   "startedAt": null,
   "budgetHours": 12,
   "nm": null,
+  "nmSha": null,
+  "pushedAt": null,
   "baseline": {
     "accurateZeroDiff": 288,
     "mockCalls": 9,

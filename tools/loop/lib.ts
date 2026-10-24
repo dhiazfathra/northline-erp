@@ -20,14 +20,17 @@ export type State = {
   startedAt: string | null
   budgetHours: number
   nm: string | null
+  nmSha: string | null // the code commit no-mistakes last passed; the gate exit wants it to be the current one
+  pushedAt: string | null // when no-mistakes last pushed; a CodeRabbit limit notice older than this is stale
   baseline: Record<string, number>
   phase0: { id: string; text: string; done: boolean }[]
   items: Item[]
   plan: Plan | null
   arch: { id: string; title: string; status: 'todo' | 'done' | 'reverted'; ref: string }[]
-  learnings: { item: string; check: string; text: string }[]
+  // files: blob hash of each loop file the change covers, so a later edit to the same file needs its own `learn`.
+  learnings: { item: string; check: string; text: string; files?: Record<string, string> }[]
 }
-export type StepResult = { name: string; ok: boolean; ms: number; note: string }
+export type StepResult = { name: string; ok: boolean; ms: number; note: string; tail?: string[] }
 export type Run = {
   id: string
   item: string
@@ -44,10 +47,11 @@ export type Run = {
 
 export class Stop extends Error {} // exit 3: a stop condition from the skill; the agent asks the owner
 
-export const sh = (cmd: string[], cwd = ROOT) => {
-  const p = Bun.spawnSync(cmd, { cwd, stdout: 'pipe', stderr: 'pipe' })
+export const sh = (cmd: string[], cwd = ROOT, env: Record<string, string> = {}) => {
+  const p = Bun.spawnSync(cmd, { cwd, env: { ...process.env, ...env }, stdout: 'pipe', stderr: 'pipe' })
   return { ok: p.exitCode === 0, out: p.stdout.toString().trim(), err: p.stderr.toString().trim() }
 }
+export const branch = () => sh(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).out
 const OUTSIDE_LOOP = ['--', '.', ':(exclude)docs/strategy/loop']
 /** The commit runs are judged against: the last commit outside docs/strategy/loop, "+dirty" with uncommitted code. */
 export const codeSha = () => {
@@ -76,7 +80,7 @@ export function renderState(s: State) {
     '## Now',
     '',
     s.item
-      ? `${s.item} · stage **${s.stage}** · branch \`${s.branch}\` · PR ${s.pr ? `#${s.pr}` : '–'} · no-mistakes ${s.nm ?? '–'} · started ${s.startedAt ?? '–'}, budget ${s.budgetHours} h`
+      ? `${s.item} · stage **${s.stage}** · branch \`${s.branch}\` · PR ${s.pr ? `#${s.pr}` : '–'} · no-mistakes ${s.nm ? `${s.nm} on \`${s.nmSha}\`` : '–'} · started ${s.startedAt ?? '–'}, budget ${s.budgetHours} h`
       : 'No item in progress. Next: `bun loop start`.',
     '',
     '## Phase 0',
@@ -196,8 +200,9 @@ export function renderEvidence(item: string, all: Run[]) {
   const lines = [
     `# ${item} verification evidence`,
     '',
-    'Rendered by `bun loop` from [runs.jsonl](runs.jsonl), oldest first. The latest run of each kind keeps logs and media;',
-    'older failing runs keep their logs; older passing runs keep only their line.',
+    'Rendered by `bun loop` from [runs.jsonl](runs.jsonl), oldest first. In git: this page, runs.jsonl, results.json and',
+    'screenshots. Local only (gitignored): full logs and videos. The latest run of each kind keeps its files; older',
+    'failing runs keep their logs; failing steps keep their last lines below.',
     '',
     row('Run', 'Stage', 'Kind', 'Code', 'Result', 'Time', 'Steps'),
     rule(7),
@@ -223,6 +228,9 @@ export function renderEvidence(item: string, all: Run[]) {
       rule(ev.cases.G1!.length + 2),
       ...Object.entries(ev.cases).map(([id, v]) => row(id, ...v.map(mark), v.every((x) => x === null) ? 'n/a' : v.every((x) => x !== false) ? '✓' : '✗')),
     )
+  const tails = all.flatMap((r) => r.steps.filter((s) => s.tail?.length).map((s) => ({ r, s })))
+  if (tails.length)
+    lines.push('', '## Failing steps (last lines of each log)', ...tails.flatMap(({ r, s }) => ['', `${r.id} · ${s.name} · ${s.note}`, '', '```', ...s.tail!, '```']))
   const fl = all.findLast((r) => r.flows?.length)
   if (fl?.flows) {
     const failed = fl.flows.filter((f) => !f.ok)
@@ -241,7 +249,7 @@ export function renderEvidence(item: string, all: Run[]) {
         row('Flow', 'Result', 'Screenshot', 'Video'),
         rule(4),
         ...media.map((f) =>
-          row(f.name.replaceAll('|', '\\|'), f.ok ? 'pass' : 'FAIL', f.shot && `<img src="${at(f, f.shot)}" width="320">`, f.video && `[webm](${at(f, f.video)})`),
+          row(f.name.replaceAll('|', '\\|'), f.ok ? 'pass' : 'FAIL', f.shot && `<img src="${at(f, f.shot)}" width="320">`, f.video && `[webm](${at(f, f.video)}) (local)`),
         ),
       )
   }

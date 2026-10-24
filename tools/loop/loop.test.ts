@@ -5,7 +5,7 @@ import path from 'node:path'
 import { bodyFindings, bodyOk, detail, headline, withSection } from './gh'
 import { blocked } from './guard'
 import { type Plan, planDiff, renderState, type State } from './lib'
-import { cells, decide, findings } from './nm'
+import { cells, decide, findings, nextAction } from './nm'
 
 const plan = (over: Partial<Plan> = {}): Plan => ({
   version: 1,
@@ -99,29 +99,50 @@ describe('no-mistakes decisions', () => {
     expect(decide('outcome: failed')).toEqual({ kind: 'failed', outcome: 'failed' })
     expect(decide('run: 01ABC\nstatus: running')).toEqual({ kind: 'reattach' })
   })
+  test('branch custody: sync is run, a live run is reattached, recovery goes to the owner', () => {
+    const sync = 'branch_sync:\n  state: behind\n  next_action:\n    command: no-mistakes axi sync\n    code: sync\noutcome: checks-passed'
+    expect(nextAction(sync)).toEqual({ code: 'sync', command: 'no-mistakes axi sync' })
+    expect(decide(sync)).toMatchObject({ kind: 'done', sync: true })
+    expect(decide('branch_sync:\n  next_action:\n    code: continue_active_run')).toEqual({ kind: 'reattach' })
+    expect(decide('outcome: passed\nbranch_sync:\n  next_action:\n    code: recover_custody\n    command: no-mistakes axi sync --recover').kind).toBe('stop')
+  })
 })
 
 describe('production guard', () => {
+  const bash = (command: string) => blocked('Bash', { command })
   test.each([
-    ['Bash', 'bun run deploy:prod'],
-    ['Bash', 'cd x && neon connection-string main'],
-    ['Bash', 'echo $NEON_DATABASE_URL'],
-    ['Bash', 'psql postgres://u@ep-x.neon.tech/db'],
-    ['Bash', 'npx wrangler deploy'],
-    ['mcp__plugin_neon_neon__run_sql', ''],
-  ])('blocks %s %s', (tool, command) => expect(blocked(tool, command)).toBeTruthy())
-  test.each([
-    ['Bash', 'git commit -m "docs: neon backup notes"'],
-    ['Bash', 'grep -n neon docs/strategy/README.md'],
-    ['Bash', 'bun test'],
-    ['Read', ''],
-  ])('allows %s %s', (tool, command) => expect(blocked(tool, command)).toBeNull())
+    'bun run deploy:prod',
+    'cd x && neon connection-string main',
+    'echo $NEON_DATABASE_URL',
+    'psql postgres://u@ep-x.neon.tech/db',
+    'npx wrangler deploy',
+    'echo ok\nwrangler deploy',
+    'pnpm dlx wrangler deploy',
+    'bun x neonctl branches list',
+    'env A=1 wrangler deploy',
+    './node_modules/.bin/wrangler deploy',
+    'bash -c "wrangler deploy"',
+    'cat ../northline-erp/.env',
+  ])('blocks %p', (command) => expect(bash(command)).toBeTruthy())
+  test.each(['git commit -m "docs: neon backup notes"', 'grep -n neon docs/strategy/README.md', 'bun test', 'cat .env.example'])('allows %p', (command) =>
+    expect(bash(command)).toBeNull(),
+  )
+  test('MCP, edits and reads', () => {
+    expect(blocked('mcp__plugin_neon_neon__run_sql')).toBeTruthy()
+    expect(blocked('mcp__plugin_cloudflare_cloudflare__execute')).toBeTruthy()
+    expect(blocked('mcp__serena__find_symbol')).toBeNull()
+    expect(blocked('Edit', { file_path: '/r/docs/strategy/loop/state.json' })).toBeTruthy()
+    expect(blocked('Write', { file_path: '/r/tools/loop/guard.ts' })).toBeTruthy()
+    expect(blocked('Edit', { file_path: '/r/tools/loop/checks.ts' })).toBeNull()
+    expect(blocked('Read', { file_path: '/r/.env' })).toBeTruthy()
+    expect(blocked('Read', { file_path: '/r/apps/api/src/db.ts' })).toBeNull()
+  })
 })
 
 describe('renderState', () => {
   test('is a pure function of the state', () => {
     const s: State = {
-      item: 'N2', stage: 'build', branch: 'feat/n2-backups', pr: null, startedAt: '2026-10-25T00:00:00Z', budgetHours: 12, nm: null,
+      item: 'N2', stage: 'build', branch: 'feat/n2-backups', pr: null, startedAt: '2026-10-25T00:00:00Z', budgetHours: 12, nm: null, nmSha: null, pushedAt: null,
       baseline: { mockCalls: 9 }, phase0: [], items: [], plan: plan(), arch: [], learnings: [],
     }
     expect(renderState(s)).toBe(renderState(structuredClone(s)))
@@ -131,12 +152,14 @@ describe('renderState', () => {
 
 // ── the CLI against a throwaway repo ──
 const CLI = path.join(import.meta.dir, 'loop.ts')
-function repo() {
-  const root = mkdtempSync(path.join(tmpdir(), 'loop-test-'))
+/** A throwaway repo in its own parent dir (start puts the item worktree next to it). `main`: no item yet, with an origin. */
+function repo(main = false) {
+  const parent = mkdtempSync(path.join(tmpdir(), 'loop-test-'))
+  const root = path.join(parent, 'repo')
   const w = (f: string, body: string) => { mkdirSync(path.dirname(path.join(root, f)), { recursive: true }); writeFileSync(path.join(root, f), body) }
   const state: State = {
-    item: 'N2', stage: 'plan', branch: 'feat/n2-backups', pr: null, startedAt: new Date().toISOString(), budgetHours: 12, nm: null,
-    baseline: { mockCalls: 0 }, phase0: [], items: [], plan: null, arch: [], learnings: [],
+    item: main ? null : 'N2', stage: main ? null : 'plan', branch: main ? null : 'feat/n2-backups', pr: null, startedAt: new Date().toISOString(), budgetHours: 12,
+    nm: null, nmSha: null, pushedAt: null, baseline: { mockCalls: 0 }, phase0: [], items: [], plan: null, arch: [], learnings: [],
   }
   w('docs/strategy/loop/state.json', JSON.stringify(state))
   w('docs/strategy/README.md', '## H0 · Now\n\n| # | Item | I | E | A | Score | Steps | Done when |\n|---|---|---|---|---|---|---|---|\n| N2 | Backups | 4 | 1 | 1 | **6** | Dump nightly | A drill log |\n')
@@ -147,12 +170,17 @@ function repo() {
   w('docs/retro/.keep', '')
   // No global git config: the developer's global hooks must not run (or slow down) inside the throwaway repo.
   const env = { ...process.env, LOOP_ROOT: root, GIT_CONFIG_GLOBAL: '/dev/null', GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t' }
-  for (const c of [['init', '-q'], ['add', '-A'], ['commit', '-q', '-m', 'init']]) Bun.spawnSync(['git', ...c], { cwd: root, env })
+  const git = (...c: string[]) => Bun.spawnSync(['git', ...c], { cwd: root, env, stdout: 'pipe', stderr: 'pipe' })
+  for (const c of [['init', '-q', '-b', main ? 'main' : 'feat/n2-backups'], ['add', '-A'], ['commit', '-q', '-m', 'init']]) git(...c)
+  if (main) {
+    Bun.spawnSync(['git', 'init', '-q', '--bare', path.join(parent, 'origin.git')], { env })
+    for (const c of [['remote', 'add', 'origin', path.join(parent, 'origin.git')], ['push', '-q', 'origin', 'main']]) git(...c)
+  }
   const run = (...args: string[]) => {
     const p = Bun.spawnSync(['bun', CLI, ...args], { cwd: root, env, stdout: 'pipe', stderr: 'pipe' })
     return { code: p.exitCode, out: p.stdout.toString() + p.stderr.toString() }
   }
-  return { root, run, read: (f: string) => readFileSync(path.join(root, f), 'utf8') }
+  return { parent, root, run, git, read: (f: string) => readFileSync(path.join(root, f), 'utf8') }
 }
 
 // Each case spawns the CLI a few times; a cold bun cache can take seconds.
@@ -205,6 +233,20 @@ describe('bun loop', () => {
     }
     expect(hook('build')).toMatchObject({ code: 2, err: expect.stringContaining('N2 is in progress') })
     expect(hook('done').code).toBe(0)
+    // Main after the merge holds N2's state but is not on N2's branch: nothing is in progress there.
+    r.git('checkout', '-q', '-b', 'main')
+    expect(hook('retro').code).toBe(0)
+  })
+
+  test('start picks the next row and makes a worktree with no upstream', () => {
+    const r = repo(true)
+    const out = r.run('start').out
+    expect(out).toContain('N2 started in')
+    const wt = path.join(r.parent, 'northline-n2')
+    const s = JSON.parse(readFileSync(path.join(wt, 'docs/strategy/loop/state.json'), 'utf8'))
+    expect(s).toMatchObject({ item: 'N2', stage: 'plan', branch: 'feat/n2-backups' })
+    expect(Bun.spawnSync(['git', 'rev-parse', '--abbrev-ref', '@{u}'], { cwd: wt, stderr: 'pipe' }).exitCode).not.toBe(0)
+    expect(r.run('start').out).toContain('STOP: N2 is at stage plan in')
   })
 
   test('a loop change needs an existing check', () => {

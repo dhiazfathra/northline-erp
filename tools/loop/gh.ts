@@ -28,8 +28,12 @@ const graphql = (query: string, vars: Record<string, string | number>) =>
 export function section(s: State) {
   if (!s.item || !s.plan || !s.branch) throw new Error('no item with a plan in progress')
   const { owner, name } = repo()
-  const blob = `https://github.com/${owner}/${name}/blob/${s.branch}/docs/strategy/loop`
-  const raw = `https://raw.githubusercontent.com/${owner}/${name}/${s.branch}/docs/strategy/loop/evidence/${s.item}`
+  // Pinned to the pushed head, not the branch name, so the links outlive the branch's deletion on merge; local-only
+  // state commits after the push leave the section (and so the body check) unchanged.
+  const pushed = sh(['git', 'rev-parse', '--verify', '-q', `origin/${s.branch}`])
+  const sha = pushed.ok ? pushed.out : sh(['git', 'rev-parse', 'HEAD']).out
+  const blob = `https://github.com/${owner}/${name}/blob/${sha}/docs/strategy/loop`
+  const raw = `https://raw.githubusercontent.com/${owner}/${name}/${sha}/docs/strategy/loop/evidence/${s.item}`
   const ev = runs(s.item).findLast((r) => r.kind === 'evals')
   const cases = ev?.cases ? Object.entries(ev.cases) : []
   const passed = cases.filter(([, v]) => v.every((x) => x !== false) && v.some((x) => x !== null)).length
@@ -51,7 +55,8 @@ export function section(s: State) {
       ? `Golden evals (pass^2): ${passed}/${cases.length} on \`${ev.sha}\` · e2e ${flows.filter((f) => f.ok).length}/${flows.length} flows · [evidence](${blob}/evidence/${s.item}/README.md)`
       : 'Golden evals: not run yet.',
     ...(shots.length ? ['', shots.map((f) => `<img src="${raw}/runs/${ev!.id}/${f.file}/${f.shot}" width="240" alt="${f.name}">`).join(' ')] : []),
-    ...(s.plan.ownerSteps.length ? ['', '**Owner steps (not run by the loop):**', ...s.plan.ownerSteps.map((x) => `- [ ] ${x}`)] : []),
+    // Plain bullets: a task-list box the owner ticks would change the body and fail the section check.
+    ...(s.plan.ownerSteps.length ? ['', '**Owner steps (not run by the loop):**', ...s.plan.ownerSteps.map((x) => `- ${x}`)] : []),
     ...(goalposts.length ? ['', '**Moved goalposts (check these):**', ...goalposts] : []),
     '',
     `Plan v${s.plan.version}; every change and its reason is in the [loop changelog](${blob}/CHANGELOG.md).`,
@@ -109,12 +114,13 @@ export const TERMINAL: CrState[] = ['approved', 'rate-limited', 'reviewed', 'rou
 // CodeRabbit edits its walkthrough comment in place, so only a limit notice updated after the head commit counts.
 const LIMITED = /rate limited by coderabbit\.ai|review limit reached|rate limit exceeded/i
 
-export function crStatus(n: number) {
+/** `since`: when no-mistakes last pushed (state.pushedAt); a limit notice from before that push is about an older head. */
+export function crStatus(n: number, since?: string | null) {
   const pr = graphql(Q, { ...repo(), n }).repository.pullRequest
   const reviews = pr.reviews.nodes.filter((r: any) => isCr(r.author?.login))
   const rounds = new Set(reviews.map((r: any) => r.commit?.oid)).size
   const threads = pr.reviewThreads.nodes.filter((t: any) => !t.isResolved && isCr(t.comments.nodes[0]?.author?.login))
-  const headAt = pr.commits.nodes[0]?.commit.committedDate ?? ''
+  const headAt = since ?? pr.commits.nodes[0]?.commit.committedDate ?? ''
   const limited = pr.comments.nodes.some((c: any) => isCr(c.author?.login) && LIMITED.test(c.body) && c.updatedAt > headAt)
   const last = reviews.at(-1)
   const state: CrState = threads.length

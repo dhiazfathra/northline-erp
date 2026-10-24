@@ -18,6 +18,7 @@ when both runs pass (pass^2). Baselines live in `docs/strategy/loop/state.json` 
 | G8 | Books balance | After the e2e run, debits = credits in every month of `journal_lines` | `balance` | ERP invariant |
 | G9 | Full test suites | `bun test` in api (on the loop's own database), web and `tools/loop`: 0 failures | `test-api`, `test-web`, `test-loop` | Baseline |
 | G10 | PR body survives the gate | The PR body holds the current loop section between the markers; n/a before the PR exists | `pr-body` | N1: no-mistakes overwrote the body |
+| G11 | The item's done-when | The plan's done-when command exits 0 (and does not reach production); n/a without a plan | `done-when` | Review round 2: done-when was never run |
 
 ## Adding a case
 
