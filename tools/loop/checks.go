@@ -190,13 +190,58 @@ func sameDeclarations(a, b string) bool {
 					return strings.Join(p, " | ")
 				})
 			}
-			sort.Strings(ch)
-			out[i] = strings.Join(ch, "\n")
+			// Lines keep their place: only union order is normalised, so a field moved between objects shows.
+			out[i] = objectUnions(strings.Join(ch, "\n"))
 		}
 		sort.Strings(out)
 		return strings.Join(out, "\n\x00")
 	}
 	return norm(a) == norm(b)
+}
+
+// closing: the index of the brace closing the one at i, or -1.
+func closing(s string, i int) int {
+	d := 0
+	for j := i; j < len(s); j++ {
+		if s[j] == '{' {
+			d++
+		} else if s[j] == '}' {
+			if d--; d == 0 {
+				return j
+			}
+		}
+	}
+	return -1
+}
+
+// objectUnions sorts runs of brace groups joined by " | " (`{ … } | { … }`), recursively, leaving all else in place.
+func objectUnions(s string) string {
+	var out strings.Builder
+	for i := 0; i < len(s); {
+		groups := []string{}
+		j := i
+		for j < len(s) && s[j] == '{' {
+			end := closing(s, j)
+			if end < 0 {
+				break
+			}
+			groups = append(groups, "{"+objectUnions(s[j+1:end])+"}")
+			j = end + 1
+			if !strings.HasPrefix(s[j:], " | {") {
+				break
+			}
+			j += 3
+		}
+		if len(groups) > 0 {
+			sort.Strings(groups)
+			out.WriteString(strings.Join(groups, " | "))
+			i = j
+		} else {
+			out.WriteByte(s[i])
+			i++
+		}
+	}
+	return out.String()
 }
 
 // apps/api's `typecheck` script also regenerates the tracked apps/api/types/*.d.ts that web compiles against. The loop

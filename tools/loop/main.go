@@ -25,7 +25,7 @@ func skill() string { return filepath.Join(ROOT, ".claude/skills/strategy-loop")
 
 // Pid files: NM_LOCK (gitignored, per worktree) while `bun loop nm` owns the branch; RUN_LOCK while check, evals or e2e
 // hold the test databases and ports, which every worktree on this machine shares, so it lives in the temp dir. A lock
-// whose process is gone (killed session) is stale and ignored.
+// whose process is gone (killed session) is stale and taken over.
 func nmLock() string  { return filepath.Join(LOOP, ".nm.lock") }
 func runLock() string { return filepath.Join(os.TempDir(), "northline-loop-run.lock") }
 
@@ -41,16 +41,42 @@ func held(f string) bool {
 	return syscall.Kill(int(pid), 0) == nil
 }
 
+// locked runs fn holding pid file f, created exclusively (O_EXCL) so two processes cannot both pass the check.
 func locked(f, what string, fn func() error) error {
-	if held(f) {
+	for tries := 0; ; tries++ {
+		h, err := os.OpenFile(f, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
+		if err == nil {
+			_, err = h.WriteString(strconv.Itoa(os.Getpid()))
+			h.Close()
+			if err != nil {
+				os.Remove(f)
+				return err
+			}
+			break
+		}
+		if !errors.Is(err, os.ErrExist) {
+			return err
+		}
+		// An empty file is a lock being written right now: treat it as live.
 		b, _ := os.ReadFile(f)
-		return fmt.Errorf("%s is already running (pid %s); wait for it", what, b)
-	}
-	if err := os.WriteFile(f, []byte(strconv.Itoa(os.Getpid())), 0o644); err != nil {
-		return err
+		if held(f) || len(b) == 0 || tries > 2 {
+			return fmt.Errorf("%s is already running (pid %s); wait for it", what, b)
+		}
+		// shortcut: two processes taking over the same stale lock at once can race on this remove; a stale lock is rare.
+		os.Remove(f)
 	}
 	defer os.Remove(f)
 	return fn()
+}
+
+// pushHead pushes HEAD to origin/<br> (never forced) and confirms the remote head is HEAD.
+func pushHead(br, cwd string) bool {
+	if !sh([]string{"git", "push", "-q", "origin", "HEAD:refs/heads/" + br}, cwd).Ok {
+		return false
+	}
+	sh([]string{"git", "fetch", "-q", "origin", br}, cwd)
+	head := sh([]string{"git", "rev-parse", "HEAD"}, cwd).Out
+	return head != "" && sh([]string{"git", "rev-parse", "origin/" + br}, cwd).Out == head
 }
 
 var (
@@ -1522,7 +1548,18 @@ func run() error {
 		if err := commit(fmt.Sprintf("chore(loop): %s PR #%d%s", *s.Item, n, pub), false); err != nil {
 			return err
 		}
-		fmt.Printf("PR #%d\n", n)
+		// pushed() ignores loop-state commits, so the publication commit itself must reach origin before it counts.
+		if pub != "" && !pushHead(str(s.Branch), ROOT) {
+			s.Published = ptr(false)
+			if err := save(s); err != nil {
+				return err
+			}
+			if err := commit(fmt.Sprintf("chore(loop): %s publication not pushed", *s.Item), false); err != nil {
+				return err
+			}
+			return fmt.Errorf("could not push the publication commit to origin/%s; push it, then run bun loop pr again", str(s.Branch))
+		}
+		fmt.Printf("PR #%d%s\n", n, pub)
 		return nil
 	case "pr-body":
 		if err := need(); err != nil {

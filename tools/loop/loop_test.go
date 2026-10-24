@@ -127,6 +127,19 @@ func TestCodeRabbitGateState(t *testing.T) {
 		cr := crSummary(pr("c", reply("b")+reply("c"), ""), nil, nil)
 		eq(t, []any{cr.State, cr.Rounds}, []any{"pending", 1})
 	})
+	t.Run("a human's approval is not CodeRabbit's; CodeRabbit's approval counts only on the current head", func(t *testing.T) {
+		human := `,{"author":{"login":"dhiazfathra"},"state":"APPROVED","body":"lgtm","commit":{"oid":"c"}}`
+		p := pr("c", human, "").(map[string]any)
+		p["reviewDecision"] = "APPROVED"
+		eq(t, crSummary(p, nil, nil).State, "pending")
+		approve := func(oid string) string {
+			return `,{"author":{"login":"coderabbitai"},"state":"APPROVED","body":"","commit":{"oid":"` + oid + `"}}`
+		}
+		if crSummary(pr("c", approve("b"), ""), nil, nil).State == "approved" {
+			t.Fatal("approval of an older head counted")
+		}
+		eq(t, crSummary(pr("c", approve("c"), ""), nil, nil).State, "approved")
+	})
 	t.Run(`a manual request answered "Review rate limited" after the push is terminal`, func(t *testing.T) {
 		limited := `{"author":{"login":"coderabbitai"},"updatedAt":"2026-10-24T11:02:30Z","body":"⚠️ Action not completed\n\nReview rate limited."}`
 		eq(t, crSummary(pr("c", "", limited), nil, ptr("2026-10-24T11:00:00Z")).State, "rate-limited")
@@ -209,6 +222,14 @@ func TestProductionGuard(t *testing.T) {
 		"bun run loop -- init N9 feat/n9 x",
 		"bun loop status > docs/strategy/loop/state.json",
 		"cat ../northline-erp/.env.production.local",
+		"env -u UNUSED neonctl branches list",
+		"env -C /tmp -u X wrangler deploy",
+		"sudo -u deploy wrangler deploy",
+		"nice -n 5 wrangler deploy",
+		"timeout 5m wrangler deploy",
+		"timeout -s KILL 30 neon branches list",
+		"exec -a x wrangler deploy",
+		"npx -p wrangler wrangler deploy",
 	} {
 		t.Run("blocks "+c, func(t *testing.T) {
 			if bash(c) == "" {
@@ -280,6 +301,16 @@ func TestChecks(t *testing.T) {
 		eq(t, sameDeclarations(one, "} | {\n    status: 401;\n} | {\n    status: 403;\n}"), false)
 		// A member moved from one declaration to another is a real change.
 		eq(t, sameDeclarations("interface A {\n    id: string;\n}\ninterface B {\n}", "interface A {\n}\ninterface B {\n    id: string;\n}"), false)
+		// ...and so is a field moved between nested objects inside one declaration.
+		nested := func(a, b string) string {
+			return "type T = {\n    x: {\n" + a + "    };\n    y: {\n" + b + "    };\n};"
+		}
+		eq(t, sameDeclarations(nested("        id: string;\n", ""), nested("", "        id: string;\n")), false)
+		// Object members reordered inside a nested union still compare equal.
+		inner := func(a, b string) string {
+			return "type T = {\n    r: {\n        s: " + a + ";\n    } | {\n        s: " + b + ";\n    };\n};"
+		}
+		eq(t, sameDeclarations(inner("1", "2"), inner("2", "1")), true)
 	})
 	t.Run("G12: every promised flow ran and passed", func(t *testing.T) {
 		s := &State{Plan: &Plan{EvalCases: []string{"[N2] restore drill"}}, Baseline: NewOMap[float64]()}
@@ -511,5 +542,53 @@ func TestCLI(t *testing.T) {
 		code, _ := r.run("learn", "--check", "G1", "claim migrations through the CLI")
 		eq(t, code, 0)
 		has(t, r.read("docs/strategy/loop/CHANGELOG.md"), "- Check: G1")
+	})
+}
+
+func TestLocksAndPublication(t *testing.T) {
+	dir := t.TempDir()
+	dead := func() int { c := exec.Command("true"); c.Run(); return c.Process.Pid }
+	t.Run("a live lock refuses and is left alone; a stale one is taken over and released", func(t *testing.T) {
+		f := filepath.Join(dir, "run.lock")
+		me := strconv.Itoa(os.Getpid())
+		os.WriteFile(f, []byte(me), 0o644)
+		if locked(f, "x", func() error { return nil }) == nil {
+			t.Fatal("live lock taken")
+		}
+		b, _ := os.ReadFile(f)
+		eq(t, string(b), me)
+		os.WriteFile(f, []byte(strconv.Itoa(dead())), 0o644)
+		var inside string
+		if err := locked(f, "x", func() error { b, _ := os.ReadFile(f); inside = string(b); return nil }); err != nil {
+			t.Fatal(err)
+		}
+		eq(t, inside, me)
+		eq(t, held(f), false)
+	})
+	t.Run("a lock file still being created (empty) counts as live", func(t *testing.T) {
+		f := filepath.Join(dir, "empty.lock")
+		os.WriteFile(f, nil, 0o644)
+		if locked(f, "x", func() error { return nil }) == nil {
+			t.Fatal("empty lock taken")
+		}
+	})
+	t.Run("the publication commit is pushed and confirmed on the remote", func(t *testing.T) {
+		remote, work := filepath.Join(dir, "remote.git"), filepath.Join(dir, "work")
+		sh([]string{"git", "init", "-q", "--bare", remote}, dir)
+		sh([]string{"git", "clone", "-q", remote, work}, dir)
+		git := func(a ...string) ShResult {
+			return sh(append([]string{"git", "-c", "user.email=t@t", "-c", "user.name=t"}, a...), work)
+		}
+		git("checkout", "-q", "-b", "feat/x")
+		git("commit", "-q", "--allow-empty", "-m", "code")
+		eq(t, pushHead("feat/x", work), true)
+		git("commit", "-q", "--allow-empty", "-m", "chore(loop): published")
+		head := git("rev-parse", "HEAD").Out
+		eq(t, pushHead("feat/x", work), true)
+		eq(t, sh([]string{"git", "rev-parse", "feat/x"}, remote).Out, head)
+		// A remote that moved on (someone else pushed) rejects the non-forced push: not published.
+		git("reset", "-q", "--hard", "HEAD~1")
+		git("commit", "-q", "--allow-empty", "-m", "diverged")
+		eq(t, pushHead("feat/x", work), false)
 	})
 }

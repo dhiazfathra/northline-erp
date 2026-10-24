@@ -403,7 +403,7 @@ func crSummary(pr any, threadNodes []any, since *string) CR {
 	switch {
 	case len(threads) > 0:
 		state = "open-threads"
-	case gets(pr, "reviewDecision") == "APPROVED" || (gets(last, "state") == "APPROVED" && gets(last, "commit", "oid") == head):
+	case crApproved(pr, head):
 		state = "approved"
 	case limited:
 		state = "rate-limited"
@@ -562,4 +562,14 @@ func replyResolve(id, text string) error {
 	}
 	_, err := graphql(`mutation($id:ID!){resolveReviewThread(input:{threadId:$id}){thread{isResolved}}}`, map[string]any{"id": id})
 	return err
+}
+
+// crApproved: CodeRabbit's own approval of this head; a human's approval (PR-wide reviewDecision) is not CodeRabbit's.
+func crApproved(pr any, head string) bool {
+	for _, r := range list(pr, "reviews", "nodes") {
+		if isCr(gets(r, "author", "login")) && gets(r, "state") == "APPROVED" && gets(r, "commit", "oid") == head {
+			return true
+		}
+	}
+	return false
 }

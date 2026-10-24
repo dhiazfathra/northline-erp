@@ -17,6 +17,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -76,7 +77,18 @@ var (
 	secretRe = regexp.MustCompile(`deploy[:-]prod|switch[:-]prod|NEON_[A-Z_]+|neon\.tech`)
 	envRe    = regexp.MustCompile(`(?:^|[\s'"=/<])\.env`)
 	cliNames = map[string]bool{"neon": true, "neonctl": true, "wrangler": true}
-	wrappers = map[string]bool{"env": true, "exec": true, "time": true, "nohup": true, "sudo": true, "bunx": true, "npx": true, "command": true, "do": true, "then": true, "else": true, "if": true, "while": true, "until": true, "!": true}
+	wrappers = map[string]bool{"env": true, "exec": true, "time": true, "nohup": true, "sudo": true, "bunx": true, "npx": true, "command": true, "do": true, "then": true, "else": true, "if": true, "while": true, "until": true, "!": true, "nice": true, "timeout": true}
+	// Wrapper options that take the next word as their value (`env -u NAME`, `sudo -u user`), so it is not the program.
+	operand = map[string][]string{
+		"env":     {"-u", "-C", "-S", "--unset", "--chdir", "--split-string"},
+		"exec":    {"-a"},
+		"nice":    {"-n", "--adjustment"},
+		"timeout": {"-s", "-k", "--signal", "--kill-after"},
+		"sudo":    {"-u", "-g", "-C", "-D", "-h", "-p", "-R", "-r", "-t", "-T", "-U", "--user", "--group", "--chdir", "--host", "--prompt"},
+		"bunx":    {"-p", "--package"},
+		"npx":     {"-p", "--package"},
+	}
+	durationRe = regexp.MustCompile(`^\d+(\.\d+)?[smhd]?$`)
 	// The ledger exit checks trust (runs.jsonl) and the rendered files count as state too. guard.ts: the TS guard's old name.
 	lockedRe    = regexp.MustCompile(`docs/strategy/loop/(state\.json|STATE\.md|CHANGELOG\.md)|runs\.jsonl|\.claude/settings(\.local)?\.json|tools/loop/(guard\.(ts|go)|loop\.sh)`)
 	lockedDirRe = regexp.MustCompile(`(^|/)docs/strategy/loop/|(^|/)\.claude/settings(\.local)?\.json$|(^|/)tools/loop/(guard\.(ts|go)|loop\.sh)$`)
@@ -128,6 +140,7 @@ func programs(command string) []string {
 	bare := quotedRe.ReplaceAllString(command, `""`)
 	for _, segment := range segmentRe.Split(bare, -1) {
 		words := strings.Fields(segment)
+		wrapper := ""
 		for i := 0; i < len(words); {
 			w := words[i]
 			base := path.Base(w)
@@ -135,7 +148,13 @@ func programs(command string) []string {
 			if i+1 < len(words) {
 				next = words[i+1]
 			}
-			if assignRe.MatchString(w) || wrappers[base] || strings.HasPrefix(w, "-") {
+			if wrappers[base] {
+				wrapper = base
+				i++
+			} else if slices.Contains(operand[wrapper], w) {
+				i += 2
+			} else if assignRe.MatchString(w) || strings.HasPrefix(w, "-") || (wrapper == "timeout" && durationRe.MatchString(w)) {
+				// timeout's first operand is the duration (`timeout 5m wrangler …`).
 				i++
 			} else if (base == "pnpm" && (next == "dlx" || next == "exec")) || (base == "bun" && next == "x") {
 				i += 2
