@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { docTypeSchema, itemDocSchema, storedInfo, journalDocSchema, paymentDocSchema, type DocRow, type DocType, type ItemDocInput, type ItemLine, type PayLine } from '@northline/schemas/docs'
+import { docTypeSchema, itemDocSchema, stockAdjustmentSchema, storedInfo, journalDocSchema, paymentDocSchema, type DocRow, type DocType, type ItemDocInput, type ItemLine, type PayLine } from '@northline/schemas/docs'
 import type { AuthEnv } from '../auth'
 import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
@@ -270,7 +270,7 @@ async function save(db: Db, type: DocType, idempotencyKey: string, raw: unknown,
       return current ? editPurchaseReturn(db, current, input) : createPurchaseReturn(db, input)
     }
     case 'stock-adjustment': {
-      const v = itemDocSchema.parse(raw)
+      const v = stockAdjustmentSchema.parse(raw)
       if (current && (await db.execute(sql`SELECT 1 FROM item_adjustments a WHERE a.number = ${current} AND (a.account <> ${ADJUST_ACCOUNT}
         OR EXISTS (SELECT 1 FROM item_adjustment_lines l WHERE l.adjustment_number = a.number AND l.direction = 'OUT'))`)).length)
         throw new DomainError('Penyesuaian dengan pengurangan atau akun lain belum bisa diubah dari formulir ini')

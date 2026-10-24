@@ -1,4 +1,4 @@
-import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, storedInfo, type ItemDocInput } from '@northline/schemas/docs'
+import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, stockAdjustmentSchema, storedInfo, type ItemDocInput } from '@northline/schemas/docs'
 import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Checkbox } from 'radix-ui'
@@ -50,7 +50,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   const isPurchase = type.startsWith('purchase')
   const hasParty = docMeta[type].party !== null
   const info = storedInfo[type] ?? [] // fields this type cannot store are not shown (ADR-0049)
-  const schema = type === 'purchase-invoice' ? purchaseInvoiceSchema : isReturn ? returnDocSchema : itemDocSchema
+  const schema = type === 'purchase-invoice' ? purchaseInvoiceSchema : isReturn ? returnDocSchema : type === 'stock-adjustment' ? stockAdjustmentSchema : itemDocSchema
   const { register, control, handleSubmit, subscribe, setValue, getValues } = useForm<ItemDocInput>({ resolver: zodResolver(schema), defaultValues: values })
   const { fields, append, remove, replace } = useFieldArray({ control, name: 'items' })
   const v = useWatch({ control }) as ItemDocInput

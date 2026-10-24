@@ -81,3 +81,21 @@ test('deleting an asset named on a Pengeluaran Aset is refused with 409', async 
   expect(del.status).toBe(409)
   expect(await del.json()).toEqual({ error: 'Aset FAA.2035.01.00001 dipakai di Pengeluaran Aset AX.2035.01.00001' })
 })
+
+test('an expense picked from a Pengeluaran Aset keeps its number; attaching it twice is refused with 409', async () => {
+  expect((await post('/api/fixed-assets/expenditures', { idempotencyKey: 'web-ax-link', date: '2034-04-01', description: 'Upgrade', dpp: 100, lines: [{ code: t5.asset.number, qty: 1 }] })).status).toBe(201)
+  const [{ number: ax }] = (await (await get('/api/fixed-assets/expenditures')).json()) as { number: string }[]
+  const asset = (key: string, number: string, expenditures: unknown[]) => ({ idempotencyKey: key, number, description: 'Server', category: 'Kantor', date: '2034-04-02', lifeMonths: 10,
+    assetAccount: '120005', accumulatedAccount: '12000604', expenseAccount: '600024', expenditures })
+  const picked = { name: 'Upgrade', date: '2034-04-01', amount: 111, account: 'NL-T1-3001', expenditure: ax }
+  expect((await post('/api/fixed-assets', asset('web-fa-link-dup', 'FAA.2034.04.00008', [picked, picked]))).status).toBe(409)
+  expect((await post('/api/fixed-assets', asset('web-fa-link', 'FAA.2034.04.00009', [picked]))).status).toBe(201)
+  const a = (await (await get('/api/fixed-assets/FAA.2034.04.00009')).json()) as { expenditures: unknown[] }
+  expect(a.expenditures).toEqual([{ name: 'Upgrade', date: '2034-04-01', amount: 111, account: 'NL-T1-3001', expenditure: ax }])
+  const again = await post('/api/fixed-assets', asset('web-fa-link-2', 'FAA.2034.04.00010', [picked]))
+  expect(again.status).toBe(409)
+  expect(await again.json()).toEqual({ error: `Pengeluaran Aset ${ax} sudah dipakai di aset FAA.2034.04.00009` })
+  // editing the asset that holds it keeps it
+  const put = await app.request('/api/fixed-assets/FAA.2034.04.00009', { method: 'PUT', headers: { cookie, 'content-type': 'application/json' }, body: JSON.stringify(asset('web-fa-link-3', 'FAA.2034.04.00009', [picked])) })
+  expect(put.status).toBe(200)
+})

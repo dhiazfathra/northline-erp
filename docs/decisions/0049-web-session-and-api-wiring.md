@@ -48,7 +48,8 @@ screen reads `mock()` sample data. It also found two session defects:
   edits to stock adjustments with OUT lines or a non-default offset account, edits to sales receipts with PPh. Each is refused with 409
   or hidden in the form, with a one-line reason.
   Each document type's form shows only the header fields its service stores (`storedInfo` in
-  `packages/schemas/src/docs.ts`); the API refuses an unstored discount, tax flag or PO number with 409, and ignores payment terms.
+  `packages/schemas/src/docs.ts`); the API refuses an unstored discount, tax flag or PO number with 409. Payment terms become the due date on sales and purchase invoices;
+  no other type stores them, so their forms hide terms and the API ignores the value.
 
 ## Alternatives Considered
 

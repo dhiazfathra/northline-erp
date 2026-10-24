@@ -149,7 +149,7 @@ function AssetFormBody({ asset }: { asset?: FixedAsset }) {
   // Posted asset expenditures (Pengeluaran Aset) are what an asset capitalises.
   const { data: expenditures = [] } = useQuery({
     ...assetExpendituresQuery,
-    select: (xs) => xs.map((x): AssetExpense => ({ code: x.number, desc: x.description, date: x.date.split('/').reverse().join('-'), amount: x.total })),
+    select: (xs) => xs.map((x): AssetExpense => ({ code: x.number, expenditure: x.number, desc: x.description, date: x.date.split('/').reverse().join('-'), amount: x.total })),
   })
   const { L, isMobile, showToast, setDirty, removeTab } = useShell()
   const { pathname } = useLocation()

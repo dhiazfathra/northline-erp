@@ -21,7 +21,7 @@ export const fixedAssetInput = z.object({
   usageDate: isoDate.optional(),
   lifeMonths: z.number().int().positive(),
   assetAccount: z.string(), accumulatedAccount: z.string(), expenseAccount: z.string(),
-  expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
+  expenditures: z.array(z.object({ name: z.string().min(1), date: isoDate, amount: z.union([z.number(), z.string()]).transform(v => Math.round(Number(v) * 100)), account: z.string(), expenditure: z.string().min(1).optional() })).min(1, 'Detail dari transaksi belum diisi!'), // Accurate's text
   /** Fiscal category (Aset Fiskal), e.g. Gol 1 [Garis Lurus] = 48 months straight line (docs/reports/DifferentIntermDepreciationReport.md). */
   fiscalLifeMonths: z.number().int().positive().optional(),
   // Aset Tetap form details (migration 0066); salvage in rupiah like the expenditures.
@@ -36,6 +36,15 @@ export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedA
     if (done) return done.result as { number: string }
     const cost = a.expenditures.reduce((s, e) => s + e.amount, 0)
     if (a.salvage < 0 || a.salvage >= cost) throw new DomainError('Nilai sisa harus lebih kecil dari nilai aset')
+    const xs = a.expenditures.flatMap(e => e.expenditure ? [e.expenditure] : [])
+    if (new Set(xs).size < xs.length) throw new DomainError('Pengeluaran Aset tidak boleh dipilih dua kali')
+    if (xs.length) {
+      const [used] = await tx.execute(sql`SELECT expenditure_number, asset_number FROM fixed_asset_expenditures WHERE expenditure_number IN (${sql.join(xs.map(x => sql`${x}`), sql`, `)}) LIMIT 1`)
+      if (used) throw new DomainError(`Pengeluaran Aset ${used.expenditure_number} sudah dipakai di aset ${used.asset_number}`)
+      const known = new Set((await tx.execute(sql`SELECT number FROM asset_expenditures WHERE number IN (${sql.join(xs.map(x => sql`${x}`), sql`, `)})`)).map(r => r.number as string))
+      const missing = xs.find(x => !known.has(x))
+      if (missing) throw new DomainError(`Pengeluaran Aset ${missing} tidak ditemukan`)
+    }
     const number = a.number ?? await nextNumber(tx, `FAA.${period(a.date)}`)
     // The sandbox's acquisition also consumes the month's Jurnal Umum counter (its first depreciation is JV.yyyy.mm.00002).
     await nextNumber(tx, `JV.${period(a.date)}`)
@@ -49,7 +58,7 @@ export async function createFixedAsset(db: Db | Tx, input: z.input<typeof fixedA
     await tx.execute(sql`UPDATE fixed_assets SET location = ${a.location}, department = ${a.department}, note = ${a.note}, tax = ${a.tax}, qty = ${a.qty}, salvage = ${a.salvage} WHERE number = ${number}`)
     if (a.fiscalLifeMonths) await tx.execute(sql`UPDATE fixed_assets SET fiscal_life_months = ${a.fiscalLifeMonths} WHERE number = ${number}`)
     for (const [i, e] of a.expenditures.entries())
-      await tx.execute(sql`INSERT INTO fixed_asset_expenditures (asset_number, seq, name, date, amount, account) VALUES (${number}, ${i + 1}, ${e.name}, ${e.date}, ${e.amount}, ${e.account})`)
+      await tx.execute(sql`INSERT INTO fixed_asset_expenditures (asset_number, seq, name, date, amount, account, expenditure_number) VALUES (${number}, ${i + 1}, ${e.name}, ${e.date}, ${e.amount}, ${e.account}, ${e.expenditure ?? null})`)
     const result = { number }
     await tx.execute(sql`INSERT INTO command_results (idempotency_key, command_type, result) VALUES (${a.idempotencyKey}, 'CreateFixedAsset', ${JSON.stringify(result)}::jsonb)`)
     return result

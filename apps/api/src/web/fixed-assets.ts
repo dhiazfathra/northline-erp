@@ -15,14 +15,14 @@ async function loadAssets(db: Db, number?: string) {
       EXISTS (SELECT 1 FROM fixed_asset_disposals d WHERE d.asset_number = a.number) AS disposed,
       (SELECT to_char(MAX(d.date),'YYYY-MM-DD') FROM depreciations d WHERE d.asset_number = a.number) AS last_dep
     FROM fixed_assets a ${where} ORDER BY a.number DESC`)
-  const ex = await db.execute(sql`SELECT asset_number, name, to_char(date,'YYYY-MM-DD') AS date, amount, account FROM fixed_asset_expenditures
+  const ex = await db.execute(sql`SELECT asset_number, name, to_char(date,'YYYY-MM-DD') AS date, amount, account, expenditure_number FROM fixed_asset_expenditures
     ${number ? sql`WHERE asset_number = ${number}` : sql``} ORDER BY asset_number, seq`)
   return rows.map(r => ({
     number: r.number as string, description: r.description as string, category: r.category as string, date: r.date as string, usageDate: r.usage_date as string,
     lifeMonths: Number(r.life_months), assetAccount: r.asset_account as string, accumulatedAccount: r.accumulated_account as string, expenseAccount: r.expense_account as string,
     location: r.location as string, department: r.department as string, note: r.note as string, tax: r.tax as boolean, qty: Number(r.qty), salvage: Number(r.salvage) / 100,
     status: r.disposed ? 'disposed' as const : 'active' as const, lastDep: (r.last_dep as string | null) ?? '',
-    expenditures: ex.filter(e => e.asset_number === r.number).map(e => ({ name: e.name as string, date: e.date as string, amount: Number(e.amount) / 100, account: e.account as string })),
+    expenditures: ex.filter(e => e.asset_number === r.number).map(e => ({ name: e.name as string, date: e.date as string, amount: Number(e.amount) / 100, account: e.account as string, expenditure: (e.expenditure_number as string | null) ?? undefined })),
   }))
 }
 

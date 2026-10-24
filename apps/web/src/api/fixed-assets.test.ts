@@ -24,3 +24,9 @@ test('fixedAssetQuery: 404 is "not found", other failures throw', async () => {
   answer(500)
   await expect(run()).rejects.toThrow('x')
 })
+
+test('a picked Pengeluaran Aset keeps its number as the row code and round-trips to the API', () => {
+  const a = toAsset({ ...api, expenditures: [{ name: 'servis', date: '2034-01-02', amount: 50, account: '300001', expenditure: 'AX.2034.01.00001' }] })
+  expect(a.expenses[0]).toMatchObject({ code: 'AX.2034.01.00001', account: '300001', expenditure: 'AX.2034.01.00001' })
+  expect(toInput(a as never).expenditures[0]).toMatchObject({ account: '300001', expenditure: 'AX.2034.01.00001' })
+})

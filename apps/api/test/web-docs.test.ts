@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, expect, test } from 'bun:test'
 import t2 from '../../../docs/reports/fixtures/sales-t2.json'
 import t3 from '../../../docs/reports/fixtures/purchase-t3.json'
+import t4 from '../../../docs/reports/fixtures/inventory-t4.json'
 import { createApp } from '../src/app'
 import { createUser } from '../src/auth'
 import { handle } from '../src/ledger/handler'
@@ -12,12 +13,13 @@ import { createFullUser, fixtureDb } from './fixture-db'
 let f: Awaited<ReturnType<typeof fixtureDb>>, app: ReturnType<typeof createApp>, full: string, none: string
 beforeAll(async () => {
   f = await fixtureDb('webdocs')
-  for (const a of [...t2.accounts, ...t3.accounts, { no: '210102', name: 'Uang Muka Penjualan', type: 'OTHER_CURRENT_LIABILITY' }].filter(a => !a.no.startsWith('NL-T1')))
+  for (const a of [...t2.accounts, ...t3.accounts, { no: '210102', name: 'Uang Muka Penjualan', type: 'OTHER_CURRENT_LIABILITY' },
+    ...t4.accounts.filter(a => ['110401', '510101'].includes(a.no)), { no: '300001', name: 'Ekuitas Saldo Awal', type: 'EQUITY' }].filter(a => !a.no.startsWith('NL-T1')))
     await handle(f.db, { type: 'OpenAccount', idempotencyKey: `acct-${a.no}`, no: a.no, name: a.name, accountType: a.type as any })
   await catchUp(f.db, ledgerProjection)
   for (const c of t2.customers) await upsertCustomer(f.db, c)
   for (const v of t3.vendors) await upsertVendor(f.db, v)
-  for (const i of t3.items) await upsertItem(f.db, i as any)
+  for (const i of [...t3.items, t4.items[0]]) await upsertItem(f.db, i as any)
   app = createApp(f.db)
   await createFullUser(f.db, 'nl-docs@example.test', 'rahasia-123')
   await createUser(f.db, 'nl-docs-none@example.test', 'rahasia-123')
@@ -90,5 +92,9 @@ test('purchase invoice, stock adjustment gap and quotation edit gap; privileges 
   expect((await call('POST', 'purchase-invoice', { ...itemDoc, party: 'NL-T3 Pemasok A', supplierNo: 'INV-78', discPct: 10 })).status).toBe(409)
   expect((await call('POST', 'sales-down-payment', { ...itemDoc, discPct: 5 })).status).toBe(409)
   expect((await call('POST', 'sales-invoice', { ...itemDoc, poNo: 'PO-1' })).status).toBe(409)
+  // no discount account on this path, so an invoice discount is refused rather than failing in the service
+  expect(await call('POST', 'sales-invoice', { ...itemDoc, discPct: 10 })).toEqual({ status: 409, body: { error: 'Diskon, pajak atau No. PO belum didukung untuk dokumen ini' } })
+  // a stock adjustment has no party; the schema must not demand one
+  expect((await call('POST', 'stock-adjustment', { ...itemDoc, party: '', items: [{ ...item, code: 'NL-T4-B1', name: 'NL-T4 Barang A', unit: 'PCS' }] })).status).toBe(201)
   expect((await call('GET', 'sales-invoice', undefined, none)).status).toBe(403)
 })

@@ -77,6 +77,7 @@ export declare function fixedAssetRoutes(db: Db): import("hono/hono-base").HonoB
                     date: string;
                     amount: number;
                     account: string;
+                    expenditure: string | undefined;
                 }[];
             }[];
             outputFormat: "json";
@@ -110,6 +111,7 @@ export declare function fixedAssetRoutes(db: Db): import("hono/hono-base").HonoB
                     date: string;
                     amount: number;
                     account: string;
+                    expenditure: string | undefined;
                 }[];
             };
             outputFormat: "json";

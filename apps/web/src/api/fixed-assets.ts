@@ -17,7 +17,7 @@ type ApiAsset = {
   number: string; description: string; category: string; date: string; usageDate: string; lifeMonths: number
   assetAccount: string; accumulatedAccount: string; expenseAccount: string
   location: string; department: string; note: string; tax: boolean; qty: number; salvage: number; status: 'active' | 'disposed'; lastDep: string
-  expenditures: { name: string; date: string; amount: number; account: string }[]
+  expenditures: { name: string; date: string; amount: number; account: string; expenditure?: string }[]
 }
 
 // Plain fetch: GET list/one live on a sub-app and PUT/DELETE are not on the typed chain.
@@ -27,19 +27,19 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
   return res.json() as Promise<T>
 }
 
-// A saved expense row keeps its credit account (shown as its code); new rows credit Ekuitas Saldo Awal like the old fixture.
+// A saved expense row keeps its credit account, shown as its code unless picked from a Pengeluaran Aset (the picker matches that number); new rows credit Ekuitas Saldo Awal like the old fixture.
 export const toAsset = (a: ApiAsset): FixedAsset => ({
   id: a.number, code: a.number, name: a.description, autoCode: false, codeType: '', buy: a.date, use: a.usageDate, intangible: false, method: 'Garis Lurus',
   category: a.category, assetAccount: a.assetAccount, accumAccount: a.accumulatedAccount, expenseAccount: a.expenseAccount, qty: a.qty,
   years: Math.floor(a.lifeMonths / 12), months: a.lifeMonths % 12, salvage: a.salvage,
-  expenses: a.expenditures.map((e) => ({ code: e.account, account: e.account, desc: e.name, date: e.date, amount: e.amount })),
+  expenses: a.expenditures.map((e) => ({ code: e.expenditure ?? e.account, account: e.account, expenditure: e.expenditure, desc: e.name, date: e.date, amount: e.amount })),
   location: a.location, department: a.department, note: a.note, tax: a.tax, files: [], status: a.status, lastDep: a.lastDep,
 })
 export const toInput = (d: FixedAssetForm) => ({
   idempotencyKey: crypto.randomUUID(), number: d.autoCode ? undefined : d.code, description: d.name, category: d.category, date: d.buy, usageDate: d.use,
   lifeMonths: d.years * 12 + d.months, assetAccount: d.assetAccount, accumulatedAccount: d.accumAccount, expenseAccount: d.expenseAccount,
   location: d.location, department: d.department, note: d.note, tax: d.tax, qty: d.qty, salvage: d.salvage,
-  expenditures: d.expenses.map((e) => ({ name: e.desc, date: e.date, amount: e.amount, account: e.account ?? '300001' })),
+  expenditures: d.expenses.map((e) => ({ name: e.desc, date: e.date, amount: e.amount, account: e.account ?? '300001', expenditure: e.expenditure })),
 })
 
 export const fixedAssetsQuery = queryOptions({ queryKey: ['fixed-assets'], queryFn: async () => (await call<ApiAsset[]>('GET', '')).map(toAsset) })

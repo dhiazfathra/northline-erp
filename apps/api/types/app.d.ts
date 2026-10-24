@@ -113,6 +113,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                     date: string;
                     amount: number;
                     account: string;
+                    expenditure: string | undefined;
                 }[];
             }[];
             outputFormat: "json";
@@ -146,6 +147,7 @@ export declare function createApp(db: Db): import("hono/hono-base").HonoBase<{},
                     date: string;
                     amount: number;
                     account: string;
+                    expenditure: string | undefined;
                 }[];
             };
             outputFormat: "json";

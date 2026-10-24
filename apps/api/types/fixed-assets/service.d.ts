@@ -17,6 +17,7 @@ export declare const fixedAssetInput: z.ZodObject<{
         date: z.ZodString;
         amount: z.ZodPipe<z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>, z.ZodTransform<number, string | number>>;
         account: z.ZodString;
+        expenditure: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>>;
     fiscalLifeMonths: z.ZodOptional<z.ZodNumber>;
     location: z.ZodDefault<z.ZodString>;
