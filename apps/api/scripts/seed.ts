@@ -19,6 +19,7 @@ const [email, password] = [process.env.NL_EMAIL, process.env.NL_PASSWORD]
 if (email && password) {
   const [u] = await db.execute(sql`SELECT 1 FROM users WHERE email = ${email.toLowerCase()}`)
   if (!u) await createUser(db, email, password, true) // seed login is the sandbox owner
+  else await db.execute(sql`UPDATE users SET full_access = true WHERE email = ${email.toLowerCase()}`) // reseed of an older DB
 }
 const [n] = await db.execute(sql`SELECT (SELECT count(*) FROM events) AS events, (SELECT count(*) FROM journals) AS journals, (SELECT count(*) FROM customers) AS customers`)
 console.log('seeded', profile, n)

@@ -85,6 +85,17 @@ test('a view grant does not allow create', async () => {
   expect(await call('POST', '/api/sales/invoices', 'granted')).toBe(422)
 })
 
+test('account commands on /api/ledger/commands need Akun Perkiraan, not Jurnal Umum', async () => {
+  const post = async (body: object) => (await app.request('/api/ledger/commands', { method: 'POST', headers: { 'content-type': 'application/json', cookie: cookies.granted! }, body: JSON.stringify(body) })).status
+  const open = { type: 'OpenAccount', idempotencyKey: crypto.randomUUID(), no: '1-9901', name: 'Kas Uji', accountType: 'CASH_BANK' }
+  await grant({ 'buku_besar.jurnal_umum': ['create'] })
+  expect(await post(open)).toBe(403)
+  await grant({ 'buku_besar.akun_perkiraan': ['create'] })
+  expect(await post(open)).toBe(202)
+  expect(await post({ type: 'DeleteAccount', idempotencyKey: crypto.randomUUID(), no: '1-9901' })).toBe(403) // create only
+  expect(await post({ type: 'PostJournal' })).toBe(403) // other commands keep Jurnal Umum
+})
+
 test('migration 0058: users created before it keep full access, new ones default to none', async () => {
   const [d] = await f.db.execute(sql`SELECT column_default FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'full_access' AND table_schema = current_schema()`)
   expect(d!.column_default).toBe('false')

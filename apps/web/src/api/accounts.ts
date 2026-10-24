@@ -43,8 +43,8 @@ export const useAccountLines = (code: string) =>
     },
   })
 
-const command = async (body: Record<string, unknown>) => {
-  const res = await api.ledger.commands.$post({ json: { idempotencyKey: crypto.randomUUID(), ...body } as never })
+const command = async (body: Record<string, unknown>, idempotencyKey: string = crypto.randomUUID()) => {
+  const res = await api.ledger.commands.$post({ json: { idempotencyKey, ...body } as never })
   await fail(res, 'Gagal menyimpan')
   after = Math.max(after, ((await res.json()) as { globalPosition: number }).globalPosition)
 }
@@ -53,9 +53,10 @@ const typeOf = (label: string) => Object.entries(accountTypeLabel).find(([, l]) 
 export function useSaveAccount() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ id, input }: { id?: string; input: AccountInput }) => {
+    /** openKey: one per new-account form, so a retry after a failed details save replays OpenAccount instead of refusing it */
+    mutationFn: async ({ id, input, openKey }: { id?: string; input: AccountInput; openKey?: string }) => {
       // the ledger keys accounts by number and only renames an open account; the form locks code, type and parent on edit
-      if (!id) await command({ type: 'OpenAccount', no: input.code, name: input.name, accountType: typeOf(input.type), parentNo: input.isSub ? input.parentId : undefined })
+      if (!id) await command({ type: 'OpenAccount', no: input.code, name: input.name, accountType: typeOf(input.type), parentNo: input.isSub ? input.parentId : undefined }, openKey)
       else await command({ type: 'RenameAccount', no: id, name: input.name })
       const { note, bank, accNo, accName, allUsers, users } = input
       const res = await ledgerApi.accounts[':no'].details.$put({ param: { no: id ?? input.code }, json: { note, bank, accNo, accName, allUsers, users } } as never)

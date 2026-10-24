@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { docTypeSchema, itemDocSchema, journalDocSchema, paymentDocSchema, type DocRow, type DocType, type ItemDocInput, type ItemLine, type PayLine } from '@northline/schemas/docs'
+import { docTypeSchema, itemDocSchema, storedInfo, journalDocSchema, paymentDocSchema, type DocRow, type DocType, type ItemDocInput, type ItemLine, type PayLine } from '@northline/schemas/docs'
 import type { AuthEnv } from '../auth'
 import type { Db } from '../db'
 import { DomainError } from '../ledger/deciders'
@@ -34,7 +34,7 @@ const addDays = (isoDate: string, n: number) => new Date(Date.parse(isoDate) + n
 type Row = Record<string, unknown>
 const group = (rows: Row[], key: string) => {
   const m = new Map<string, Row[]>()
-  for (const r of rows) m.set(r[key] as string, [...(m.get(r[key] as string) ?? []), r])
+  for (const r of rows) { const k = r[key] as string; const g = m.get(k); if (g) g.push(r); else m.set(k, [r]) }
   return m
 }
 
@@ -50,7 +50,10 @@ async function itemLines(db: Db, table: string, docCol: string, extra = sql``) {
   const rows = await db.execute(sql`SELECT l.${sql.identifier(docCol)} AS doc, l.item_no, i.name, i.unit, l.quantity, l.unit_price ${extra}
     FROM ${sql.identifier(table)} l JOIN items i ON i.no = l.item_no ORDER BY l.seq`)
   const m = new Map<string, ItemLine[]>()
-  for (const r of rows) m.set(r.doc as string, [...(m.get(r.doc as string) ?? []), { code: r.item_no as string, name: (r.line_name as string) ?? (r.name as string), unit: r.unit as string, qty: Number(r.quantity), price: rp(r.unit_price), discPct: Number(r.disc_pct ?? 0) }])
+  for (const r of rows) {
+    const line = { code: r.item_no as string, name: (r.line_name as string) ?? (r.name as string), unit: r.unit as string, qty: Number(r.quantity), price: rp(r.unit_price), discPct: Number(r.disc_pct ?? 0) }
+    const g = m.get(r.doc as string); if (g) g.push(line); else m.set(r.doc as string, [line])
+  }
   return m
 }
 
@@ -161,7 +164,8 @@ function allJournals(js: Map<string, Row[]>): DocRow[] {
 }
 
 export async function docRows(db: Db, type: DocType): Promise<DocRow[]> {
-  const js = await journals(db)
+  // quotations and orders post no journal
+  const js = type === 'sales-quotation' || type === 'sales-order' || type === 'purchase-order' ? new Map<string, Row[]>() : await journals(db)
   const rows = await {
     'sales-quotation': () => orders(db, js, 'sales-quotation'),
     'sales-order': () => orders(db, js, 'sales-order'),
@@ -197,6 +201,13 @@ function noUnsupported(v: { inclusive?: boolean; lines?: { discount?: number }[]
   if (v.lines?.some(l => (l.discount ?? 0) > 0)) throw new DomainError('Diskon pembayaran belum didukung')
 }
 
+/** Item-doc header fields this type cannot store are refused, never dropped (ADR-0049). Terms are hidden, not refused. */
+function noUnstored(type: DocType, v: ItemDocInput) {
+  const info = storedInfo[type] ?? []
+  if ((!info.includes('discPct') && v.discPct > 0) || (!info.includes('taxable') && v.taxable) || v.poNo.trim())
+    throw new DomainError('Diskon, pajak atau No. PO belum didukung untuk dokumen ini')
+}
+
 const saveBody = z.object({ idempotencyKey: z.string().min(8), values: z.unknown() })
 
 async function save(db: Db, type: DocType, idempotencyKey: string, raw: unknown, current?: string) {
@@ -206,30 +217,31 @@ async function save(db: Db, type: DocType, idempotencyKey: string, raw: unknown,
   switch (type) {
     case 'sales-quotation': case 'sales-order': {
       onlyCreate()
-      const v = itemDocSchema.parse(raw), customer = await partyNo(db, 'customers', v.party)
+      const v = itemDocSchema.parse(raw); noUnsupported(v); noUnstored(type, v)
+      const customer = await partyNo(db, 'customers', v.party)
       const o = { number: v.autoNo ? undefined : v.number, customer, date: iso(v.date), description: v.description, lines: v.items.map(i => ({ item: i.code, qty: i.qty, price: netPrice(i) })) }
       return type === 'sales-quotation' ? createSalesQuotation(db, o) : createSalesOrder(db, o)
     }
     case 'purchase-order': {
       onlyCreate()
-      const v = itemDocSchema.parse(raw)
+      const v = itemDocSchema.parse(raw); noUnsupported(v); noUnstored(type, v)
       return createPurchaseOrder(db, { number: v.autoNo ? undefined : v.number, vendor: await partyNo(db, 'vendors', v.party), date: iso(v.date), description: v.description, lines: v.items.map(i => ({ item: i.code, qty: i.qty, price: netPrice(i) })) })
     }
     case 'sales-invoice': {
-      const v = itemDocSchema.parse(raw); noUnsupported(v)
+      const v = itemDocSchema.parse(raw); noUnsupported(v); noUnstored(type, v)
       const dps = v.dp.length ? await db.execute(sql`SELECT number, total FROM sales_invoices WHERE kind = 'DP' AND number IN (${sql.join(v.dp.map(d => sql`${d}`), sql`, `)})`) : []
       const input = { ...head(v), customer: await partyNo(db, 'customers', v.party), dueDate: dueDate(iso(v.date), v.terms), taxable: v.taxable, discPct: v.discPct,
         lines: v.items.map(i => ({ item: i.code, name: i.name, qty: i.qty, price: i.price, discPct: i.discPct })), downPayments: dps.map(d => ({ invoice: d.number as string, amount: rp(d.total) })) }
       return current ? editSalesInvoice(db, current, input) : createSalesInvoice(db, input)
     }
     case 'sales-down-payment': {
-      const v = itemDocSchema.parse(raw); noUnsupported(v)
+      const v = itemDocSchema.parse(raw); noUnsupported(v); noUnstored(type, v)
       const amount = v.items.reduce((s, i) => s + Math.round(i.qty * i.price * (1 - i.discPct / 100)), 0)
       const input = { ...head(v), customer: await partyNo(db, 'customers', v.party), amount, dpAccount: DP_ACCOUNT }
       return current ? editSalesDownPayment(db, current, input) : createSalesDownPayment(db, input)
     }
     case 'purchase-invoice': {
-      const v = itemDocSchema.parse(raw); noUnsupported(v)
+      const v = itemDocSchema.parse(raw); noUnsupported(v); noUnstored(type, v)
       const input = { ...head(v), vendor: await partyNo(db, 'vendors', v.party), bill: v.supplierNo, dueDate: dueDate(iso(v.date), v.terms), taxable: v.taxable,
         lines: v.items.map(i => ({ item: i.code, qty: i.qty, price: netPrice(i) })) }
       return current ? editPurchaseInvoice(db, current, input) : createPurchaseInvoice(db, input)

@@ -30,7 +30,7 @@ const WEB_DOCS: Record<string, string> = {
 }
 
 export const ROUTE_PRIVILEGES: Record<string, Entry> = {
-  // shortcut: one key for every ledger command (OpenAccount, PostJournal, ...); split per command type if accounts get their own UI.
+  // account commands are re-keyed by body type in requirePrivilege (ACCOUNT_COMMANDS)
   'POST /api/ledger/commands': 'buku_besar.jurnal_umum',
   'GET /api/reports/trial-balance': 'TrialBalanceReport',
   'GET /api/reports/activity-log': 'AuditListReport',
@@ -234,7 +234,7 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'PUT /api/ledger/accounts/:no/details': 'buku_besar.akun_perkiraan',
   'GET /api/ledger/banks': 'kas_bank.rekonsiliasi_bank',
   'POST /api/ledger/banks/reconcile': 'kas_bank.rekonsiliasi_bank',
-  'GET /api/ledger/period-ends': FULL_ACCESS, // shortcut: perusahaan.proses_akhir_bulan has no Lihat/Aktif action; map it once the catalog gives one
+  'GET /api/ledger/period-ends': 'perusahaan.proses_akhir_bulan', // no Lihat/Aktif action: read with the create grant
   'GET /api/ledger/features': 'perusahaan.preferensi',
   'PUT /api/ledger/features': 'perusahaan.preferensi',
   'GET /api/ledger/default-accounts': 'perusahaan.preferensi',
@@ -249,9 +249,12 @@ export const ROUTE_PRIVILEGES: Record<string, Entry> = {
   'DELETE /api/web/docs/:type{sales-quotation|sales-order|sales-down-payment|sales-invoice|sales-receipt|sales-return|purchase-order|purchase-invoice|purchase-payment|purchase-return|cash-receipt|cash-payment|journal|stock-adjustment}/:id': WEB_DOCS,
 }
 
+/** Account commands on POST /api/ledger/commands need the Akun Perkiraan grant, not Jurnal Umum (accounts screen, ADR-0049). */
+const ACCOUNT_COMMANDS: Record<string, Action> = { OpenAccount: 'create', RenameAccount: 'edit', SuspendAccount: 'edit', DeleteAccount: 'delete' }
+
 const METHOD_ACTION: Record<string, Action> = { GET: 'view', POST: 'create', PUT: 'edit', DELETE: 'delete' }
 
-/** The key and action a request needs: the method's action when the key has it, else Aktif. Undefined = not mapped (deny). */
+/** The key and action a request needs: the method's action when the key has it, else Aktif (else Buat for a GET). Undefined = not mapped (deny). */
 export function requiredPrivilege(method: string, route: string, path: string): { key: string; action: Action } | undefined {
   const e = ROUTE_PRIVILEGES[`${method} ${route}`]
   if (e === undefined) return
@@ -259,7 +262,8 @@ export function requiredPrivilege(method: string, route: string, path: string): 
   const key = typeof e === 'string' ? e : e[route.split('/').flatMap((s, i) => s.includes('{') ? [got[i]] : []).join('/')]
   if (key === FULL_ACCESS) return { key, action: 'enable' }
   const mask = key && PRIVILEGES.get(key)
-  const action = mask ? ([METHOD_ACTION[method], 'enable'] as Action[]).find(a => mask[ACTIONS.indexOf(a)] === 'x') : undefined
+  // a GET on a key with neither Lihat nor Aktif (Proses Akhir Bulan) is read by whoever may create it
+  const action = mask ? ([METHOD_ACTION[method], 'enable', ...(method === 'GET' ? ['create'] : [])] as Action[]).find(a => mask[ACTIONS.indexOf(a)] === 'x') : undefined
   return action && { key: key!, action }
 }
 
@@ -269,7 +273,11 @@ export const requirePrivilege = (db: Db): MiddlewareHandler<AuthEnv> => async (c
   if (!route) return next() // no handler: hono answers 404
   const id = `${route.method} ${route.path}`
   if (SESSION_ROUTES.includes(id) || PUBLIC_ROUTES.includes(id)) return next()
-  const need = requiredPrivilege(route.method, route.path, c.req.path)
+  let need = requiredPrivilege(route.method, route.path, c.req.path)
+  if (id === 'POST /api/ledger/commands') { // hono caches the parsed body, so the handler reads it again for free
+    const action = ACCOUNT_COMMANDS[await c.req.json().then(b => b?.type, () => undefined)]
+    if (action) need = { key: 'buku_besar.akun_perkiraan', action }
+  }
   // shortcut: the group's time restriction (restriction_days/from/to) is not checked; every captured group is 00.00-23.59.
   const [r] = need ? await db.execute(sql`SELECT u.full_access OR (${need.key} <> ${FULL_ACCESS} AND EXISTS (
       SELECT 1 FROM access_group_users gu JOIN access_groups g ON g.name = gu.group_name

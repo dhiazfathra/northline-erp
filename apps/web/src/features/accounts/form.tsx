@@ -91,10 +91,15 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
   const kids = acc ? toTree(all).filter((x) => x.parentId === acc.id) : []
   const secs: Sec[] = isNew ? ['gen', 'saldo', 'users'] : ['gen', 'kids', 'users']
 
+  const [openKey] = useState(() => crypto.randomUUID())
   const close = () => nav({ to: '/accounts' })
   const onSave = handleSubmit(
     async (input) => {
-      await save.mutateAsync({ id: acc?.id, input })
+      try {
+        await save.mutateAsync({ id: acc?.id, input, openKey })
+      } catch (e) {
+        return showToast((e as Error).message)
+      }
       setDirty(path, false)
       showToast(t(T.saved))
       close()
@@ -223,7 +228,7 @@ function Inner({ acc, all }: { acc?: Account; all: Account[] }) {
             className={`cursor-pointer rounded-[20px] bg-[var(--ink)] px-[22px] py-[12px] text-center text-[13px] font-normal text-[var(--paper)] disabled:opacity-60 ${isMobile ? 'flex-1' : ''}`}>{L.save}</button>
           <button type="button" onClick={close} className="cursor-pointer rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[12px] text-[13px]">{L.cancel}</button>
           {acc && (
-            <button type="button" onClick={async () => { await del.mutateAsync(acc.id); setDirty(path, false); showToast(t(T.deleted)); close() }}
+            <button type="button" onClick={() => del.mutate(acc.id, { onSuccess: () => { setDirty(path, false); showToast(t(T.deleted)); close() }, onError: (e) => showToast(e.message) })}
               className="ml-auto cursor-pointer rounded-[20px] bg-[rgba(239,68,68,.14)] px-[18px] py-[12px] text-[13px] text-[#ef4444]">{t(T.del)}</button>
           )}
         </div>

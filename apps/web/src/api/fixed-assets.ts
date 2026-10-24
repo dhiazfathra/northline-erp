@@ -23,28 +23,32 @@ type ApiAsset = {
 // Plain fetch: GET list/one live on a sub-app and PUT/DELETE are not on the typed chain.
 async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
   const res = await fetch(`/api/fixed-assets${path}`, { method, credentials: 'same-origin', headers: body ? { 'content-type': 'application/json' } : undefined, body: body ? JSON.stringify(body) : undefined })
-  if (!res.ok) throw new Error(((await res.json().catch(() => null)) as { error?: string } | null)?.error ?? `Aset tetap gagal (${res.status})`)
+  if (!res.ok) throw Object.assign(new Error(((await res.json().catch(() => null)) as { error?: string } | null)?.error ?? `Aset tetap gagal (${res.status})`), { status: res.status })
   return res.json() as Promise<T>
 }
 
-// The expense row's credit account rides in `code`, the form has no account field; new rows credit Ekuitas Saldo Awal like the old fixture.
-const toAsset = (a: ApiAsset): FixedAsset => ({
+// A saved expense row keeps its credit account (shown as its code); new rows credit Ekuitas Saldo Awal like the old fixture.
+export const toAsset = (a: ApiAsset): FixedAsset => ({
   id: a.number, code: a.number, name: a.description, autoCode: false, codeType: '', buy: a.date, use: a.usageDate, intangible: false, method: 'Garis Lurus',
   category: a.category, assetAccount: a.assetAccount, accumAccount: a.accumulatedAccount, expenseAccount: a.expenseAccount, qty: a.qty,
   years: Math.floor(a.lifeMonths / 12), months: a.lifeMonths % 12, salvage: a.salvage,
-  expenses: a.expenditures.map((e) => ({ code: e.account, desc: e.name, date: e.date, amount: e.amount })),
+  expenses: a.expenditures.map((e) => ({ code: e.account, account: e.account, desc: e.name, date: e.date, amount: e.amount })),
   location: a.location, department: a.department, note: a.note, tax: a.tax, files: [], status: a.status, lastDep: a.lastDep,
 })
-const toInput = (d: FixedAssetForm) => ({
+export const toInput = (d: FixedAssetForm) => ({
   idempotencyKey: crypto.randomUUID(), number: d.autoCode ? undefined : d.code, description: d.name, category: d.category, date: d.buy, usageDate: d.use,
   lifeMonths: d.years * 12 + d.months, assetAccount: d.assetAccount, accumulatedAccount: d.accumAccount, expenseAccount: d.expenseAccount,
   location: d.location, department: d.department, note: d.note, tax: d.tax, qty: d.qty, salvage: d.salvage,
-  expenditures: d.expenses.map((e) => ({ name: e.desc, date: e.date, amount: e.amount, account: /^\d+$/.test(e.code) ? e.code : '300001' })),
+  expenditures: d.expenses.map((e) => ({ name: e.desc, date: e.date, amount: e.amount, account: e.account ?? '300001' })),
 })
 
 export const fixedAssetsQuery = queryOptions({ queryKey: ['fixed-assets'], queryFn: async () => (await call<ApiAsset[]>('GET', '')).map(toAsset) })
 export const fixedAssetQuery = (id: string) =>
-  queryOptions({ queryKey: ['fixed-assets', id], queryFn: () => call<ApiAsset>('GET', `/${encodeURIComponent(id)}`).then(toAsset, () => null) })
+  queryOptions({
+    queryKey: ['fixed-assets', id],
+    // only a 404 means "no such asset"; other failures stay errors so react-query retries and the form does not say not found
+    queryFn: () => call<ApiAsset>('GET', `/${encodeURIComponent(id)}`).then(toAsset, (e: { status?: number }) => { if (e.status === 404) return null; throw e }),
+  })
 
 export function useSaveFixedAsset() {
   const qc = useQueryClient()

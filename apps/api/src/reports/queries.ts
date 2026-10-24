@@ -36,11 +36,12 @@ export async function queryBalanceSheet(db: Db, q: BalanceSheetQuery) {
   return balanceSheet(accounts, balances, settings, q.asOf, q)
 }
 
-export async function loadJournals(db: Db, from: string, to: string): Promise<Journal[]> {
+/** `accounts` keeps only lines on those accounts (and journals with one). */
+export async function loadJournals(db: Db, from: string, to: string, accounts?: string[]): Promise<Journal[]> {
   const rows = await db.execute(sql`
     SELECT j.journal_id, j.number, j.source_type, to_char(j.date, 'YYYY-MM-DD') AS date, j.description, l.account_no, l.debit, l.credit, l.memo
     FROM journals j JOIN journal_lines l USING (journal_id)
-    WHERE j.date BETWEEN ${from} AND ${to} ORDER BY j.date, j.number, l.line_no`)
+    WHERE j.date BETWEEN ${from} AND ${to} ${accounts ? sql`AND l.account_no IN (${sql.join(accounts.map(a => sql`${a}`), sql`, `)})` : sql``} ORDER BY j.date, j.number, l.line_no`)
   const byId = new Map<string, Journal>()
   for (const r of rows) {
     const id = r.journal_id as string

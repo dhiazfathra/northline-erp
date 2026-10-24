@@ -39,12 +39,18 @@ async function createExpenditure(db: Db, raw: unknown) {
   return db.transaction(async tx => {
     const [done] = await tx.execute(sql`SELECT result FROM command_results WHERE idempotency_key = ${a.idempotencyKey}`)
     if (done) return done.result as { number: string }
+    const [branch] = await tx.execute(sql`SELECT name FROM branches ORDER BY is_default DESC, name LIMIT 1`)
+    if (!branch) throw new DomainError('Cabang belum diatur')
+    const codes = [...new Set(a.lines.map(l => l.code))]
+    const known = new Set((await tx.execute(sql`SELECT number FROM fixed_assets WHERE number IN (${sql.join(codes.map(c => sql`${c}`), sql`, `)})`)).map(r => r.number as string))
+    const unknown = codes.find(c => !known.has(c))
+    if (unknown) throw new DomainError(`Aset ${unknown} tidak ditemukan`)
     const number = await nextNumber(tx, `AX.${period(a.date)}`)
     const dpp = Math.round(a.dpp * 100)
     // Total = DPP + PPN 11%, the figure the form shows.
     await tx.execute(sql`INSERT INTO asset_expenditures (number, date, description, asset_code, note, qty, dpp, total, branch)
       VALUES (${number}, ${a.date}, ${a.description}, ${a.assetCode}, ${a.note}, ${a.lines.reduce((s, l) => s + l.qty, 0)}, ${dpp}, ${dpp + Math.round(dpp * 0.11)},
-        (SELECT name FROM branches ORDER BY is_default DESC, name LIMIT 1))`)
+        ${branch.name})`)
     for (const [i, l] of a.lines.entries())
       await tx.execute(sql`INSERT INTO asset_expenditure_lines (expenditure_number, seq, asset_number, qty, note) VALUES (${number}, ${i + 1}, ${l.code}, ${l.qty}, ${l.note})`)
     const result = { number }

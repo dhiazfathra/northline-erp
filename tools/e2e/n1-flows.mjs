@@ -167,8 +167,6 @@ await flow('overview new-transaction modal → full doc form', async () => {
   await go('/')
   await btn('New transaction').click()
   const d = page.getByRole('dialog', { name: 'New Transaction' })
-  await d.getByRole('textbox', { name: 'Counterparty' }).fill('NL-T2 Pelanggan A')
-  await d.getByRole('textbox', { name: 'Amount' }).fill('100000')
   await d.getByRole('button', { name: 'Continue to Sales Invoice' }).click()
   await page.waitForURL('**/docs/sales-invoice')
   await page.getByRole('tab', { name: /New entry/, selected: true }).waitFor()

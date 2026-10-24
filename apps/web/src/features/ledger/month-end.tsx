@@ -49,6 +49,10 @@ export function MonthEnd() {
           showToast(t({ id: `Proses akhir bulan ${period} tersimpan`, en: `Month-end for ${period} saved` }))
           setTab('list')
         },
+        onError: (e) => {
+          setEarly(false)
+          setProblems([e.message])
+        },
       },
     )
   const save = handleSubmit(

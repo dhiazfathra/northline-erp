@@ -1,7 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { newTxSchema, txTypes, type NewTxInput } from '@northline/schemas/overview'
-import { useEffect } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { txTypes, type NewTxInput } from '@northline/schemas/overview'
+import { useState, type FormEvent } from 'react'
 import { useOpenTxForm } from '@/api/overview'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { useShell, useT } from '@/lib/shell'
@@ -18,29 +16,25 @@ const tx = {
   title: { id: 'Transaksi Baru', en: 'New Transaction' },
   create: { id: 'Lanjut ke', en: 'Continue to' },
 }
-const inputCls = 'field rounded-[14px] px-[14px] py-[12px] text-[13px] text-(--ink) outline-none'
-const labelCls = 'flex flex-col gap-[6px] text-[11px] opacity-85'
 
 export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { L, isMobile } = useShell()
   const t = useT()
   const openForm = useOpenTxForm()
-  const { register, handleSubmit, control, setValue, reset, formState } = useForm<NewTxInput>({
-    resolver: zodResolver(newTxSchema),
-    defaultValues: { type: 'invoice', counterparty: '', amount: '', due: L.dueVal },
-  })
-  useEffect(() => {
-    if (open) reset({ type: 'invoice', counterparty: '', amount: '', due: L.dueVal })
-  }, [open, reset, L.dueVal])
-  const type = useWatch({ control, name: 'type' })
-  const submit = handleSubmit(async (v) => {
+  // the modal only picks the document type; the document form asks for everything else
+  const [type, setType] = useState<NewTxInput['type']>('invoice')
+  const close = () => {
+    setType('invoice')
     onClose()
-    await openForm(v.type)
-  })
-  const bad = (k: keyof NewTxInput) => formState.errors[k] && 'border-[#f87171]'
+  }
+  const submit = async (e: FormEvent) => {
+    e.preventDefault()
+    close()
+    await openForm(type)
+  }
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+    <Dialog open={open} onOpenChange={(o) => !o && close()}>
       <DialogContent
         showCloseButton={false}
         aria-describedby={undefined}
@@ -52,7 +46,7 @@ export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => vo
         <form onSubmit={submit}>
           <div className="flex items-center justify-between">
             <DialogTitle className="text-[24px] font-normal">{t(tx.title)}</DialogTitle>
-            <button type="button" className="flex size-[32px] cursor-pointer items-center justify-center rounded-full bg-[rgba(var(--fg),.1)]" onClick={onClose}>
+            <button type="button" className="flex size-[32px] cursor-pointer items-center justify-center rounded-full bg-[rgba(var(--fg),.1)]" onClick={close}>
               ×
             </button>
           </div>
@@ -65,30 +59,14 @@ export function NewTxModal({ open, onClose }: { open: boolean; onClose: () => vo
                   'cursor-pointer rounded-[16px] px-[12px] py-[7px] text-[11.5px]',
                   k === type ? 'bg-(--ink) text-(--paper)' : 'bg-[rgba(var(--fg),.08)]',
                 )}
-                onClick={() => setValue('type', k)}
+                onClick={() => setType(k)}
               >
                 {t(typeName[k])}
               </button>
             ))}
           </div>
-          <div className="mt-[20px] flex flex-col gap-[12px]">
-            <label className={labelCls}>
-              {L.counterparty}
-              <input placeholder={L.cpPh} className={cn(inputCls, bad('counterparty'))} {...register('counterparty')} />
-            </label>
-            <div className="grid grid-cols-2 gap-[12px]">
-              <label className={labelCls}>
-                {L.amount}
-                <input placeholder="0.00" inputMode="decimal" className={cn(inputCls, bad('amount'))} {...register('amount')} />
-              </label>
-              <label className={labelCls}>
-                {L.due}
-                <input className={cn(inputCls, bad('due'))} {...register('due')} />
-              </label>
-            </div>
-          </div>
           <div className="mt-[24px] flex justify-end gap-[8px]">
-            <button type="button" className="cursor-pointer rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[12px] text-[13px]" onClick={onClose}>
+            <button type="button" className="cursor-pointer rounded-[20px] bg-[rgba(var(--fg),.1)] px-[18px] py-[12px] text-[13px]" onClick={close}>
               {L.cancel}
             </button>
             <button type="submit" className="cursor-pointer rounded-[20px] bg-(--ink) px-[20px] py-[12px] text-[13px] font-normal text-(--paper) disabled:opacity-60">

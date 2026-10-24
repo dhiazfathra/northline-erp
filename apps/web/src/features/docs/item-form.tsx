@@ -1,4 +1,4 @@
-import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, type ItemDocInput } from '@northline/schemas/docs'
+import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, storedInfo, type ItemDocInput } from '@northline/schemas/docs'
 import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Checkbox } from 'radix-ui'
@@ -49,7 +49,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   const isReturn = type === 'sales-return' || type === 'purchase-return'
   const isPurchase = type.startsWith('purchase')
   const hasParty = docMeta[type].party !== null
-  const hasInfo = !isReturn && type !== 'stock-adjustment'
+  const info = storedInfo[type] ?? [] // fields this type cannot store are not shown (ADR-0049)
   const schema = type === 'purchase-invoice' ? purchaseInvoiceSchema : isReturn ? returnDocSchema : itemDocSchema
   const { register, control, handleSubmit, subscribe, setValue, getValues } = useForm<ItemDocInput>({ resolver: zodResolver(schema), defaultValues: values })
   const { fields, append, remove, replace } = useFieldArray({ control, name: 'items' })
@@ -179,12 +179,14 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
         </Head>
 
         <Info>
-          {hasInfo && (
+          {info.includes('discPct') && (
+            <label className={lbl}>
+              <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
+              <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
+            </label>
+          )}
+          {info.includes('taxable') && (
             <>
-              <label className={lbl}>
-                <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
-                <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
-              </label>
               <label className={lbl}>
                 <span className="opacity-75">{t({ id: 'Kena Pajak', en: 'Taxable' })}</span>
                 <span className="flex h-[41px] items-center">
@@ -197,15 +199,13 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                   <Controller control={control} name="inclusive" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Ya', en: 'Yes' })} />} />
                 </span>
               </label>
-              <label className={lbl}>
-                <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
-                <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
-              </label>
-              <label className={lbl}>
-                <span className="opacity-75">No. PO</span>
-                <input {...register('poNo')} className={fieldCls} />
-              </label>
             </>
+          )}
+          {info.includes('terms') && (
+            <label className={lbl}>
+              <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
+              <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
+            </label>
           )}
           <label className={cn(lbl, 'col-span-full')}>
             <span className="opacity-75">{L.notes}</span>

@@ -17,9 +17,10 @@ export function webReportRoutes(db: Db) {
     // Toggles the star and answers the new state.
     .post('/favourites/:id', async c => {
       const id = reportId.parse(c.req.param('id')), user = c.get('userId')
-      const gone = await db.execute(sql`DELETE FROM report_favourites WHERE user_id = ${user} AND report_id = ${id} RETURNING 1`)
-      if (!gone.length) await db.execute(sql`INSERT INTO report_favourites (user_id, report_id) VALUES (${user}, ${id})`)
-      return c.json({ id, starred: !gone.length })
+      // insert first: a double click cannot hit the primary key; the loser of a race just unstars
+      const added = await db.execute(sql`INSERT INTO report_favourites (user_id, report_id) VALUES (${user}, ${id}) ON CONFLICT DO NOTHING RETURNING 1`)
+      if (!added.length) await db.execute(sql`DELETE FROM report_favourites WHERE user_id = ${user} AND report_id = ${id}`)
+      return c.json({ id, starred: added.length > 0 })
     })
     .get('/layouts/:id', async c => {
       const [r] = await db.execute(sql`SELECT layout FROM report_layouts WHERE user_id = ${c.get('userId')} AND report_id = ${reportId.parse(c.req.param('id'))}`)
@@ -35,8 +36,8 @@ export function webReportRoutes(db: Db) {
     // Journal lines posted to the account or its direct sub-accounts in the period; amounts in cents.
     .get('/drill', async c => {
       const q = trialBalanceQuery.extend({ account: z.string().min(1) }).parse(c.req.query())
-      const codes = new Set([q.account, ...(await db.execute(sql`SELECT no FROM accounts WHERE parent_no = ${q.account}`)).map(r => r.no as string)])
-      return c.json((await loadJournals(db, q.from, q.to)).flatMap(j => j.lines.filter(l => codes.has(l.account)).map(l => ({
+      const codes = [q.account, ...(await db.execute(sql`SELECT no FROM accounts WHERE parent_no = ${q.account}`)).map(r => r.no as string)]
+      return c.json((await loadJournals(db, q.from, q.to, codes)).flatMap(j => j.lines.map(l => ({
         no: j.number, date: j.date, source: typeLabel(j), desc: l.memo || j.description, debit: l.debit, credit: l.credit }))))
     })
 }

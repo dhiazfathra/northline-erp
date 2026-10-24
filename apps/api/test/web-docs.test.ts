@@ -85,5 +85,10 @@ test('purchase invoice, stock adjustment gap and quotation edit gap; privileges 
   expect((await call('GET', 'sales-quotation')).body[0]).toMatchObject({ no: q.body.number, total: 300_000, lines: [] })
   expect((await call('PUT', `sales-quotation/${q.body.number}`, itemDoc)).status).toBe(409)
   expect((await call('POST', 'sales-invoice', { ...itemDoc, inclusive: true })).status).toBe(409)
+  // header fields a type cannot store are refused, not dropped
+  expect((await call('POST', 'sales-quotation', { ...itemDoc, taxable: true })).status).toBe(409)
+  expect((await call('POST', 'purchase-invoice', { ...itemDoc, party: 'NL-T3 Pemasok A', supplierNo: 'INV-78', discPct: 10 })).status).toBe(409)
+  expect((await call('POST', 'sales-down-payment', { ...itemDoc, discPct: 5 })).status).toBe(409)
+  expect((await call('POST', 'sales-invoice', { ...itemDoc, poNo: 'PO-1' })).status).toBe(409)
   expect((await call('GET', 'sales-invoice', undefined, none)).status).toBe(403)
 })

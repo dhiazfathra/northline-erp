@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { createApp } from '../src/app'
 import { createUser } from '../src/auth'
@@ -30,6 +31,9 @@ test('favourites toggle per user', async () => {
   expect((await call('b', '/reports/favourites')).body).toEqual([]) // session-only route: no privilege needed, own rows only
   expect((await call('a', '/reports/favourites/neraca', { method: 'POST' })).body).toEqual({ id: 'neraca', starred: false })
   expect((await call('a', '/reports/favourites')).body).toEqual(['pajak'])
+  const race = await Promise.all([1, 2].map(() => call('a', '/reports/favourites/kas', { method: 'POST' })))
+  expect(race.map(r => r.status)).toEqual([200, 200]) // a double click never hits the primary key
+  await f.db.execute(sql`DELETE FROM report_favourites WHERE report_id = 'kas'`)
 })
 
 test('layouts: null until saved, then the saved object; per user; non-objects rejected', async () => {

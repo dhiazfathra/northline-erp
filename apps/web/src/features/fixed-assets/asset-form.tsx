@@ -126,7 +126,7 @@ function Field({ label, req, children, className }: { label: string; req?: boole
 }
 
 export function AssetForm({ id }: { id?: string }) {
-  const { data, isPending } = useQuery({ ...fixedAssetQuery(id ?? ''), enabled: !!id })
+  const { data, isPending, error } = useQuery({ ...fixedAssetQuery(id ?? ''), enabled: !!id })
   const t = useT()
   if (id && isPending)
     return (
@@ -137,7 +137,7 @@ export function AssetForm({ id }: { id?: string }) {
   if (id && !data)
     return (
       <DocHeader label={t(tx.title)}>
-        <div className="glass-card p-10 text-center text-[13px] opacity-60">{t(faT.notFound)}</div>
+        <div className="glass-card p-10 text-center text-[13px] opacity-60">{error ? error.message : t(faT.notFound)}</div>
       </DocHeader>
     )
   return <AssetFormBody key={id ?? 'new'} asset={data ?? undefined} />

@@ -69,6 +69,7 @@ test('Pengeluaran Aset: POST numbers a draft on the default branch, GET lists it
   expect(await (await get('/api/fixed-assets/expenditures')).json()).toEqual([{ id: 'AX.2034.03.00001', number: 'AX.2034.03.00001', date: '05/03/2034', description: 'Servis', qty: 2, total: 1_110_000, status: 'Draf', branch: 'Kantor Pusat' }])
   expect((await post('/api/fixed-assets/expenditures', { ...doc, idempotencyKey: 'web-ax-2', applyDp: true })).status).toBe(409)
   expect((await post('/api/fixed-assets/expenditures', { ...doc, idempotencyKey: 'web-ax-3', lines: [] })).status).toBe(422)
+  expect(await (await post('/api/fixed-assets/expenditures', { ...doc, idempotencyKey: 'web-ax-4', lines: [{ code: 'NOPE', qty: 1 }] })).json()).toEqual({ error: 'Aset NOPE tidak ditemukan' })
 })
 
 test('deleting an asset named on a Pengeluaran Aset is refused with 409', async () => {

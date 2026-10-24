@@ -30,6 +30,7 @@ export interface Asset {
         sellingName: string;
     };
     fiscalLifeMonths?: number;
+    salvage?: number;
     edits?: {
         number: string;
         date: string;
