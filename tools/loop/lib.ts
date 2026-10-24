@@ -175,11 +175,11 @@ export function record(run: Run) {
   const dir = evidenceDir(run.item)
   mkdirSync(dir, { recursive: true })
   appendFileSync(path.join(dir, 'runs.jsonl'), JSON.stringify(run) + '\n')
-  // Bounded evidence: the latest run of each kind keeps logs and media, older failing runs keep their logs, older
-  // passing runs keep only their runs.jsonl line.
+  // Bounded evidence: the latest run of each kind and the latest passing one (the last known good) keep logs and
+  // media, older failing runs keep their logs, older passing runs keep only their runs.jsonl line.
   const all = runs(run.item)
   for (const r of all) {
-    if (r === all.findLast((x) => x.kind === r.kind)) continue
+    if (r === all.findLast((x) => x.kind === r.kind) || r === all.findLast((x) => x.kind === r.kind && x.ok)) continue
     if (r.ok) rmSync(runDir(run.item, r.id), { recursive: true, force: true })
     else dropMedia(runDir(run.item, r.id))
   }
