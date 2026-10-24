@@ -204,7 +204,11 @@ async function e2e(c: Ctx) {
   }
 }
 
-const lastLine = (s: string) => s.trim().split('\n').at(-1) ?? ''
+// One line per step: the first error line when it failed, else the tail ("seeded manufaktur { events: … }").
+const lastLine = (s: string) => {
+  const lines = s.trim().split('\n').map((l) => l.trim()).filter(Boolean)
+  return (lines.find((l) => /^(error|\w*Error)\b/i.test(l)) ?? lines.slice(-6).join(' ')).replace(/\s+/g, ' ').slice(0, 200)
+}
 const script = (name: string, argv: string[], env: Record<string, string> = {}): Step => ({
   name,
   run: async (c) => { const r = await exec(c, name, argv, ROOT, env); return { ok: !r.code, note: lastLine(r.out + r.err) } },

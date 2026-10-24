@@ -33,7 +33,9 @@ export function section(s: State) {
   const ev = runs(s.item).findLast((r) => r.kind === 'evals')
   const cases = ev?.cases ? Object.entries(ev.cases) : []
   const passed = cases.filter(([, v]) => v.every((x) => x !== false) && v.some((x) => x !== null)).length
-  const flows = ev?.flows ?? []
+  const all = ev?.flows ?? []
+  const lastRound = all.at(-1)?.file.match(/^run-\d+/)?.[0] ?? ''
+  const flows = all.filter((f) => f.file.startsWith(lastRound))
   const shots = flows.filter((f) => f.shot && existsSync(path.join(evidenceDir(s.item!), 'runs', ev!.id, f.file, f.shot))).slice(0, 4)
   const log = path.join(LOOP, 'CHANGELOG.md')
   const goalposts = existsSync(log) ? readFileSync(log, 'utf8').split('\n## ').filter((e) => e.includes(` · ${s.item} plan `)).flatMap((e) => e.split('\n').filter((l) => l.startsWith('- ⚠'))) : []
@@ -126,49 +128,56 @@ export function crStatus(n: number) {
           : rounds >= 2
             ? 'rounds-exhausted'
             : 'pending'
-  return { state, rounds, head: pr.headRefOid.slice(0, 7) as string, threads, outside: outsideDiff(last?.body ?? '') }
+  return { state, rounds, head: pr.headRefOid.slice(0, 7) as string, threads, outside: bodyFindings(last?.body ?? '') }
 }
 
+// CodeRabbit comment shape (2026-10): a bold severity line ("**🎯 Functional Correctness** | **Minor** | **⚡ Quick win**"),
+// <details> blocks (analysis, suggested fix, committable suggestion), a bold title paragraph, then the explanation.
 const plain = (s: string) =>
   s
     .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<details>\s*<summary>[^<]*<\/summary>[\s\S]*?<\/details>/g, '')
+    .replace(/<details>\s*<summary>[\s\S]*?<\/summary>[\s\S]*?<\/details>/g, '')
     .replace(/<[^>]+>/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim()
+const severity = (line: string) => line.replace(/\*\*/g, '').replace(/_([^_|]+)_/g, '$1').replace(/\s+/g, ' ').trim()
 
-/** "⚠️ Potential issue | 🟠 Major · Title." from a CodeRabbit comment. */
+/** "🎯 Functional Correctness | Minor | ⚡ Quick win · Upgrade the existing sandbox login when reseeding." */
 export function headline(body: string) {
-  const t = plain(body)
-  const sev = t.split('\n')[0]!.replace(/_/g, '').trim()
-  const title = t.match(/\*\*(.+?)\*\*/)?.[1]
-  return (title ? `${sev} · ${title}` : t.replace(/\s+/g, ' ')).slice(0, 180)
+  const lines = plain(body).split('\n').map((l) => l.trim()).filter(Boolean)
+  const title = lines.slice(1).find((l) => /^\*\*[^*].*\*\*$/.test(l))?.replace(/\*\*/g, '')
+  return (title ? `${severity(lines[0] ?? '')} · ${title}` : lines.join(' ')).slice(0, 200)
 }
 
-/** CodeRabbit's "Prompt for AI Agents" block: the shortest exact statement of the fix. Falls back to the plain body. */
-export function agentPrompt(body: string) {
-  const p = body.match(/<summary>🤖 Prompt for AI Agents<\/summary>\s*([\s\S]*?)<\/details>/)?.[1]
-  return p ? p.replace(/```\w*\n?/g, '').trim() : plain(body)
+/** What `cr show` prints: CodeRabbit's agent prompt when it wrote one, else the explanation plus its suggested fix. */
+export function detail(body: string) {
+  const prompt = body.match(/<summary>🤖 Prompt for AI Agents<\/summary>\s*([\s\S]*?)<\/details>/)?.[1]
+  if (prompt) return prompt.replace(/```\w*\n?/g, '').trim()
+  const fix = body.match(/<summary>[^<]*(?:Suggested fix|Committable suggestion)[^<]*<\/summary>\s*([\s\S]*?)<\/details>/)?.[1]?.replace(/<[^>]+>/g, '').trim()
+  const text = plain(body).split('\n').slice(1).join('\n').trim()
+  return fix ? `${text}\n\nSuggested fix:\n${fix}` : text
 }
 
-/** Findings CodeRabbit puts in the review body because they sit outside the diff; they have no thread to reply to. */
-export function outsideDiff(body: string) {
-  const block = body.match(/Outside diff range comments[\s\S]*?(?=<\/details>\s*<\/blockquote>\s*<\/details>|$)/)?.[0] ?? ''
+/** Findings in the review body (outside the diff, nitpicks, duplicates): they have no thread, so they are fixed or noted. */
+export function bodyFindings(body: string) {
+  const lines = body.split('\n').map((l) => l.replace(/^(> ?)+/, ''))
   const out: string[] = []
-  let file = ''
-  for (const line of block.split('\n')) {
-    const f = line.match(/<summary>(.+?) \(\d+\)<\/summary>/)
-    if (f) file = f[1]!
-    const c = line.match(/^`(\d+(?:-\d+)?)`: \*\*(.+?)\*\*/)
-    if (c) out.push(`${file}:${c[1]} ${c[2]}`)
-  }
+  let section = ''
+  lines.forEach((l, i) => {
+    const h = l.match(/^\*\*[^*]*?(Outside diff range|Nitpick|Duplicate)[^*]*\*\*/i)
+    if (h) section = h[1]!.toLowerCase().split(' ')[0]!
+    const m = l.match(/<summary><strong>([\s\S]*?)<\/strong> · ([\s\S]*?) · <code>([^<]*)<\/code><\/summary>/)
+    if (!m || !section) return
+    const full = lines.slice(i + 1, i + 8).map((x) => x.match(/^`([^`]+:\d+(?:-\d+)?)`$/)?.[1]).find(Boolean)
+    out.push(`${section} ${full ?? m[3]} [${m[1]!.replace(/<[^>]+>/g, '').trim()}] ${m[2]}`)
+  })
   return out
 }
 
 export const threadBody = (n: number, id: string) => {
   const t = graphql(Q, { ...repo(), n }).repository.pullRequest.reviewThreads.nodes.find((x: any) => x.id === id)
   if (!t) throw new Error(`no thread ${id} on #${n}`)
-  return `${t.path}:${t.line}\n${headline(t.comments.nodes[0].body)}\n\n${agentPrompt(t.comments.nodes[0].body)}`
+  return `${t.path}:${t.line}\n${headline(t.comments.nodes[0].body)}\n\n${detail(t.comments.nodes[0].body)}`
 }
 
 export function replyResolve(id: string, text: string) {

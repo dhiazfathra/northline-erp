@@ -1,6 +1,6 @@
 // Loop state, plan changelog and evidence records (ADR-0050). state.json is the only source of truth: STATE.md,
 // CHANGELOG.md entries and evidence/<item>/README.md are rendered from it and from runs.jsonl, never edited by hand.
-import { appendFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 export const ROOT = process.env.LOOP_ROOT ?? path.resolve(import.meta.dir, '../..')
@@ -171,11 +171,22 @@ export function record(run: Run) {
   const dir = evidenceDir(run.item)
   mkdirSync(dir, { recursive: true })
   appendFileSync(path.join(dir, 'runs.jsonl'), JSON.stringify(run) + '\n')
-  // Logs and media stay for failing runs and for the latest run of each kind; older passing runs keep their line only.
+  // Bounded evidence: the latest run of each kind keeps logs and media, older failing runs keep their logs, older
+  // passing runs keep only their runs.jsonl line.
   const all = runs(run.item)
-  for (const r of all)
-    if (r.ok && r !== all.findLast((x) => x.kind === r.kind)) rmSync(runDir(run.item, r.id), { recursive: true, force: true })
+  for (const r of all) {
+    if (r === all.findLast((x) => x.kind === r.kind)) continue
+    if (r.ok) rmSync(runDir(run.item, r.id), { recursive: true, force: true })
+    else dropMedia(runDir(run.item, r.id))
+  }
   writeFileSync(path.join(dir, 'README.md'), renderEvidence(run.item, all))
+}
+
+function dropMedia(dir: string) {
+  if (!existsSync(dir)) return
+  for (const e of readdirSync(dir, { withFileTypes: true }).filter((x) => x.isDirectory()))
+    if (e.name === 'shots' || e.name === 'videos') rmSync(path.join(dir, e.name), { recursive: true, force: true })
+    else dropMedia(path.join(dir, e.name))
 }
 
 const secs = (ms: number) => (ms >= 60_000 ? `${Math.floor(ms / 60_000)}m${Math.round((ms % 60_000) / 1000)}s` : `${(ms / 1000).toFixed(1)}s`)
@@ -185,8 +196,8 @@ export function renderEvidence(item: string, all: Run[]) {
   const lines = [
     `# ${item} verification evidence`,
     '',
-    'Rendered by `bun loop` from [runs.jsonl](runs.jsonl), oldest first. Logs and media are kept for failing runs and for',
-    'the latest run of each kind.',
+    'Rendered by `bun loop` from [runs.jsonl](runs.jsonl), oldest first. The latest run of each kind keeps logs and media;',
+    'older failing runs keep their logs; older passing runs keep only their line.',
     '',
     row('Run', 'Stage', 'Kind', 'Code', 'Result', 'Time', 'Steps'),
     rule(7),
@@ -217,11 +228,12 @@ export function renderEvidence(item: string, all: Run[]) {
     const failed = fl.flows.filter((f) => !f.ok)
     const media = fl.flows.filter((f) => f.shot || f.video)
     const at = (f: { file: string }, p: string) => `runs/${fl.id}/${f.file}/${p}`
+    const rounds = Map.groupBy(fl.flows, (f) => (f.file.match(/^run-\d+/)?.[0] ?? 'run'))
     lines.push(
       '',
-      `## Latest e2e: ${fl.id} on \`${fl.sha}\`, ${fl.flows.length - failed.length}/${fl.flows.length} flows pass`,
+      `## Latest e2e: ${fl.id} on \`${fl.sha}\` (${[...rounds].map(([k, v]) => `${k} ${v.filter((f) => f.ok).length}/${v.length}`).join(', ')} flows pass)`,
       '',
-      failed.length ? failed.map((f) => `- FAIL ${f.name}: ${f.fail}`).join('\n') : 'No failures.',
+      failed.length ? failed.map((f) => `- FAIL ${f.file.split('/')[0]} ${f.name}: ${f.fail}`).join('\n') : 'No failures.',
     )
     if (media.length)
       lines.push(

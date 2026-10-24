@@ -1,7 +1,7 @@
 // `bun loop <command>`: the strategy loop's deterministic half (ADR-0050). The agent asks `next` what to do, does the
 // judgment work, and `advance` moves the stage only when the exit checks pass. Exit codes: 0 ok, 1 failed, 2 usage,
 // 3 stop and ask the owner.
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { CASES, claimMigration, ctx, judge, type Metrics, renderGolden, runSteps, STACK, STATIC, TESTS } from './checks'
 import { adoptPr, crStatus, headline, replyResolve, restoreBody, TERMINAL, threadBody, verifyBody } from './gh'
@@ -169,7 +169,7 @@ function advance(s: State) {
     Object.assign(item(s, s.item), { status: 'awaiting merge', pr: s.pr, evals: ev ? `pass^2 on ${ev.sha}` : '', coderabbit: `${cr.state}, ${cr.rounds} rounds` })
   }
   save(s)
-  commit(`chore(loop): ${s.item} ${from} → ${s.stage}`)
+  commit(`chore(loop): ${s.item} ${from} → ${s.stage}`, true)
   console.log(`${s.item}: ${from} → ${s.stage}`)
   next(s)
 }
@@ -179,10 +179,14 @@ const item = (s: State, id: string) => {
   if (!i) s.items.push((i = { id, status: 'queued', pr: null, evals: '', coderabbit: '', notes: '' }))
   return i
 }
-const commit = (msg: string) => {
-  sh(['git', 'add', 'docs/strategy/loop'])
-  if (sh(['git', 'diff', '--cached', '--quiet']).ok) return
-  sh(['git', 'commit', '-q', '-m', msg])
+// Commits only the loop's own files, never whatever else is staged. Evidence rides along on stage moves only, after
+// pruning, so media from intermediate runs never reaches history.
+const STATE_FILES = ['state.json', 'STATE.md', 'CHANGELOG.md'].map((f) => `docs/strategy/loop/${f}`)
+const commit = (msg: string, evidence = false) => {
+  const paths = evidence ? ['docs/strategy/loop'] : STATE_FILES.filter((f) => existsSync(path.join(ROOT, f)))
+  sh(['git', 'add', '--', ...paths])
+  if (sh(['git', 'diff', '--cached', '--quiet', '--', ...paths]).ok) return
+  sh(['git', 'commit', '-q', '-m', msg, '--', ...paths])
 }
 
 function start(s: State, id?: string) {
@@ -291,7 +295,7 @@ async function evals(s: State, once: boolean, media?: string) {
   const rounds: Record<string, boolean | null>[] = []
   const steps: StepResult[] = []
   const metrics: Metrics = {}
-  let flows: Run['flows'] = []
+  const flows: NonNullable<Run['flows']> = []
   let fixed: StepResult[] = []
   for (let k = 1; k <= (once ? 1 : 2); k++) {
     const c = ctx(path.join(runDir(it, id), `run-${k}`), s, media ?? (s.item ? `\\[${s.item}\\]` : '(?!)'))
@@ -302,8 +306,15 @@ async function evals(s: State, once: boolean, media?: string) {
     const prBody = s.pr ? verifyBody(s) : null
     rounds.push(judge({ steps: Object.fromEntries([...fixed, ...res].map((r) => [r.name, r])), flows: c.flows, prBody }, s))
     steps.push(...res.map((r) => ({ ...r, name: `${k}:${r.name}` })))
-    flows = c.flows.map((f) => ({ ...f, file: `run-${k}/${f.file}` }))
+    flows.push(...c.flows.map((f) => ({ ...f, file: `run-${k}/${f.file}` })))
     Object.assign(metrics, c.metrics)
+  }
+  // Earlier rounds keep media only for their failures (a flake's video); the last round keeps all of its media.
+  const last = `run-${once ? 1 : 2}/`
+  for (const f of flows.filter((x) => x.ok && !x.file.startsWith(last))) {
+    for (const m of [f.shot, f.video]) if (m) rmSync(path.join(runDir(it, id), f.file, m), { force: true })
+    delete f.shot
+    delete f.video
   }
   const cases = Object.fromEntries(CASES.map((k) => [k.id, rounds.map((r) => r[k.id]!)]))
   const pass = (v: (boolean | null)[]) => v.every((x) => x !== false)

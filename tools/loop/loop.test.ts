@@ -2,7 +2,7 @@ import { describe, expect, setDefaultTimeout, test } from 'bun:test'
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { bodyOk, withSection } from './gh'
+import { bodyFindings, bodyOk, detail, headline, withSection } from './gh'
 import { blocked } from './guard'
 import { type Plan, planDiff, renderState, type State } from './lib'
 import { cells, decide, findings } from './nm'
@@ -55,6 +55,27 @@ describe('PR body section', () => {
   test('an overwritten or stale body fails verification', () => {
     expect(bodyOk('## Intent\nonly no-mistakes', sec)).toBe(false)
     expect(bodyOk(withSection('', '<!-- loop:begin -->\n## N2 old\n<!-- loop:end -->'), sec)).toBe(false)
+  })
+})
+
+// A real thread comment and review body from PR #3 (images stripped), so the parsers track CodeRabbit's actual format.
+describe('CodeRabbit comments', () => {
+  const f = JSON.parse(readFileSync(path.join(import.meta.dir, 'coderabbit.fixture.json'), 'utf8'))
+  test('a thread reads as severity and title', () => {
+    expect(headline(f.thread)).toBe('🎯 Functional Correctness | Minor | ⚡ Quick win · Upgrade the existing sandbox login when reseeding.')
+    expect(headline('_⚠️ Potential issue_ | _🟠 Major_\n\n**Missing await.**\n\nThe call…')).toBe('⚠️ Potential issue | 🟠 Major · Missing await.')
+  })
+  test('show prints the explanation and the suggested fix, not the analysis transcript', () => {
+    const d = detail(f.thread)
+    expect(d).toStartWith('**Upgrade the existing sandbox login when reseeding.**')
+    expect(d).toContain('Suggested fix:')
+    expect(d).not.toContain('Script executed')
+  })
+  test('findings outside the diff are listed with their full path', () => {
+    expect(bodyFindings(f.review)).toEqual([
+      'outside apps/web/src/features/accounts/form.tsx:76 [Minor] Do not report a failed journal-line request as an empty account.',
+      'outside docs/guide/northline-user-guide.html:245-246 [Minor] Split returns from job costing in the Live status table.',
+    ])
   })
 })
 
@@ -167,6 +188,23 @@ describe('bun loop', () => {
     expect(db).toContain("import m0003 from '../migrations/0003_backup_runs.sql' with { type: 'text' }")
     expect(db).toContain("'0002_auth.sql': m0002, '0003_backup_runs.sql': m0003 }")
     expect(r.run('migration', 'Bad Name').code).toBe(1)
+  })
+
+  test('the guard hook blocks production commands only while an item is in progress', () => {
+    const r = repo()
+    const hook = (stage: string) => {
+      const f = path.join(r.root, 'docs/strategy/loop/state.json')
+      writeFileSync(f, JSON.stringify({ ...JSON.parse(readFileSync(f, 'utf8')), stage }))
+      const p = Bun.spawnSync(['bun', path.join(import.meta.dir, 'guard.ts')], {
+        cwd: r.root,
+        env: { ...process.env, CLAUDE_PROJECT_DIR: r.root },
+        stdin: new TextEncoder().encode(JSON.stringify({ tool_name: 'Bash', tool_input: { command: 'bun run deploy:prod' } })),
+        stderr: 'pipe',
+      })
+      return { code: p.exitCode, err: p.stderr.toString() }
+    }
+    expect(hook('build')).toMatchObject({ code: 2, err: expect.stringContaining('N2 is in progress') })
+    expect(hook('done').code).toBe(0)
   })
 
   test('a loop change needs an existing check', () => {
