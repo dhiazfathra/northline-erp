@@ -46,3 +46,10 @@ dist
 # P4 parity videos stay local (docs/goals/full-parity-v2.md §Evidence)
 docs/parity/**/*.webm
 docs/parity/**/.video/
+
+# strategy loop (ADR-0050): full logs and videos stay local; md, json and screenshots are committed
+docs/strategy/loop/evidence/**/*.log
+docs/strategy/loop/evidence/**/videos/
+docs/strategy/loop/evidence/**/types/
+docs/strategy/loop/.nm.lock
+docs/strategy/loop/.run.lock

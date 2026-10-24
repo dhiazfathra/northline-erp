@@ -1,0 +1,111 @@
+{
+  "item": null,
+  "stage": null,
+  "branch": null,
+  "pr": null,
+  "startedAt": null,
+  "budgetHours": 12,
+  "nm": null,
+  "nmSha": null,
+  "pushedAt": null,
+  "baseline": {
+    "accurateZeroDiff": 288,
+    "mockCalls": 9,
+    "oxlintWarnings": 1,
+    "g3Flows": 2,
+    "g6Flows": 2
+  },
+  "phase0": [
+    {
+      "id": "P1",
+      "text": "`bun loop` CLI: state, stage gates, plan changelog, evidence index",
+      "done": true
+    },
+    {
+      "id": "P2",
+      "text": "`bun loop migration <name>` claims the number and registers it in `db.ts`",
+      "done": true
+    },
+    {
+      "id": "P3",
+      "text": "`bun loop check` and `.github/workflows/check.yml` running it on every push and PR",
+      "done": true
+    },
+    {
+      "id": "P4",
+      "text": "`bun loop pr`, `pr-body restore|verify` around the loop markers",
+      "done": true
+    },
+    {
+      "id": "P5",
+      "text": "`bun loop evals`: G1–G10 twice on a fresh local DB, screenshots and videos",
+      "done": true
+    },
+    {
+      "id": "P6",
+      "text": "`[G3]` round-trip and `[G6]` picker flows tagged in `tools/e2e`, counts ratcheted in the baseline",
+      "done": true
+    },
+    {
+      "id": "P7",
+      "text": "Baseline taken from a green `bun loop evals` (evidence/strategy-loop)",
+      "done": true
+    }
+  ],
+  "items": [
+    {
+      "id": "N1",
+      "status": "awaiting merge",
+      "pr": 3,
+      "evals": "e2e 114/114 (not pass^2)",
+      "coderabbit": "rate-limited at 09fc5c9",
+      "notes": "Retro: docs/retro/2026-10-24-n1.md"
+    },
+    {
+      "id": "N2",
+      "status": "queued",
+      "pr": null,
+      "evals": "",
+      "coderabbit": "",
+      "notes": "Loop scope: backup workflow and a restore drill against local Postgres. Owner steps: R2 and Neon secrets, first production dump, 5xx alert"
+    },
+    {
+      "id": "N3",
+      "status": "owner-only",
+      "pr": null,
+      "evals": "",
+      "coderabbit": "",
+      "notes": "Owner decisions on ADRs and licence"
+    },
+    {
+      "id": "N4",
+      "status": "blocked",
+      "pr": null,
+      "evals": "",
+      "coderabbit": "",
+      "notes": "Needs a prospect's Data Usaha and consent"
+    },
+    {
+      "id": "N10",
+      "status": "done",
+      "pr": null,
+      "evals": "",
+      "coderabbit": "",
+      "notes": "Done in the strategy change"
+    }
+  ],
+  "plan": null,
+  "arch": [],
+  "learnings": [
+    {
+      "item": "N1",
+      "check": "G1",
+      "text": "One writer for shared files (`app.ts`, `route-privileges.ts`, `db.ts`, migrations); migrations only via `bun loop migration`."
+    },
+    {
+      "item": "N1",
+      "check": "G10",
+      "text": "The PR body's loop section is rendered from state, so `/no-mistakes` overwriting it costs one `bun loop pr-body restore`."
+    }
+  ]
+}

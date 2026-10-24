@@ -51,3 +51,4 @@
 | [0047](0047-deployment-tiers.md) | Five deployment tiers: Workers + Neon by default, one Worker routing tenants to a Neon project each, on-premise for residency or beyond Neon's ceiling | Proposed |
 | [0048](0048-scale-claims-need-benchmarks.md) | No scale claim without a published benchmark; the Go port waits for one | Proposed |
 | [0049](0049-web-session-and-api-wiring.md) | Web app checks the session before every screen and signs out on the server; screens move off mock() reports first | Proposed |
+| [0050](0050-strategy-loop.md) | One agent loop works the strategy backlog item by item, gated by golden evals; two subagents at most | Proposed |
