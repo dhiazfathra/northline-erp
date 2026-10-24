@@ -5,8 +5,11 @@
 //   E2E_EMAIL      seeded login          (default e2e@northline.test; seed with NL_EMAIL=… NL_PASSWORD=…)
 //   E2E_PASSWORD   its password          (default e2e-secret-pass)
 //   E2E_HEADED=1   watch it run;  E2E_ONLY=<substring> run matching flows only
+//   E2E_EVIDENCE_DIR  write results.json there, plus a screenshot and video per failed flow and per flow matching
+//                     E2E_MEDIA (a regex; `bun loop evals` passes `\[<item>\]`), at most 20 (ADR-0050)
+// Tags in flow names feed the golden evals: [G3] round trip (save, reload, compare), [G6] picker options from the API.
 // Run: node tools/e2e/n1-flows.mjs   (or `bun run e2e`) — exits 1 on any failure.
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from 'playwright'
@@ -40,27 +43,43 @@ function routes() {
   return [...out].sort()
 }
 
+const EVIDENCE = process.env.E2E_EVIDENCE_DIR
+const MEDIA = new RegExp(process.env.E2E_MEDIA || '(?!)')
+if (EVIDENCE) mkdirSync(path.join(EVIDENCE, 'shots'), { recursive: true })
 const browser = await chromium.launch({ headless: !process.env.E2E_HEADED })
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, baseURL: BASE })
-const page = await ctx.newPage()
-page.setDefaultTimeout(8000)
+// Every page records video when evidence is on; a flow's video is kept or deleted when its page closes.
+const ctx = await browser.newContext({
+  viewport: { width: 1440, height: 900 },
+  baseURL: BASE,
+  ...(EVIDENCE && { recordVideo: { dir: path.join(EVIDENCE, 'videos'), size: { width: 960, height: 600 } } }),
+})
 
 let problems = []
-page.on('console', (m) => m.type() === 'error' && problems.push(`console: ${m.text()}`))
-page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`))
-page.on('response', (r) => {
-  const u = new URL(r.url())
-  if (u.pathname.startsWith('/api/') && r.status() >= 400 && !expected(r)) problems.push(`api ${r.request().method()} ${u.pathname} → ${r.status()}`)
-})
 // 401 on the session probe before sign-in is expected; validation flows may expect 4xx via `allow4xx`.
 let allow4xx = false
 const expected = (r) => (r.status() === 401 && new URL(r.url()).pathname.endsWith('/me')) || (allow4xx && r.status() < 500)
 
+// One page per flow (the session cookie and language choice live in the shared context), so each flow is its own video.
+let page
+async function newPage() {
+  page = await ctx.newPage()
+  page.setDefaultTimeout(8000)
+  page.on('console', (m) => m.type() === 'error' && problems.push(`console: ${m.text()}`))
+  page.on('pageerror', (e) => problems.push(`pageerror: ${e.message}`))
+  page.on('response', (r) => {
+    const u = new URL(r.url())
+    if (u.pathname.startsWith('/api/') && r.status() >= 400 && !expected(r)) problems.push(`api ${r.request().method()} ${u.pathname} → ${r.status()}`)
+  })
+}
+
 const results = []
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80)
 async function flow(name, fn) {
   if (process.env.E2E_ONLY && name !== 'sign in' && !name.includes(process.env.E2E_ONLY)) return
+  await newPage()
   problems = []
   allow4xx = false
+  const started = Date.now()
   let err
   try {
     await fn()
@@ -69,7 +88,20 @@ async function flow(name, fn) {
     err = e.message.split('\n')[0]
   }
   const fail = err ?? (problems.length ? [...new Set(problems)].join(' | ') : null)
-  results.push({ name, ok: !fail, fail })
+  const r = { name, ok: !fail, fail, ms: Date.now() - started }
+  const keep = EVIDENCE && (fail || MEDIA.test(name)) && results.filter((x) => x.shot).length < 20
+  if (keep) {
+    r.shot = `shots/${slug(name)}.jpg`
+    await page.screenshot({ path: path.join(EVIDENCE, r.shot), type: 'jpeg', quality: 60 }).catch(() => delete r.shot)
+  }
+  await page.close()
+  const video = page.video()
+  if (video && keep) {
+    r.video = `videos/${slug(name)}.webm`
+    await video.saveAs(path.join(EVIDENCE, r.video))
+  }
+  await video?.delete()
+  results.push(r)
   console.log(`${fail ? 'FAIL' : 'pass'}  ${name}${fail ? `\n      ${fail}` : ''}`)
 }
 
@@ -125,7 +157,7 @@ await flow('ID/EN toggle', async () => {
 })
 
 let invoiceNo
-await flow('doc form add item + save (sales invoice)', async () => {
+await flow('[G6] doc form add item + save (sales invoice)', async () => {
   await go('/docs/sales-invoice')
   await btn('+ New entry').click()
   await btn('Customer *').click()
@@ -184,7 +216,7 @@ await flow('report params → view → AI panel', async () => {
   await page.getByRole('button', { name: 'Close AI panel' }).click()
 })
 
-await flow('report star toggles and persists across reload', async () => {
+await flow('[G3] report star toggles and persists across reload', async () => {
   await go('/reports')
   const card = page.getByRole('button', { name: /Cash Flow Operating/ })
   const star = (s) => card.getByRole('button', { name: s, exact: true })
@@ -209,7 +241,7 @@ await flow('asset expenditure create', async () => {
   await page.getByText(`Laptop e2e ${run}`).first().waitFor()
 })
 
-await flow('fixed-asset validation + create', async () => {
+await flow('[G6] fixed-asset validation + create', async () => {
   await go('/fixed-assets/new')
   await btn('Save').click()
   await toast().getByText('Fill in the required fields').waitFor()
@@ -233,7 +265,7 @@ await flow('fixed-asset validation + create', async () => {
   await page.waitForURL(/\/fixed-assets\/FAA\./)
 })
 
-await flow('account row → form (+ save details)', async () => {
+await flow('[G3] account row → form (+ save details)', async () => {
   await go('/accounts')
   await page.getByText('Beban Listrik').first().click()
   await page.waitForURL('**/accounts/600011')
@@ -283,6 +315,7 @@ await flow('workspace switch', async () => {
 })
 
 await browser.close()
+if (EVIDENCE) writeFileSync(path.join(EVIDENCE, 'results.json'), JSON.stringify({ base: BASE, flows: results }, null, 2))
 const failed = results.filter((r) => !r.ok)
 console.log(`\n${results.length - failed.length}/${results.length} pass`)
 process.exit(failed.length ? 1 : 0)
