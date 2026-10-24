@@ -55,8 +55,16 @@ export const itemDocSchema = z.object({
   invoice: z.string(),
 })
 export type ItemDocInput = z.infer<typeof itemDocSchema>
+/** Header fields an item doc type stores (ADR-0049): the form shows only these, the API refuses the rest set. No type stores poNo. */
+export const storedInfo: Partial<Record<DocType, readonly ('discPct' | 'taxable' | 'terms')[]>> = {
+  // no discPct: the web save path has no discount account to post an invoice discount to
+  'sales-invoice': ['taxable', 'terms'],
+  'purchase-invoice': ['taxable', 'terms'],
+}
 export const purchaseInvoiceSchema = itemDocSchema.extend({ supplierNo: z.string().trim().min(1) })
 export const returnDocSchema = itemDocSchema.extend({ invoice: z.string().min(1) })
+/** Stock adjustments have no party. */
+export const stockAdjustmentSchema = itemDocSchema.extend({ party: z.string() })
 
 export const journalLineSchema = z.object({
   account: z.string().min(1),

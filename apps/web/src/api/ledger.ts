@@ -1,13 +1,22 @@
 import type { Bank, DefaultAccount, Feature, MonthEndRun, TbAccount } from '@northline/schemas/ledger'
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
-import { accounts, balances, journals } from '@northline/schemas/fixtures'
+import { hc } from 'hono/client'
+import type { LedgerWebType } from '../../../api/types/web/ledger'
 import { api } from './client'
-import { mock } from './mock'
+
+// Buku Besar screen routes are mounted outside AppType (TS2589 depth limit), so they get their own typed client.
+export const ledgerApi = hc<LedgerWebType>('/api/ledger', { init: { credentials: 'same-origin' } })
 
 export const TB_FROM = '01/09/2026'
 export const TB_TO = '17/10/2026'
 
 const iso = (d: string) => d.split('/').reverse().join('-')
+const dmy = (d: string) => d.split('-').reverse().join('/')
+const fail = async (res: Response, what: string) => {
+  if (res.ok) return
+  const b = (await res.json().catch(() => ({}))) as { error?: string; issues?: { message: string }[] }
+  throw new Error(b.issues?.[0]?.message ?? b.error ?? `${what} (${res.status})`)
+}
 
 // Leaf rows from the ledger API (cents → rupiah); opening keeps its sign, positive = debit.
 export const trialBalanceQuery = queryOptions({
@@ -21,54 +30,53 @@ export const trialBalanceQuery = queryOptions({
   },
 })
 
-// Reconciliation pairs each journal line on a Kas & Bank leaf with the bank statement.
-const banks: Bank[] = ['1101', '1102', '1103'].map((code) => {
-  const acc = accounts.find((a) => a.code === code)!
-  const entries = journals.flatMap((j) =>
-    j.lines
-      .filter((l) => l.account === code)
-      .map((l, i) => ({
-        id: `${j.jv}-${code}-${i}`,
-        date: j.date,
-        side: l.debit ? ('debit' as const) : ('credit' as const),
-        amount: l.debit || l.credit,
-        type: j.source,
-        no: j.no,
-        party: j.description,
-        matched: false,
-      })),
-  )
-  return { name: `${code} ${acc.name}`, balance: balances().get(code) ?? 0, entries }
+// Reconciliation pairs each journal line on a Kas & Bank leaf with the bank statement (cents → rupiah).
+// Entry id is `bank|document|n`; the mutation reconciles the document on that bank.
+export const banksQuery = queryOptions({
+  queryKey: ['ledger', 'banks'],
+  queryFn: async (): Promise<Bank[]> => {
+    const res = await ledgerApi.banks.$get({ query: { from: iso(TB_FROM), to: iso(TB_TO) } })
+    await fail(res, 'Bank gagal dimuat')
+    return (await res.json()).map((b) => ({ name: b.name, balance: b.balance / 100, entries: b.entries.map((e) => ({ ...e, date: dmy(e.date), amount: e.amount / 100 })) }))
+  },
 })
-
-export const banksQuery = queryOptions({ queryKey: ['ledger', 'banks'], queryFn: () => mock(banks) })
 
 export function useMatchEntry() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (id: string) => {
-      for (const b of banks) for (const e of b.entries) if (e.id === id) e.matched = true
-      return mock(id, 200)
+      const e = qc.getQueryData(banksQuery.queryKey)?.flatMap((b) => b.entries).find((x) => x.id === id)
+      const [bank, document] = id.split('|')
+      const res = await ledgerApi.banks.reconcile.$post({ json: { bank: bank!, document: document!, statementDate: iso(e?.date ?? TB_TO) } })
+      await fail(res, 'Gagal menyimpan')
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['ledger', 'banks'] }),
   })
 }
 
-const runs: MonthEndRun[] = [{ name: 'Proses Akhir Bulan September 2026', date: '30/09/2026', note: 'Revaluasi kurs US Dollar 15,500' }]
-export const monthEndRunsQuery = queryOptions({ queryKey: ['ledger', 'month-end'], queryFn: () => mock(runs) })
+export const monthEndRunsQuery = queryOptions({
+  queryKey: ['ledger', 'month-end'],
+  queryFn: async (): Promise<MonthEndRun[]> => {
+    const res = await ledgerApi['period-ends'].$get()
+    await fail(res, 'Proses akhir bulan gagal dimuat')
+    return (await res.json()).map((r) => ({ name: `Proses Akhir Bulan ${r.number}`, date: dmy(r.date), note: '' }))
+  },
+})
 
 export function useRunMonthEnd() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (run: MonthEndRun) => {
-      runs.unshift(run)
-      return mock(run, 500)
+    mutationFn: async ({ month, year }: { month: number; year: number }) => {
+      const res = await api['period-ends'].$post({ json: { idempotencyKey: crypto.randomUUID(), period: `${year}-${String(month).padStart(2, '0')}` } } as never)
+      await fail(res, 'Gagal menyimpan')
+      return (await res.json()) as { number: string }
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['ledger', 'month-end'] }),
   })
 }
 
-let features: Feature[] = [
+// Feature names and rules live here; the API stores only which ids are on.
+const featureCatalog: Feature[] = [
   { id: 'fx', group: 'Penjualan & Pembelian', name: 'Multi Mata Uang', on: true, oneWay: true },
   { id: 'sqo', group: 'Penjualan & Pembelian', name: 'Penawaran dan Pesanan Penjualan', on: false },
   { id: 'sret', group: 'Penjualan & Pembelian', name: 'Retur Penjualan', on: false },
@@ -124,31 +132,33 @@ export function useSaveReportPreferences() {
   })
 }
 
-export const featuresQuery = queryOptions({ queryKey: ['prefs', 'features'], queryFn: () => mock(features) })
+export const featuresQuery = queryOptions({
+  queryKey: ['prefs', 'features'],
+  queryFn: async (): Promise<Feature[]> => {
+    const res = await ledgerApi.features.$get()
+    await fail(res, 'Fitur gagal dimuat')
+    const on = await res.json()
+    return featureCatalog.map((f) => ({ ...f, on: on[f.id] ?? f.on }))
+  },
+})
 
 export function useSaveFeatures() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: async (next: Feature[]) => {
-      features = next
-      return mock(next, 400)
+      const res = await ledgerApi.features.$put({ json: Object.fromEntries(next.map((f) => [f.id, f.on])) })
+      await fail(res, 'Gagal menyimpan')
+      return next
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['prefs'] }),
   })
 }
 
-const acc = (code: string) => `${code} ${accounts.find((a) => a.code === code)!.name}`
-const defaultAccounts: DefaultAccount[] = [
-  { label: 'Akun Kas Default', value: acc('1102') },
-  { label: 'Akun Bank Default', value: acc('1101') },
-  { label: 'Akun Piutang Usaha', value: acc('110301') },
-  { label: 'Akun Utang Usaha', value: acc('210101') },
-  { label: 'Akun Pendapatan', value: acc('400001') },
-  { label: 'Akun Diskon Penjualan', value: acc('400004') },
-  { label: 'Akun Persediaan', value: acc('110401') },
-  { label: 'Akun Beban Pokok Penjualan', value: acc('510101') },
-  { label: 'Akun PPN Keluaran', value: acc('210201') },
-  { label: 'Akun PPN Masukan', value: acc('110501') },
-  { label: 'Akun Selisih Kurs', value: acc('720102') },
-]
-export const defaultAccountsQuery = queryOptions({ queryKey: ['prefs', 'accounts'], queryFn: () => mock(defaultAccounts) })
+export const defaultAccountsQuery = queryOptions({
+  queryKey: ['prefs', 'accounts'],
+  queryFn: async (): Promise<DefaultAccount[]> => {
+    const res = await ledgerApi['default-accounts'].$get()
+    await fail(res, 'Akun default gagal dimuat')
+    return res.json()
+  },
+})

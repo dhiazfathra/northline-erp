@@ -16,7 +16,7 @@ with a zero-diff Parallel Close, then widen from Accurate parity to Odoo Communi
 | Accurate reports | 288 of 291 zero-diff, 3 accepted divergences | `bun apps/api/scripts/coverage.ts`, [ADR-0039](../decisions/0039-out-of-scope-reports-reopened.md) |
 | Accurate screens | Tier 1 parity closed | [ADR-0045](../decisions/0045-p4-tier1-closure.md) |
 | API modules | Ledger, sales, purchasing, inventory (FIFO/average, batches, serials, warehouses), cash & bank, fixed assets, payroll (PPh 21 TER, BPJS, loans), budgets, approvals, job costing, contractor projects, access groups, activity log | `apps/api/src`, 282 test cases in `apps/api/test` |
-| Web UI | 5 of 43 data calls in `apps/web/src/api` reach the API; the other 38 return mock data | `rg -c 'mock\(' apps/web/src/api` |
+| Web UI | Every data call reaches the API except the workspace switcher and the AI panel (`workspaces.ts`, `ai.ts`); N1 done 2026-10-24 ([ADR-0049](../decisions/0049-web-session-and-api-wiring.md)) | `rg -c 'mock\(' apps/web/src/api` |
 | Production | Free-tier Workers + Neon, one Worker repointed across 4 profile branches, smoke-tested on all 4 | commit `3fd0820`, [ADR-0036](../decisions/0036-one-neon-branch-per-profile.md) |
 | Tenancy | One company per database; per-customer instance proposed | [ADR-0032](../decisions/0032-dedicated-instance-per-customer.md) (Proposed) |
 | Not built | Import, printable documents, Coretax e-Faktur export, webhooks/API keys, bank and marketplace links, POS, CRM, bills of materials, consolidation, load tests, scheduled backups | code search, [risk R7](../risks.md) |
@@ -117,7 +117,7 @@ item forward.
 | Metric | Now | H0 target | Source |
 |---|---|---|---|
 | Accurate reports zero-diff | 288 / 291 | hold | `coverage.ts` |
-| UI data calls on the API | 5 / 43 | 35 / 43 | `rg -c 'mock\('` |
+| UI files still on `mock()` | 2 (`workspaces.ts`, `ai.ts`) | 2 | `rg -c 'mock\('` |
 | Odoo 20.0 apps built, integrated or accepted | 4 (+5 partial) / 34 | 4 / 34 | parity matrix |
 | Impact products built | 7 (+6 partial) / 33 | 7 / 33 | parity matrix |
 | Paid tiers with a passing benchmark | 0 / 4 | 2 / 4 | `docs/scale/results/` |

@@ -10,6 +10,7 @@ export interface Asset {
   depreciations: { period: string; date: string; jvNumber: string; periodEndNumber: string; amount: number }[]
   disposal?: { number: string; date: string; description: string; gainLossName: string; sold: boolean; price: number; sellingName: string }
   fiscalLifeMonths?: number
+  salvage?: number
   edits?: { number: string; date: string; description: string; oldLifeMonths: number; newLifeMonths: number }[]
 }
 
@@ -137,9 +138,9 @@ export function differentDepreciation(assets: Asset[], year: number): string[][]
     const f = a.fiscalLifeMonths!, start = Number(a.date.slice(0, 4)) * 12 + Number(a.date.slice(5, 7)) - 1
     const inYear = (life: number, y: number) => Math.max(0, Math.min(start + life, (y + 1) * 12) - Math.max(start, y * 12))
     const rows: string[][] = [['Kode Aset', ':', a.number, 'Perkiraan Umur', ':', `${f / 12} Tahun`], ['Tanggal', ':', fmtDate(a.date), 'Total Aset', ':', formatIdr(a.cost)],
-      ['Metode Penyusutan', ':', METHOD, 'Nilai Sisa', ':', '0'], ['Tahun', 'PPh', 'Koreksi Pajak', 'Penyusutan Akuntansi']]
+      ['Metode Penyusutan', ':', METHOD, 'Nilai Sisa', ':', formatIdr(a.salvage ?? 0)], ['Tahun', 'PPh', 'Koreksi Pajak', 'Penyusutan Akuntansi']]
     for (let y = Math.floor(start / 12); y <= year && inYear(f, y); y++) {
-      const pph = Math.round(a.cost / f * inYear(f, y)), acc = Math.round(a.cost / a.lifeMonths * inYear(a.lifeMonths, y))
+      const pph = Math.round(a.cost / f * inYear(f, y)), acc = Math.round((a.cost - (a.salvage ?? 0)) / a.lifeMonths * inYear(a.lifeMonths, y))
       rows.push([String(y), formatIdr(pph), formatIdr(pph - acc), formatIdr(acc)])
     }
     return rows

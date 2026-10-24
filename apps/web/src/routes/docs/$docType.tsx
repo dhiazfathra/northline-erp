@@ -10,10 +10,13 @@ export const Route = createFileRoute('/docs/$docType')({
       return { docType: r.data }
     },
   },
+  // ?new=1 opens a blank form on arrival (the overview's quick entry hands off here)
+  validateSearch: (s: Record<string, unknown>): { new?: 1 } => (s.new ? { new: 1 } : {}),
   component: Page,
 })
 
 function Page() {
   const { docType } = Route.useParams()
-  return <DocScreen key={docType} type={docType} />
+  const { new: fresh } = Route.useSearch()
+  return <DocScreen key={docType} type={docType} fresh={!!fresh} />
 }

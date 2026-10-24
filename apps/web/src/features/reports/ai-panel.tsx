@@ -1,7 +1,7 @@
 import type { AiMessage } from '@northline/schemas/reports'
 import { Link } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
-import { aiGreeting, aiNow, useAskAi } from '@/api/reports'
+import { aiGreeting, aiNow, useAskAi } from '@/api/ai'
 import { useShell, useT } from '@/lib/shell'
 import { cn } from '@/lib/utils'
 import { iconBtn } from './ui'

@@ -3,7 +3,7 @@
 An event-sourced accounting ERP whose reports are tested to match [Accurate Online](https://accurate.id) (an Indonesian accounting SaaS) to the cell.
 
 **Live demo:** https://northline-erp.dhiazfathra.workers.dev (seeded data; login on request) ·
-**Status:** actively developed. The API and reports are tested; most of the web UI still runs on mock data (5 of 43 data calls in `apps/web/src/api` reach the API).
+**Status:** actively developed. The API and reports are tested; the web UI reads and writes the API on every screen except the workspace switcher and the AI panel, which still use sample data.
 **Direction:** [strategy, parity matrix and scale tiers](docs/strategy/README.md) ([one-page visual](docs/strategy/northline-strategy.html)).
 **For customers:** [user guide](docs/guide/northline-user-guide.html): what works today, workflows, all 291 reports, access, API, hosting and limits.
 

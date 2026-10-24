@@ -1,10 +1,11 @@
-import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, type ItemDocInput } from '@northline/schemas/docs'
+import { itemDocSchema, purchaseInvoiceSchema, returnDocSchema, stockAdjustmentSchema, storedInfo, type ItemDocInput } from '@northline/schemas/docs'
 import { idr } from '@northline/schemas/fixtures'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Checkbox } from 'radix-ui'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form'
-import { catalog, docMeta, downPaymentsFor, invoicesFor, itemTotals, nextNumber, partiesFor, recordValues, useSaveDoc } from '@/api/docs'
+import { docMeta, docsQuery, downPaymentsFor, invoicesFor, itemTotals, recordValues, useCatalog, useParties, useSaveDoc } from '@/api/docs'
 import { Dropdown } from '@/components/dropdown'
 import { btnOutline } from '@/features/ledger/ui'
 import { useShell, useT } from '@/lib/shell'
@@ -43,15 +44,19 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
   const { L, isMobile, showToast } = useShell()
   const t = useT()
   const save = useSaveDoc()
+  const catalog = useCatalog()
+  const parties = useParties(type)
   const isReturn = type === 'sales-return' || type === 'purchase-return'
   const isPurchase = type.startsWith('purchase')
   const hasParty = docMeta[type].party !== null
-  const hasInfo = !isReturn && type !== 'stock-adjustment'
-  const schema = type === 'purchase-invoice' ? purchaseInvoiceSchema : isReturn ? returnDocSchema : itemDocSchema
+  const info = storedInfo[type] ?? [] // fields this type cannot store are not shown (ADR-0049)
+  const schema = type === 'purchase-invoice' ? purchaseInvoiceSchema : isReturn ? returnDocSchema : type === 'stock-adjustment' ? stockAdjustmentSchema : itemDocSchema
   const { register, control, handleSubmit, subscribe, setValue, getValues } = useForm<ItemDocInput>({ resolver: zodResolver(schema), defaultValues: values })
   const { fields, append, remove, replace } = useFieldArray({ control, name: 'items' })
   const v = useWatch({ control }) as ItemDocInput
-  const dps = type === 'sales-invoice' && v.party ? downPaymentsFor(v.party).filter((d) => d.no !== record?.no) : []
+  // the invoice list a sales invoice takes down payments from, or a return takes its goods from
+  const { data: invoices } = useQuery({ ...docsQuery(isPurchase ? 'purchase-invoice' : 'sales-invoice'), enabled: type === 'sales-invoice' || isReturn })
+  const dps = type === 'sales-invoice' && v.party ? downPaymentsFor(invoices, v.party).filter((d) => d.no !== record?.no) : []
   const dpTotal = dps.filter((d) => v.dp.includes(d.no)).reduce((s, d) => s + d.total, 0)
   const tot = itemTotals(v, dpTotal)
 
@@ -64,20 +69,20 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
     append({ code: c.code, name: c.name, unit: c.unit, qty: 1, price, discPct: 0 })
   }
   const pull = () => {
-    const src = recordValues(getValues('invoice')) as ItemDocInput | undefined
+    const src = recordValues(invoices, getValues('invoice')) as ItemDocInput | undefined
     if (src) replace(src.items)
   }
 
   const submit = handleSubmit(
     (x) => {
-      const no = record ? record.no : x.autoNo ? nextNumber(docMeta[type].prefix) : x.number
       save.mutate(
-        { id: record?.id, type, source: record?.source ?? docLabel, no, date: x.date, party: x.party, description: x.description, total: tot.total, values: { ...x, number: no } },
+        { id: record?.id, type, values: x },
         {
-          onSuccess: () => {
-            showToast(`${docLabel} "${no}" berhasil disimpan`)
+          onSuccess: ({ number }) => {
+            showToast(`${docLabel} "${number}" berhasil disimpan`)
             onSaved()
           },
+          onError: (e) => report([e.message]),
         },
       )
     },
@@ -108,7 +113,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                 render={({ field }) => (
                   <Dropdown
                     value={field.value}
-                    options={partiesFor(type)}
+                    options={parties}
                     onSelect={(p) => {
                       field.onChange(p)
                       setValue('dp', [])
@@ -134,7 +139,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                     <Dropdown
                       value={field.value}
                       disabled={!v.party}
-                      options={v.party ? invoicesFor(v.party, isPurchase ? 'Faktur Pembelian' : 'Faktur Penjualan') : []}
+                      options={v.party ? invoicesFor(invoices, v.party) : []}
                       onSelect={field.onChange}
                       className="h-[41px]"
                     />
@@ -153,7 +158,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
               <label className={lbl}>
                 <span className="opacity-75">{L.docNo}</span>
                 <span className="field flex h-[41px] items-center gap-2 pr-3 pl-3.5">
-                  <input {...register('number')} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
+                  <input {...register('number')} placeholder={field.value ? L.auto : undefined} readOnly={field.value || !!record} className="min-w-0 flex-1 bg-transparent text-[13px] text-(--ink) tabular-nums outline-none read-only:opacity-70" />
                   {!record && <AutoSwitch checked={field.value} onChange={field.onChange} label={L.auto} />}
                 </span>
               </label>
@@ -174,12 +179,14 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
         </Head>
 
         <Info>
-          {hasInfo && (
+          {info.includes('discPct') && (
+            <label className={lbl}>
+              <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
+              <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
+            </label>
+          )}
+          {info.includes('taxable') && (
             <>
-              <label className={lbl}>
-                <span className="opacity-75">{t({ id: 'Diskon (%)', en: 'Discount (%)' })}</span>
-                <Controller control={control} name="discPct" render={({ field }) => <NumCell value={field.value} onChange={(n) => field.onChange(Math.min(n, 100))} label="Diskon" className="h-[41px] rounded-[14px]" />} />
-              </label>
               <label className={lbl}>
                 <span className="opacity-75">{t({ id: 'Kena Pajak', en: 'Taxable' })}</span>
                 <span className="flex h-[41px] items-center">
@@ -192,15 +199,13 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
                   <Controller control={control} name="inclusive" render={({ field }) => <Check checked={field.value} onChange={field.onChange} label={t({ id: 'Ya', en: 'Yes' })} />} />
                 </span>
               </label>
-              <label className={lbl}>
-                <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
-                <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
-              </label>
-              <label className={lbl}>
-                <span className="opacity-75">No. PO</span>
-                <input {...register('poNo')} className={fieldCls} />
-              </label>
             </>
+          )}
+          {info.includes('terms') && (
+            <label className={lbl}>
+              <span className="opacity-75">{t({ id: 'Syarat Pembayaran', en: 'Payment Terms' })}</span>
+              <Controller control={control} name="terms" render={({ field }) => <Dropdown noClear value={field.value} options={terms} onSelect={field.onChange} className="h-[41px]" />} />
+            </label>
           )}
           <label className={cn(lbl, 'col-span-full')}>
             <span className="opacity-75">{L.notes}</span>
@@ -293,7 +298,7 @@ export function ItemForm({ type, docLabel, record, values, dirty, onEdit, onSave
               render={({ field }) => (
                 <div className="flex flex-col gap-2">
                   {dps.map((d) => {
-                    const dv = recordValues(d.no) as ItemDocInput | undefined
+                    const dv = recordValues(invoices, d.no) as ItemDocInput | undefined
                     const dt = dv && itemTotals(dv)
                     return (
                       <div key={d.no} data-rf-row className="flex flex-wrap items-center justify-between gap-2 text-[13px]">
